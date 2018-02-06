@@ -22,8 +22,8 @@ import java.util.Iterator;
 /**
  * An iterator that does not support {@link #remove}.
  *
- * <p>{@code UnmodifiableIterator} is used primarily in conjunction with implementations of
- * {@link ImmutableCollection}, such as {@link ImmutableList}. You can, however, convert an existing
+ * <p>{@code UnmodifiableIterator} is used primarily in conjunction with implementations of {@link
+ * ImmutableCollection}, such as {@link ImmutableList}. You can, however, convert an existing
  * iterator to an {@code UnmodifiableIterator} using {@link Iterators#unmodifiableIterator}.
  *
  * @author Jared Levy

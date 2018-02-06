@@ -36,17 +36,18 @@ import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
- * Common superclass for {@link MultisetSetCountUnconditionallyTester} and
- * {@link MultisetSetCountConditionallyTester}. It is used by those testers to
- * test calls to the unconditional {@code setCount()} method and calls to the
- * conditional {@code setCount()} method when the expected present count is
- * correct.
+ * Common superclass for {@link MultisetSetCountUnconditionallyTester} and {@link
+ * MultisetSetCountConditionallyTester}. It is used by those testers to test calls to the
+ * unconditional {@code setCount()} method and calls to the conditional {@code setCount()} method
+ * when the expected present count is correct.
  *
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultisetTester<E> {
   /*
    * TODO: consider adding MultisetFeatures.SUPPORTS_SET_COUNT. Currently we
@@ -74,19 +75,15 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
         getMultiset().size());
   }
 
-  /**
-   * Call the {@code setCount()} method under test, and check its return value.
-   */
+  /** Call the {@code setCount()} method under test, and check its return value. */
   abstract void setCountCheckReturnValue(E element, int count);
 
   /**
-   * Call the {@code setCount()} method under test, but do not check its return
-   * value. Callers should use this method over
-   * {@link #setCountCheckReturnValue(Object, int)} when they expect
-   * {@code setCount()} to throw an exception, as checking the return value
-   * could produce an incorrect error message like
-   * "setCount() should return the original count" instead of the message passed
-   * to a later invocation of {@code fail()}, like "setCount should throw
+   * Call the {@code setCount()} method under test, but do not check its return value. Callers
+   * should use this method over {@link #setCountCheckReturnValue(Object, int)} when they expect
+   * {@code setCount()} to throw an exception, as checking the return value could produce an
+   * incorrect error message like "setCount() should return the original count" instead of the
+   * message passed to a later invocation of {@code fail()}, like "setCount should throw
    * UnsupportedOperationException."
    */
   abstract void setCountNoCheckReturnValue(E element, int count);
@@ -385,9 +382,8 @@ public abstract class AbstractMultisetSetCountTester<E> extends AbstractMultiset
   // TODO: test adding element of wrong type
 
   /**
-   * Returns {@link Method} instances for the {@code setCount()} tests that
-   * assume multisets support duplicates so that the test of {@code
-   * Multisets.forSet()} can suppress them.
+   * Returns {@link Method} instances for the {@code setCount()} tests that assume multisets support
+   * duplicates so that the test of {@code Multisets.forSet()} can suppress them.
    */
   @GwtIncompatible // reflection
   public static List<Method> getSetCountDuplicateInitializingMethods() {

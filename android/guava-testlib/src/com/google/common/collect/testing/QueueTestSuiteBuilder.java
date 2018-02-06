@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a queue implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a queue
+ * implementation.
  *
  * @author Jared Levy
  */
@@ -41,9 +41,9 @@ public final class QueueTestSuiteBuilder<E>
   private boolean runCollectionTests = true;
 
   /**
-   * Specify whether to skip the general collection tests. Call this method when
-   * testing a collection that's both a queue and a list, to avoid running the
-   * common collection tests twice. By default, collection tests do run.
+   * Specify whether to skip the general collection tests. Call this method when testing a
+   * collection that's both a queue and a list, to avoid running the common collection tests twice.
+   * By default, collection tests do run.
    */
   public QueueTestSuiteBuilder<E> skipCollectionTests() {
     runCollectionTests = false;

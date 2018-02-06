@@ -34,15 +34,15 @@ import java.util.concurrent.TimeoutException;
 public interface TimeLimiter {
 
   /**
-   * Returns an instance of {@code interfaceType} that delegates all method calls to the
-   * {@code target} object, enforcing the specified time limit on each call. This time-limited
-   * delegation is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and
-   * {@link Object#toString}.
+   * Returns an instance of {@code interfaceType} that delegates all method calls to the {@code
+   * target} object, enforcing the specified time limit on each call. This time-limited delegation
+   * is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and {@link
+   * Object#toString}.
    *
    * <p>If the target method call finishes before the limit is reached, the return value or
    * exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
-   * reached, the proxy will attempt to abort the call to the target, and will throw an
-   * {@link UncheckedTimeoutException} to the caller.
+   * reached, the proxy will attempt to abort the call to the target, and will throw an {@link
+   * UncheckedTimeoutException} to the caller.
    *
    * <p>It is important to note that the primary purpose of the proxy object is to return control to
    * the caller when the timeout elapses; aborting the target method call is of secondary concern.

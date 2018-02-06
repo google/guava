@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
@@ -29,8 +29,8 @@ import javax.annotation.Nullable;
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
  * primitive utilities</a>.
  *
  * @author Louis Wasserman
@@ -115,8 +115,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * unsigned {@code long} value in the specified radix.
    *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
-   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and
-   *     {@link Character#MAX_RADIX}
+   *     value, or {@code radix} is not between {@link Character#MIN_RADIX} and {@link
+   *     Character#MAX_RADIX}
    */
   @CanIgnoreReturnValue
   public static UnsignedLong valueOf(String string, int radix) {
@@ -171,9 +171,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     return fromLongBits(UnsignedLongs.remainder(value, checkNotNull(val).value));
   }
 
-  /**
-   * Returns the value of this {@code UnsignedLong} as an {@code int}.
-   */
+  /** Returns the value of this {@code UnsignedLong} as an {@code int}. */
   @Override
   public int intValue() {
     return (int) value;
@@ -219,9 +217,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     return dValue;
   }
 
-  /**
-   * Returns the value of this {@code UnsignedLong} as a {@link BigInteger}.
-   */
+  /** Returns the value of this {@code UnsignedLong} as a {@link BigInteger}. */
   public BigInteger bigIntegerValue() {
     BigInteger bigInt = BigInteger.valueOf(value & UNSIGNED_MASK);
     if (value < 0) {
@@ -242,7 +238,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     if (obj instanceof UnsignedLong) {
       UnsignedLong other = (UnsignedLong) obj;
       return value == other.value;
@@ -250,9 +246,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     return false;
   }
 
-  /**
-   * Returns a string representation of the {@code UnsignedLong} value, in base 10.
-   */
+  /** Returns a string representation of the {@code UnsignedLong} value, in base 10. */
   @Override
   public String toString() {
     return UnsignedLongs.toString(value);
@@ -260,8 +254,8 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns a string representation of the {@code UnsignedLong} value, in base {@code radix}. If
-   * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix
-   * {@code 10} is used.
+   * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix {@code
+   * 10} is used.
    */
   public String toString(int radix) {
     return UnsignedLongs.toString(value, radix);

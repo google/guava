@@ -22,7 +22,7 @@ import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLongArray;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Collections of strategies of generating the k * log(M) bits required for an element to be mapped
@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * of the Bloom filters that use them, thus they must be preserved as is (no updates allowed, only
  * introduction of new versions).
  *
- * Important: the order of the constants cannot change, and they cannot be deleted - we depend on
+ * <p>Important: the order of the constants cannot change, and they cannot be deleted - we depend on
  * their ordinal for BloomFilter serialization.
  *
  * @author Dimitris Andreou
@@ -266,7 +266,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public boolean equals(@NullableDecl Object o) {
       if (o instanceof LockFreeBitArray) {
         LockFreeBitArray lockFreeBitArray = (LockFreeBitArray) o;
         // TODO(lowasser): avoid allocation here

@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Skeletal implementation of {@link ImmutableSortedSet#descendingSet()}.
@@ -34,7 +34,7 @@ final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     return forward.contains(object);
   }
 
@@ -103,7 +103,7 @@ final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(@Nullable Object target) {
+  int indexOf(@NullableDecl Object target) {
     int index = forward.indexOf(target);
     if (index == -1) {
       return index;

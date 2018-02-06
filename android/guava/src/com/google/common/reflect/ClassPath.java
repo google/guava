@@ -54,7 +54,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -155,8 +155,8 @@ public final class ClassPath {
   }
 
   /**
-   * Returns all top level classes whose package name is {@code packageName} or starts with
-   * {@code packageName} followed by a '.'.
+   * Returns all top level classes whose package name is {@code packageName} or starts with {@code
+   * packageName} followed by a '.'.
    */
   public ImmutableSet<ClassInfo> getTopLevelClassesRecursive(String packageName) {
     checkNotNull(packageName);
@@ -408,13 +408,14 @@ public final class ClassPath {
 
     /**
      * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
-     * to
-     * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">
-     * JAR File Specification</a>. If {@code manifest} is null, it means the jar file has no
-     * manifest, and an empty set will be returned.
+     * to <a
+     * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">JAR
+     * File Specification</a>. If {@code manifest} is null, it means the jar file has no manifest,
+     * and an empty set will be returned.
      */
     @VisibleForTesting
-    static ImmutableSet<File> getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {
+    static ImmutableSet<File> getClassPathFromManifest(
+        File jarFile, @NullableDecl Manifest manifest) {
       if (manifest == null) {
         return ImmutableSet.of();
       }
@@ -490,9 +491,9 @@ public final class ClassPath {
     }
 
     /**
-     * Returns the absolute uri of the Class-Path entry value as specified in
-     * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">
-     * JAR File Specification</a>. Even though the specification only talks about relative urls,
+     * Returns the absolute uri of the Class-Path entry value as specified in <a
+     * href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Main_Attributes">JAR
+     * File Specification</a>. Even though the specification only talks about relative urls,
      * absolute urls are actually supported too (for example, in Maven surefire plugin).
      */
     @VisibleForTesting
@@ -583,9 +584,9 @@ public final class ClassPath {
   static File toFile(URL url) {
     checkArgument(url.getProtocol().equals("file"));
     try {
-      return new File(url.toURI());  // Accepts escaped characters like %20.
-    } catch (URISyntaxException e) {  // URL.toURI() doesn't escape chars.
-      return new File(url.getPath());  // Accepts non-escaped chars like space.
+      return new File(url.toURI()); // Accepts escaped characters like %20.
+    } catch (URISyntaxException e) { // URL.toURI() doesn't escape chars.
+      return new File(url.getPath()); // Accepts non-escaped chars like space.
     }
   }
 }

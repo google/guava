@@ -21,12 +21,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.concurrent.GuardedBy;
 
 /**
  * A {@code TearDownStack} contains a stack of {@link TearDown} instances.
@@ -61,9 +61,7 @@ public class TearDownStack implements TearDownAccepter {
     }
   }
 
-  /**
-   * Causes teardown to execute.
-   */
+  /** Causes teardown to execute. */
   public final void runTearDown() {
     List<Throwable> exceptions = new ArrayList<>();
     List<TearDown> stackCopy;

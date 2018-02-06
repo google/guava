@@ -34,9 +34,10 @@ import junit.framework.TestCase;
  */
 public class CacheReferencesTest extends TestCase {
 
-  private static final CacheLoader<Key,String> KEY_TO_STRING_LOADER =
+  private static final CacheLoader<Key, String> KEY_TO_STRING_LOADER =
       new CacheLoader<Key, String>() {
-        @Override public String load(Key key) {
+        @Override
+        public String load(Key key) {
           return key.toString();
         }
       };
@@ -49,9 +50,11 @@ public class CacheReferencesTest extends TestCase {
 
   private Iterable<LoadingCache<Key, String>> caches() {
     CacheBuilderFactory factory = factoryWithAllKeyStrengths();
-    return Iterables.transform(factory.buildAllPermutations(),
+    return Iterables.transform(
+        factory.buildAllPermutations(),
         new Function<CacheBuilder<Object, Object>, LoadingCache<Key, String>>() {
-          @Override public LoadingCache<Key, String> apply(CacheBuilder<Object, Object> builder) {
+          @Override
+          public LoadingCache<Key, String> apply(CacheBuilder<Object, Object> builder) {
             return builder.build(KEY_TO_STRING_LOADER);
           }
         });
@@ -93,7 +96,8 @@ public class CacheReferencesTest extends TestCase {
       assertSame(value2, cache.getUnchecked(key2));
       assertEquals(ImmutableSet.of(key1, key2), cache.asMap().keySet());
       assertThat(cache.asMap().values()).containsExactly(value1, value2);
-      assertEquals(ImmutableSet.of(immutableEntry(key1, value1), immutableEntry(key2, value2)),
+      assertEquals(
+          ImmutableSet.of(immutableEntry(key1, value1), immutableEntry(key2, value2)),
           cache.asMap().entrySet());
     }
   }
@@ -118,7 +122,8 @@ public class CacheReferencesTest extends TestCase {
 
   // fails in Maven with 64-bit JDK: http://code.google.com/p/guava-libraries/issues/detail?id=1568
 
-  private void assertCleanup(LoadingCache<Integer, String> cache,
+  private void assertCleanup(
+      LoadingCache<Integer, String> cache,
       CountingRemovalListener<Integer, String> removalListener) {
 
     // initialSize will most likely be 2, but it's possible for the GC to have already run, so we'll
@@ -137,11 +142,14 @@ public class CacheReferencesTest extends TestCase {
       }
       try {
         Thread.sleep(10);
-      } catch (InterruptedException e) { /* ignore */}
+      } catch (InterruptedException e) {
+        /* ignore */
+      }
       try {
         // Fill up heap so soft references get cleared.
         filler = new byte[Math.max(filler.length, filler.length * 2)];
-      } catch (OutOfMemoryError e) {}
+      } catch (OutOfMemoryError e) {
+      }
     }
 
     CacheTesting.processPendingNotifications(cache);
@@ -159,7 +167,8 @@ public class CacheReferencesTest extends TestCase {
       this.value = value;
     }
 
-    @Override public synchronized String toString() {
+    @Override
+    public synchronized String toString() {
       String s;
       if (toString != null) {
         s = toString.get();

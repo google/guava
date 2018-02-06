@@ -35,53 +35,60 @@ import java.util.regex.Pattern;
  * {@link #on(CharMatcher) CharMatcher} instance. Or, instead of using a separator at all, a
  * splitter can extract adjacent substrings of a given {@linkplain #fixedLength fixed length}.
  *
- * <p>For example, this expression: <pre>   {@code
+ * <p>For example, this expression:
  *
- *   Splitter.on(',').split("foo,bar,qux")}</pre>
+ * <pre>{@code
+ * Splitter.on(',').split("foo,bar,qux")
+ * }</pre>
  *
  * ... produces an {@code Iterable} containing {@code "foo"}, {@code "bar"} and {@code "qux"}, in
  * that order.
  *
  * <p>By default, {@code Splitter}'s behavior is simplistic and unassuming. The following
- * expression: <pre>   {@code
+ * expression:
  *
- *   Splitter.on(',').split(" foo,,,  bar ,")}</pre>
+ * <pre>{@code
+ * Splitter.on(',').split(" foo,,,  bar ,")
+ * }</pre>
  *
- * ... yields the substrings {@code [" foo", "", "", "  bar ", ""]}. If this is not the desired
+ * ... yields the substrings {@code [" foo", "", "", " bar ", ""]}. If this is not the desired
  * behavior, use configuration methods to obtain a <i>new</i> splitter instance with modified
- * behavior: <pre>   {@code
+ * behavior:
  *
- *   private static final Splitter MY_SPLITTER = Splitter.on(',')
- *       .trimResults()
- *       .omitEmptyStrings();}</pre>
+ * <pre>{@code
+ * private static final Splitter MY_SPLITTER = Splitter.on(',')
+ *     .trimResults()
+ *     .omitEmptyStrings();
+ * }</pre>
  *
- * <p>Now {@code MY_SPLITTER.split("foo,,,  bar ,")} returns just {@code ["foo",
- * "bar"]}. Note that the order in which these configuration methods are called is never
- * significant.
+ * <p>Now {@code MY_SPLITTER.split("foo,,, bar ,")} returns just {@code ["foo", "bar"]}. Note that
+ * the order in which these configuration methods are called is never significant.
  *
  * <p><b>Warning:</b> Splitter instances are immutable. Invoking a configuration method has no
  * effect on the receiving instance; you must store and use the new splitter instance it returns
- * instead. <pre>   {@code
+ * instead.
  *
- *   // Do NOT do this
- *   Splitter splitter = Splitter.on('/');
- *   splitter.trimResults(); // does nothing!
- *   return splitter.split("wrong / wrong / wrong");}</pre>
+ * <pre>{@code
+ * // Do NOT do this
+ * Splitter splitter = Splitter.on('/');
+ * splitter.trimResults(); // does nothing!
+ * return splitter.split("wrong / wrong / wrong");
+ * }</pre>
  *
  * <p>For separator-based splitters that do not use {@code omitEmptyStrings}, an input string
- * containing {@code n} occurrences of the separator naturally yields an iterable of size
- * {@code n + 1}. So if the separator does not occur anywhere in the input, a single substring is
- * returned containing the entire input. Consequently, all splitters split the empty string to
- * {@code [""]} (note: even fixed-length splitters).
+ * containing {@code n} occurrences of the separator naturally yields an iterable of size {@code n +
+ * 1}. So if the separator does not occur anywhere in the input, a single substring is returned
+ * containing the entire input. Consequently, all splitters split the empty string to {@code [""]}
+ * (note: even fixed-length splitters).
  *
- * <p>Splitter instances are thread-safe immutable, and are therefore safe to store as
- * {@code static final} constants.
+ * <p>Splitter instances are thread-safe immutable, and are therefore safe to store as {@code static
+ * final} constants.
  *
  * <p>The {@link Joiner} class provides the inverse operation to splitting, but note that a
  * round-trip between the two should be assumed to be lossy.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/StringsExplained#splitter">{@code Splitter}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/StringsExplained#splitter">{@code Splitter}</a>.
  *
  * @author Julien Silland
  * @author Jesse Wilson
@@ -108,9 +115,8 @@ public final class Splitter {
   }
 
   /**
-   * Returns a splitter that uses the given single-character separator. For example,
-   * {@code Splitter.on(',').split("foo,,bar")} returns an iterable containing
-   * {@code ["foo", "", "bar"]}.
+   * Returns a splitter that uses the given single-character separator. For example, {@code
+   * Splitter.on(',').split("foo,,bar")} returns an iterable containing {@code ["foo", "", "bar"]}.
    *
    * @param separator the character to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
@@ -152,9 +158,9 @@ public final class Splitter {
   }
 
   /**
-   * Returns a splitter that uses the given fixed string as a separator. For example,
-   * {@code Splitter.on(", ").split("foo, bar,baz")} returns an iterable containing
-   * {@code ["foo", "bar,baz"]}.
+   * Returns a splitter that uses the given fixed string as a separator. For example, {@code
+   * Splitter.on(", ").split("foo, bar,baz")} returns an iterable containing {@code ["foo",
+   * "bar,baz"]}.
    *
    * @param separator the literal, nonempty string to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
@@ -253,17 +259,14 @@ public final class Splitter {
   }
 
   /**
-   * Returns a splitter that divides strings into pieces of the given length. For example,
-   * {@code Splitter.fixedLength(2).split("abcde")} returns an iterable containing
-   * {@code ["ab", "cd", "e"]}. The last piece can be smaller than {@code length} but will never be
-   * empty.
+   * Returns a splitter that divides strings into pieces of the given length. For example, {@code
+   * Splitter.fixedLength(2).split("abcde")} returns an iterable containing {@code ["ab", "cd",
+   * "e"]}. The last piece can be smaller than {@code length} but will never be empty.
    *
-   * <p><b>Exception:</b> for consistency with separator-based splitters, {@code
-   * split("")} does not yield an empty iterable, but an iterable containing {@code ""}. This is the
-   * only case in which {@code
-   * Iterables.size(split(input))} does not equal {@code
-   * IntMath.divide(input.length(), length, CEILING)}. To avoid this behavior, use
-   * {@code omitEmptyStrings}.
+   * <p><b>Exception:</b> for consistency with separator-based splitters, {@code split("")} does not
+   * yield an empty iterable, but an iterable containing {@code ""}. This is the only case in which
+   * {@code Iterables.size(split(input))} does not equal {@code IntMath.divide(input.length(),
+   * length, CEILING)}. To avoid this behavior, use {@code omitEmptyStrings}.
    *
    * @param length the desired length of pieces after splitting, a positive integer
    * @return a splitter, with default settings, that can split into fixed sized pieces
@@ -321,9 +324,8 @@ public final class Splitter {
    * containing {@code ["a", "b", "c,d"]}. When omitting empty strings, the omitted strings do not
    * count. Hence, {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")} returns
    * an iterable containing {@code ["a", "b", "c,d"}. When trim is requested, all entries are
-   * trimmed, including the last. Hence
-   * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")} results in
-   * {@code ["a", "b", "c , d"]}.
+   * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
+   * , c , d ")} results in {@code ["a", "b", "c , d"]}.
    *
    * @param limit the maximum number of items returned
    * @return a splitter with the desired configuration
@@ -338,8 +340,8 @@ public final class Splitter {
    * Returns a splitter that behaves equivalently to {@code this} splitter, but automatically
    * removes leading and trailing {@linkplain CharMatcher#whitespace whitespace} from each returned
    * substring; equivalent to {@code trimResults(CharMatcher.whitespace())}. For example, {@code
-   * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable containing
-   * {@code ["a", "b", "c"]}.
+   * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable containing {@code ["a",
+   * "b", "c"]}.
    *
    * @return a splitter with the desired configuration
    */
@@ -349,10 +351,9 @@ public final class Splitter {
 
   /**
    * Returns a splitter that behaves equivalently to {@code this} splitter, but removes all leading
-   * or trailing characters matching the given {@code
-   * CharMatcher} from each returned substring. For example, {@code
-   * Splitter.on(',').trimResults(CharMatcher.is('_')).split("_a ,_b_ ,c__")} returns an iterable
-   * containing {@code ["a ", "b_ ", "c"]}.
+   * or trailing characters matching the given {@code CharMatcher} from each returned substring. For
+   * example, {@code Splitter.on(',').trimResults(CharMatcher.is('_')).split("_a ,_b_ ,c__")}
+   * returns an iterable containing {@code ["a ", "b_ ", "c"]}.
    *
    * @param trimmer a {@link CharMatcher} that determines whether a character should be removed from
    *     the beginning/end of a subsequence
@@ -365,9 +366,9 @@ public final class Splitter {
   }
 
   /**
-   * Splits {@code sequence} into string components and makes them available through an
-   * {@link Iterator}, which may be lazily evaluated. If you want an eagerly computed {@link List},
-   * use {@link #splitToList(CharSequence)}.
+   * Splits {@code sequence} into string components and makes them available through an {@link
+   * Iterator}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+   * {@link #splitToList(CharSequence)}.
    *
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter
@@ -471,9 +472,9 @@ public final class Splitter {
 
     /**
      * Splits {@code sequence} into substrings, splits each substring into an entry, and returns an
-     * unmodifiable map with each of the entries. For example,
-     * {@code Splitter.on(';').trimResults().withKeyValueSeparator("=>").split("a=>b ; c=>b")} will
-     * return a mapping from {@code "a"} to {@code "b"} and {@code "c"} to {@code "b"}.
+     * unmodifiable map with each of the entries. For example, {@code
+     * Splitter.on(';').trimResults().withKeyValueSeparator("=>").split("a=>b ; c=>b")} will return
+     * a mapping from {@code "a"} to {@code "b"} and {@code "c"} to {@code "b"}.
      *
      * <p>The returned map preserves the order of the entries from {@code sequence}.
      *
@@ -515,9 +516,8 @@ public final class Splitter {
     abstract int separatorStart(int start);
 
     /**
-     * Returns the first index in {@code toSplit} after {@code
-     * separatorPosition} that does not contain a separator. This method is only invoked after a
-     * call to {@code separatorStart}.
+     * Returns the first index in {@code toSplit} after {@code separatorPosition} that does not
+     * contain a separator. This method is only invoked after a call to {@code separatorStart}.
      */
     abstract int separatorEnd(int separatorPosition);
 

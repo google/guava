@@ -26,32 +26,28 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A sorted map which forwards all its method calls to another sorted map.
- * Subclasses should override one or more methods to modify the behavior of
- * the backing sorted map as desired per the <a
- * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ * A sorted map which forwards all its method calls to another sorted map. Subclasses should
+ * override one or more methods to modify the behavior of the backing sorted map as desired per the
+ * <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><b>Warning:</b> The methods of {@code ForwardingSortedMap} forward
- * <i>indiscriminately</i> to the methods of the delegate. For example,
- * overriding {@link #put} alone <i>will not</i> change the behavior of {@link
- * #putAll}, which can lead to unexpected behavior. In this case, you should
- * override {@code putAll} as well, either providing your own implementation, or
- * delegating to the provided {@code standardPutAll} method.
+ * <p><b>Warning:</b> The methods of {@code ForwardingSortedMap} forward <i>indiscriminately</i> to
+ * the methods of the delegate. For example, overriding {@link #put} alone <i>will not</i> change
+ * the behavior of {@link #putAll}, which can lead to unexpected behavior. In this case, you should
+ * override {@code putAll} as well, either providing your own implementation, or delegating to the
+ * provided {@code standardPutAll} method.
  *
  * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
  * default} methods. Instead, it inherits their default implementations. When those implementations
  * invoke methods, they invoke methods on the {@code ForwardingSortedMap}.
  *
- * <p>Each of the {@code standard} methods, where appropriate, use the
- * comparator of the map to test equality for both keys and values, unlike
- * {@code ForwardingMap}.
+ * <p>Each of the {@code standard} methods, where appropriate, use the comparator of the map to test
+ * equality for both keys and values, unlike {@code ForwardingMap}.
  *
- * <p>The {@code standard} methods and the collection views they return are not
- * guaranteed to be thread-safe, even when all of the methods that they depend
- * on are thread-safe.
+ * <p>The {@code standard} methods and the collection views they return are not guaranteed to be
+ * thread-safe, even when all of the methods that they depend on are thread-safe.
  *
  * @author Mike Bostock
  * @author Louis Wasserman
@@ -102,9 +98,9 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   }
 
   /**
-   * A sensible implementation of {@link SortedMap#keySet} in terms of the methods of
-   * {@code ForwardingSortedMap}. In many cases, you may wish to override
-   * {@link ForwardingSortedMap#keySet} to forward to this implementation or a subclass thereof.
+   * A sensible implementation of {@link SortedMap#keySet} in terms of the methods of {@code
+   * ForwardingSortedMap}. In many cases, you may wish to override {@link
+   * ForwardingSortedMap#keySet} to forward to this implementation or a subclass thereof.
    *
    * @since 15.0
    */
@@ -128,16 +124,15 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   }
 
   /**
-   * A sensible definition of {@link #containsKey} in terms of the {@code
-   * firstKey()} method of {@link #tailMap}. If you override {@link #tailMap},
-   * you may wish to override {@link #containsKey} to forward to this
-   * implementation.
+   * A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of
+   * {@link #tailMap}. If you override {@link #tailMap}, you may wish to override {@link
+   * #containsKey} to forward to this implementation.
    *
    * @since 7.0
    */
   @Override
   @Beta
-  protected boolean standardContainsKey(@Nullable Object key) {
+  protected boolean standardContainsKey(@NullableDecl Object key) {
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")
@@ -150,10 +145,9 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   }
 
   /**
-   * A sensible default implementation of {@link #subMap(Object, Object)} in
-   * terms of {@link #headMap(Object)} and {@link #tailMap(Object)}. In some
-   * situations, you may wish to override {@link #subMap(Object, Object)} to
-   * forward to this implementation.
+   * A sensible default implementation of {@link #subMap(Object, Object)} in terms of {@link
+   * #headMap(Object)} and {@link #tailMap(Object)}. In some situations, you may wish to override
+   * {@link #subMap(Object, Object)} to forward to this implementation.
    *
    * @since 7.0
    */

@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.LogRecord;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link Closer}.
@@ -315,7 +315,8 @@ public class CloserTest extends TestCase {
       TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(new RuntimeException()));
       try {
         throw closer.rethrow(new IOException("thrown"), IOException.class);
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+      }
 
       assertTrue(logHandler.getStoredLogRecords().isEmpty());
 
@@ -392,9 +393,7 @@ public class CloserTest extends TestCase {
     assertEquals(ImmutableList.copyOf(expected), suppressor.suppressions);
   }
 
-  /**
-   * Suppressor that records suppressions.
-   */
+  /** Suppressor that records suppressions. */
   private static class TestSuppressor implements Closer.Suppressor {
 
     private final List<Suppression> suppressions = Lists.newArrayList();
@@ -405,9 +404,7 @@ public class CloserTest extends TestCase {
     }
   }
 
-  /**
-   * Record of a call to suppress.
-   */
+  /** Record of a call to suppress. */
   private static class Suppression {
     private final Closeable closeable;
     private final Throwable thrown;
@@ -462,7 +459,7 @@ public class CloserTest extends TestCase {
       throw new IOException();
     }
 
-    private TestCloseable(@Nullable Throwable throwOnClose) {
+    private TestCloseable(@NullableDecl Throwable throwOnClose) {
       this.throwOnClose = throwOnClose;
     }
 

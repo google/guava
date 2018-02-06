@@ -22,18 +22,19 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.stream.Collector;
 
 /**
- * "Overrides" the {@link ImmutableSet} static methods that lack
- * {@link ImmutableSortedSet} equivalents with deprecated, exception-throwing
- * versions. This prevents accidents like the following: <pre>   {@code
+ * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}
+ * equivalents with deprecated, exception-throwing versions. This prevents accidents like the
+ * following:
  *
- *   List<Object> objects = ...;
- *   // Sort them:
- *   Set<Object> sorted = ImmutableSortedSet.copyOf(objects);
- *   // BAD CODE! The returned set is actually an unsorted ImmutableSet!}</pre>
+ * <pre>{@code
+ * List<Object> objects = ...;
+ * // Sort them:
+ * Set<Object> sorted = ImmutableSortedSet.copyOf(objects);
+ * // BAD CODE! The returned set is actually an unsorted ImmutableSet!
+ * }</pre>
  *
- * <p>While we could put the overrides in {@link ImmutableSortedSet} itself, it
- * seems clearer to separate these "do not call" methods from those intended for
- * normal use.
+ * <p>While we could put the overrides in {@link ImmutableSortedSet} itself, it seems clearer to
+ * separate these "do not call" methods from those intended for normal use.
  *
  * @author Chris Povirk
  */
@@ -41,9 +42,8 @@ import java.util.stream.Collector;
 @GwtIncompatible
 abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   /**
-   * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead.
-   * This method exists only to hide {@link ImmutableSet#toImmutableSet} from
-   * consumers of {@code ImmutableSortedSet}.
+   * Not supported. Use {@link ImmutableSortedSet#toImmutableSortedSet} instead. This method exists
+   * only to hide {@link ImmutableSet#toImmutableSet} from consumers of {@code ImmutableSortedSet}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedSet#toImmutableSortedSet}.
@@ -55,13 +55,12 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. Use {@link ImmutableSortedSet#naturalOrder}, which offers
-   * better type-safety, instead. This method exists only to hide
-   * {@link ImmutableSet#builder} from consumers of {@code ImmutableSortedSet}.
+   * Not supported. Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety,
+   * instead. This method exists only to hide {@link ImmutableSet#builder} from consumers of {@code
+   * ImmutableSortedSet}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers
-   *     better type-safety.
+   * @deprecated Use {@link ImmutableSortedSet#naturalOrder}, which offers better type-safety.
    */
   @Deprecated
   public static <E> ImmutableSortedSet.Builder<E> builder() {
@@ -81,9 +80,9 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass a parameter of type {@code Comparable} to use {@link
@@ -95,9 +94,9 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
@@ -109,9 +108,9 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
@@ -123,14 +122,13 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
-   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}.
-   * </b>
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @Deprecated
   public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4) {
@@ -138,14 +136,13 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
-   *     ImmutableSortedSet#of(
-   *     Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
+   *     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @Deprecated
   public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
@@ -153,14 +150,14 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain a
-   * non-{@code Comparable} element.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain a non-{@code Comparable}
+   * element.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
-   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable,
-   *     Comparable, Comparable, Comparable...)}. </b>
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable,
+   *     Comparable, Comparable...)}. </b>
    */
   @Deprecated
   public static <E> ImmutableSortedSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
@@ -168,9 +165,9 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
   }
 
   /**
-   * Not supported. <b>You are attempting to create a set that may contain
-   * non-{@code Comparable} elements.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
+   * Not supported. <b>You are attempting to create a set that may contain non-{@code Comparable}
+   * elements.</b> Proper calls will resolve to the version in {@code ImmutableSortedSet}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link

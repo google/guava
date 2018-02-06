@@ -30,16 +30,17 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code toArray()} operations on a
- * collection. Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code toArray()} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   public void testToArray_noArgs() {
     Object[] array = collection.toArray();
@@ -47,12 +48,11 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * {@link Collection#toArray(Object[])} says: "Note that
-   * <tt>toArray(new Object[0])</tt> is identical in function to
-   * <tt>toArray()</tt>."
+   * {@link Collection#toArray(Object[])} says: "Note that <tt>toArray(new Object[0])</tt> is
+   * identical in function to <tt>toArray()</tt>."
    *
-   * <p>For maximum effect, the collection under test should be created from an
-   * element array of a type other than {@code Object[]}.
+   * <p>For maximum effect, the collection under test should be created from an element array of a
+   * type other than {@code Object[]}.
    */
   public void testToArray_isPlainObjectArray() {
     Object[] array = collection.toArray();
@@ -189,12 +189,10 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testToArray_isPlainObjectArray()} so that tests of
-   * {@link Arrays#asList(Object[])} can suppress it with {@code
+   * Returns the {@link Method} instance for {@link #testToArray_isPlainObjectArray()} so that tests
+   * of {@link Arrays#asList(Object[])} can suppress it with {@code
    * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6260652">Sun bug
-   * 6260652</a> is fixed.
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6260652">Sun bug 6260652</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getToArrayIsPlainObjectArrayMethod() {

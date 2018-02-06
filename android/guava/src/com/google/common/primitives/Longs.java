@@ -30,15 +30,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
  * either {@link Long} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -62,12 +61,12 @@ public final class Longs {
   public static final long MAX_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Long) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Long)
+   * value).hashCode()}.
    *
    * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
-   * might be different from {@code ((Long) value).hashCode()} in GWT because
-   * {@link Long#hashCode()} in GWT does not obey the JRE contract.
+   * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
+   * Long#hashCode()} in GWT does not obey the JRE contract.
    *
    * <p><b>Java 8 users:</b> use {@link Long#hashCode(long)} instead.
    *
@@ -99,8 +98,7 @@ public final class Longs {
    *
    * @param array an array of {@code long} values, possibly empty
    * @param target a primitive {@code long} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(long[] array, long target) {
     for (long value : array) {
@@ -134,12 +132,11 @@ public final class Longs {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -227,8 +224,8 @@ public final class Longs {
    * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
    *
    * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
-   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
-   * {@code value} is greater than {@code max}, {@code max} is returned.
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
    *
    * @param value the {@code long} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -243,9 +240,8 @@ public final class Longs {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array
-   * {@code {a, b, c}}.
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new long[] {a, b}, new long[] {}, new long[] {c}} returns the array {@code {a, b, c}}.
    *
    * @param arrays zero or more {@code long} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -266,13 +262,13 @@ public final class Longs {
 
   /**
    * Returns a big-endian representation of {@code value} in an 8-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(8).putLong(value).array()}. For example, the input value
-   * {@code 0x1213141516171819L} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16,
-   * 0x17, 0x18, 0x19}}.
+   * {@code ByteBuffer.allocate(8).putLong(value).array()}. For example, the input value {@code
+   * 0x1213141516171819L} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+   * 0x18, 0x19}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
-   * use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
+   * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
+   * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
   public static byte[] toByteArray(long value) {
     // Note that this code needs to stay compatible with GWT, which has known
@@ -348,8 +344,8 @@ public final class Longs {
   }
 
   /**
-   * Parses the specified string as a signed decimal long value. The ASCII character {@code '-'}
-   * (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+   * Parses the specified string as a signed decimal long value. The ASCII character {@code '-'} (
+   * <code>'&#92;u002D'</code>) is recognized as the minus sign.
    *
    * <p>Unlike {@link Long#parseLong(String)}, this method returns {@code null} instead of throwing
    * an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
@@ -364,8 +360,7 @@ public final class Longs {
    * @since 14.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Long tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -385,13 +380,12 @@ public final class Longs {
    * @param radix the radix to use when parsing
    * @return the long value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as a long value
-   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
-   *     {@code radix > Character.MAX_RADIX}
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
    * @since 19.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
@@ -460,9 +454,9 @@ public final class Longs {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and longs using
-   * {@link Long#decode} and {@link Long#toString()}. The returned converter throws
-   * {@link NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and longs using {@link
+   * Long#decode} and {@link Long#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Long#decode} to understand exactly how strings are parsed.
    * For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the value
@@ -485,8 +479,8 @@ public final class Longs {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static long[] ensureCapacity(long[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -525,8 +519,8 @@ public final class Longs {
    * example, {@code [] < [1L] < [1L, 2L] < [2L]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(long[], long[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(long[],
+   * long[])}.
    *
    * @since 2.0
    */
@@ -613,8 +607,8 @@ public final class Longs {
    * Returns an array containing each value of {@code collection}, converted to a {@code long} value
    * in the manner of {@link Number#longValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -742,7 +736,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }

@@ -28,13 +28,13 @@ import java.lang.reflect.Method;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javax.annotation.Nullable;
 import junit.framework.AssertionFailedError;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated
- * in a test with reference to the same "lock-like object", and then their interactions with that
- * object are choreographed via the various methods on this class.
+ * A helper for concurrency testing. One or more {@code TestThread} instances are instantiated in a
+ * test with reference to the same "lock-like object", and then their interactions with that object
+ * are choreographed via the various methods on this class.
  *
  * <p>A "lock-like object" is really any object that may be used for concurrency control. If the
  * {@link #callAndAssertBlocks} method is ever called in a test, the lock-like object must have a
@@ -42,8 +42,8 @@ import junit.framework.AssertionFailedError;
  * the {@link #callAndAssertWaits} method is ever called in a test, the lock-like object must have a
  * method equivalent to {@link
  * java.util.concurrent.locks.ReentrantLock#hasWaiters(java.util.concurrent.locks.Condition)},
- * except that the method parameter must accept whatever condition-like object is passed into
- * {@code callAndAssertWaits} by the test.
+ * except that the method parameter must accept whatever condition-like object is passed into {@code
+ * callAndAssertWaits} by the test.
  *
  * @param <L> the type of the lock-like object to be used
  * @author Justin T. Sampson
@@ -71,13 +71,15 @@ public final class TestThread<L> extends Thread implements TearDown {
   // may put a thread into an uninterruptible operation intentionally, so there is no other way to
   // clean up these threads.
   @SuppressWarnings("deprecation")
-  @Override public void tearDown() throws Exception {
+  @Override
+  public void tearDown() throws Exception {
     stop();
     join();
 
     if (uncaughtThrowable != null) {
-      throw (AssertionFailedError) new AssertionFailedError("Uncaught throwable in " + getName())
-          .initCause(uncaughtThrowable);
+      throw (AssertionFailedError)
+          new AssertionFailedError("Uncaught throwable in " + getName())
+              .initCause(uncaughtThrowable);
     }
   }
 
@@ -104,8 +106,8 @@ public final class TestThread<L> extends Thread implements TearDown {
   }
 
   /**
-   * Causes this thread to call the named method, and asserts that the call returns the expected
-   * int value.
+   * Causes this thread to call the named method, and asserts that the call returns the expected int
+   * value.
    */
   public void callAndAssertReturns(int expected, String methodName, Object... arguments)
       throws Exception {
@@ -116,11 +118,12 @@ public final class TestThread<L> extends Thread implements TearDown {
   }
 
   /**
-   * Causes this thread to call the named method, and asserts that the call throws the expected
-   * type of throwable.
+   * Causes this thread to call the named method, and asserts that the call throws the expected type
+   * of throwable.
    */
-  public void callAndAssertThrows(Class<? extends Throwable> expected,
-      String methodName, Object... arguments) throws Exception {
+  public void callAndAssertThrows(
+      Class<? extends Throwable> expected, String methodName, Object... arguments)
+      throws Exception {
     checkNotNull(expected);
     checkNotNull(methodName);
     checkNotNull(arguments);
@@ -144,14 +147,13 @@ public final class TestThread<L> extends Thread implements TearDown {
   }
 
   /**
-   * Causes this thread to call the named method, and asserts that this thread thereby waits on
-   * the given condition-like object. The lock-like object must have a method equivalent to {@link
+   * Causes this thread to call the named method, and asserts that this thread thereby waits on the
+   * given condition-like object. The lock-like object must have a method equivalent to {@link
    * java.util.concurrent.locks.ReentrantLock#hasWaiters(java.util.concurrent.locks.Condition)},
-   * except that the method parameter must accept whatever condition-like object is passed into
-   * this method.
+   * except that the method parameter must accept whatever condition-like object is passed into this
+   * method.
    */
-  public void callAndAssertWaits(String methodName, Object conditionLikeObject)
-      throws Exception {
+  public void callAndAssertWaits(String methodName, Object conditionLikeObject) throws Exception {
     checkNotNull(methodName);
     checkNotNull(conditionLikeObject);
     // TODO: Restore the following line when Monitor.hasWaiters() no longer acquires the lock.
@@ -166,15 +168,15 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Asserts that a prior call that had caused this thread to block or wait has since returned
    * normally.
    */
-  public void assertPriorCallReturns(@Nullable String methodName) throws Exception {
+  public void assertPriorCallReturns(@NullableDecl String methodName) throws Exception {
     assertEquals(null, getResponse(methodName).getResult());
   }
 
   /**
-   * Asserts that a prior call that had caused this thread to block or wait has since returned
-   * the expected boolean value.
+   * Asserts that a prior call that had caused this thread to block or wait has since returned the
+   * expected boolean value.
    */
-  public void assertPriorCallReturns(boolean expected, @Nullable String methodName)
+  public void assertPriorCallReturns(boolean expected, @NullableDecl String methodName)
       throws Exception {
     assertEquals(expected, getResponse(methodName).getResult());
   }
@@ -183,7 +185,7 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Sends the given method call to this thread.
    *
    * @throws TimeoutException if this thread does not accept the request within a reasonable amount
-   *         of time
+   *     of time
    */
   private void sendRequest(String methodName, Object... arguments) throws Exception {
     if (!requestQueue.offer(
@@ -196,9 +198,9 @@ public final class TestThread<L> extends Thread implements TearDown {
    * Receives a response from this thread.
    *
    * @throws TimeoutException if this thread does not offer a response within a reasonable amount of
-   *         time
+   *     time
    * @throws AssertionFailedError if the given method name does not match the name of the method
-   *         this thread has called most recently
+   *     this thread has called most recently
    */
   private Response getResponse(String methodName) throws Exception {
     Response response = responseQueue.poll(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
@@ -214,7 +216,8 @@ public final class TestThread<L> extends Thread implements TearDown {
   }
 
   private Method getMethod(String methodName, Object... arguments) throws Exception {
-    METHODS: for (Method method : lockLikeObject.getClass().getMethods()) {
+    METHODS:
+    for (Method method : lockLikeObject.getClass().getMethods()) {
       Class<?>[] parameterTypes = method.getParameterTypes();
       if (method.getName().equals(methodName) && (parameterTypes.length == arguments.length)) {
         for (int i = 0; i < arguments.length; i++) {
@@ -228,7 +231,8 @@ public final class TestThread<L> extends Thread implements TearDown {
     throw new NoSuchMethodError(methodName);
   }
 
-  @Override public void run() {
+  @Override
+  public void run() {
     assertSame(this, Thread.currentThread());
     try {
       while (true) {
@@ -239,8 +243,7 @@ public final class TestThread<L> extends Thread implements TearDown {
         } catch (ThreadDeath death) {
           return;
         } catch (InvocationTargetException exception) {
-          responseQueue.put(
-              new Response(request.methodName, null, exception.getTargetException()));
+          responseQueue.put(new Response(request.methodName, null, exception.getTargetException()));
           continue;
         } catch (Throwable throwable) {
           responseQueue.put(new Response(request.methodName, null, throwable));

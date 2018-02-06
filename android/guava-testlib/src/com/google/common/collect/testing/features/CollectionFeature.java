@@ -36,56 +36,57 @@ import java.util.SortedSet;
 @GwtCompatible
 public enum CollectionFeature implements Feature<Collection> {
   /**
-   * The collection must not throw {@code NullPointerException} on calls
-   * such as {@code contains(null)} or {@code remove(null)}, but instead
-   * must return a simple {@code false}.
+   * The collection must not throw {@code NullPointerException} on calls such as {@code
+   * contains(null)} or {@code remove(null)}, but instead must return a simple {@code false}.
    */
   ALLOWS_NULL_QUERIES,
   ALLOWS_NULL_VALUES(ALLOWS_NULL_QUERIES),
 
   /**
-   * Indicates that a collection disallows certain elements (other than
-   * {@code null}, whose validity as an element is indicated by the presence
-   * or absence of {@link #ALLOWS_NULL_VALUES}).
-   * From the documentation for {@link Collection}:
-   * <blockquote>"Some collection implementations have restrictions on the
-   * elements that they may contain.  For example, some implementations
-   * prohibit null elements, and some have restrictions on the types of their
-   * elements."</blockquote>
+   * Indicates that a collection disallows certain elements (other than {@code null}, whose validity
+   * as an element is indicated by the presence or absence of {@link #ALLOWS_NULL_VALUES}). From the
+   * documentation for {@link Collection}:
+   *
+   * <blockquote>
+   *
+   * "Some collection implementations have restrictions on the elements that they may contain. For
+   * example, some implementations prohibit null elements, and some have restrictions on the types
+   * of their elements."
+   *
+   * </blockquote>
    */
   RESTRICTS_ELEMENTS,
 
   /**
-   * Indicates that a collection has a well-defined ordering of its elements.
-   * The ordering may depend on the element values, such as a {@link SortedSet},
-   * or on the insertion ordering, such as a {@link LinkedHashSet}. All list
-   * tests and sorted-collection tests automatically specify this feature.
+   * Indicates that a collection has a well-defined ordering of its elements. The ordering may
+   * depend on the element values, such as a {@link SortedSet}, or on the insertion ordering, such
+   * as a {@link LinkedHashSet}. All list tests and sorted-collection tests automatically specify
+   * this feature.
    */
   KNOWN_ORDER,
 
   /**
-   * Indicates that a collection has a different {@link Object#toString}
-   * representation than most collections. If not specified, the collection
-   * tests will examine the value returned by {@link Object#toString}.
+   * Indicates that a collection has a different {@link Object#toString} representation than most
+   * collections. If not specified, the collection tests will examine the value returned by {@link
+   * Object#toString}.
    */
   NON_STANDARD_TOSTRING,
 
   /**
-   * Indicates that the constructor or factory method of a collection, usually
-   * an immutable set, throws an {@link IllegalArgumentException} when presented
-   * with duplicate elements instead of collapsing them to a single element or
-   * including duplicate instances in the collection.
+   * Indicates that the constructor or factory method of a collection, usually an immutable set,
+   * throws an {@link IllegalArgumentException} when presented with duplicate elements instead of
+   * collapsing them to a single element or including duplicate instances in the collection.
    */
   REJECTS_DUPLICATES_AT_CREATION,
 
-    SUPPORTS_ADD,
+  SUPPORTS_ADD,
   SUPPORTS_REMOVE,
   SUPPORTS_ITERATOR_REMOVE,
   FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 
   /**
-   * Features supported by general-purpose collections -
-   * everything but {@link #RESTRICTS_ELEMENTS}.
+   * Features supported by general-purpose collections - everything but {@link #RESTRICTS_ELEMENTS}.
+   *
    * @see java.util.Collection the definition of general-purpose collections.
    */
   GENERAL_PURPOSE(SUPPORTS_ADD, SUPPORTS_REMOVE, SUPPORTS_ITERATOR_REMOVE),
@@ -100,8 +101,8 @@ public enum CollectionFeature implements Feature<Collection> {
   DESCENDING_VIEW,
 
   /**
-   * For documenting collections that support no optional features, such as
-   * {@link java.util.Collections#emptySet}
+   * For documenting collections that support no optional features, such as {@link
+   * java.util.Collections#emptySet}
    */
   NONE;
 

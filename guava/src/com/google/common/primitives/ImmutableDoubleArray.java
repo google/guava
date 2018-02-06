@@ -21,6 +21,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -32,8 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.DoubleConsumer;
 import java.util.stream.DoubleStream;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An immutable array of {@code double} values, with an API resembling {@link List}.
@@ -129,10 +129,17 @@ public final class ImmutableDoubleArray implements Serializable {
 
   // TODO(kevinb): go up to 11?
 
-  /** Returns an immutable array containing the given values, in order. */
+  /**
+   * Returns an immutable array containing the given values, in order.
+   *
+   * <p>The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.
+   */
   // Use (first, rest) so that `of(someDoubleArray)` won't compile (they should use copyOf), which
   // is okay since we have to copy the just-created array anyway.
   public static ImmutableDoubleArray of(double first, double... rest) {
+    checkArgument(
+        rest.length <= Integer.MAX_VALUE - 1,
+        "the total number of elements must fit in an int");
     double[] array = new double[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);
@@ -505,7 +512,7 @@ public final class ImmutableDoubleArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -545,7 +552,7 @@ public final class ImmutableDoubleArray implements Serializable {
    * values as this one, in the same order. Values are compared as if by {@link Double#equals}.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }

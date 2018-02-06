@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -73,12 +73,12 @@ public final class TypeResolver {
    * {@code actual}.
    *
    * <p>For example, if {@code formal} is a {@code TypeVariable T}, and {@code actual} is {@code
-   * String.class}, then {@code new TypeResolver().where(formal, actual)} will
-   * {@linkplain #resolveType resolve} {@code ParameterizedType List<T>} to {@code List<String>},
-   * and resolve {@code Map<T, Something>} to {@code Map<String, Something>} etc. Similarly,
-   * {@code formal} and {@code actual} can be {@code Map<K, V>} and {@code Map<String, Integer>}
-   * respectively, or they can be {@code E[]} and {@code String[]} respectively, or even any
-   * arbitrary combination thereof.
+   * String.class}, then {@code new TypeResolver().where(formal, actual)} will {@linkplain
+   * #resolveType resolve} {@code ParameterizedType List<T>} to {@code List<String>}, and resolve
+   * {@code Map<T, Something>} to {@code Map<String, Something>} etc. Similarly, {@code formal} and
+   * {@code actual} can be {@code Map<K, V>} and {@code Map<String, Integer>} respectively, or they
+   * can be {@code E[]} and {@code String[]} respectively, or even any arbitrary combination
+   * thereof.
    *
    * @param formal The type whose type variables or itself is mapped to other type(s). It's almost
    *     always a bug if {@code formal} isn't a type variable and contains no type variable. Make
@@ -450,7 +450,8 @@ public final class TypeResolver {
         }
         return Types.newParameterizedTypeWithOwner(
             notForTypeVariable().captureNullable(parameterizedType.getOwnerType()),
-            rawType, typeArgs);
+            rawType,
+            typeArgs);
       }
       if (type instanceof WildcardType) {
         WildcardType wildcardType = (WildcardType) type;
@@ -466,17 +467,15 @@ public final class TypeResolver {
     }
 
     TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
-          String name =
-              "capture#"
-                  + id.incrementAndGet()
-                  + "-of ? extends "
-                  + Joiner.on('&').join(upperBounds);
+      String name =
+          "capture#" + id.incrementAndGet() + "-of ? extends " + Joiner.on('&').join(upperBounds);
       return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);
     }
 
     private WildcardCapturer forTypeVariable(final TypeVariable<?> typeParam) {
       return new WildcardCapturer(id) {
-        @Override TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
+        @Override
+        TypeVariable<?> captureAsTypeVariable(Type[] upperBounds) {
           Set<Type> combined = new LinkedHashSet<>(asList(upperBounds));
           // Since this is an artifically generated type variable, we don't bother checking
           // subtyping between declared type bound and actual type bound. So it's possible that we
@@ -497,7 +496,7 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(@Nullable Type type) {
+    private Type captureNullable(@NullableDecl Type type) {
       if (type == null) {
         return null;
       }

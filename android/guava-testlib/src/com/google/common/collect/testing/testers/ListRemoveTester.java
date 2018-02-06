@@ -23,15 +23,16 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code remove(Object)} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code remove(Object)} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListRemoveTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})

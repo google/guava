@@ -35,7 +35,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 /**
- * Base class for {@link ImmutableSet} and  {@link ImmutableSortedSet} tests.
+ * Base class for {@link ImmutableSet} and {@link ImmutableSortedSet} tests.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
@@ -44,19 +44,29 @@ import junit.framework.TestCase;
 public abstract class AbstractImmutableSetTest extends TestCase {
 
   protected abstract <E extends Comparable<? super E>> Set<E> of();
+
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e);
+
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2);
+
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3);
+
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4);
+
   protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
+
   @SuppressWarnings("unchecked")
   protected abstract <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
+
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
+
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
       Collection<? extends E> elements);
+
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
       Iterable<? extends E> elements);
+
   protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
       Iterator<? extends E> elements);
 
@@ -114,7 +124,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_arrayOfOneElement() {
-    String[] array = new String[] { "a" };
+    String[] array = new String[] {"a"};
     Set<String> set = copyOf(array);
     assertEquals(Collections.singleton("a"), set);
   }
@@ -128,7 +138,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   }
 
   public void testCopyOf_arrayContainingOnlyNull() {
-    String[] array = new String[] { null };
+    String[] array = new String[] {null};
     try {
       copyOf(array);
       fail();
@@ -173,7 +183,12 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     }
   }
 
-  enum TestEnum { A, B, C, D }
+  enum TestEnum {
+    A,
+    B,
+    C,
+    D
+  }
 
   public void testCopyOf_collection_enumSet() {
     Collection<TestEnum> c = EnumSet.of(TestEnum.A, TestEnum.B, TestEnum.D);
@@ -220,6 +235,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   private static class CountingIterable implements Iterable<String> {
     int count = 0;
+
     @Override
     public Iterator<String> iterator() {
       count++;
@@ -265,9 +281,10 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   @GwtIncompatible // slow (~40s)
   public void testIterator_oneElement() {
-    new IteratorTester<String>(5, UNMODIFIABLE, Collections.singleton("a"),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override protected Iterator<String> newTargetIterator() {
+    new IteratorTester<String>(
+        5, UNMODIFIABLE, Collections.singleton("a"), IteratorTester.KnownOrder.KNOWN_ORDER) {
+      @Override
+      protected Iterator<String> newTargetIterator() {
         return of("a").iterator();
       }
     }.test();
@@ -275,9 +292,10 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   @GwtIncompatible // slow (~30s)
   public void testIterator_general() {
-    new IteratorTester<String>(5, UNMODIFIABLE, asList("a", "b", "c"),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override protected Iterator<String> newTargetIterator() {
+    new IteratorTester<String>(
+        5, UNMODIFIABLE, asList("a", "b", "c"), IteratorTester.KnownOrder.KNOWN_ORDER) {
+      @Override
+      protected Iterator<String> newTargetIterator() {
         return of("a", "b", "c").iterator();
       }
     }.test();
@@ -300,42 +318,38 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   abstract <E extends Comparable<E>> ImmutableSet.Builder<E> builder();
 
   public void testBuilderWithNonDuplicateElements() {
-    ImmutableSet<String> set = this.<String>builder()
-        .add("a")
-        .add("b", "c")
-        .add("d", "e", "f")
-        .add("g", "h", "i", "j")
-        .build();
-    assertThat(set).containsExactly(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j").inOrder();
+    ImmutableSet<String> set =
+        this.<String>builder()
+            .add("a")
+            .add("b", "c")
+            .add("d", "e", "f")
+            .add("g", "h", "i", "j")
+            .build();
+    assertThat(set).containsExactly("a", "b", "c", "d", "e", "f", "g", "h", "i", "j").inOrder();
   }
 
   public void testReuseBuilderWithNonDuplicateElements() {
-    ImmutableSet.Builder<String> builder = this.<String>builder()
-        .add("a")
-        .add("b");
+    ImmutableSet.Builder<String> builder = this.<String>builder().add("a").add("b");
     assertThat(builder.build()).containsExactly("a", "b").inOrder();
     builder.add("c", "d");
     assertThat(builder.build()).containsExactly("a", "b", "c", "d").inOrder();
   }
 
   public void testBuilderWithDuplicateElements() {
-    ImmutableSet<String> set = this.<String>builder()
-        .add("a")
-        .add("a", "a")
-        .add("a", "a", "a")
-        .add("a", "a", "a", "a")
-        .build();
+    ImmutableSet<String> set =
+        this.<String>builder()
+            .add("a")
+            .add("a", "a")
+            .add("a", "a", "a")
+            .add("a", "a", "a", "a")
+            .build();
     assertTrue(set.contains("a"));
     assertFalse(set.contains("b"));
     assertEquals(1, set.size());
   }
 
   public void testReuseBuilderWithDuplicateElements() {
-    ImmutableSet.Builder<String> builder = this.<String>builder()
-        .add("a")
-        .add("a", "a")
-        .add("b");
+    ImmutableSet.Builder<String> builder = this.<String>builder().add("a").add("a", "a").add("b");
     assertThat(builder.build()).containsExactly("a", "b").inOrder();
     builder.add("a", "b", "c", "c");
     assertThat(builder.build()).containsExactly("a", "b", "c").inOrder();
@@ -344,10 +358,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   public void testBuilderAddAll() {
     List<String> a = asList("a", "b", "c");
     List<String> b = asList("c", "d", "e");
-    ImmutableSet<String> set = this.<String>builder()
-        .addAll(a)
-        .addAll(b)
-        .build();
+    ImmutableSet<String> set = this.<String>builder().addAll(a).addAll(b).build();
     assertThat(set).containsExactly("a", "b", "c", "d", "e").inOrder();
   }
 
@@ -356,8 +367,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
   public void testComplexBuilder() {
     List<Integer> colorElem = asList(0x00, 0x33, 0x66, 0x99, 0xCC, 0xFF);
     // javac won't compile this without "this.<Integer>"
-    ImmutableSet.Builder<Integer> webSafeColorsBuilder
-        = this.<Integer>builder();
+    ImmutableSet.Builder<Integer> webSafeColorsBuilder = this.<Integer>builder();
     for (Integer red : colorElem) {
       for (Integer green : colorElem) {
         for (Integer blue : colorElem) {
@@ -367,24 +377,20 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     }
     ImmutableSet<Integer> webSafeColors = webSafeColorsBuilder.build();
     assertEquals(216, webSafeColors.size());
-    Integer[] webSafeColorArray =
-        webSafeColors.toArray(new Integer[webSafeColors.size()]);
+    Integer[] webSafeColorArray = webSafeColors.toArray(new Integer[webSafeColors.size()]);
     assertEquals(0x000000, (int) webSafeColorArray[0]);
     assertEquals(0x000033, (int) webSafeColorArray[1]);
     assertEquals(0x000066, (int) webSafeColorArray[2]);
     assertEquals(0x003300, (int) webSafeColorArray[6]);
     assertEquals(0x330000, (int) webSafeColorArray[36]);
-    ImmutableSet<Integer> addedColor
-        = webSafeColorsBuilder.add(LAST_COLOR_ADDED).build();
+    ImmutableSet<Integer> addedColor = webSafeColorsBuilder.add(LAST_COLOR_ADDED).build();
     assertEquals(
         "Modifying the builder should not have changed any already built sets",
-        216, webSafeColors.size());
-    assertEquals("the new array should be one bigger than webSafeColors",
-        217, addedColor.size());
-    Integer[] appendColorArray =
-        addedColor.toArray(new Integer[addedColor.size()]);
-    assertEquals(
-        getComplexBuilderSetLastElement(), (int) appendColorArray[216]);
+        216,
+        webSafeColors.size());
+    assertEquals("the new array should be one bigger than webSafeColors", 217, addedColor.size());
+    Integer[] appendColorArray = addedColor.toArray(new Integer[addedColor.size()]);
+    assertEquals(getComplexBuilderSetLastElement(), (int) appendColorArray[216]);
   }
 
   abstract int getComplexBuilderSetLastElement();
@@ -393,42 +399,42 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     ImmutableSet.Builder<String> builder = this.<String>builder();
     try {
       builder.add((String) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     builder = this.<String>builder();
     try {
       builder.add((String[]) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     builder = this.<String>builder();
     try {
       builder.add("a", (String) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     builder = this.<String>builder();
     try {
       builder.add("a", "b", (String) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     builder = this.<String>builder();
     try {
       builder.add("a", "b", "c", null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     builder = this.<String>builder();
     try {
       builder.add("a", "b", null, "c");
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
   }
@@ -437,13 +443,13 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     ImmutableSet.Builder<String> builder = this.<String>builder();
     try {
       builder.addAll((Iterable<String>) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     try {
       builder.addAll((Iterator<String>) null);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
@@ -451,23 +457,22 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     List<String> listWithNulls = asList("a", null, "b");
     try {
       builder.addAll(listWithNulls);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
 
     Iterable<String> iterableWithNulls = MinimalIterable.of("a", null, "b");
     try {
       builder.addAll(iterableWithNulls);
-      fail("expected NullPointerException");  // COV_NF_LINE
+      fail("expected NullPointerException"); // COV_NF_LINE
     } catch (NullPointerException expected) {
     }
   }
 
   /**
-   * Verify thread safety by using a collection whose size() may be inconsistent
-   * with the actual number of elements.  Tests using this method might fail in
-   * GWT because the GWT emulations might count on size() during copy.  It is
-   * safe to do so in GWT because javascript is single-threaded.
+   * Verify thread safety by using a collection whose size() may be inconsistent with the actual
+   * number of elements. Tests using this method might fail in GWT because the GWT emulations might
+   * count on size() during copy. It is safe to do so in GWT because javascript is single-threaded.
    */
   // TODO(benyu): turn this into a test once all copyOf(Collection) are
   // thread-safe
@@ -479,8 +484,10 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         Collection<String> misleading = Helpers.misleadingSizeCollection(delta);
         List<String> expected = sample.subList(0, i);
         misleading.addAll(expected);
-        assertEquals("delta: " + delta + " sample size: " + i,
-            Sets.newHashSet(expected), copyOf(misleading));
+        assertEquals(
+            "delta: " + delta + " sample size: " + i,
+            Sets.newHashSet(expected),
+            copyOf(misleading));
       }
     }
   }

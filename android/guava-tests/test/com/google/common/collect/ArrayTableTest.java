@@ -37,8 +37,8 @@ import java.util.Map;
 @GwtCompatible(emulated = true)
 public class ArrayTableTest extends AbstractTableTest {
 
-  @Override protected ArrayTable<String, Integer, Character> create(
-      Object... data) {
+  @Override
+  protected ArrayTable<String, Integer, Character> create(Object... data) {
     // TODO: Specify different numbers of rows and columns, to detect problems
     // that arise when the wrong size is used.
     ArrayTable<String, Integer, Character> table =
@@ -47,21 +47,25 @@ public class ArrayTableTest extends AbstractTableTest {
     return table;
   }
 
-  @Override protected void assertSize(int expectedSize) {
+  @Override
+  protected void assertSize(int expectedSize) {
     assertEquals(9, table.size());
   }
 
-  @Override protected boolean supportsRemove() {
+  @Override
+  protected boolean supportsRemove() {
     return false;
   }
 
-  @Override protected boolean supportsNullValues() {
+  @Override
+  protected boolean supportsNullValues() {
     return true;
   }
 
   // Overriding tests of behavior that differs for ArrayTable.
 
-  @Override public void testContains() {
+  @Override
+  public void testContains() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertTrue(table.contains("foo", 1));
     assertTrue(table.contains("bar", 1));
@@ -77,7 +81,8 @@ public class ArrayTableTest extends AbstractTableTest {
     assertFalse(table.contains(null, null));
   }
 
-  @Override public void testContainsRow() {
+  @Override
+  public void testContainsRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertTrue(table.containsRow("foo"));
     assertTrue(table.containsRow("bar"));
@@ -86,7 +91,8 @@ public class ArrayTableTest extends AbstractTableTest {
     assertFalse(table.containsRow(null));
   }
 
-  @Override public void testContainsColumn() {
+  @Override
+  public void testContainsColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertTrue(table.containsColumn(1));
     assertTrue(table.containsColumn(3));
@@ -95,7 +101,8 @@ public class ArrayTableTest extends AbstractTableTest {
     assertFalse(table.containsColumn(null));
   }
 
-  @Override public void testContainsValue() {
+  @Override
+  public void testContainsValue() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertTrue(table.containsValue('a'));
     assertTrue(table.containsValue('b'));
@@ -104,26 +111,27 @@ public class ArrayTableTest extends AbstractTableTest {
     assertTrue(table.containsValue(null));
   }
 
-  @Override public void testIsEmpty() {
+  @Override
+  public void testIsEmpty() {
     assertFalse(table.isEmpty());
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertFalse(table.isEmpty());
   }
 
-  @Override public void testEquals() {
+  @Override
+  public void testEquals() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Table<String, Integer, Character> hashCopy = HashBasedTable.create();
     hashCopy.put("foo", 1, 'a');
     hashCopy.put("bar", 1, 'b');
     hashCopy.put("foo", 3, 'c');
-    Table<String, Integer, Character> reordered
-        = create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> smaller
-        = create("foo", 1, 'a', "bar", 1, 'b');
-    Table<String, Integer, Character> swapOuter
-        = create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');
-    Table<String, Integer, Character> swapValues
-        = create("foo", 1, 'c', "bar", 1, 'b', "foo", 3, 'a');
+    Table<String, Integer, Character> reordered =
+        create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
+    Table<String, Integer, Character> smaller = create("foo", 1, 'a', "bar", 1, 'b');
+    Table<String, Integer, Character> swapOuter =
+        create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');
+    Table<String, Integer, Character> swapValues =
+        create("foo", 1, 'c', "bar", 1, 'b', "foo", 3, 'a');
 
     new EqualsTester()
         .addEqualityGroup(table, reordered)
@@ -134,19 +142,22 @@ public class ArrayTableTest extends AbstractTableTest {
         .testEquals();
   }
 
-  @Override public void testHashCode() {
+  @Override
+  public void testHashCode() {
     table = ArrayTable.create(asList("foo", "bar"), asList(1, 3));
     table.put("foo", 1, 'a');
     table.put("bar", 1, 'b');
     table.put("foo", 3, 'c');
-    int expected = Objects.hashCode("foo", 1, 'a')
-        + Objects.hashCode("bar", 1, 'b')
-        + Objects.hashCode("foo", 3, 'c')
-        + Objects.hashCode("bar", 3, 0);
+    int expected =
+        Objects.hashCode("foo", 1, 'a')
+            + Objects.hashCode("bar", 1, 'b')
+            + Objects.hashCode("foo", 3, 'c')
+            + Objects.hashCode("bar", 3, 0);
     assertEquals(expected, table.hashCode());
   }
 
-  @Override public void testRow() {
+  @Override
+  public void testRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<Integer, Character> expected = Maps.newHashMap();
     expected.put(1, 'a');
@@ -155,7 +166,8 @@ public class ArrayTableTest extends AbstractTableTest {
     assertEquals(expected, table.row("foo"));
   }
 
-  @Override public void testColumn() {
+  @Override
+  public void testColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Map<String, Character> expected = Maps.newHashMap();
     expected.put("foo", 'a');
@@ -164,7 +176,8 @@ public class ArrayTableTest extends AbstractTableTest {
     assertEquals(expected, table.column(1));
   }
 
-  @Override public void testToStringSize1() {
+  @Override
+  public void testToStringSize1() {
     table = ArrayTable.create(ImmutableList.of("foo"), ImmutableList.of(1));
     table.put("foo", 1, 'a');
     assertEquals("{foo={1=a}}", table.toString());
@@ -174,28 +187,32 @@ public class ArrayTableTest extends AbstractTableTest {
     try {
       ArrayTable.create(asList("foo", "bar", "foo"), asList(1, 2, 3));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreateDuplicateColumns() {
     try {
       ArrayTable.create(asList("foo", "bar"), asList(1, 2, 3, 2));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreateEmptyRows() {
     try {
       ArrayTable.create(Arrays.<String>asList(), asList(1, 2, 3));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreateEmptyColumns() {
     try {
       ArrayTable.create(asList("foo", "bar"), Arrays.<Integer>asList());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCreateEmptyRowsXColumns() {
@@ -210,7 +227,8 @@ public class ArrayTableTest extends AbstractTableTest {
     try {
       table.at(0, 0);
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
   }
 
   @GwtIncompatible // toArray
@@ -221,8 +239,8 @@ public class ArrayTableTest extends AbstractTableTest {
   }
 
   public void testCreateCopyArrayTable() {
-    Table<String, Integer, Character> original
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    Table<String, Integer, Character> original =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Table<String, Integer, Character> copy = ArrayTable.create(original);
     assertEquals(original, copy);
     original.put("foo", 1, 'd');
@@ -279,21 +297,24 @@ public class ArrayTableTest extends AbstractTableTest {
 
   public void testToString_ordered() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertEquals("{foo={1=a, 2=null, 3=c}, " +
-        "bar={1=b, 2=null, 3=null}, " +
-        "cat={1=null, 2=null, 3=null}}",
+    assertEquals(
+        "{foo={1=a, 2=null, 3=c}, "
+            + "bar={1=b, 2=null, 3=null}, "
+            + "cat={1=null, 2=null, 3=null}}",
         table.toString());
-    assertEquals("{foo={1=a, 2=null, 3=c}, " +
-        "bar={1=b, 2=null, 3=null}, " +
-        "cat={1=null, 2=null, 3=null}}",
+    assertEquals(
+        "{foo={1=a, 2=null, 3=c}, "
+            + "bar={1=b, 2=null, 3=null}, "
+            + "cat={1=null, 2=null, 3=null}}",
         table.rowMap().toString());
   }
 
   public void testCellSetToString_ordered() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertEquals("[(foo,1)=a, (foo,2)=null, (foo,3)=c, " +
-        "(bar,1)=b, (bar,2)=null, (bar,3)=null, " +
-        "(cat,1)=null, (cat,2)=null, (cat,3)=null]",
+    assertEquals(
+        "[(foo,1)=a, (foo,2)=null, (foo,3)=c, "
+            + "(bar,1)=b, (bar,2)=null, (bar,3)=null, "
+            + "(cat,1)=null, (cat,2)=null, (cat,3)=null]",
         table.cellSet().toString());
   }
 
@@ -309,19 +330,18 @@ public class ArrayTableTest extends AbstractTableTest {
 
   public void testValuesToString_ordered() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertEquals("[a, null, c, b, null, null, null, null, null]",
-        table.values().toString());
+    assertEquals("[a, null, c, b, null, null, null, null, null]", table.values().toString());
   }
 
   public void testRowKeyList() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertThat(table.rowKeyList()).containsExactly("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertThat(table.columnKeyList()).containsExactly(1, 2, 3).inOrder();
   }
 
@@ -332,32 +352,36 @@ public class ArrayTableTest extends AbstractTableTest {
   }
 
   public void testAt() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.at(1, 0));
     assertEquals((Character) 'c', table.at(0, 2));
     assertNull(table.at(1, 2));
     try {
       table.at(1, 3);
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.at(1, -1);
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.at(3, 2);
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.at(-1, 2);
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
   }
 
   public void testSet() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.set(1, 0, 'd'));
     assertEquals((Character) 'd', table.get("bar", 1));
     assertNull(table.set(2, 0, 'e'));
@@ -367,25 +391,29 @@ public class ArrayTableTest extends AbstractTableTest {
     try {
       table.set(1, 3, 'z');
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.set(1, -1, 'z');
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.set(3, 2, 'z');
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     try {
       table.set(-1, 2, 'z');
       fail();
-    } catch (IndexOutOfBoundsException expected) {}
+    } catch (IndexOutOfBoundsException expected) {
+    }
     assertFalse(table.containsValue('z'));
   }
 
   public void testEraseAll() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     table.eraseAll();
     assertEquals(9, table.size());
     assertNull(table.get("bar", 1));
@@ -411,8 +439,8 @@ public class ArrayTableTest extends AbstractTableTest {
   }
 
   public void testErase() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.erase("bar", 1));
     assertNull(table.get("bar", 1));
     assertEquals(9, table.size());
@@ -426,8 +454,8 @@ public class ArrayTableTest extends AbstractTableTest {
 
   @GwtIncompatible // ArrayTable.toArray(Class)
   public void testToArray() {
-    ArrayTable<String, Integer, Character> table
-        = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
+    ArrayTable<String, Integer, Character> table =
+        create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Character[][] array = table.toArray(Character.class);
     assertThat(array).hasLength(3);
     assertThat(array[0]).asList().containsExactly('a', null, 'c').inOrder();
@@ -454,7 +482,8 @@ public class ArrayTableTest extends AbstractTableTest {
     try {
       row.put(1, 'd');
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testColumnMissing() {
@@ -464,7 +493,8 @@ public class ArrayTableTest extends AbstractTableTest {
     try {
       column.put("foo", 'd');
       fail();
-    } catch (UnsupportedOperationException expected) {}
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   public void testRowPutIllegal() {

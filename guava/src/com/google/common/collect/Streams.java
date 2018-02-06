@@ -44,7 +44,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods related to {@code Stream} instances.
@@ -355,31 +355,32 @@ public final class Streams {
     if (!fromSpliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
       Iterator<T> fromIterator = Spliterators.iterator(fromSpliterator);
       return StreamSupport.stream(
-          new AbstractSpliterator<R>(
-              fromSpliterator.estimateSize(),
-              fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
-            long index = 0;
+              new AbstractSpliterator<R>(
+                  fromSpliterator.estimateSize(),
+                  fromSpliterator.characteristics() & (Spliterator.ORDERED | Spliterator.SIZED)) {
+                long index = 0;
 
-            @Override
-            public boolean tryAdvance(Consumer<? super R> action) {
-              if (fromIterator.hasNext()) {
-                action.accept(function.apply(fromIterator.next(), index++));
-                return true;
-              }
-              return false;
-            }
-          },
-          isParallel).onClose(stream::close);
+                @Override
+                public boolean tryAdvance(Consumer<? super R> action) {
+                  if (fromIterator.hasNext()) {
+                    action.accept(function.apply(fromIterator.next(), index++));
+                    return true;
+                  }
+                  return false;
+                }
+              },
+              isParallel)
+          .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      T holder;
+      @NullableDecl T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
       }
 
       @Override
-      public void accept(@Nullable T t) {
+      public void accept(@NullableDecl T t) {
         this.holder = t;
       }
 
@@ -752,7 +753,7 @@ public final class Streams {
       boolean set = false;
       T value = null;
 
-      void set(@Nullable T value) {
+      void set(@NullableDecl T value) {
         this.set = true;
         this.value = value;
       }

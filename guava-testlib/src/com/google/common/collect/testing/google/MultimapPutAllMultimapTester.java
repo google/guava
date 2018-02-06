@@ -26,6 +26,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collection;
+import org.junit.Ignore;
 
 /**
  * Tester for {@link Multimap#putAll(Multimap)}.
@@ -33,6 +34,7 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapPutAllMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(absent = SUPPORTS_PUT)

@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * GWT emulated version of {@link com.google.common.collect.ImmutableList}. TODO(cpovirk): more doc
@@ -61,63 +61,54 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2) {
-    return new RegularImmutableList<E>(
-        ImmutableList.<E>nullCheckedList(e1, e2));
+    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(e1, e2));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2, E e3) {
-    return new RegularImmutableList<E>(
-        ImmutableList.<E>nullCheckedList(e1, e2, e3));
+    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(e1, e2, e3));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4) {
-    return new RegularImmutableList<E>(
-        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4));
+    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(e1, e2, e3, e4));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return new RegularImmutableList<E>(
-        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5));
+    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5));
   }
 
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5, E e6) {
-    return new RegularImmutableList<E>(
-        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6));
+    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6));
   }
 
-  public static <E> ImmutableList<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E e7) {
+  public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7) {
     return new RegularImmutableList<E>(
-         ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7));
+        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7));
   }
 
-  public static <E> ImmutableList<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8) {
+  public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8) {
     return new RegularImmutableList<E>(
-         ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8));
+        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8));
   }
 
-  public static <E> ImmutableList<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9) {
+  public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9) {
     return new RegularImmutableList<E>(
-         ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8, e9));
+        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8, e9));
   }
 
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10) {
-    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(
-        e1, e2, e3, e4, e5, e6, e7, e8, e9, e10));
+    return new RegularImmutableList<E>(
+        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10));
   }
 
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11) {
-    return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(
-        e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11));
+    return new RegularImmutableList<E>(
+        ImmutableList.<E>nullCheckedList(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11));
   }
 
   public static <E> ImmutableList<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11,
-      E e12, E... others) {
+      E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12, E... others) {
     final int paramCount = 12;
     Object[] array = new Object[paramCount + others.length];
     arrayCopy(array, 0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12);
@@ -158,8 +149,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return copyOf(Arrays.asList(elements));
   }
 
-  private static <E> ImmutableList<E> copyFromCollection(
-      Collection<? extends E> collection) {
+  private static <E> ImmutableList<E> copyFromCollection(Collection<? extends E> collection) {
     Object[] elements = collection.toArray();
     switch (elements.length) {
       case 0:
@@ -187,7 +177,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Views the array as an immutable list.  The array must have only {@code E} elements.
+   * Views the array as an immutable list. The array must have only {@code E} elements.
    *
    * <p>The array must be internally created.
    */
@@ -226,12 +216,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public int indexOf(@Nullable Object object) {
+  public int indexOf(@NullableDecl Object object) {
     return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
 
   @Override
-  public int lastIndexOf(@Nullable Object object) {
+  public int lastIndexOf(@NullableDecl Object object) {
     return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
@@ -251,19 +241,23 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     throw new UnsupportedOperationException();
   }
 
-  @Override public UnmodifiableIterator<E> iterator() {
+  @Override
+  public UnmodifiableIterator<E> iterator() {
     return listIterator();
   }
 
-  @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
+  @Override
+  public ImmutableList<E> subList(int fromIndex, int toIndex) {
     return unsafeDelegateList(Lists.subListImpl(this, fromIndex, toIndex));
   }
 
-  @Override public UnmodifiableListIterator<E> listIterator() {
+  @Override
+  public UnmodifiableListIterator<E> listIterator() {
     return listIterator(0);
   }
 
-  @Override public UnmodifiableListIterator<E> listIterator(int index) {
+  @Override
+  public UnmodifiableListIterator<E> listIterator(int index) {
     return new AbstractIndexedListIterator<E>(size(), index) {
       @Override
       protected E get(int index) {
@@ -272,12 +266,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     };
   }
 
-  @Override public ImmutableList<E> asList() {
+  @Override
+  public ImmutableList<E> asList() {
     return this;
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     return Lists.equalsImpl(this, obj);
   }
 
@@ -312,26 +307,30 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @CanIgnoreReturnValue
-    @Override public Builder<E> add(E element) {
+    @Override
+    public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
       return this;
     }
 
     @CanIgnoreReturnValue
-    @Override public Builder<E> addAll(Iterable<? extends E> elements) {
+    @Override
+    public Builder<E> addAll(Iterable<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
 
     @CanIgnoreReturnValue
-    @Override public Builder<E> add(E... elements) {
-      checkNotNull(elements);  // for GWT
+    @Override
+    public Builder<E> add(E... elements) {
+      checkNotNull(elements); // for GWT
       super.add(elements);
       return this;
     }
 
     @CanIgnoreReturnValue
-    @Override public Builder<E> addAll(Iterator<? extends E> elements) {
+    @Override
+    public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
@@ -343,7 +342,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return this;
     }
 
-    @Override public ImmutableList<E> build() {
+    @Override
+    public ImmutableList<E> build() {
       return copyOf(contents);
     }
   }

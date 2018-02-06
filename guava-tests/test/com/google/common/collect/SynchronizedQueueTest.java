@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
@@ -163,7 +164,7 @@ public class SynchronizedQueueTest extends TestCase {
     create().clear();
     create().contains("foo");
     create().containsAll(ImmutableList.of("foo"));
-    create().equals(ImmutableList.of("foo"));
+    create().equals(new ArrayDeque<>(ImmutableList.of("foo")));
     create().hashCode();
     create().isEmpty();
     create().iterator();
@@ -172,6 +173,6 @@ public class SynchronizedQueueTest extends TestCase {
     create().retainAll(ImmutableList.of("foo"));
     create().size();
     create().toArray();
-    create().toArray(new String[] { "foo" });
+    create().toArray(new String[] {"foo"});
   }
 }

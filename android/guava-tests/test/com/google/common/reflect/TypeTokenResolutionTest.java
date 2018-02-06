@@ -96,18 +96,23 @@ public class TypeTokenResolutionTest extends TestCase {
     assertEquals(Object[].class, foo.getArrayClassB());
   }
 
-  private static abstract class Bar<T> {}
+  private abstract static class Bar<T> {}
 
   private abstract static class Parameterized<O, T, P> {
     ParameterizedType parameterizedType() {
       return new ParameterizedType() {
-        @Override public Type[] getActualTypeArguments() {
-          return new Type[]{new TypeCapture<P>() {}.capture()};
+        @Override
+        public Type[] getActualTypeArguments() {
+          return new Type[] {new TypeCapture<P>() {}.capture()};
         }
-        @Override public Type getOwnerType() {
+
+        @Override
+        public Type getOwnerType() {
           return new TypeCapture<O>() {}.capture();
         }
-        @Override public Type getRawType() {
+
+        @Override
+        public Type getRawType() {
           return new TypeCapture<T>() {}.capture();
         }
       };
@@ -119,36 +124,36 @@ public class TypeTokenResolutionTest extends TestCase {
     Parameterized<?, ?, ?> parameterized =
         new Parameterized<TypeTokenResolutionTest, Bar, String>() {};
     TypeResolver typeResolver = TypeResolver.accordingTo(parameterized.getClass());
-    ParameterizedType resolved = (ParameterizedType) typeResolver.resolveType(
-        parameterized.parameterizedType());
+    ParameterizedType resolved =
+        (ParameterizedType) typeResolver.resolveType(parameterized.parameterizedType());
     assertEquals(TypeTokenResolutionTest.class, resolved.getOwnerType());
     assertEquals(Bar.class, resolved.getRawType());
     assertThat(resolved.getActualTypeArguments()).asList().contains(String.class);
   }
+
   private interface StringListPredicate extends Predicate<List<String>> {}
 
   private interface IntegerSupplier extends Supplier<Integer> {}
 
   // Intentionally duplicate the Predicate interface to test that it won't cause
   // exceptions
-  private interface IntegerStringFunction extends IntegerSupplier,
-      Predicate<List<String>>, StringListPredicate {}
+  private interface IntegerStringFunction
+      extends IntegerSupplier, Predicate<List<String>>, StringListPredicate {}
 
   public void testGenericInterface() {
     // test the 1st generic interface on the class
     Type fType = Supplier.class.getTypeParameters()[0];
-    assertEquals(Integer.class,
-        TypeToken.of(IntegerStringFunction.class).resolveType(fType)
-            .getRawType());
+    assertEquals(
+        Integer.class, TypeToken.of(IntegerStringFunction.class).resolveType(fType).getRawType());
 
     // test the 2nd generic interface on the class
     Type predicateParameterType = Predicate.class.getTypeParameters()[0];
-    assertEquals(new TypeToken<List<String>>() {}.getType(),
-        TypeToken.of(IntegerStringFunction.class).resolveType(predicateParameterType)
-            .getType());
+    assertEquals(
+        new TypeToken<List<String>>() {}.getType(),
+        TypeToken.of(IntegerStringFunction.class).resolveType(predicateParameterType).getType());
   }
 
-  private static abstract class StringIntegerFoo extends Foo<String, Integer> {}
+  private abstract static class StringIntegerFoo extends Foo<String, Integer> {}
 
   public void testConstructor_typeArgsResolvedFromAncestorClass() {
     assertEquals(String.class, new StringIntegerFoo() {}.getClassA());
@@ -156,7 +161,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   private static class Owner<T> {
-    private static abstract class Nested<X> {
+    private abstract static class Nested<X> {
       Class<? super X> getTypeArgument() {
         return new TypeToken<X>(getClass()) {}.getRawType();
       }
@@ -174,13 +179,11 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testResolveInnerClass() {
-    assertEquals(String.class,
-        new Owner<Integer>().new Inner<String>() {}.getTypeArgument());
+    assertEquals(String.class, new Owner<Integer>().new Inner<String>() {}.getTypeArgument());
   }
 
   public void testResolveOwnerClass() {
-    assertEquals(Integer.class,
-        new Owner<Integer>().new Inner<String>() {}.getOwnerType());
+    assertEquals(Integer.class, new Owner<Integer>().new Inner<String>() {}.getOwnerType());
   }
 
   private static class Mapping<F, T> {
@@ -224,26 +227,30 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testInnerClassWithParameterizedOwner() throws Exception {
-    Type fieldType = ParameterizedOuter.class.getField("field")
-        .getGenericType();
-    assertEquals(fieldType,
-        TypeToken.of(ParameterizedOuter.class).resolveType(fieldType).getType());
+    Type fieldType = ParameterizedOuter.class.getField("field").getGenericType();
+    assertEquals(
+        fieldType, TypeToken.of(ParameterizedOuter.class).resolveType(fieldType).getType());
   }
 
   private interface StringIterable extends Iterable<String> {}
 
   public void testResolveType() {
     assertEquals(String.class, TypeToken.of(this.getClass()).resolveType(String.class).getType());
-    assertEquals(String.class,
+    assertEquals(
+        String.class,
         TypeToken.of(StringIterable.class)
-            .resolveType(Iterable.class.getTypeParameters()[0]).getType());
-    assertEquals(String.class,
+            .resolveType(Iterable.class.getTypeParameters()[0])
+            .getType());
+    assertEquals(
+        String.class,
         TypeToken.of(StringIterable.class)
-            .resolveType(Iterable.class.getTypeParameters()[0]).getType());
+            .resolveType(Iterable.class.getTypeParameters()[0])
+            .getType());
     try {
       TypeToken.of(this.getClass()).resolveType(null);
       fail();
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testConextIsParameterizedType() throws Exception {
@@ -253,15 +260,13 @@ public class TypeTokenResolutionTest extends TestCase {
         throw new AssertionError();
       }
     }
-    Type context = Context.class.getDeclaredMethod("returningMap")
-        .getGenericReturnType();
+    Type context = Context.class.getDeclaredMethod("returningMap").getGenericReturnType();
     Type keyType = Map.class.getTypeParameters()[0];
     Type valueType = Map.class.getTypeParameters()[1];
 
     // context is parameterized type
     assertEquals(String.class, TypeToken.of(context).resolveType(keyType).getType());
-    assertEquals(Integer.class,
-        TypeToken.of(context).resolveType(valueType).getType());
+    assertEquals(Integer.class, TypeToken.of(context).resolveType(valueType).getType());
 
     // context is type variable
     assertEquals(keyType, TypeToken.of(keyType).resolveType(keyType).getType());
@@ -276,8 +281,7 @@ public class TypeTokenResolutionTest extends TestCase {
   public void testGenericArrayType() {
     GenericArray<?> genericArray = new GenericArray<>();
     assertEquals(GenericArray.class.getTypeParameters()[0], genericArray.t);
-    assertEquals(Types.newArrayType(genericArray.t),
-        genericArray.array);
+    assertEquals(Types.newArrayType(genericArray.t), genericArray.array);
   }
 
   public void testClassWrapper() {
@@ -330,8 +334,7 @@ public class TypeTokenResolutionTest extends TestCase {
     assertEquals(String.class, redString.getClassDirect());
     assertEquals(Integer.class, redInteger.getClassDirect());
 
-    Red<String>.Yellow<Integer> yellowInteger =
-        redString.new Yellow<Integer>(redInteger) {};
+    Red<String>.Yellow<Integer> yellowInteger = redString.new Yellow<Integer>(redInteger) {};
     assertEquals(Integer.class, yellowInteger.getClassA());
     assertEquals(Integer.class, yellowInteger.getClassB());
     assertEquals(String.class, yellowInteger.getA().getClassDirect());
@@ -341,8 +344,7 @@ public class TypeTokenResolutionTest extends TestCase {
   public void test2() {
     Red<String> redString = new Red<>();
     Red<Integer> redInteger = new Red<>();
-    Red<String>.Yellow<Integer> yellowInteger =
-        redString.new Yellow<Integer>(redInteger) {};
+    Red<String>.Yellow<Integer> yellowInteger = redString.new Yellow<Integer>(redInteger) {};
     assertEquals(Integer.class, yellowInteger.getClassA());
     assertEquals(Integer.class, yellowInteger.getClassB());
   }
@@ -382,11 +384,12 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testAnonymousClassInsideNonStaticMethod() {
-    assertNotNull(new Object() {
-      Type getType() {
-        return new TypeToken<Object>() {}.getType();
-      }
-    }.getType());
+    assertNotNull(
+        new Object() {
+          Type getType() {
+            return new TypeToken<Object>() {}.getType();
+          }
+        }.getType());
   }
 
   public void testStaticContext() {
@@ -400,20 +403,16 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testResolvePrimitiveArrayType() {
-    assertEquals(new TypeToken<int[]>() {}.getType(),
-        new Holder<int[]>() {}.getContentType());
-    assertEquals(new TypeToken<int[][]> () {}.getType(),
-        new Holder<int[][]>() {}.getContentType());
+    assertEquals(new TypeToken<int[]>() {}.getType(), new Holder<int[]>() {}.getContentType());
+    assertEquals(new TypeToken<int[][]>() {}.getType(), new Holder<int[][]>() {}.getContentType());
   }
 
   public void testResolveToGenericArrayType() {
-    GenericArrayType arrayType = (GenericArrayType)
-        new Holder<List<int[][]>[]>() {}.getContentType();
-    ParameterizedType listType = (ParameterizedType)
-        arrayType.getGenericComponentType();
+    GenericArrayType arrayType =
+        (GenericArrayType) new Holder<List<int[][]>[]>() {}.getContentType();
+    ParameterizedType listType = (ParameterizedType) arrayType.getGenericComponentType();
     assertEquals(List.class, listType.getRawType());
-    assertEquals(Types.newArrayType(int[].class),
-        listType.getActualTypeArguments()[0]);
+    assertEquals(Types.newArrayType(int[].class), listType.getActualTypeArguments()[0]);
   }
 
   private abstract class WithGenericBound<A> {
@@ -435,32 +434,32 @@ public class TypeTokenResolutionTest extends TestCase {
     void withWildcardUpperBound(List<? extends A> list) {}
 
     Type getTargetType(String methodName) throws Exception {
-      ParameterizedType parameterType = (ParameterizedType)
-          WithGenericBound.class.getDeclaredMethod(methodName, List.class)
-              .getGenericParameterTypes()[0];
-      parameterType = (ParameterizedType)
-          TypeToken.of(this.getClass()).resolveType(parameterType).getType();
+      ParameterizedType parameterType =
+          (ParameterizedType)
+              WithGenericBound.class.getDeclaredMethod(methodName, List.class)
+                  .getGenericParameterTypes()[0];
+      parameterType =
+          (ParameterizedType) TypeToken.of(this.getClass()).resolveType(parameterType).getType();
       return parameterType.getActualTypeArguments()[0];
     }
   }
 
   public void testWithGenericBoundInTypeVariable() throws Exception {
-    TypeVariable<?> typeVariable = (TypeVariable<?>)
-        new WithGenericBound<String>() {}.getTargetType("withTypeVariable");
+    TypeVariable<?> typeVariable =
+        (TypeVariable<?>) new WithGenericBound<String>() {}.getTargetType("withTypeVariable");
     assertEquals(String.class, typeVariable.getBounds()[0]);
   }
 
   public void testWithRecursiveBoundInTypeVariable() throws Exception {
-    TypeVariable<?> typeVariable = (TypeVariable<?>)
-        new WithGenericBound<String>() {}.getTargetType("withRecursiveBound");
-    assertEquals(Types.newParameterizedType(Enum.class, typeVariable),
-        typeVariable.getBounds()[0]);
+    TypeVariable<?> typeVariable =
+        (TypeVariable<?>) new WithGenericBound<String>() {}.getTargetType("withRecursiveBound");
+    assertEquals(Types.newParameterizedType(Enum.class, typeVariable), typeVariable.getBounds()[0]);
   }
 
   public void testWithMutualRecursiveBoundInTypeVariable() throws Exception {
-    ParameterizedType paramType = (ParameterizedType)
-        new WithGenericBound<String>() {}
-            .getTargetType("withMutualRecursiveBound");
+    ParameterizedType paramType =
+        (ParameterizedType)
+            new WithGenericBound<String>() {}.getTargetType("withMutualRecursiveBound");
     TypeVariable<?> k = (TypeVariable<?>) paramType.getActualTypeArguments()[0];
     TypeVariable<?> v = (TypeVariable<?>) paramType.getActualTypeArguments()[1];
     assertEquals(Types.newParameterizedType(List.class, v), k.getBounds()[0]);
@@ -468,23 +467,23 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testWithGenericLowerBoundInWildcard() throws Exception {
-    WildcardType wildcardType = (WildcardType)
-        new WithGenericBound<String>() {}
-            .getTargetType("withWildcardLowerBound");
+    WildcardType wildcardType =
+        (WildcardType) new WithGenericBound<String>() {}.getTargetType("withWildcardLowerBound");
     assertEquals(String.class, wildcardType.getLowerBounds()[0]);
   }
 
   public void testWithGenericUpperBoundInWildcard() throws Exception {
-    WildcardType wildcardType = (WildcardType)
-        new WithGenericBound<String>() {}
-            .getTargetType("withWildcardUpperBound");
+    WildcardType wildcardType =
+        (WildcardType) new WithGenericBound<String>() {}.getTargetType("withWildcardUpperBound");
     assertEquals(String.class, wildcardType.getUpperBounds()[0]);
   }
 
   public void testInterfaceTypeParameterResolution() throws Exception {
-    assertEquals(String.class,
+    assertEquals(
+        String.class,
         TypeToken.of(new TypeToken<ArrayList<String>>() {}.getType())
-            .resolveType(List.class.getTypeParameters()[0]).getType());
+            .resolveType(List.class.getTypeParameters()[0])
+            .getType());
   }
 
   private static TypeToken<Map<Object, Object>> mapType() {
@@ -494,7 +493,9 @@ public class TypeTokenResolutionTest extends TestCase {
   // Looks like recursive, but legit.
   private interface WithFalseRecursiveType<K, V> {
     WithFalseRecursiveType<List<V>, String> keyShouldNotResolveToStringList();
+
     WithFalseRecursiveType<List<K>, List<V>> shouldNotCauseInfiniteLoop();
+
     SubtypeOfWithFalseRecursiveType<List<V>, List<K>> evenSubtypeWorks();
   }
 
@@ -504,34 +505,32 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testFalseRecursiveType_mappingOnTheSameDeclarationNotUsed() {
-    Type returnType = genericReturnType(
-        WithFalseRecursiveType.class, "keyShouldNotResolveToStringList");
-    TypeToken<?> keyType = TypeToken.of(returnType)
-        .resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
+    Type returnType =
+        genericReturnType(WithFalseRecursiveType.class, "keyShouldNotResolveToStringList");
+    TypeToken<?> keyType =
+        TypeToken.of(returnType).resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
     assertEquals("java.util.List<V>", keyType.getType().toString());
   }
 
   public void testFalseRecursiveType_notRealRecursiveMapping() {
-    Type returnType = genericReturnType(
-        WithFalseRecursiveType.class, "shouldNotCauseInfiniteLoop");
-    TypeToken<?> keyType = TypeToken.of(returnType)
-        .resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
+    Type returnType = genericReturnType(WithFalseRecursiveType.class, "shouldNotCauseInfiniteLoop");
+    TypeToken<?> keyType =
+        TypeToken.of(returnType).resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
     assertEquals("java.util.List<K>", keyType.getType().toString());
   }
 
   public void testFalseRecursiveType_referenceOfSubtypeDoesNotConfuseMe() {
-    Type returnType = genericReturnType(
-        WithFalseRecursiveType.class, "evenSubtypeWorks");
-    TypeToken<?> keyType = TypeToken.of(returnType)
-        .resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
+    Type returnType = genericReturnType(WithFalseRecursiveType.class, "evenSubtypeWorks");
+    TypeToken<?> keyType =
+        TypeToken.of(returnType).resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
     assertEquals("java.util.List<java.util.List<V>>", keyType.getType().toString());
   }
 
   public void testFalseRecursiveType_intermediaryTypeMappingDoesNotConfuseMe() {
-    Type returnType = genericReturnType(
-        SubtypeOfWithFalseRecursiveType.class, "revertKeyAndValueTypes");
-    TypeToken<?> keyType = TypeToken.of(returnType)
-        .resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
+    Type returnType =
+        genericReturnType(SubtypeOfWithFalseRecursiveType.class, "revertKeyAndValueTypes");
+    TypeToken<?> keyType =
+        TypeToken.of(returnType).resolveType(WithFalseRecursiveType.class.getTypeParameters()[0]);
     assertEquals("java.util.List<K1>", keyType.getType().toString());
   }
 
@@ -547,11 +546,11 @@ public class TypeTokenResolutionTest extends TestCase {
     class ForTwoStageResolution<A extends Number> {
       <B extends A> void verifyTwoStageResolution() {
         @SuppressWarnings({"unchecked", "rawtypes"})
-        Type type = new TypeToken<B>(getClass()) {}
+        Type type =
+            new TypeToken<B>(getClass()) {}
             // B's bound may have already resolved to something.
             // Make sure it can still further resolve when given a context.
-            .where(new TypeParameter<B>() {}, (Class) Integer.class)
-            .getType();
+            .where(new TypeParameter<B>() {}, (Class) Integer.class).getType();
         assertEquals(Integer.class, type);
       }
     }

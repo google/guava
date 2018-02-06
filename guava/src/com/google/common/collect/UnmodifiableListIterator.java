@@ -20,8 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.ListIterator;
 
 /**
- * A list iterator that does not support {@link #remove}, {@link #add}, or
- * {@link #set}.
+ * A list iterator that does not support {@link #remove}, {@link #add}, or {@link #set}.
  *
  * @since 7.0
  * @author Louis Wasserman

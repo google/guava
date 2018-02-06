@@ -28,8 +28,8 @@ import com.google.common.base.Optional;
  * <p>A graph built by this class will have the following properties by default:
  *
  * <ul>
- * <li>does not allow self-loops
- * <li>orders {@link Graph#nodes()} in the order in which the elements were added
+ *   <li>does not allow self-loops
+ *   <li>orders {@link Graph#nodes()} in the order in which the elements were added
  * </ul>
  *
  * <p>Example of use:

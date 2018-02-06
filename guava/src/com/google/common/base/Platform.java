@@ -25,7 +25,7 @@ import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -51,16 +51,14 @@ final class Platform {
 
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
-    return ref == null
-        ? Optional.<T>absent()
-        : Optional.of(enumClass.cast(ref.get()));
+    return ref == null ? Optional.<T>absent() : Optional.of(enumClass.cast(ref.get()));
   }
 
   static String formatCompact4Digits(double value) {
     return String.format(Locale.ROOT, "%.4g", value);
   }
 
-  static boolean stringIsNullOrEmpty(@Nullable String string) {
+  static boolean stringIsNullOrEmpty(@NullableDecl String string) {
     return string == null || string.isEmpty();
   }
 
@@ -77,7 +75,7 @@ final class Platform {
     ServiceLoader<PatternCompiler> loader = ServiceLoader.load(PatternCompiler.class);
     // Returns the first PatternCompiler that loads successfully.
     try {
-      for (Iterator<PatternCompiler> it = loader.iterator(); it.hasNext();) {
+      for (Iterator<PatternCompiler> it = loader.iterator(); it.hasNext(); ) {
         try {
           return it.next();
         } catch (ServiceConfigurationError e) {

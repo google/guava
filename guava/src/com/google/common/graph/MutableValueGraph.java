@@ -48,8 +48,8 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *
    * <p>Values do not have to be unique. However, values must be non-null.
    *
-   * <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method
-   * will silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
+   * <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
+   * silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
    *
    * @return the value previously associated with the edge connecting {@code nodeU} to {@code
    *     nodeV}, or null if there was no such edge.

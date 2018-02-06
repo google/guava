@@ -15,15 +15,13 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-/**
- * Methods factored out so that they can be emulated differently in GWT.
- */
+/** Methods factored out so that they can be emulated differently in GWT. */
 @GwtCompatible(emulated = true)
 final class Platform {
   static boolean isInstanceOfThrowableClass(
-      @Nullable Throwable t, Class<? extends Throwable> expectedClass) {
+      @NullableDecl Throwable t, Class<? extends Throwable> expectedClass) {
     return expectedClass.isInstance(t);
   }
 

@@ -22,34 +22,30 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A sorted set which forwards all its method calls to another sorted set.
- * Subclasses should override one or more methods to modify the behavior of the
- * backing sorted set as desired per the <a
- * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ * A sorted set which forwards all its method calls to another sorted set. Subclasses should
+ * override one or more methods to modify the behavior of the backing sorted set as desired per the
+ * <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><b>Warning:</b> The methods of {@code ForwardingSortedSet} forward
- * <i>indiscriminately</i> to the methods of the delegate. For example,
- * overriding {@link #add} alone <i>will not</i> change the behavior of {@link
- * #addAll}, which can lead to unexpected behavior. In this case, you should
- * override {@code addAll} as well, either providing your own implementation, or
- * delegating to the provided {@code standardAddAll} method.
+ * <p><b>Warning:</b> The methods of {@code ForwardingSortedSet} forward <i>indiscriminately</i> to
+ * the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i> change
+ * the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should
+ * override {@code addAll} as well, either providing your own implementation, or delegating to the
+ * provided {@code standardAddAll} method.
  *
  * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
  * default} methods. Instead, it inherits their default implementations. When those implementations
  * invoke methods, they invoke methods on the {@code ForwardingSortedSet}.
  *
- * <p>Each of the {@code standard} methods, where appropriate, uses the set's
- * comparator (or the natural ordering of the elements, if there is no
- * comparator) to test element equality. As a result, if the comparator is not
- * consistent with equals, some of the standard implementations may violate the
- * {@code Set} contract.
+ * <p>Each of the {@code standard} methods, where appropriate, uses the set's comparator (or the
+ * natural ordering of the elements, if there is no comparator) to test element equality. As a
+ * result, if the comparator is not consistent with equals, some of the standard implementations may
+ * violate the {@code Set} contract.
  *
- * <p>The {@code standard} methods and the collection views they return are not
- * guaranteed to be thread-safe, even when all of the methods that they depend
- * on are thread-safe.
+ * <p>The {@code standard} methods and the collection views they return are not guaranteed to be
+ * thread-safe, even when all of the methods that they depend on are thread-safe.
  *
  * @author Mike Bostock
  * @author Louis Wasserman
@@ -96,7 +92,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
 
   // unsafe, but worst case is a CCE is thrown, which callers will be expecting
   @SuppressWarnings("unchecked")
-  private int unsafeCompare(Object o1, Object o2) {
+  private int unsafeCompare(@NullableDecl Object o1, @NullableDecl Object o2) {
     Comparator<? super E> comparator = comparator();
     return (comparator == null)
         ? ((Comparable<Object>) o1).compareTo(o2)
@@ -104,15 +100,15 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
   }
 
   /**
-   * A sensible definition of {@link #contains} in terms of the {@code first()}
-   * method of {@link #tailSet}. If you override {@link #tailSet}, you may wish
-   * to override {@link #contains} to forward to this implementation.
+   * A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link
+   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to
+   * forward to this implementation.
    *
    * @since 7.0
    */
   @Override
   @Beta
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(@NullableDecl Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
@@ -125,15 +121,15 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
   }
 
   /**
-   * A sensible definition of {@link #remove} in terms of the {@code iterator()}
-   * method of {@link #tailSet}. If you override {@link #tailSet}, you may wish
-   * to override {@link #remove} to forward to this implementation.
+   * A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link
+   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to
+   * forward to this implementation.
    *
    * @since 7.0
    */
   @Override
   @Beta
-  protected boolean standardRemove(@Nullable Object object) {
+  protected boolean standardRemove(@NullableDecl Object object) {
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
@@ -153,10 +149,9 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
   }
 
   /**
-   * A sensible default implementation of {@link #subSet(Object, Object)} in
-   * terms of {@link #headSet(Object)} and {@link #tailSet(Object)}. In some
-   * situations, you may wish to override {@link #subSet(Object, Object)} to
-   * forward to this implementation.
+   * A sensible default implementation of {@link #subSet(Object, Object)} in terms of {@link
+   * #headSet(Object)} and {@link #tailSet(Object)}. In some situations, you may wish to override
+   * {@link #subSet(Object, Object)} to forward to this implementation.
    *
    * @since 7.0
    */

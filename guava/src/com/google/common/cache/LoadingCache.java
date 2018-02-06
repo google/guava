@@ -30,8 +30,8 @@ import java.util.concurrent.ExecutionException;
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
- * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking
- * {@link #getUnchecked}.
+ * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link
+ * #getUnchecked}.
  *
  * @author Charles Fry
  * @since 11.0
@@ -48,17 +48,17 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * multiple threads can concurrently load values for distinct keys.
    *
    * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values
-   * into the cache. Newly loaded values are added to the cache using
-   * {@code Cache.asMap().putIfAbsent} after loading has completed; if another value was associated
-   * with {@code key} while the new value was loading then a removal notification will be sent for
-   * the new value.
+   * into the cache. Newly loaded values are added to the cache using {@code
+   * Cache.asMap().putIfAbsent} after loading has completed; if another value was associated with
+   * {@code key} while the new value was loading then a removal notification will be sent for the
+   * new value.
    *
    * <p>If the cache loader associated with this cache is known not to throw checked exceptions,
    * then prefer {@link #getUnchecked} over this method.
    *
    * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
-   *     ExecutionException} is thrown
-   *     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+   *     ExecutionException} is thrown <a
+   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
    *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
@@ -77,10 +77,10 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * multiple threads can concurrently load values for distinct keys.
    *
    * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values
-   * into the cache. Newly loaded values are added to the cache using
-   * {@code Cache.asMap().putIfAbsent} after loading has completed; if another value was associated
-   * with {@code key} while the new value was loading then a removal notification will be sent for
-   * the new value.
+   * into the cache. Newly loaded values are added to the cache using {@code
+   * Cache.asMap().putIfAbsent} after loading has completed; if another value was associated with
+   * {@code key} while the new value was loading then a removal notification will be sent for the
+   * new value.
    *
    * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
    * and should not be used with cache loaders which throw checked exceptions. In such cases use
@@ -97,9 +97,9 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * if necessary. The returned map contains entries that were already cached, combined with newly
    * loaded entries; it will never contain null keys or values.
    *
-   * <p>Caches loaded by a {@link CacheLoader} will issue a single request to
-   * {@link CacheLoader#loadAll} for all keys which are not already present in the cache. All
-   * entries returned by {@link CacheLoader#loadAll} will be stored in the cache, over-writing any
+   * <p>Caches loaded by a {@link CacheLoader} will issue a single request to {@link
+   * CacheLoader#loadAll} for all keys which are not already present in the cache. All entries
+   * returned by {@link CacheLoader#loadAll} will be stored in the cache, over-writing any
    * previously cached values. This method will throw an exception if {@link CacheLoader#loadAll}
    * returns {@code null}, returns a map containing null keys or values, or fails to return an entry
    * for each requested key.
@@ -108,8 +108,8 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * be ignored.
    *
    * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code
-   *     ExecutionException} is thrown
-   *     <a href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
+   *     ExecutionException} is thrown <a
+   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption">even if
    *     computation was interrupted by an {@code InterruptedException}</a>.)
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     values
@@ -119,8 +119,8 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
   ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
 
   /**
-   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or
-   *     {@link #getUnchecked} instead.
+   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or {@link
+   *     #getUnchecked} instead.
    * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As
    *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be
    *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)
@@ -141,9 +141,9 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * asynchronous only if {@link CacheLoader#reload} was overridden with an asynchronous
    * implementation.
    *
-   * <p>Returns without doing anything if another thread is currently loading the value for
-   * {@code key}. If the cache loader associated with this cache performs refresh asynchronously
-   * then this method may return before refresh completes.
+   * <p>Returns without doing anything if another thread is currently loading the value for {@code
+   * key}. If the cache loader associated with this cache performs refresh asynchronously then this
+   * method may return before refresh completes.
    *
    * @since 11.0
    */

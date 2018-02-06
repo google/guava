@@ -33,14 +33,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Provides static methods that involve a {@code Table}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables">
- * {@code Tables}</a>.
+ * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"> {@code Tables}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -51,8 +50,7 @@ public final class Tables {
   private Tables() {}
 
   /**
-   * Returns an immutable cell with the specified row key, column key, and
-   * value.
+   * Returns an immutable cell with the specified row key, column key, and value.
    *
    * <p>The returned cell is serializable.
    *
@@ -61,16 +59,16 @@ public final class Tables {
    * @param value the value to be associated with the returned cell
    */
   public static <R, C, V> Cell<R, C, V> immutableCell(
-      @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+      @NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
   static final class ImmutableCell<R, C, V> extends AbstractCell<R, C, V> implements Serializable {
-    private final R rowKey;
-    private final C columnKey;
-    private final V value;
+    @NullableDecl private final R rowKey;
+    @NullableDecl private final C columnKey;
+    @NullableDecl private final V value;
 
-    ImmutableCell(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+    ImmutableCell(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
       this.rowKey = rowKey;
       this.columnKey = columnKey;
       this.value = value;
@@ -124,18 +122,16 @@ public final class Tables {
   }
 
   /**
-   * Creates a transposed view of a given table that flips its row and column
-   * keys. In other words, calling {@code get(columnKey, rowKey)} on the
-   * generated table always returns the same value as calling {@code
-   * get(rowKey, columnKey)} on the original table. Updating the original table
+   * Creates a transposed view of a given table that flips its row and column keys. In other words,
+   * calling {@code get(columnKey, rowKey)} on the generated table always returns the same value as
+   * calling {@code get(rowKey, columnKey)} on the original table. Updating the original table
    * changes the contents of the transposed table and vice versa.
    *
-   * <p>The returned table supports update operations as long as the input table
-   * supports the analogous operation with swapped rows and columns. For
-   * example, in a {@link HashBasedTable} instance, {@code
-   * rowKeySet().iterator()} supports {@code remove()} but {@code
-   * columnKeySet().iterator()} doesn't. With a transposed {@link
-   * HashBasedTable}, it's the other way around.
+   * <p>The returned table supports update operations as long as the input table supports the
+   * analogous operation with swapped rows and columns. For example, in a {@link HashBasedTable}
+   * instance, {@code rowKeySet().iterator()} supports {@code remove()} but {@code
+   * columnKeySet().iterator()} doesn't. With a transposed {@link HashBasedTable}, it's the other
+   * way around.
    */
   public static <R, C, V> Table<C, R, V> transpose(Table<R, C, V> table) {
     return (table instanceof TransposeTable)
@@ -171,27 +167,27 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(@Nullable Object columnKey) {
+    public boolean containsColumn(@NullableDecl Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(@Nullable Object rowKey) {
+    public boolean containsRow(@NullableDecl Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(@Nullable Object value) {
+    public boolean containsValue(@NullableDecl Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
@@ -206,7 +202,7 @@ public final class Tables {
     }
 
     @Override
-    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
@@ -252,43 +248,40 @@ public final class Tables {
   }
 
   /**
-   * Creates a table that uses the specified backing map and factory. It can
-   * generate a table based on arbitrary {@link Map} classes.
+   * Creates a table that uses the specified backing map and factory. It can generate a table based
+   * on arbitrary {@link Map} classes.
    *
-   * <p>The {@code factory}-generated and {@code backingMap} classes determine
-   * the table iteration order. However, the table's {@code row()} method
-   * returns instances of a different class than {@code factory.get()} does.
+   * <p>The {@code factory}-generated and {@code backingMap} classes determine the table iteration
+   * order. However, the table's {@code row()} method returns instances of a different class than
+   * {@code factory.get()} does.
    *
-   * <p>Call this method only when the simpler factory methods in classes like
-   * {@link HashBasedTable} and {@link TreeBasedTable} won't suffice.
+   * <p>Call this method only when the simpler factory methods in classes like {@link
+   * HashBasedTable} and {@link TreeBasedTable} won't suffice.
    *
-   * <p>The views returned by the {@code Table} methods {@link Table#column},
-   * {@link Table#columnKeySet}, and {@link Table#columnMap} have iterators that
-   * don't support {@code remove()}. Otherwise, all optional operations are
-   * supported. Null row keys, columns keys, and values are not supported.
+   * <p>The views returned by the {@code Table} methods {@link Table#column}, {@link
+   * Table#columnKeySet}, and {@link Table#columnMap} have iterators that don't support {@code
+   * remove()}. Otherwise, all optional operations are supported. Null row keys, columns keys, and
+   * values are not supported.
    *
-   * <p>Lookups by row key are often faster than lookups by column key, because
-   * the data is stored in a {@code Map<R, Map<C, V>>}. A method call like
-   * {@code column(columnKey).get(rowKey)} still runs quickly, since the row key
-   * is provided. However, {@code column(columnKey).size()} takes longer, since
-   * an iteration across all row keys occurs.
+   * <p>Lookups by row key are often faster than lookups by column key, because the data is stored
+   * in a {@code Map<R, Map<C, V>>}. A method call like {@code column(columnKey).get(rowKey)} still
+   * runs quickly, since the row key is provided. However, {@code column(columnKey).size()} takes
+   * longer, since an iteration across all row keys occurs.
    *
-   * <p>Note that this implementation is not synchronized. If multiple threads
-   * access this table concurrently and one of the threads modifies the table,
-   * it must be synchronized externally.
+   * <p>Note that this implementation is not synchronized. If multiple threads access this table
+   * concurrently and one of the threads modifies the table, it must be synchronized externally.
    *
-   * <p>The table is serializable if {@code backingMap}, {@code factory}, the
-   * maps generated by {@code factory}, and the table contents are all
-   * serializable.
+   * <p>The table is serializable if {@code backingMap}, {@code factory}, the maps generated by
+   * {@code factory}, and the table contents are all serializable.
    *
-   * <p>Note: the table assumes complete ownership over of {@code backingMap}
-   * and the maps returned by {@code factory}. Those objects should not be
-   * manually updated and they should not use soft, weak, or phantom references.
+   * <p>Note: the table assumes complete ownership over of {@code backingMap} and the maps returned
+   * by {@code factory}. Those objects should not be manually updated and they should not use soft,
+   * weak, or phantom references.
    *
-   * @param backingMap place to store the mapping from each row key to its
-   *     corresponding column key / value map
-   * @param factory supplier of new, empty maps that will each hold all column
-   *     key / value mappings for a given row key
+   * @param backingMap place to store the mapping from each row key to its corresponding column key
+   *     / value map
+   * @param factory supplier of new, empty maps that will each hold all column key / value mappings
+   *     for a given row key
    * @throws IllegalArgumentException if {@code backingMap} is not empty
    * @since 10.0
    */
@@ -302,28 +295,23 @@ public final class Tables {
   }
 
   /**
-   * Returns a view of a table where each value is transformed by a function.
-   * All other properties of the table, such as iteration order, are left
-   * intact.
+   * Returns a view of a table where each value is transformed by a function. All other properties
+   * of the table, such as iteration order, are left intact.
    *
-   * <p>Changes in the underlying table are reflected in this view. Conversely,
-   * this view supports removal operations, and these are reflected in the
-   * underlying table.
+   * <p>Changes in the underlying table are reflected in this view. Conversely, this view supports
+   * removal operations, and these are reflected in the underlying table.
    *
-   * <p>It's acceptable for the underlying table to contain null keys, and even
-   * null values provided that the function is capable of accepting null input.
-   * The transformed table might contain null values, if the function sometimes
-   * gives a null result.
+   * <p>It's acceptable for the underlying table to contain null keys, and even null values provided
+   * that the function is capable of accepting null input. The transformed table might contain null
+   * values, if the function sometimes gives a null result.
    *
-   * <p>The returned table is not thread-safe or serializable, even if the
-   * underlying table is.
+   * <p>The returned table is not thread-safe or serializable, even if the underlying table is.
    *
-   * <p>The function is applied lazily, invoked when needed. This is necessary
-   * for the returned table to be a view, but it means that the function will be
-   * applied many times for bulk operations like {@link Table#containsValue} and
-   * {@code Table.toString()}. For this to perform well, {@code function} should
-   * be fast. To avoid lazy evaluation when the returned table doesn't need to
-   * be a view, copy the returned table into a new table of your choosing.
+   * <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+   * table to be a view, but it means that the function will be applied many times for bulk
+   * operations like {@link Table#containsValue} and {@code Table.toString()}. For this to perform
+   * well, {@code function} should be fast. To avoid lazy evaluation when the returned table doesn't
+   * need to be a view, copy the returned table into a new table of your choosing.
    *
    * @since 10.0
    */
@@ -448,9 +436,9 @@ public final class Tables {
 
   /**
    * Returns an unmodifiable view of the specified table. This method allows modules to provide
-   * users with "read-only" access to internal tables. Query operations on the returned table
-   * "read through" to the specified table, and attempts to modify the returned table, whether
-   * direct or via its collection views, result in an {@code UnsupportedOperationException}.
+   * users with "read-only" access to internal tables. Query operations on the returned table "read
+   * through" to the specified table, and attempts to modify the returned table, whether direct or
+   * via its collection views, result in an {@code UnsupportedOperationException}.
    *
    * <p>The returned table will be serializable if the specified table is serializable.
    *
@@ -488,7 +476,7 @@ public final class Tables {
     }
 
     @Override
-    public Map<R, V> column(@Nullable C columnKey) {
+    public Map<R, V> column(@NullableDecl C columnKey) {
       return Collections.unmodifiableMap(super.column(columnKey));
     }
 
@@ -504,7 +492,7 @@ public final class Tables {
     }
 
     @Override
-    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+    public V put(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -514,12 +502,12 @@ public final class Tables {
     }
 
     @Override
-    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Map<C, V> row(@Nullable R rowKey) {
+    public Map<C, V> row(@NullableDecl R rowKey) {
       return Collections.unmodifiableMap(super.row(rowKey));
     }
 
@@ -603,7 +591,7 @@ public final class Tables {
           return Collections.unmodifiableMap(input);
         }
       };
-      
+
   /**
    * Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee
    * serial access, it is critical that <b>all</b> access to the backing table is accomplished
@@ -637,7 +625,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
+  static boolean equalsImpl(Table<?, ?, ?> table, @NullableDecl Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {

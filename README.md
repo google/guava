@@ -34,10 +34,10 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 23.5][current release], released 2017-11-22.
+The most recent release is [Guava 24.0][current release], released 2018-01-31.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `23.5-jre` for the JRE flavor, or `23.5-android` for the Android flavor.
+version `24.0-jre` for the JRE flavor, or `24.0-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -45,9 +45,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>23.5-jre</version>
+  <version>24.0-jre</version>
   <!-- or, for Android: -->
-  <version>23.5-android</version>
+  <version>24.0-android</version>
 </dependency>
 ```
 
@@ -55,11 +55,13 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:23.5-jre'
+  compile 'com.google.guava:guava:24.0-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:23.5-android'
+  compile 'com.google.guava:guava:24.0-android'
 }
 ```
+
+For more about depending on Guava, see [Using Guava in your build].
 
 ## Snapshots
 
@@ -88,7 +90,9 @@ flavor.
 are subject to change. They can be modified in any way, or even
 removed, at any time. If your code is a library itself (i.e. it is
 used on the CLASSPATH of users outside your own control), you should
-not use beta APIs, unless you repackage them (e.g. using ProGuard).
+not use beta APIs, unless you [repackage] them. **If your
+code is a library, we strongly recommend using the [Guava Beta Checker] to
+ensure that you do not use any `@Beta` APIs!**
 
 2. APIs without `@Beta` will remain binary-compatible for the indefinite
 future. (Previously, we sometimes removed such APIs after a deprecation period.
@@ -110,7 +114,14 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[current release]: https://github.com/google/guava/releases/tag/v23.5
+[current release]: https://github.com/google/guava/releases/tag/v24.0
 [guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
+[Guava Beta Checker]: https://github.com/google/guava-beta-checker
+
+<!-- References -->
+
+[Using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
+[repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
+

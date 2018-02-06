@@ -25,9 +25,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
 
-/**
- * Unit tests for {@link Futures#getDone}.
- */
+/** Unit tests for {@link Futures#getDone}. */
 @GwtCompatible
 public class FuturesGetDoneTest extends TestCase {
   public void testSuccessful() throws ExecutionException {

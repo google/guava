@@ -29,14 +29,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code boolean} primitives, that are not already found in
  * either {@link Boolean} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -45,9 +45,7 @@ import javax.annotation.Nullable;
 public final class Booleans {
   private Booleans() {}
 
-  /**
-   * Comparators for {@code Boolean} values.
-   */
+  /** Comparators for {@code Boolean} values. */
   private enum BooleanComparator implements Comparator<Boolean> {
     TRUE_FIRST(1, "Booleans.trueFirst()"),
     FALSE_FIRST(-1, "Booleans.falseFirst()");
@@ -100,8 +98,8 @@ public final class Booleans {
   }
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Boolean) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
+   * value).hashCode()}.
    *
    * <p><b>Java 8 users:</b> use {@link Boolean#hashCode(boolean)} instead.
    *
@@ -122,8 +120,8 @@ public final class Booleans {
    *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare
-   * @return a positive number if only {@code a} is {@code true}, a negative number if only
-   *     {@code b} is true, or zero if {@code a == b}
+   * @return a positive number if only {@code a} is {@code true}, a negative number if only {@code
+   *     b} is true, or zero if {@code a == b}
    */
   public static int compare(boolean a, boolean b) {
     return (a == b) ? 0 : (a ? 1 : -1);
@@ -133,13 +131,12 @@ public final class Booleans {
    * Returns {@code true} if {@code target} is present as an element anywhere in {@code array}.
    *
    * <p><b>Note:</b> consider representing the array as a {@link java.util.BitSet} instead,
-   * replacing {@code Booleans.contains(array, true)} with {@code !bitSet.isEmpty()} and
-   * {@code Booleans.contains(array, false)} with {@code bitSet.nextClearBit(0) == sizeOfBitSet}.
+   * replacing {@code Booleans.contains(array, true)} with {@code !bitSet.isEmpty()} and {@code
+   * Booleans.contains(array, false)} with {@code bitSet.nextClearBit(0) == sizeOfBitSet}.
    *
    * @param array an array of {@code boolean} values, possibly empty
    * @param target a primitive {@code boolean} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(boolean[] array, boolean target) {
     for (boolean value : array) {
@@ -176,12 +173,11 @@ public final class Booleans {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that {@code
-   * Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -228,9 +224,9 @@ public final class Booleans {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new boolean[] {a, b}, new boolean[] {}, new boolean[] {c}} returns the array
-   * {@code {a, b, c}}.
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new boolean[] {a, b}, new boolean[] {}, new boolean[] {c}} returns the array {@code {a,
+   * b, c}}.
    *
    * @param arrays zero or more {@code boolean} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -259,8 +255,8 @@ public final class Booleans {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static boolean[] ensureCapacity(boolean[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -270,8 +266,8 @@ public final class Booleans {
 
   /**
    * Returns a string containing the supplied {@code boolean} values separated by {@code separator}.
-   * For example, {@code join("-", false, true, false)} returns the string
-   * {@code "false-true-false"}.
+   * For example, {@code join("-", false, true, false)} returns the string {@code
+   * "false-true-false"}.
    *
    * @param separator the text that should appear between consecutive values in the resulting string
    *     (but not at the start or end)
@@ -300,8 +296,8 @@ public final class Booleans {
    * lesser. For example, {@code [] < [false] < [false, true] < [true]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(boolean[], boolean[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(boolean[],
+   * boolean[])}.
    *
    * @since 2.0
    */
@@ -334,8 +330,8 @@ public final class Booleans {
    * Copies a collection of {@code Boolean} instances into a new array of primitive {@code boolean}
    * values.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * <p><b>Note:</b> consider representing the collection as a {@link java.util.BitSet} instead.
    *
@@ -360,9 +356,9 @@ public final class Booleans {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Boolean} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
@@ -462,7 +458,7 @@ public final class Booleans {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }

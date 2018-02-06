@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import java.math.BigInteger;
 import junit.framework.TestCase;
@@ -32,7 +34,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("int", 0);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_maxInt() {
@@ -43,7 +46,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("int", Integer.MIN_VALUE);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_positiveInt() {
@@ -54,14 +58,16 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("int", -1);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_zeroLong() {
     try {
       MathPreconditions.checkPositive("long", 0L);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_maxLong() {
@@ -72,7 +78,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("long", Long.MIN_VALUE);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_positiveLong() {
@@ -83,14 +90,16 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("long", -1L);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_zeroBigInteger() {
     try {
       MathPreconditions.checkPositive("BigInteger", BigInteger.ZERO);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckPositive_postiveBigInteger() {
@@ -101,7 +110,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkPositive("BigInteger", BigInteger.ZERO.negate());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_zeroInt() {
@@ -116,7 +126,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("int", Integer.MIN_VALUE);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_positiveInt() {
@@ -127,7 +138,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("int", -1);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_zeroLong() {
@@ -142,7 +154,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("long", Long.MIN_VALUE);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_positiveLong() {
@@ -153,7 +166,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("int", -1L);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_zeroBigInteger() {
@@ -168,7 +182,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("int", BigInteger.ONE.negate());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_zeroFloat() {
@@ -191,14 +206,16 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("float", -1f);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_nanFloat() {
     try {
       MathPreconditions.checkNonNegative("float", Float.NaN);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_zeroDouble() {
@@ -221,14 +238,16 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkNonNegative("double", -1d);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckNonNegative_nanDouble() {
     try {
       MathPreconditions.checkNonNegative("double", Double.NaN);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testCheckRoundingUnnnecessary_success() {
@@ -239,7 +258,8 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkRoundingUnnecessary(false);
       fail();
-    } catch (ArithmeticException expected) {}
+    } catch (ArithmeticException expected) {
+    }
   }
 
   public void testCheckInRange_success() {
@@ -250,17 +270,20 @@ public class MathPreconditionsTest extends TestCase {
     try {
       MathPreconditions.checkInRange(false);
       fail();
-    } catch (ArithmeticException expected) {}
+    } catch (ArithmeticException expected) {
+    }
   }
 
   public void testCheckNoOverflow_success() {
-    MathPreconditions.checkNoOverflow(true);
+    MathPreconditions.checkNoOverflow(true, "testCheckNoOverflow_success", 0, 0);
   }
 
   public void testCheckNoOverflow_failure() {
     try {
-      MathPreconditions.checkNoOverflow(false);
+      MathPreconditions.checkNoOverflow(false, "testCheckNoOverflow_failure", 0, 0);
       fail();
-    } catch (ArithmeticException expected) {}
+    } catch (ArithmeticException expected) {
+      assertThat(expected).hasMessageThat().contains("testCheckNoOverflow_failure(0, 0)");
+    }
   }
 }

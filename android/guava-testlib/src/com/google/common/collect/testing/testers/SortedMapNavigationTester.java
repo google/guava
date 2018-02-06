@@ -32,15 +32,17 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests operations on a SortedMap. Can't be
- * invoked directly; please see {@code SortedMapTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a SortedMap. Can't be invoked directly; please see
+ * {@code SortedMapTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private SortedMap<K, V> navigableMap;

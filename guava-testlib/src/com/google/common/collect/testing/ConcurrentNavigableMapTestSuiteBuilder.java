@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.List;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a ConcurrentNavigableMap implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a
+ * ConcurrentNavigableMap implementation.
  *
  * @author Louis Wasserman
  */

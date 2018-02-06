@@ -31,13 +31,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
  * either {@link Short} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -61,8 +62,8 @@ public final class Shorts {
   public static final short MAX_POWER_OF_TWO = 1 << (Short.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Short) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
+   * value).hashCode()}.
    *
    * <p><b>Java 8 users:</b> use {@link Short#hashCode(short)} instead.
    *
@@ -125,8 +126,7 @@ public final class Shorts {
    *
    * @param array an array of {@code short} values, possibly empty
    * @param target a primitive {@code short} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(short[] array, short target) {
     for (short value : array) {
@@ -160,12 +160,11 @@ public final class Shorts {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -253,8 +252,8 @@ public final class Shorts {
    * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
    *
    * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
-   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
-   * {@code value} is greater than {@code max}, {@code max} is returned.
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
    *
    * @param value the {@code short} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -269,9 +268,9 @@ public final class Shorts {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new short[] {a, b}, new short[] {}, new short[] {c}} returns the array
-   * {@code {a, b, c}}.
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new short[] {a, b}, new short[] {}, new short[] {c}} returns the array {@code {a, b,
+   * c}}.
    *
    * @param arrays zero or more {@code short} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -296,8 +295,8 @@ public final class Shorts {
    * (short) 0x1234} would yield the byte array {@code {0x12, 0x34}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
-   * use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
+   * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
+   * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
   @GwtIncompatible // doesn't work
   public static byte[] toByteArray(short value) {
@@ -358,9 +357,9 @@ public final class Shorts {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and shorts using
-   * {@link Short#decode} and {@link Short#toString()}. The returned converter throws
-   * {@link NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and shorts using {@link
+   * Short#decode} and {@link Short#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Short#decode} to understand exactly how strings are
    * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
@@ -383,8 +382,8 @@ public final class Shorts {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static short[] ensureCapacity(short[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -394,8 +393,8 @@ public final class Shorts {
 
   /**
    * Returns a string containing the supplied {@code short} values separated by {@code separator}.
-   * For example, {@code join("-", (short) 1, (short) 2,
-   * (short) 3)} returns the string {@code "1-2-3"}.
+   * For example, {@code join("-", (short) 1, (short) 2, (short) 3)} returns the string {@code
+   * "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in the resulting string
    *     (but not at the start or end)
@@ -424,8 +423,8 @@ public final class Shorts {
    * lesser. For example, {@code [] < [(short) 1] < [(short) 1, (short) 2] < [(short) 2]}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
-   * support only identity equality), but it is consistent with
-   * {@link Arrays#equals(short[], short[])}.
+   * support only identity equality), but it is consistent with {@link Arrays#equals(short[],
+   * short[])}.
    *
    * @since 2.0
    */
@@ -512,8 +511,8 @@ public final class Shorts {
    * Returns an array containing each value of {@code collection}, converted to a {@code short}
    * value in the manner of {@link Number#shortValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -537,9 +536,9 @@ public final class Shorts {
   }
 
   /**
-   * Returns a fixed-size list backed by the specified array, similar to
-   * {@link Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any
-   * attempt to set a value to {@code null} will result in a {@link NullPointerException}.
+   * Returns a fixed-size list backed by the specified array, similar to {@link
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)}, but any attempt to
+   * set a value to {@code null} will result in a {@link NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of {@code Short} objects
    * written to or read from it. For example, whether {@code list.get(0) == list.get(0)} is true for
@@ -589,13 +588,13 @@ public final class Shorts {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       return (target instanceof Short) && Shorts.indexOf(array, (Short) target, start, end) != -1;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -607,7 +606,7 @@ public final class Shorts {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@NullableDecl Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -638,7 +637,7 @@ public final class Shorts {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }

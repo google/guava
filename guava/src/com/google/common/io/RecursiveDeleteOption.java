@@ -22,8 +22,8 @@ import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.SecureDirectoryStream;
 
 /**
- * Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and
- * {@link MoreFiles#deleteDirectoryContents}).
+ * Options for use with recursive delete methods ({@link MoreFiles#deleteRecursively} and {@link
+ * MoreFiles#deleteDirectoryContents}).
  *
  * @since 21.0
  * @author Colin Decker
@@ -38,9 +38,9 @@ public enum RecursiveDeleteOption {
    * system does not support {@link SecureDirectoryStream}).
    *
    * <p><b>Warning:</b> On a file system that supports symbolic links, it is possible for an
-   * insecure recursive delete to delete files and directories that are <i>outside</i> the
-   * directory being deleted. This can happen if, after checking that a file is a directory (and
-   * not a symbolic link), that directory is deleted and replaced by a symbolic link to an outside
+   * insecure recursive delete to delete files and directories that are <i>outside</i> the directory
+   * being deleted. This can happen if, after checking that a file is a directory (and not a
+   * symbolic link), that directory is deleted and replaced by a symbolic link to an outside
    * directory before the call that opens the directory to read its entries. File systems that
    * support {@code SecureDirectoryStream} do not have this vulnerability.
    */

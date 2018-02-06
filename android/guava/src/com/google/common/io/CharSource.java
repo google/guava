@@ -34,27 +34,28 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A readable source of characters, such as a text file. Unlike a {@link Reader}, a
- * {@code CharSource} is not an open, stateful stream of characters that can be read and closed.
- * Instead, it is an immutable <i>supplier</i> of {@code Reader} instances.
+ * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code
+ * CharSource} is not an open, stateful stream of characters that can be read and closed. Instead,
+ * it is an immutable <i>supplier</i> of {@code Reader} instances.
  *
  * <p>{@code CharSource} provides two kinds of methods:
+ *
  * <ul>
- * <li><b>Methods that return a reader:</b> These methods should return a <i>new</i>, independent
- *     instance each time they are called. The caller is responsible for ensuring that the returned
- *     reader is closed.
- * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
- *     implemented by opening a reader using one of the methods in the first category, doing
- *     something and finally closing the reader that was opened.
+ *   <li><b>Methods that return a reader:</b> These methods should return a <i>new</i>, independent
+ *       instance each time they are called. The caller is responsible for ensuring that the
+ *       returned reader is closed.
+ *   <li><b>Convenience methods:</b> These are implementations of common operations that are
+ *       typically implemented by opening a reader using one of the methods in the first category,
+ *       doing something and finally closing the reader that was opened.
  * </ul>
  *
  * <p>Several methods in this class, such as {@link #readLines()}, break the contents of the source
- * into lines. Like {@link BufferedReader}, these methods break lines on any of {@code \n},
- * {@code \r} or {@code \r\n}, do not include the line separator in each line and do not consider
- * there to be an empty line at the end if the contents are terminated with a line separator.
+ * into lines. Like {@link BufferedReader}, these methods break lines on any of {@code \n}, {@code
+ * \r} or {@code \r\n}, do not include the line separator in each line and do not consider there to
+ * be an empty line at the end if the contents are terminated with a line separator.
  *
  * <p>Any {@link ByteSource} containing text encoded with a specific {@linkplain Charset character
  * encoding} may be viewed as a {@code CharSource} using {@link ByteSource#asCharSource(Charset)}.
@@ -65,9 +66,7 @@ import javax.annotation.Nullable;
 @GwtIncompatible
 public abstract class CharSource {
 
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected CharSource() {}
 
   /**
@@ -115,10 +114,10 @@ public abstract class CharSource {
    * Returns the size of this source in chars, if the size can be easily determined without actually
    * opening the data stream.
    *
-   * <p>The default implementation returns {@link Optional#absent}. Some sources, such as a
-   * {@code CharSequence}, may return a non-absent value. Note that in such cases, it is
-   * <i>possible</i> that this method will return a different number of chars than would be returned
-   * by reading all of the chars.
+   * <p>The default implementation returns {@link Optional#absent}. Some sources, such as a {@code
+   * CharSequence}, may return a non-absent value. Note that in such cases, it is <i>possible</i>
+   * that this method will return a different number of chars than would be returned by reading all
+   * of the chars.
    *
    * <p>Additionally, for mutable sources such as {@code StringBuilder}s, a subsequent read may
    * return a different number of chars if the contents are changed.
@@ -135,9 +134,9 @@ public abstract class CharSource {
    * entire stream. To avoid a potentially expensive operation, see {@link #lengthIfKnown}.
    *
    * <p>The default implementation calls {@link #lengthIfKnown} and returns the value if present. If
-   * absent, it will fall back to a heavyweight operation that will open a stream,
-   * {@link Reader#skip(long) skip} to the end of the stream, and return the total number of chars
-   * that were skipped.
+   * absent, it will fall back to a heavyweight operation that will open a stream, {@link
+   * Reader#skip(long) skip} to the end of the stream, and return the total number of chars that
+   * were skipped.
    *
    * <p>Note that for sources that implement {@link #lengthIfKnown} to provide a more efficient
    * implementation, it is <i>possible</i> that this method will return a different number of chars
@@ -181,8 +180,8 @@ public abstract class CharSource {
    * Does not close {@code appendable} if it is {@code Closeable}.
    *
    * @return the number of characters copied
-   * @throws IOException if an I/O error occurs while reading from this source or writing to
-   *     {@code appendable}
+   * @throws IOException if an I/O error occurs while reading from this source or writing to {@code
+   *     appendable}
    */
   @CanIgnoreReturnValue
   public long copyTo(Appendable appendable) throws IOException {
@@ -203,8 +202,8 @@ public abstract class CharSource {
    * Copies the contents of this source to the given sink.
    *
    * @return the number of characters copied
-   * @throws IOException if an I/O error occurs while reading from this source or writing to
-   *     {@code sink}
+   * @throws IOException if an I/O error occurs while reading from this source or writing to {@code
+   *     sink}
    */
   @CanIgnoreReturnValue
   public long copyTo(CharSink sink) throws IOException {
@@ -243,13 +242,13 @@ public abstract class CharSource {
    * Reads the first line of this source as a string. Returns {@code null} if this source is empty.
    *
    * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
-   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
-   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
-   * as if it does.
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code
+   * \n}. If the source's content does not end in a line termination sequence, it is treated as if
+   * it does.
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  @Nullable
+  @NullableDecl
   public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
@@ -267,9 +266,9 @@ public abstract class CharSource {
    * this source is empty.
    *
    * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
-   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
-   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
-   * as if it does.
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code
+   * \n}. If the source's content does not end in a line termination sequence, it is treated as if
+   * it does.
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
@@ -291,17 +290,17 @@ public abstract class CharSource {
   }
 
   /**
-   * Reads lines of text from this source, processing each line as it is read using the given
-   * {@link LineProcessor processor}. Stops when all lines have been processed or the processor
-   * returns {@code false} and returns the result produced by the processor.
+   * Reads lines of text from this source, processing each line as it is read using the given {@link
+   * LineProcessor processor}. Stops when all lines have been processed or the processor returns
+   * {@code false} and returns the result produced by the processor.
    *
    * <p>Like {@link BufferedReader#readLine()}, this method considers a line to be a sequence of
-   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or
-   * {@code \n}. If the source's content does not end in a line termination sequence, it is treated
-   * as if it does.
+   * text that is terminated by (but does not include) one of {@code \r\n}, {@code \r} or {@code
+   * \n}. If the source's content does not end in a line termination sequence, it is treated as if
+   * it does.
    *
-   * @throws IOException if an I/O error occurs while reading from this source or if
-   *     {@code processor} throws an {@code IOException}
+   * @throws IOException if an I/O error occurs while reading from this source or if {@code
+   *     processor} throws an {@code IOException}
    * @since 16.0
    */
   @Beta
@@ -321,8 +320,8 @@ public abstract class CharSource {
   }
 
   /**
-   * Returns whether the source has zero chars. The default implementation first checks
-   * {@link #lengthIfKnown}, returning true if it's known to be zero and false if it's known to be
+   * Returns whether the source has zero chars. The default implementation first checks {@link
+   * #lengthIfKnown}, returning true if it's known to be zero and false if it's known to be
    * non-zero. If the length is not known, it falls back to opening a stream and checking for EOF.
    *
    * <p>Note that, in cases where {@code lengthIfKnown} returns zero, it is <i>possible</i> that
@@ -423,9 +422,7 @@ public abstract class CharSource {
     return EmptyCharSource.INSTANCE;
   }
 
-  /**
-   * A byte source that reads chars from this source and encodes them as bytes using a charset.
-   */
+  /** A byte source that reads chars from this source and encodes them as bytes using a charset. */
   private final class AsByteSource extends ByteSource {
 
     final Charset charset;

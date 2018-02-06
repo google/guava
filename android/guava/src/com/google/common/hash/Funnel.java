@@ -25,15 +25,17 @@ import java.io.Serializable;
  * serialization of funnels. When possible, it is recommended that funnels be implemented as a
  * single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition), Item
  * 3: "Enforce the singleton property with a private constructor or an enum type". For example:
- * <pre>   {@code
- *   public enum PersonFunnel implements Funnel<Person> {
- *     INSTANCE;
- *     public void funnel(Person person, PrimitiveSink into) {
- *       into.putUnencodedChars(person.getFirstName())
- *           .putUnencodedChars(person.getLastName())
- *           .putInt(person.getAge());
- *     }
- *   }}</pre>
+ *
+ * <pre>{@code
+ * public enum PersonFunnel implements Funnel<Person> {
+ *   INSTANCE;
+ *   public void funnel(Person person, PrimitiveSink into) {
+ *     into.putUnencodedChars(person.getFirstName())
+ *         .putUnencodedChars(person.getLastName())
+ *         .putInt(person.getAge());
+ *   }
+ * }
+ * }</pre>
  *
  * @author Dimitris Andreou
  * @since 11.0

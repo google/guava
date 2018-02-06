@@ -66,10 +66,13 @@ public class UnsignedLongTest extends TestCase {
 
   public void testAsUnsignedBigIntegerValue() {
     for (long value : TEST_LONGS) {
-      BigInteger expected = (value >= 0)
-          ? BigInteger.valueOf(value)
-          : BigInteger.valueOf(value).add(BigInteger.ZERO.setBit(64));
-      assertEquals(UnsignedLongs.toString(value), expected,
+      BigInteger expected =
+          (value >= 0)
+              ? BigInteger.valueOf(value)
+              : BigInteger.valueOf(value).add(BigInteger.ZERO.setBit(64));
+      assertEquals(
+          UnsignedLongs.toString(value),
+          expected,
           UnsignedLong.fromLongBits(value).bigIntegerValue());
     }
   }
@@ -90,8 +93,7 @@ public class UnsignedLongTest extends TestCase {
     BigInteger min = BigInteger.ZERO;
     BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
     for (BigInteger big : TEST_BIG_INTEGERS) {
-      boolean expectSuccess =
-          big.compareTo(min) >= 0 && big.compareTo(max) <= 0;
+      boolean expectSuccess = big.compareTo(min) >= 0 && big.compareTo(max) <= 0;
       try {
         assertEquals(big, UnsignedLong.valueOf(big).bigIntegerValue());
         assertTrue(expectSuccess);
@@ -147,10 +149,7 @@ public class UnsignedLongTest extends TestCase {
       for (long b : TEST_LONGS) {
         UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
         UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-        long expected = aUnsigned
-            .bigIntegerValue()
-            .add(bUnsigned.bigIntegerValue())
-            .longValue();
+        long expected = aUnsigned.bigIntegerValue().add(bUnsigned.bigIntegerValue()).longValue();
         UnsignedLong unsignedSum = aUnsigned.plus(bUnsigned);
         assertEquals(expected, unsignedSum.longValue());
       }
@@ -162,10 +161,8 @@ public class UnsignedLongTest extends TestCase {
       for (long b : TEST_LONGS) {
         UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
         UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-        long expected = aUnsigned
-            .bigIntegerValue()
-            .subtract(bUnsigned.bigIntegerValue())
-            .longValue();
+        long expected =
+            aUnsigned.bigIntegerValue().subtract(bUnsigned.bigIntegerValue()).longValue();
         UnsignedLong unsignedSub = aUnsigned.minus(bUnsigned);
         assertEquals(expected, unsignedSub.longValue());
       }
@@ -177,10 +174,8 @@ public class UnsignedLongTest extends TestCase {
       for (long b : TEST_LONGS) {
         UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
         UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-        long expected = aUnsigned
-            .bigIntegerValue()
-            .multiply(bUnsigned.bigIntegerValue())
-            .longValue();
+        long expected =
+            aUnsigned.bigIntegerValue().multiply(bUnsigned.bigIntegerValue()).longValue();
         UnsignedLong unsignedMul = aUnsigned.times(bUnsigned);
         assertEquals(expected, unsignedMul.longValue());
       }
@@ -193,10 +188,8 @@ public class UnsignedLongTest extends TestCase {
         if (b != 0) {
           UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
           UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-          long expected = aUnsigned
-              .bigIntegerValue()
-              .divide(bUnsigned.bigIntegerValue())
-              .longValue();
+          long expected =
+              aUnsigned.bigIntegerValue().divide(bUnsigned.bigIntegerValue()).longValue();
           UnsignedLong unsignedDiv = aUnsigned.dividedBy(bUnsigned);
           assertEquals(expected, unsignedDiv.longValue());
         }
@@ -209,7 +202,8 @@ public class UnsignedLongTest extends TestCase {
       try {
         UnsignedLong.fromLongBits(a).dividedBy(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {}
+      } catch (ArithmeticException expected) {
+      }
     }
   }
 
@@ -219,10 +213,8 @@ public class UnsignedLongTest extends TestCase {
         if (b != 0) {
           UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
           UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-          long expected = aUnsigned
-              .bigIntegerValue()
-              .remainder(bUnsigned.bigIntegerValue())
-              .longValue();
+          long expected =
+              aUnsigned.bigIntegerValue().remainder(bUnsigned.bigIntegerValue()).longValue();
           UnsignedLong unsignedRem = aUnsigned.mod(bUnsigned);
           assertEquals(expected, unsignedRem.longValue());
         }
@@ -235,7 +227,8 @@ public class UnsignedLongTest extends TestCase {
       try {
         UnsignedLong.fromLongBits(a).mod(UnsignedLong.ZERO);
         fail("Expected ArithmeticException");
-      } catch (ArithmeticException expected) {}
+      } catch (ArithmeticException expected) {
+      }
     }
   }
 
@@ -244,7 +237,8 @@ public class UnsignedLongTest extends TestCase {
       for (long b : TEST_LONGS) {
         UnsignedLong aUnsigned = UnsignedLong.fromLongBits(a);
         UnsignedLong bUnsigned = UnsignedLong.fromLongBits(b);
-        assertEquals(aUnsigned.bigIntegerValue().compareTo(bUnsigned.bigIntegerValue()),
+        assertEquals(
+            aUnsigned.bigIntegerValue().compareTo(bUnsigned.bigIntegerValue()),
             aUnsigned.compareTo(bUnsigned));
       }
     }
@@ -256,8 +250,11 @@ public class UnsignedLongTest extends TestCase {
     for (long a : TEST_LONGS) {
       BigInteger big =
           (a >= 0) ? BigInteger.valueOf(a) : BigInteger.valueOf(a).add(BigInteger.ZERO.setBit(64));
-      equalsTester.addEqualityGroup(UnsignedLong.fromLongBits(a), UnsignedLong.valueOf(big),
-          UnsignedLong.valueOf(big.toString()), UnsignedLong.valueOf(big.toString(16), 16));
+      equalsTester.addEqualityGroup(
+          UnsignedLong.fromLongBits(a),
+          UnsignedLong.valueOf(big),
+          UnsignedLong.valueOf(big.toString()),
+          UnsignedLong.valueOf(big.toString(16), 16));
     }
     equalsTester.testEquals();
   }

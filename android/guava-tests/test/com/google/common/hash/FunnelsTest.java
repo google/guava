@@ -38,8 +38,8 @@ import org.mockito.InOrder;
 public class FunnelsTest extends TestCase {
   public void testForBytes() {
     PrimitiveSink primitiveSink = mock(PrimitiveSink.class);
-    Funnels.byteArrayFunnel().funnel(new byte[] { 4, 3, 2, 1 }, primitiveSink);
-    verify(primitiveSink).putBytes(new byte[] { 4, 3, 2, 1 });
+    Funnels.byteArrayFunnel().funnel(new byte[] {4, 3, 2, 1}, primitiveSink);
+    verify(primitiveSink).putBytes(new byte[] {4, 3, 2, 1});
   }
 
   public void testForBytes_null() {
@@ -106,25 +106,31 @@ public class FunnelsTest extends TestCase {
   }
 
   private static void assertNullsThrowException(Funnel<?> funnel) {
-    PrimitiveSink primitiveSink = new AbstractStreamingHasher(4, 4) {
-      @Override protected HashCode makeHash() { throw new UnsupportedOperationException(); }
+    PrimitiveSink primitiveSink =
+        new AbstractStreamingHasher(4, 4) {
+          @Override
+          protected HashCode makeHash() {
+            throw new UnsupportedOperationException();
+          }
 
-      @Override protected void process(ByteBuffer bb) {
-        while (bb.hasRemaining()) {
-          bb.get();
-        }
-      }
-    };
+          @Override
+          protected void process(ByteBuffer bb) {
+            while (bb.hasRemaining()) {
+              bb.get();
+            }
+          }
+        };
     try {
       funnel.funnel(null, primitiveSink);
       fail();
-    } catch (NullPointerException ok) {}
+    } catch (NullPointerException ok) {
+    }
   }
 
   public void testAsOutputStream() throws Exception {
     PrimitiveSink sink = mock(PrimitiveSink.class);
     OutputStream out = Funnels.asOutputStream(sink);
-    byte[] bytes = { 1, 2, 3, 4 };
+    byte[] bytes = {1, 2, 3, 4};
     out.write(255);
     out.write(bytes);
     out.write(bytes, 1, 2);
@@ -135,14 +141,9 @@ public class FunnelsTest extends TestCase {
 
   public void testSerialization() {
     assertSame(
-        Funnels.byteArrayFunnel(),
-        SerializableTester.reserialize(Funnels.byteArrayFunnel()));
-    assertSame(
-        Funnels.integerFunnel(),
-        SerializableTester.reserialize(Funnels.integerFunnel()));
-    assertSame(
-        Funnels.longFunnel(),
-        SerializableTester.reserialize(Funnels.longFunnel()));
+        Funnels.byteArrayFunnel(), SerializableTester.reserialize(Funnels.byteArrayFunnel()));
+    assertSame(Funnels.integerFunnel(), SerializableTester.reserialize(Funnels.integerFunnel()));
+    assertSame(Funnels.longFunnel(), SerializableTester.reserialize(Funnels.longFunnel()));
     assertSame(
         Funnels.unencodedCharsFunnel(),
         SerializableTester.reserialize(Funnels.unencodedCharsFunnel()));
@@ -155,17 +156,17 @@ public class FunnelsTest extends TestCase {
   }
 
   public void testEquals() {
-     new EqualsTester()
-       .addEqualityGroup(Funnels.byteArrayFunnel())
-       .addEqualityGroup(Funnels.integerFunnel())
-       .addEqualityGroup(Funnels.longFunnel())
-       .addEqualityGroup(Funnels.unencodedCharsFunnel())
-       .addEqualityGroup(Funnels.stringFunnel(Charsets.UTF_8))
-       .addEqualityGroup(Funnels.stringFunnel(Charsets.US_ASCII))
-       .addEqualityGroup(Funnels.sequentialFunnel(Funnels.integerFunnel()),
-           SerializableTester.reserialize(Funnels.sequentialFunnel(
-               Funnels.integerFunnel())))
-       .addEqualityGroup(Funnels.sequentialFunnel(Funnels.longFunnel()))
-       .testEquals();
+    new EqualsTester()
+        .addEqualityGroup(Funnels.byteArrayFunnel())
+        .addEqualityGroup(Funnels.integerFunnel())
+        .addEqualityGroup(Funnels.longFunnel())
+        .addEqualityGroup(Funnels.unencodedCharsFunnel())
+        .addEqualityGroup(Funnels.stringFunnel(Charsets.UTF_8))
+        .addEqualityGroup(Funnels.stringFunnel(Charsets.US_ASCII))
+        .addEqualityGroup(
+            Funnels.sequentialFunnel(Funnels.integerFunnel()),
+            SerializableTester.reserialize(Funnels.sequentialFunnel(Funnels.integerFunnel())))
+        .addEqualityGroup(Funnels.sequentialFunnel(Funnels.longFunnel()))
+        .testEquals();
   }
 }

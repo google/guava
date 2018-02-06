@@ -30,13 +30,14 @@ import java.nio.charset.Charset;
  * is an immutable <i>supplier</i> of {@code Writer} instances.
  *
  * <p>{@code CharSink} provides two kinds of methods:
+ *
  * <ul>
- * <li><b>Methods that return a writer:</b> These methods should return a <i>new</i>, independent
- *     instance each time they are called. The caller is responsible for ensuring that the returned
- *     writer is closed.
- * <li><b>Convenience methods:</b> These are implementations of common operations that are typically
- *     implemented by opening a writer using one of the methods in the first category, doing
- *     something and finally closing the writer that was opened.
+ *   <li><b>Methods that return a writer:</b> These methods should return a <i>new</i>, independent
+ *       instance each time they are called. The caller is responsible for ensuring that the
+ *       returned writer is closed.
+ *   <li><b>Convenience methods:</b> These are implementations of common operations that are
+ *       typically implemented by opening a writer using one of the methods in the first category,
+ *       doing something and finally closing the writer that was opened.
  * </ul>
  *
  * <p>Any {@link ByteSink} may be viewed as a {@code CharSink} with a specific {@linkplain Charset
@@ -49,9 +50,7 @@ import java.nio.charset.Charset;
 @GwtIncompatible
 public abstract class CharSink {
 
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected CharSink() {}
 
   /**
@@ -104,8 +103,8 @@ public abstract class CharSink {
 
   /**
    * Writes the given lines of text to this sink with each line (including the last) terminated with
-   * the operating system's default line separator. This method is equivalent to
-   * {@code writeLines(lines, System.getProperty("line.separator"))}.
+   * the operating system's default line separator. This method is equivalent to {@code
+   * writeLines(lines, System.getProperty("line.separator"))}.
    *
    * @throws IOException if an I/O error occurs while writing to this sink
    */

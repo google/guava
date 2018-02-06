@@ -23,9 +23,7 @@ import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 import junit.framework.TestCase;
 
-/**
- * Test Java8 map.compute in concurrent cache context.
- */
+/** Test Java8 map.compute in concurrent cache context. */
 public class LocalCacheMapComputeTest extends TestCase {
   final int count = 10000;
   final String delimiter = "-";
@@ -49,18 +47,22 @@ public class LocalCacheMapComputeTest extends TestCase {
 
   public void testComputeIfAbsent() {
     // simultaneous insertion for same key, expect 1 winner
-    doParallelCacheOp(count, n -> {
-      cache.asMap().computeIfAbsent(key, k -> "value" + n);
-    });
+    doParallelCacheOp(
+        count,
+        n -> {
+          cache.asMap().computeIfAbsent(key, k -> "value" + n);
+        });
     assertEquals(1, cache.size());
   }
 
   public void testComputeIfPresent() {
     cache.put(key, "1");
     // simultaneous update for same key, expect count successful updates
-    doParallelCacheOp(count, n -> {
-      cache.asMap().computeIfPresent(key, (k, v) -> v + delimiter + n);
-    });
+    doParallelCacheOp(
+        count,
+        n -> {
+          cache.asMap().computeIfPresent(key, (k, v) -> v + delimiter + n);
+        });
     assertEquals(1, cache.size());
     assertThat(cache.getIfPresent(key).split(delimiter)).hasLength(count + 1);
   }
@@ -68,18 +70,22 @@ public class LocalCacheMapComputeTest extends TestCase {
   public void testUpdates() {
     cache.put(key, "1");
     // simultaneous update for same key, some null, some non-null
-    doParallelCacheOp(count, n -> {
-      cache.asMap().compute(key, (k, v) -> n % 2 == 0 ? v + delimiter + n : null);
-    });
+    doParallelCacheOp(
+        count,
+        n -> {
+          cache.asMap().compute(key, (k, v) -> n % 2 == 0 ? v + delimiter + n : null);
+        });
     assertTrue(1 >= cache.size());
   }
 
   public void testCompute() {
     cache.put(key, "1");
     // simultaneous deletion
-    doParallelCacheOp(count, n -> {
-      cache.asMap().compute(key, (k, v) -> null);
-    });
+    doParallelCacheOp(
+        count,
+        n -> {
+          cache.asMap().compute(key, (k, v) -> null);
+        });
     assertEquals(0, cache.size());
   }
 }

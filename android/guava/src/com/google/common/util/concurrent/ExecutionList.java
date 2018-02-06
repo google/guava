@@ -17,11 +17,11 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An
@@ -45,11 +45,11 @@ public final class ExecutionList {
   private static final Logger log = Logger.getLogger(ExecutionList.class.getName());
 
   /**
-   * The runnable, executor pairs to execute.  This acts as a stack threaded through the {@link
+   * The runnable, executor pairs to execute. This acts as a stack threaded through the {@link
    * RunnableExecutorPair#next} field.
    */
   @GuardedBy("this")
-  private RunnableExecutorPair runnables;
+  @NullableDecl private RunnableExecutorPair runnables;
 
   @GuardedBy("this")
   private boolean executed;
@@ -153,7 +153,7 @@ public final class ExecutionList {
   private static final class RunnableExecutorPair {
     final Runnable runnable;
     final Executor executor;
-    @Nullable RunnableExecutorPair next;
+    @NullableDecl RunnableExecutorPair next;
 
     RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
       this.runnable = runnable;

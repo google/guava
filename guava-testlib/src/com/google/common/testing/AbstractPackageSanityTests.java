@@ -50,12 +50,16 @@ import org.junit.Test;
 /**
  * Automatically runs sanity checks against top level classes in the same package of the test that
  * extends {@code AbstractPackageSanityTests}. Currently sanity checks include {@link
- * NullPointerTester}, {@link EqualsTester} and {@link SerializableTester}. For example: <pre>
+ * NullPointerTester}, {@link EqualsTester} and {@link SerializableTester}. For example:
+ *
+ * <pre>
  * public class PackageSanityTests extends AbstractPackageSanityTests {}
  * </pre>
  *
  * <p>Note that only top-level classes with either a non-private constructor or a non-private static
- * factory method to construct instances can have their instance methods checked. For example: <pre>
+ * factory method to construct instances can have their instance methods checked. For example:
+ *
+ * <pre>
  * public class Address {
  *   private final String city;
  *   private final String state;
@@ -68,12 +72,15 @@ import org.junit.Test;
  *   ...
  * }
  * </pre>
+ *
  * <p>No cascading checks are performed against the return values of methods unless the method is a
  * static factory method. Neither are semantics of mutation methods such as {@code
  * someList.add(obj)} checked. For more detailed discussion of supported and unsupported cases, see
  * {@link #testEquals}, {@link #testNulls} and {@link #testSerializable}.
  *
- * <p>For testing against the returned instances from a static factory class, such as <pre>
+ * <p>For testing against the returned instances from a static factory class, such as
+ *
+ * <pre>
  * interface Book {...}
  * public class Books {
  *   public static Book hardcover(String title) {...}
@@ -83,10 +90,9 @@ import org.junit.Test;
  *
  * <p>please use {@link ClassSanityTester#forAllPublicStaticMethods}.
  *
- * <p>If not all classes on the classpath should be covered, {@link
- * #ignoreClasses} can be used to exclude certain classes. As a special case, classes with an
- * underscore in the name (like {@code AutoValue_Foo}) can be excluded using
- * <code>ignoreClasses({@link #UNDERSCORE_IN_NAME})</code>.
+ * <p>If not all classes on the classpath should be covered, {@link #ignoreClasses} can be used to
+ * exclude certain classes. As a special case, classes with an underscore in the name (like {@code
+ * AutoValue_Foo}) can be excluded using <code>ignoreClasses({@link #UNDERSCORE_IN_NAME})</code>.
  *
  * <p>{@link #setDefault} allows subclasses to specify default values for types.
  *
@@ -109,43 +115,49 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    *
    * @since 19.0
    */
-  public static final Predicate<Class<?>> UNDERSCORE_IN_NAME = new Predicate<Class<?>>() {
-    @Override public boolean apply(Class<?> c) {
-      return c.getSimpleName().contains("_");
-    }
-  };
+  public static final Predicate<Class<?>> UNDERSCORE_IN_NAME =
+      new Predicate<Class<?>>() {
+        @Override
+        public boolean apply(Class<?> c) {
+          return c.getSimpleName().contains("_");
+        }
+      };
 
   /* The names of the expected method that tests null checks. */
-  private static final ImmutableList<String> NULL_TEST_METHOD_NAMES = ImmutableList.of(
-      "testNulls", "testNull",
-      "testNullPointers", "testNullPointer",
-      "testNullPointerExceptions", "testNullPointerException");
+  private static final ImmutableList<String> NULL_TEST_METHOD_NAMES =
+      ImmutableList.of(
+          "testNulls", "testNull",
+          "testNullPointers", "testNullPointer",
+          "testNullPointerExceptions", "testNullPointerException");
 
   /* The names of the expected method that tests serializable. */
-  private static final ImmutableList<String> SERIALIZABLE_TEST_METHOD_NAMES = ImmutableList.of(
-      "testSerializable", "testSerialization",
-      "testEqualsAndSerializable", "testEqualsAndSerialization");
+  private static final ImmutableList<String> SERIALIZABLE_TEST_METHOD_NAMES =
+      ImmutableList.of(
+          "testSerializable", "testSerialization",
+          "testEqualsAndSerializable", "testEqualsAndSerialization");
 
   /* The names of the expected method that tests equals. */
-  private static final ImmutableList<String> EQUALS_TEST_METHOD_NAMES = ImmutableList.of(
-      "testEquals", "testEqualsAndHashCode",
-      "testEqualsAndSerializable", "testEqualsAndSerialization",
-      "testEquality");
+  private static final ImmutableList<String> EQUALS_TEST_METHOD_NAMES =
+      ImmutableList.of(
+          "testEquals",
+          "testEqualsAndHashCode",
+          "testEqualsAndSerializable",
+          "testEqualsAndSerialization",
+          "testEquality");
 
   private static final Chopper TEST_SUFFIX =
-      suffix("Test")
-          .or(suffix("Tests"))
-          .or(suffix("TestCase"))
-          .or(suffix("TestSuite"));
+      suffix("Test").or(suffix("Tests")).or(suffix("TestCase")).or(suffix("TestSuite"));
 
   private final Logger logger = Logger.getLogger(getClass().getName());
   private final ClassSanityTester tester = new ClassSanityTester();
   private Visibility visibility = Visibility.PACKAGE;
-  private Predicate<Class<?>> classFilter = new Predicate<Class<?>>() {
-    @Override public boolean apply(Class<?> cls) {
-      return visibility.isVisible(cls.getModifiers());
-    }
-  };
+  private Predicate<Class<?>> classFilter =
+      new Predicate<Class<?>>() {
+        @Override
+        public boolean apply(Class<?> cls) {
+          return visibility.isVisible(cls.getModifiers());
+        }
+      };
 
   /**
    * Restricts the sanity tests for public API only. By default, package-private API are also
@@ -158,22 +170,25 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   /**
    * Tests all top-level {@link Serializable} classes in the package. For a serializable Class
    * {@code C}:
+   *
    * <ul>
-   * <li>If {@code C} explicitly implements {@link Object#equals}, the deserialized instance will be
-   *     checked to be equal to the instance before serialization.
-   * <li>If {@code C} doesn't explicitly implement {@code equals} but instead inherits it from a
-   *     superclass, no equality check is done on the deserialized instance because it's not clear
-   *     whether the author intended for the class to be a value type.
-   * <li>If a constructor or factory method takes a parameter whose type is interface, a dynamic
-   *     proxy will be passed to the method. It's possible that the method body expects an instance
-   *     method of the passed-in proxy to be of a certain value yet the proxy isn't aware of the
-   *     assumption, in which case the equality check before and after serialization will fail.
-   * <li>If the constructor or factory method takes a parameter that {@link
-   *     AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
-   *     {@code C} is skipped for serialization test, even if it implements {@link Serializable}.
-   * <li>Serialization test is not performed on method return values unless the method is a visible
-   *     static factory method whose return type is {@code C} or {@code C}'s subtype.
+   *   <li>If {@code C} explicitly implements {@link Object#equals}, the deserialized instance will
+   *       be checked to be equal to the instance before serialization.
+   *   <li>If {@code C} doesn't explicitly implement {@code equals} but instead inherits it from a
+   *       superclass, no equality check is done on the deserialized instance because it's not clear
+   *       whether the author intended for the class to be a value type.
+   *   <li>If a constructor or factory method takes a parameter whose type is interface, a dynamic
+   *       proxy will be passed to the method. It's possible that the method body expects an
+   *       instance method of the passed-in proxy to be of a certain value yet the proxy isn't aware
+   *       of the assumption, in which case the equality check before and after serialization will
+   *       fail.
+   *   <li>If the constructor or factory method takes a parameter that {@link
+   *       AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   *   <li>If there is no visible constructor or visible static factory method declared by {@code
+   *       C}, {@code C} is skipped for serialization test, even if it implements {@link
+   *       Serializable}.
+   *   <li>Serialization test is not performed on method return values unless the method is a
+   *       visible static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
    * <p>In all cases, if {@code C} needs custom logic for testing serialization, you can add an
@@ -183,8 +198,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   @Test
   public void testSerializable() throws Exception {
     // TODO: when we use @BeforeClass, we can pay the cost of class path scanning only once.
-    for (Class<?> classToTest
-        : findClassesToTest(loadClassesInPackage(), SERIALIZABLE_TEST_METHOD_NAMES)) {
+    for (Class<?> classToTest :
+        findClassesToTest(loadClassesInPackage(), SERIALIZABLE_TEST_METHOD_NAMES)) {
       if (Serializable.class.isAssignableFrom(classToTest)) {
         try {
           Object instance = tester.instantiate(classToTest);
@@ -205,18 +220,20 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   /**
    * Performs {@link NullPointerTester} checks for all top-level classes in the package. For a class
    * {@code C}
+   *
    * <ul>
-   * <li>All visible static methods are checked such that passing null for any parameter that's not
-   *     annotated with {@link javax.annotation.Nullable} should throw {@link NullPointerException}.
-   * <li>If there is any visible constructor or visible static factory method declared by the class,
-   *     all visible instance methods will be checked too using the instance created by invoking the
-   *     constructor or static factory method.
-   * <li>If the constructor or factory method used to construct instance takes a parameter that
-   *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
-   *     instance methods are skipped for nulls test.
-   * <li>Nulls test is not performed on method return values unless the method is a visible static
-   *     factory method whose return type is {@code C} or {@code C}'s subtype.
+   *   <li>All visible static methods are checked such that passing null for any parameter that's
+   *       not annotated nullable (according to the rules of {@link NullPointerTester}) should throw
+   *       {@link NullPointerException}.
+   *   <li>If there is any visible constructor or visible static factory method declared by the
+   *       class, all visible instance methods will be checked too using the instance created by
+   *       invoking the constructor or static factory method.
+   *   <li>If the constructor or factory method used to construct instance takes a parameter that
+   *       {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   *   <li>If there is no visible constructor or visible static factory method declared by {@code
+   *       C}, instance methods are skipped for nulls test.
+   *   <li>Nulls test is not performed on method return values unless the method is a visible static
+   *       factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
    * <p>In all cases, if {@code C} needs custom logic for testing nulls, you can add an explicit
@@ -225,8 +242,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    */
   @Test
   public void testNulls() throws Exception {
-    for (Class<?> classToTest
-        : findClassesToTest(loadClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
+    for (Class<?> classToTest : findClassesToTest(loadClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
       try {
         tester.doTestNulls(classToTest, visibility);
       } catch (Throwable e) {
@@ -238,20 +254,24 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   /**
    * Tests {@code equals()} and {@code hashCode()} implementations for every top-level class in the
    * package, that explicitly implements {@link Object#equals}. For a class {@code C}:
+   *
    * <ul>
-   * <li>The visible constructor or visible static factory method with the most parameters is used
-   *     to construct the sample instances. In case of tie, the candidate constructors or factories
-   *     are tried one after another until one can be used to construct sample instances.
-   * <li>For the constructor or static factory method used to construct instances, it's checked that
-   *     when equal parameters are passed, the result instance should also be equal; and vice versa.
-   * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
-   *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
-   * <li>If the constructor or factory method used to construct instance takes a parameter that
-   *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
-   * <li>If there is no visible constructor or visible static factory method declared by {@code C},
-   *     {@code C} is skipped for equality test.
-   * <li>Equality test is not performed on method return values unless the method is a visible
-   *     static factory method whose return type is {@code C} or {@code C}'s subtype.
+   *   <li>The visible constructor or visible static factory method with the most parameters is used
+   *       to construct the sample instances. In case of tie, the candidate constructors or
+   *       factories are tried one after another until one can be used to construct sample
+   *       instances.
+   *   <li>For the constructor or static factory method used to construct instances, it's checked
+   *       that when equal parameters are passed, the result instance should also be equal; and vice
+   *       versa.
+   *   <li>Inequality check is not performed against state mutation methods such as {@link
+   *       List#add}, or functional update methods such as {@link
+   *       com.google.common.base.Joiner#skipNulls}.
+   *   <li>If the constructor or factory method used to construct instance takes a parameter that
+   *       {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   *   <li>If there is no visible constructor or visible static factory method declared by {@code
+   *       C}, {@code C} is skipped for equality test.
+   *   <li>Equality test is not performed on method return values unless the method is a visible
+   *       static factory method whose return type is {@code C} or {@code C}'s subtype.
    * </ul>
    *
    * <p>In all cases, if {@code C} needs custom logic for testing {@code equals()}, you can add an
@@ -260,8 +280,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    */
   @Test
   public void testEquals() throws Exception {
-    for (Class<?> classToTest
-        : findClassesToTest(loadClassesInPackage(), EQUALS_TEST_METHOD_NAMES)) {
+    for (Class<?> classToTest :
+        findClassesToTest(loadClassesInPackage(), EQUALS_TEST_METHOD_NAMES)) {
       if (!classToTest.isEnum() && isEqualsDefined(classToTest)) {
         try {
           tester.doTestEquals(classToTest);
@@ -299,20 +319,26 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   private static AssertionFailedError sanityError(
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
-    String message = String.format(Locale.ROOT,
-        "Error in automated %s of %s\n"
-            + "If the class is better tested explicitly, you can add %s() to %sTest",
-        description, cls, explicitTestNames.get(0), cls.getName());
+    String message =
+        String.format(
+            Locale.ROOT,
+            "Error in automated %s of %s\n"
+                + "If the class is better tested explicitly, you can add %s() to %sTest",
+            description,
+            cls,
+            explicitTestNames.get(0),
+            cls.getName());
     AssertionFailedError error = new AssertionFailedError(message);
     error.initCause(e);
     return error;
   }
 
   /**
-   * Finds the classes not ending with a test suffix and not covered by an explicit test
-   * whose name is {@code explicitTestName}.
+   * Finds the classes not ending with a test suffix and not covered by an explicit test whose name
+   * is {@code explicitTestName}.
    */
-  @VisibleForTesting List<Class<?>> findClassesToTest(
+  @VisibleForTesting
+  List<Class<?>> findClassesToTest(
       Iterable<? extends Class<?>> classes, Iterable<String> explicitTestNames) {
     // "a.b.Foo" -> a.b.Foo.class
     TreeMap<String, Class<?>> classMap = Maps.newTreeMap();
@@ -334,7 +360,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
       }
     }
     List<Class<?>> result = Lists.newArrayList();
-    NEXT_CANDIDATE: for (Class<?> candidate : Iterables.filter(candidateClasses, classFilter)) {
+    NEXT_CANDIDATE:
+    for (Class<?> candidate : Iterables.filter(candidateClasses, classFilter)) {
       for (Class<?> testClass : testClasses.get(candidate)) {
         if (hasTest(testClass, explicitTestNames)) {
           // covered by explicit test
@@ -349,8 +376,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private List<Class<?>> loadClassesInPackage() throws IOException {
     List<Class<?>> classes = Lists.newArrayList();
     String packageName = getClass().getPackage().getName();
-    for (ClassPath.ClassInfo classInfo
-        : ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
+    for (ClassPath.ClassInfo classInfo :
+        ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
       Class<?> cls;
       try {
         cls = classInfo.load();
@@ -391,7 +418,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     final Chopper or(final Chopper you) {
       final Chopper i = this;
       return new Chopper() {
-        @Override Optional<String> chop(String str) {
+        @Override
+        Optional<String> chop(String str) {
           return i.chop(str).or(you.chop(str));
         }
       };
@@ -401,7 +429,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
     static Chopper suffix(final String suffix) {
       return new Chopper() {
-        @Override Optional<String> chop(String str) {
+        @Override
+        Optional<String> chop(String str) {
           if (str.endsWith(suffix)) {
             return Optional.of(str.substring(0, str.length() - suffix.length()));
           } else {

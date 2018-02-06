@@ -33,8 +33,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * Inputs, expected outputs, and helper methods for tests of {@link StatsAccumulator},
- * {@link Stats}, {@link PairedStatsAccumulator}, and {@link PairedStats}.
+ * Inputs, expected outputs, and helper methods for tests of {@link StatsAccumulator}, {@link
+ * Stats}, {@link PairedStatsAccumulator}, and {@link PairedStats}.
  *
  * @author Pete Gillin
  */
@@ -64,12 +64,12 @@ class StatsTesting {
 
   /**
    * Helper class for testing with non-finite values. {@link #ALL_MANY_VALUES} gives a number
-   * instances with many combinations of finite and non-finite values. All have
-   * {@link #MANY_VALUES_COUNT} values. If all the values are finite then the mean is
-   * {@link #MANY_VALUES_MEAN} and the sum-of-squares-of-deltas is
-   * {@link #MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS}. The smallest and largest finite values are
-   * always {@link #MANY_VALUES_MIN} and {@link #MANY_VALUES_MAX}, although setting non-finite
-   * values will change the true min and max.
+   * instances with many combinations of finite and non-finite values. All have {@link
+   * #MANY_VALUES_COUNT} values. If all the values are finite then the mean is {@link
+   * #MANY_VALUES_MEAN} and the sum-of-squares-of-deltas is {@link
+   * #MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS}. The smallest and largest finite values are always
+   * {@link #MANY_VALUES_MIN} and {@link #MANY_VALUES_MAX}, although setting non-finite values will
+   * change the true min and max.
    */
   static class ManyValues {
 
@@ -394,8 +394,8 @@ class StatsTesting {
   /**
    * Asserts that {@code transformation} is horizontal with the given value of {@code y}. Includes
    * assertions about all the public instance methods of {@link LinearTransformation}, including an
-   * assertion that {@link LinearTransformation#transform} and {@link LinearTransformation#slope}
-   * on its inverse throws as expected.
+   * assertion that {@link LinearTransformation#transform} and {@link LinearTransformation#slope} on
+   * its inverse throws as expected.
    */
   static void assertHorizontalLinearTransformation(LinearTransformation transformation, double y) {
     assertThat(transformation.isHorizontal()).isTrue();
@@ -448,8 +448,8 @@ class StatsTesting {
   }
 
   /**
-   * Asserts that {@code transformation} behaves as expected for
-   * {@link LinearTransformation#forNaN}.
+   * Asserts that {@code transformation} behaves as expected for {@link
+   * LinearTransformation#forNaN}.
    */
   static void assertLinearTransformationNaN(LinearTransformation transformation) {
     assertThat(transformation.isHorizontal()).isFalse();
@@ -483,8 +483,8 @@ class StatsTesting {
 
   /**
    * Creates a {@link PairedStatsAccumulator} filled with the given lists of {@code x} and {@code y}
-   * values, which must be of the same size, added in groups of {@code partitionSize} using
-   * {@link PairedStatsAccumulator#addAll(PairedStats)}.
+   * values, which must be of the same size, added in groups of {@code partitionSize} using {@link
+   * PairedStatsAccumulator#addAll(PairedStats)}.
    */
   static PairedStatsAccumulator createPartitionedFilledPairedStatsAccumulator(
       List<Double> xValues, List<Double> yValues, int partitionSize) {

@@ -25,9 +25,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /** Tester for {@code BiMap.entrySet} and methods on the entries in the set. */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class BiMapEntrySetTester<K, V> extends AbstractBiMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
@@ -35,7 +37,6 @@ public class BiMapEntrySetTester<K, V> extends AbstractBiMapTester<K, V> {
     for (Entry<K, V> entry : getMap().entrySet()) {
       if (entry.getKey().equals(k0())) {
         assertEquals("entry.setValue() should return the old value", v0(), entry.setValue(v3()));
-        break;
       }
     }
     expectReplacement(entry(k0(), v3()));
@@ -51,7 +52,6 @@ public class BiMapEntrySetTester<K, V> extends AbstractBiMapTester<K, V> {
           fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException expected) {
         }
-        break;
       }
     }
     expectUnchanged();

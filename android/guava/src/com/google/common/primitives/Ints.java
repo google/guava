@@ -30,15 +30,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
  * {@link Integer} or {@link Arrays}.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0
@@ -62,8 +61,8 @@ public final class Ints {
   public static final int MAX_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Integer) value).hashCode()}.
+   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
+   * value).hashCode()}.
    *
    * <p><b>Java 8 users:</b> use {@link Integer#hashCode(int)} instead.
    *
@@ -127,8 +126,7 @@ public final class Ints {
    *
    * @param array an array of {@code int} values, possibly empty
    * @param target a primitive {@code int} value
-   * @return {@code true} if {@code array[i] == target} for some value of {@code
-   *     i}
+   * @return {@code true} if {@code array[i] == target} for some value of {@code i}
    */
   public static boolean contains(int[] array, int target) {
     for (int value : array) {
@@ -162,12 +160,11 @@ public final class Ints {
   }
 
   /**
-   * Returns the start position of the first occurrence of the specified {@code
-   * target} within {@code array}, or {@code -1} if there is no such occurrence.
+   * Returns the start position of the first occurrence of the specified {@code target} within
+   * {@code array}, or {@code -1} if there is no such occurrence.
    *
-   * <p>More formally, returns the lowest index {@code i} such that
-   * {@code Arrays.copyOfRange(array, i, i + target.length)} contains exactly the same elements as
-   * {@code target}.
+   * <p>More formally, returns the lowest index {@code i} such that {@code Arrays.copyOfRange(array,
+   * i, i + target.length)} contains exactly the same elements as {@code target}.
    *
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
@@ -255,8 +252,8 @@ public final class Ints {
    * Returns the value nearest to {@code value} which is within the closed range {@code [min..max]}.
    *
    * <p>If {@code value} is within the range {@code [min..max]}, {@code value} is returned
-   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if
-   * {@code value} is greater than {@code max}, {@code max} is returned.
+   * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
+   * value} is greater than {@code max}, {@code max} is returned.
    *
    * @param value the {@code int} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -271,9 +268,8 @@ public final class Ints {
   }
 
   /**
-   * Returns the values from each provided array combined into a single array. For example,
-   * {@code concat(new int[] {a, b}, new int[] {}, new int[] {c}} returns the array {@code {a, b,
-   * c}}.
+   * Returns the values from each provided array combined into a single array. For example, {@code
+   * concat(new int[] {a, b}, new int[] {}, new int[] {c}} returns the array {@code {a, b, c}}.
    *
    * @param arrays zero or more {@code int} arrays
    * @return a single array containing all the values from the source arrays, in order
@@ -294,12 +290,12 @@ public final class Ints {
 
   /**
    * Returns a big-endian representation of {@code value} in a 4-element byte array; equivalent to
-   * {@code ByteBuffer.allocate(4).putInt(value).array()}. For example, the input value
-   * {@code 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
+   * {@code ByteBuffer.allocate(4).putInt(value).array()}. For example, the input value {@code
+   * 0x12131415} would yield the byte array {@code {0x12, 0x13, 0x14, 0x15}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of different types),
-   * use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
+   * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
+   * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
   public static byte[] toByteArray(int value) {
     return new byte[] {
@@ -310,8 +306,8 @@ public final class Ints {
   /**
    * Returns the {@code int} value whose big-endian representation is stored in the first 4 bytes of
    * {@code bytes}; equivalent to {@code ByteBuffer.wrap(bytes).getInt()}. For example, the input
-   * byte array {@code {0x12, 0x13, 0x14, 0x15, 0x33}} would yield the {@code int} value
-   * {@code 0x12131415}.
+   * byte array {@code {0x12, 0x13, 0x14, 0x15, 0x33}} would yield the {@code int} value {@code
+   * 0x12131415}.
    *
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that library exposes much more
    * flexibility at little cost in readability.
@@ -360,9 +356,9 @@ public final class Ints {
   }
 
   /**
-   * Returns a serializable converter object that converts between strings and integers using
-   * {@link Integer#decode} and {@link Integer#toString()}. The returned converter throws
-   * {@link NumberFormatException} if the input string is invalid.
+   * Returns a serializable converter object that converts between strings and integers using {@link
+   * Integer#decode} and {@link Integer#toString()}. The returned converter throws {@link
+   * NumberFormatException} if the input string is invalid.
    *
    * <p><b>Warning:</b> please see {@link Integer#decode} to understand exactly how strings are
    * parsed. For example, the string {@code "0123"} is treated as <i>octal</i> and converted to the
@@ -385,8 +381,8 @@ public final class Ints {
    * @param minLength the minimum length the returned array must guarantee
    * @param padding an extra amount to "grow" the array by if growth is necessary
    * @throws IllegalArgumentException if {@code minLength} or {@code padding} is negative
-   * @return an array containing the values of {@code array}, with guaranteed minimum length
-   *     {@code minLength}
+   * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
+   *     minLength}
    */
   public static int[] ensureCapacity(int[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
@@ -512,8 +508,8 @@ public final class Ints {
    * Returns an array containing each value of {@code collection}, converted to a {@code int} value
    * in the manner of {@link Number#intValue}.
    *
-   * <p>Elements are copied from the argument collection as if by {@code
-   * collection.toArray()}. Calling this method is as thread-safe as calling that method.
+   * <p>Elements are copied from the argument collection as if by {@code collection.toArray()}.
+   * Calling this method is as thread-safe as calling that method.
    *
    * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the same order, converted
@@ -641,7 +637,7 @@ public final class Ints {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }
@@ -704,8 +700,7 @@ public final class Ints {
    * @since 11.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Integer tryParse(String string) {
     return tryParse(string, 10);
   }
@@ -725,13 +720,12 @@ public final class Ints {
    * @param radix the radix to use when parsing
    * @return the integer value represented by {@code string} using {@code radix}, or {@code null} if
    *     {@code string} has a length of zero or cannot be parsed as an integer value
-   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
-   *     {@code radix > Character.MAX_RADIX}
+   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
+   *     Character.MAX_RADIX}
    * @since 19.0
    */
   @Beta
-  @Nullable
-  @CheckForNull
+  @NullableDecl
   public static Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {

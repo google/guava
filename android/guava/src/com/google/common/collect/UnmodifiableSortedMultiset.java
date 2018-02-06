@@ -20,11 +20,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Comparator;
 import java.util.NavigableSet;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
- * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)},
- * split out into its own file so it can be GWT emulated (to deal with the differing
- * elementSet() types in GWT and non-GWT).
+ * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}, split out into
+ * its own file so it can be GWT emulated (to deal with the differing elementSet() types in GWT and
+ * non-GWT).
  *
  * @author Louis Wasserman
  */
@@ -55,7 +56,7 @@ final class UnmodifiableSortedMultiset<E> extends UnmodifiableMultiset<E>
     return (NavigableSet<E>) super.elementSet();
   }
 
-  private transient UnmodifiableSortedMultiset<E> descendingMultiset;
+  @MonotonicNonNullDecl private transient UnmodifiableSortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {

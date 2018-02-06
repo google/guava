@@ -40,8 +40,8 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Graph} interface.
+ *   <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
+ *   <li>Test cases related to the specific implementation of the {@link Graph} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
@@ -156,12 +156,22 @@ public abstract class AbstractGraphTest {
       for (N predecessor : sanityCheckSet(graph.predecessors(node))) {
         assertThat(graph.successors(predecessor)).contains(node);
         assertThat(graph.hasEdgeConnecting(predecessor, node)).isTrue();
+        assertThat(graph.incidentEdges(node)).contains(EndpointPair.of(graph, predecessor, node));
       }
 
       for (N successor : sanityCheckSet(graph.successors(node))) {
         allEndpointPairs.add(EndpointPair.of(graph, node, successor));
         assertThat(graph.predecessors(successor)).contains(node);
         assertThat(graph.hasEdgeConnecting(node, successor)).isTrue();
+        assertThat(graph.incidentEdges(node)).contains(EndpointPair.of(graph, node, successor));
+      }
+
+      for (EndpointPair<N> endpoints : sanityCheckSet(graph.incidentEdges(node))) {
+        if (graph.isDirected()) {
+          assertThat(graph.hasEdgeConnecting(endpoints.source(), endpoints.target())).isTrue();
+        } else {
+          assertThat(graph.hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV())).isTrue();
+        }
       }
     }
 
@@ -197,6 +207,13 @@ public abstract class AbstractGraphTest {
    */
   @Test
   public abstract void successors_checkReturnedSetMutability();
+
+  /**
+   * Verifies that the {@code Set} returned by {@code incidentEdges} has the expected mutability
+   * property (see the {@code Graph} documentation for more information).
+   */
+  @Test
+  public abstract void incidentEdges_checkReturnedSetMutability();
 
   @Test
   public void nodes_oneNode() {
@@ -258,6 +275,22 @@ public abstract class AbstractGraphTest {
   public void successors_nodeNotInGraph() {
     try {
       graph.successors(NODE_NOT_IN_GRAPH);
+      fail(ERROR_NODE_NOT_IN_GRAPH);
+    } catch (IllegalArgumentException e) {
+      assertNodeNotInGraphErrorMessage(e);
+    }
+  }
+
+  @Test
+  public void incidentEdges_noIncidentEdges() {
+    addNode(N1);
+    assertThat(graph.incidentEdges(N1)).isEmpty();
+  }
+
+  @Test
+  public void incidentEdges_nodeNotInGraph() {
+    try {
+      graph.incidentEdges(NODE_NOT_IN_GRAPH);
       fail(ERROR_NODE_NOT_IN_GRAPH);
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);

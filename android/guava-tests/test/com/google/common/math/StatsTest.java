@@ -80,8 +80,8 @@ import java.nio.ByteOrder;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and
- * {@link StatsAccumulator#snapshot}.
+ * Tests for {@link Stats}. This tests instances created by both {@link Stats#of} and {@link
+ * StatsAccumulator#snapshot}.
  *
  * @author Pete Gillin
  */
@@ -476,7 +476,8 @@ public class StatsTest extends TestCase {
 
   public void testEqualsAndHashCode() {
     new EqualsTester()
-        .addEqualityGroup(Stats.of(1.0, 1.0, 5.0, 5.0),
+        .addEqualityGroup(
+            Stats.of(1.0, 1.0, 5.0, 5.0),
             Stats.of(1.0, 1.0, 5.0, 5.0),
             Stats.of(ImmutableList.of(1.0, 1.0, 5.0, 5.0)),
             Stats.of(ImmutableList.of(1.0, 1.0, 5.0, 5.0).iterator()),
@@ -484,8 +485,8 @@ public class StatsTest extends TestCase {
         .addEqualityGroup(Stats.of(1.0, 5.0))
         .addEqualityGroup(Stats.of(1.0, 5.0, 1.0, 6.0))
         .addEqualityGroup(Stats.of(2.0, 6.0, 2.0, 6.0))
-        .addEqualityGroup(new Stats(5, -5.5, 55.5, -5.55, 5.55),
-            new Stats(5, -5.5, 55.5, -5.55, 5.55))
+        .addEqualityGroup(
+            new Stats(5, -5.5, 55.5, -5.55, 5.55), new Stats(5, -5.5, 55.5, -5.55, 5.55))
         .addEqualityGroup(new Stats(6, -5.5, 55.5, -5.55, 5.55))
         .addEqualityGroup(new Stats(5, -5.6, 55.5, -5.55, 5.55))
         .addEqualityGroup(new Stats(5, -5.5, 55.6, -5.55, 5.55))
@@ -579,7 +580,7 @@ public class StatsTest extends TestCase {
   }
 
   public void testFromByteArray_withEmptyArrayInputThrowsIllegalArgumentException() {
-   try {
+    try {
       Stats.fromByteArray(new byte[0]);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
@@ -588,8 +589,12 @@ public class StatsTest extends TestCase {
 
   public void testFromByteArray_withTooLongArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_STATS_VARARGS.toByteArray();
-    byte[] tooLongByteArray = ByteBuffer.allocate(buffer.length + 2).order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer).putChar('.').array();
+    byte[] tooLongByteArray =
+        ByteBuffer.allocate(buffer.length + 2)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer)
+            .putChar('.')
+            .array();
     try {
       Stats.fromByteArray(tooLongByteArray);
       fail("Expected IllegalArgumentException");
@@ -599,8 +604,11 @@ public class StatsTest extends TestCase {
 
   public void testFromByteArrayWithTooShortArrayInputThrowsIllegalArgumentException() {
     byte[] buffer = MANY_VALUES_STATS_VARARGS.toByteArray();
-    byte[] tooShortByteArray = ByteBuffer.allocate(buffer.length - 1).order(ByteOrder.LITTLE_ENDIAN)
-        .put(buffer, 0, Stats.BYTES - 1).array();
+    byte[] tooShortByteArray =
+        ByteBuffer.allocate(buffer.length - 1)
+            .order(ByteOrder.LITTLE_ENDIAN)
+            .put(buffer, 0, Stats.BYTES - 1)
+            .array();
     try {
       Stats.fromByteArray(tooShortByteArray);
       fail("Expected IllegalArgumentException");

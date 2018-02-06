@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Iterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -41,11 +41,11 @@ import javax.annotation.Nullable;
  * <p>There are two ways to obtain a {@code Stats} instance:
  *
  * <ul>
- * <li>If all the values you want to summarize are already known, use the appropriate {@code
- *     Stats.of} factory method below. Primitive arrays, iterables and iterators of any kind of
- *     {@code Number}, and primitive varargs are supported.
- * <li>Or, to avoid storing up all the data first, create a {@link StatsAccumulator} instance, feed
- *     values to it as you get them, then call {@link StatsAccumulator#snapshot}.
+ *   <li>If all the values you want to summarize are already known, use the appropriate {@code
+ *       Stats.of} factory method below. Primitive arrays, iterables and iterators of any kind of
+ *       {@code Number}, and primitive varargs are supported.
+ *   <li>Or, to avoid storing up all the data first, create a {@link StatsAccumulator} instance,
+ *       feed values to it as you get them, then call {@link StatsAccumulator#snapshot}.
  * </ul>
  *
  * <p>Static convenience methods called {@code meanOf} are also provided for users who wish to
@@ -73,12 +73,13 @@ public final class Stats implements Serializable {
    *
    * <p>To ensure that the created instance obeys its contract, the parameters should satisfy the
    * following constraints. This is the callers responsibility and is not enforced here.
+   *
    * <ul>
-   * <li>If {@code count} is 0, {@code mean} may have any finite value (its only usage will be to
-   * get multiplied by 0 to calculate the sum), and the other parameters may have any values (they
-   * will not be used).
-   * <li>If {@code count} is 1, {@code sumOfSquaresOfDeltas} must be exactly 0.0 or
-   * {@link Double#NaN}.
+   *   <li>If {@code count} is 0, {@code mean} may have any finite value (its only usage will be to
+   *       get multiplied by 0 to calculate the sum), and the other parameters may have any values
+   *       (they will not be used).
+   *   <li>If {@code count} is 1, {@code sumOfSquaresOfDeltas} must be exactly 0.0 or {@link
+   *       Double#NaN}.
    * </ul>
    */
   Stats(long count, double mean, double sumOfSquaresOfDeltas, double min, double max) {
@@ -147,9 +148,7 @@ public final class Stats implements Serializable {
     return acummulator.snapshot();
   }
 
-  /**
-   * Returns the number of values.
-   */
+  /** Returns the number of values. */
   public long count() {
     return count;
   }
@@ -167,8 +166,8 @@ public final class Stats implements Serializable {
    * contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
    * result is {@link Double#NaN}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
    * only or {@link Double#POSITIVE_INFINITY} only, the result is {@link Double#POSITIVE_INFINITY}.
-   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or
-   * {@link Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
+   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
+   * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
    *
    * <p>If you only want to calculate the mean, use {#meanOf} instead of creating a {@link Stats}
    * instance.
@@ -189,8 +188,8 @@ public final class Stats implements Serializable {
    * contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
    * result is {@link Double#NaN}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
    * only or {@link Double#POSITIVE_INFINITY} only, the result is {@link Double#POSITIVE_INFINITY}.
-   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or
-   * {@link Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
+   * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
+   * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
    */
   public double sum() {
     return mean * count;
@@ -200,14 +199,14 @@ public final class Stats implements Serializable {
    * Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
    * variance</a> of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
-   * It is not guaranteed to return zero when the dataset consists of the same value multiple times,
+   * <p>This is guaranteed to return zero if the dataset contains only exactly one finite value. It
+   * is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
    *
    * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY},
-   * {@link Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
+   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -223,18 +222,18 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Returns the
-   * <a href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
+   * Returns the <a
+   * href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
    * population standard deviation</a> of the values. The count must be non-zero.
    *
-   * <p>This is guaranteed to return zero if the dataset contains only exactly one finite value.
-   * It is not guaranteed to return zero when the dataset consists of the same value multiple times,
+   * <p>This is guaranteed to return zero if the dataset contains only exactly one finite value. It
+   * is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
    *
    * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY},
-   * {@link Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
+   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -253,8 +252,8 @@ public final class Stats implements Serializable {
    *
    * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY},
-   * {@link Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
+   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
@@ -267,8 +266,8 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Returns the
-   * <a href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
+   * Returns the <a
+   * href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
    * corrected sample standard deviation</a> of the values. If this dataset is a sample drawn from a
    * population, this is an estimator of the population standard deviation of the population which
    * is less biased than {@link #populationStandardDeviation()} (the unbiased estimator depends on
@@ -279,8 +278,8 @@ public final class Stats implements Serializable {
    *
    * <h3>Non-finite values</h3>
    *
-   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY},
-   * {@link Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
+   * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
+   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
@@ -294,10 +293,10 @@ public final class Stats implements Serializable {
    * <h3>Non-finite values</h3>
    *
    * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains {@link Double#NEGATIVE_INFINITY} and not {@link Double#NaN} then the result is
-   * {@link Double#NEGATIVE_INFINITY}. If it contains {@link Double#POSITIVE_INFINITY} and finite
-   * values only then the result is the lowest finite value. If it contains
-   * {@link Double#POSITIVE_INFINITY} only then the result is {@link Double#POSITIVE_INFINITY}.
+   * contains {@link Double#NEGATIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
+   * Double#NEGATIVE_INFINITY}. If it contains {@link Double#POSITIVE_INFINITY} and finite values
+   * only then the result is the lowest finite value. If it contains {@link
+   * Double#POSITIVE_INFINITY} only then the result is {@link Double#POSITIVE_INFINITY}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -312,10 +311,10 @@ public final class Stats implements Serializable {
    * <h3>Non-finite values</h3>
    *
    * <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
-   * contains {@link Double#POSITIVE_INFINITY} and not {@link Double#NaN} then the result is
-   * {@link Double#POSITIVE_INFINITY}. If it contains {@link Double#NEGATIVE_INFINITY} and finite
-   * values only then the result is the highest finite value. If it contains
-   * {@link Double#NEGATIVE_INFINITY} only then the result is {@link Double#NEGATIVE_INFINITY}.
+   * contains {@link Double#POSITIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
+   * Double#POSITIVE_INFINITY}. If it contains {@link Double#NEGATIVE_INFINITY} and finite values
+   * only then the result is the highest finite value. If it contains {@link
+   * Double#NEGATIVE_INFINITY} only then the result is {@link Double#NEGATIVE_INFINITY}.
    *
    * @throws IllegalStateException if the dataset is empty
    */
@@ -340,7 +339,7 @@ public final class Stats implements Serializable {
    * {@code strictfp}-like semantics.)
    */
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     if (obj == null) {
       return false;
     }
@@ -501,9 +500,7 @@ public final class Stats implements Serializable {
 
   // Serialization helpers
 
-  /**
-   * The size of byte array representation in bytes.
-   */
+  /** The size of byte array representation in bytes. */
   static final int BYTES = (Long.SIZE + Double.SIZE * 4) / Byte.SIZE;
 
   /**
@@ -544,8 +541,8 @@ public final class Stats implements Serializable {
   }
 
   /**
-   * Creates a Stats instance from the given byte representation which was obtained by
-   * {@link #toByteArray}.
+   * Creates a Stats instance from the given byte representation which was obtained by {@link
+   * #toByteArray}.
    *
    * <p><b>Note:</b> No guarantees are made regarding stability of the representation between
    * versions.

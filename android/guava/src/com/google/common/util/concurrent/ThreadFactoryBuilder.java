@@ -19,22 +19,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.annotation.CheckReturnValue;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
+ *
  * <ul>
- * <li>whether threads should be marked as {@linkplain Thread#setDaemon daemon} threads
- * <li>a {@linkplain ThreadFactoryBuilder#setNameFormat naming format}
- * <li>a {@linkplain Thread#setPriority thread priority}
- * <li>an {@linkplain Thread#setUncaughtExceptionHandler uncaught exception handler}
- * <li>a {@linkplain ThreadFactory#newThread backing thread factory}
+ *   <li>whether threads should be marked as {@linkplain Thread#setDaemon daemon} threads
+ *   <li>a {@linkplain ThreadFactoryBuilder#setNameFormat naming format}
+ *   <li>a {@linkplain Thread#setPriority thread priority}
+ *   <li>an {@linkplain Thread#setUncaughtExceptionHandler uncaught exception handler}
+ *   <li>a {@linkplain ThreadFactory#newThread backing thread factory}
  * </ul>
+ *
  * <p>If no backing thread factory is provided, a default backing thread factory is used as if by
  * calling {@code setThreadFactory(}{@link Executors#defaultThreadFactory()}{@code )}.
  *
@@ -50,9 +52,7 @@ public final class ThreadFactoryBuilder {
   private UncaughtExceptionHandler uncaughtExceptionHandler = null;
   private ThreadFactory backingThreadFactory = null;
 
-  /**
-   * Creates a new {@link ThreadFactory} builder.
-   */
+  /** Creates a new {@link ThreadFactory} builder. */
   public ThreadFactoryBuilder() {}
 
   /**
@@ -62,8 +62,8 @@ public final class ThreadFactoryBuilder {
    * @param nameFormat a {@link String#format(String, Object...)}-compatible format String, to which
    *     a unique integer (0, 1, etc.) will be supplied as the single parameter. This integer will
    *     be unique to the built instance of the ThreadFactory and will be assigned sequentially. For
-   *     example, {@code "rpc-pool-%d"} will generate thread names like {@code "rpc-pool-0"},
-   *     {@code "rpc-pool-1"}, {@code "rpc-pool-2"}, etc.
+   *     example, {@code "rpc-pool-%d"} will generate thread names like {@code "rpc-pool-0"}, {@code
+   *     "rpc-pool-1"}, {@code "rpc-pool-2"}, etc.
    * @return this for the builder pattern
    */
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
@@ -126,7 +126,6 @@ public final class ThreadFactoryBuilder {
    * @param backingThreadFactory the backing {@link ThreadFactory} which will be delegated to during
    *     thread creation.
    * @return this for the builder pattern
-   *
    * @see MoreExecutors
    */
   public ThreadFactoryBuilder setThreadFactory(ThreadFactory backingThreadFactory) {

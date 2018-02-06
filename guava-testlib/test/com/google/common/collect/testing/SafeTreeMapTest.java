@@ -103,11 +103,11 @@ public class SafeTreeMapTest extends TestCase {
 
   @GwtIncompatible // SerializableTester
   public void testViewSerialization() {
-    Map<String, Integer> map =
-        ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
+    Map<String, Integer> map = ImmutableSortedMap.of("one", 1, "two", 2, "three", 3);
     SerializableTester.reserializeAndAssert(map.entrySet());
     SerializableTester.reserializeAndAssert(map.keySet());
-    assertEquals(Lists.newArrayList(map.values()),
+    assertEquals(
+        Lists.newArrayList(map.values()),
         Lists.newArrayList(SerializableTester.reserialize(map.values())));
   }
 
@@ -117,7 +117,8 @@ public class SafeTreeMapTest extends TestCase {
       super(false, true, true, true, true);
     }
 
-    @Override protected SortedMap<String, Integer> makePopulatedMap() {
+    @Override
+    protected SortedMap<String, Integer> makePopulatedMap() {
       NavigableMap<String, Integer> map = new SafeTreeMap<>();
       map.put("one", 1);
       map.put("two", 2);
@@ -125,17 +126,19 @@ public class SafeTreeMapTest extends TestCase {
       return SerializableTester.reserialize(map);
     }
 
-    @Override protected SortedMap<String, Integer> makeEmptyMap()
-        throws UnsupportedOperationException {
+    @Override
+    protected SortedMap<String, Integer> makeEmptyMap() throws UnsupportedOperationException {
       NavigableMap<String, Integer> map = new SafeTreeMap<>();
       return SerializableTester.reserialize(map);
     }
 
-    @Override protected String getKeyNotInPopulatedMap() {
+    @Override
+    protected String getKeyNotInPopulatedMap() {
       return "minus one";
     }
 
-    @Override protected Integer getValueNotInPopulatedMap() {
+    @Override
+    protected Integer getValueNotInPopulatedMap() {
       return -1;
     }
   }

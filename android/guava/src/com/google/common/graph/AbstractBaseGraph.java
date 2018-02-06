@@ -16,15 +16,20 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Sets;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -69,12 +74,17 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         return Ints.saturatedCast(edgeCount());
       }
 
+      @Override
+      public boolean remove(Object o) {
+        throw new UnsupportedOperationException();
+      }
+
       // Mostly safe: We check contains(u) before calling successors(u), so we perform unsafe
       // operations only in weird cases like checking for an EndpointPair<ArrayList> in a
       // Graph<LinkedList>.
       @SuppressWarnings("unchecked")
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(@NullableDecl Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -84,6 +94,13 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
             && successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());
       }
     };
+  }
+
+  @Override
+  public Set<EndpointPair<N>> incidentEdges(N node) {
+    checkNotNull(node);
+    checkArgument(nodes().contains(node), "Node %s is not an element of this graph.", node);
+    return IncidentEdgeSet.of(this, node);
   }
 
   @Override
@@ -112,5 +129,120 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  private abstract static class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
+    protected final N node;
+    protected final BaseGraph<N> graph;
+
+    public static <N> IncidentEdgeSet<N> of(BaseGraph<N> graph, N node) {
+      return graph.isDirected() ? new Directed<>(graph, node) : new Undirected<>(graph, node);
+    }
+
+    private IncidentEdgeSet(BaseGraph<N> graph, N node) {
+      this.graph = graph;
+      this.node = node;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+      throw new UnsupportedOperationException();
+    }
+
+    private static final class Directed<N> extends IncidentEdgeSet<N> {
+
+      private Directed(BaseGraph<N> graph, N node) {
+        super(graph, node);
+      }
+
+      @Override
+      public UnmodifiableIterator<EndpointPair<N>> iterator() {
+        return Iterators.unmodifiableIterator(
+            Iterators.concat(
+                Iterators.transform(
+                    graph.predecessors(node).iterator(),
+                    new Function<N, EndpointPair<N>>() {
+                      @Override
+                      public EndpointPair<N> apply(N predecessor) {
+                        return EndpointPair.ordered(predecessor, node);
+                      }
+                    }),
+                Iterators.transform(
+                    // filter out 'node' from successors (already covered by predecessors, above)
+                    Sets.difference(graph.successors(node), ImmutableSet.of(node)).iterator(),
+                    new Function<N, EndpointPair<N>>() {
+                      @Override
+                      public EndpointPair<N> apply(N successor) {
+                        return EndpointPair.ordered(node, successor);
+                      }
+                    })));
+      }
+
+      @Override
+      public int size() {
+        return graph.inDegree(node)
+            + graph.outDegree(node)
+            - (graph.successors(node).contains(node) ? 1 : 0);
+      }
+
+      @Override
+      public boolean contains(@NullableDecl Object obj) {
+        if (!(obj instanceof EndpointPair)) {
+          return false;
+        }
+
+        EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
+        if (!endpointPair.isOrdered()) {
+          return false;
+        }
+
+        Object source = endpointPair.source();
+        Object target = endpointPair.target();
+        return (node.equals(source) && graph.successors(node).contains(target))
+            || (node.equals(target) && graph.predecessors(node).contains(source));
+      }
+    }
+
+    private static final class Undirected<N> extends IncidentEdgeSet<N> {
+      private Undirected(BaseGraph<N> graph, N node) {
+        super(graph, node);
+      }
+
+      @Override
+      public UnmodifiableIterator<EndpointPair<N>> iterator() {
+        return Iterators.unmodifiableIterator(
+            Iterators.transform(
+                graph.adjacentNodes(node).iterator(),
+                new Function<N, EndpointPair<N>>() {
+                  @Override
+                  public EndpointPair<N> apply(N adjacentNode) {
+                    return EndpointPair.unordered(node, adjacentNode);
+                  }
+                }));
+      }
+
+      @Override
+      public int size() {
+        return graph.adjacentNodes(node).size();
+      }
+
+      @Override
+      public boolean contains(@NullableDecl Object obj) {
+        if (!(obj instanceof EndpointPair)) {
+          return false;
+        }
+
+        EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
+        if (endpointPair.isOrdered()) {
+          return false;
+        }
+        Set<N> adjacent = graph.adjacentNodes(node);
+        Object nodeU = endpointPair.nodeU();
+        Object nodeV = endpointPair.nodeV();
+
+        return (node.equals(nodeV) && adjacent.contains(nodeU))
+            || (node.equals(nodeU) && adjacent.contains(nodeV));
+      }
+    }
   }
 }

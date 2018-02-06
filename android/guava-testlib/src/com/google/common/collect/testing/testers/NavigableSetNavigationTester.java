@@ -32,15 +32,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests operations on a NavigableSet. Can't be
- * invoked directly; please see {@code NavigableSetTestSuiteBuilder}.
+ * A generic JUnit test which tests operations on a NavigableSet. Can't be invoked directly; please
+ * see {@code NavigableSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
 @GwtIncompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private NavigableSet<E> navigableSet;
@@ -69,10 +71,7 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
     }
   }
 
-  /**
-   * Resets the contents of navigableSet to have elements a, c, for the
-   * navigation tests.
-   */
+  /** Resets the contents of navigableSet to have elements a, c, for the navigation tests. */
   protected void resetWithHole() {
     super.resetContainer(getSubjectGenerator().create(a, c));
     navigableSet = (NavigableSet<E>) getSet();

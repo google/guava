@@ -37,9 +37,7 @@ final class CharSequenceReader extends Reader {
   private int pos;
   private int mark;
 
-  /**
-   * Creates a new reader wrapping the given character sequence.
-   */
+  /** Creates a new reader wrapping the given character sequence. */
   public CharSequenceReader(CharSequence seq) {
     this.seq = checkNotNull(seq);
   }

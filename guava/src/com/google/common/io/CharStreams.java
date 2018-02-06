@@ -34,9 +34,9 @@ import java.util.List;
  *
  * <p>All method parameters must be non-null unless documented otherwise.
  *
- * <p>Some of the methods in this class take arguments with a generic type of
- * {@code Readable & Closeable}. A {@link java.io.Reader} implements both of those interfaces.
- * Similarly for {@code Appendable & Closeable} and {@link java.io.Writer}.
+ * <p>Some of the methods in this class take arguments with a generic type of {@code Readable &
+ * Closeable}. A {@link java.io.Reader} implements both of those interfaces. Similarly for {@code
+ * Appendable & Closeable} and {@link java.io.Writer}.
  *
  * @author Chris Nokleberg
  * @author Bin Zhu
@@ -50,9 +50,7 @@ public final class CharStreams {
   // 2K chars (4K bytes)
   private static final int DEFAULT_BUF_SIZE = 0x800;
 
-  /**
-   * Creates a new {@code CharBuffer} for buffering reads or writes.
-   */
+  /** Creates a new {@code CharBuffer} for buffering reads or writes. */
   static CharBuffer createBuffer() {
     return CharBuffer.allocate(DEFAULT_BUF_SIZE);
   }
@@ -188,8 +186,8 @@ public final class CharStreams {
    * Reads all of the lines from a {@link Readable} object. The lines do not include
    * line-termination characters, but do include other leading and trailing whitespace.
    *
-   * <p>Does not close the {@code Readable}. If reading files or resources you should use the
-   * {@link Files#readLines} and {@link Resources#readLines} methods.
+   * <p>Does not close the {@code Readable}. If reading files or resources you should use the {@link
+   * Files#readLines} and {@link Resources#readLines} methods.
    *
    * @param r the object to read from
    * @return a mutable {@link List} containing all the lines
@@ -230,8 +228,8 @@ public final class CharStreams {
   }
 
   /**
-   * Reads and discards data from the given {@code Readable} until the end of the stream is
-   * reached. Returns the total number of chars read. Does not close the stream.
+   * Reads and discards data from the given {@code Readable} until the end of the stream is reached.
+   * Returns the total number of chars read. Does not close the stream.
    *
    * @since 20.0
    */

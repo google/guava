@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -168,14 +168,12 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
   }
 
-  /**
-   * Waiter links form a Treiber stack, in the {@link #waiters} field.
-   */
+  /** Waiter links form a Treiber stack, in the {@link #waiters} field. */
   private static final class Waiter {
     static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
-    @Nullable volatile Thread thread;
-    @Nullable volatile Waiter next;
+    @NullableDecl volatile Thread thread;
+    @NullableDecl volatile Waiter next;
 
     /**
      * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
@@ -210,10 +208,11 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * Marks the given node as 'deleted' (null waiter) and then scans the list to unlink all deleted
    * nodes. This is an O(n) operation in the common case (and O(n^2) in the worst), but we are saved
    * by two things.
+   *
    * <ul>
-   * <li>This is only called when a waiting thread times out or is interrupted. Both of which should
-   *     be rare.
-   * <li>The waiters list should be very short.
+   *   <li>This is only called when a waiting thread times out or is interrupted. Both of which
+   *       should be rare.
+   *   <li>The waiters list should be very short.
    * </ul>
    */
   private void removeWaiter(Waiter node) {
@@ -251,7 +250,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     final Executor executor;
 
     // writes to next are made visible by subsequent CAS's on the listeners field
-    @Nullable Listener next;
+    @NullableDecl Listener next;
 
     Listener(Runnable task, Executor executor) {
       this.task = task;
@@ -296,9 +295,9 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     final boolean wasInterrupted;
-    @Nullable final Throwable cause;
+    @NullableDecl final Throwable cause;
 
-    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
+    Cancellation(boolean wasInterrupted, @NullableDecl Throwable cause) {
       this.wasInterrupted = wasInterrupted;
       this.cause = cause;
     }
@@ -333,26 +332,26 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * This field encodes the current state of the future.
    *
    * <p>The valid values are:
+   *
    * <ul>
-   * <li>{@code null} initial state, nothing has happened.
-   * <li>{@link Cancellation} terminal state, {@code cancel} was called.
-   * <li>{@link Failure} terminal state, {@code setException} was called.
-   * <li>{@link SetFuture} intermediate state, {@code setFuture} was called.
-   * <li>{@link #NULL} terminal state, {@code set(null)} was called.
-   * <li>Any other non-null value, terminal state, {@code set} was called with a non-null argument.
+   *   <li>{@code null} initial state, nothing has happened.
+   *   <li>{@link Cancellation} terminal state, {@code cancel} was called.
+   *   <li>{@link Failure} terminal state, {@code setException} was called.
+   *   <li>{@link SetFuture} intermediate state, {@code setFuture} was called.
+   *   <li>{@link #NULL} terminal state, {@code set(null)} was called.
+   *   <li>Any other non-null value, terminal state, {@code set} was called with a non-null
+   *       argument.
    * </ul>
    */
-  private volatile Object value;
+  @NullableDecl private volatile Object value;
 
   /** All listeners. */
-  private volatile Listener listeners;
+  @NullableDecl private volatile Listener listeners;
 
   /** All waiting threads. */
-  private volatile Waiter waiters;
+  @NullableDecl private volatile Waiter waiters;
 
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected AbstractFuture() {}
 
   // Gets and Timed Gets
@@ -461,7 +460,10 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     // completed after the timeout expired, and the message might be success.
     if (isDone()) {
       throw new TimeoutException(
-          "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString())
+          "Waited "
+              + timeout
+              + " "
+              + Ascii.toLowerCase(unit.toString())
               + " but future completed as timeout expired");
     }
     throw new TimeoutException(
@@ -516,9 +518,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     return getDoneValue(value);
   }
 
-  /**
-   * Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link SetFuture}.
-   */
+  /** Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link SetFuture}. */
   private V getDoneValue(Object obj) throws ExecutionException {
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
     // unmeasurable (comparing done AbstractFutures with immediateFuture)
@@ -601,7 +601,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
               localValue = trusted.value;
               if (localValue == null | localValue instanceof SetFuture) {
                 abstractFuture = trusted;
-                continue;  // loop back up and try to complete the new future
+                continue; // loop back up and try to complete the new future
               }
             } else {
               // not a TrustedFuture, call cancel directly.
@@ -685,7 +685,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return true if the attempt was accepted, completing the {@code Future}
    */
   @CanIgnoreReturnValue
-  protected boolean set(@Nullable V value) {
+  protected boolean set(@NullableDecl V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
       complete(this);
@@ -834,7 +834,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   /** Unblocks all threads and runs all listeners. */
   private static void complete(AbstractFuture<?> future) {
     Listener next = null;
-    outer: while (true) {
+    outer:
+    while (true) {
       future.releaseWaiters();
       // We call this before the listeners in order to avoid needing to manage a separate stack data
       // structure for them.
@@ -901,7 +902,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
    * the given future (if available).
    */
-  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(@NullableDecl Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }
@@ -913,9 +914,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     do {
       head = waiters;
     } while (!ATOMIC_HELPER.casWaiters(this, head, Waiter.TOMBSTONE));
-    for (Waiter currentWaiter = head;
-        currentWaiter != null;
-        currentWaiter = currentWaiter.next) {
+    for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {
       currentWaiter.unpark();
     }
   }
@@ -981,11 +980,11 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return null if an explanation cannot be provided because the future is done.
    * @since 23.0
    */
-  @Nullable
+  @NullableDecl
   protected String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
-      return "setFuture=[" + ((SetFuture) localValue).future + "]";
+      return "setFuture=[" + userObjectToString(((SetFuture) localValue).future) + "]";
     } else if (this instanceof ScheduledFuture) {
       return "remaining delay=["
           + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)
@@ -997,7 +996,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   private void addDoneString(StringBuilder builder) {
     try {
       V value = getDone(this);
-      builder.append("SUCCESS, result=[").append(value).append("]");
+      builder.append("SUCCESS, result=[").append(userObjectToString(value)).append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
@@ -1007,9 +1006,21 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
   }
 
+  /** Helper for printing user supplied objects into our toString method. */
+  private String userObjectToString(Object o) {
+    // This is some basic recursion detection for when people create cycles via set/setFuture
+    // This is however only partial protection though since it only detects self loops.  We could
+    // detect arbitrary cycles using a thread local or possibly by catching StackOverflowExceptions
+    // but this should be a good enough solution (it is also what jdk collections do in these cases)
+    if (o == this) {
+      return "this future";
+    }
+    return String.valueOf(o);
+  }
+
   /**
-   * Submits the given runnable to the given {@link Executor} catching and logging all
-   * {@linkplain RuntimeException runtime exceptions} thrown by the executor.
+   * Submits the given runnable to the given {@link Executor} catching and logging all {@linkplain
+   * RuntimeException runtime exceptions} thrown by the executor.
    */
   private static void executeListener(Runnable runnable, Executor executor) {
     try {
@@ -1224,7 +1235,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   }
 
   private static CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
+      @NullableDecl String message, @NullableDecl Throwable cause) {
     CancellationException exception = new CancellationException(message);
     exception.initCause(cause);
     return exception;

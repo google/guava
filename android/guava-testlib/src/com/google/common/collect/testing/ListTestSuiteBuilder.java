@@ -51,8 +51,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a List implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a List
+ * implementation.
  *
  * @author George van den Driessche
  */
@@ -90,8 +90,8 @@ public final class ListTestSuiteBuilder<E>
   }
 
   /**
-   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since
-   * lists have an iteration ordering corresponding to the insertion order.
+   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since lists have an
+   * iteration ordering corresponding to the insertion order.
    */
   @Override
   public TestSuite createTestSuite() {

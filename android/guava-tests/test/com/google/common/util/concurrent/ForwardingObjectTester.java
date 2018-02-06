@@ -35,6 +35,7 @@ import java.util.Arrays;
 final class ForwardingObjectTester {
 
   private static final Method DELEGATE_METHOD;
+
   static {
     try {
       DELEGATE_METHOD = ForwardingObject.class.getDeclaredMethod("delegate");
@@ -47,14 +48,13 @@ final class ForwardingObjectTester {
   }
 
   /**
-   * Ensures that all interface methods of {@code forwarderClass} are forwarded to the
-   * {@link ForwardingObject#delegate}. {@code forwarderClass} is assumed to only implement one
-   * interface.
+   * Ensures that all interface methods of {@code forwarderClass} are forwarded to the {@link
+   * ForwardingObject#delegate}. {@code forwarderClass} is assumed to only implement one interface.
    */
   static <T extends ForwardingObject> void testForwardingObject(final Class<T> forwarderClass) {
     @SuppressWarnings("unchecked") // super interface type of T
-    Class<? super T> interfaceType = (Class<? super T>)
-        Iterables.getOnlyElement(Arrays.asList(forwarderClass.getInterfaces()));
+    Class<? super T> interfaceType =
+        (Class<? super T>) Iterables.getOnlyElement(Arrays.asList(forwarderClass.getInterfaces()));
     new ForwardingWrapperTester()
         .testForwarding(
             interfaceType,

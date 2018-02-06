@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
@@ -32,7 +32,7 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@NullableDecl Object element) {
     return forward.count(element);
   }
 

@@ -35,9 +35,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 
-/**
- * @author Charles Fry
- */
+/** @author Charles Fry */
 public class LocalLoadingCacheTest extends TestCase {
 
   private static <K, V> LocalLoadingCache<K, V> makeCache(
@@ -52,12 +50,13 @@ public class LocalLoadingCacheTest extends TestCase {
   // constructor tests
 
   public void testComputingFunction() {
-    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
-      @Override
-      public Object load(Object from) {
-        return new Object();
-      }
-    };
+    CacheLoader<Object, Object> loader =
+        new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object from) {
+            return new Object();
+          }
+        };
     LocalLoadingCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
     assertSame(loader, cache.localCache.defaultLoader);
   }
@@ -73,9 +72,7 @@ public class LocalLoadingCacheTest extends TestCase {
   // stats tests
 
   public void testStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -97,9 +94,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(2, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/2, stats.hitRate());
+    assertEquals(1.0 / 2, stats.hitRate());
     assertEquals(1, stats.missCount());
-    assertEquals(1.0/2, stats.missRate());
+    assertEquals(1.0 / 2, stats.missRate());
     assertEquals(1, stats.loadCount());
     assertEquals(0, stats.evictionCount());
 
@@ -108,9 +105,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(3, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/3, stats.hitRate());
+    assertEquals(1.0 / 3, stats.hitRate());
     assertEquals(2, stats.missCount());
-    assertEquals(2.0/3, stats.missRate());
+    assertEquals(2.0 / 3, stats.missRate());
     assertEquals(2, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -122,9 +119,9 @@ public class LocalLoadingCacheTest extends TestCase {
     stats = cache.stats();
     assertEquals(4, stats.requestCount());
     assertEquals(1, stats.hitCount());
-    assertEquals(1.0/4, stats.hitRate());
+    assertEquals(1.0 / 4, stats.hitRate());
     assertEquals(3, stats.missCount());
-    assertEquals(3.0/4, stats.missRate());
+    assertEquals(3.0 / 4, stats.missRate());
     assertEquals(3, stats.loadCount());
     assertTrue(stats.totalLoadTime() >= totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
@@ -133,8 +130,7 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testStatsNoops() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1);
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     ConcurrentMap<Object, Object> map = cache.localCache; // modifiable map view
     assertEquals(EMPTY_STATS, cache.stats());
@@ -161,14 +157,14 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(map).containsEntry(three, one);
     assertThat(map).containsEntry(one, two);
 
-    //TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
-    //Set<Entry<Object, Object>> entries = map.entrySet();
-    //assertThat(entries).containsExactly(
+    // TODO(cgruber): Confirm with fry@ that this is a reasonable substitute.
+    // Set<Entry<Object, Object>> entries = map.entrySet();
+    // assertThat(entries).containsExactly(
     //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
-    //Set<Object> keys = map.keySet();
-    //assertThat(keys).containsExactly(one, three);
-    //Collection<Object> values = map.values();
-    //assertThat(values).containsExactly(one, two);
+    // Set<Object> keys = map.keySet();
+    // assertThat(keys).containsExactly(one, three);
+    // Collection<Object> values = map.values();
+    // assertThat(values).containsExactly(one, two);
 
     map.clear();
 
@@ -176,9 +172,8 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testNoStats() {
-    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -199,10 +194,8 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testRecordStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .recordStats()
-        .concurrencyLevel(1)
-        .maximumSize(2);
+    CacheBuilder<Object, Object> builder =
+        createCacheBuilder().recordStats().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(0, cache.stats().hitCount());
     assertEquals(0, cache.stats().missCount());
@@ -283,13 +276,10 @@ public class LocalLoadingCacheTest extends TestCase {
     assertEquals(expectedValues, actualValues);
   }
 
-  /**
-   * Lookups on the map view shouldn't impact the recency queue.
-   */
+  /** Lookups on the map view shouldn't impact the recency queue. */
   public void testAsMapRecency() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .concurrencyLevel(1)
-        .maximumSize(SMALL_MAX_SIZE);
+    CacheBuilder<Object, Object> builder =
+        createCacheBuilder().concurrencyLevel(1).maximumSize(SMALL_MAX_SIZE);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     Segment<Object, Object> segment = cache.localCache.segments[0];
     ConcurrentMap<Object, Object> map = cache.asMap();
@@ -305,54 +295,53 @@ public class LocalLoadingCacheTest extends TestCase {
 
   public void testRecursiveComputation() throws InterruptedException {
     final AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
-    CacheLoader<Integer, String> recursiveLoader = new CacheLoader<Integer, String>() {
-      @Override
-      public String load(Integer key) {
-        if (key > 0) {
-          return key + ", " + cacheRef.get().getUnchecked(key - 1);
-        } else {
-          return "0";
-        }
-      }
-    };
+    CacheLoader<Integer, String> recursiveLoader =
+        new CacheLoader<Integer, String>() {
+          @Override
+          public String load(Integer key) {
+            if (key > 0) {
+              return key + ", " + cacheRef.get().getUnchecked(key - 1);
+            } else {
+              return "0";
+            }
+          }
+        };
 
-    LoadingCache<Integer, String> recursiveCache = CacheBuilder.newBuilder()
-        .weakKeys()
-        .weakValues()
-        .build(recursiveLoader);
+    LoadingCache<Integer, String> recursiveCache =
+        CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
     assertEquals("3, 2, 1, 0", recursiveCache.getUnchecked(3));
 
-    recursiveLoader = new CacheLoader<Integer, String>() {
-      @Override
-      public String load(Integer key) {
-        return cacheRef.get().getUnchecked(key);
-      }
-    };
+    recursiveLoader =
+        new CacheLoader<Integer, String>() {
+          @Override
+          public String load(Integer key) {
+            return cacheRef.get().getUnchecked(key);
+          }
+        };
 
-    recursiveCache = CacheBuilder.newBuilder()
-        .weakKeys()
-        .weakValues()
-        .build(recursiveLoader);
+    recursiveCache = CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
 
     // tells the test when the compution has completed
     final CountDownLatch doneSignal = new CountDownLatch(1);
 
-    Thread thread = new Thread() {
-      @Override
-      public void run() {
-        try {
-          cacheRef.get().getUnchecked(3);
-        } finally {
-          doneSignal.countDown();
-        }
-      }
-    };
-    thread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-      @Override
-      public void uncaughtException(Thread t, Throwable e) {}
-    });
+    Thread thread =
+        new Thread() {
+          @Override
+          public void run() {
+            try {
+              cacheRef.get().getUnchecked(3);
+            } finally {
+              doneSignal.countDown();
+            }
+          }
+        };
+    thread.setUncaughtExceptionHandler(
+        new UncaughtExceptionHandler() {
+          @Override
+          public void uncaughtException(Thread t, Throwable e) {}
+        });
     thread.start();
 
     boolean done = doneSignal.await(1, TimeUnit.SECONDS);

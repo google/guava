@@ -43,23 +43,26 @@ public class LinkedHashMultisetTest extends TestCase {
   @GwtIncompatible // suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())
-        .named("LinkedHashMultiset")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-            CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.GENERAL_PURPOSE,
-            MultisetFeature.ENTRIES_ARE_VIEWS)
-        .createTestSuite());
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())
+            .named("LinkedHashMultiset")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+                CollectionFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.GENERAL_PURPOSE,
+                MultisetFeature.ENTRIES_ARE_VIEWS)
+            .createTestSuite());
     suite.addTestSuite(LinkedHashMultisetTest.class);
     return suite;
   }
 
   private static TestStringMultisetGenerator linkedHashMultisetGenerator() {
     return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
+      @Override
+      protected Multiset<String> create(String[] elements) {
         return LinkedHashMultiset.create(asList(elements));
       }
 
@@ -98,8 +101,7 @@ public class LinkedHashMultisetTest extends TestCase {
   }
 
   public void testCreateFromIterable() {
-    Multiset<String> multiset
-        = LinkedHashMultiset.create(Arrays.asList("foo", "bar", "foo"));
+    Multiset<String> multiset = LinkedHashMultiset.create(Arrays.asList("foo", "bar", "foo"));
     assertEquals(3, multiset.size());
     assertEquals(2, multiset.count("foo"));
     assertEquals("[foo x 2, bar]", multiset.toString());

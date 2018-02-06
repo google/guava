@@ -35,20 +35,20 @@ import com.google.common.base.Function;
  * {@code escape(s.substring(0, n)) + escape(s.substring(n))} for arbitrary {@code n}. This is
  * because of the possibility of splitting a surrogate pair. The only case in which it is safe to
  * escape strings and concatenate the results is if you can rule out this possibility, either by
- * splitting an existing long string into short strings adaptively around
- * {@linkplain Character#isHighSurrogate surrogate} {@linkplain Character#isLowSurrogate pairs}, or
- * by starting with short strings already known to be free of unpaired surrogates.
+ * splitting an existing long string into short strings adaptively around {@linkplain
+ * Character#isHighSurrogate surrogate} {@linkplain Character#isLowSurrogate pairs}, or by starting
+ * with short strings already known to be free of unpaired surrogates.
  *
- * <p>The two primary implementations of this interface are {@link CharEscaper} and
- * {@link UnicodeEscaper}. They are heavily optimized for performance and greatly simplify the task
- * of implementing new escapers. It is strongly recommended that when implementing a new escaper you
+ * <p>The two primary implementations of this interface are {@link CharEscaper} and {@link
+ * UnicodeEscaper}. They are heavily optimized for performance and greatly simplify the task of
+ * implementing new escapers. It is strongly recommended that when implementing a new escaper you
  * extend one of these classes. If you find that you are unable to achieve the desired behavior
  * using either of these classes, please contact the Java libraries team for advice.
  *
- * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
- * create your own escapers, use {@link CharEscaperBuilder}, or extend {@code CharEscaper} or
- * {@code UnicodeEscaper}.
+ * <p>Popular escapers are defined as constants in classes like {@link
+ * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To create
+ * your own escapers, use {@link CharEscaperBuilder}, or extend {@code CharEscaper} or {@code
+ * UnicodeEscaper}.
  *
  * @author David Beaumont
  * @since 15.0
@@ -66,12 +66,12 @@ public abstract class Escaper {
    * escaper implementation.
    *
    * <ul>
-   * <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
-   * correctly, including surrogate character pairs. If the input is badly formed the escaper should
-   * throw {@link IllegalArgumentException}.
-   * <li>{@link CharEscaper} handles Java characters independently and does not verify the input for
-   * well formed characters. A {@code CharEscaper} should not be used in situations where input is
-   * not guaranteed to be restricted to the Basic Multilingual Plane (BMP).
+   *   <li>{@link UnicodeEscaper} handles <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a>
+   *       correctly, including surrogate character pairs. If the input is badly formed the escaper
+   *       should throw {@link IllegalArgumentException}.
+   *   <li>{@link CharEscaper} handles Java characters independently and does not verify the input
+   *       for well formed characters. A {@code CharEscaper} should not be used in situations where
+   *       input is not guaranteed to be restricted to the Basic Multilingual Plane (BMP).
    * </ul>
    *
    * @param string the literal string to be escaped
@@ -90,9 +90,7 @@ public abstract class Escaper {
         }
       };
 
-  /**
-   * Returns a {@link Function} that invokes {@link #escape(String)} on this escaper.
-   */
+  /** Returns a {@link Function} that invokes {@link #escape(String)} on this escaper. */
   public final Function<String, String> asFunction() {
     return asFunction;
   }

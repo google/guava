@@ -30,9 +30,9 @@ import com.google.common.annotations.VisibleForTesting;
  * to unsigned arithmetic in all cases except:
  *
  * <ul>
- * <li>comparisons (signed values can be negative)
- * <li>division (avoided here)
- * <li>shifting (right shift must be unsigned)
+ *   <li>comparisons (signed values can be negative)
+ *   <li>division (avoided here)
+ *   <li>shifting (right shift must be unsigned)
  * </ul>
  *
  * @author Kyle Maddison

@@ -26,9 +26,9 @@ import java.util.Comparator;
 
 /**
  * Static utility methods pertaining to {@code int} primitives that interpret values as
- * <i>unsigned</i> (that is, any negative value {@code x} is treated as the positive value
- * {@code 2^32 + x}). The methods for which signedness is not an issue are in {@link Ints}, as well
- * as signed versions of methods for which signedness is an issue.
+ * <i>unsigned</i> (that is, any negative value {@code x} is treated as the positive value {@code
+ * 2^32 + x}). The methods for which signedness is not an issue are in {@link Ints}, as well as
+ * signed versions of methods for which signedness is an issue.
  *
  * <p>In addition, this class provides several static methods for converting an {@code int} to a
  * {@code String} and a {@code String} to an {@code int} that treat the {@code int} as an unsigned
@@ -38,8 +38,8 @@ import java.util.Comparator;
  * {@code int} values. When possible, it is recommended that the {@link UnsignedInteger} wrapper
  * class be used, at a small efficiency penalty, to enforce the distinction in the type system.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained#unsigned-support">unsigned
  * primitive utilities</a>.
  *
  * @author Louis Wasserman
@@ -57,8 +57,8 @@ public final class UnsignedInts {
   }
 
   /**
-   * Compares the two specified {@code int} values, treating them as unsigned values between
-   * {@code 0} and {@code 2^32 - 1} inclusive.
+   * Compares the two specified {@code int} values, treating them as unsigned values between {@code
+   * 0} and {@code 2^32 - 1} inclusive.
    *
    * <p><b>Java 8 users:</b> use {@link Integer#compareUnsigned(int, int)} instead.
    *
@@ -96,12 +96,12 @@ public final class UnsignedInts {
   }
 
   /**
-   * Returns the {@code int} value that, when treated as unsigned, is nearest in value to
-   * {@code value}.
+   * Returns the {@code int} value that, when treated as unsigned, is nearest in value to {@code
+   * value}.
    *
    * @param value any {@code long} value
-   * @return {@code 2^32 - 1} if {@code value >= 2^32}, {@code 0} if {@code value <= 0}, and
-   *     {@code value} cast to {@code int} otherwise
+   * @return {@code 2^32 - 1} if {@code value >= 2^32}, {@code 0} if {@code value <= 0}, and {@code
+   *     value} cast to {@code int} otherwise
    * @since 21.0
    */
   public static int saturatedCast(long value) {
@@ -155,8 +155,8 @@ public final class UnsignedInts {
   }
 
   /**
-   * Returns a string containing the supplied unsigned {@code int} values separated by
-   * {@code separator}. For example, {@code join("-", 1, 2, 3)} returns the string {@code "1-2-3"}.
+   * Returns a string containing the supplied unsigned {@code int} values separated by {@code
+   * separator}. For example, {@code join("-", 1, 2, 3)} returns the string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in the resulting string
    *     (but not at the start or end)
@@ -210,6 +210,7 @@ public final class UnsignedInts {
       return "UnsignedInts.lexicographicalComparator()";
     }
   }
+
   /**
    * Sorts the array, treating its elements as unsigned 32-bit integers.
    *
@@ -298,13 +299,13 @@ public final class UnsignedInts {
   /**
    * Returns the unsigned {@code int} value represented by the given string.
    *
-   * Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
+   * <p>Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
    *
    * <ul>
-   * <li>{@code 0x}<i>HexDigits</i>
-   * <li>{@code 0X}<i>HexDigits</i>
-   * <li>{@code #}<i>HexDigits</i>
-   * <li>{@code 0}<i>OctalDigits</i>
+   *   <li>{@code 0x}<i>HexDigits</i>
+   *   <li>{@code 0X}<i>HexDigits</i>
+   *   <li>{@code #}<i>HexDigits</i>
+   *   <li>{@code 0}<i>OctalDigits</i>
    * </ul>
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
@@ -330,8 +331,8 @@ public final class UnsignedInts {
    * <p><b>Java 8 users:</b> use {@link Integer#parseUnsignedInt(String)} instead.
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
-   * @throws NullPointerException if {@code s} is null (in contrast to
-   *     {@link Integer#parseInt(String)})
+   * @throws NullPointerException if {@code s} is null (in contrast to {@link
+   *     Integer#parseInt(String)})
    */
   @CanIgnoreReturnValue
   public static int parseUnsignedInt(String s) {
@@ -344,12 +345,12 @@ public final class UnsignedInts {
    * <p><b>Java 8 users:</b> use {@link Integer#parseUnsignedInt(String, int)} instead.
    *
    * @param string the string containing the unsigned integer representation to be parsed.
-   * @param radix the radix to use while parsing {@code s}; must be between
-   *     {@link Character#MIN_RADIX} and {@link Character#MAX_RADIX}.
+   * @param radix the radix to use while parsing {@code s}; must be between {@link
+   *     Character#MIN_RADIX} and {@link Character#MAX_RADIX}.
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code int}, or
    *     if supplied radix is invalid.
-   * @throws NullPointerException if {@code s} is null (in contrast to
-   *     {@link Integer#parseInt(String)})
+   * @throws NullPointerException if {@code s} is null (in contrast to {@link
+   *     Integer#parseInt(String)})
    */
   @CanIgnoreReturnValue
   public static int parseUnsignedInt(String string, int radix) {

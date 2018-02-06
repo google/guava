@@ -27,7 +27,7 @@
   <inherits name="com.google.common.testing.Testing"/>
    
   <inherits name="java.lang.Lang"/>
-    
+     
   <inherits name="com.google.gwt.core.Core"/>
    
 </module>

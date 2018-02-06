@@ -32,6 +32,7 @@ public class ImmutableRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = 0;
   private static final int MAX_BOUND = 10;
+
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 
@@ -194,7 +195,8 @@ public class ImmutableRangeMapTest extends TestCase {
           assertEquals(expectedAsMap, descendingMap);
           SerializableTester.reserializeAndAssert(asMap);
           SerializableTester.reserializeAndAssert(descendingMap);
-          assertEquals(ImmutableList.copyOf(asMap.entrySet()).reverse(),
+          assertEquals(
+              ImmutableList.copyOf(asMap.entrySet()).reverse(),
               ImmutableList.copyOf(descendingMap.entrySet()));
 
           for (Range<Integer> query : RANGES) {
@@ -211,8 +213,7 @@ public class ImmutableRangeMapTest extends TestCase {
         if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
           for (Range<Integer> subRange : RANGES) {
             ImmutableRangeMap<Integer, Integer> rangeMap =
-                ImmutableRangeMap.<Integer, Integer>builder()
-                  .put(range1, 1).put(range2, 2).build();
+                ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
 
             ImmutableRangeMap.Builder<Integer, Integer> expectedBuilder =
                 ImmutableRangeMap.builder();
@@ -241,7 +242,7 @@ public class ImmutableRangeMapTest extends TestCase {
             .put(Range.open(6, 7), 3)
             .put(Range.closedOpen(8, 10), 4)
             .put(Range.openClosed(15, 17), 2)
-        .build();
+            .build();
 
     ImmutableMap<Range<Integer>, Integer> test = nonEmptyRangeMap.asMapOfRanges();
 

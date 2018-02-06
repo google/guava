@@ -31,33 +31,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation of {@code Multimap} that uses an {@code ArrayList} to store
- * the values for a given key. A {@link HashMap} associates each key with an
- * {@link ArrayList} of values.
+ * Implementation of {@code Multimap} that uses an {@code ArrayList} to store the values for a given
+ * key. A {@link HashMap} associates each key with an {@link ArrayList} of values.
  *
- * <p>When iterating through the collections supplied by this class, the
- * ordering of values for a given key agrees with the order in which the values
- * were added.
+ * <p>When iterating through the collections supplied by this class, the ordering of values for a
+ * given key agrees with the order in which the values were added.
  *
- * <p>This multimap allows duplicate key-value pairs. After adding a new
- * key-value pair equal to an existing key-value pair, the {@code
- * ArrayListMultimap} will contain entries for both the new value and the old
- * value.
+ * <p>This multimap allows duplicate key-value pairs. After adding a new key-value pair equal to an
+ * existing key-value pair, the {@code ArrayListMultimap} will contain entries for both the new
+ * value and the old value.
  *
- * <p>Keys and values may be null. All optional multimap methods are supported,
- * and all returned views are modifiable.
+ * <p>Keys and values may be null. All optional multimap methods are supported, and all returned
+ * views are modifiable.
  *
- * <p>The lists returned by {@link #get}, {@link #removeAll}, and {@link
- * #replaceValues} all implement {@link java.util.RandomAccess}.
+ * <p>The lists returned by {@link #get}, {@link #removeAll}, and {@link #replaceValues} all
+ * implement {@link java.util.RandomAccess}.
  *
- * <p>This class is not threadsafe when any concurrent operations update the
- * multimap. Concurrent read operations will work correctly. To allow concurrent
- * update operations, wrap your multimap with a call to {@link
- * Multimaps#synchronizedListMultimap}.
+ * <p>This class is not threadsafe when any concurrent operations update the multimap. Concurrent
+ * read operations will work correctly. To allow concurrent update operations, wrap your multimap
+ * with a call to {@link Multimaps#synchronizedListMultimap}.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap">
- * {@code Multimap}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"> {@code
+ * Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0
@@ -109,12 +105,11 @@ public final class ArrayListMultimap<K, V>
   }
 
   private ArrayListMultimap() {
-    super(new HashMap<K, Collection<V>>());
-    expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
+    this(12, DEFAULT_VALUES_PER_KEY);
   }
 
   private ArrayListMultimap(int expectedKeys, int expectedValuesPerKey) {
-    super(Maps.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
+    super(Platform.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
     checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
     this.expectedValuesPerKey = expectedValuesPerKey;
   }
@@ -129,8 +124,7 @@ public final class ArrayListMultimap<K, V>
   }
 
   /**
-   * Creates a new, empty {@code ArrayList} to hold the collection of values for
-   * an arbitrary key.
+   * Creates a new, empty {@code ArrayList} to hold the collection of values for an arbitrary key.
    */
   @Override
   List<V> createCollection() {
@@ -153,9 +147,8 @@ public final class ArrayListMultimap<K, V>
   }
 
   /**
-   * @serialData expectedValuesPerKey, number of distinct keys, and then for
-   *     each distinct key: the key, number of values for that key, and the
-   *     key's values
+   * @serialData expectedValuesPerKey, number of distinct keys, and then for each distinct key: the
+   *     key, number of values for that key, and the key's values
    */
   @GwtIncompatible // java.io.ObjectOutputStream
   private void writeObject(ObjectOutputStream stream) throws IOException {
@@ -168,7 +161,7 @@ public final class ArrayListMultimap<K, V>
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
     int distinctKeys = Serialization.readCount(stream);
-    Map<K, Collection<V>> map = Maps.newHashMap();
+    Map<K, Collection<V>> map = CompactHashMap.create();
     setMap(map);
     Serialization.populateMultimap(this, stream, distinctKeys);
   }

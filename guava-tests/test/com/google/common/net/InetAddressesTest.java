@@ -40,67 +40,67 @@ public class InetAddressesTest extends TestCase {
 
   public void testForStringBogusInput() {
     String[] bogusInputs = {
-        "",
-        "016.016.016.016",
-        "016.016.016",
-        "016.016",
-        "016",
-        "000.000.000.000",
-        "000",
-        "0x0a.0x0a.0x0a.0x0a",
-        "0x0a.0x0a.0x0a",
-        "0x0a.0x0a",
-        "0x0a",
-        "42.42.42.42.42",
-        "42.42.42",
-        "42.42",
-        "42",
-        "42..42.42",
-        "42..42.42.42",
-        "42.42.42.42.",
-        "42.42.42.42...",
-        ".42.42.42.42",
-        "...42.42.42.42",
-        "42.42.42.-0",
-        "42.42.42.+0",
-        ".",
-        "...",
-        "bogus",
-        "bogus.com",
-        "192.168.0.1.com",
-        "12345.67899.-54321.-98765",
-        "257.0.0.0",
-        "42.42.42.-42",
-        "3ffe::1.net",
-        "3ffe::1::1",
-        "1::2::3::4:5",
-        "::7:6:5:4:3:2:",  // should end with ":0"
-        ":6:5:4:3:2:1::",  // should begin with "0:"
-        "2001::db:::1",
-        "FEDC:9878",
-        "+1.+2.+3.4",
-        "1.2.3.4e0",
-        "::7:6:5:4:3:2:1:0",  // too many parts
-        "7:6:5:4:3:2:1:0::",  // too many parts
-        "9:8:7:6:5:4:3::2:1",  // too many parts
-        "0:1:2:3::4:5:6:7",  // :: must remove at least one 0.
-        "3ffe:0:0:0:0:0:0:0:1",  // too many parts (9 instead of 8)
-        "3ffe::10000",  // hextet exceeds 16 bits
-        "3ffe::goog",
-        "3ffe::-0",
-        "3ffe::+0",
-        "3ffe::-1",
-        ":",
-        ":::",
-        "::1.2.3",
-        "::1.2.3.4.5",
-        "::1.2.3.4:",
-        "1.2.3.4::",
-        "2001:db8::1:",
-        ":2001:db8::1",
-        ":1:2:3:4:5:6:7",
-        "1:2:3:4:5:6:7:",
-        ":1:2:3:4:5:6:"
+      "",
+      "016.016.016.016",
+      "016.016.016",
+      "016.016",
+      "016",
+      "000.000.000.000",
+      "000",
+      "0x0a.0x0a.0x0a.0x0a",
+      "0x0a.0x0a.0x0a",
+      "0x0a.0x0a",
+      "0x0a",
+      "42.42.42.42.42",
+      "42.42.42",
+      "42.42",
+      "42",
+      "42..42.42",
+      "42..42.42.42",
+      "42.42.42.42.",
+      "42.42.42.42...",
+      ".42.42.42.42",
+      "...42.42.42.42",
+      "42.42.42.-0",
+      "42.42.42.+0",
+      ".",
+      "...",
+      "bogus",
+      "bogus.com",
+      "192.168.0.1.com",
+      "12345.67899.-54321.-98765",
+      "257.0.0.0",
+      "42.42.42.-42",
+      "3ffe::1.net",
+      "3ffe::1::1",
+      "1::2::3::4:5",
+      "::7:6:5:4:3:2:", // should end with ":0"
+      ":6:5:4:3:2:1::", // should begin with "0:"
+      "2001::db:::1",
+      "FEDC:9878",
+      "+1.+2.+3.4",
+      "1.2.3.4e0",
+      "::7:6:5:4:3:2:1:0", // too many parts
+      "7:6:5:4:3:2:1:0::", // too many parts
+      "9:8:7:6:5:4:3::2:1", // too many parts
+      "0:1:2:3::4:5:6:7", // :: must remove at least one 0.
+      "3ffe:0:0:0:0:0:0:0:1", // too many parts (9 instead of 8)
+      "3ffe::10000", // hextet exceeds 16 bits
+      "3ffe::goog",
+      "3ffe::-0",
+      "3ffe::+0",
+      "3ffe::-1",
+      ":",
+      ":::",
+      "::1.2.3",
+      "::1.2.3.4.5",
+      "::1.2.3.4:",
+      "1.2.3.4::",
+      "2001:db8::1:",
+      ":2001:db8::1",
+      ":1:2:3:4:5:6:7",
+      "1:2:3:4:5:6:7:",
+      ":1:2:3:4:5:6:"
     };
 
     for (int i = 0; i < bogusInputs.length; i++) {
@@ -142,10 +142,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testForStringIPv6EightColons() throws UnknownHostException {
     String[] eightColons = {
-      "::7:6:5:4:3:2:1",
-      "::7:6:5:4:3:2:0",
-      "7:6:5:4:3:2:1::",
-      "0:6:5:4:3:2:1::",
+      "::7:6:5:4:3:2:1", "::7:6:5:4:3:2:0", "7:6:5:4:3:2:1::", "0:6:5:4:3:2:1::",
     };
 
     for (int i = 0; i < eightColons.length; i++) {
@@ -158,8 +155,9 @@ public class InetAddressesTest extends TestCase {
   }
 
   public void testConvertDottedQuadToHex() throws UnknownHostException {
-    String[] ipStrings = {"7::0.128.0.127", "7::0.128.0.128",
-        "7::128.128.0.127", "7::0.128.128.127"};
+    String[] ipStrings = {
+      "7::0.128.0.127", "7::0.128.0.128", "7::128.128.0.127", "7::0.128.128.127"
+    };
 
     for (String ipString : ipStrings) {
       // Shouldn't hit DNS, because it's an IP string literal.
@@ -171,48 +169,35 @@ public class InetAddressesTest extends TestCase {
 
   public void testToAddrStringIPv4() {
     // Don't need to test IPv4 much; it just calls getHostAddress().
-    assertEquals("1.2.3.4",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("1.2.3.4")));
+    assertEquals("1.2.3.4", InetAddresses.toAddrString(InetAddresses.forString("1.2.3.4")));
   }
 
   public void testToAddrStringIPv6() {
-    assertEquals("1:2:3:4:5:6:7:8",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("1:2:3:4:5:6:7:8")));
-    assertEquals("2001:0:0:4::8",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("2001:0:0:4:0:0:0:8")));
-    assertEquals("2001::4:5:6:7:8",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("2001:0:0:4:5:6:7:8")));
-    assertEquals("2001:0:3:4:5:6:7:8",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("2001:0:3:4:5:6:7:8")));
-    assertEquals("0:0:3::ffff",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("0:0:3:0:0:0:0:ffff")));
-    assertEquals("::4:0:0:0:ffff",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("0:0:0:4:0:0:0:ffff")));
-    assertEquals("::5:0:0:ffff",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("0:0:0:0:5:0:0:ffff")));
-    assertEquals("1::4:0:0:7:8",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("1:0:0:4:0:0:7:8")));
-    assertEquals("::",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("0:0:0:0:0:0:0:0")));
-    assertEquals("::1",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("0:0:0:0:0:0:0:1")));
-    assertEquals("2001:658:22a:cafe::",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("2001:0658:022a:cafe::")));
-    assertEquals("::102:304",
-                 InetAddresses.toAddrString(
-                     InetAddresses.forString("::1.2.3.4")));
+    assertEquals(
+        "1:2:3:4:5:6:7:8", InetAddresses.toAddrString(InetAddresses.forString("1:2:3:4:5:6:7:8")));
+    assertEquals(
+        "2001:0:0:4::8", InetAddresses.toAddrString(InetAddresses.forString("2001:0:0:4:0:0:0:8")));
+    assertEquals(
+        "2001::4:5:6:7:8",
+        InetAddresses.toAddrString(InetAddresses.forString("2001:0:0:4:5:6:7:8")));
+    assertEquals(
+        "2001:0:3:4:5:6:7:8",
+        InetAddresses.toAddrString(InetAddresses.forString("2001:0:3:4:5:6:7:8")));
+    assertEquals(
+        "0:0:3::ffff", InetAddresses.toAddrString(InetAddresses.forString("0:0:3:0:0:0:0:ffff")));
+    assertEquals(
+        "::4:0:0:0:ffff",
+        InetAddresses.toAddrString(InetAddresses.forString("0:0:0:4:0:0:0:ffff")));
+    assertEquals(
+        "::5:0:0:ffff", InetAddresses.toAddrString(InetAddresses.forString("0:0:0:0:5:0:0:ffff")));
+    assertEquals(
+        "1::4:0:0:7:8", InetAddresses.toAddrString(InetAddresses.forString("1:0:0:4:0:0:7:8")));
+    assertEquals("::", InetAddresses.toAddrString(InetAddresses.forString("0:0:0:0:0:0:0:0")));
+    assertEquals("::1", InetAddresses.toAddrString(InetAddresses.forString("0:0:0:0:0:0:0:1")));
+    assertEquals(
+        "2001:658:22a:cafe::",
+        InetAddresses.toAddrString(InetAddresses.forString("2001:0658:022a:cafe::")));
+    assertEquals("::102:304", InetAddresses.toAddrString(InetAddresses.forString("::1.2.3.4")));
   }
 
   public void testToUriStringIPv4() {
@@ -264,76 +249,74 @@ public class InetAddressesTest extends TestCase {
   public void testForUriStringBad() {
     try {
       InetAddresses.forUriString("");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("192.168.999.888");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("www.google.com");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[1:2e]");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[192.168.1.1]");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("192.168.1.1]");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[192.168.1.1");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("[3ffe:0:0:0:0:0:0:1");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1]");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
 
     try {
       InetAddresses.forUriString("::ffff:192.0.2.1");
-      fail("expected IllegalArgumentException");  // COV_NF_LINE
+      fail("expected IllegalArgumentException"); // COV_NF_LINE
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testCompatIPv4Addresses() {
     String[] nonCompatAddresses = {
-        "3ffe::1",
-        "::",
-        "::1",
+      "3ffe::1", "::", "::1",
     };
 
     for (int i = 0; i < nonCompatAddresses.length; i++) {
@@ -341,15 +324,13 @@ public class InetAddressesTest extends TestCase {
       assertFalse(InetAddresses.isCompatIPv4Address((Inet6Address) ip));
       try {
         InetAddresses.getCompatIPv4Address((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" +
-             nonCompatAddresses[i] + "'");
+        fail("IllegalArgumentException expected for '" + nonCompatAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
       }
     }
 
     String[] validCompatAddresses = {
-        "::1.2.3.4",
-        "::102:304",
+      "::1.2.3.4", "::102:304",
     };
     String compatStr = "1.2.3.4";
     InetAddress compat = InetAddresses.forString(compatStr);
@@ -357,10 +338,13 @@ public class InetAddressesTest extends TestCase {
     for (int i = 0; i < validCompatAddresses.length; i++) {
       InetAddress ip = InetAddresses.forString(validCompatAddresses[i]);
       assertTrue("checking '" + validCompatAddresses[i] + "'", ip instanceof Inet6Address);
-      assertTrue("checking '" + validCompatAddresses[i] + "'",
+      assertTrue(
+          "checking '" + validCompatAddresses[i] + "'",
           InetAddresses.isCompatIPv4Address((Inet6Address) ip));
-      assertEquals("checking '" + validCompatAddresses[i] + "'", compat,
-                   InetAddresses.getCompatIPv4Address((Inet6Address) ip));
+      assertEquals(
+          "checking '" + validCompatAddresses[i] + "'",
+          compat,
+          InetAddresses.getCompatIPv4Address((Inet6Address) ip));
     }
   }
 
@@ -406,20 +390,15 @@ public class InetAddressesTest extends TestCase {
 
   public void test6to4Addresses() {
     String[] non6to4Addresses = {
-        "::1.2.3.4",
-        "3ffe::1",
-        "::",
-        "::1",
+      "::1.2.3.4", "3ffe::1", "::", "::1",
     };
 
     for (int i = 0; i < non6to4Addresses.length; i++) {
       InetAddress ip = InetAddresses.forString(non6to4Addresses[i]);
       assertFalse(InetAddresses.is6to4Address((Inet6Address) ip));
       try {
-        InetAddresses.get6to4IPv4Address(
-            (Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" +
-             non6to4Addresses[i] + "'");
+        InetAddresses.get6to4IPv4Address((Inet6Address) ip);
+        fail("IllegalArgumentException expected for '" + non6to4Addresses[i] + "'");
       } catch (IllegalArgumentException expected) {
       }
     }
@@ -435,10 +414,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testTeredoAddresses() {
     String[] nonTeredoAddresses = {
-        "::1.2.3.4",
-        "3ffe::1",
-        "::",
-        "::1",
+      "::1.2.3.4", "3ffe::1", "::", "::1",
     };
 
     for (int i = 0; i < nonTeredoAddresses.length; i++) {
@@ -446,8 +422,7 @@ public class InetAddressesTest extends TestCase {
       assertFalse(InetAddresses.isTeredoAddress((Inet6Address) ip));
       try {
         InetAddresses.getTeredoInfo((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" +
-             nonTeredoAddresses[i] + "'");
+        fail("IllegalArgumentException expected for '" + nonTeredoAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
       }
     }
@@ -460,8 +435,7 @@ public class InetAddressesTest extends TestCase {
 
     InetAddress ip = InetAddresses.forString(validTeredoAddress);
     assertTrue(InetAddresses.isTeredoAddress((Inet6Address) ip));
-    InetAddresses.TeredoInfo teredo =
-        InetAddresses.getTeredoInfo((Inet6Address) ip);
+    InetAddresses.TeredoInfo teredo = InetAddresses.getTeredoInfo((Inet6Address) ip);
 
     InetAddress server = InetAddresses.forString(serverStr);
     assertEquals(server, teredo.getServer());
@@ -484,35 +458,36 @@ public class InetAddressesTest extends TestCase {
   public void testIsatapAddresses() {
     InetAddress ipv4 = InetAddresses.forString("1.2.3.4");
     String[] validIsatapAddresses = {
-        "2001:db8::5efe:102:304",
-        "2001:db8::100:5efe:102:304",  // Private Multicast? Not likely.
-        "2001:db8::200:5efe:102:304",
-        "2001:db8::300:5efe:102:304"   // Public Multicast? Also unlikely.
+      "2001:db8::5efe:102:304",
+      "2001:db8::100:5efe:102:304", // Private Multicast? Not likely.
+      "2001:db8::200:5efe:102:304",
+      "2001:db8::300:5efe:102:304" // Public Multicast? Also unlikely.
     };
     String[] nonIsatapAddresses = {
-        "::1.2.3.4",
-        "3ffe::1",
-        "::",
-        "::1",
-        "2001:db8::0040:5efe:102:304",
-        "2001:db8::5ffe:102:304",
-        "2001:db8::5eff:102:304",
-        "2001:0:102:203:200:5efe:506:708",  // Teredo address; not ISATAP
+      "::1.2.3.4",
+      "3ffe::1",
+      "::",
+      "::1",
+      "2001:db8::0040:5efe:102:304",
+      "2001:db8::5ffe:102:304",
+      "2001:db8::5eff:102:304",
+      "2001:0:102:203:200:5efe:506:708", // Teredo address; not ISATAP
     };
 
     for (int i = 0; i < validIsatapAddresses.length; i++) {
       InetAddress ip = InetAddresses.forString(validIsatapAddresses[i]);
       assertTrue(InetAddresses.isIsatapAddress((Inet6Address) ip));
-      assertEquals("checking '" + validIsatapAddresses[i] + "'", ipv4,
-                   InetAddresses.getIsatapIPv4Address((Inet6Address) ip));
+      assertEquals(
+          "checking '" + validIsatapAddresses[i] + "'",
+          ipv4,
+          InetAddresses.getIsatapIPv4Address((Inet6Address) ip));
     }
     for (int i = 0; i < nonIsatapAddresses.length; i++) {
       InetAddress ip = InetAddresses.forString(nonIsatapAddresses[i]);
       assertFalse(InetAddresses.isIsatapAddress((Inet6Address) ip));
       try {
         InetAddresses.getIsatapIPv4Address((Inet6Address) ip);
-        fail("IllegalArgumentException expected for '" +
-             nonIsatapAddresses[i] + "'");
+        fail("IllegalArgumentException expected for '" + nonIsatapAddresses[i] + "'");
       } catch (IllegalArgumentException expected) {
       }
     }
@@ -542,8 +517,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(ipv4, InetAddresses.getEmbeddedIPv4ClientAddress(testIp));
 
     // Test Teredo address.
-    testIp = (Inet6Address) InetAddresses.forString(
-        "2001:0000:4136:e378:8000:63bf:3fff:fdd2");
+    testIp = (Inet6Address) InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2");
     assertTrue(InetAddresses.hasEmbeddedIPv4ClientAddress(testIp));
     ipv4 = InetAddresses.forString("192.0.2.45");
     assertEquals(ipv4, InetAddresses.getEmbeddedIPv4ClientAddress(testIp));
@@ -552,70 +526,63 @@ public class InetAddressesTest extends TestCase {
   public void testGetCoercedIPv4Address() {
     // Check that a coerced IPv4 address is unaltered.
     InetAddress localHost4 = InetAddresses.forString("127.0.0.1");
-    assertEquals(localHost4,
-                 InetAddresses.getCoercedIPv4Address(localHost4));
+    assertEquals(localHost4, InetAddresses.getCoercedIPv4Address(localHost4));
 
     // ::1 special case
-    assertEquals(localHost4,
-                 InetAddresses.getCoercedIPv4Address(
-                     InetAddresses.forString("::1")));
+    assertEquals(localHost4, InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1")));
 
     // :: special case
-    assertEquals(InetAddresses.forString("0.0.0.0"),
-                 InetAddresses.getCoercedIPv4Address(
-                     InetAddresses.forString("::")));
+    assertEquals(
+        InetAddresses.forString("0.0.0.0"),
+        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::")));
 
     // test compat address (should be hashed)
-    assertTrue(InetAddresses.forString("1.2.3.4") !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("::1.2.3.4")));
+    assertTrue(
+        InetAddresses.forString("1.2.3.4")
+            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1.2.3.4")));
 
     // test 6to4 address (should be hashed)
-    assertTrue(InetAddresses.forString("1.2.3.4") !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("2002:0102:0304::1")));
+    assertTrue(
+        InetAddresses.forString("1.2.3.4")
+            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1")));
 
     // 2 6to4 addresses differing in the embedded IPv4 address should
     // hash to the different values.
-    assertTrue(InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("2002:0102:0304::1")) !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("2002:0506:0708::1")));
+    assertTrue(
+        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1"))
+            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0506:0708::1")));
 
     // 2 6to4 addresses NOT differing in the embedded IPv4 address should
     // hash to the same value.
-    assertTrue(InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("2002:0102:0304::1")) !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString("2002:0102:0304::2")));
+    assertTrue(
+        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1"))
+            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::2")));
 
     // test Teredo address (should be hashed)
-    assertTrue(InetAddresses.forString("192.0.2.45") !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString(
-                       "2001:0000:4136:e378:8000:63bf:3fff:fdd2")));
+    assertTrue(
+        InetAddresses.forString("192.0.2.45")
+            != InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")));
 
     // 2 Teredo addresses differing in the embedded IPv4 address should
     // hash to the different values.
-    assertTrue(InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString(
-                       "2001:0000:4136:e378:8000:63bf:3fff:fdd2")) !=
-               InetAddresses.getCoercedIPv4Address(
-                   InetAddresses.forString(
-                       "2001:0000:4136:e379:8000:63bf:3fff:fdd2")));
+    assertTrue(
+        InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2"))
+            != InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e379:8000:63bf:3fff:fdd2")));
 
     // 2 Teredo addresses NOT differing in the embedded IPv4 address should
     // hash to the same value.
-    assertEquals(InetAddresses.getCoercedIPv4Address(
-                     InetAddresses.forString(
-                         "2001:0000:4136:e378:8000:63bf:3fff:fdd2")),
-                 InetAddresses.getCoercedIPv4Address(
-                     InetAddresses.forString(
-                         "2001:0000:4136:e378:9000:63bf:3fff:fdd2")));
+    assertEquals(
+        InetAddresses.getCoercedIPv4Address(
+            InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")),
+        InetAddresses.getCoercedIPv4Address(
+            InetAddresses.forString("2001:0000:4136:e378:9000:63bf:3fff:fdd2")));
 
     // Test that an address hashes in to the 224.0.0.0/3 number-space.
-    InetAddress coerced = InetAddresses.getCoercedIPv4Address(
-                              InetAddresses.forString("2001:4860::1"));
+    InetAddress coerced =
+        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2001:4860::1"));
     assertTrue(0xe0000000 <= InetAddresses.coerceToInteger(coerced));
     assertTrue(InetAddresses.coerceToInteger(coerced) <= 0xfffffffe);
   }
@@ -626,8 +593,7 @@ public class InetAddressesTest extends TestCase {
   }
 
   public void testFromInteger() {
-    assertEquals(InetAddresses.fromInteger(0x7f000001),
-                 InetAddresses.forString("127.0.0.1"));
+    assertEquals(InetAddresses.fromInteger(0x7f000001), InetAddresses.forString("127.0.0.1"));
   }
 
   public void testFromLittleEndianByteArray() throws UnknownHostException {
@@ -682,7 +648,8 @@ public class InetAddressesTest extends TestCase {
     try {
       address = InetAddresses.increment(address);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testIncrementIPv6() throws UnknownHostException {
@@ -699,13 +666,13 @@ public class InetAddressesTest extends TestCase {
     address = InetAddresses.increment(address);
     assertEquals(addressV6_67_0, address);
 
-    InetAddress addressV6_ffffff =
-        InetAddress.getByName("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
+    InetAddress addressV6_ffffff = InetAddress.getByName("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
     address = addressV6_ffffff;
     try {
       address = InetAddresses.increment(address);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testDecrementIPv4() throws UnknownHostException {
@@ -728,7 +695,8 @@ public class InetAddressesTest extends TestCase {
     try {
       address = InetAddresses.decrement(address);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public void testDecrementIPv6() throws UnknownHostException {
@@ -746,12 +714,12 @@ public class InetAddressesTest extends TestCase {
     }
     assertEquals(addressV6660, address);
 
-    InetAddress addressV6000000 =
-        InetAddress.getByName("0:0:0:0:0:0:0:0");
+    InetAddress addressV6000000 = InetAddress.getByName("0:0:0:0:0:0:0:0");
     address = addressV6000000;
     try {
       address = InetAddresses.decrement(address);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

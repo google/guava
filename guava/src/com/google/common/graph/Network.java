@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Optional;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An interface for <a
@@ -52,8 +52,8 @@ import javax.annotation.Nullable;
  * <h3>Building a {@code Network}</h3>
  *
  * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
- * create an instance of one of the built-in implementations of {@code Network}, use the
- * {@link NetworkBuilder} class:
+ * create an instance of one of the built-in implementations of {@code Network}, use the {@link
+ * NetworkBuilder} class:
  *
  * <pre>{@code
  * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
@@ -311,13 +311,13 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @Nullable
+  @NullableDecl
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
    * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
-   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)},
-   * and to {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
+   * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
    *
    * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
    *
@@ -336,10 +336,10 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    *
    * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B connects the same nodes in the same direction (if any).
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>Every edge in A and B connects the same nodes in the same direction (if any).
    * </ul>
    *
    * <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
@@ -350,7 +350,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@NullableDecl Object object);
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code

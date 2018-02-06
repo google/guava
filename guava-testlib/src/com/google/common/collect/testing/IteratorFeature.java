@@ -24,8 +24,7 @@ import java.util.ListIterator;
 import java.util.Set;
 
 /**
- * A method supported by implementations of the {@link Iterator} or
- * {@link ListIterator} interface.
+ * A method supported by implementations of the {@link Iterator} or {@link ListIterator} interface.
  *
  * <p>This enum is GWT compatible.
  *
@@ -33,30 +32,28 @@ import java.util.Set;
  */
 @GwtCompatible
 public enum IteratorFeature {
-  /**
-   * Support for {@link Iterator#remove()}.
-   */
+  /** Support for {@link Iterator#remove()}. */
   SUPPORTS_REMOVE,
   /**
-   * Support for {@link ListIterator#add(Object)}; ignored for plain
-   * {@link Iterator} implementations.
+   * Support for {@link ListIterator#add(Object)}; ignored for plain {@link Iterator}
+   * implementations.
    */
   SUPPORTS_ADD,
   /**
-   * Support for {@link ListIterator#set(Object)}; ignored for plain
-   * {@link Iterator} implementations.
+   * Support for {@link ListIterator#set(Object)}; ignored for plain {@link Iterator}
+   * implementations.
    */
   SUPPORTS_SET;
 
   /**
-   * A set containing none of the optional features of the {@link Iterator} or
-   * {@link ListIterator} interfaces.
+   * A set containing none of the optional features of the {@link Iterator} or {@link ListIterator}
+   * interfaces.
    */
   public static final Set<IteratorFeature> UNMODIFIABLE = Collections.emptySet();
 
   /**
-   * A set containing all of the optional features of the {@link Iterator} and
-   * {@link ListIterator} interfaces.
+   * A set containing all of the optional features of the {@link Iterator} and {@link ListIterator}
+   * interfaces.
    */
   public static final Set<IteratorFeature> MODIFIABLE =
       Collections.unmodifiableSet(EnumSet.allOf(IteratorFeature.class));

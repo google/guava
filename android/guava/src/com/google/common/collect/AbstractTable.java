@@ -23,7 +23,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Skeletal, implementation-agnostic implementation of the {@link Table} interface.
@@ -34,12 +35,12 @@ import javax.annotation.Nullable;
 abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @Override
-  public boolean containsRow(@Nullable Object rowKey) {
+  public boolean containsRow(@NullableDecl Object rowKey) {
     return Maps.safeContainsKey(rowMap(), rowKey);
   }
 
   @Override
-  public boolean containsColumn(@Nullable Object columnKey) {
+  public boolean containsColumn(@NullableDecl Object columnKey) {
     return Maps.safeContainsKey(columnMap(), columnKey);
   }
 
@@ -54,7 +55,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@NullableDecl Object value) {
     for (Map<C, V> row : rowMap().values()) {
       if (row.containsValue(value)) {
         return true;
@@ -64,13 +65,13 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return row != null && Maps.safeContainsKey(row, columnKey);
   }
 
   @Override
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeGet(row, columnKey);
   }
@@ -87,7 +88,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
     Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeRemove(row, columnKey);
   }
@@ -105,7 +106,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  private transient Set<Cell<R, C, V>> cellSet;
+  @MonotonicNonNullDecl private transient Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -134,7 +135,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(@NullableDecl Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
@@ -161,7 +162,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  private transient Collection<V> values;
+  @MonotonicNonNullDecl private transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -206,7 +207,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(@NullableDecl Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 
@@ -215,9 +216,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     return cellSet().hashCode();
   }
 
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
+  /** Returns the string representation {@code rowMap().toString()}. */
   @Override
   public String toString() {
     return rowMap().toString();

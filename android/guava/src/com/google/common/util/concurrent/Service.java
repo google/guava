@@ -22,17 +22,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * An object with an operational state, plus asynchronous {@link #startAsync()} and
- * {@link #stopAsync()} lifecycle methods to transition between states. Example services include
+ * An object with an operational state, plus asynchronous {@link #startAsync()} and {@link
+ * #stopAsync()} lifecycle methods to transition between states. Example services include
  * webservers, RPC servers and timers.
  *
  * <p>The normal lifecycle of a service is:
+ *
  * <ul>
- * <li>{@linkplain State#NEW NEW} -&gt;
- * <li>{@linkplain State#STARTING STARTING} -&gt;
- * <li>{@linkplain State#RUNNING RUNNING} -&gt;
- * <li>{@linkplain State#STOPPING STOPPING} -&gt;
- * <li>{@linkplain State#TERMINATED TERMINATED}
+ *   <li>{@linkplain State#NEW NEW} -&gt;
+ *   <li>{@linkplain State#STARTING STARTING} -&gt;
+ *   <li>{@linkplain State#RUNNING RUNNING} -&gt;
+ *   <li>{@linkplain State#STOPPING STOPPING} -&gt;
+ *   <li>{@linkplain State#TERMINATED TERMINATED}
  * </ul>
  *
  * <p>There are deviations from this if there are failures or if {@link Service#stopAsync} is called
@@ -59,28 +60,23 @@ public interface Service {
    *
    * @return this
    * @throws IllegalStateException if the service is not {@link State#NEW}
-   *
    * @since 15.0
    */
   @CanIgnoreReturnValue
   Service startAsync();
 
-  /**
-   * Returns {@code true} if this service is {@linkplain State#RUNNING running}.
-   */
+  /** Returns {@code true} if this service is {@linkplain State#RUNNING running}. */
   boolean isRunning();
 
-  /**
-   * Returns the lifecycle state of the service.
-   */
+  /** Returns the lifecycle state of the service. */
   State state();
 
   /**
    * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},
-   * this initiates service shutdown and returns immediately. If the service is
-   * {@linkplain State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been
-   * started nor stopped. If the service has already been stopped, this method returns immediately
-   * without taking action.
+   * this initiates service shutdown and returns immediately. If the service is {@linkplain
+   * State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been started nor
+   * stopped. If the service has already been stopped, this method returns immediately without
+   * taking action.
    *
    * @return this
    * @since 15.0
@@ -92,10 +88,8 @@ public interface Service {
    * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state}.
    *
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
-   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is
-   *     {@code State#TERMINATED} when this method is called then this will throw an
-   *     IllegalStateException.
-   *
+   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
    * @since 15.0
    */
   void awaitRunning();
@@ -108,10 +102,8 @@ public interface Service {
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if the service has not reached the given state within the deadline
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
-   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is
-   *     {@code State#TERMINATED} when this method is called then this will throw an
-   *     IllegalStateException.
-   *
+   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
    * @since 15.0
    */
   void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException;
@@ -120,7 +112,6 @@ public interface Service {
    * Waits for the {@link Service} to reach the {@linkplain State#TERMINATED terminated state}.
    *
    * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
-   *
    * @since 15.0
    */
   void awaitTerminated();
@@ -141,7 +132,6 @@ public interface Service {
    * Returns the {@link Throwable} that caused this service to fail.
    *
    * @throws IllegalStateException if this service's state isn't {@linkplain State#FAILED FAILED}.
-   *
    * @since 14.0
    */
   Throwable failureCause();
@@ -165,8 +155,8 @@ public interface Service {
    *
    * @param listener the listener to run when the service changes state is complete
    * @param executor the executor in which the listeners callback methods will be run. For fast,
-   *     lightweight listeners that would be safe to execute in any thread, consider
-   *     {@link MoreExecutors#directExecutor}.
+   *     lightweight listeners that would be safe to execute in any thread, consider {@link
+   *     MoreExecutors#directExecutor}.
    * @since 13.0
    */
   void addListener(Listener listener, Executor executor);
@@ -183,9 +173,7 @@ public interface Service {
    */
   @Beta // should come out of Beta when Service does
   enum State {
-    /**
-     * A service in this state is inactive. It does minimal work and consumes minimal resources.
-     */
+    /** A service in this state is inactive. It does minimal work and consumes minimal resources. */
     NEW {
       @Override
       boolean isTerminal() {
@@ -193,9 +181,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is transitioning to {@link #RUNNING}.
-     */
+    /** A service in this state is transitioning to {@link #RUNNING}. */
     STARTING {
       @Override
       boolean isTerminal() {
@@ -203,9 +189,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is operational.
-     */
+    /** A service in this state is operational. */
     RUNNING {
       @Override
       boolean isTerminal() {
@@ -213,9 +197,7 @@ public interface Service {
       }
     },
 
-    /**
-     * A service in this state is transitioning to {@link #TERMINATED}.
-     */
+    /** A service in this state is transitioning to {@link #TERMINATED}. */
     STOPPING {
       @Override
       boolean isTerminal() {
@@ -260,22 +242,22 @@ public interface Service {
   @Beta // should come out of Beta when Service does
   abstract class Listener {
     /**
-     * Called when the service transitions from {@linkplain State#NEW NEW} to
-     * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called
-     * the first time.
+     * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain
+     * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first
+     * time.
      */
     public void starting() {}
 
     /**
-     * Called when the service transitions from {@linkplain State#STARTING STARTING} to
-     * {@linkplain State#RUNNING RUNNING}. This occurs when a service has successfully started.
+     * Called when the service transitions from {@linkplain State#STARTING STARTING} to {@linkplain
+     * State#RUNNING RUNNING}. This occurs when a service has successfully started.
      */
     public void running() {}
 
     /**
      * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The
-     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or
-     * {@linkplain State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.
+     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or {@linkplain
+     * State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.
      *
      * @param from The previous state that is being transitioned from.
      */
@@ -284,12 +266,12 @@ public interface Service {
     /**
      * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state.
      * The {@linkplain State#TERMINATED TERMINATED} state is a terminal state in the transition
-     * diagram. Therefore, if this method is called, no other methods will be called on the
-     * {@link Listener}.
+     * diagram. Therefore, if this method is called, no other methods will be called on the {@link
+     * Listener}.
      *
      * @param from The previous state that is being transitioned from. The only valid values for
-     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or
-     *     {@linkplain State#STOPPING STOPPING}.
+     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or {@linkplain
+     *     State#STOPPING STOPPING}.
      */
     public void terminated(State from) {}
 

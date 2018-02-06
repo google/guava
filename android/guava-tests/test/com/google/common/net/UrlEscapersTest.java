@@ -61,10 +61,10 @@ public class UrlEscapersTest extends TestCase {
     assertUnescaped(e, '.');
     assertUnescaped(e, '*');
 
-    assertEscaping(e, "%00", '\u0000');       // nul
-    assertEscaping(e, "%7F", '\u007f');       // del
-    assertEscaping(e, "%C2%80", '\u0080');    // xx-00010,x-000000
-    assertEscaping(e, "%DF%BF", '\u07ff');    // xx-11111,x-111111
+    assertEscaping(e, "%00", '\u0000'); // nul
+    assertEscaping(e, "%7F", '\u007f'); // del
+    assertEscaping(e, "%C2%80", '\u0080'); // xx-00010,x-000000
+    assertEscaping(e, "%DF%BF", '\u07ff'); // xx-11111,x-111111
     assertEscaping(e, "%E0%A0%80", '\u0800'); // xxx-0000,x-100000,x-00,0000
     assertEscaping(e, "%EF%BF%BF", '\uffff'); // xxx-1111,x-111111,x-11,1111
     assertUnicodeEscaping(e, "%F0%90%80%80", '\uD800', '\uDC00');

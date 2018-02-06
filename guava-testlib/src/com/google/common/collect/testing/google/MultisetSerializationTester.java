@@ -23,6 +23,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests multiset-specific serialization. Can't be invoked directly;
@@ -31,6 +32,7 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible // but no-op
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultisetSerializationTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)
   public void testEntrySetSerialization() {

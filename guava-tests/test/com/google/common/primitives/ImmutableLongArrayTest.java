@@ -14,6 +14,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.primitives.TestPlatform.reduceIterationsIfGwt;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -163,7 +164,7 @@ public class ImmutableLongArrayTest extends TestCase {
    * out of it for a while and see what happens.
    */
   public void testBuilder_bruteForce() {
-    for (long i = 0; i < 100; i++) {
+    for (int i = 0; i < reduceIterationsIfGwt(100); i++) {
       ImmutableLongArray.Builder builder = ImmutableLongArray.builder(RANDOM.nextInt(20));
       AtomicLong counter = new AtomicLong(0);
       while (counter.get() < 1000) {

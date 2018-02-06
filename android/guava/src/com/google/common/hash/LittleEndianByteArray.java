@@ -109,8 +109,8 @@ final class LittleEndianByteArray {
   /**
    * Common interface for retrieving a 64-bit long from a little-endian byte array.
    *
-   * This abstraction allows us to use single-instruction load and put when available, or fall back
-   * on the slower approach of using Longs.fromBytes(byte...).
+   * <p>This abstraction allows us to use single-instruction load and put when available, or fall
+   * back on the slower approach of using Longs.fromBytes(byte...).
    */
   private interface LittleEndianBytes {
     long getLongLittleEndian(byte[] array, int offset);
@@ -202,9 +202,7 @@ final class LittleEndianByteArray {
     }
   }
 
-  /**
-   * Fallback implementation for when Unsafe is not available in our current environment.
-   */
+  /** Fallback implementation for when Unsafe is not available in our current environment. */
   private enum JavaLittleEndianBytes implements LittleEndianBytes {
     INSTANCE {
       @Override

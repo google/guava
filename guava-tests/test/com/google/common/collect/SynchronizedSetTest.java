@@ -25,9 +25,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.Nullable;
 import junit.framework.Test;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@code Synchronized#set}.
@@ -68,83 +68,99 @@ public class SynchronizedSetTest extends TestCase {
       this.mutex = mutex;
     }
 
-    @Override protected Set<E> delegate() {
+    @Override
+    protected Set<E> delegate() {
       return delegate;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       assertTrue(Thread.holdsLock(mutex));
       return super.toString();
     }
 
-    @Override public boolean equals(@Nullable Object o) {
+    @Override
+    public boolean equals(@NullableDecl Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(o);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       assertTrue(Thread.holdsLock(mutex));
       return super.hashCode();
     }
 
-    @Override public boolean add(@Nullable E o) {
+    @Override
+    public boolean add(@NullableDecl E o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.add(o);
     }
 
-    @Override public boolean addAll(Collection<? extends E> c) {
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
       assertTrue(Thread.holdsLock(mutex));
       return super.addAll(c);
     }
 
-    @Override public void clear() {
+    @Override
+    public void clear() {
       assertTrue(Thread.holdsLock(mutex));
       super.clear();
     }
 
-    @Override public boolean contains(@Nullable Object o) {
+    @Override
+    public boolean contains(@NullableDecl Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.contains(o);
     }
 
-    @Override public boolean containsAll(Collection<?> c) {
+    @Override
+    public boolean containsAll(Collection<?> c) {
       assertTrue(Thread.holdsLock(mutex));
       return super.containsAll(c);
     }
 
-    @Override public boolean isEmpty() {
+    @Override
+    public boolean isEmpty() {
       assertTrue(Thread.holdsLock(mutex));
       return super.isEmpty();
     }
 
     /* Don't test iterator(); it may or may not hold the mutex. */
 
-    @Override public boolean remove(@Nullable Object o) {
+    @Override
+    public boolean remove(@NullableDecl Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.remove(o);
     }
 
-    @Override public boolean removeAll(Collection<?> c) {
+    @Override
+    public boolean removeAll(Collection<?> c) {
       assertTrue(Thread.holdsLock(mutex));
       return super.removeAll(c);
     }
 
-    @Override public boolean retainAll(Collection<?> c) {
+    @Override
+    public boolean retainAll(Collection<?> c) {
       assertTrue(Thread.holdsLock(mutex));
       return super.retainAll(c);
     }
 
-    @Override public int size() {
+    @Override
+    public int size() {
       assertTrue(Thread.holdsLock(mutex));
       return super.size();
     }
 
-    @Override public Object[] toArray() {
+    @Override
+    public Object[] toArray() {
       assertTrue(Thread.holdsLock(mutex));
       return super.toArray();
     }
 
-    @Override public <T> T[] toArray(T[] a) {
+    @Override
+    public <T> T[] toArray(T[] a) {
       assertTrue(Thread.holdsLock(mutex));
       return super.toArray(a);
     }

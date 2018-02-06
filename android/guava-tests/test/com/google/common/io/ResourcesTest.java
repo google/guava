@@ -44,10 +44,14 @@ public class ResourcesTest extends IoTestCase {
 
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(ByteSourceTester.tests("Resources.asByteSource[URL]",
-        SourceSinkFactories.urlByteSourceFactory(), true));
-    suite.addTest(CharSourceTester.tests("Resources.asCharSource[URL, Charset]",
-        SourceSinkFactories.urlCharSourceFactory(), false));
+    suite.addTest(
+        ByteSourceTester.tests(
+            "Resources.asByteSource[URL]", SourceSinkFactories.urlByteSourceFactory(), true));
+    suite.addTest(
+        CharSourceTester.tests(
+            "Resources.asCharSource[URL, Charset]",
+            SourceSinkFactories.urlCharSourceFactory(),
+            false));
     suite.addTestSuite(ResourcesTest.class);
     return suite;
   }
@@ -55,21 +59,18 @@ public class ResourcesTest extends IoTestCase {
   public void testToString() throws IOException {
     URL resource = getClass().getResource("testdata/i18n.txt");
     assertEquals(I18N, Resources.toString(resource, Charsets.UTF_8));
-    assertThat(Resources.toString(resource, Charsets.US_ASCII))
-        .isNotEqualTo(I18N);
+    assertThat(Resources.toString(resource, Charsets.US_ASCII)).isNotEqualTo(I18N);
   }
 
   public void testToToByteArray() throws IOException {
     byte[] data = Resources.toByteArray(classfile(Resources.class));
-    assertEquals(0xCAFEBABE,
-        new DataInputStream(new ByteArrayInputStream(data)).readInt());
+    assertEquals(0xCAFEBABE, new DataInputStream(new ByteArrayInputStream(data)).readInt());
   }
 
   public void testReadLines() throws IOException {
     // TODO(chrisn): Check in a better resource
     URL resource = getClass().getResource("testdata/i18n.txt");
-    assertEquals(ImmutableList.of(I18N),
-        Resources.readLines(resource, Charsets.UTF_8));
+    assertEquals(ImmutableList.of(I18N), Resources.readLines(resource, Charsets.UTF_8));
   }
 
   public void testReadLines_withLineProcessor() throws IOException {
@@ -89,8 +90,8 @@ public class ResourcesTest extends IoTestCase {
             return collector;
           }
         };
-    List<String> result = Resources.readLines(resource, Charsets.US_ASCII,
-        collectAndLowercaseAndTrim);
+    List<String> result =
+        Resources.readLines(resource, Charsets.US_ASCII, collectAndLowercaseAndTrim);
     assertEquals(3600, result.size());
     assertEquals("ALICE'S ADVENTURES IN WONDERLAND", result.get(0));
     assertEquals("THE END", result.get(result.size() - 1));
@@ -113,14 +114,12 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource() {
-    assertNotNull(
-        Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+    assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
   }
 
   public void testGetResource_relativePath_notFound() {
     try {
-      Resources.getResource(
-          getClass(), "com/google/common/io/testdata/i18n.txt");
+      Resources.getResource(getClass(), "com/google/common/io/testdata/i18n.txt");
       fail();
     } catch (IllegalArgumentException e) {
       assertThat(e)
@@ -155,8 +154,7 @@ public class ResourcesTest extends IoTestCase {
     // Now set the context loader to one that should find the resource.
     URL baseUrl = tempFile.getParentFile().toURI().toURL();
     URLClassLoader loader = new URLClassLoader(new URL[] {baseUrl});
-    ClassLoader oldContextLoader =
-        Thread.currentThread().getContextClassLoader();
+    ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(loader);
       URL url = Resources.getResource(tempFile.getName());
@@ -168,12 +166,10 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource_contextClassLoaderNull() {
-    ClassLoader oldContextLoader =
-        Thread.currentThread().getContextClassLoader();
+    ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(null);
-      assertNotNull(
-          Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+      assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
       try {
         Resources.getResource("no such resource");
         fail("Should get IllegalArgumentException");

@@ -39,19 +39,21 @@ public class DispatcherTest extends TestCase {
   private final IntegerSubscriber i1 = new IntegerSubscriber("i1");
   private final IntegerSubscriber i2 = new IntegerSubscriber("i2");
   private final IntegerSubscriber i3 = new IntegerSubscriber("i3");
-  private final ImmutableList<Subscriber> integerSubscribers = ImmutableList.of(
-      subscriber(bus, i1, "handleInteger", Integer.class),
-      subscriber(bus, i2, "handleInteger", Integer.class),
-      subscriber(bus, i3, "handleInteger", Integer.class));
+  private final ImmutableList<Subscriber> integerSubscribers =
+      ImmutableList.of(
+          subscriber(bus, i1, "handleInteger", Integer.class),
+          subscriber(bus, i2, "handleInteger", Integer.class),
+          subscriber(bus, i3, "handleInteger", Integer.class));
 
   private final StringSubscriber s1 = new StringSubscriber("s1");
   private final StringSubscriber s2 = new StringSubscriber("s2");
-  private final ImmutableList<Subscriber> stringSubscribers = ImmutableList.of(
-      subscriber(bus, s1, "handleString", String.class),
-      subscriber(bus, s2, "handleString", String.class));
+  private final ImmutableList<Subscriber> stringSubscribers =
+      ImmutableList.of(
+          subscriber(bus, s1, "handleString", String.class),
+          subscriber(bus, s2, "handleString", String.class));
 
-  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers
-      = Queues.newConcurrentLinkedQueue();
+  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers =
+      Queues.newConcurrentLinkedQueue();
 
   private Dispatcher dispatcher;
 
@@ -61,11 +63,17 @@ public class DispatcherTest extends TestCase {
 
     assertThat(dispatchedSubscribers)
         .containsExactly(
-            i1, i2, i3, // Integer subscribers are dispatched to first.
-            s1, s2,     // Though each integer subscriber dispatches to all string subscribers,
-            s1, s2,     // those string subscribers aren't actually dispatched to until all integer
-            s1, s2      // subscribers have finished.
-        ).inOrder();
+            i1,
+            i2,
+            i3, // Integer subscribers are dispatched to first.
+            s1,
+            s2, // Though each integer subscriber dispatches to all string subscribers,
+            s1,
+            s2, // those string subscribers aren't actually dispatched to until all integer
+            s1,
+            s2 // subscribers have finished.
+            )
+        .inOrder();
   }
 
   public void testLegacyAsyncDispatcher() {
@@ -74,44 +82,44 @@ public class DispatcherTest extends TestCase {
     final CyclicBarrier barrier = new CyclicBarrier(2);
     final CountDownLatch latch = new CountDownLatch(2);
 
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          barrier.await();
-        } catch (Exception e) {
-          throw new AssertionError(e);
-        }
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  barrier.await();
+                } catch (Exception e) {
+                  throw new AssertionError(e);
+                }
 
-        dispatcher.dispatch(2, integerSubscribers.iterator());
-        latch.countDown();
-      }
-    }).start();
+                dispatcher.dispatch(2, integerSubscribers.iterator());
+                latch.countDown();
+              }
+            })
+        .start();
 
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          barrier.await();
-        } catch (Exception e) {
-          throw new AssertionError(e);
-        }
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  barrier.await();
+                } catch (Exception e) {
+                  throw new AssertionError(e);
+                }
 
-        dispatcher.dispatch("foo", stringSubscribers.iterator());
-        latch.countDown();
-      }
-    }).start();
+                dispatcher.dispatch("foo", stringSubscribers.iterator());
+                latch.countDown();
+              }
+            })
+        .start();
 
     Uninterruptibles.awaitUninterruptibly(latch);
 
     // See Dispatcher.LegacyAsyncDispatcher for an explanation of why there aren't really any
     // useful testable guarantees about the behavior of that dispatcher in a multithreaded
     // environment. Here we simply test that all the expected dispatches happened in some order.
-    assertThat(dispatchedSubscribers)
-        .containsExactly(
-            i1, i2, i3,
-            s1, s1, s1, s1,
-            s2, s2, s2, s2);
+    assertThat(dispatchedSubscribers).containsExactly(i1, i2, i3, s1, s1, s1, s1, s2, s2, s2, s2);
   }
 
   public void testImmediateDispatcher() {
@@ -120,15 +128,13 @@ public class DispatcherTest extends TestCase {
 
     assertThat(dispatchedSubscribers)
         .containsExactly(
-            i1, s1, s2,  // Each integer subscriber immediately dispatches to 2 string subscribers.
-            i2, s1, s2,
-            i3, s1, s2
-        ).inOrder();
+            i1, s1, s2, // Each integer subscriber immediately dispatches to 2 string subscribers.
+            i2, s1, s2, i3, s1, s2)
+        .inOrder();
   }
 
   private static Subscriber subscriber(
-      EventBus bus, Object target,
-      String methodName, Class<?> eventType) {
+      EventBus bus, Object target, String methodName, Class<?> eventType) {
     try {
       return Subscriber.create(bus, target, target.getClass().getMethod(methodName, eventType));
     } catch (NoSuchMethodException e) {

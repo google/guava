@@ -40,7 +40,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@link SourceSinkFactory} implementations.
@@ -138,8 +138,7 @@ public class SourceSinkFactories {
     return new ByteSourceFactory() {
       @Override
       public ByteSource createSource(byte[] data) throws IOException {
-        return factory.createSource(new String(data, Charsets.UTF_8))
-            .asByteSource(Charsets.UTF_8);
+        return factory.createSource(new String(data, Charsets.UTF_8)).asByteSource(Charsets.UTF_8);
       }
 
       @Override
@@ -159,8 +158,7 @@ public class SourceSinkFactories {
     return new CharSourceFactory() {
       @Override
       public CharSource createSource(String string) throws IOException {
-        return factory.createSource(string.getBytes(Charsets.UTF_8))
-            .asCharSource(Charsets.UTF_8);
+        return factory.createSource(string.getBytes(Charsets.UTF_8)).asCharSource(Charsets.UTF_8);
       }
 
       @Override
@@ -205,8 +203,8 @@ public class SourceSinkFactories {
     };
   }
 
-  public static ByteSourceFactory asSlicedByteSourceFactory(final ByteSourceFactory factory,
-      final long off, final long len) {
+  public static ByteSourceFactory asSlicedByteSourceFactory(
+      final ByteSourceFactory factory, final long off, final long len) {
     checkNotNull(factory);
     return new ByteSourceFactory() {
       @Override
@@ -242,8 +240,7 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {
-    }
+    public void tearDown() throws IOException {}
   }
 
   private static class ByteArraySourceFactory implements ByteSourceFactory {
@@ -259,8 +256,7 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {
-    }
+    public void tearDown() throws IOException {}
   }
 
   private static class EmptyCharSourceFactory implements CharSourceFactory {
@@ -276,8 +272,7 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {
-    }
+    public void tearDown() throws IOException {}
   }
 
   private static class EmptyByteSourceFactory implements ByteSourceFactory {
@@ -293,8 +288,7 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {
-    }
+    public void tearDown() throws IOException {}
   }
 
   private abstract static class FileFactory {
@@ -346,7 +340,7 @@ public class SourceSinkFactories {
 
     private final byte[] initialBytes;
 
-    private FileByteSinkFactory(@Nullable byte[] initialBytes) {
+    private FileByteSinkFactory(@NullableDecl byte[] initialBytes) {
       this.initialBytes = initialBytes;
     }
 
@@ -416,7 +410,7 @@ public class SourceSinkFactories {
 
     private final String initialString;
 
-    private FileCharSinkFactory(@Nullable String initialString) {
+    private FileCharSinkFactory(@NullableDecl String initialString) {
       this.initialString = initialString;
     }
 
@@ -438,9 +432,7 @@ public class SourceSinkFactories {
     @Override
     public String getExpected(String string) {
       checkNotNull(string);
-      return initialString == null
-          ? string
-          : initialString + string;
+      return initialString == null ? string : initialString + string;
     }
 
     @Override
@@ -528,7 +520,7 @@ public class SourceSinkFactories {
 
     private final byte[] initialBytes;
 
-    private PathByteSinkFactory(@Nullable byte[] initialBytes) {
+    private PathByteSinkFactory(@NullableDecl byte[] initialBytes) {
       this.initialBytes = initialBytes;
     }
 
@@ -585,7 +577,7 @@ public class SourceSinkFactories {
 
     private final String initialString;
 
-    private PathCharSinkFactory(@Nullable String initialString) {
+    private PathCharSinkFactory(@NullableDecl String initialString) {
       this.initialString = initialString;
     }
 
@@ -604,9 +596,7 @@ public class SourceSinkFactories {
     @Override
     public String getExpected(String string) {
       checkNotNull(string);
-      return initialString == null
-          ? string
-          : initialString + string;
+      return initialString == null ? string : initialString + string;
     }
 
     @Override

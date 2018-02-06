@@ -36,10 +36,9 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 /**
- * Tests that all {@code public static} methods "inherited" from superclasses
- * are "overridden" in each immutable-collection class. This ensures, for
- * example, that a call written "{@code ImmutableSortedSet.copyOf()}" cannot
- * secretly be a call to {@code ImmutableSet.copyOf()}.
+ * Tests that all {@code public static} methods "inherited" from superclasses are "overridden" in
+ * each immutable-collection class. This ensures, for example, that a call written "{@code
+ * ImmutableSortedSet.copyOf()}" cannot secretly be a call to {@code ImmutableSet.copyOf()}.
  *
  * @author Chris Povirk
  */
@@ -49,13 +48,11 @@ public class FauxveridesTest extends TestCase {
   }
 
   public void testImmutableListMultimap() {
-    doHasAllFauxveridesTest(
-        ImmutableListMultimap.class, ImmutableMultimap.class);
+    doHasAllFauxveridesTest(ImmutableListMultimap.class, ImmutableMultimap.class);
   }
 
   public void testImmutableSetMultimap() {
-    doHasAllFauxveridesTest(
-        ImmutableSetMultimap.class, ImmutableMultimap.class);
+    doHasAllFauxveridesTest(ImmutableSetMultimap.class, ImmutableMultimap.class);
   }
 
   public void testImmutableSortedMap() {
@@ -112,8 +109,10 @@ public class FauxveridesTest extends TestCase {
     Set<MethodSignature> found = getAllFauxveridden(descendant, ancestor);
     Set<MethodSignature> missing = ImmutableSortedSet.copyOf(difference(required, found));
     if (!missing.isEmpty()) {
-      fail(rootLocaleFormat("%s should hide the public static methods declared in %s: %s",
-          descendant.getSimpleName(), ancestor.getSimpleName(), missing));
+      fail(
+          rootLocaleFormat(
+              "%s should hide the public static methods declared in %s: %s",
+              descendant.getSimpleName(), ancestor.getSimpleName(), missing));
     }
   }
 
@@ -121,8 +120,7 @@ public class FauxveridesTest extends TestCase {
     return getPublicStaticMethodsBetween(ancestor, Object.class);
   }
 
-  private static Set<MethodSignature> getAllFauxveridden(
-      Class<?> descendant, Class<?> ancestor) {
+  private static Set<MethodSignature> getAllFauxveridden(Class<?> descendant, Class<?> ancestor) {
     return getPublicStaticMethodsBetween(descendant, ancestor);
   }
 
@@ -149,8 +147,7 @@ public class FauxveridesTest extends TestCase {
   }
 
   /** [descendant, ancestor) */
-  private static Set<Class<?>> getClassesBetween(
-      Class<?> descendant, Class<?> ancestor) {
+  private static Set<Class<?>> getClassesBetween(Class<?> descendant, Class<?> ancestor) {
     Set<Class<?>> classes = newHashSet();
 
     while (!descendant.equals(ancestor)) {
@@ -162,13 +159,12 @@ public class FauxveridesTest extends TestCase {
   }
 
   /**
-   * Not really a signature -- just the parts that affect whether one method is
-   * a fauxveride of a method from an ancestor class.
-   * <p>
-   * See JLS 8.4.2 for the definition of the related "override-equivalent."
+   * Not really a signature -- just the parts that affect whether one method is a fauxveride of a
+   * method from an ancestor class.
+   *
+   * <p>See JLS 8.4.2 for the definition of the related "override-equivalent."
    */
-  private static final class MethodSignature
-      implements Comparable<MethodSignature> {
+  private static final class MethodSignature implements Comparable<MethodSignature> {
     final String name;
     final List<Class<?>> parameterTypes;
     final TypeSignature typeSignature;
@@ -179,7 +175,8 @@ public class FauxveridesTest extends TestCase {
       typeSignature = new TypeSignature(method.getTypeParameters());
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       if (obj instanceof MethodSignature) {
         MethodSignature other = (MethodSignature) obj;
         return name.equals(other.name)
@@ -190,16 +187,18 @@ public class FauxveridesTest extends TestCase {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return Objects.hashCode(name, parameterTypes, typeSignature);
     }
 
-    @Override public String toString() {
-      return rootLocaleFormat("%s%s(%s)",
-          typeSignature, name, getTypesString(parameterTypes));
+    @Override
+    public String toString() {
+      return rootLocaleFormat("%s%s(%s)", typeSignature, name, getTypesString(parameterTypes));
     }
 
-    @Override public int compareTo(MethodSignature o) {
+    @Override
+    public int compareTo(MethodSignature o) {
       return toString().compareTo(o.toString());
     }
   }
@@ -209,7 +208,8 @@ public class FauxveridesTest extends TestCase {
 
     TypeSignature(TypeVariable<Method>[] parameters) {
       parameterSignatures =
-          transform(Arrays.asList(parameters),
+          transform(
+              Arrays.asList(parameters),
               new Function<TypeVariable<?>, TypeParameterSignature>() {
                 @Override
                 public TypeParameterSignature apply(TypeVariable<?> from) {
@@ -218,7 +218,8 @@ public class FauxveridesTest extends TestCase {
               });
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       if (obj instanceof TypeSignature) {
         TypeSignature other = (TypeSignature) obj;
         return parameterSignatures.equals(other.parameterSignatures);
@@ -227,11 +228,13 @@ public class FauxveridesTest extends TestCase {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return parameterSignatures.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return (parameterSignatures.isEmpty())
           ? ""
           : "<" + Joiner.on(", ").join(parameterSignatures) + "> ";
@@ -247,7 +250,8 @@ public class FauxveridesTest extends TestCase {
       bounds = Arrays.asList(typeParameter.getBounds());
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
       if (obj instanceof TypeParameterSignature) {
         TypeParameterSignature other = (TypeParameterSignature) obj;
         /*
@@ -260,11 +264,13 @@ public class FauxveridesTest extends TestCase {
       return false;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       return bounds.hashCode();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return (bounds.equals(ImmutableList.of(Object.class)))
           ? name
           : name + " extends " + getTypesString(bounds);

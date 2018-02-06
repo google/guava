@@ -28,8 +28,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 /**
- * Implementation of {@link ImmutableSet} backed by a non-empty {@link
- * java.util.EnumSet}.
+ * Implementation of {@link ImmutableSet} backed by a non-empty {@link java.util.EnumSet}.
  *
  * @author Jared Levy
  */
@@ -127,8 +126,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return true;
   }
 
-  @LazyInit
-  private transient int hashCode;
+  @LazyInit private transient int hashCode;
 
   @Pure
   @Override

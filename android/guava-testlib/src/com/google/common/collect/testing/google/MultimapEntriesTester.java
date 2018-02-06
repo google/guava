@@ -34,6 +34,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Tester for {@code Multimap.entries}.
@@ -41,6 +42,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapEntriesTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testEntries() {
     assertEqualIgnoringOrder(getSampleElements(), multimap().entries());

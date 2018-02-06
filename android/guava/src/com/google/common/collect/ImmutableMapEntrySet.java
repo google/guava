@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.
@@ -33,9 +33,13 @@ import javax.annotation.Nullable;
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     @Weak private final transient ImmutableMap<K, V> map;
-    private final transient Entry<K, V>[] entries;
+    private final transient ImmutableList<Entry<K, V>> entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
+      this(map, ImmutableList.<Entry<K, V>>asImmutableList(entries));
+    }
+
+    RegularEntrySet(ImmutableMap<K, V> map, ImmutableList<Entry<K, V>> entries) {
       this.map = map;
       this.entries = entries;
     }
@@ -46,13 +50,19 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     }
 
     @Override
+    @GwtIncompatible("not used in GWT")
+    int copyIntoArray(Object[] dst, int offset) {
+      return entries.copyIntoArray(dst, offset);
+    }
+
+    @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return Iterators.forArray(entries);
+      return entries.iterator();
     }
 
     @Override
     ImmutableList<Entry<K, V>> createAsList() {
-      return ImmutableList.asImmutableList(entries);
+      return entries;
     }
   }
 
@@ -66,7 +76,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());

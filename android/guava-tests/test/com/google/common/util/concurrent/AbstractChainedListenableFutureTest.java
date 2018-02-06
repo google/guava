@@ -16,15 +16,16 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.util.concurrent.testing.MockFutureListener;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 
 /**
- * Unit tests for any listenable future that chains other listenable futures.
- * Unit tests need only override buildChainingFuture and getSuccessfulResult,
- * but they can add custom tests as needed.
+ * Unit tests for any listenable future that chains other listenable futures. Unit tests need only
+ * override buildChainingFuture and getSuccessfulResult, but they can add custom tests as needed.
  *
  * @author Nishant Thakkar
  */
@@ -44,7 +45,6 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     inputFuture = SettableFuture.create();
     resultFuture = buildChainingFuture(inputFuture);
     listener = new MockFutureListener(resultFuture);
-
   }
 
   public void testFutureGetBeforeCallback() throws Exception {
@@ -52,7 +52,8 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     try {
       resultFuture.get(1L, TimeUnit.MILLISECONDS);
       fail("The data is not yet ready, so a TimeoutException is expected");
-    } catch (TimeoutException expected) {}
+    } catch (TimeoutException expected) {
+    }
   }
 
   public void testFutureGetThrowsWrappedException() throws Exception {
@@ -80,17 +81,20 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     listener.assertSuccess(getSuccessfulResult());
   }
 
-  /**
-   * Override to return a chaining listenableFuture that returns the result of
-   * getSuccessfulResult() when inputFuture returns VALID_INPUT_DATA, and sets
-   * the exception to EXCEPTION in all other cases.
-   */
-  protected abstract ListenableFuture<T> buildChainingFuture(
-      ListenableFuture<Integer> inputFuture);
+  public void testInputFutureToString() throws Throwable {
+    assertThat(resultFuture.toString()).contains(inputFuture.toString());
+  }
 
   /**
-   * Override to return the result when VALID_INPUT_DATA is passed in to
-   * the chaining listenableFuture
+   * Override to return a chaining listenableFuture that returns the result of getSuccessfulResult()
+   * when inputFuture returns VALID_INPUT_DATA, and sets the exception to EXCEPTION in all other
+   * cases.
+   */
+  protected abstract ListenableFuture<T> buildChainingFuture(ListenableFuture<Integer> inputFuture);
+
+  /**
+   * Override to return the result when VALID_INPUT_DATA is passed in to the chaining
+   * listenableFuture
    */
   protected abstract T getSuccessfulResult();
 }

@@ -48,7 +48,7 @@ import java.util.List;
 @GwtCompatible(emulated = true)
 public final class BigIntegerMath {
   /**
-   * Returns the smallest power of two greater than or equal to {@code x}.  This is equivalent to
+   * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to
    * {@code BigInteger.valueOf(2).pow(log2(x, CEILING))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
@@ -60,8 +60,8 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns the largest power of two less than or equal to {@code x}.  This is equivalent to
-   * {@code BigInteger.valueOf(2).pow(log2(x, FLOOR))}.
+   * Returns the largest power of two less than or equal to {@code x}. This is equivalent to {@code
+   * BigInteger.valueOf(2).pow(log2(x, FLOOR))}.
    *
    * @throws IllegalArgumentException if {@code x <= 0}
    * @since 20.0
@@ -71,9 +71,7 @@ public final class BigIntegerMath {
     return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));
   }
 
-  /**
-   * Returns {@code true} if {@code x} represents a power of two.
-   */
+  /** Returns {@code true} if {@code x} represents a power of two. */
   public static boolean isPowerOfTwo(BigInteger x) {
     checkNotNull(x);
     return x.signum() > 0 && x.getLowestSetBit() == x.bitLength() - 1;
@@ -220,8 +218,8 @@ public final class BigIntegerMath {
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
    *
    * @throws IllegalArgumentException if {@code x < 0}
-   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
-   *     {@code sqrt(x)} is not an integer
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
+   *     sqrt(x)} is not an integer
    */
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
@@ -309,8 +307,8 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified
-   * {@code RoundingMode}.
+   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code
+   * RoundingMode}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}

@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import org.junit.Ignore;
 
 /**
  * Tester for {@link Multimap#containsEntry}.
@@ -33,6 +34,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MultimapContainsEntryTester<K, V>
     extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
@@ -74,10 +76,6 @@ public class MultimapContainsEntryTester<K, V>
     }
   }
 
-  /**
-   * Copy of the {@link #testContainsEntryNullDisallowed} test. Needed because
-   * "optional" feature requirements are not supported.
-   */
   @MapFeature.Require(absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testContainsEntryNullDisallowedBecauseValueQueriesDisallowed() {
     try {

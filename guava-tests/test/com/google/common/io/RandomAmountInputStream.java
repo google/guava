@@ -32,7 +32,8 @@ class RandomAmountInputStream extends FilterInputStream {
     this.random = checkNotNull(random);
   }
 
-  @Override public int read(byte[] b, int off, int len) throws IOException {
+  @Override
+  public int read(byte[] b, int off, int len) throws IOException {
     return super.read(b, off, random.nextInt(len) + 1);
   }
 }

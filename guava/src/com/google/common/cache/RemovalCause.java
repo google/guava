@@ -28,9 +28,9 @@ import java.util.concurrent.ConcurrentMap;
 @GwtCompatible
 public enum RemovalCause {
   /**
-   * The entry was manually removed by the user. This can result from the user invoking
-   * {@link Cache#invalidate}, {@link Cache#invalidateAll(Iterable)}, {@link Cache#invalidateAll()},
-   * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link Iterator#remove}.
+   * The entry was manually removed by the user. This can result from the user invoking {@link
+   * Cache#invalidate}, {@link Cache#invalidateAll(Iterable)}, {@link Cache#invalidateAll()}, {@link
+   * Map#remove}, {@link ConcurrentMap#remove}, or {@link Iterator#remove}.
    */
   EXPLICIT {
     @Override
@@ -42,8 +42,8 @@ public enum RemovalCause {
   /**
    * The entry itself was not actually removed, but its value was replaced by the user. This can
    * result from the user invoking {@link Cache#put}, {@link LoadingCache#refresh}, {@link Map#put},
-   * {@link Map#putAll}, {@link ConcurrentMap#replace(Object, Object)}, or
-   * {@link ConcurrentMap#replace(Object, Object, Object)}.
+   * {@link Map#putAll}, {@link ConcurrentMap#replace(Object, Object)}, or {@link
+   * ConcurrentMap#replace(Object, Object, Object)}.
    */
   REPLACED {
     @Override
@@ -54,8 +54,8 @@ public enum RemovalCause {
 
   /**
    * The entry was removed automatically because its key or value was garbage-collected. This can
-   * occur when using {@link CacheBuilder#weakKeys}, {@link CacheBuilder#weakValues}, or
-   * {@link CacheBuilder#softValues}.
+   * occur when using {@link CacheBuilder#weakKeys}, {@link CacheBuilder#weakValues}, or {@link
+   * CacheBuilder#softValues}.
    */
   COLLECTED {
     @Override
@@ -65,8 +65,8 @@ public enum RemovalCause {
   },
 
   /**
-   * The entry's expiration timestamp has passed. This can occur when using
-   * {@link CacheBuilder#expireAfterWrite} or {@link CacheBuilder#expireAfterAccess}.
+   * The entry's expiration timestamp has passed. This can occur when using {@link
+   * CacheBuilder#expireAfterWrite} or {@link CacheBuilder#expireAfterAccess}.
    */
   EXPIRED {
     @Override
@@ -76,8 +76,8 @@ public enum RemovalCause {
   },
 
   /**
-   * The entry was evicted due to size constraints. This can occur when using
-   * {@link CacheBuilder#maximumSize} or {@link CacheBuilder#maximumWeight}.
+   * The entry was evicted due to size constraints. This can occur when using {@link
+   * CacheBuilder#maximumSize} or {@link CacheBuilder#maximumWeight}.
    */
   SIZE {
     @Override

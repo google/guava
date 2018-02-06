@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
 import java.util.Arrays;
 import java.util.Collection;
+import org.junit.Ignore;
 
 /**
  * Superclass for all {@code ListMultimap} testers.
@@ -27,6 +28,7 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class AbstractListMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 

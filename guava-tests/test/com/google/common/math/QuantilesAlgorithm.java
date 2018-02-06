@@ -86,8 +86,7 @@ enum QuantilesAlgorithm {
       } else {
         double percentileCeiling = getMinValue(dataset, positionFloor + 1);
         double positionFrac = (double) remainder / scale;
-        return percentileFloor
-            + positionFrac * (percentileCeiling - percentileFloor);
+        return percentileFloor + positionFrac * (percentileCeiling - percentileFloor);
       }
     }
 
@@ -102,9 +101,7 @@ enum QuantilesAlgorithm {
     }
   },
 
-  /**
-   * Uses {@link Quantiles}.
-   */
+  /** Uses {@link Quantiles}. */
   TARGET {
 
     @Override
@@ -121,14 +118,14 @@ enum QuantilesAlgorithm {
   ;
 
   /**
-   * Calculates a single quantile. Equivalent to
-   * {@code Quantiles.scale(scale).index(index).computeInPlace(dataset)}.
+   * Calculates a single quantile. Equivalent to {@code
+   * Quantiles.scale(scale).index(index).computeInPlace(dataset)}.
    */
   abstract double singleQuantile(int index, int scale, double[] dataset);
 
   /**
-   * Calculates multiple quantiles. Equivalent to
-   * {@code Quantiles.scale(scale).indexes(indexes).computeInPlace(dataset)}.
+   * Calculates multiple quantiles. Equivalent to {@code
+   * Quantiles.scale(scale).indexes(indexes).computeInPlace(dataset)}.
    */
   abstract Map<Integer, Double> multipleQuantiles(
       Collection<Integer> indexes, int scale, double[] dataset);

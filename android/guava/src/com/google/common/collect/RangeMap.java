@@ -22,11 +22,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value
- * associated with the range (if any) that contains a specified key.
+ * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
+ * with the range (if any) that contains a specified key.
  *
  * <p>In contrast to {@link RangeSet}, no "coalescing" is done of {@linkplain
  * Range#isConnected(Range) connected} ranges, even if they are mapped to the same value.
@@ -38,25 +38,24 @@ import javax.annotation.Nullable;
 @GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**
-   * Returns the value associated with the specified key, or {@code null} if there is no
-   * such value.
+   * Returns the value associated with the specified key, or {@code null} if there is no such value.
    *
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @Nullable
+  @NullableDecl
   V get(K key);
 
   /**
-   * Returns the range containing this key and its associated value, if such a range is present
-   * in the range map, or {@code null} otherwise.
+   * Returns the range containing this key and its associated value, if such a range is present in
+   * the range map, or {@code null} otherwise.
    */
-  @Nullable
+  @NullableDecl
   Entry<Range<K>, V> getEntry(K key);
 
   /**
-   * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges
-   * in this {@code RangeMap}.
+   * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges in this
+   * {@code RangeMap}.
    *
    * @throws NoSuchElementException if this range map is empty
    */
@@ -65,9 +64,9 @@ public interface RangeMap<K extends Comparable, V> {
   /**
    * Maps a range to a specified value (optional operation).
    *
-   * <p>Specifically, after a call to {@code put(range, value)}, if
-   * {@link Range#contains(Comparable) range.contains(k)}, then {@link #get(Comparable) get(k)}
-   * will return {@code value}.
+   * <p>Specifically, after a call to {@code put(range, value)}, if {@link
+   * Range#contains(Comparable) range.contains(k)}, then {@link #get(Comparable) get(k)} will return
+   * {@code value}.
    *
    * <p>If {@code range} {@linkplain Range#isEmpty() is empty}, then this is a no-op.
    */
@@ -93,28 +92,24 @@ public interface RangeMap<K extends Comparable, V> {
    */
   void putCoalescing(Range<K> range, V value);
 
-  /**
-   * Puts all the associations from {@code rangeMap} into this range map (optional operation).
-   */
+  /** Puts all the associations from {@code rangeMap} into this range map (optional operation). */
   void putAll(RangeMap<K, V> rangeMap);
 
-  /**
-   * Removes all associations from this range map (optional operation).
-   */
+  /** Removes all associations from this range map (optional operation). */
   void clear();
 
   /**
    * Removes all associations from this range map in the specified range (optional operation).
    *
    * <p>If {@code !range.contains(k)}, {@link #get(Comparable) get(k)} will return the same result
-   * before and after a call to {@code remove(range)}.  If {@code range.contains(k)}, then
-   * after a call to {@code remove(range)}, {@code get(k)} will return {@code null}.
+   * before and after a call to {@code remove(range)}. If {@code range.contains(k)}, then after a
+   * call to {@code remove(range)}, {@code get(k)} will return {@code null}.
    */
   void remove(Range<K> range);
 
   /**
-   * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}.
-   * Modifications to this range map are guaranteed to read through to the returned {@code Map}.
+   * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}. Modifications to
+   * this range map are guaranteed to read through to the returned {@code Map}.
    *
    * <p>The returned {@code Map} iterates over entries in ascending order of the bounds of the
    * {@code Range} entries.
@@ -124,8 +119,8 @@ public interface RangeMap<K extends Comparable, V> {
   Map<Range<K>, V> asMapOfRanges();
 
   /**
-   * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}.
-   * Modifications to this range map are guaranteed to read through to the returned {@code Map}.
+   * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}. Modifications to
+   * this range map are guaranteed to read through to the returned {@code Map}.
    *
    * <p>The returned {@code Map} iterates over entries in descending order of the bounds of the
    * {@code Range} entries.
@@ -139,13 +134,12 @@ public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns a view of the part of this range map that intersects with {@code range}.
    *
-   * <p>For example, if {@code rangeMap} had the entries
-   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, ∞) => "baz"}
-   * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
+   * <p>For example, if {@code rangeMap} had the entries {@code [1, 5] => "foo", (6, 8) => "bar",
+   * (10, ∞) => "baz"} then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
    * with the entries {@code (3, 5] => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
    *
-   * <p>The returned range map supports all optional operations that this range map supports,
-   * except for {@code asMapOfRanges().iterator().remove()}.
+   * <p>The returned range map supports all optional operations that this range map supports, except
+   * for {@code asMapOfRanges().iterator().remove()}.
    *
    * <p>The returned range map will throw an {@link IllegalArgumentException} on an attempt to
    * insert a range not {@linkplain Range#encloses(Range) enclosed} by {@code range}.
@@ -153,21 +147,17 @@ public interface RangeMap<K extends Comparable, V> {
   RangeMap<K, V> subRangeMap(Range<K> range);
 
   /**
-   * Returns {@code true} if {@code obj} is another {@code RangeMap} that has an equivalent
-   * {@link #asMapOfRanges()}.
+   * Returns {@code true} if {@code obj} is another {@code RangeMap} that has an equivalent {@link
+   * #asMapOfRanges()}.
    */
   @Override
-  boolean equals(@Nullable Object o);
+  boolean equals(@NullableDecl Object o);
 
-  /**
-   * Returns {@code asMapOfRanges().hashCode()}.
-   */
+  /** Returns {@code asMapOfRanges().hashCode()}. */
   @Override
   int hashCode();
 
-  /**
-   * Returns a readable string representation of this range map.
-   */
+  /** Returns a readable string representation of this range map. */
   @Override
   String toString();
 }

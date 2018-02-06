@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <version>9</version>
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
@@ -16,11 +16,11 @@
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
   <properties>
-    <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <truth.version>0.35</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
+    <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -85,18 +85,10 @@
         </excludes>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals><goal>sign</goal></goals>
-          </execution>
-        </executions>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -162,10 +154,18 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <configuration>
+            <quiet>true</quiet>
             <notimestamp>true</notimestamp>
-            <additionalparam>-Xdoclint:-html</additionalparam>
+            <encoding>UTF-8</encoding>
+            <docencoding>UTF-8</docencoding>
+            <charset>UTF-8</charset>
+            <additionalOptions>
+              <additionalOption>-XDignore.symbol.file</additionalOption>
+              <additionalOption>-Xdoclint:-html</additionalOption>
+            </additionalOptions>
+            <linksource>true</linksource>
           </configuration>
           <executions>
             <execution>
@@ -225,13 +225,13 @@
       </dependency>
       <dependency>
         <groupId>org.checkerframework</groupId>
-        <artifactId>checker-qual</artifactId>
+        <artifactId>checker-compat-qual</artifactId>
         <version>2.0.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.0.18</version>
+        <version>2.1.3</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>

@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -51,23 +52,17 @@ public class SubscriberExceptionContext {
     return eventBus;
   }
 
-  /**
-   * @return The event object that caused the subscriber to throw.
-   */
+  /** @return The event object that caused the subscriber to throw. */
   public Object getEvent() {
     return event;
   }
 
-  /**
-   * @return The object context that the subscriber was called on.
-   */
+  /** @return The object context that the subscriber was called on. */
   public Object getSubscriber() {
     return subscriber;
   }
 
-  /**
-   * @return The subscribed method that threw the exception.
-   */
+  /** @return The subscribed method that threw the exception. */
   public Method getSubscriberMethod() {
     return subscriberMethod;
   }

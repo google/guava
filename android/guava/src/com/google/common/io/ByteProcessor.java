@@ -22,8 +22,8 @@ import java.io.IOException;
 /**
  * A callback interface to process bytes from a stream.
  *
- * <p>{@link #processBytes} will be called for each chunk of data that is read,
- * and should return {@code false} when you want to stop processing.
+ * <p>{@link #processBytes} will be called for each chunk of data that is read, and should return
+ * {@code false} when you want to stop processing.
  *
  * @author Chris Nokleberg
  * @since 1.0

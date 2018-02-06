@@ -32,9 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 
-/**
- * Tests for {@link ListenerCallQueue}.
- */
+/** Tests for {@link ListenerCallQueue}. */
 public class ListenerCallQueueTest extends TestCase {
 
   private static final ListenerCallQueue.Event<Object> THROWING_EVENT =

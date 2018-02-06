@@ -35,16 +35,18 @@ import java.nio.charset.Charset;
  * <p><b>Warning:</b> Chunks of data that are put into the {@link Hasher} are not delimited. The
  * resulting {@link HashCode} is dependent only on the bytes inserted, and the order in which they
  * were inserted, not how those bytes were chunked into discrete put() operations. For example, the
- * following three expressions all generate colliding hash codes: <pre>   {@code
+ * following three expressions all generate colliding hash codes:
  *
- *   newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
- *   newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
- *   newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()}</pre>
+ * <pre>{@code
+ * newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
+ * newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
+ * newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()
+ * }</pre>
  *
  * <p>If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
  * mind that when dealing with char sequences, the encoded form of two concatenated char sequences
- * is not equivalent to the concatenation of their encoded form. Therefore,
- * {@link #putString(CharSequence, Charset)} should only be used consistently with <i>complete</i>
+ * is not equivalent to the concatenation of their encoded form. Therefore, {@link
+ * #putString(CharSequence, Charset)} should only be used consistently with <i>complete</i>
  * sequences and not broken into chunks.
  *
  * @author Kevin Bourrillion
@@ -74,21 +76,15 @@ public interface Hasher extends PrimitiveSink {
   @Override
   Hasher putLong(long l);
 
-  /**
-   * Equivalent to {@code putInt(Float.floatToRawIntBits(f))}.
-   */
+  /** Equivalent to {@code putInt(Float.floatToRawIntBits(f))}. */
   @Override
   Hasher putFloat(float f);
 
-  /**
-   * Equivalent to {@code putLong(Double.doubleToRawLongBits(d))}.
-   */
+  /** Equivalent to {@code putLong(Double.doubleToRawLongBits(d))}. */
   @Override
   Hasher putDouble(double d);
 
-  /**
-   * Equivalent to {@code putByte(b ? (byte) 1 : (byte) 0)}.
-   */
+  /** Equivalent to {@code putByte(b ? (byte) 1 : (byte) 0)}. */
   @Override
   Hasher putBoolean(boolean b);
 
@@ -122,9 +118,7 @@ public interface Hasher extends PrimitiveSink {
   @Override
   Hasher putString(CharSequence charSequence, Charset charset);
 
-  /**
-   * A simple convenience for {@code funnel.funnel(object, this)}.
-   */
+  /** A simple convenience for {@code funnel.funnel(object, this)}. */
   <T> Hasher putObject(T instance, Funnel<? super T> funnel);
 
   /**
@@ -136,8 +130,8 @@ public interface Hasher extends PrimitiveSink {
   /**
    * {@inheritDoc}
    *
-   * @deprecated This returns {@link Object#hashCode()}; you almost certainly mean to call
-   *     {@code hash().asInt()}.
+   * @deprecated This returns {@link Object#hashCode()}; you almost certainly mean to call {@code
+   *     hash().asInt()}.
    */
   @Override
   @Deprecated

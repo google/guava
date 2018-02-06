@@ -92,6 +92,20 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
     }
   }
 
+  @Override
+  @Test
+  public void incidentEdges_checkReturnedSetMutability() {
+    addNode(N1);
+    Set<EndpointPair<Integer>> incidentEdges = graph.incidentEdges(N1);
+    try {
+      incidentEdges.add(EndpointPair.ordered(N1, N2));
+      fail(ERROR_MODIFIABLE_SET);
+    } catch (UnsupportedOperationException e) {
+      putEdge(N1, N2);
+      assertThat(incidentEdges).containsExactlyElementsIn(graph.incidentEdges(N1));
+    }
+  }
+
   // Element Mutation
 
   @Test

@@ -26,11 +26,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A Ticker whose value can be advanced programmatically in test.
- * <p>
- * The ticker can be configured so that the time is incremented whenever {@link #read} is called:
+ *
+ * <p>The ticker can be configured so that the time is incremented whenever {@link #read} is called:
  * see {@link #setAutoIncrementStep}.
- * <p>
- * This class is thread-safe.
+ *
+ * <p>This class is thread-safe.
  *
  * @author Jige Yu
  * @since 10.0
@@ -65,7 +65,8 @@ public class FakeTicker extends Ticker {
     return this;
   }
 
-  @Override public long read() {
+  @Override
+  public long read() {
     return nanos.getAndAdd(autoIncrementStepNanos);
   }
 }

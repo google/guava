@@ -22,15 +22,13 @@ import java.util.Deque;
 import java.util.Iterator;
 
 /**
- * A deque which forwards all its method calls to another deque. Subclasses
- * should override one or more methods to modify the behavior of the backing
- * deque as desired per the <a
+ * A deque which forwards all its method calls to another deque. Subclasses should override one or
+ * more methods to modify the behavior of the backing deque as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p><b>Warning:</b> The methods of {@code ForwardingDeque} forward
- * <b>indiscriminately</b> to the methods of the delegate. For example,
- * overriding {@link #add} alone <b>will not</b> change the behavior of {@link
- * #offer} which can lead to unexpected behavior. In this case, you should
+ * <p><b>Warning:</b> The methods of {@code ForwardingDeque} forward <b>indiscriminately</b> to the
+ * methods of the delegate. For example, overriding {@link #add} alone <b>will not</b> change the
+ * behavior of {@link #offer} which can lead to unexpected behavior. In this case, you should
  * override {@code offer} as well.
  *
  * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code

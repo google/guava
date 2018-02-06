@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import java.net.InetAddress;
 import java.text.ParseException;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP
@@ -35,8 +35,8 @@ import javax.annotation.Nullable;
  *
  * <p>If you know that a given string represents a numeric IP address, use {@link InetAddresses} to
  * obtain and manipulate a {@link java.net.InetAddress} instance from it rather than using this
- * class. Similarly, if you know that a given string represents a domain name, use
- * {@link InternetDomainName} rather than this class.
+ * class. Similarly, if you know that a given string represents a domain name, use {@link
+ * InternetDomainName} rather than this class.
  *
  * @author Craig Berry
  * @since 5.0
@@ -57,11 +57,12 @@ public final class HostSpecifier {
    * instead.
    *
    * <p>The specifier must be in one of these formats:
+   *
    * <ul>
-   * <li>A domain name, like {@code google.com}
-   * <li>A IPv4 address string, like {@code 127.0.0.1}
-   * <li>An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or
-   *     {@code 2001:db8::1}
+   *   <li>A domain name, like {@code google.com}
+   *   <li>A IPv4 address string, like {@code 127.0.0.1}
+   *   <li>An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or {@code
+   *       2001:db8::1}
    * </ul>
    *
    * @throws IllegalArgumentException if the specifier is not valid.
@@ -136,7 +137,7 @@ public final class HostSpecifier {
   }
 
   @Override
-  public boolean equals(@Nullable Object other) {
+  public boolean equals(@NullableDecl Object other) {
     if (this == other) {
       return true;
     }

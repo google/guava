@@ -17,7 +17,6 @@ package com.google.common.hash;
 import static com.google.common.hash.Hashing.ChecksumType.ADLER_32;
 import static com.google.common.hash.Hashing.ChecksumType.CRC_32;
 
-import com.google.common.base.Supplier;
 import java.util.zip.Checksum;
 import junit.framework.TestCase;
 
@@ -62,7 +61,7 @@ public class ChecksumHashFunctionTest extends TestCase {
     assertHash32(0x5BD90FD9, ADLER_32, "The quick brown fox jumps over the lazy cog");
   }
 
-  private static void assertChecksum(Supplier<Checksum> supplier, String input) {
+  private static void assertChecksum(ImmutableSupplier<Checksum> supplier, String input) {
     byte[] bytes = HashTestUtils.ascii(input);
 
     Checksum checksum = supplier.get();
@@ -75,7 +74,8 @@ public class ChecksumHashFunctionTest extends TestCase {
     assertEquals(value, func.hashBytes(bytes).padToLong());
   }
 
-  private static void assertHash32(int expected, Supplier<Checksum> supplier, String input) {
+  private static void assertHash32(
+      int expected, ImmutableSupplier<Checksum> supplier, String input) {
     byte[] bytes = HashTestUtils.ascii(input);
     String toString = "name";
     HashFunction func = new ChecksumHashFunction(supplier, 32, toString);

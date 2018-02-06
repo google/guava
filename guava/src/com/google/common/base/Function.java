@@ -20,26 +20,25 @@ import com.google.common.annotations.VisibleForTesting;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Legacy version of {@link java.util.function.Function}.
+ * Legacy version of {@link java.util.function.Function java.util.function.Function}.
  *
  * <p>The {@link Functions} class provides common functions and related utilities.
  *
- * <p>As this interface extends {@link java.util.function.Function}, an instance of this type
- * can be used as a {@code java.util.function.Function} directly.  To use a
- * {@code java.util.function.Function} in a context where a
- * {@code com.google.common.base.Function} is needed, use {@code function::apply}.
+ * <p>As this interface extends {@code java.util.function.Function}, an instance of this type can be
+ * used as a {@code java.util.function.Function} directly. To use a {@code
+ * java.util.function.Function} in a context where a {@code com.google.common.base.Function} is
+ * needed, use {@code function::apply}.
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Function} (or the
  * appropriate primitive specialization such as {@code ToIntFunction}) instead whenever possible.
  * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
@@ -49,9 +48,9 @@ import javax.annotation.Nullable;
 @FunctionalInterface
 public interface Function<F, T> extends java.util.function.Function<F, T> {
   @Override
-  @Nullable
+  @NullableDecl
   @CanIgnoreReturnValue // TODO(kevinb): remove this
-  T apply(@Nullable F input);
+  T apply(@NullableDecl F input);
 
   /**
    * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
@@ -66,5 +65,5 @@ public interface Function<F, T> extends java.util.function.Function<F, T> {
    */
   @Pure
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@NullableDecl Object object);
 }

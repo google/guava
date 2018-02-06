@@ -21,16 +21,15 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 
-/**
- * Tests for {@link AbstractFuture} with the cancellation cause system property set
- */
+/** Tests for {@link AbstractFuture} with the cancellation cause system property set */
 
 public class AbstractFutureCancellationCauseTest extends TestCase {
 
   private ClassLoader oldClassLoader;
   private URLClassLoader classReloader;
 
-  @Override protected void setUp() throws Exception {
+  @Override
+  protected void setUp() throws Exception {
     // Load the "normal" copy of SettableFuture and related classes.
     SettableFuture<?> unused = SettableFuture.create();
     // Hack to load AbstractFuture et. al. in a new classloader so that it re-reads the cancellation

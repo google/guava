@@ -30,9 +30,9 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Concrete instantiation of {@link AbstractCollectionTestSuiteBuilder} for
- * testing collections that do not have a more specific tester like
- * {@link ListTestSuiteBuilder} or {@link SetTestSuiteBuilder}.
+ * Concrete instantiation of {@link AbstractCollectionTestSuiteBuilder} for testing collections that
+ * do not have a more specific tester like {@link ListTestSuiteBuilder} or {@link
+ * SetTestSuiteBuilder}.
  *
  * @author Chris Povirk
  * @author Louis Wasserman

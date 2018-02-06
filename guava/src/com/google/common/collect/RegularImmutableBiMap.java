@@ -33,7 +33,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Bimap with zero or more mappings.
@@ -52,8 +52,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   private final transient ImmutableMapEntry<K, V>[] keyTable;
   private final transient ImmutableMapEntry<K, V>[] valueTable;
-  @VisibleForTesting
-  final transient Entry<K, V>[] entries;
+  @VisibleForTesting final transient Entry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
 
@@ -130,15 +129,15 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // checkNoConflictInKeyBucket is static imported from RegularImmutableMap
 
   private static void checkNoConflictInValueBucket(
-      Object value, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> valueBucketHead) {
+      Object value, Entry<?, ?> entry, @NullableDecl ImmutableMapEntry<?, ?> valueBucketHead) {
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
     }
   }
 
   @Override
-  @Nullable
-  public V get(@Nullable Object key) {
+  @NullableDecl
+  public V get(@NullableDecl Object key) {
     return (keyTable == null) ? null : RegularImmutableMap.get(key, keyTable, mask);
   }
 
@@ -182,9 +181,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
-  @LazyInit
-  @RetainedWith
-  private transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
@@ -214,7 +211,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    public K get(@Nullable Object value) {
+    public K get(@NullableDecl Object value) {
       if (value == null || valueTable == null) {
         return null;
       }

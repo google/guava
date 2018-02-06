@@ -68,39 +68,25 @@ public interface PrimitiveSink {
    */
   PrimitiveSink putBytes(ByteBuffer bytes);
 
-  /**
-   * Puts a short into this sink.
-   */
+  /** Puts a short into this sink. */
   PrimitiveSink putShort(short s);
 
-  /**
-   * Puts an int into this sink.
-   */
+  /** Puts an int into this sink. */
   PrimitiveSink putInt(int i);
 
-  /**
-   * Puts a long into this sink.
-   */
+  /** Puts a long into this sink. */
   PrimitiveSink putLong(long l);
 
-  /**
-   * Puts a float into this sink.
-   */
+  /** Puts a float into this sink. */
   PrimitiveSink putFloat(float f);
 
-  /**
-   * Puts a double into this sink.
-   */
+  /** Puts a double into this sink. */
   PrimitiveSink putDouble(double d);
 
-  /**
-   * Puts a boolean into this sink.
-   */
+  /** Puts a boolean into this sink. */
   PrimitiveSink putBoolean(boolean b);
 
-  /**
-   * Puts a character into this sink.
-   */
+  /** Puts a character into this sink. */
   PrimitiveSink putChar(char c);
 
   /**

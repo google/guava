@@ -24,7 +24,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -36,29 +36,29 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
     implements NavigableMap<K, V> {
 
   @Override
-  @Nullable
-  public abstract V get(@Nullable Object key);
+  @NullableDecl
+  public abstract V get(@NullableDecl Object key);
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> firstEntry() {
     return Iterators.getNext(entryIterator(), null);
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> lastEntry() {
     return Iterators.getNext(descendingEntryIterator(), null);
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> pollFirstEntry() {
     return Iterators.pollNext(entryIterator());
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> pollLastEntry() {
     return Iterators.pollNext(descendingEntryIterator());
   }
@@ -84,25 +84,25 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }

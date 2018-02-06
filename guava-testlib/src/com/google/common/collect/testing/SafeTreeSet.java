@@ -26,9 +26,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * A wrapper around {@code TreeSet} that aggressively checks to see if elements
- * are mutually comparable. This implementation passes the navigable set test
- * suites.
+ * A wrapper around {@code TreeSet} that aggressively checks to see if elements are mutually
+ * comparable. This implementation passes the navigable set test suites.
  *
  * @author Louis Wasserman
  */

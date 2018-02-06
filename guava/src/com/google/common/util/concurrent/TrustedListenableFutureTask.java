@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.
@@ -42,17 +42,15 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
   }
 
   /**
-   * Creates a {@code ListenableFutureTask} that will upon running, execute the given
-   * {@code Runnable}, and arrange that {@code get} will return the given result on successful
-   * completion.
+   * Creates a {@code ListenableFutureTask} that will upon running, execute the given {@code
+   * Runnable}, and arrange that {@code get} will return the given result on successful completion.
    *
    * @param runnable the runnable task
    * @param result the result to return on successful completion. If you don't need a particular
-   *     result, consider using constructions of the form:
-   *     {@code ListenableFuture<?> f = ListenableFutureTask.create(runnable,
-   *     null)}
+   *     result, consider using constructions of the form: {@code ListenableFuture<?> f =
+   *     ListenableFutureTask.create(runnable, null)}
    */
-  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, @Nullable V result) {
+  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, @NullableDecl V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
@@ -106,7 +104,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     if (localTask != null) {
       return "task=[" + localTask + "]";
     }
-    return null;
+    return super.pendingToString();
   }
 
   @WeakOuter
@@ -137,7 +135,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }
@@ -174,7 +172,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
     }
 
     @Override
-    public String toString() {
+    String toPendingString() {
       return callable.toString();
     }
   }

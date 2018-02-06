@@ -27,10 +27,8 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link Flushables}.
  *
- * <p>Checks proper flushing behavior, and ensures that
- * IOExceptions on Flushable.flush() are not
- * propagated out from the {@link Flushables#flush} method if {@code
- * swallowException} is true.
+ * <p>Checks proper flushing behavior, and ensures that IOExceptions on Flushable.flush() are not
+ * propagated out from the {@link Flushables#flush} method if {@code swallowException} is true.
  *
  * @author Michael Lancaster
  */
@@ -61,8 +59,7 @@ public class FlushablesTest extends TestCase {
     doFlush(mockFlushable, false, true);
   }
 
-  public void testFlushQuietly_flushableWithEatenException()
-      throws IOException {
+  public void testFlushQuietly_flushableWithEatenException() throws IOException {
     // make sure that no exception is thrown by flushQuietly when the mock does
     // throw an exception on flush.
     setupFlushable(true);
@@ -74,16 +71,19 @@ public class FlushablesTest extends TestCase {
   private void setupFlushable(boolean shouldThrowOnFlush) throws IOException {
     mockFlushable = mock(Flushable.class);
     if (shouldThrowOnFlush) {
-      doThrow(new IOException("This should only appear in the "
-          + "logs. It should not be rethrown.")).when(mockFlushable).flush();
+      doThrow(
+              new IOException(
+                  "This should only appear in the " + "logs. It should not be rethrown."))
+          .when(mockFlushable)
+          .flush();
     }
   }
 
   // Flush the flushable using the Flushables, passing in the swallowException
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Flushables.flush;
-  private void doFlush(Flushable flushable, boolean swallowException,
-      boolean expectThrown) throws IOException {
+  private void doFlush(Flushable flushable, boolean swallowException, boolean expectThrown)
+      throws IOException {
     try {
       Flushables.flush(flushable, swallowException);
       if (expectThrown) {

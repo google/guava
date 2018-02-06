@@ -37,15 +37,16 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code iterator} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code iterator} operations on a collection. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   public void testIterator() {
     List<E> iteratorElements = new ArrayList<E>();

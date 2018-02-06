@@ -36,16 +36,12 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-/**
- * Tester for {@code Spliterator} implementations.
- */
+/** Tester for {@code Spliterator} implementations. */
 @GwtCompatible
 public final class SpliteratorTester<E> {
-  /**
-   * Return type from "contains the following elements" assertions.
-   */
+  /** Return type from "contains the following elements" assertions. */
   public interface Ordered {
     /**
      * Attests that the expected values must not just be present but must be present in the order
@@ -55,8 +51,8 @@ public final class SpliteratorTester<E> {
   }
 
   /**
-   * Different ways of decomposing a Spliterator, all of which must produce the same
-   * elements (up to ordering, if Spliterator.ORDERED is not present).
+   * Different ways of decomposing a Spliterator, all of which must produce the same elements (up to
+   * ordering, if Spliterator.ORDERED is not present).
    */
   enum SpliteratorDecompositionStrategy {
     NO_SPLIT_FOR_EACH_REMAINING {
@@ -83,10 +79,11 @@ public final class SpliteratorTester<E> {
         }
         long size = spliterator.getExactSizeIfKnown();
         long[] counter = {0};
-        spliterator.forEachRemaining(e -> {
-          consumer.accept(e);
-          counter[0]++;
-        });
+        spliterator.forEachRemaining(
+            e -> {
+              consumer.accept(e);
+              counter[0]++;
+            });
         if (size >= 0) {
           assertEquals(size, counter[0]);
         }
@@ -107,7 +104,7 @@ public final class SpliteratorTester<E> {
     abstract <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer);
   }
 
-  @Nullable
+  @NullableDecl
   private static <E> Spliterator<E> trySplitTestingSize(Spliterator<E> spliterator) {
     boolean subsized = spliterator.hasCharacteristics(Spliterator.SUBSIZED);
     long originalSize = spliterator.estimateSize();
@@ -116,16 +113,14 @@ public final class SpliteratorTester<E> {
       fail(
           format(
               "estimated size of spliterator after trySplit (%s) is larger than original size (%s)",
-              spliterator.estimateSize(),
-              originalSize));
+              spliterator.estimateSize(), originalSize));
     }
     if (trySplit != null) {
       if (trySplit.estimateSize() > originalSize) {
         fail(
             format(
                 "estimated size of trySplit result (%s) is larger than original size (%s)",
-                trySplit.estimateSize(),
-                originalSize));
+                trySplit.estimateSize(), originalSize));
       }
     }
     if (subsized) {

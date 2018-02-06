@@ -66,9 +66,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
     value = new AtomicLong(doubleToRawLongBits(initialValue));
   }
 
-  /**
-   * Creates a new {@code AtomicDouble} with initial value {@code 0.0}.
-   */
+  /** Creates a new {@code AtomicDouble} with initial value {@code 0.0}. */
   public AtomicDouble() {
     this(0.0);
   }
@@ -114,40 +112,33 @@ public class AtomicDouble extends Number implements java.io.Serializable {
   }
 
   /**
-   * Atomically sets the value to the given updated value
-   * if the current value is <a href="#bitEquals">bitwise equal</a>
-   * to the expected value.
+   * Atomically sets the value to the given updated value if the current value is <a
+   * href="#bitEquals">bitwise equal</a> to the expected value.
    *
    * @param expect the expected value
    * @param update the new value
-   * @return {@code true} if successful. False return indicates that
-   * the actual value was not bitwise equal to the expected value.
+   * @return {@code true} if successful. False return indicates that the actual value was not
+   *     bitwise equal to the expected value.
    */
   public final boolean compareAndSet(double expect, double update) {
-    return value.compareAndSet(
-                                 doubleToRawLongBits(expect),
-                                 doubleToRawLongBits(update));
+    return value.compareAndSet(doubleToRawLongBits(expect), doubleToRawLongBits(update));
   }
 
   /**
-   * Atomically sets the value to the given updated value
-   * if the current value is <a href="#bitEquals">bitwise equal</a>
-   * to the expected value.
+   * Atomically sets the value to the given updated value if the current value is <a
+   * href="#bitEquals">bitwise equal</a> to the expected value.
    *
    * <p>May <a
    * href="http://download.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
-   * fail spuriously</a>
-   * and does not provide ordering guarantees, so is only rarely an
-   * appropriate alternative to {@code compareAndSet}.
+   * fail spuriously</a> and does not provide ordering guarantees, so is only rarely an appropriate
+   * alternative to {@code compareAndSet}.
    *
    * @param expect the expected value
    * @param update the new value
    * @return {@code true} if successful
    */
   public final boolean weakCompareAndSet(double expect, double update) {
-    return value.weakCompareAndSet(
-                                     doubleToRawLongBits(expect),
-                                     doubleToRawLongBits(update));
+    return value.weakCompareAndSet(doubleToRawLongBits(expect), doubleToRawLongBits(update));
   }
 
   /**
@@ -190,6 +181,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
 
   /**
    * Returns the String representation of the current value.
+   *
    * @return the String representation of the current value
    */
   public String toString() {
@@ -197,32 +189,30 @@ public class AtomicDouble extends Number implements java.io.Serializable {
   }
 
   /**
-   * Returns the value of this {@code AtomicDouble} as an {@code int}
-   * after a narrowing primitive conversion.
+   * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive
+   * conversion.
    */
   public int intValue() {
     return (int) get();
   }
 
   /**
-   * Returns the value of this {@code AtomicDouble} as a {@code long}
-   * after a narrowing primitive conversion.
+   * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive
+   * conversion.
    */
   public long longValue() {
     return (long) get();
   }
 
   /**
-   * Returns the value of this {@code AtomicDouble} as a {@code float}
-   * after a narrowing primitive conversion.
+   * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive
+   * conversion.
    */
   public float floatValue() {
     return (float) get();
   }
 
-  /**
-   * Returns the value of this {@code AtomicDouble} as a {@code double}.
-   */
+  /** Returns the value of this {@code AtomicDouble} as a {@code double}. */
   public double doubleValue() {
     return get();
   }
@@ -232,16 +222,13 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @serialData The current value is emitted (a {@code double}).
    */
-  private void writeObject(java.io.ObjectOutputStream s)
-      throws java.io.IOException {
+  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
     s.defaultWriteObject();
 
     s.writeDouble(get());
   }
 
-  /**
-   * Reconstitutes the instance from a stream (that is, deserializes it).
-   */
+  /** Reconstitutes the instance from a stream (that is, deserializes it). */
   private void readObject(java.io.ObjectInputStream s)
       throws java.io.IOException, ClassNotFoundException {
     s.defaultReadObject();

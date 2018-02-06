@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Testers for {@link ListMultimap#remove(Object, Object)}.
@@ -35,6 +36,7 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K, V> {
   @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_REMOVE)

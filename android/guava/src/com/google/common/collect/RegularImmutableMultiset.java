@@ -15,10 +15,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
-import javax.annotation.Nullable;
+import java.io.Serializable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -32,11 +34,10 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final RegularImmutableMultiset<Object> EMPTY =
       new RegularImmutableMultiset<>(ObjectCountHashMap.create());
 
-  private final transient ObjectCountHashMap<E> contents;
+  final transient ObjectCountHashMap<E> contents;
   private final transient int size;
 
-  @LazyInit
-  private transient ImmutableSet<E> elementSet;
+  @LazyInit private transient ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(ObjectCountHashMap<E> contents) {
     this.contents = contents;
@@ -53,7 +54,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(@NullableDecl Object element) {
     return contents.get(element);
   }
 
@@ -77,7 +78,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(@NullableDecl Object object) {
       return RegularImmutableMultiset.this.contains(object);
     }
 
@@ -95,5 +96,39 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   Entry<E> getEntry(int index) {
     return contents.getEntry(index);
+  }
+
+  private static class SerializedForm implements Serializable {
+    final Object[] elements;
+    final int[] counts;
+
+    SerializedForm(Multiset<?> multiset) {
+      int distinct = multiset.entrySet().size();
+      elements = new Object[distinct];
+      counts = new int[distinct];
+      int i = 0;
+      for (Entry<?> entry : multiset.entrySet()) {
+        elements[i] = entry.getElement();
+        counts[i] = entry.getCount();
+        i++;
+      }
+    }
+
+    Object readResolve() {
+      ImmutableMultiset.Builder<Object> builder =
+          new ImmutableMultiset.Builder<Object>(elements.length);
+      for (int i = 0; i < elements.length; i++) {
+        builder.addCopies(elements[i], counts[i]);
+      }
+      return builder.build();
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  //We can't label this with @Override, because it doesn't override anything
+  // in the GWT emulated version.
+  Object writeReplace() {
+    return new SerializedForm(this);
   }
 }

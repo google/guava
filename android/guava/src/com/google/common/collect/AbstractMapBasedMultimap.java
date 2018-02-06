@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.AbstractMultimap.Entries;
+import com.google.common.collect.AbstractMultimap.EntrySet;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -40,47 +42,43 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Basic implementation of the {@link Multimap} interface. This class represents
- * a multimap as a map that associates each key with a collection of values. All
- * methods of {@link Multimap} are supported, including those specified as
- * optional in the interface.
+ * Basic implementation of the {@link Multimap} interface. This class represents a multimap as a map
+ * that associates each key with a collection of values. All methods of {@link Multimap} are
+ * supported, including those specified as optional in the interface.
  *
- * <p>To implement a multimap, a subclass must define the method {@link
- * #createCollection()}, which creates an empty collection of values for a key.
+ * <p>To implement a multimap, a subclass must define the method {@link #createCollection()}, which
+ * creates an empty collection of values for a key.
  *
- * <p>The multimap constructor takes a map that has a single entry for each
- * distinct key. When you insert a key-value pair with a key that isn't already
- * in the multimap, {@code AbstractMapBasedMultimap} calls {@link #createCollection()}
- * to create the collection of values for that key. The subclass should not call
- * {@link #createCollection()} directly, and a new instance should be created
- * every time the method is called.
+ * <p>The multimap constructor takes a map that has a single entry for each distinct key. When you
+ * insert a key-value pair with a key that isn't already in the multimap, {@code
+ * AbstractMapBasedMultimap} calls {@link #createCollection()} to create the collection of values
+ * for that key. The subclass should not call {@link #createCollection()} directly, and a new
+ * instance should be created every time the method is called.
  *
- * <p>For example, the subclass could pass a {@link java.util.TreeMap} during
- * construction, and {@link #createCollection()} could return a {@link
- * java.util.TreeSet}, in which case the multimap's iterators would propagate
- * through the keys and values in sorted order.
+ * <p>For example, the subclass could pass a {@link java.util.TreeMap} during construction, and
+ * {@link #createCollection()} could return a {@link java.util.TreeSet}, in which case the
+ * multimap's iterators would propagate through the keys and values in sorted order.
  *
- * <p>Keys and values may be null, as long as the underlying collection classes
- * support null elements.
+ * <p>Keys and values may be null, as long as the underlying collection classes support null
+ * elements.
  *
- * <p>The collections created by {@link #createCollection()} may or may not
- * allow duplicates. If the collection, such as a {@link Set}, does not support
- * duplicates, an added key-value pair will replace an existing pair with the
- * same key and value, if such a pair is present. With collections like {@link
- * List} that allow duplicates, the collection will keep the existing key-value
- * pairs while adding a new pair.
+ * <p>The collections created by {@link #createCollection()} may or may not allow duplicates. If the
+ * collection, such as a {@link Set}, does not support duplicates, an added key-value pair will
+ * replace an existing pair with the same key and value, if such a pair is present. With collections
+ * like {@link List} that allow duplicates, the collection will keep the existing key-value pairs
+ * while adding a new pair.
  *
- * <p>This class is not threadsafe when any concurrent operations update the
- * multimap, even if the underlying map and {@link #createCollection()} method
- * return threadsafe classes. Concurrent read operations will work correctly. To
- * allow concurrent update operations, wrap your multimap with a call to {@link
- * Multimaps#synchronizedMultimap}.
+ * <p>This class is not threadsafe when any concurrent operations update the multimap, even if the
+ * underlying map and {@link #createCollection()} method return threadsafe classes. Concurrent read
+ * operations will work correctly. To allow concurrent update operations, wrap your multimap with a
+ * call to {@link Multimaps#synchronizedMultimap}.
  *
- * <p>For serialization to work, the subclass must specify explicit
- * {@code readObject} and {@code writeObject} methods.
+ * <p>For serialization to work, the subclass must specify explicit {@code readObject} and {@code
+ * writeObject} methods.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -113,8 +111,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   /**
    * Creates a new multimap that uses the provided map.
    *
-   * @param map place to store the mapping from each key to its corresponding
-   *     values
+   * @param map place to store the mapping from each key to its corresponding values
    * @throws IllegalArgumentException if {@code map} is not empty
    */
   protected AbstractMapBasedMultimap(Map<K, Collection<V>> map) {
@@ -144,26 +141,24 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   /**
    * Creates the collection of values for a single key.
    *
-   * <p>Collections with weak, soft, or phantom references are not supported.
-   * Each call to {@code createCollection} should create a new instance.
+   * <p>Collections with weak, soft, or phantom references are not supported. Each call to {@code
+   * createCollection} should create a new instance.
    *
-   * <p>The returned collection class determines whether duplicate key-value
-   * pairs are allowed.
+   * <p>The returned collection class determines whether duplicate key-value pairs are allowed.
    *
    * @return an empty collection of values
    */
   abstract Collection<V> createCollection();
 
   /**
-   * Creates the collection of values for an explicitly provided key. By
-   * default, it simply calls {@link #createCollection()}, which is the correct
-   * behavior for most implementations. The {@link LinkedHashMultimap} class
-   * overrides it.
+   * Creates the collection of values for an explicitly provided key. By default, it simply calls
+   * {@link #createCollection()}, which is the correct behavior for most implementations. The {@link
+   * LinkedHashMultimap} class overrides it.
    *
    * @param key key to associate with values in the collection
    * @return an empty collection of values
    */
-  Collection<V> createCollection(@Nullable K key) {
+  Collection<V> createCollection(@NullableDecl K key) {
     return createCollection();
   }
 
@@ -179,14 +174,14 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@NullableDecl Object key) {
     return map.containsKey(key);
   }
 
   // Modification Operations
 
   @Override
-  public boolean put(@Nullable K key, @Nullable V value) {
+  public boolean put(@NullableDecl K key, @NullableDecl V value) {
     Collection<V> collection = map.get(key);
     if (collection == null) {
       collection = createCollection(key);
@@ -205,7 +200,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  private Collection<V> getOrCreateCollection(@Nullable K key) {
+  private Collection<V> getOrCreateCollection(@NullableDecl K key) {
     Collection<V> collection = map.get(key);
     if (collection == null) {
       collection = createCollection(key);
@@ -222,7 +217,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned collection is immutable.
    */
   @Override
-  public Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
+  public Collection<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
     Iterator<? extends V> iterator = values.iterator();
     if (!iterator.hasNext()) {
       return removeAll(key);
@@ -251,7 +246,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned collection is immutable.
    */
   @Override
-  public Collection<V> removeAll(@Nullable Object key) {
+  public Collection<V> removeAll(@NullableDecl Object key) {
     Collection<V> collection = map.remove(key);
 
     if (collection == null) {
@@ -266,18 +261,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     return unmodifiableCollectionSubclass(output);
   }
 
-  static <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
-    if (collection instanceof NavigableSet) {
-      return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
-    } else if (collection instanceof SortedSet) {
-      return Collections.unmodifiableSortedSet((SortedSet<E>) collection);
-    } else if (collection instanceof Set) {
-      return Collections.unmodifiableSet((Set<E>) collection);
-    } else if (collection instanceof List) {
-      return Collections.unmodifiableList((List<E>) collection);
-    } else {
-      return Collections.unmodifiableCollection(collection);
-    }
+  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+    return Collections.unmodifiableCollection(collection);
   }
 
   @Override
@@ -298,7 +283,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned collection is not serializable.
    */
   @Override
-  public Collection<V> get(@Nullable K key) {
+  public Collection<V> get(@NullableDecl K key) {
     Collection<V> collection = map.get(key);
     if (collection == null) {
       collection = createCollection(key);
@@ -307,56 +292,44 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * Generates a decorated collection that remains consistent with the values in
-   * the multimap for the provided key. Changes to the multimap may alter the
-   * returned collection, and vice versa.
+   * Generates a decorated collection that remains consistent with the values in the multimap for
+   * the provided key. Changes to the multimap may alter the returned collection, and vice versa.
    */
-  Collection<V> wrapCollection(@Nullable K key, Collection<V> collection) {
-    if (collection instanceof NavigableSet) {
-      return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
-    } else if (collection instanceof SortedSet) {
-      return new WrappedSortedSet(key, (SortedSet<V>) collection, null);
-    } else if (collection instanceof Set) {
-      return new WrappedSet(key, (Set<V>) collection);
-    } else if (collection instanceof List) {
-      return wrapList(key, (List<V>) collection, null);
-    } else {
-      return new WrappedCollection(key, collection, null);
-    }
+  Collection<V> wrapCollection(@NullableDecl K key, Collection<V> collection) {
+    return new WrappedCollection(key, collection, null);
   }
 
-  private List<V> wrapList(@Nullable K key, List<V> list, @Nullable WrappedCollection ancestor) {
+  final List<V> wrapList(
+      @NullableDecl K key, List<V> list, @NullableDecl WrappedCollection ancestor) {
     return (list instanceof RandomAccess)
         ? new RandomAccessWrappedList(key, list, ancestor)
         : new WrappedList(key, list, ancestor);
   }
 
   /**
-   * Collection decorator that stays in sync with the multimap values for a key.
-   * There are two kinds of wrapped collections: full and subcollections. Both
-   * have a delegate pointing to the underlying collection class.
+   * Collection decorator that stays in sync with the multimap values for a key. There are two kinds
+   * of wrapped collections: full and subcollections. Both have a delegate pointing to the
+   * underlying collection class.
    *
-   * <p>Full collections, identified by a null ancestor field, contain all
-   * multimap values for a given key. Its delegate is a value in {@link
-   * AbstractMapBasedMultimap#map} whenever the delegate is non-empty. The {@code
-   * refreshIfEmpty}, {@code removeIfEmpty}, and {@code addToMap} methods ensure
-   * that the {@code WrappedCollection} and map remain consistent.
+   * <p>Full collections, identified by a null ancestor field, contain all multimap values for a
+   * given key. Its delegate is a value in {@link AbstractMapBasedMultimap#map} whenever the
+   * delegate is non-empty. The {@code refreshIfEmpty}, {@code removeIfEmpty}, and {@code addToMap}
+   * methods ensure that the {@code WrappedCollection} and map remain consistent.
    *
-   * <p>A subcollection, such as a sublist, contains some of the values for a
-   * given key. Its ancestor field points to the full wrapped collection with
-   * all values for the key. The subcollection {@code refreshIfEmpty}, {@code
-   * removeIfEmpty}, and {@code addToMap} methods call the corresponding methods
-   * of the full wrapped collection.
+   * <p>A subcollection, such as a sublist, contains some of the values for a given key. Its
+   * ancestor field points to the full wrapped collection with all values for the key. The
+   * subcollection {@code refreshIfEmpty}, {@code removeIfEmpty}, and {@code addToMap} methods call
+   * the corresponding methods of the full wrapped collection.
    */
   @WeakOuter
-  private class WrappedCollection extends AbstractCollection<V> {
-    final K key;
+  class WrappedCollection extends AbstractCollection<V> {
+    @NullableDecl final K key;
     Collection<V> delegate;
-    final WrappedCollection ancestor;
-    final Collection<V> ancestorDelegate;
+    @NullableDecl final WrappedCollection ancestor;
+    @NullableDecl final Collection<V> ancestorDelegate;
 
     WrappedCollection(
-        @Nullable K key, Collection<V> delegate, @Nullable WrappedCollection ancestor) {
+        @NullableDecl K key, Collection<V> delegate, @NullableDecl WrappedCollection ancestor) {
       this.key = key;
       this.delegate = delegate;
       this.ancestor = ancestor;
@@ -364,11 +337,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     /**
-     * If the delegate collection is empty, but the multimap has values for the
-     * key, replace the delegate with the new collection for the key.
+     * If the delegate collection is empty, but the multimap has values for the key, replace the
+     * delegate with the new collection for the key.
      *
-     * <p>For a subcollection, refresh its ancestor and validate that the
-     * ancestor delegate hasn't changed.
+     * <p>For a subcollection, refresh its ancestor and validate that the ancestor delegate hasn't
+     * changed.
      */
     void refreshIfEmpty() {
       if (ancestor != null) {
@@ -385,8 +358,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     /**
-     * If collection is empty, remove it from {@code AbstractMapBasedMultimap.this.map}.
-     * For subcollections, check whether the ancestor collection is empty.
+     * If collection is empty, remove it from {@code AbstractMapBasedMultimap.this.map}. For
+     * subcollections, check whether the ancestor collection is empty.
      */
     void removeIfEmpty() {
       if (ancestor != null) {
@@ -401,9 +374,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     /**
-     * Add the delegate to the map. Other {@code WrappedCollection} methods
-     * should call this method after adding elements to a previously empty
-     * collection.
+     * Add the delegate to the map. Other {@code WrappedCollection} methods should call this method
+     * after adding elements to a previously empty collection.
      *
      * <p>Subcollection add the ancestor's delegate instead.
      */
@@ -422,7 +394,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object == this) {
         return true;
       }
@@ -466,8 +438,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       }
 
       /**
-       * If the delegate changed since the iterator was created, the iterator is
-       * no longer valid.
+       * If the delegate changed since the iterator was created, the iterator is no longer valid.
        */
       void validateIterator() {
         refreshIfEmpty();
@@ -609,8 +580,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** Set decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedSet extends WrappedCollection implements Set<V> {
-    WrappedSet(@Nullable K key, Set<V> delegate) {
+  class WrappedSet extends WrappedCollection implements Set<V> {
+    WrappedSet(@NullableDecl K key, Set<V> delegate) {
       super(key, delegate, null);
     }
 
@@ -634,12 +605,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  /**
-   * SortedSet decorator that stays in sync with the multimap values for a key.
-   */
+  /** SortedSet decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
-    WrappedSortedSet(@Nullable K key, SortedSet<V> delegate, @Nullable WrappedCollection ancestor) {
+  class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
+    WrappedSortedSet(
+        @NullableDecl K key, SortedSet<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -695,7 +665,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   @WeakOuter
   class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
-        @Nullable K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
+        @NullableDecl K key, NavigableSet<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -768,8 +738,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** List decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  private class WrappedList extends WrappedCollection implements List<V> {
-    WrappedList(@Nullable K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
+  class WrappedList extends WrappedCollection implements List<V> {
+    WrappedList(@NullableDecl K key, List<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -909,18 +879,22 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /**
-   * List decorator that stays in sync with the multimap values for a key and
-   * supports rapid random access.
+   * List decorator that stays in sync with the multimap values for a key and supports rapid random
+   * access.
    */
   private class RandomAccessWrappedList extends WrappedList implements RandomAccess {
     RandomAccessWrappedList(
-        @Nullable K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
+        @NullableDecl K key, List<V> delegate, @NullableDecl WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
   }
 
   @Override
   Set<K> createKeySet() {
+    return new KeySet(map);
+  }
+  
+  final Set<K> createMaybeNavigableKeySet() {
     if (map instanceof NavigableMap) {
       return new NavigableKeySet((NavigableMap<K, Collection<V>>) map);
     } else if (map instanceof SortedMap) {
@@ -940,7 +914,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     public Iterator<K> iterator() {
       final Iterator<Entry<K, Collection<V>>> entryIterator = map().entrySet().iterator();
       return new Iterator<K>() {
-        Entry<K, Collection<V>> entry;
+        @NullableDecl Entry<K, Collection<V>> entry;
 
         @Override
         public boolean hasNext() {
@@ -960,6 +934,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
           entryIterator.remove();
           totalSize -= collection.size();
           collection.clear();
+          entry = null;
         }
       };
     }
@@ -989,7 +964,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       return this == object || this.map().keySet().equals(object);
     }
 
@@ -1125,9 +1100,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  /**
-   * Removes all values for the provided key.
-   */
+  /** Removes all values for the provided key. */
   private void removeValuesForKey(Object key) {
     Collection<V> collection = Maps.safeRemove(map, key);
 
@@ -1140,8 +1113,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   private abstract class Itr<T> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
-    K key;
-    Collection<V> collection;
+    @NullableDecl K key;
+    @MonotonicNonNullDecl Collection<V> collection;
     Iterator<V> valueIterator;
 
     Itr() {
@@ -1182,12 +1155,17 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>The iterator generated by the returned collection traverses the values
-   * for one key, followed by the values of a second key, and so on.
+   * <p>The iterator generated by the returned collection traverses the values for one key, followed
+   * by the values of a second key, and so on.
    */
   @Override
   public Collection<V> values() {
     return super.values();
+  }
+
+  @Override
+  Collection<V> createValues() {
+    return new Values();
   }
 
   @Override
@@ -1206,26 +1184,39 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * still able to {@inheritDoc} all the way from Multimap?
    */
 
+  @Override
+  Multiset<K> createKeys() {
+    return new Multimaps.Keys<K, V>(this);
+  }
+
   /**
    * {@inheritDoc}
    *
-   * <p>The iterator generated by the returned collection traverses the values
-   * for one key, followed by the values of a second key, and so on.
+   * <p>The iterator generated by the returned collection traverses the values for one key, followed
+   * by the values of a second key, and so on.
    *
-   * <p>Each entry is an immutable snapshot of a key-value mapping in the
-   * multimap, taken at the time the entry is returned by a method call to the
-   * collection or its iterator.
+   * <p>Each entry is an immutable snapshot of a key-value mapping in the multimap, taken at the
+   * time the entry is returned by a method call to the collection or its iterator.
    */
   @Override
   public Collection<Entry<K, V>> entries() {
     return super.entries();
   }
+  
+  @Override
+  Collection<Entry<K, V>> createEntries() {
+    if (this instanceof SetMultimap) {
+      return new EntrySet();
+    } else {
+      return new Entries();
+    }
+  }
 
   /**
-   * Returns an iterator across all key-value map entries, used by {@code
-   * entries().iterator()} and {@code values().iterator()}. The default
-   * behavior, which traverses the values for one key, the values for a second
-   * key, and so on, suffices for most {@code AbstractMapBasedMultimap} implementations.
+   * Returns an iterator across all key-value map entries, used by {@code entries().iterator()} and
+   * {@code values().iterator()}. The default behavior, which traverses the values for one key, the
+   * values for a second key, and so on, suffices for most {@code AbstractMapBasedMultimap}
+   * implementations.
    *
    * @return an iterator across map entries
    */
@@ -1241,6 +1232,10 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
   @Override
   Map<K, Collection<V>> createAsMap() {
+    return new AsMap(map);
+  }
+  
+  final Map<K, Collection<V>> createMaybeNavigableAsMap() {
     if (map instanceof NavigableMap) {
       return new NavigableAsMap((NavigableMap<K, Collection<V>>) map);
     } else if (map instanceof SortedMap) {
@@ -1253,8 +1248,8 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   @WeakOuter
   private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     /**
-     * Usually the same as map, but smaller for the headMap(), tailMap(), or
-     * subMap() of a SortedAsMap.
+     * Usually the same as map, but smaller for the headMap(), tailMap(), or subMap() of a
+     * SortedAsMap.
      */
     final transient Map<K, Collection<V>> submap;
 
@@ -1310,7 +1305,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       return this == object || submap.equals(object);
     }
 
@@ -1371,7 +1366,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     /** Iterator across all keys and value collections. */
     class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
       final Iterator<Entry<K, Collection<V>>> delegateIterator = submap.entrySet().iterator();
-      Collection<V> collection;
+      @NullableDecl Collection<V> collection;
 
       @Override
       public boolean hasNext() {
@@ -1387,9 +1382,11 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
       @Override
       public void remove() {
+        checkRemove(collection != null);
         delegateIterator.remove();
         totalSize -= collection.size();
         collection.clear();
+        collection = null;
       }
     }
   }
@@ -1434,7 +1431,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return new SortedAsMap(sortedMap().tailMap(fromKey));
     }
 
-    SortedSet<K> sortedKeySet;
+    @MonotonicNonNullDecl SortedSet<K> sortedKeySet;
 
     // returns a SortedSet, even though returning a Set would be sufficient to
     // satisfy the SortedMap.keySet() interface

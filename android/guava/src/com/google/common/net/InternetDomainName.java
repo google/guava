@@ -29,7 +29,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only
@@ -101,19 +101,15 @@ public final class InternetDomainName {
   private static final int MAX_LENGTH = 253;
 
   /**
-   * Maximum size of a single part of a domain name. See
-   * <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
+   * Maximum size of a single part of a domain name. See <a
+   * href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
    */
   private static final int MAX_DOMAIN_PART_LENGTH = 63;
 
-  /**
-   * The full domain name, converted to lower case.
-   */
+  /** The full domain name, converted to lower case. */
   private final String name;
 
-  /**
-   * The parts of the domain name, converted to lower case.
-   */
+  /** The parts of the domain name, converted to lower case. */
   private final ImmutableList<String> parts;
 
   /**
@@ -132,9 +128,7 @@ public final class InternetDomainName {
    */
   private final int registrySuffixIndex;
 
-  /**
-   * Constructor used to implement {@link #from(String)}, and from subclasses.
-   */
+  /** Constructor used to implement {@link #from(String)}, and from subclasses. */
   InternetDomainName(String name) {
     // Normalize:
     // * ASCII characters to lowercase
@@ -302,8 +296,8 @@ public final class InternetDomainName {
 
   /**
    * Returns the individual components of this domain name, normalized to all lower case. For
-   * example, for the domain name {@code mail.google.com}, this method returns the list
-   * {@code ["mail", "google", "com"]}.
+   * example, for the domain name {@code mail.google.com}, this method returns the list {@code
+   * ["mail", "google", "com"]}.
    */
   public ImmutableList<String> parts() {
     return parts;
@@ -350,8 +344,8 @@ public final class InternetDomainName {
   }
 
   /**
-   * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the domain name, or
-   * {@code null} if no public suffix is present.
+   * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the domain name, or {@code
+   * null} if no public suffix is present.
    *
    * @since 6.0
    */
@@ -517,17 +511,15 @@ public final class InternetDomainName {
     return ancestor(registrySuffixIndex - 1);
   }
 
-  /**
-   * Indicates whether this domain is composed of two or more parts.
-   */
+  /** Indicates whether this domain is composed of two or more parts. */
   public boolean hasParent() {
     return parts.size() > 1;
   }
 
   /**
    * Returns an {@code InternetDomainName} that is the immediate ancestor of this one; that is, the
-   * current domain with the leftmost part removed. For example, the parent of
-   * {@code www.google.com} is {@code google.com}.
+   * current domain with the leftmost part removed. For example, the parent of {@code
+   * www.google.com} is {@code google.com}.
    *
    * @throws IllegalStateException if the domain has no parent, as determined by {@link #hasParent}
    */
@@ -549,10 +541,9 @@ public final class InternetDomainName {
 
   /**
    * Creates and returns a new {@code InternetDomainName} by prepending the argument and a dot to
-   * the current name. For example, {@code
-   * InternetDomainName.from("foo.com").child("www.bar")} returns a new {@code InternetDomainName}
-   * with the value {@code www.bar.foo.com}. Only lenient validation is performed, as described
-   * {@link #from(String) here}.
+   * the current name. For example, {@code InternetDomainName.from("foo.com").child("www.bar")}
+   * returns a new {@code InternetDomainName} with the value {@code www.bar.foo.com}. Only lenient
+   * validation is performed, as described {@link #from(String) here}.
    *
    * @throws NullPointerException if leftParts is null
    * @throws IllegalArgumentException if the resulting name is not valid
@@ -568,17 +559,19 @@ public final class InternetDomainName {
    *
    * <p>The following two code snippets are equivalent:
    *
-   * <pre>   {@code
-   *   domainName = InternetDomainName.isValid(name)
-   *       ? InternetDomainName.from(name)
-   *       : DEFAULT_DOMAIN;}</pre>
+   * <pre>{@code
+   * domainName = InternetDomainName.isValid(name)
+   *     ? InternetDomainName.from(name)
+   *     : DEFAULT_DOMAIN;
+   * }</pre>
    *
-   * <pre>   {@code
-   *   try {
-   *     domainName = InternetDomainName.from(name);
-   *   } catch (IllegalArgumentException e) {
-   *     domainName = DEFAULT_DOMAIN;
-   *   }}</pre>
+   * <pre>{@code
+   * try {
+   *   domainName = InternetDomainName.from(name);
+   * } catch (IllegalArgumentException e) {
+   *   domainName = DEFAULT_DOMAIN;
+   * }
+   * }</pre>
    *
    * @since 8.0 (previously named {@code isValidLenient})
    */
@@ -612,9 +605,7 @@ public final class InternetDomainName {
     return desiredType.isPresent() ? desiredType.equals(actualType) : actualType.isPresent();
   }
 
-  /**
-   * Returns the domain name, normalized to all lower case.
-   */
+  /** Returns the domain name, normalized to all lower case. */
   @Override
   public String toString() {
     return name;
@@ -624,10 +615,9 @@ public final class InternetDomainName {
    * Equality testing is based on the text supplied by the caller, after normalization as described
    * in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
    * version of the same domain name would not be considered equal.
-   *
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }

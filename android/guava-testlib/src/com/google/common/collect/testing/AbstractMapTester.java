@@ -23,19 +23,20 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Base class for map testers.
  *
- * TODO: see how much of this is actually needed once Map testers are written.
- * (It was cloned from AbstractCollectionTester.)
+ * <p>TODO: see how much of this is actually needed once Map testers are written. (It was cloned
+ * from AbstractCollectionTester.)
  *
  * @param <K> the key type of the map to be tested.
  * @param <V> the value type of the map to be tested.
- *
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public abstract class AbstractMapTester<K, V>
     extends AbstractContainerTester<Map<K, V>, Entry<K, V>> {
   protected Map<K, V> getMap() {
@@ -64,10 +65,7 @@ public abstract class AbstractMapTester<K, V>
     }
   }
 
-  /**
-   * @return an array of the proper size with {@code null} as the key of the
-   * middle element.
-   */
+  /** @return an array of the proper size with {@code null} as the key of the middle element. */
   protected Entry<K, V>[] createArrayWithNullKey() {
     Entry<K, V>[] array = createSamplesArray();
     final int nullKeyLocation = getNullLocation();
@@ -92,10 +90,7 @@ public abstract class AbstractMapTester<K, V>
     return entries.next();
   }
 
-  /**
-   * @return an array of the proper size with {@code null} as the value of the
-   * middle element.
-   */
+  /** @return an array of the proper size with {@code null} as the value of the middle element. */
   protected Entry<K, V>[] createArrayWithNullValue() {
     Entry<K, V>[] array = createSamplesArray();
     final int nullValueLocation = getNullLocation();
@@ -113,10 +108,9 @@ public abstract class AbstractMapTester<K, V>
   }
 
   /**
-   * Equivalent to {@link #expectMissingKeys(Object[]) expectMissingKeys}
-   * {@code (null)}
-   * except that the call to {@code contains(null)} is permitted to throw a
-   * {@code NullPointerException}.
+   * Equivalent to {@link #expectMissingKeys(Object[]) expectMissingKeys} {@code (null)} except that
+   * the call to {@code contains(null)} is permitted to throw a {@code NullPointerException}.
+   *
    * @param message message to use upon assertion failure
    */
   protected void expectNullKeyMissingWhenNullKeysUnsupported(String message) {
@@ -128,10 +122,9 @@ public abstract class AbstractMapTester<K, V>
   }
 
   /**
-   * Equivalent to {@link #expectMissingValues(Object[]) expectMissingValues}
-   * {@code (null)}
-   * except that the call to {@code contains(null)} is permitted to throw a
-   * {@code NullPointerException}.
+   * Equivalent to {@link #expectMissingValues(Object[]) expectMissingValues} {@code (null)} except
+   * that the call to {@code contains(null)} is permitted to throw a {@code NullPointerException}.
+   *
    * @param message message to use upon assertion failure
    */
   protected void expectNullValueMissingWhenNullValuesUnsupported(String message) {
@@ -208,10 +201,9 @@ public abstract class AbstractMapTester<K, V>
   }
 
   /**
-   * Wrapper for {@link Map#get(Object)} that forces the caller to pass in a key
-   * of the same type as the map. Besides being slightly shorter than code that
-   * uses {@link #getMap()}, it also ensures that callers don't pass an
-   * {@link Entry} by mistake.
+   * Wrapper for {@link Map#get(Object)} that forces the caller to pass in a key of the same type as
+   * the map. Besides being slightly shorter than code that uses {@link #getMap()}, it also ensures
+   * that callers don't pass an {@link Entry} by mistake.
    */
   protected V get(K key) {
     return getMap().get(key);

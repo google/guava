@@ -28,18 +28,19 @@ import junit.framework.TestSuite;
  * Tests our AtomicHelper fallback strategies in AbstractFuture.
  *
  * <p>On different platforms AbstractFuture uses different strategies for its core synchronization
- * primitives.  The strategies are all implemented as subtypes of AtomicHelper and the strategy is
- * selected in the static initializer of AbstractFuture.  This is convenient and performant but
- * introduces some testing difficulties.   This test exercises the two fallback strategies in
- * abstract future.
+ * primitives. The strategies are all implemented as subtypes of AtomicHelper and the strategy is
+ * selected in the static initializer of AbstractFuture. This is convenient and performant but
+ * introduces some testing difficulties. This test exercises the two fallback strategies in abstract
+ * future.
+ *
  * <ul>
- *     <li>SafeAtomicHelper: uses AtomicReferenceFieldsUpdaters to implement synchronization
- *     <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
+ *   <li>SafeAtomicHelper: uses AtomicReferenceFieldsUpdaters to implement synchronization
+ *   <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
  * </ul>
  *
- * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of
- * {@code com.google.common.util.concurrent} in degenerate class loaders which make certain platform
- * classes unavailable.  Then we construct a test suite so we can run the normal AbstractFutureTest
+ * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of {@code
+ * com.google.common.util.concurrent} in degenerate class loaders which make certain platform
+ * classes unavailable. Then we construct a test suite so we can run the normal AbstractFutureTest
  * test methods in these degenerate classloaders.
  */
 
@@ -139,5 +140,4 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
       }
     };
   }
-
 }

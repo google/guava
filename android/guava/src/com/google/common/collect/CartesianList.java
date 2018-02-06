@@ -22,7 +22,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -96,7 +96,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(@Nullable Object o) {
+  public boolean contains(@NullableDecl Object o) {
     if (!(o instanceof List)) {
       return false;
     }

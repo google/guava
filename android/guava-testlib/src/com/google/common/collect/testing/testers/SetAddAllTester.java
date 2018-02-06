@@ -23,16 +23,17 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests addAll operations on a set. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
+ * A generic JUnit test which tests addAll operations on a set. Can't be invoked directly; please
+ * see {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
  *
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class SetAddAllTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)

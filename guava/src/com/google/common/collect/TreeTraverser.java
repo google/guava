@@ -68,7 +68,7 @@ import java.util.function.Consumer;
  *     their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
  *     implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
  *     the same lambda function as passed into {@link #using(Function)}.
- *     <p>This class is scheduled to be removed in January 2018.
+ *     <p>This class is scheduled to be removed in April 2018.
  */
 @Deprecated
 @Beta
@@ -97,9 +97,7 @@ public abstract class TreeTraverser<T> {
     };
   }
 
-  /**
-   * Returns the children of the specified node.  Must not contain null.
-   */
+  /** Returns the children of the specified node. Must not contain null. */
   public abstract Iterable<T> children(T root);
 
   /**
@@ -135,7 +133,6 @@ public abstract class TreeTraverser<T> {
     };
   }
 
-  // overridden in BinaryTreeTraverser
   UnmodifiableIterator<T> preOrderIterator(T root) {
     return new PreOrderIterator(root);
   }
@@ -201,7 +198,6 @@ public abstract class TreeTraverser<T> {
     };
   }
 
-  // overridden in BinaryTreeTraverser
   UnmodifiableIterator<T> postOrderIterator(T root) {
     return new PostOrderIterator(root);
   }

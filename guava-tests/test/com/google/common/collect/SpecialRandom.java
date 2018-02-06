@@ -19,18 +19,16 @@ package com.google.common.collect;
 import java.util.Random;
 
 /**
- * Utility class for being able to seed a {@link Random} value with a passed
- * in seed from a benchmark parameter.
+ * Utility class for being able to seed a {@link Random} value with a passed in seed from a
+ * benchmark parameter.
  *
- * TODO: Remove this class once Caliper has a better way.
+ * <p>TODO: Remove this class once Caliper has a better way.
  *
  * @author Nicholaus Shupe
  */
 public final class SpecialRandom extends Random {
   public static SpecialRandom valueOf(String s) {
-    return (s.length() == 0)
-        ? new SpecialRandom()
-        : new SpecialRandom(Long.parseLong(s));
+    return (s.length() == 0) ? new SpecialRandom() : new SpecialRandom(Long.parseLong(s));
   }
 
   private final boolean hasSeed;
@@ -47,7 +45,8 @@ public final class SpecialRandom extends Random {
     this.seed = seed;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return hasSeed ? "(seed:" + seed : "(default seed)";
   }
 

@@ -32,14 +32,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 @Beta
 @GwtCompatible
 public abstract class Ticker {
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected Ticker() {}
 
-  /**
-   * Returns the number of nanoseconds elapsed since this ticker's fixed point of reference.
-   */
+  /** Returns the number of nanoseconds elapsed since this ticker's fixed point of reference. */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public abstract long read();
 

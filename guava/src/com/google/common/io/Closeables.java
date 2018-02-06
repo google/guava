@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Utility methods for working with {@link Closeable} objects.
@@ -46,28 +46,30 @@ public final class Closeables {
    * <p>If {@code swallowIOException} is true then we never throw {@code IOException} but merely log
    * it.
    *
-   * <p>Example: <pre>   {@code
+   * <p>Example:
    *
-   *   public void useStreamNicely() throws IOException {
-   *     SomeStream stream = new SomeStream("foo");
-   *     boolean threw = true;
-   *     try {
-   *       // ... code which does something with the stream ...
-   *       threw = false;
-   *     } finally {
-   *       // If an exception occurs, rethrow it only if threw==false:
-   *       Closeables.close(stream, threw);
-   *     }
-   *   }}</pre>
+   * <pre>{@code
+   * public void useStreamNicely() throws IOException {
+   *   SomeStream stream = new SomeStream("foo");
+   *   boolean threw = true;
+   *   try {
+   *     // ... code which does something with the stream ...
+   *     threw = false;
+   *   } finally {
+   *     // If an exception occurs, rethrow it only if threw==false:
+   *     Closeables.close(stream, threw);
+   *   }
+   * }
+   * }</pre>
    *
    * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
    *     does nothing
    * @param swallowIOException if true, don't propagate IO exceptions thrown by the {@code close}
    *     methods
-   * @throws IOException if {@code swallowIOException} is false and {@code close} throws an
-   *     {@code IOException}.
+   * @throws IOException if {@code swallowIOException} is false and {@code close} throws an {@code
+   *     IOException}.
    */
-  public static void close(@Nullable Closeable closeable, boolean swallowIOException)
+  public static void close(@NullableDecl Closeable closeable, boolean swallowIOException)
       throws IOException {
     if (closeable == null) {
       return;
@@ -97,7 +99,7 @@ public final class Closeables {
    *     does nothing
    * @since 17.0
    */
-  public static void closeQuietly(@Nullable InputStream inputStream) {
+  public static void closeQuietly(@NullableDecl InputStream inputStream) {
     try {
       close(inputStream, true);
     } catch (IOException impossible) {
@@ -118,7 +120,7 @@ public final class Closeables {
    * @param reader the reader to be closed, or {@code null} in which case this method does nothing
    * @since 17.0
    */
-  public static void closeQuietly(@Nullable Reader reader) {
+  public static void closeQuietly(@NullableDecl Reader reader) {
     try {
       close(reader, true);
     } catch (IOException impossible) {

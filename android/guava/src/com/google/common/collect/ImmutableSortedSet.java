@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link NavigableSet} whose contents will never change, with many other important properties
@@ -47,8 +47,7 @@ import javax.annotation.Nullable;
  * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -67,24 +66,20 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
   }
 
-  /**
-   * Returns the empty immutable sorted set.
-   */
+  /** Returns the empty immutable sorted set. */
   public static <E> ImmutableSortedSet<E> of() {
     return (ImmutableSortedSet<E>) RegularImmutableSortedSet.NATURAL_EMPTY_SET;
   }
 
-  /**
-   * Returns an immutable sorted set containing a single element.
-   */
+  /** Returns an immutable sorted set containing a single element. */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(E element) {
     return new RegularImmutableSortedSet<E>(ImmutableList.of(element), Ordering.natural());
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any element is null
    */
@@ -94,9 +89,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any element is null
    */
@@ -106,9 +101,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any element is null
    */
@@ -118,9 +113,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any element is null
    */
@@ -131,9 +126,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any element is null
    * @since 3.0 (source-compatible since 2.0)
@@ -155,9 +150,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   // TODO(kevinb): Consider factory methods that reject duplicates
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@link Comparable#compareTo}, only the first
+   * one specified is included.
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @since 3.0
@@ -167,26 +162,22 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@code compareTo()}, only the first one specified is included. To create a
-   * copy of a {@code SortedSet} that preserves the comparator, call {@link
-   * #copyOfSorted} instead. This method iterates over {@code elements} at most
-   * once.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@code compareTo()}, only the first one
+   * specified is included. To create a copy of a {@code SortedSet} that preserves the comparator,
+   * call {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.
    *
-   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
-   * ImmutableSortedSet.copyOf(s)} returns an {@code ImmutableSortedSet<String>}
-   * containing each of the strings in {@code s}, while {@code
-   * ImmutableSortedSet.of(s)} returns an {@code
-   * ImmutableSortedSet<Set<String>>} containing one element (the given set
-   * itself).
+   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code ImmutableSortedSet.copyOf(s)}
+   * returns an {@code ImmutableSortedSet<String>} containing each of the strings in {@code s},
+   * while {@code ImmutableSortedSet.of(s)} returns an {@code ImmutableSortedSet<Set<String>>}
+   * containing one element (the given set itself).
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * <p>This method is not type-safe, as it may be called on elements that are
-   * not mutually comparable.
+   * <p>This method is not type-safe, as it may be called on elements that are not mutually
+   * comparable.
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
@@ -200,29 +191,24 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@code compareTo()}, only the first one specified is included. To create a
-   * copy of a {@code SortedSet} that preserves the comparator, call
-   * {@link #copyOfSorted} instead. This method iterates over {@code elements}
-   * at most once.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@code compareTo()}, only the first one
+   * specified is included. To create a copy of a {@code SortedSet} that preserves the comparator,
+   * call {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.
    *
-   * <p>Note that if {@code s} is a {@code Set<String>}, then
-   * {@code ImmutableSortedSet.copyOf(s)} returns an
-   * {@code ImmutableSortedSet<String>} containing each of the strings in
-   * {@code s}, while {@code ImmutableSortedSet.of(s)} returns an
-   * {@code ImmutableSortedSet<Set<String>>} containing one element (the given
-   * set itself).
+   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code ImmutableSortedSet.copyOf(s)}
+   * returns an {@code ImmutableSortedSet<String>} containing each of the strings in {@code s},
+   * while {@code ImmutableSortedSet.of(s)} returns an {@code ImmutableSortedSet<Set<String>>}
+   * containing one element (the given set itself).
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements} is an {@code
+   * ImmutableSortedSet}, it may be returned instead of a copy.
    *
-   * <p>This method is not type-safe, as it may be called on elements that are
-   * not mutually comparable.
+   * <p>This method is not type-safe, as it may be called on elements that are not mutually
+   * comparable.
    *
-   * <p>This method is safe to use even when {@code elements} is a synchronized
-   * or concurrent collection that is currently being modified by another
-   * thread.
+   * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
+   * collection that is currently being modified by another thread.
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
@@ -237,12 +223,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@code compareTo()}, only the first one specified is included.
+   * Returns an immutable sorted set containing the given elements sorted by their natural ordering.
+   * When multiple elements are equivalent according to {@code compareTo()}, only the first one
+   * specified is included.
    *
-   * <p>This method is not type-safe, as it may be called on elements that are
-   * not mutually comparable.
+   * <p>This method is not type-safe, as it may be called on elements that are not mutually
+   * comparable.
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
@@ -256,13 +242,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * the given {@code Comparator}. When multiple elements are equivalent
-   * according to {@code compareTo()}, only the first one specified is
-   * included.
+   * Returns an immutable sorted set containing the given elements sorted by the given {@code
+   * Comparator}. When multiple elements are equivalent according to {@code compareTo()}, only the
+   * first one specified is included.
    *
-   * @throws NullPointerException if {@code comparator} or any of
-   *     {@code elements} is null
+   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterator<? extends E> elements) {
@@ -270,17 +254,15 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * the given {@code Comparator}. When multiple elements are equivalent
-   * according to {@code compare()}, only the first one specified is
-   * included. This method iterates over {@code elements} at most once.
+   * Returns an immutable sorted set containing the given elements sorted by the given {@code
+   * Comparator}. When multiple elements are equivalent according to {@code compare()}, only the
+   * first one specified is included. This method iterates over {@code elements} at most once.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * @throws NullPointerException if {@code comparator} or any of {@code
-   *         elements} is null
+   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterable<? extends E> elements) {
@@ -300,21 +282,18 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * the given {@code Comparator}. When multiple elements are equivalent
-   * according to {@code compareTo()}, only the first one specified is
-   * included.
+   * Returns an immutable sorted set containing the given elements sorted by the given {@code
+   * Comparator}. When multiple elements are equivalent according to {@code compareTo()}, only the
+   * first one specified is included.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * <p>This method is safe to use even when {@code elements} is a synchronized
-   * or concurrent collection that is currently being modified by another
-   * thread.
+   * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
+   * collection that is currently being modified by another thread.
    *
-   * @throws NullPointerException if {@code comparator} or any of
-   *     {@code elements} is null
+   * @throws NullPointerException if {@code comparator} or any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
   public static <E> ImmutableSortedSet<E> copyOf(
@@ -323,21 +302,18 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns an immutable sorted set containing the elements of a sorted set,
-   * sorted by the same {@code Comparator}. That behavior differs from {@link
-   * #copyOf(Iterable)}, which always uses the natural ordering of the
-   * elements.
+   * Returns an immutable sorted set containing the elements of a sorted set, sorted by the same
+   * {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which always uses the
+   * natural ordering of the elements.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * <p>This method is safe to use even when {@code sortedSet} is a synchronized
-   * or concurrent collection that is currently being modified by another
-   * thread.
+   * <p>This method is safe to use even when {@code sortedSet} is a synchronized or concurrent
+   * collection that is currently being modified by another thread.
    *
-   * @throws NullPointerException if {@code sortedSet} or any of its elements
-   *     is null
+   * @throws NullPointerException if {@code sortedSet} or any of its elements is null
    */
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = SortedIterables.comparator(sortedSet);
@@ -386,10 +362,10 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted sets with an explicit
-   * comparator. If the comparator has a more general type than the set being
-   * generated, such as creating a {@code SortedSet<Integer>} with a
-   * {@code Comparator<Number>}, use the {@link Builder} constructor instead.
+   * Returns a builder that creates immutable sorted sets with an explicit comparator. If the
+   * comparator has a more general type than the set being generated, such as creating a {@code
+   * SortedSet<Integer>} with a {@code Comparator<Number>}, use the {@link Builder} constructor
+   * instead.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
@@ -398,38 +374,37 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted sets whose elements are
-   * ordered by the reverse of their natural ordering.
+   * Returns a builder that creates immutable sorted sets whose elements are ordered by the reverse
+   * of their natural ordering.
    */
   public static <E extends Comparable<?>> Builder<E> reverseOrder() {
     return new Builder<E>(Collections.reverseOrder());
   }
 
   /**
-   * Returns a builder that creates immutable sorted sets whose elements are
-   * ordered by their natural ordering. The sorted sets use {@link
-   * Ordering#natural()} as the comparator. This method provides more
-   * type-safety than {@link #builder}, as it can be called only for classes
-   * that implement {@link Comparable}.
+   * Returns a builder that creates immutable sorted sets whose elements are ordered by their
+   * natural ordering. The sorted sets use {@link Ordering#natural()} as the comparator. This method
+   * provides more type-safety than {@link #builder}, as it can be called only for classes that
+   * implement {@link Comparable}.
    */
   public static <E extends Comparable<?>> Builder<E> naturalOrder() {
     return new Builder<E>(Ordering.natural());
   }
 
   /**
-   * A builder for creating immutable sorted set instances, especially {@code
-   * public static final} sets ("constant sets"), with a given comparator.
-   * Example: <pre>   {@code
+   * A builder for creating immutable sorted set instances, especially {@code public static final}
+   * sets ("constant sets"), with a given comparator. Example:
    *
-   *   public static final ImmutableSortedSet<Number> LUCKY_NUMBERS =
-   *       new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
-   *           .addAll(SINGLE_DIGIT_PRIMES)
-   *           .add(42)
-   *           .build();}</pre>
+   * <pre>{@code
+   * public static final ImmutableSortedSet<Number> LUCKY_NUMBERS =
+   *     new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
+   *         .addAll(SINGLE_DIGIT_PRIMES)
+   *         .add(42)
+   *         .build();
+   * }</pre>
    *
-   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple
-   * times to build multiple sets in series. Each set is a superset of the set
-   * created before it.
+   * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+   * multiple sets in series. Each set is a superset of the set created before it.
    *
    * @since 2.0
    */
@@ -437,18 +412,17 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     private final Comparator<? super E> comparator;
 
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder
-     * generated by {@link ImmutableSortedSet#orderedBy}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+     * ImmutableSortedSet#orderedBy}.
      */
     public Builder(Comparator<? super E> comparator) {
       this.comparator = checkNotNull(comparator);
     }
 
     /**
-     * Adds {@code element} to the {@code ImmutableSortedSet}.  If the
-     * {@code ImmutableSortedSet} already contains {@code element}, then
-     * {@code add} has no effect. (only the previously added element
-     * is retained).
+     * Adds {@code element} to the {@code ImmutableSortedSet}. If the {@code ImmutableSortedSet}
+     * already contains {@code element}, then {@code add} has no effect. (only the previously added
+     * element is retained).
      *
      * @param element the element to add
      * @return this {@code Builder} object
@@ -462,8 +436,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableSortedSet},
-     * ignoring duplicate elements (only the first duplicate element is added).
+     * Adds each element of {@code elements} to the {@code ImmutableSortedSet}, ignoring duplicate
+     * elements (only the first duplicate element is added).
      *
      * @param elements the elements to add
      * @return this {@code Builder} object
@@ -477,8 +451,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableSortedSet},
-     * ignoring duplicate elements (only the first duplicate element is added).
+     * Adds each element of {@code elements} to the {@code ImmutableSortedSet}, ignoring duplicate
+     * elements (only the first duplicate element is added).
      *
      * @param elements the elements to add to the {@code ImmutableSortedSet}
      * @return this {@code Builder} object
@@ -492,8 +466,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
 
     /**
-     * Adds each element of {@code elements} to the {@code ImmutableSortedSet},
-     * ignoring duplicate elements (only the first duplicate element is added).
+     * Adds each element of {@code elements} to the {@code ImmutableSortedSet}, ignoring duplicate
+     * elements (only the first duplicate element is added).
      *
      * @param elements the elements to add to the {@code ImmutableSortedSet}
      * @return this {@code Builder} object
@@ -507,8 +481,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     }
 
     /**
-     * Returns a newly-created {@code ImmutableSortedSet} based on the contents
-     * of the {@code Builder} and its comparator.
+     * Returns a newly-created {@code ImmutableSortedSet} based on the contents of the {@code
+     * Builder} and its comparator.
      */
     @Override
     public ImmutableSortedSet<E> build() {
@@ -541,11 +515,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns the comparator that orders the elements, which is
-   * {@link Ordering#natural()} when the natural ordering of the
-   * elements is used. Note that its behavior is not consistent with
-   * {@link SortedSet#comparator()}, which returns {@code null} to indicate
-   * natural ordering.
+   * Returns the comparator that orders the elements, which is {@link Ordering#natural()} when the
+   * natural ordering of the elements is used. Note that its behavior is not consistent with {@link
+   * SortedSet#comparator()}, which returns {@code null} to indicate natural ordering.
    */
   @Override
   public Comparator<? super E> comparator() {
@@ -560,20 +532,17 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    *
    * <p>This method returns a serializable {@code ImmutableSortedSet}.
    *
-   * <p>The {@link SortedSet#headSet} documentation states that a subset of a
-   * subset throws an {@link IllegalArgumentException} if passed a
-   * {@code toElement} greater than an earlier {@code toElement}. However, this
-   * method doesn't throw an exception in that situation, but instead keeps the
-   * original {@code toElement}.
+   * <p>The {@link SortedSet#headSet} documentation states that a subset of a subset throws an
+   * {@link IllegalArgumentException} if passed a {@code toElement} greater than an earlier {@code
+   * toElement}. However, this method doesn't throw an exception in that situation, but instead
+   * keeps the original {@code toElement}.
    */
   @Override
   public ImmutableSortedSet<E> headSet(E toElement) {
     return headSet(toElement, false);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
@@ -585,22 +554,19 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    *
    * <p>This method returns a serializable {@code ImmutableSortedSet}.
    *
-   * <p>The {@link SortedSet#subSet} documentation states that a subset of a
-   * subset throws an {@link IllegalArgumentException} if passed a
-   * {@code fromElement} smaller than an earlier {@code fromElement}. However,
-   * this method doesn't throw an exception in that situation, but instead keeps
-   * the original {@code fromElement}. Similarly, this method keeps the
-   * original {@code toElement}, instead of throwing an exception, if passed a
-   * {@code toElement} greater than an earlier {@code toElement}.
+   * <p>The {@link SortedSet#subSet} documentation states that a subset of a subset throws an {@link
+   * IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code
+   * fromElement}. However, this method doesn't throw an exception in that situation, but instead
+   * keeps the original {@code fromElement}. Similarly, this method keeps the original {@code
+   * toElement}, instead of throwing an exception, if passed a {@code toElement} greater than an
+   * earlier {@code toElement}.
    */
   @Override
   public ImmutableSortedSet<E> subSet(E fromElement, E toElement) {
     return subSet(fromElement, true, toElement, false);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> subSet(
@@ -616,20 +582,17 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    *
    * <p>This method returns a serializable {@code ImmutableSortedSet}.
    *
-   * <p>The {@link SortedSet#tailSet} documentation states that a subset of a
-   * subset throws an {@link IllegalArgumentException} if passed a
-   * {@code fromElement} smaller than an earlier {@code fromElement}. However,
-   * this method doesn't throw an exception in that situation, but instead keeps
-   * the original {@code fromElement}.
+   * <p>The {@link SortedSet#tailSet} documentation states that a subset of a subset throws an
+   * {@link IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code
+   * fromElement}. However, this method doesn't throw an exception in that situation, but instead
+   * keeps the original {@code fromElement}.
    */
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement) {
     return tailSet(fromElement, true);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
@@ -647,36 +610,28 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public E lower(E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public E floor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public E ceiling(E e) {
     return Iterables.getFirst(tailSet(e, true), null);
   }
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public E higher(E e) {
@@ -727,9 +682,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @LazyInit
   transient ImmutableSortedSet<E> descendingSet;
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> descendingSet() {
@@ -748,17 +701,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible // NavigableSet
   abstract ImmutableSortedSet<E> createDescendingSet();
 
-  /**
-   * @since 12.0
-   */
+  /** @since 12.0 */
   @GwtIncompatible // NavigableSet
   @Override
   public abstract UnmodifiableIterator<E> descendingIterator();
 
-  /**
-   * Returns the position of an element within the set, or -1 if not present.
-   */
-  abstract int indexOf(@Nullable Object target);
+  /** Returns the position of an element within the set, or -1 if not present. */
+  abstract int indexOf(@NullableDecl Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

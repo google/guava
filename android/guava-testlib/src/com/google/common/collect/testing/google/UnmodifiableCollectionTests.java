@@ -37,8 +37,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * A series of tests that support asserting that collections cannot be
- * modified, either through direct or indirect means.
+ * A series of tests that support asserting that collections cannot be modified, either through
+ * direct or indirect means.
  *
  * @author Robert Konigsberg
  */
@@ -97,18 +97,17 @@ public class UnmodifiableCollectionTests {
    * Verifies that a collection is immutable.
    *
    * <p>A collection is considered immutable if:
+   *
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * collection throw UnsupportedOperationException when those mutators
-   * are called.
+   *   <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   *       underlying contents.
+   *   <li>All methods that return objects that can indirectly mutate the collection throw
+   *       UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param collection the presumed-immutable collection
-   * @param sampleElement an element of the same type as that contained by
-   * {@code collection}. {@code collection} may or may not have {@code
-   * sampleElement} as a member.
+   * @param sampleElement an element of the same type as that contained by {@code collection}.
+   *     {@code collection} may or may not have {@code sampleElement} as a member.
    */
   public static <E> void assertCollectionIsUnmodifiable(Collection<E> collection, E sampleElement) {
     Collection<E> siblingCollection = new ArrayList<>();
@@ -170,18 +169,17 @@ public class UnmodifiableCollectionTests {
    * Verifies that a set is immutable.
    *
    * <p>A set is considered immutable if:
+   *
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * set throw UnsupportedOperationException when those mutators
-   * are called.
+   *   <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   *       underlying contents.
+   *   <li>All methods that return objects that can indirectly mutate the set throw
+   *       UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param set the presumed-immutable set
-   * @param sampleElement an element of the same type as that contained by
-   * {@code set}. {@code set} may or may not have {@code sampleElement} as a
-   * member.
+   * @param sampleElement an element of the same type as that contained by {@code set}. {@code set}
+   *     may or may not have {@code sampleElement} as a member.
    */
   public static <E> void assertSetIsUnmodifiable(Set<E> set, E sampleElement) {
     assertCollectionIsUnmodifiable(set, sampleElement);
@@ -191,18 +189,17 @@ public class UnmodifiableCollectionTests {
    * Verifies that a multiset is immutable.
    *
    * <p>A multiset is considered immutable if:
+   *
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * multiset throw UnsupportedOperationException when those mutators
-   * are called.
+   *   <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   *       underlying contents.
+   *   <li>All methods that return objects that can indirectly mutate the multiset throw
+   *       UnsupportedOperationException when those mutators are called.
    * </ol>
    *
    * @param multiset the presumed-immutable multiset
-   * @param sampleElement an element of the same type as that contained by
-   * {@code multiset}. {@code multiset} may or may not have {@code
-   * sampleElement} as a member.
+   * @param sampleElement an element of the same type as that contained by {@code multiset}. {@code
+   *     multiset} may or may not have {@code sampleElement} as a member.
    */
   public static <E> void assertMultisetIsUnmodifiable(Multiset<E> multiset, final E sampleElement) {
     Multiset<E> copy = LinkedHashMultiset.create(multiset);
@@ -252,20 +249,19 @@ public class UnmodifiableCollectionTests {
    * Verifies that a multimap is immutable.
    *
    * <p>A multimap is considered immutable if:
+   *
    * <ol>
-   * <li>All its mutation methods result in UnsupportedOperationException, and
-   * do not change the underlying contents.
-   * <li>All methods that return objects that can indirectly mutate the
-   * multimap throw UnsupportedOperationException when those mutators
+   *   <li>All its mutation methods result in UnsupportedOperationException, and do not change the
+   *       underlying contents.
+   *   <li>All methods that return objects that can indirectly mutate the multimap throw
+   *       UnsupportedOperationException when those mutators
    * </ol>
    *
    * @param multimap the presumed-immutable multimap
-   * @param sampleKey a key of the same type as that contained by
-   * {@code multimap}. {@code multimap} may or may not have {@code sampleKey} as
-   * a key.
-   * @param sampleValue a key of the same type as that contained by
-   * {@code multimap}. {@code multimap} may or may not have {@code sampleValue}
-   * as a key.
+   * @param sampleKey a key of the same type as that contained by {@code multimap}. {@code multimap}
+   *     may or may not have {@code sampleKey} as a key.
+   * @param sampleValue a key of the same type as that contained by {@code multimap}. {@code
+   *     multimap} may or may not have {@code sampleValue} as a key.
    */
   public static <K, V> void assertMultimapIsUnmodifiable(
       Multimap<K, V> multimap, final K sampleKey, final V sampleValue) {

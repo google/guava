@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -45,7 +46,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
   private OutputStream out;
   private MemoryOutput memory;
-  private File file;
+  @NullableDecl private File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {
@@ -79,8 +80,8 @@ public final class FileBackedOutputStream extends OutputStream {
    * the {@link ByteSource} returned by {@link #asByteSource} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
-   * @param resetOnFinalize if true, the {@link #reset} method will be called when the
-   *     {@link ByteSource} returned by {@link #asByteSource} is finalized
+   * @param resetOnFinalize if true, the {@link #reset} method will be called when the {@link
+   *     ByteSource} returned by {@link #asByteSource} is finalized
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;

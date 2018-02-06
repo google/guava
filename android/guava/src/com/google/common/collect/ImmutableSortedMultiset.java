@@ -41,8 +41,7 @@ import java.util.List;
  * collection will not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
  *
  * @author Louis Wasserman
  * @since 12.0
@@ -52,17 +51,13 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     implements SortedMultiset<E> {
   // TODO(lowasser): GWT compatibility
 
-  /**
-   * Returns the empty immutable sorted multiset.
-   */
+  /** Returns the empty immutable sorted multiset. */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> of() {
     return (ImmutableSortedMultiset) RegularImmutableSortedMultiset.NATURAL_EMPTY_MULTISET;
   }
 
-  /**
-   * Returns an immutable sorted multiset containing a single element.
-   */
+  /** Returns an immutable sorted multiset containing a single element. */
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(E element) {
     RegularImmutableSortedSet<E> elementSet =
         (RegularImmutableSortedSet<E>) ImmutableSortedSet.of(element);
@@ -144,9 +139,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns an immutable sorted multiset containing the given elements sorted by their natural
-   * ordering. To create a copy of a {@code SortedMultiset} that preserves the
-   * comparator, call {@link #copyOfSorted} instead. This method iterates over {@code elements} at
-   * most once.
+   * ordering. To create a copy of a {@code SortedMultiset} that preserves the comparator, call
+   * {@link #copyOfSorted} instead. This method iterates over {@code elements} at most once.
    *
    * <p>Note that if {@code s} is a {@code Multiset<String>}, then {@code
    * ImmutableSortedMultiset.copyOf(s)} returns an {@code ImmutableSortedMultiset<String>}
@@ -231,8 +225,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
 
   /**
    * Returns an immutable sorted multiset containing the elements of a sorted multiset, sorted by
-   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which
-   * always uses the natural ordering of the elements.
+   * the same {@code Comparator}. That behavior differs from {@link #copyOf(Iterable)}, which always
+   * uses the natural ordering of the elements.
    *
    * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
    * safe to do so. The exact circumstances under which a copy will or will not be performed are
@@ -287,8 +281,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public abstract ImmutableSortedSet<E> elementSet();
 
-  @LazyInit
-  transient ImmutableSortedMultiset<E> descendingMultiset;
+  @LazyInit transient ImmutableSortedMultiset<E> descendingMultiset;
 
   @Override
   public ImmutableSortedMultiset<E> descendingMultiset() {
@@ -352,8 +345,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   /**
    * Returns a builder that creates immutable sorted multisets with an explicit comparator. If the
    * comparator has a more general type than the set being generated, such as creating a {@code
-   * SortedMultiset<Integer>} with a {@code Comparator<Number>}, use the {@link Builder}
-   * constructor instead.
+   * SortedMultiset<Integer>} with a {@code Comparator<Number>}, use the {@link Builder} constructor
+   * instead.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
@@ -391,15 +384,15 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * A builder for creating immutable multiset instances, especially {@code public static final}
    * multisets ("constant multisets"). Example:
    *
-   * <pre> {@code
-   *
-   *   public static final ImmutableSortedMultiset<Bean> BEANS =
-   *       new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
-   *           .addCopies(Bean.COCOA, 4)
-   *           .addCopies(Bean.GARDEN, 6)
-   *           .addCopies(Bean.RED, 8)
-   *           .addCopies(Bean.BLACK_EYED, 10)
-   *           .build();}</pre>
+   * <pre>{@code
+   * public static final ImmutableSortedMultiset<Bean> BEANS =
+   *     new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
+   *         .addCopies(Bean.COCOA, 4)
+   *         .addCopies(Bean.GARDEN, 6)
+   *         .addCopies(Bean.RED, 8)
+   *         .addCopies(Bean.BLACK_EYED, 10)
+   *         .build();
+   * }</pre>
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.
@@ -408,30 +401,29 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    */
   public static class Builder<E> extends ImmutableMultiset.Builder<E> {
     /*
-     * We keep an array of elements and counts.  Periodically -- when we need more room in the 
+     * We keep an array of elements and counts.  Periodically -- when we need more room in the
      * array, or when we're building, or the like -- we sort, deduplicate, and combine the counts.
      * Negative counts indicate a setCount operation with ~counts[i].
      */
 
     private final Comparator<? super E> comparator;
-    
-    @VisibleForTesting
-    E[] elements;
+
+    @VisibleForTesting E[] elements;
     private int[] counts;
-    
-    /* 
+
+    /*
      * The number of used positions in the elements array.  We deduplicate periodically, so this
-     * may fluctuate up and down. 
+     * may fluctuate up and down.
      */
     private int length;
-    
+
     // True if we just called build() and the elements array is being used by a created ISM, meaning
     // we shouldn't modify that array further.
     private boolean forceCopyElements;
 
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder generated by
-     * {@link ImmutableSortedMultiset#orderedBy(Comparator)}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+     * ImmutableSortedMultiset#orderedBy(Comparator)}.
      */
     @SuppressWarnings("unchecked")
     public Builder(Comparator<? super E> comparator) {
@@ -440,10 +432,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       this.elements = (E[]) new Object[ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY];
       this.counts = new int[ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY];
     }
-    
-    /**
-     * Check if we need to do deduplication and coalescing, and if so, do it.
-     */
+
+    /** Check if we need to do deduplication and coalescing, and if so, do it. */
     private void maintenance() {
       if (length == elements.length) {
         dedupAndCoalesce(true);
@@ -451,7 +441,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
         this.elements = Arrays.copyOf(elements, elements.length);
         // we don't currently need to copy the counts array, because we don't use it directly
         // in built ISMs
-      } 
+      }
       forceCopyElements = false;
     }
 
@@ -468,7 +458,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
           uniques++;
         }
       }
-      Arrays.fill(sortedElements, uniques, length, null); 
+      Arrays.fill(sortedElements, uniques, length, null);
       if (maybeExpand && uniques * 4 > length * 3) {
         // lots of nonduplicated elements, expand the array by 50%
         sortedElements =
@@ -476,8 +466,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       }
       int[] sortedCounts = new int[sortedElements.length];
       for (int i = 0; i < length; i++) {
-        int index =
-            Arrays.binarySearch(sortedElements, 0, uniques, elements[i], comparator);
+        int index = Arrays.binarySearch(sortedElements, 0, uniques, elements[i], comparator);
         if (counts[i] >= 0) {
           sortedCounts[index] += counts[i];
         } else {
@@ -508,11 +497,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
      *
      * @param element the element to add
      * @param occurrences the number of occurrences of the element to add. May be zero, in which
-     *        case no change will be made.
+     *     case no change will be made.
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation
-     *         would result in more than {@link Integer#MAX_VALUE} occurrences of the element
+     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element
      */
     @CanIgnoreReturnValue
     @Override
@@ -604,10 +593,10 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
       }
       return this;
     }
-    
+
     private void dedupAndCoalesceAndDeleteEmpty() {
       dedupAndCoalesce(false);
-      
+
       // If there was a setCount(elem, 0), those elements are still present.  Eliminate them.
       int size = 0;
       for (int i = 0; i < length; i++) {
@@ -633,8 +622,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
         return emptyMultiset(comparator);
       }
       RegularImmutableSortedSet<E> elementSet =
-          (RegularImmutableSortedSet<E>)
-              ImmutableSortedSet.construct(comparator, length, elements);
+          (RegularImmutableSortedSet<E>) ImmutableSortedSet.construct(comparator, length, elements);
       long[] cumulativeCounts = new long[length + 1];
       for (int i = 0; i < length; i++) {
         cumulativeCounts[i + 1] = cumulativeCounts[i] + counts[i];

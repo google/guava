@@ -24,11 +24,12 @@ import com.google.common.annotations.GwtCompatible;
  * {@code 0x7F}), and to strings containing such characters.
  *
  * <p>ASCII utilities also exist in other classes of this package:
+ *
  * <ul>
- * <!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? -->
- * <li>{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
- * <li>{@link CharMatcher#ascii} matches ASCII characters and provides text processing methods which
- * operate only on the ASCII characters of a string.
+ *   <!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? -->
+ *   <li>{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
+ *   <li>{@link CharMatcher#ascii} matches ASCII characters and provides text processing methods
+ *       which operate only on the ASCII characters of a string.
  * </ul>
  *
  * @author Craig Berry
@@ -512,15 +513,16 @@ public final class Ascii {
 
   /**
    * Truncates the given character sequence to the given maximum length. If the length of the
-   * sequence is greater than {@code maxLength}, the returned string will be exactly
-   * {@code maxLength} chars in length and will end with the given {@code truncationIndicator}.
-   * Otherwise, the sequence will be returned as a string with no changes to the content.
+   * sequence is greater than {@code maxLength}, the returned string will be exactly {@code
+   * maxLength} chars in length and will end with the given {@code truncationIndicator}. Otherwise,
+   * the sequence will be returned as a string with no changes to the content.
    *
    * <p>Examples:
    *
-   * <pre>   {@code
-   *   Ascii.truncate("foobar", 7, "..."); // returns "foobar"
-   *   Ascii.truncate("foobar", 5, "..."); // returns "fo..." }</pre>
+   * <pre>{@code
+   * Ascii.truncate("foobar", 7, "..."); // returns "foobar"
+   * Ascii.truncate("foobar", 5, "..."); // returns "fo..."
+   * }</pre>
    *
    * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for use
    * with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe
@@ -528,18 +530,18 @@ public final class Ascii {
    * consider the following:
    *
    * <ul>
-   * <li>it may split surrogate pairs
-   * <li>it may split characters and combining characters
-   * <li>it does not consider word boundaries
-   * <li>if truncating for display to users, there are other considerations that must be taken into
-   *     account
-   * <li>the appropriate truncation indicator may be locale-dependent
-   * <li>it is safe to use non-ASCII characters in the truncation indicator
+   *   <li>it may split surrogate pairs
+   *   <li>it may split characters and combining characters
+   *   <li>it does not consider word boundaries
+   *   <li>if truncating for display to users, there are other considerations that must be taken
+   *       into account
+   *   <li>the appropriate truncation indicator may be locale-dependent
+   *   <li>it is safe to use non-ASCII characters in the truncation indicator
    * </ul>
    *
    *
-   * @throws IllegalArgumentException if {@code maxLength} is less than the length of
-   *     {@code truncationIndicator}
+   * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code
+   *     truncationIndicator}
    * @since 16.0
    */
   public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
@@ -580,14 +582,16 @@ public final class Ascii {
    * in preference if at least one of the parameters is known to contain only ASCII characters.
    *
    * <p>Note however that this method does not always behave identically to expressions such as:
+   *
    * <ul>
-   * <li>{@code string.toUpperCase().equals("UPPER CASE ASCII")}
-   * <li>{@code string.toLowerCase().equals("lower case ascii")}
+   *   <li>{@code string.toUpperCase().equals("UPPER CASE ASCII")}
+   *   <li>{@code string.toLowerCase().equals("lower case ascii")}
    * </ul>
-   * <p>due to case-folding of some non-ASCII characters (which does not occur in
-   * {@link String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used, the
-   * author probably wanted the behavior provided by this method rather than the subtle and
-   * sometimes surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.
+   *
+   * <p>due to case-folding of some non-ASCII characters (which does not occur in {@link
+   * String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used, the author
+   * probably wanted the behavior provided by this method rather than the subtle and sometimes
+   * surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.
    *
    * @since 16.0
    */

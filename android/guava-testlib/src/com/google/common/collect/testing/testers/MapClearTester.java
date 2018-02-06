@@ -28,16 +28,17 @@ import com.google.common.collect.testing.features.MapFeature;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code clear()} operations on a map.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code clear()} operations on a map. Can't be invoked directly;
+ * please see {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author George van den Driessche
  * @author Chris Povirk
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {

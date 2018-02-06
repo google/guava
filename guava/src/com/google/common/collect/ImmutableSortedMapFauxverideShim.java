@@ -22,18 +22,18 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 
 /**
- * "Overrides" the {@link ImmutableMap} static methods that lack
- * {@link ImmutableSortedMap} equivalents with deprecated, exception-throwing
- * versions. See {@link ImmutableSortedSetFauxverideShim} for details.
+ * "Overrides" the {@link ImmutableMap} static methods that lack {@link ImmutableSortedMap}
+ * equivalents with deprecated, exception-throwing versions. See {@link
+ * ImmutableSortedSetFauxverideShim} for details.
  *
  * @author Chris Povirk
  */
 @GwtIncompatible
 abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V> {
   /**
-   * Not supported. Use {@link ImmutableSortedMap#toImmutableSortedMap}, which offers
-   * better type-safety, instead. This method exists only to hide
-   * {@link ImmutableMap#toImmutableMap} from consumers of {@code ImmutableSortedMap}.
+   * Not supported. Use {@link ImmutableSortedMap#toImmutableSortedMap}, which offers better
+   * type-safety, instead. This method exists only to hide {@link ImmutableMap#toImmutableMap} from
+   * consumers of {@code ImmutableSortedMap}.
    *
    * @throws UnsupportedOperationException always
    * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
@@ -44,7 +44,7 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
       Function<? super T, ? extends V> valueFunction) {
     throw new UnsupportedOperationException();
   }
-  
+
   /**
    * Not supported. Use {@link ImmutableSortedMap#toImmutableSortedMap}, which offers better
    * type-safety, instead. This method exists only to hide {@link ImmutableMap#toImmutableMap} from
@@ -62,13 +62,12 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers
-   * better type-safety, instead. This method exists only to hide
-   * {@link ImmutableMap#builder} from consumers of {@code ImmutableSortedMap}.
+   * Not supported. Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety,
+   * instead. This method exists only to hide {@link ImmutableMap#builder} from consumers of {@code
+   * ImmutableSortedMap}.
    *
    * @throws UnsupportedOperationException always
-   * @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers
-   *     better type-safety.
+   * @deprecated Use {@link ImmutableSortedMap#naturalOrder}, which offers better type-safety.
    */
   @Deprecated
   public static <K, V> ImmutableSortedMap.Builder<K, V> builder() {
@@ -87,9 +86,9 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. <b>You are attempting to create a map that may contain a
-   * non-{@code Comparable} key.</b> Proper calls will resolve to the version in
-   * {@code ImmutableSortedMap}, not this dummy version.
+   * Not supported. <b>You are attempting to create a map that may contain a non-{@code Comparable}
+   * key.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this dummy
+   * version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass a key of type {@code Comparable} to use {@link
@@ -101,9 +100,9 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. <b>You are attempting to create a map that may contain
-   * non-{@code Comparable} keys.</b> Proper calls will resolve to the version
-   * in {@code ImmutableSortedMap}, not this dummy version.
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
@@ -115,14 +114,13 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. <b>You are attempting to create a map that may contain
-   * non-{@code Comparable} keys.</b> Proper calls to will resolve to the
-   * version in {@code ImmutableSortedMap}, not this dummy version.
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls to will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
-   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object,
-   *     Comparable, Object)}.</b>
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object)}.</b>
    */
   @Deprecated
   public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
@@ -130,14 +128,14 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. <b>You are attempting to create a map that may contain
-   * non-{@code Comparable} keys.</b> Proper calls will resolve to the version
-   * in {@code ImmutableSortedMap}, not this dummy version.
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
-   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object,
-   *     Comparable, Object, Comparable, Object)}.</b>
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object)}.</b>
    */
   @Deprecated
   public static <K, V> ImmutableSortedMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
@@ -145,14 +143,14 @@ abstract class ImmutableSortedMapFauxverideShim<K, V> extends ImmutableMap<K, V>
   }
 
   /**
-   * Not supported. <b>You are attempting to create a map that may contain
-   * non-{@code Comparable} keys.</b> Proper calls will resolve to the version
-   * in {@code ImmutableSortedMap}, not this dummy version.
+   * Not supported. <b>You are attempting to create a map that may contain non-{@code Comparable}
+   * keys.</b> Proper calls will resolve to the version in {@code ImmutableSortedMap}, not this
+   * dummy version.
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass keys of type {@code Comparable} to use {@link
-   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object,
-   *     Comparable, Object, Comparable, Object, Comparable, Object)}.</b>
+   *     ImmutableSortedMap#of(Comparable, Object, Comparable, Object, Comparable, Object,
+   *     Comparable, Object, Comparable, Object)}.</b>
    */
   @Deprecated
   public static <K, V> ImmutableSortedMap<K, V> of(

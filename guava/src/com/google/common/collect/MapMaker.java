@@ -32,17 +32,20 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
- * <p>A builder of {@link ConcurrentMap} instances that can have keys or values automatically
- * wrapped in {@linkplain WeakReference weak} references.
+ * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped
+ * in {@linkplain WeakReference weak} references.
  *
- * <p>Usage example: <pre>   {@code
+ * <p>Usage example:
  *
- *   ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
- *       .concurrencyLevel(4)
- *       .weakKeys()
- *       .makeMap();}</pre>
+ * <pre>{@code
+ * ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
+ *     .concurrencyLevel(4)
+ *     .weakKeys()
+ *     .makeMap();
+ * }</pre>
  *
  * <p>These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent
  * map that behaves similarly to a {@link ConcurrentHashMap}.
@@ -53,8 +56,8 @@ import java.util.concurrent.ConcurrentMap;
  *
  * <p><b>Note:</b> by default, the returned map uses equality comparisons (the {@link Object#equals
  * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} was
- * specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if
- * {@link #weakValues} was specified, the map uses identity comparisons for values.
+ * specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if {@link
+ * #weakValues} was specified, the map uses identity comparisons for values.
  *
  * <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
  * that they are safe for concurrent use, but if other threads modify the map after the iterator is
@@ -62,23 +65,22 @@ import java.util.concurrent.ConcurrentMap;
  * iterators never throw {@link ConcurrentModificationException}.
  *
  * <p>If {@link #weakKeys} or {@link #weakValues} are requested, it is possible for a key or value
- * present in the map to be reclaimed by the
- * garbage collector. Entries with reclaimed keys or values may be removed from the map on each map
- * modification or on occasional map accesses; such entries may be counted by {@link Map#size}, but
- * will never be visible to read or write operations. A partially-reclaimed entry is never exposed
- * to the user. Any {@link java.util.Entry} instance retrieved from the map's
- * {@linkplain Map#entrySet entry set} is a snapshot of that entry's state at the time of retrieval;
- * such entries do, however, support {@link java.util.Entry#setValue}, which simply calls
- * {@link Map#put} on the entry's key.
+ * present in the map to be reclaimed by the garbage collector. Entries with reclaimed keys or
+ * values may be removed from the map on each map modification or on occasional map accesses; such
+ * entries may be counted by {@link Map#size}, but will never be visible to read or write
+ * operations. A partially-reclaimed entry is never exposed to the user. Any {@link java.util.Entry}
+ * instance retrieved from the map's {@linkplain Map#entrySet entry set} is a snapshot of that
+ * entry's state at the time of retrieval; such entries do, however, support {@link
+ * java.util.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.
  *
  * <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
  * the configuration properties of the original map. During deserialization, if the original map had
  * used weak references, the entries are reconstructed as they were, but it's not unlikely they'll
  * be quickly garbage-collected before they are ever accessed.
  *
- * <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for
- * {@link java.util.WeakHashMap}, but note that it compares keys using object identity whereas
- * {@code WeakHashMap} uses {@link Object#equals}.
+ * <p>{@code new MapMaker().weakKeys().makeMap()} is a recommended replacement for {@link
+ * java.util.WeakHashMap}, but note that it compares keys using object identity whereas {@code
+ * WeakHashMap} uses {@link Object#equals}.
  *
  * @author Bob Lee
  * @author Charles Fry
@@ -99,10 +101,10 @@ public final class MapMaker {
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
 
-  Strength keyStrength;
-  Strength valueStrength;
+  @MonotonicNonNullDecl Strength keyStrength;
+  @MonotonicNonNullDecl Strength valueStrength;
 
-  Equivalence<Object> keyEquivalence;
+  @MonotonicNonNullDecl Equivalence<Object> keyEquivalence;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong
@@ -113,9 +115,9 @@ public final class MapMaker {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when
-   * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this
-   * is used is in {@link Interners.WeakInterner}.
+   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when {@link
+   * #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this is
+   * used is in {@link Interners.WeakInterner}.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // To be supported
@@ -190,8 +192,8 @@ public final class MapMaker {
   }
 
   /**
-   * Specifies that each key (not value) stored in the map should be wrapped in a
-   * {@link WeakReference} (by default, strong references are used).
+   * Specifies that each key (not value) stored in the map should be wrapped in a {@link
+   * WeakReference} (by default, strong references are used).
    *
    * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
    * comparison to determine equality of keys, which is a technical violation of the {@link Map}
@@ -221,8 +223,8 @@ public final class MapMaker {
   }
 
   /**
-   * Specifies that each value (not key) stored in the map should be wrapped in a
-   * {@link WeakReference} (by default, strong references are used).
+   * Specifies that each value (not key) stored in the map should be wrapped in a {@link
+   * WeakReference} (by default, strong references are used).
    *
    * <p>Weak values will be garbage collected once they are weakly reachable. This makes them a poor
    * candidate for caching.
@@ -245,8 +247,8 @@ public final class MapMaker {
   /**
    * A dummy singleton value type used by {@link Interners}.
    *
-   * <p>{@link MapMakerInternalMap} can optimize for memory usage in this case; see
-   * {@link MapMakerInternalMap#createWithDummyValues}.
+   * <p>{@link MapMakerInternalMap} can optimize for memory usage in this case; see {@link
+   * MapMakerInternalMap#createWithDummyValues}.
    */
   enum Dummy {
     VALUE
@@ -271,9 +273,9 @@ public final class MapMaker {
    * instance, so it can be invoked again to create multiple independent maps.
    *
    * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to
-   * be performed atomically on the returned map. Additionally, {@code size} and
-   * {@code containsValue} are implemented as bulk read operations, and thus may fail to observe
-   * concurrent writes.
+   * be performed atomically on the returned map. Additionally, {@code size} and {@code
+   * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent
+   * writes.
    *
    * @return a serializable concurrent map having the requested features
    */

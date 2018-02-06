@@ -27,9 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import junit.framework.TestCase;
 
-/**
- * @author Charles Fry
- */
+/** @author Charles Fry */
 @GwtCompatible(emulated = true)
 public class MapMakerTest extends TestCase {
 
@@ -47,7 +45,8 @@ public class MapMakerTest extends TestCase {
       this.delayLatch = delayLatch;
     }
 
-    @Override public T apply(T key) {
+    @Override
+    public T apply(T key) {
       awaitUninterruptibly(delayLatch);
       return key;
     }
@@ -81,9 +80,7 @@ public class MapMakerTest extends TestCase {
     }
 
     public void testReturnsPlainConcurrentHashMapWhenPossible() {
-      Map<?, ?> map = new MapMaker()
-          .initialCapacity(5)
-          .makeMap();
+      Map<?, ?> map = new MapMaker().initialCapacity(5).makeMap();
       assertTrue(map instanceof ConcurrentHashMap);
     }
   }

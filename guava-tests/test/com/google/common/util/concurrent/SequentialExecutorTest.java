@@ -17,16 +17,20 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -266,7 +270,7 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(0, numCalls.get());
     reject.set(false);
     executor.execute(task);
-    assertEquals(2, numCalls.get());
+    assertEquals(1, numCalls.get());
   }
 
   public void testTaskThrowsError() throws Exception {
@@ -304,6 +308,44 @@ public class SequentialExecutorTest extends TestCase {
       barrier.await(1, TimeUnit.SECONDS);
     } finally {
       service.shutdown();
+    }
+  }
+
+  public void testRejectedExecutionThrownWithMultipleCalls() throws Exception {
+    final CountDownLatch latch = new CountDownLatch(1);
+    final SettableFuture<?> future = SettableFuture.create();
+    final Executor delegate =
+        new Executor() {
+          @Override
+          public void execute(Runnable task) {
+            if (future.set(null)) {
+              awaitUninterruptibly(latch);
+            }
+            throw new RejectedExecutionException();
+          }
+        };
+    final SequentialExecutor executor = new SequentialExecutor(delegate);
+    final ExecutorService blocked = Executors.newCachedThreadPool();
+    Future<?> first =
+        blocked.submit(
+            new Runnable() {
+              @Override
+              public void run() {
+                executor.execute(Runnables.doNothing());
+              }
+            });
+    future.get(10, TimeUnit.SECONDS);
+    try {
+      executor.execute(Runnables.doNothing());
+      fail();
+    } catch (RejectedExecutionException expected) {
+    }
+    latch.countDown();
+    try {
+      first.get(10, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
     }
   }
 }

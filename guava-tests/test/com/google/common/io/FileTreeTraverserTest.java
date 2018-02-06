@@ -86,7 +86,7 @@ public class FileTreeTraverserTest extends TestCase {
   }
 
   private void assertDirChildren(File... files) {
-    assertEquals(ImmutableSet.copyOf(files),
-        ImmutableSet.copyOf(Files.fileTreeTraverser().children(dir)));
+    assertEquals(
+        ImmutableSet.copyOf(files), ImmutableSet.copyOf(Files.fileTreeTraverser().children(dir)));
   }
 }

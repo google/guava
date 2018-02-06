@@ -29,34 +29,29 @@ import java.util.logging.Logger;
 import junit.framework.TestSuite;
 
 /**
- * This builder creates a composite test suite, containing a separate test suite
- * for each {@link CollectionSize} present in the features specified
- * by {@link #withFeatures(Feature...)}.
+ * This builder creates a composite test suite, containing a separate test suite for each {@link
+ * CollectionSize} present in the features specified by {@link #withFeatures(Feature...)}.
  *
- * @param <B> The concrete type of this builder (the 'self-type'). All the
- * Builder methods of this class (such as {@link #named(String)}) return this
- * type, so that Builder methods of more derived classes can be chained onto
- * them without casting.
- * @param <G> The type of the generator to be passed to testers in the
- * generated test suite. An instance of G should somehow provide an
- * instance of the class under test, plus any other information required
- * to parameterize the test.
- *
+ * @param <B> The concrete type of this builder (the 'self-type'). All the Builder methods of this
+ *     class (such as {@link #named(String)}) return this type, so that Builder methods of more
+ *     derived classes can be chained onto them without casting.
+ * @param <G> The type of the generator to be passed to testers in the generated test suite. An
+ *     instance of G should somehow provide an instance of the class under test, plus any other
+ *     information required to parameterize the test.
  * @see FeatureSpecificTestSuiteBuilder
- *
  * @author George van den Driessche
  */
 @GwtIncompatible
 public abstract class PerCollectionSizeTestSuiteBuilder<
         B extends PerCollectionSizeTestSuiteBuilder<B, G, T, E>,
-        G extends TestContainerGenerator<T, E>, T, E>
+        G extends TestContainerGenerator<T, E>,
+        T,
+        E>
     extends FeatureSpecificTestSuiteBuilder<B, G> {
   private static final Logger logger =
       Logger.getLogger(PerCollectionSizeTestSuiteBuilder.class.getName());
 
-  /**
-   * Creates a runnable JUnit test suite based on the criteria already given.
-   */
+  /** Creates a runnable JUnit test suite based on the criteria already given. */
   @Override
   public TestSuite createTestSuite() {
     checkCanCreate();

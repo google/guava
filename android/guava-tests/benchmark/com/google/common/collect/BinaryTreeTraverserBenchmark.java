@@ -18,13 +18,13 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Benchmarks for the {@code TreeTraverser} and optimized {@code BinaryTreeTraverser} operations on
- * binary trees.
+ * Benchmarks for the {@code TreeTraverser} operations on binary trees.
  *
  * @author Louis Wasserman
  */
@@ -50,8 +50,9 @@ public class BinaryTreeTraverserBenchmark {
         } else {
           int leftChildSize = (size - 1) / 2;
           int rightChildSize = size - 1 - leftChildSize;
-          return Optional.of(new BinaryNode(
-              rng.nextInt(), createTree(leftChildSize, rng), createTree(rightChildSize, rng)));
+          return Optional.of(
+              new BinaryNode(
+                  rng.nextInt(), createTree(leftChildSize, rng), createTree(rightChildSize, rng)));
         }
       }
     },
@@ -109,26 +110,13 @@ public class BinaryTreeTraverserBenchmark {
     abstract Optional<BinaryNode> createTree(int size, Random rng);
   }
 
-  private static final BinaryTreeTraverser<BinaryNode> BINARY_VIEWER =
-      new BinaryTreeTraverser<BinaryNode>() {
-
-    @Override
-    public Optional<BinaryNode> leftChild(BinaryNode node) {
-      return node.left;
-    }
-
-    @Override
-    public Optional<BinaryNode> rightChild(BinaryNode node) {
-      return node.right;
-    }
-  };
-
-  private static final TreeTraverser<BinaryNode> VIEWER = new TreeTraverser<BinaryNode>() {
-    @Override
-    public Iterable<BinaryNode> children(BinaryNode root) {
-      return BINARY_VIEWER.children(root);
-    }
-  };
+  private static final TreeTraverser<BinaryNode> VIEWER =
+      new TreeTraverser<BinaryNode>() {
+        @Override
+        public Iterable<BinaryNode> children(BinaryNode root) {
+          return Optional.presentInstances(ImmutableList.of(root.left, root.right));
+        }
+      };
 
   enum Traversal {
     PRE_ORDER {
@@ -155,29 +143,23 @@ public class BinaryTreeTraverserBenchmark {
 
   private Iterable<BinaryNode> view;
 
-  @Param
-  Topology topology;
+  @Param Topology topology;
 
   @Param({"1", "100", "10000", "1000000"})
   int size;
 
-  @Param
-  Traversal traversal;
-
-  @Param
-  boolean useBinaryTraverser;
+  @Param Traversal traversal;
 
   @Param({"1234"})
   SpecialRandom rng;
 
   @BeforeExperiment
   void setUp() {
-    this.view = traversal.view(
-        topology.createTree(size, rng).get(),
-        useBinaryTraverser ? BINARY_VIEWER : VIEWER);
+    this.view = traversal.view(topology.createTree(size, rng).get(), VIEWER);
   }
 
-  @Benchmark int traversal(int reps) {
+  @Benchmark
+  int traversal(int reps) {
     int tmp = 0;
 
     for (int i = 0; i < reps; i++) {

@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Spliterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * GWT emulated version of {@link ImmutableCollection}.
@@ -32,19 +32,18 @@ import javax.annotation.Nullable;
  * @author Jesse Wilson
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableCollection<E> extends AbstractCollection<E>
-    implements Serializable {
+public abstract class ImmutableCollection<E> extends AbstractCollection<E> implements Serializable {
   static final int SPLITERATOR_CHARACTERISTICS =
       Spliterator.IMMUTABLE | Spliterator.NONNULL | Spliterator.ORDERED;
 
-  static final ImmutableCollection<Object> EMPTY_IMMUTABLE_COLLECTION
-      = new ForwardingImmutableCollection<Object>(Collections.emptyList());
+  static final ImmutableCollection<Object> EMPTY_IMMUTABLE_COLLECTION =
+      new ForwardingImmutableCollection<Object>(Collections.emptyList());
 
   ImmutableCollection() {}
 
   public abstract UnmodifiableIterator<E> iterator();
 
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(@NullableDecl Object object) {
     return object != null && super.contains(object);
   }
 
@@ -89,6 +88,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
         return new RegularImmutableAsList<E>(this, toArray());
     }
   }
+
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {
     return new ForwardingImmutableCollection<E>(delegate);
   }
@@ -97,12 +97,26 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E>
     return false;
   }
 
-  /**
-   * GWT emulated version of {@link ImmutableCollection.Builder}.
-   */
+  /** GWT emulated version of {@link ImmutableCollection.Builder}. */
   public abstract static class Builder<E> {
 
     Builder() {}
+
+    static int expandedCapacity(int oldCapacity, int minCapacity) {
+      if (minCapacity < 0) { 
+        throw new AssertionError("cannot store more than MAX_VALUE elements");
+      }
+      // careful of overflow!
+      int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
+      if (newCapacity < minCapacity) {
+        newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
+      }
+      if (newCapacity < 0) {
+        newCapacity = Integer.MAX_VALUE;
+        // guaranteed to be >= newCapacity
+      }
+      return newCapacity;
+    }
 
     public abstract Builder<E> add(E element);
 

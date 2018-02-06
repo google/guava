@@ -35,16 +35,14 @@ import java.util.List;
  */
 public class CharStreamsTest extends IoTestCase {
 
-  private static final String TEXT
-      = "The quick brown fox jumped over the lazy dog.";
+  private static final String TEXT = "The quick brown fox jumped over the lazy dog.";
 
   public void testToString() throws IOException {
     assertEquals(TEXT, CharStreams.toString(new StringReader(TEXT)));
   }
 
   public void testReadLines() throws IOException {
-    List<String> lines = CharStreams.readLines(
-        new StringReader("a\nb\nc"));
+    List<String> lines = CharStreams.readLines(new StringReader("a\nb\nc"));
     assertEquals(ImmutableList.of("a", "b", "c"), lines);
   }
 
@@ -53,54 +51,67 @@ public class CharStreamsTest extends IoTestCase {
 
     // Test a LineProcessor that always returns false.
     Reader r = new StringReader(text);
-    LineProcessor<Integer> alwaysFalse = new LineProcessor<Integer>() {
-      int seen;
-      @Override
-      public boolean processLine(String line) {
-        seen++;
-        return false;
-      }
-      @Override
-      public Integer getResult() {
-        return seen;
-      }
-    };
-    assertEquals("processLine was called more than once", 1,
+    LineProcessor<Integer> alwaysFalse =
+        new LineProcessor<Integer>() {
+          int seen;
+
+          @Override
+          public boolean processLine(String line) {
+            seen++;
+            return false;
+          }
+
+          @Override
+          public Integer getResult() {
+            return seen;
+          }
+        };
+    assertEquals(
+        "processLine was called more than once",
+        1,
         CharStreams.readLines(r, alwaysFalse).intValue());
 
     // Test a LineProcessor that always returns true.
     r = new StringReader(text);
-    LineProcessor<Integer> alwaysTrue = new LineProcessor<Integer>() {
-      int seen;
-      @Override
-      public boolean processLine(String line) {
-        seen++;
-        return true;
-      }
-      @Override
-      public Integer getResult() {
-        return seen;
-      }
-    };
-    assertEquals("processLine was not called for all the lines", 3,
+    LineProcessor<Integer> alwaysTrue =
+        new LineProcessor<Integer>() {
+          int seen;
+
+          @Override
+          public boolean processLine(String line) {
+            seen++;
+            return true;
+          }
+
+          @Override
+          public Integer getResult() {
+            return seen;
+          }
+        };
+    assertEquals(
+        "processLine was not called for all the lines",
+        3,
         CharStreams.readLines(r, alwaysTrue).intValue());
 
     // Test a LineProcessor that is conditional.
     r = new StringReader(text);
     final StringBuilder sb = new StringBuilder();
-    LineProcessor<Integer> conditional = new LineProcessor<Integer>() {
-      int seen;
-      @Override
-      public boolean processLine(String line) {
-        seen++;
-        sb.append(line);
-        return seen < 2;
-      }
-      @Override
-      public Integer getResult() {
-        return seen;
-      }
-    };
+    LineProcessor<Integer> conditional =
+        new LineProcessor<Integer>() {
+          int seen;
+
+          @Override
+          public boolean processLine(String line) {
+            seen++;
+            sb.append(line);
+            return seen < 2;
+          }
+
+          @Override
+          public Integer getResult() {
+            return seen;
+          }
+        };
     assertEquals(2, CharStreams.readLines(r, conditional).intValue());
     assertEquals("ab", sb.toString());
   }
@@ -280,9 +291,7 @@ public class CharStreamsTest extends IoTestCase {
     };
   }
 
-  /**
-   * Wrap an appendable in an appendable to defeat any type specific optimizations.
-   */
+  /** Wrap an appendable in an appendable to defeat any type specific optimizations. */
   private static Appendable wrapAsGenericAppendable(final Appendable a) {
     return new Appendable() {
 
@@ -305,9 +314,8 @@ public class CharStreamsTest extends IoTestCase {
       }
     };
   }
-  /**
-   * Wrap a readable in a readable to defeat any type specific optimizations.
-   */
+
+  /** Wrap a readable in a readable to defeat any type specific optimizations. */
   private static Readable wrapAsGenericReadable(final Readable a) {
     return new Readable() {
       @Override

@@ -37,8 +37,7 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a Set implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a Set implementation.
  *
  * @author George van den Driessche
  */

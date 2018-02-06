@@ -35,7 +35,8 @@ public class ForwardingLoadingCacheTest extends TestCase {
   private LoadingCache<String, Boolean> mock;
 
   @SuppressWarnings("unchecked") // mock
-  @Override public void setUp() throws Exception {
+  @Override
+  public void setUp() throws Exception {
     super.setUp();
     /*
      * Class parameters must be raw, so we can't create a proxy with generic
@@ -43,11 +44,13 @@ public class ForwardingLoadingCacheTest extends TestCase {
      * the type is irrelevant at runtime.
      */
     mock = mock(LoadingCache.class);
-    forward = new ForwardingLoadingCache<String, Boolean>() {
-      @Override protected LoadingCache<String, Boolean> delegate() {
-        return mock;
-      }
-    };
+    forward =
+        new ForwardingLoadingCache<String, Boolean>() {
+          @Override
+          protected LoadingCache<String, Boolean> delegate() {
+            return mock;
+          }
+        };
   }
 
   public void testGet() throws ExecutionException {
@@ -105,9 +108,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
     verify(mock).cleanUp();
   }
 
-  /**
-   * Make sure that all methods are forwarded.
-   */
+  /** Make sure that all methods are forwarded. */
   private static class OnlyGet<K, V> extends ForwardingLoadingCache<K, V> {
     @Override
     protected LoadingCache<K, V> delegate() {

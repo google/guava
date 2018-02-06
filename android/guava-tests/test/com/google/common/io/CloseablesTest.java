@@ -30,10 +30,8 @@ import junit.framework.TestCase;
 /**
  * Unit tests for {@link Closeables}.
  *
- * <p>Checks proper closing behavior, and ensures that
- * IOExceptions on Closeable.close() are not
- * propagated out from the {@link Closeables#close} method if {@code
- * swallowException} is true.
+ * <p>Checks proper closing behavior, and ensures that IOExceptions on Closeable.close() are not
+ * propagated out from the {@link Closeables#close} method if {@code swallowException} is true.
  *
  * @author Michael Lancaster
  */
@@ -65,8 +63,8 @@ public class CloseablesTest extends TestCase {
   }
 
   public void testCloseQuietly_inputStreamWithEatenException() throws IOException {
-    TestInputStream in = new TestInputStream(
-        new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
+    TestInputStream in =
+        new TestInputStream(new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
     Closeables.closeQuietly(in);
     assertTrue(in.closed());
   }
@@ -96,7 +94,8 @@ public class CloseablesTest extends TestCase {
     mockCloseable = mock(Closeable.class);
     if (shouldThrow) {
       doThrow(new IOException("This should only appear in the logs. It should not be rethrown."))
-          .when(mockCloseable).close();
+          .when(mockCloseable)
+          .close();
     }
   }
 
@@ -107,8 +106,8 @@ public class CloseablesTest extends TestCase {
   // Close the closeable using the Closeables, passing in the swallowException
   // parameter. expectThrown determines whether we expect an exception to
   // be thrown by Closeables.close;
-  private void doClose(Closeable closeable, boolean swallowException,
-      boolean expectThrown) throws IOException {
+  private void doClose(Closeable closeable, boolean swallowException, boolean expectThrown)
+      throws IOException {
     try {
       Closeables.close(closeable, swallowException);
       if (expectThrown) {

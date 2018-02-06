@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.SortedSet;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A sorted set multimap which forwards all its method calls to another sorted set multimap.
@@ -44,12 +44,12 @@ public abstract class ForwardingSortedSetMultimap<K, V> extends ForwardingSetMul
   protected abstract SortedSetMultimap<K, V> delegate();
 
   @Override
-  public SortedSet<V> get(@Nullable K key) {
+  public SortedSet<V> get(@NullableDecl K key) {
     return delegate().get(key);
   }
 
   @Override
-  public SortedSet<V> removeAll(@Nullable Object key) {
+  public SortedSet<V> removeAll(@NullableDecl Object key) {
     return delegate().removeAll(key);
   }
 

@@ -82,19 +82,21 @@ import org.mockito.Mockito;
  */
 public class MoreExecutorsTest extends JSR166TestCase {
 
-  private static final Runnable EMPTY_RUNNABLE = new Runnable() {
-    @Override public void run() {}
-  };
+  private static final Runnable EMPTY_RUNNABLE =
+      new Runnable() {
+        @Override
+        public void run() {}
+      };
 
-  public void testDirectExecutorServiceServiceInThreadExecution()
-      throws Exception {
+  public void testDirectExecutorServiceServiceInThreadExecution() throws Exception {
     final ListeningExecutorService executor = newDirectExecutorService();
-    final ThreadLocal<Integer> threadLocalCount = new ThreadLocal<Integer>() {
-      @Override
-      protected Integer initialValue() {
-        return 0;
-      }
-    };
+    final ThreadLocal<Integer> threadLocalCount =
+        new ThreadLocal<Integer>() {
+          @Override
+          protected Integer initialValue() {
+            return 0;
+          }
+        };
     final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
     final Runnable incrementTask =
         new Runnable() {
@@ -104,19 +106,20 @@ public class MoreExecutorsTest extends JSR166TestCase {
           }
         };
 
-    Thread otherThread = new Thread(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              Future<?> future = executor.submit(incrementTask);
-              assertTrue(future.isDone());
-              assertEquals(1, threadLocalCount.get().intValue());
-            } catch (Throwable t) {
-              throwableFromOtherThread.set(t);
-            }
-          }
-        });
+    Thread otherThread =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  Future<?> future = executor.submit(incrementTask);
+                  assertTrue(future.isDone());
+                  assertEquals(1, threadLocalCount.get().intValue());
+                } catch (Throwable t) {
+                  throwableFromOtherThread.set(t);
+                }
+              }
+            });
 
     otherThread.start();
 
@@ -127,31 +130,33 @@ public class MoreExecutorsTest extends JSR166TestCase {
     otherThread.join(1000);
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
-    assertNull("Throwable from other thread: "
-        + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
+    assertNull(
+        "Throwable from other thread: "
+            + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
         throwableFromOtherThread.get());
   }
 
   public void testDirectExecutorServiceInvokeAll() throws Exception {
     final ExecutorService executor = newDirectExecutorService();
-    final ThreadLocal<Integer> threadLocalCount = new ThreadLocal<Integer>() {
-      @Override
-      protected Integer initialValue() {
-        return 0;
-      }
-    };
+    final ThreadLocal<Integer> threadLocalCount =
+        new ThreadLocal<Integer>() {
+          @Override
+          protected Integer initialValue() {
+            return 0;
+          }
+        };
 
-    final Callable<Integer> incrementTask = new Callable<Integer>() {
-      @Override
-      public Integer call() {
-        int i = threadLocalCount.get();
-        threadLocalCount.set(i + 1);
-        return i;
-      }
-    };
+    final Callable<Integer> incrementTask =
+        new Callable<Integer>() {
+          @Override
+          public Integer call() {
+            int i = threadLocalCount.get();
+            threadLocalCount.set(i + 1);
+            return i;
+          }
+        };
 
-    List<Future<Integer>> futures =
-        executor.invokeAll(Collections.nCopies(10, incrementTask));
+    List<Future<Integer>> futures = executor.invokeAll(Collections.nCopies(10, incrementTask));
 
     for (int i = 0; i < 10; i++) {
       Future<Integer> future = futures.get(i);
@@ -162,42 +167,48 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(10, threadLocalCount.get().intValue());
   }
 
-  public void testDirectExecutorServiceServiceTermination()
-      throws Exception {
+  public void testDirectExecutorServiceServiceTermination() throws Exception {
     final ExecutorService executor = newDirectExecutorService();
     final CyclicBarrier barrier = new CyclicBarrier(2);
     final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
-    final Runnable doNothingRunnable = new Runnable() {
-        @Override public void run() {
-        }};
+    final Runnable doNothingRunnable =
+        new Runnable() {
+          @Override
+          public void run() {}
+        };
 
-    Thread otherThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          Future<?> future = executor.submit(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-              // WAIT #1
-              barrier.await(1, TimeUnit.SECONDS);
+    Thread otherThread =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  Future<?> future =
+                      executor.submit(
+                          new Callable<Void>() {
+                            @Override
+                            public Void call() throws Exception {
+                              // WAIT #1
+                              barrier.await(1, TimeUnit.SECONDS);
 
-              // WAIT #2
-              barrier.await(1, TimeUnit.SECONDS);
-              assertTrue(executor.isShutdown());
-              assertFalse(executor.isTerminated());
+                              // WAIT #2
+                              barrier.await(1, TimeUnit.SECONDS);
+                              assertTrue(executor.isShutdown());
+                              assertFalse(executor.isTerminated());
 
-              // WAIT #3
-              barrier.await(1, TimeUnit.SECONDS);
-              return null;
-            }
-          });
-          assertTrue(future.isDone());
-          assertTrue(executor.isShutdown());
-          assertTrue(executor.isTerminated());
-        } catch (Throwable t) {
-          throwableFromOtherThread.set(t);
-        }
-      }});
+                              // WAIT #3
+                              barrier.await(1, TimeUnit.SECONDS);
+                              return null;
+                            }
+                          });
+                  assertTrue(future.isDone());
+                  assertTrue(executor.isShutdown());
+                  assertTrue(executor.isTerminated());
+                } catch (Throwable t) {
+                  throwableFromOtherThread.set(t);
+                }
+              }
+            });
 
     otherThread.start();
 
@@ -236,27 +247,30 @@ public class MoreExecutorsTest extends JSR166TestCase {
     otherThread.join(1000);
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
-    assertNull("Throwable from other thread: "
-        + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
+    assertNull(
+        "Throwable from other thread: "
+            + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
         throwableFromOtherThread.get());
   }
 
   /**
-   * Test for a bug where threads weren't getting signaled when shutdown was called, only when
-   * tasks completed.
+   * Test for a bug where threads weren't getting signaled when shutdown was called, only when tasks
+   * completed.
    */
 
   public void testDirectExecutorService_awaitTermination_missedSignal() {
     final ExecutorService service = MoreExecutors.newDirectExecutorService();
-    Thread waiter = new Thread() {
-      @Override public void run() {
-        try {
-          service.awaitTermination(1, TimeUnit.DAYS);
-        } catch (InterruptedException e) {
-          return;
-        }
-      }
-    };
+    Thread waiter =
+        new Thread() {
+          @Override
+          public void run() {
+            try {
+              service.awaitTermination(1, TimeUnit.DAYS);
+            } catch (InterruptedException e) {
+              return;
+            }
+          }
+        };
     waiter.start();
     awaitTimedWaiting(waiter);
     service.shutdown();
@@ -298,22 +312,20 @@ public class MoreExecutorsTest extends JSR166TestCase {
     try {
       executor.execute(EMPTY_RUNNABLE);
       fail();
-    } catch (RejectedExecutionException expected) {}
+    } catch (RejectedExecutionException expected) {
+    }
   }
 
-  public <T> void testListeningExecutorServiceInvokeAllJavadocCodeCompiles()
-      throws Exception {
+  public <T> void testListeningExecutorServiceInvokeAllJavadocCodeCompiles() throws Exception {
     ListeningExecutorService executor = newDirectExecutorService();
     List<Callable<T>> tasks = ImmutableList.of();
     List<? extends Future<?>> unused = executor.invokeAll(tasks);
   }
 
   public void testListeningDecorator() throws Exception {
-    ListeningExecutorService service =
-        listeningDecorator(newDirectExecutorService());
+    ListeningExecutorService service = listeningDecorator(newDirectExecutorService());
     assertSame(service, listeningDecorator(service));
-    List<Callable<String>> callables =
-        ImmutableList.of(Callables.returning("x"));
+    List<Callable<String>> callables = ImmutableList.of(Callables.returning("x"));
     List<Future<String>> results;
 
     results = service.invokeAll(callables);
@@ -331,22 +343,24 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testListeningDecorator_noWrapExecuteTask() {
     ExecutorService delegate = mock(ExecutorService.class);
     ListeningExecutorService service = listeningDecorator(delegate);
-    Runnable task = new Runnable() {
-      @Override
-      public void run() {}
-    };
+    Runnable task =
+        new Runnable() {
+          @Override
+          public void run() {}
+        };
     service.execute(task);
     verify(delegate).execute(task);
   }
 
   public void testListeningDecorator_scheduleSuccess() throws Exception {
     final CountDownLatch completed = new CountDownLatch(1);
-    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1) {
-      @Override
-      protected void afterExecute(Runnable r, Throwable t) {
-        completed.countDown();
-      }
-    };
+    ScheduledThreadPoolExecutor delegate =
+        new ScheduledThreadPoolExecutor(1) {
+          @Override
+          protected void afterExecute(Runnable r, Throwable t) {
+            completed.countDown();
+          }
+        };
     ListeningScheduledExecutorService service = listeningDecorator(delegate);
     ListenableFuture<Integer> future =
         service.schedule(Callables.returning(42), 1, TimeUnit.MILLISECONDS);
@@ -400,9 +414,11 @@ public class MoreExecutorsTest extends JSR166TestCase {
     ListenableFuture<?> future;
     ScheduledFuture<?> delegateFuture;
 
-    Runnable runnable = new Runnable() {
-      @Override public void run() {}
-    };
+    Runnable runnable =
+        new Runnable() {
+          @Override
+          public void run() {}
+        };
 
     future = service.schedule(runnable, 5, TimeUnit.MINUTES);
     future.cancel(true);
@@ -455,9 +471,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * invokeAny(null) throws NPE
-   */
+  /** invokeAny(null) throws NPE */
   public void testInvokeAnyImpl_nullTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
@@ -469,9 +483,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * invokeAny(empty collection) throws IAE
-   */
+  /** invokeAny(empty collection) throws IAE */
   public void testInvokeAnyImpl_emptyTasks() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
@@ -483,17 +495,17 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * invokeAny(c) throws NPE if c has null elements
-   */
+  /** invokeAny(c) throws NPE if c has null elements */
   public void testInvokeAnyImpl_nullElement() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     List<Callable<Integer>> l = new ArrayList<>();
-    l.add(new Callable<Integer>() {
-      @Override public Integer call() {
-          throw new ArithmeticException("/ by zero");
-      }
-    });
+    l.add(
+        new Callable<Integer>() {
+          @Override
+          public Integer call() {
+            throw new ArithmeticException("/ by zero");
+          }
+        });
     l.add(null);
     try {
       invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
@@ -504,9 +516,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * invokeAny(c) throws ExecutionException if no task in c completes
-   */
+  /** invokeAny(c) throws ExecutionException if no task in c completes */
   public void testInvokeAnyImpl_noTaskCompletes() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     List<Callable<String>> l = new ArrayList<>();
@@ -521,9 +531,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     }
   }
 
-  /**
-   * invokeAny(c) returns result of some task in c if at least one completes
-   */
+  /** invokeAny(c) returns result of some task in c if at least one completes */
   public void testInvokeAnyImpl() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     try {
@@ -574,8 +582,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
   public void testGetExitingExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
-    ThreadPoolExecutor executor = new ThreadPoolExecutor(
-        1, 2, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1));
+    ThreadPoolExecutor executor =
+        new ThreadPoolExecutor(1, 2, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1));
     assertNotNull(application.getExitingExecutorService(executor));
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
@@ -634,13 +642,16 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   public void testThreadRenaming() {
-    Executor renamingExecutor = renamingDecorator(newDirectExecutorService(),
-        Suppliers.ofInstance("FooBar"));
+    Executor renamingExecutor =
+        renamingDecorator(newDirectExecutorService(), Suppliers.ofInstance("FooBar"));
     String oldName = Thread.currentThread().getName();
-    renamingExecutor.execute(new Runnable() {
-      @Override public void run() {
-        assertEquals("FooBar", Thread.currentThread().getName());
-      }});
+    renamingExecutor.execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            assertEquals("FooBar", Thread.currentThread().getName());
+          }
+        });
     assertEquals(oldName, Thread.currentThread().getName());
   }
 
@@ -655,7 +666,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
   private static class TestApplication extends Application {
     private final List<Thread> hooks = Lists.newArrayList();
 
-    @Override synchronized void addShutdownHook(Thread hook) {
+    @Override
+    synchronized void addShutdownHook(Thread hook) {
       hooks.add(hook);
     }
 
@@ -690,7 +702,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testShutdownAndAwaitTermination_forcedShutDownInternal() throws Exception {
     ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
-        .thenReturn(false).thenReturn(true);
+        .thenReturn(false)
+        .thenReturn(true);
     when(service.isTerminated()).thenReturn(true);
     assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
     verify(service).shutdown();
@@ -701,7 +714,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testShutdownAndAwaitTermination_nonTerminationInternal() throws Exception {
     ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
-        .thenReturn(false).thenReturn(false);
+        .thenReturn(false)
+        .thenReturn(false);
     assertFalse(shutdownAndAwaitTermination(service, 1L, SECONDS));
     verify(service).shutdown();
     verify(service, times(2)).awaitTermination(HALF_SECOND_NANOS, NANOSECONDS);
@@ -718,13 +732,15 @@ public class MoreExecutorsTest extends JSR166TestCase {
     final AtomicBoolean interrupted = new AtomicBoolean();
     // we need to use another thread because it will be interrupted and thus using
     // the current one, owned by JUnit, would make the test fail
-    Thread thread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        terminated.set(shutdownAndAwaitTermination(service, 1L, SECONDS));
-        interrupted.set(Thread.currentThread().isInterrupted());
-      }
-    });
+    Thread thread =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                terminated.set(shutdownAndAwaitTermination(service, 1L, SECONDS));
+                interrupted.set(Thread.currentThread().isInterrupted());
+              }
+            });
     thread.start();
     thread.join();
     verify(service).shutdown();

@@ -43,13 +43,11 @@ import junit.framework.TestCase;
 public class Utf8Test extends TestCase {
 
   private static final ImmutableList<String> ILL_FORMED_STRINGS;
+
   static {
     ImmutableList.Builder<String> builder = ImmutableList.builder();
     char[] surrogates = {
-      MAX_LOW_SURROGATE,
-      MAX_HIGH_SURROGATE,
-      MIN_LOW_SURROGATE,
-      MIN_HIGH_SURROGATE,
+      MAX_LOW_SURROGATE, MAX_HIGH_SURROGATE, MIN_LOW_SURROGATE, MIN_HIGH_SURROGATE,
     };
     for (char surrogate : surrogates) {
       builder.add(newString(surrogate));
@@ -65,12 +63,15 @@ public class Utf8Test extends TestCase {
     assertEquals(0, Utf8.encodedLength(""));
     assertEquals(11, Utf8.encodedLength("Hello world"));
     assertEquals(8, Utf8.encodedLength("Résumé"));
-    assertEquals(461, Utf8.encodedLength("威廉·莎士比亞（William Shakespeare，"
-        + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
-        + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
-        + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
-        + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，"
-        + "哈都拕人翻譯做好多話。"));
+    assertEquals(
+        461,
+        Utf8.encodedLength(
+            "威廉·莎士比亞（William Shakespeare，"
+                + "1564年4月26號—1616年4月23號[1]）係隻英國嗰演員、劇作家同詩人，"
+                + "有時間佢簡稱莎翁；中國清末民初哈拕翻譯做舌克斯毕、沙斯皮耳、筛斯比耳、"
+                + "莎基斯庇尔、索士比尔、夏克思芘尔、希哀苦皮阿、叶斯壁、沙克皮尔、"
+                + "狹斯丕爾。[2]莎士比亞編寫過好多作品，佢嗰劇作響西洋文學好有影響，"
+                + "哈都拕人翻譯做好多話。"));
     // A surrogate pair
     assertEquals(4, Utf8.encodedLength(newString(MIN_HIGH_SURROGATE, MIN_LOW_SURROGATE)));
   }
@@ -86,7 +87,7 @@ public class Utf8Test extends TestCase {
     utf8Lengths.put(MIN_SUPPLEMENTARY_CODE_POINT, 4);
     utf8Lengths.put(MAX_CODE_POINT, 4);
 
-    Integer[] codePoints = utf8Lengths.keySet().toArray(new Integer[]{});
+    Integer[] codePoints = utf8Lengths.keySet().toArray(new Integer[] {});
     StringBuilder sb = new StringBuilder();
     Random rnd = new Random();
     for (int trial = 0; trial < 100; trial++) {
@@ -125,23 +126,22 @@ public class Utf8Test extends TestCase {
   }
 
   // 128 - [chars 0x0000 to 0x007f]
-  private static final long ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS =
-      0x007f - 0x0000 + 1;
+  private static final long ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS = 0x007f - 0x0000 + 1;
 
   // 128
   private static final long EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT =
       ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   // 1920 [chars 0x0080 to 0x07FF]
-  private static final long TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS =
-      0x07FF - 0x0080 + 1;
+  private static final long TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS = 0x07FF - 0x0080 + 1;
 
   // 18,304
   private static final long EXPECTED_TWO_BYTE_ROUNDTRIPPABLE_COUNT =
       // Both bytes are one byte characters
-      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 2) +
-      // The possible number of two byte characters
-      TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS;
+      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 2)
+          +
+          // The possible number of two byte characters
+          TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   // 2048
   private static final long THREE_BYTE_SURROGATES = 2 * 1024;
@@ -153,32 +153,36 @@ public class Utf8Test extends TestCase {
   // 2,650,112
   private static final long EXPECTED_THREE_BYTE_ROUNDTRIPPABLE_COUNT =
       // All one byte characters
-      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 3) +
-      // One two byte character and a one byte character
-      2 * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS *
-          ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS +
-       // Three byte characters
-      THREE_BYTE_ROUNDTRIPPABLE_CHARACTERS;
+      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 3)
+          +
+          // One two byte character and a one byte character
+          2 * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS * ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS
+          +
+          // Three byte characters
+          THREE_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   // 1,048,576 [chars 0x10000L to 0x10FFFF]
-  private static final long FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS =
-      0x10FFFF - 0x10000L + 1;
+  private static final long FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS = 0x10FFFF - 0x10000L + 1;
 
   // 289,571,839
   private static final long EXPECTED_FOUR_BYTE_ROUNDTRIPPABLE_COUNT =
       // All one byte characters
-      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 4) +
-      // One and three byte characters
-      2 * THREE_BYTE_ROUNDTRIPPABLE_CHARACTERS *
-          ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS +
-      // Two two byte characters
-      TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS +
-      // Permutations of one and two byte characters
-      3 * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS *
-          ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS *
-          ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS +
-      // Four byte characters
-      FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS;
+      (long) Math.pow(EXPECTED_ONE_BYTE_ROUNDTRIPPABLE_COUNT, 4)
+          +
+          // One and three byte characters
+          2 * THREE_BYTE_ROUNDTRIPPABLE_CHARACTERS * ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS
+          +
+          // Two two byte characters
+          TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS
+          +
+          // Permutations of one and two byte characters
+          3
+              * TWO_BYTE_ROUNDTRIPPABLE_CHARACTERS
+              * ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS
+              * ONE_BYTE_ROUNDTRIPPABLE_CHARACTERS
+          +
+          // Four byte characters
+          FOUR_BYTE_ROUNDTRIPPABLE_CHARACTERS;
 
   /** Tests that round tripping of all two byte permutations work. */
   @GwtIncompatible // java.nio.charset.Charset
@@ -200,9 +204,8 @@ public class Utf8Test extends TestCase {
   }
 
   /**
-   * Tests that round tripping of a sample of four byte permutations work.
-   * All permutations are prohibitively expensive to test for automated runs.
-   * This method tests specific four-byte cases.
+   * Tests that round tripping of a sample of four byte permutations work. All permutations are
+   * prohibitively expensive to test for automated runs. This method tests specific four-byte cases.
    */
   public void testIsWellFormed_4BytesSamples() {
     // Valid 4 byte.
@@ -230,9 +233,9 @@ public class Utf8Test extends TestCase {
     assertWellFormed(0xc9, 0x8b, 0x36, 0x32, 0xc9, 0x8b, 0x36, 0x32);
     // Mixed string
     // "a\u020ac\u00a2b\\u024B62u020acc\u00a2de\u024B62"
-    assertWellFormed(0x61, 0xc8, 0x8a, 0x63, 0xc2, 0xa2, 0x62, 0x5c, 0x75, 0x30,
-        0x32, 0x34, 0x42, 0x36, 0x32, 0x75, 0x30, 0x32, 0x30, 0x61, 0x63, 0x63,
-        0xc2, 0xa2, 0x64, 0x65, 0xc9, 0x8b, 0x36, 0x32);
+    assertWellFormed(
+        0x61, 0xc8, 0x8a, 0x63, 0xc2, 0xa2, 0x62, 0x5c, 0x75, 0x30, 0x32, 0x34, 0x42, 0x36, 0x32,
+        0x75, 0x30, 0x32, 0x30, 0x61, 0x63, 0x63, 0xc2, 0xa2, 0x64, 0x65, 0xc9, 0x8b, 0x36, 0x32);
     // Not a valid string
     assertNotWellFormed(-1, 0, -1, 0);
   }
@@ -274,7 +277,7 @@ public class Utf8Test extends TestCase {
     }
     // 97-111 are all 2342912
     for (int i = 97; i <= 111; i++) {
-     expected[i] = 2342912;
+      expected[i] = 2342912;
     }
     // 113-117 are all 1048576
     for (int i = 113; i <= 117; i++) {
@@ -292,8 +295,7 @@ public class Utf8Test extends TestCase {
   }
 
   /**
-   * Helper to run the loop to test all the permutations for the number of bytes
-   * specified.
+   * Helper to run the loop to test all the permutations for the number of bytes specified.
    *
    * @param numBytes the number of bytes in the byte array
    * @param expectedCount the expected number of roundtrippable permutations
@@ -304,15 +306,14 @@ public class Utf8Test extends TestCase {
   }
 
   /**
-   * Helper to run the loop to test all the permutations for the number of bytes
-   * specified. This overload is useful for debugging to get the loop to start
-   * at a certain character.
+   * Helper to run the loop to test all the permutations for the number of bytes specified. This
+   * overload is useful for debugging to get the loop to start at a certain character.
    *
    * @param numBytes the number of bytes in the byte array
    * @param expectedCount the expected number of roundtrippable permutations
    * @param start the starting bytes encoded as a long as big-endian
-   * @param lim the limit of bytes to process encoded as a long as big-endian,
-   *     or -1 to mean the max limit for numBytes
+   * @param lim the limit of bytes to process encoded as a long as big-endian, or -1 to mean the max
+   *     limit for numBytes
    */
   @GwtIncompatible // java.nio.charset.Charset
   private static void testBytes(int numBytes, long expectedCount, long start, long lim) {

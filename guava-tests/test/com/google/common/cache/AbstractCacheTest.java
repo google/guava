@@ -34,12 +34,13 @@ public class AbstractCacheTest extends TestCase {
 
   public void testGetIfPresent() {
     final AtomicReference<Object> valueRef = new AtomicReference<>();
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
-      @Override
-      public Object getIfPresent(Object key) {
-        return valueRef.get();
-      }
-    };
+    Cache<Object, Object> cache =
+        new AbstractCache<Object, Object>() {
+          @Override
+          public Object getIfPresent(Object key) {
+            return valueRef.get();
+          }
+        };
 
     assertNull(cache.getIfPresent(new Object()));
 
@@ -49,27 +50,27 @@ public class AbstractCacheTest extends TestCase {
   }
 
   public void testGetAllPresent_empty() {
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
-      @Override
-      public Object getIfPresent(Object key) {
-        return null;
-      }
-    };
+    Cache<Object, Object> cache =
+        new AbstractCache<Object, Object>() {
+          @Override
+          public Object getIfPresent(Object key) {
+            return null;
+          }
+        };
 
-    assertEquals(
-        ImmutableMap.of(),
-        cache.getAllPresent(ImmutableList.of(new Object())));
+    assertEquals(ImmutableMap.of(), cache.getAllPresent(ImmutableList.of(new Object())));
   }
 
   public void testGetAllPresent_cached() {
     final Object cachedKey = new Object();
     final Object cachedValue = new Object();
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
-      @Override
-      public Object getIfPresent(Object key) {
-        return cachedKey.equals(key) ? cachedValue : null;
-      }
-    };
+    Cache<Object, Object> cache =
+        new AbstractCache<Object, Object>() {
+          @Override
+          public Object getIfPresent(Object key) {
+            return cachedKey.equals(key) ? cachedValue : null;
+          }
+        };
 
     assertEquals(
         ImmutableMap.of(cachedKey, cachedValue),
@@ -78,17 +79,18 @@ public class AbstractCacheTest extends TestCase {
 
   public void testInvalidateAll() {
     final List<Object> invalidated = Lists.newArrayList();
-    Cache<Integer, Integer> cache = new AbstractCache<Integer, Integer>() {
-      @Override
-      public Integer getIfPresent(Object key) {
-        throw new UnsupportedOperationException();
-      }
+    Cache<Integer, Integer> cache =
+        new AbstractCache<Integer, Integer>() {
+          @Override
+          public Integer getIfPresent(Object key) {
+            throw new UnsupportedOperationException();
+          }
 
-      @Override
-      public void invalidate(Object key) {
-        invalidated.add(key);
-      }
-    };
+          @Override
+          public void invalidate(Object key) {
+            invalidated.add(key);
+          }
+        };
 
     List<Integer> toInvalidate = ImmutableList.of(1, 2, 3, 4);
     cache.invalidateAll(toInvalidate);
@@ -186,8 +188,6 @@ public class AbstractCacheTest extends TestCase {
     }
 
     counter1.incrementBy(counter2);
-    assertEquals(new CacheStats(38, 60, 44, 54, totalLoadTime, 66),
-        counter1.snapshot());
+    assertEquals(new CacheStats(38, 60, 44, 54, totalLoadTime, 66), counter1.snapshot());
   }
-
 }

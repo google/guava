@@ -19,7 +19,6 @@ package com.google.common.cache;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
 /**
@@ -29,7 +28,8 @@ import com.google.common.cache.LocalCache.Segment;
  */
 public class ChainBenchmark {
 
-  @Param({"1", "2", "3", "4", "5", "6"}) int length;
+  @Param({"1", "2", "3", "4", "5", "6"})
+  int length;
 
   private Segment<Object, Object> segment;
   private ReferenceEntry<Object, Object> head;
@@ -50,7 +50,8 @@ public class ChainBenchmark {
     }
   }
 
-  @Benchmark int time(int reps) {
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       segment.removeEntryFromChain(chain, head);

@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A multimap which forwards all its method calls to another multimap. Subclasses should override
@@ -56,17 +56,17 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
+  public boolean containsEntry(@NullableDecl Object key, @NullableDecl Object value) {
     return delegate().containsEntry(key, value);
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(@NullableDecl Object key) {
     return delegate().containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(@NullableDecl Object value) {
     return delegate().containsValue(value);
   }
 
@@ -76,7 +76,7 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public Collection<V> get(@Nullable K key) {
+  public Collection<V> get(@NullableDecl K key) {
     return delegate().get(key);
   }
 
@@ -115,13 +115,13 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@Nullable Object key, @Nullable Object value) {
+  public boolean remove(@NullableDecl Object key, @NullableDecl Object value) {
     return delegate().remove(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> removeAll(@Nullable Object key) {
+  public Collection<V> removeAll(@NullableDecl Object key) {
     return delegate().removeAll(key);
   }
 
@@ -142,7 +142,7 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return object == this || delegate().equals(object);
   }
 

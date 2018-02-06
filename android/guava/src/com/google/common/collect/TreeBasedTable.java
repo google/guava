@@ -31,41 +31,35 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Implementation of {@code Table} whose row keys and column keys are ordered
- * by their natural ordering or by supplied comparators. When constructing a
- * {@code TreeBasedTable}, you may provide comparators for the row keys and
- * the column keys, or you may use natural ordering for both.
+ * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
+ * ordering or by supplied comparators. When constructing a {@code TreeBasedTable}, you may provide
+ * comparators for the row keys and the column keys, or you may use natural ordering for both.
  *
- * <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link
- * #rowMap} method returns a {@link SortedMap}, instead of the {@link Set} and
- * {@link Map} specified by the {@link Table} interface.
- *
- * <p>The views returned by {@link #column}, {@link #columnKeySet()}, and {@link
- * #columnMap()} have iterators that don't support {@code remove()}. Otherwise,
- * all optional operations are supported. Null row keys, columns keys, and
- * values are not supported.
- *
- * <p>Lookups by row key are often faster than lookups by column key, because
- * the data is stored in a {@code Map<R, Map<C, V>>}. A method call like {@code
- * column(columnKey).get(rowKey)} still runs quickly, since the row key is
- * provided. However, {@code column(columnKey).size()} takes longer, since an
- * iteration across all row keys occurs.
- *
- * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
- * row, both {@code row(rowKey)} and {@code rowMap().get(rowKey)} are {@link
- * SortedMap} instances, instead of the {@link Map} specified in the {@link
+ * <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link #rowMap} method
+ * returns a {@link SortedMap}, instead of the {@link Set} and {@link Map} specified by the {@link
  * Table} interface.
  *
- * <p>Note that this implementation is not synchronized. If multiple threads
- * access this table concurrently and one of the threads modifies the table, it
- * must be synchronized externally.
+ * <p>The views returned by {@link #column}, {@link #columnKeySet()}, and {@link #columnMap()} have
+ * iterators that don't support {@code remove()}. Otherwise, all optional operations are supported.
+ * Null row keys, columns keys, and values are not supported.
+ *
+ * <p>Lookups by row key are often faster than lookups by column key, because the data is stored in
+ * a {@code Map<R, Map<C, V>>}. A method call like {@code column(columnKey).get(rowKey)} still runs
+ * quickly, since the row key is provided. However, {@code column(columnKey).size()} takes longer,
+ * since an iteration across all row keys occurs.
+ *
+ * <p>Because a {@code TreeBasedTable} has unique sorted values for a given row, both {@code
+ * row(rowKey)} and {@code rowMap().get(rowKey)} are {@link SortedMap} instances, instead of the
+ * {@link Map} specified in the {@link Table} interface.
+ *
+ * <p>Note that this implementation is not synchronized. If multiple threads access this table
+ * concurrently and one of the threads modifies the table, it must be synchronized externally.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table">
- * {@code Table}</a>.
+ * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"> {@code Table}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -91,21 +85,19 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   /**
-   * Creates an empty {@code TreeBasedTable} that uses the natural orderings
-   * of both row and column keys.
+   * Creates an empty {@code TreeBasedTable} that uses the natural orderings of both row and column
+   * keys.
    *
-   * <p>The method signature specifies {@code R extends Comparable} with a raw
-   * {@link Comparable}, instead of {@code R extends Comparable<? super R>},
-   * and the same for {@code C}. That's necessary to support classes defined
-   * without generics.
+   * <p>The method signature specifies {@code R extends Comparable} with a raw {@link Comparable},
+   * instead of {@code R extends Comparable<? super R>}, and the same for {@code C}. That's
+   * necessary to support classes defined without generics.
    */
   public static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V> create() {
     return new TreeBasedTable<>(Ordering.natural(), Ordering.natural());
   }
 
   /**
-   * Creates an empty {@code TreeBasedTable} that is ordered by the specified
-   * comparators.
+   * Creates an empty {@code TreeBasedTable} that is ordered by the specified comparators.
    *
    * @param rowComparator the comparator that orders the row keys
    * @param columnComparator the comparator that orders the column keys
@@ -118,8 +110,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   /**
-   * Creates a {@code TreeBasedTable} with the same mappings and sort order
-   * as the specified {@code TreeBasedTable}.
+   * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code
+   * TreeBasedTable}.
    */
   public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
@@ -164,12 +156,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   /**
    * {@inheritDoc}
    *
-   * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
-   * row, this method returns a {@link SortedMap}, instead of the {@link Map}
-   * specified in the {@link Table} interface.
-   * @since 10.0
-   *     (<a href="https://github.com/google/guava/wiki/Compatibility"
-   *     >mostly source-compatible</a> since 7.0)
+   * <p>Because a {@code TreeBasedTable} has unique sorted values for a given row, this method
+   * returns a {@link SortedMap}, instead of the {@link Map} specified in the {@link Table}
+   * interface.
+   *
+   * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility" >mostly
+   *     source-compatible</a> since 7.0)
    */
   @Override
   public SortedMap<C, V> row(R rowKey) {
@@ -177,14 +169,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @Nullable final C lowerBound;
-    @Nullable final C upperBound;
+    @NullableDecl final C lowerBound;
+    @NullableDecl final C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
+    TreeRow(R rowKey, @NullableDecl C lowerBound, @NullableDecl C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -209,7 +201,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@Nullable Object o) {
+    boolean rangeContains(@NullableDecl Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);
@@ -251,7 +243,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return backingRowMap().lastKey();
     }
 
-    transient SortedMap<C, V> wholeRow;
+    @NullableDecl transient SortedMap<C, V> wholeRow;
 
     /*
      * If the row was previously empty, we check if there's a new row here every
@@ -317,10 +309,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     return super.rowMap();
   }
 
-  /**
-   * Overridden column iterator to return columns values in globally sorted
-   * order.
-   */
+  /** Overridden column iterator to return columns values in globally sorted order. */
   @Override
   Iterator<C> createColumnKeyIterator() {
     final Comparator<? super C> comparator = columnComparator();
@@ -338,7 +327,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
             comparator);
 
     return new AbstractIterator<C>() {
-      C lastValue;
+      @NullableDecl C lastValue;
 
       @Override
       protected C computeNext() {

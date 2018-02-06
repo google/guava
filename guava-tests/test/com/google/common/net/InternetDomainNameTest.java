@@ -38,63 +38,59 @@ public final class InternetDomainNameTest extends TestCase {
   private static final InternetDomainName PUNYCODE_EXAMPLE =
       InternetDomainName.from("xn--jrpeland-54a.no");
 
-  /**
-   * The Greek letter delta, used in unicode testing.
-   */
+  /** The Greek letter delta, used in unicode testing. */
   private static final String DELTA = "\u0394";
 
-  /**
-   * A domain part which is valid under lenient validation, but invalid under
-   * strict validation.
-   */
+  /** A domain part which is valid under lenient validation, but invalid under strict validation. */
   static final String LOTS_OF_DELTAS = Strings.repeat(DELTA, 62);
 
-  private static final String ALMOST_TOO_MANY_LEVELS =
-      Strings.repeat("a.", 127);
+  private static final String ALMOST_TOO_MANY_LEVELS = Strings.repeat("a.", 127);
 
-  private static final String ALMOST_TOO_LONG =
-      Strings.repeat("aaaaa.", 40) + "1234567890.c";
+  private static final String ALMOST_TOO_LONG = Strings.repeat("aaaaa.", 40) + "1234567890.c";
 
-  private static final ImmutableSet<String> VALID_NAME = ImmutableSet.of(
-      "foo.com",
-      "f-_-o.cOM",
-      "f--1.com",
-      "f11-1.com",
-      "www",
-      "abc.a23",
-      "biz.com.ua",
-      "x",
-      "fOo",
-      "f--o",
-      "f_a",
-      "foo.net.us\uFF61ocm",
-      "woo.com.",
-      "a" + DELTA + "b.com",
-      ALMOST_TOO_MANY_LEVELS,
-      ALMOST_TOO_LONG);
+  private static final ImmutableSet<String> VALID_NAME =
+      ImmutableSet.of(
+          "foo.com",
+          "f-_-o.cOM",
+          "f--1.com",
+          "f11-1.com",
+          "www",
+          "abc.a23",
+          "biz.com.ua",
+          "x",
+          "fOo",
+          "f--o",
+          "f_a",
+          "foo.net.us\uFF61ocm",
+          "woo.com.",
+          "a" + DELTA + "b.com",
+          ALMOST_TOO_MANY_LEVELS,
+          ALMOST_TOO_LONG);
 
-  private static final ImmutableSet<String> INVALID_NAME = ImmutableSet.of(
-      "",
-      " ",
-      "127.0.0.1",
-      "::1", "13",
-      "abc.12c",
-      "foo-.com",
-      "_bar.quux",
-      "foo+bar.com",
-      "foo!bar.com",
-      ".foo.com",
-      "..bar.com",
-      "baz..com",
-      "..quiffle.com",
-      "fleeb.com..",
-      ".",
-      "..",
-      "...",
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com",
-      "a" + DELTA + " .com",
-      ALMOST_TOO_MANY_LEVELS + "com",
-      ALMOST_TOO_LONG + ".c");
+  private static final ImmutableSet<String> INVALID_NAME =
+      ImmutableSet.of(
+          "",
+          " ",
+          "127.0.0.1",
+          "::1",
+          "13",
+          "abc.12c",
+          "foo-.com",
+          "_bar.quux",
+          "foo+bar.com",
+          "foo!bar.com",
+          ".foo.com",
+          "..bar.com",
+          "baz..com",
+          "..quiffle.com",
+          "fleeb.com..",
+          ".",
+          "..",
+          "...",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com",
+          "a" + DELTA + " .com",
+          ALMOST_TOO_MANY_LEVELS + "com",
+          ALMOST_TOO_LONG + ".c");
 
   private static final ImmutableSet<String> RS =
       ImmutableSet.of(
@@ -116,8 +112,8 @@ public final class InternetDomainNameTest extends TestCase {
   private static final ImmutableSet<String> PS =
       ImmutableSet.<String>builder().addAll(RS).addAll(PS_NOT_RS).build();
 
-  private static final ImmutableSet<String> NO_PS = ImmutableSet.of(
-      "www", "foo.ihopethiswillneverbeapublicsuffix", "x.y.z");
+  private static final ImmutableSet<String> NO_PS =
+      ImmutableSet.of("www", "foo.ihopethiswillneverbeapublicsuffix", "x.y.z");
 
   /**
    * Having a public suffix is equivalent to having a registry suffix, because all registry suffixes
@@ -160,12 +156,12 @@ public final class InternetDomainNameTest extends TestCase {
   private static final ImmutableSet<String> UNDER_PRIVATE_DOMAIN =
       ImmutableSet.of("foo.bar.google.com", "a.b.co.uk", "x.y.ca.us", "a.b.blogspot.com");
 
-  private static final ImmutableSet<String> VALID_IP_ADDRS = ImmutableSet.of(
-      "1.2.3.4", "127.0.0.1", "::1", "2001:db8::1");
+  private static final ImmutableSet<String> VALID_IP_ADDRS =
+      ImmutableSet.of("1.2.3.4", "127.0.0.1", "::1", "2001:db8::1");
 
-  private static final ImmutableSet<String> INVALID_IP_ADDRS = ImmutableSet.of(
-      "", "1", "1.2.3", "...", "1.2.3.4.5", "400.500.600.700",
-      ":", ":::1", "2001:db8:");
+  private static final ImmutableSet<String> INVALID_IP_ADDRS =
+      ImmutableSet.of(
+          "", "1", "1.2.3", "...", "1.2.3.4.5", "400.500.600.700", ":", ":::1", "2001:db8:");
 
   private static final ImmutableSet<String> SOMEWHERE_UNDER_PS =
       ImmutableSet.of(
@@ -225,8 +221,8 @@ public final class InternetDomainNameTest extends TestCase {
           "cool.se",
           "utenti.blah.it",
           "kt.co",
-          "a\u7f51\u7edcA.\u7f51\u7edc.Cn"  // "a网络A.网络.Cn"
-      );
+          "a\u7f51\u7edcA.\u7f51\u7edc.Cn" // "a网络A.网络.Cn"
+          );
 
   private static final ImmutableSet<String> SOMEWHERE_UNDER_RS =
       ImmutableSet.<String>builder().addAll(SOMEWHERE_UNDER_PS).addAll(PS_NOT_RS).build();
@@ -362,15 +358,9 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testParent() {
-    assertEquals(
-        "com",
-        InternetDomainName.from("google.com").parent().toString());
-    assertEquals(
-        "uk",
-        InternetDomainName.from("co.uk").parent().toString());
-    assertEquals(
-        "google.com",
-        InternetDomainName.from("www.google.com").parent().toString());
+    assertEquals("com", InternetDomainName.from("google.com").parent().toString());
+    assertEquals("uk", InternetDomainName.from("co.uk").parent().toString());
+    assertEquals("google.com", InternetDomainName.from("www.google.com").parent().toString());
 
     try {
       InternetDomainName.from("com").parent();
@@ -411,8 +401,7 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testInvalidTopPrivateDomain() {
-    ImmutableSet<String> badCookieDomains =
-        ImmutableSet.of("co.uk", "foo", "com");
+    ImmutableSet<String> badCookieDomains = ImmutableSet.of("co.uk", "foo", "com");
 
     for (String domain : badCookieDomains) {
       try {
@@ -424,10 +413,9 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testIsValid() {
-    final Iterable<String> validCases = Iterables.concat(
-        VALID_NAME, PS, NO_PS, NON_PS);
-    final Iterable<String> invalidCases = Iterables.concat(
-        INVALID_NAME, VALID_IP_ADDRS, INVALID_IP_ADDRS);
+    final Iterable<String> validCases = Iterables.concat(VALID_NAME, PS, NO_PS, NON_PS);
+    final Iterable<String> invalidCases =
+        Iterables.concat(INVALID_NAME, VALID_IP_ADDRS, INVALID_IP_ADDRS);
 
     for (String valid : validCases) {
       assertTrue(valid, InternetDomainName.isValid(valid));
@@ -499,8 +487,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testEquality() {
     new EqualsTester()
-        .addEqualityGroup(
-            idn("google.com"), idn("google.com"), idn("GOOGLE.COM"))
+        .addEqualityGroup(idn("google.com"), idn("google.com"), idn("GOOGLE.COM"))
         .addEqualityGroup(idn("www.google.com"))
         .addEqualityGroup(UNICODE_EXAMPLE)
         .addEqualityGroup(PUNYCODE_EXAMPLE)

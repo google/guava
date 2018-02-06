@@ -37,16 +37,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@code subList()} operations on a list.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code subList()} operations on a list. Can't be invoked
+ * directly; please see {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * @author Chris Povirk
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_startNegative() {
     try {
@@ -313,12 +314,10 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_originalListSetAffectsSubList()} so that tests
-   * of {@link CopyOnWriteArrayList} can suppress them with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
-   * 6570631</a> is fixed.
+   * Returns the {@link Method} instance for {@link #testSubList_originalListSetAffectsSubList()} so
+   * that tests of {@link CopyOnWriteArrayList} can suppress them with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug 6570631</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getSubListOriginalListSetAffectsSubListMethod() {
@@ -326,12 +325,11 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_originalListSetAffectsSubListLargeList()} ()} so that
-   * tests of {@link CopyOnWriteArrayList} can suppress them with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
-   * 6570631</a> is fixed.
+   * Returns the {@link Method} instance for {@link
+   * #testSubList_originalListSetAffectsSubListLargeList()} ()} so that tests of {@link
+   * CopyOnWriteArrayList} can suppress them with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug 6570631</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getSubListOriginalListSetAffectsSubListLargeListMethod() {
@@ -339,12 +337,11 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
   }
 
   /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_subListRemoveAffectsOriginalLargeList()} so that tests
-   * of {@link CopyOnWriteArrayList} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
+   * Returns the {@link Method} instance for {@link
+   * #testSubList_subListRemoveAffectsOriginalLargeList()} so that tests of {@link
+   * CopyOnWriteArrayList} can suppress it with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
+   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug 6570575</a> is fixed.
    */
   @GwtIncompatible // reflection
   public static Method getSubListSubListRemoveAffectsOriginalLargeListMethod() {

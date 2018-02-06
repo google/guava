@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A {@link NavigableMap} whose contents will never change, with many other important properties
@@ -45,8 +45,7 @@ import javax.annotation.Nullable;
  * not correctly obey its specification.
  *
  * <p>See the Guava User Guide article on <a href=
- * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">
- * immutable collections</a>.
+ * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"> immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman
@@ -75,9 +74,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
   }
 
-  /**
-   * Returns the empty sorted map.
-   */
+  /** Returns the empty sorted map. */
   @SuppressWarnings("unchecked")
   // unsafe, comparator() returns a comparator on the specified type
   // TODO(kevinb): evaluate whether or not of().comparator() should return null
@@ -85,16 +82,12 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return (ImmutableSortedMap<K, V>) NATURAL_EMPTY_MAP;
   }
 
-  /**
-   * Returns an immutable map containing a single entry.
-   */
+  /** Returns an immutable map containing a single entry. */
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(K k1, V v1) {
     return of(Ordering.natural(), k1, v1);
   }
 
-  /**
-   * Returns an immutable map containing a single entry.
-   */
+  /** Returns an immutable map containing a single entry. */
   private static <K, V> ImmutableSortedMap<K, V> of(Comparator<? super K> comparator, K k1, V v1) {
     return new ImmutableSortedMap<>(
         new RegularImmutableSortedSet<K>(ImmutableList.of(k1), checkNotNull(comparator)),
@@ -107,11 +100,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable sorted map containing the given entries, sorted by the
-   * natural ordering of their keys.
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
    *
-   * @throws IllegalArgumentException if the two keys are equal according to
-   *     their natural ordering
+   * @throws IllegalArgumentException if the two keys are equal according to their natural ordering
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -120,11 +112,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable sorted map containing the given entries, sorted by the
-   * natural ordering of their keys.
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
    *
-   * @throws IllegalArgumentException if any two keys are equal according to
-   *     their natural ordering
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -133,11 +124,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable sorted map containing the given entries, sorted by the
-   * natural ordering of their keys.
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
    *
-   * @throws IllegalArgumentException if any two keys are equal according to
-   *     their natural ordering
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -146,11 +136,10 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable sorted map containing the given entries, sorted by the
-   * natural ordering of their keys.
+   * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
+   * their keys.
    *
-   * @throws IllegalArgumentException if any two keys are equal according to
-   *     their natural ordering
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> of(
@@ -160,21 +149,19 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable map containing the same entries as {@code map}, sorted
-   * by the natural ordering of the keys.
+   * Returns an immutable map containing the same entries as {@code map}, sorted by the natural
+   * ordering of the keys.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
-   * <p>This method is not type-safe, as it may be called on a map with keys
-   * that are not mutually comparable.
+   * <p>This method is not type-safe, as it may be called on a map with keys that are not mutually
+   * comparable.
    *
-   * @throws ClassCastException if the keys in {@code map} are not mutually
-   *         comparable
+   * @throws ClassCastException if the keys in {@code map} are not mutually comparable
    * @throws NullPointerException if any key or value in {@code map} is null
-   * @throws IllegalArgumentException if any two keys are equal according to
-   *         their natural ordering
+   * @throws IllegalArgumentException if any two keys are equal according to their natural ordering
    */
   public static <K, V> ImmutableSortedMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     // Hack around K not being a subtype of Comparable.
@@ -185,16 +172,15 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable map containing the same entries as {@code map}, with
-   * keys sorted by the provided comparator.
+   * Returns an immutable map containing the same entries as {@code map}, with keys sorted by the
+   * provided comparator.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
-   * @throws IllegalArgumentException if any two keys are equal according to the
-   *         comparator
+   * @throws IllegalArgumentException if any two keys are equal according to the comparator
    */
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Map<? extends K, ? extends V> map, Comparator<? super K> comparator) {
@@ -202,15 +188,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable map containing the given entries, with keys sorted
-   * by the provided comparator.
+   * Returns an immutable map containing the given entries, with keys sorted by the provided
+   * comparator.
    *
-   * <p>This method is not type-safe, as it may be called on a map with keys
-   * that are not mutually comparable.
+   * <p>This method is not type-safe, as it may be called on a map with keys that are not mutually
+   * comparable.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
-   * @throws IllegalArgumentException if any two keys are equal according to the
-   *         comparator
+   * @throws IllegalArgumentException if any two keys are equal according to the comparator
    * @since 19.0
    */
   @Beta
@@ -224,12 +209,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable map containing the given entries, with keys sorted
-   * by the provided comparator.
+   * Returns an immutable map containing the given entries, with keys sorted by the provided
+   * comparator.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
-   * @throws IllegalArgumentException if any two keys are equal according to the
-   *         comparator
+   * @throws IllegalArgumentException if any two keys are equal according to the comparator
    * @since 19.0
    */
   @Beta
@@ -240,12 +224,12 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable map containing the same entries as the provided sorted
-   * map, with the same ordering.
+   * Returns an immutable map containing the same entries as the provided sorted map, with the same
+   * ordering.
    *
-   * <p>Despite the method name, this method attempts to avoid actually copying
-   * the data when it is safe to do so. The exact circumstances under which a
-   * copy will or will not be performed are undocumented and subject to change.
+   * <p>Despite the method name, this method attempts to avoid actually copying the data when it is
+   * safe to do so. The exact circumstances under which a copy will or will not be performed are
+   * undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
    */
@@ -276,9 +260,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       SortedMap<?, ?> sortedMap = (SortedMap<?, ?>) map;
       Comparator<?> comparator2 = sortedMap.comparator();
       sameComparator =
-          (comparator2 == null)
-              ? comparator == NATURAL_ORDER
-              : comparator.equals(comparator2);
+          (comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);
     }
 
     if (sameComparator && (map instanceof ImmutableSortedMap)) {
@@ -294,7 +276,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Accepts a collection of possibly-null entries.  If {@code sameComparator}, then it is assumed
+   * Accepts a collection of possibly-null entries. If {@code sameComparator}, then it is assumed
    * that they do not need to be sorted or checked for dupes.
    */
   private static <K, V> ImmutableSortedMap<K, V> fromEntries(
@@ -368,19 +350,18 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted maps whose keys are
-   * ordered by their natural ordering. The sorted maps use {@link
-   * Ordering#natural()} as the comparator.
+   * Returns a builder that creates immutable sorted maps whose keys are ordered by their natural
+   * ordering. The sorted maps use {@link Ordering#natural()} as the comparator.
    */
   public static <K extends Comparable<?>, V> Builder<K, V> naturalOrder() {
     return new Builder<>(Ordering.natural());
   }
 
   /**
-   * Returns a builder that creates immutable sorted maps with an explicit
-   * comparator. If the comparator has a more general type than the map's keys,
-   * such as creating a {@code SortedMap<Integer, String>} with a {@code
-   * Comparator<Number>}, use the {@link Builder} constructor instead.
+   * Returns a builder that creates immutable sorted maps with an explicit comparator. If the
+   * comparator has a more general type than the map's keys, such as creating a {@code
+   * SortedMap<Integer, String>} with a {@code Comparator<Number>}, use the {@link Builder}
+   * constructor instead.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
@@ -389,30 +370,31 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted maps whose keys are
-   * ordered by the reverse of their natural ordering.
+   * Returns a builder that creates immutable sorted maps whose keys are ordered by the reverse of
+   * their natural ordering.
    */
   public static <K extends Comparable<?>, V> Builder<K, V> reverseOrder() {
     return new Builder<>(Ordering.natural().reverse());
   }
 
   /**
-   * A builder for creating immutable sorted map instances, especially {@code
-   * public static final} maps ("constant maps"). Example: <pre>   {@code
+   * A builder for creating immutable sorted map instances, especially {@code public static final}
+   * maps ("constant maps"). Example:
    *
-   *   static final ImmutableSortedMap<Integer, String> INT_TO_WORD =
-   *       new ImmutableSortedMap.Builder<Integer, String>(Ordering.natural())
-   *           .put(1, "one")
-   *           .put(2, "two")
-   *           .put(3, "three")
-   *           .build();}</pre>
+   * <pre>{@code
+   * static final ImmutableSortedMap<Integer, String> INT_TO_WORD =
+   *     new ImmutableSortedMap.Builder<Integer, String>(Ordering.natural())
+   *         .put(1, "one")
+   *         .put(2, "two")
+   *         .put(3, "three")
+   *         .build();
+   * }</pre>
    *
-   * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()}
-   * methods are even more convenient.
+   * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
+   * more convenient.
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple maps in series. Each map is a superset of
-   * the maps created before it.
+   * <p>Builder instances can be reused - it is safe to call {@link #build} multiple times to build
+   * multiple maps in series. Each map is a superset of the maps created before it.
    *
    * @since 2.0
    */
@@ -422,8 +404,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     private final Comparator<? super K> comparator;
 
     /**
-     * Creates a new builder. The returned builder is equivalent to the builder
-     * generated by {@link ImmutableSortedMap#orderedBy}.
+     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
+     * ImmutableSortedMap#orderedBy}.
      */
     @SuppressWarnings("unchecked")
     public Builder(Comparator<? super K> comparator) {
@@ -435,7 +417,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       this.keys = new Object[initialCapacity];
       this.values = new Object[initialCapacity];
     }
-    
+
     private void ensureCapacity(int minCapacity) {
       if (minCapacity > keys.length) {
         int newCapacity = ImmutableCollection.Builder.expandedCapacity(keys.length, minCapacity);
@@ -445,9 +427,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
 
     /**
-     * Associates {@code key} with {@code value} in the built map. Duplicate
-     * keys, according to the comparator (which might be the keys' natural
-     * order), are not allowed, and will cause {@link #build} to fail.
+     * Associates {@code key} with {@code value} in the built map. Duplicate keys, according to the
+     * comparator (which might be the keys' natural order), are not allowed, and will cause {@link
+     * #build} to fail.
      */
     @CanIgnoreReturnValue
     @Override
@@ -461,10 +443,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
 
     /**
-     * Adds the given {@code entry} to the map, making it immutable if
-     * necessary. Duplicate keys, according to the comparator (which might be
-     * the keys' natural order), are not allowed, and will cause {@link #build}
-     * to fail.
+     * Adds the given {@code entry} to the map, making it immutable if necessary. Duplicate keys,
+     * according to the comparator (which might be the keys' natural order), are not allowed, and
+     * will cause {@link #build} to fail.
      *
      * @since 11.0
      */
@@ -476,9 +457,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
 
     /**
-     * Associates all of the given map's keys and values in the built map.
-     * Duplicate keys, according to the comparator (which might be the keys'
-     * natural order), are not allowed, and will cause {@link #build} to fail.
+     * Associates all of the given map's keys and values in the built map. Duplicate keys, according
+     * to the comparator (which might be the keys' natural order), are not allowed, and will cause
+     * {@link #build} to fail.
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
@@ -490,9 +471,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     }
 
     /**
-     * Adds all the given entries to the built map.  Duplicate keys, according
-     * to the comparator (which might be the keys' natural order), are not
-     * allowed, and will cause {@link #build} to fail.
+     * Adds all the given entries to the built map. Duplicate keys, according to the comparator
+     * (which might be the keys' natural order), are not allowed, and will cause {@link #build} to
+     * fail.
      *
      * @throws NullPointerException if any key, value, or entry is null
      * @since 19.0
@@ -522,8 +503,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     /**
      * Returns a newly-created immutable sorted map.
      *
-     * @throws IllegalArgumentException if any two keys are equal according to
-     *     the comparator (which might be the keys' natural order)
+     * @throws IllegalArgumentException if any two keys are equal according to the comparator (which
+     *     might be the keys' natural order)
      */
     @Override
     public ImmutableSortedMap<K, V> build() {
@@ -583,7 +564,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(@NullableDecl Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
   }
@@ -593,10 +574,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return keySet.isPartialView() || valueList.isPartialView();
   }
 
-  /**
-   * Returns an immutable set of the mappings in this map, sorted by the key
-   * ordering.
-   */
+  /** Returns an immutable set of the mappings in this map, sorted by the key ordering. */
   @Override
   public ImmutableSet<Entry<K, V>> entrySet() {
     return super.entrySet();
@@ -640,9 +618,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
     return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
   }
 
-  /**
-   * Returns an immutable sorted set of the keys in this map.
-   */
+  /** Returns an immutable sorted set of the keys in this map. */
   @Override
   public ImmutableSortedSet<K> keySet() {
     return keySet;
@@ -654,8 +630,8 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns an immutable collection of the values in this map, sorted by the
-   * ordering of the corresponding keys.
+   * Returns an immutable collection of the values in this map, sorted by the ordering of the
+   * corresponding keys.
    */
   @Override
   public ImmutableCollection<V> values() {
@@ -668,10 +644,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns the comparator that orders the keys, which is
-   * {@link Ordering#natural()} when the natural ordering of the keys is used.
-   * Note that its behavior is not consistent with {@link TreeMap#comparator()},
-   * which returns {@code null} to indicate natural ordering.
+   * Returns the comparator that orders the keys, which is {@link Ordering#natural()} when the
+   * natural ordering of the keys is used. Note that its behavior is not consistent with {@link
+   * TreeMap#comparator()}, which returns {@code null} to indicate natural ordering.
    */
   @Override
   public Comparator<? super K> comparator() {
@@ -700,14 +675,13 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys are less than {@code toKey}.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less
+   * than {@code toKey}.
    *
-   * <p>The {@link SortedMap#headMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code toKey}
-   * greater than an earlier {@code toKey}. However, this method doesn't throw
-   * an exception in that situation, but instead keeps the original {@code
-   * toKey}.
+   * <p>The {@link SortedMap#headMap} documentation states that a submap of a submap throws an
+   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code
+   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps
+   * the original {@code toKey}.
    */
   @Override
   public ImmutableSortedMap<K, V> headMap(K toKey) {
@@ -715,14 +689,13 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys are less than (or equal to, if {@code inclusive}) {@code toKey}.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are less
+   * than (or equal to, if {@code inclusive}) {@code toKey}.
    *
-   * <p>The {@link SortedMap#headMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code toKey}
-   * greater than an earlier {@code toKey}. However, this method doesn't throw
-   * an exception in that situation, but instead keeps the original {@code
-   * toKey}.
+   * <p>The {@link SortedMap#headMap} documentation states that a submap of a submap throws an
+   * {@link IllegalArgumentException} if passed a {@code toKey} greater than an earlier {@code
+   * toKey}. However, this method doesn't throw an exception in that situation, but instead keeps
+   * the original {@code toKey}.
    *
    * @since 12.0
    */
@@ -732,17 +705,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys ranges from {@code fromKey}, inclusive, to {@code toKey},
-   * exclusive.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges
+   * from {@code fromKey}, inclusive, to {@code toKey}, exclusive.
    *
-   * <p>The {@link SortedMap#subMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code
-   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
-   * throw an exception in that situation, but instead keeps the original {@code
-   * fromKey}. Similarly, this method keeps the original {@code toKey}, instead
-   * of throwing an exception, if passed a {@code toKey} greater than an earlier
-   * {@code toKey}.
+   * <p>The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link
+   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.
+   * However, this method doesn't throw an exception in that situation, but instead keeps the
+   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of
+   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.
    */
   @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, K toKey) {
@@ -750,17 +720,15 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys ranges from {@code fromKey} to {@code toKey}, inclusive or
-   * exclusive as indicated by the boolean flags.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys ranges
+   * from {@code fromKey} to {@code toKey}, inclusive or exclusive as indicated by the boolean
+   * flags.
    *
-   * <p>The {@link SortedMap#subMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code
-   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
-   * throw an exception in that situation, but instead keeps the original {@code
-   * fromKey}. Similarly, this method keeps the original {@code toKey}, instead
-   * of throwing an exception, if passed a {@code toKey} greater than an earlier
-   * {@code toKey}.
+   * <p>The {@link SortedMap#subMap} documentation states that a submap of a submap throws an {@link
+   * IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code fromKey}.
+   * However, this method doesn't throw an exception in that situation, but instead keeps the
+   * original {@code fromKey}. Similarly, this method keeps the original {@code toKey}, instead of
+   * throwing an exception, if passed a {@code toKey} greater than an earlier {@code toKey}.
    *
    * @since 12.0
    */
@@ -778,14 +746,13 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys are greater than or equals to {@code fromKey}.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are
+   * greater than or equals to {@code fromKey}.
    *
-   * <p>The {@link SortedMap#tailMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code
-   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
-   * throw an exception in that situation, but instead keeps the original {@code
-   * fromKey}.
+   * <p>The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an
+   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code
+   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps
+   * the original {@code fromKey}.
    */
   @Override
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
@@ -793,15 +760,13 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
-   * whose keys are greater than (or equal to, if {@code inclusive})
-   * {@code fromKey}.
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries whose keys are
+   * greater than (or equal to, if {@code inclusive}) {@code fromKey}.
    *
-   * <p>The {@link SortedMap#tailMap} documentation states that a submap of a
-   * submap throws an {@link IllegalArgumentException} if passed a {@code
-   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
-   * throw an exception in that situation, but instead keeps the original {@code
-   * fromKey}.
+   * <p>The {@link SortedMap#tailMap} documentation states that a submap of a submap throws an
+   * {@link IllegalArgumentException} if passed a {@code fromKey} less than an earlier {@code
+   * fromKey}. However, this method doesn't throw an exception in that situation, but instead keeps
+   * the original {@code fromKey}.
    *
    * @since 12.0
    */
@@ -914,10 +879,9 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Serialized type for all ImmutableSortedMap instances. It captures the
-   * logical contents and they are reconstructed using public factory methods.
-   * This ensures that the implementation types remain as implementation
-   * details.
+   * Serialized type for all ImmutableSortedMap instances. It captures the logical contents and they
+   * are reconstructed using public factory methods. This ensures that the implementation types
+   * remain as implementation details.
    */
   private static class SerializedForm extends ImmutableMap.SerializedForm {
     private final Comparator<Object> comparator;

@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -26,9 +28,50 @@ import java.lang.reflect.Array;
  */
 @GwtCompatible(emulated = true)
 final class Platform {
+  /** Returns the platform preferred implementation of a map based on a hash table. */
+  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+    return CompactHashMap.createWithExpectedSize(expectedSize);
+  }
+
   /**
-   * Returns a new array of the given length with the same type as a reference
-   * array.
+   * Returns the platform preferred implementation of an insertion ordered map based on a hash
+   * table.
+   */
+  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+    return CompactLinkedHashMap.createWithExpectedSize(expectedSize);
+  }
+
+  /** Returns the platform preferred implementation of a set based on a hash table. */
+  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+    return CompactHashSet.createWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred implementation of an insertion ordered set based on a hash
+   * table.
+   */
+  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+    return CompactLinkedHashSet.createWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred map implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+    return CompactHashMap.create();
+  }
+
+  /**
+   * Returns the platform preferred set implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+    return CompactHashSet.create();
+  }
+
+  /**
+   * Returns a new array of the given length with the same type as a reference array.
    *
    * @param reference any array of the desired type
    * @param length the length of the new array
@@ -44,10 +87,9 @@ final class Platform {
   }
 
   /**
-   * Configures the given map maker to use weak keys, if possible; does nothing
-   * otherwise (i.e., in GWT). This is sometimes acceptable, when only
-   * server-side code could generate enough volume that reclamation becomes
-   * important.
+   * Configures the given map maker to use weak keys, if possible; does nothing otherwise (i.e., in
+   * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
+   * that reclamation becomes important.
    */
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();

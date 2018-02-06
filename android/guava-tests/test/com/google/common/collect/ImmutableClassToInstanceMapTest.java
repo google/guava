@@ -75,7 +75,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testSerialization_empty() {
-    assertSame(ImmutableClassToInstanceMap.of(),
+    assertSame(
+        ImmutableClassToInstanceMap.of(),
         SerializableTester.reserialize(ImmutableClassToInstanceMap.of()));
   }
 
@@ -92,8 +93,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testOf_one() {
-    ImmutableClassToInstanceMap<Number> map =
-        ImmutableClassToInstanceMap.of(int.class, 1);
+    ImmutableClassToInstanceMap<Number> map = ImmutableClassToInstanceMap.of(int.class, 1);
     assertEquals(1, map.size());
   }
 
@@ -114,16 +114,15 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_map_nulls() {
-    Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(
-        null, (Number) 1.0);
+    Map<Class<? extends Number>, Number> nullKey = Collections.singletonMap(null, (Number) 1.0);
     try {
       ImmutableClassToInstanceMap.copyOf(nullKey);
       fail();
     } catch (NullPointerException expected) {
     }
 
-    Map<? extends Class<? extends Number>, Number> nullValue
-        = Collections.singletonMap(Number.class, null);
+    Map<? extends Class<? extends Number>, Number> nullValue =
+        Collections.singletonMap(Number.class, null);
     try {
       ImmutableClassToInstanceMap.copyOf(nullValue);
       fail();
@@ -138,8 +137,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_imap_valid() {
-    ImmutableMap<Class<? extends Number>, ? extends Number> in
-        = ImmutableMap.of(Number.class, 0, Double.class, Math.PI);
+    ImmutableMap<Class<? extends Number>, ? extends Number> in =
+        ImmutableMap.of(Number.class, 0, Double.class, Math.PI);
     ClassToInstanceMap<Number> map = ImmutableClassToInstanceMap.copyOf(in);
     assertEquals(2, map.size());
 
@@ -151,8 +150,8 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testPrimitiveAndWrapper() {
-    ImmutableClassToInstanceMap<Number> ictim
-        = new ImmutableClassToInstanceMap.Builder<Number>()
+    ImmutableClassToInstanceMap<Number> ictim =
+        new ImmutableClassToInstanceMap.Builder<Number>()
             .put(Integer.class, 0)
             .put(int.class, 1)
             .build();

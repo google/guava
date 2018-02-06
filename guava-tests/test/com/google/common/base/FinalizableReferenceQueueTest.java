@@ -41,14 +41,14 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   public void testFinalizeReferentCalled() {
-    final MockReference reference = new MockReference(
-        frq = new FinalizableReferenceQueue());
+    final MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
 
-    GcFinalization.awaitDone(new GcFinalization.FinalizationPredicate() {
-        public boolean isDone() {
-          return reference.finalizeReferentCalled;
-        }
-      });
+    GcFinalization.awaitDone(
+        new GcFinalization.FinalizationPredicate() {
+          public boolean isDone() {
+            return reference.finalizeReferentCalled;
+          }
+        });
   }
 
   static class MockReference extends FinalizableWeakReference<Object> {
@@ -66,9 +66,8 @@ public class FinalizableReferenceQueueTest extends TestCase {
   }
 
   /**
-   * Keeps a weak reference to the underlying reference queue. When this
-   * reference is cleared, we know that the background thread has stopped
-   * and released its strong reference.
+   * Keeps a weak reference to the underlying reference queue. When this reference is cleared, we
+   * know that the background thread has stopped and released its strong reference.
    */
   private WeakReference<ReferenceQueue<Object>> queueReference;
 
@@ -77,16 +76,10 @@ public class FinalizableReferenceQueueTest extends TestCase {
     GcFinalization.awaitClear(queueReference);
   }
 
-  /**
-   * If we don't keep a strong reference to the reference object, it won't
-   * be enqueued.
-   */
+  /** If we don't keep a strong reference to the reference object, it won't be enqueued. */
   FinalizableWeakReference<Object> reference;
 
-  /**
-   * Create the FRQ in a method that goes out of scope so that we're sure
-   * it will be reclaimed.
-   */
+  /** Create the FRQ in a method that goes out of scope so that we're sure it will be reclaimed. */
   private void weaklyReferenceQueue() {
     frq = new FinalizableReferenceQueue();
     queueReference = new WeakReference<>(frq.queue);
@@ -96,13 +89,14 @@ public class FinalizableReferenceQueueTest extends TestCase {
      * the finalizer thread stopped, but we should test that it actually
      * started first.
      */
-    reference = new FinalizableWeakReference<Object>(new Object(), frq) {
-      @Override
-      public void finalizeReferent() {
-        reference = null;
-        frq = null;
-      }
-    };
+    reference =
+        new FinalizableWeakReference<Object>(new Object(), frq) {
+          @Override
+          public void finalizeReferent() {
+            reference = null;
+            frq = null;
+          }
+        };
   }
 
   @AndroidIncompatible // no concept of separate ClassLoaders
@@ -111,7 +105,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
         new FinalizableReferenceQueue.DecoupledLoader() {
           @Override
           URLClassLoader newLoader(URL base) {
-            return new DecoupledClassLoader(new URL[] { base });
+            return new DecoupledClassLoader(new URL[] {base});
           }
         };
 

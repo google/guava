@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class implements the GWT serialization of {@link
- * RegularImmutableList}.
+ * This class implements the GWT serialization of {@link RegularImmutableList}.
  *
  * @author Hayward Chan
  */

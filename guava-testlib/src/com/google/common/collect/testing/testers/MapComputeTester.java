@@ -27,15 +27,16 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@link Map#compute}. Can't be
- * invoked directly; please see
+ * A generic JUnit test which tests {@link Map#compute}. Can't be invoked directly; please see
  * {@link com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testCompute_absentToPresent() {
@@ -45,12 +46,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 k3(),
-                (k, v)
-                    -> {
-                      assertEquals(k3(), k);
-                      assertNull(v);
-                      return v3();
-                    }));
+                (k, v) -> {
+                  assertEquals(k3(), k);
+                  assertNull(v);
+                  return v3();
+                }));
     expectAdded(e3());
     assertEquals(getNumElements() + 1, getMap().size());
   }
@@ -62,12 +62,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 k3(),
-                (k, v)
-                    -> {
-                      assertEquals(k3(), k);
-                      assertNull(v);
-                      return null;
-                    }));
+                (k, v) -> {
+                  assertEquals(k3(), k);
+                  assertNull(v);
+                  return null;
+                }));
     expectUnchanged();
     assertEquals(getNumElements(), getMap().size());
   }
@@ -81,12 +80,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 k0(),
-                (k, v)
-                    -> {
-                      assertEquals(k0(), k);
-                      assertEquals(v0(), v);
-                      return v3();
-                    }));
+                (k, v) -> {
+                  assertEquals(k0(), k);
+                  assertEquals(v0(), v);
+                  return v3();
+                }));
     expectReplacement(entry(k0(), v3()));
     assertEquals(getNumElements(), getMap().size());
   }
@@ -99,12 +97,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 k0(),
-                (k, v)
-                    -> {
-                      assertEquals(k0(), k);
-                      assertEquals(v0(), v);
-                      return null;
-                    }));
+                (k, v) -> {
+                  assertEquals(k0(), k);
+                  assertEquals(v0(), v);
+                  return null;
+                }));
     expectMissing(e0());
     expectMissingKeys(k0());
     assertEquals(getNumElements() - 1, getMap().size());
@@ -121,12 +118,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 getKeyForNullValue(),
-                (k, v)
-                    -> {
-                      assertEquals(getKeyForNullValue(), k);
-                      assertNull(v);
-                      return value;
-                    }));
+                (k, v) -> {
+                  assertEquals(getKeyForNullValue(), k);
+                  assertNull(v);
+                  return value;
+                }));
     expectReplacement(entry(getKeyForNullValue(), value));
     assertEquals(getNumElements(), getMap().size());
   }
@@ -142,12 +138,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 getKeyForNullValue(),
-                (k, v)
-                    -> {
-                      assertEquals(getKeyForNullValue(), k);
-                      assertNull(v);
-                      return null;
-                    }));
+                (k, v) -> {
+                  assertEquals(getKeyForNullValue(), k);
+                  assertNull(v);
+                  return null;
+                }));
     expectMissingKeys(getKeyForNullValue());
     assertEquals(getNumElements() - 1, getMap().size());
   }
@@ -162,12 +157,11 @@ public class MapComputeTester<K, V> extends AbstractMapTester<K, V> {
         getMap()
             .compute(
                 null,
-                (k, v)
-                    -> {
-                      assertNull(k);
-                      assertEquals(getValueForNullKey(), v);
-                      return v3();
-                    }));
+                (k, v) -> {
+                  assertNull(k);
+                  assertEquals(getValueForNullKey(), v);
+                  return v3();
+                }));
     assertEquals(getNumElements(), getMap().size());
   }
 

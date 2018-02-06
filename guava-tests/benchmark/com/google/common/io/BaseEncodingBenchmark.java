@@ -24,9 +24,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Random;
 
-/**
- * Benchmark for {@code BaseEncoding} performance.
- */
+/** Benchmark for {@code BaseEncoding} performance. */
 public class BaseEncodingBenchmark {
   private static final int INPUTS_COUNT = 0x1000;
   private static final int INPUTS_MASK = 0xFFF;
@@ -45,8 +43,7 @@ public class BaseEncodingBenchmark {
     }
   }
 
-  @Param
-  EncodingOption encoding;
+  @Param EncodingOption encoding;
 
   @Param({"10", "100", "10000"})
   int n;
@@ -64,7 +61,8 @@ public class BaseEncodingBenchmark {
     }
   }
 
-  @Benchmark public int encode(int reps) {
+  @Benchmark
+  public int encode(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       tmp += System.identityHashCode(encoding.encoding.encode(encodingInputs[i & INPUTS_MASK]));
@@ -72,7 +70,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int decode(int reps) {
+  @Benchmark
+  public int decode(int reps) {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       tmp += System.identityHashCode(encoding.encoding.decode(decodingInputs[i & INPUTS_MASK]));
@@ -80,7 +79,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int encodingStream(int reps) throws IOException {
+  @Benchmark
+  public int encodingStream(int reps) throws IOException {
     int tmp = 0;
     for (int i = 0; i < reps; i++) {
       StringWriter target = new StringWriter(2 * n);
@@ -92,7 +92,8 @@ public class BaseEncodingBenchmark {
     return tmp;
   }
 
-  @Benchmark public int decodingStream(int reps) throws IOException {
+  @Benchmark
+  public int decodingStream(int reps) throws IOException {
     int tmp = 0;
     byte[] target = new byte[n];
     for (int i = 0; i < reps; i++) {

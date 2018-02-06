@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-/**
- * Implementation of an {@link Optional} not containing a reference.
- */
+/** Implementation of an {@link Optional} not containing a reference. */
 @GwtCompatible
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<>();
@@ -63,7 +61,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  @Nullable
+  @NullableDecl
   public T orNull() {
     return null;
   }
@@ -80,7 +78,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     return object == this;
   }
 

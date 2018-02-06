@@ -18,15 +18,15 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
 /**
  * Basic implementation of a {@link SortedSetMultimap} with a sorted key set.
  *
- * <p>This superclass allows {@code TreeMultimap} to override methods to return
- * navigable set and map types in non-GWT only, while GWT code will inherit the
- * SortedMap/SortedSet overrides.
+ * <p>This superclass allows {@code TreeMultimap} to override methods to return navigable set and
+ * map types in non-GWT only, while GWT code will inherit the SortedMap/SortedSet overrides.
  *
  * @author Louis Wasserman
  */
@@ -50,5 +50,10 @@ abstract class AbstractSortedKeySortedSetMultimap<K, V> extends AbstractSortedSe
   @Override
   public SortedSet<K> keySet() {
     return (SortedSet<K>) super.keySet();
+  }
+
+  @Override
+  Set<K> createKeySet() {
+    return createMaybeNavigableKeySet();
   }
 }

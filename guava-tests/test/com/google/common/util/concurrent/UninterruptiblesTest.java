@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
@@ -28,10 +29,18 @@ import com.google.common.base.Stopwatch;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
+import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import junit.framework.TestCase;
 
 /**
@@ -43,10 +52,9 @@ import junit.framework.TestCase;
 public class UninterruptiblesTest extends TestCase {
   private static final String EXPECTED_TAKE = "expectedTake";
 
-  /**
-   * Timeout to use when we don't expect the timeout to expire.
-   */
+  /** Timeout to use when we don't expect the timeout to expire. */
   private static final long LONG_DELAY_MS = 2500;
+
   private static final long SLEEP_SLACK = 2;
 
   private final TearDownStack tearDownStack = new TearDownStack();
@@ -56,16 +64,18 @@ public class UninterruptiblesTest extends TestCase {
   protected void setUp() {
     // Clear any previous interrupt before running the test.
     if (Thread.currentThread().isInterrupted()) {
-      throw new AssertionError("Thread interrupted on test entry. "
-          + "Some test probably didn't clear the interrupt state");
+      throw new AssertionError(
+          "Thread interrupted on test entry. "
+              + "Some test probably didn't clear the interrupt state");
     }
 
-    tearDownStack.addTearDown(new TearDown() {
-      @Override
-      public void tearDown() {
-        Thread.interrupted();
-      }
-    });
+    tearDownStack.addTearDown(
+        new TearDown() {
+          @Override
+          public void tearDown() {
+            Thread.interrupted();
+          }
+        });
   }
 
   @Override
@@ -83,6 +93,53 @@ public class UninterruptiblesTest extends TestCase {
   // IncrementableCountDownLatch.await() tests
 
   // CountDownLatch.await() tests
+
+  // Condition.await() tests
+  public void testConditionAwaitTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 500, MILLISECONDS);
+
+    assertFalse(signaledBeforeTimeout);
+    assertAtLeastTimePassed(stopwatch, 500);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(500, MILLISECONDS);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testConditionAwaitInterruptedTimeoutExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.create();
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1000, MILLISECONDS);
+
+    assertFalse(signaledBeforeTimeout);
+    assertAtLeastTimePassed(stopwatch, 1000);
+    assertInterrupted();
+  }
+
+  public void testConditionAwaitInterruptedTimeoutNotExceeded() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(1000, MILLISECONDS);
+    requestInterruptIn(500);
+
+    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+
+    assertTrue(signaledBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
 
   // BlockingQueue.put() tests
   public void testPutWithNoWait() {
@@ -349,9 +406,8 @@ public class UninterruptiblesTest extends TestCase {
   }
 
   /**
-   * Wrapper around {@link Stopwatch} which also contains an
-   * "expected completion time." Creating a {@code Completion} starts the
-   * underlying stopwatch.
+   * Wrapper around {@link Stopwatch} which also contains an "expected completion time." Creating a
+   * {@code Completion} starts the underlying stopwatch.
    */
   private static final class Completion {
     final Stopwatch stopwatch;
@@ -363,51 +419,45 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     /**
-     * Asserts that the expected completion time has passed (and not "too much"
-     * time beyond that).
+     * Asserts that the expected completion time has passed (and not "too much" time beyond that).
      */
     void assertCompletionExpected() {
       assertAtLeastTimePassed(stopwatch, expectedCompletionWaitMillis);
-      assertTimeNotPassed(stopwatch,
-          expectedCompletionWaitMillis + LONG_DELAY_MS);
+      assertTimeNotPassed(stopwatch, expectedCompletionWaitMillis + LONG_DELAY_MS);
     }
 
     /**
-     * Asserts that at least {@code timeout} has passed but the expected
-     * completion time has not.
+     * Asserts that at least {@code timeout} has passed but the expected completion time has not.
      */
     void assertCompletionNotExpected(long timeout) {
       Preconditions.checkArgument(timeout < expectedCompletionWaitMillis);
       assertAtLeastTimePassed(stopwatch, timeout);
       assertTimeNotPassed(stopwatch, expectedCompletionWaitMillis);
     }
+  }
 
-    private static void assertAtLeastTimePassed(
-        Stopwatch stopwatch, long expectedMillis) {
-      long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
-      /*
-       * The "+ 5" below is to permit, say, sleep(10) to sleep only 9 milliseconds. We see such
-       * behavior sometimes when running these tests publicly as part of Guava. "+ 5" is probably
-       * more generous than it needs to be.
-       */
-      assertTrue("Expected elapsed millis to be >= " + expectedMillis
-          + " but was " + elapsedMillis, elapsedMillis + 5 >= expectedMillis);
-    }
+  private static void assertAtLeastTimePassed(Stopwatch stopwatch, long expectedMillis) {
+    long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
+    /*
+     * The "+ 5" below is to permit, say, sleep(10) to sleep only 9 milliseconds. We see such
+     * behavior sometimes when running these tests publicly as part of Guava. "+ 5" is probably more
+     * generous than it needs to be.
+     */
+    assertTrue(
+        "Expected elapsed millis to be >= " + expectedMillis + " but was " + elapsedMillis,
+        elapsedMillis + 5 >= expectedMillis);
   }
 
   // TODO(cpovirk): Split this into separate CountDownLatch and IncrementableCountDownLatch classes.
 
-  /**
-   * Manages a {@link BlockingQueue} and associated timings for a {@code put}
-   * call.
-   */
+  /** Manages a {@link BlockingQueue} and associated timings for a {@code put} call. */
   private static final class TimedPutQueue {
     final BlockingQueue<String> queue;
     final Completion completed;
 
     /**
-     * Creates a {@link EnableWrites} which open up a spot for a {@code put} to
-     * succeed in {@code countdownInMillis}.
+     * Creates a {@link EnableWrites} which open up a spot for a {@code put} to succeed in {@code
+     * countdownInMillis}.
      */
     static TimedPutQueue createWithDelay(long countdownInMillis) {
       return new TimedPutQueue(countdownInMillis);
@@ -420,18 +470,14 @@ public class UninterruptiblesTest extends TestCase {
       scheduleEnableWrites(this.queue, countdownInMillis);
     }
 
-    /**
-     * Perform a {@code put} and assert that operation completed in the expected
-     * timeframe.
-     */
+    /** Perform a {@code put} and assert that operation completed in the expected timeframe. */
     void putSuccessfully() {
       putUninterruptibly(queue, "");
       completed.assertCompletionExpected();
       assertEquals("", queue.peek());
     }
 
-    private static void scheduleEnableWrites(
-        BlockingQueue<String> queue, long countdownInMillis) {
+    private static void scheduleEnableWrites(BlockingQueue<String> queue, long countdownInMillis) {
       Runnable toRun = new EnableWrites(queue, countdownInMillis);
       // TODO(cpovirk): automatically fail the test if this thread throws
       Thread enablerThread = new Thread(toRun);
@@ -439,17 +485,14 @@ public class UninterruptiblesTest extends TestCase {
     }
   }
 
-  /**
-   * Manages a {@link BlockingQueue} and associated timings for a {@code take}
-   * call.
-   */
+  /** Manages a {@link BlockingQueue} and associated timings for a {@code take} call. */
   private static final class TimedTakeQueue {
     final BlockingQueue<String> queue;
     final Completion completed;
 
     /**
-     * Creates a {@link EnableReads} which insert an element for a {@code take}
-     * to receive in {@code countdownInMillis}.
+     * Creates a {@link EnableReads} which insert an element for a {@code take} to receive in {@code
+     * countdownInMillis}.
      */
     static TimedTakeQueue createWithDelay(long countdownInMillis) {
       return new TimedTakeQueue(countdownInMillis);
@@ -461,18 +504,14 @@ public class UninterruptiblesTest extends TestCase {
       scheduleEnableReads(this.queue, countdownInMillis);
     }
 
-    /**
-     * Perform a {@code take} and assert that operation completed in the
-     * expected timeframe.
-     */
+    /** Perform a {@code take} and assert that operation completed in the expected timeframe. */
     void takeSuccessfully() {
       assertEquals(EXPECTED_TAKE, takeUninterruptibly(queue));
       completed.assertCompletionExpected();
       assertTrue(queue.isEmpty());
     }
 
-    private static void scheduleEnableReads(
-        BlockingQueue<String> queue, long countdownInMillis) {
+    private static void scheduleEnableReads(BlockingQueue<String> queue, long countdownInMillis) {
       Runnable toRun = new EnableReads(queue, countdownInMillis);
       // TODO(cpovirk): automatically fail the test if this thread throws
       Thread enablerThread = new Thread(toRun);
@@ -480,16 +519,13 @@ public class UninterruptiblesTest extends TestCase {
     }
   }
 
-  /**
-   * Manages a {@link Semaphore} and associated timings.
-   */
+  /** Manages a {@link Semaphore} and associated timings. */
   private static final class TimedSemaphore {
     final Semaphore semaphore;
     final Completion completed;
 
     /**
-     * Create a {@link Release} which will release a semaphore permit in
-     * {@code countdownInMillis}.
+     * Create a {@link Release} which will release a semaphore permit in {@code countdownInMillis}.
      */
     static TimedSemaphore createWithDelay(long countdownInMillis) {
       return new TimedSemaphore(countdownInMillis);
@@ -511,8 +547,8 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     /**
-     * Requests a permit from the semaphore with a timeout and asserts that the wait returned
-     * within the expected timeout.
+     * Requests a permit from the semaphore with a timeout and asserts that the wait returned within
+     * the expected timeout.
      */
     private void tryAcquireUnsuccessfully(long timeoutMillis) {
       assertFalse(tryAcquireUninterruptibly(semaphore, timeoutMillis, MILLISECONDS));
@@ -641,8 +677,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {
-    }
+    protected void doAction() {}
   }
 
   private static class Release extends DelayedActionRunnable {
@@ -665,16 +700,14 @@ public class UninterruptiblesTest extends TestCase {
     completed.assertCompletionExpected();
   }
 
-  private static void assertTimeNotPassed(Stopwatch stopwatch,
-      long timelimitMillis) {
+  private static void assertTimeNotPassed(Stopwatch stopwatch, long timelimitMillis) {
     long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
     assertTrue(elapsedMillis < timelimitMillis);
   }
 
   /**
-   * Await an interrupt, then clear the interrupt status. Similar to
-   * {@code assertTrue(Thread.interrupted())} except that this version tolerates
-   * late interrupts.
+   * Await an interrupt, then clear the interrupt status. Similar to {@code
+   * assertTrue(Thread.interrupted())} except that this version tolerates late interrupts.
    */
   private static void assertInterrupted() {
     try {
@@ -694,5 +727,110 @@ public class UninterruptiblesTest extends TestCase {
 
   private static void requestInterruptIn(long millis) {
     InterruptionUtil.requestInterruptIn(millis, MILLISECONDS);
+  }
+
+  private static class TestCondition implements Condition {
+    private final Lock lock;
+    private final Condition condition;
+
+    private TestCondition(Lock lock, Condition condition) {
+      this.lock = lock;
+      this.condition = condition;
+    }
+
+    static TestCondition createAndSignalAfter(long delay, TimeUnit unit) {
+      final TestCondition testCondition = create();
+
+      ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
+      // If signal() fails somehow, we should see a failed test, even without looking at the Future.
+      Future<?> unused =
+          scheduledPool.schedule(
+              new Runnable() {
+                @Override
+                public void run() {
+                  testCondition.signal();
+                }
+              },
+              delay,
+              unit);
+
+      return testCondition;
+    }
+
+    static TestCondition create() {
+      Lock lock = new ReentrantLock();
+      Condition condition = lock.newCondition();
+      return new TestCondition(lock, condition);
+    }
+
+    @Override
+    public void await() throws InterruptedException {
+      lock.lock();
+      try {
+        condition.await();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void awaitUninterruptibly() {
+      lock.lock();
+      try {
+        condition.awaitUninterruptibly();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public long awaitNanos(long nanosTimeout) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.awaitNanos(nanosTimeout);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public boolean await(long time, TimeUnit unit) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.await(time, unit);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public boolean awaitUntil(Date deadline) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.awaitUntil(deadline);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void signal() {
+      lock.lock();
+      try {
+        condition.signal();
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
+    public void signalAll() {
+      lock.lock();
+      try {
+        condition.signalAll();
+      } finally {
+        lock.unlock();
+      }
+    }
   }
 }

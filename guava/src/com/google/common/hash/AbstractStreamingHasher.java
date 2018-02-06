@@ -52,8 +52,8 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
 
   /**
    * Constructor for use by subclasses. This hasher instance will process chunks of the specified
-   * size, using an internal buffer of {@code bufferSize} size, which must be a multiple of
-   * {@code chunkSize}.
+   * size, using an internal buffer of {@code bufferSize} size, which must be a multiple of {@code
+   * chunkSize}.
    *
    * @param chunkSize the number of bytes available per {@link #process(ByteBuffer)} invocation;
    *     must be at least 4
@@ -70,9 +70,7 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
     this.chunkSize = chunkSize;
   }
 
-  /**
-   * Processes the available bytes of the buffer (at most {@code chunk} bytes).
-   */
+  /** Processes the available bytes of the buffer (at most {@code chunk} bytes). */
   protected abstract void process(ByteBuffer bb);
 
   /**
@@ -190,9 +188,9 @@ abstract class AbstractStreamingHasher extends AbstractHasher {
   }
 
   /**
-   * Computes a hash code based on the data that have been provided to this hasher.  This is called
-   * after all chunks are handled with {@link #process} and any leftover bytes that did not make
-   * a complete chunk are handled with {@link #processRemaining}.
+   * Computes a hash code based on the data that have been provided to this hasher. This is called
+   * after all chunks are handled with {@link #process} and any leftover bytes that did not make a
+   * complete chunk are handled with {@link #processRemaining}.
    */
   protected abstract HashCode makeHash();
 

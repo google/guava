@@ -22,9 +22,8 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 
 /**
- * Tests representing the contract of {@link SortedMap}. Concrete subclasses of
- * this base class test conformance of concrete {@link SortedMap} subclasses to
- * that contract.
+ * Tests representing the contract of {@link SortedMap}. Concrete subclasses of this base class test
+ * conformance of concrete {@link SortedMap} subclasses to that contract.
  *
  * @author Jared Levy
  */

@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -48,21 +48,16 @@ import javax.annotation.Nullable;
  * <p>Examples of IP addresses and their byte representations:
  *
  * <dl>
- * <dt>The IPv4 loopback address, {@code "127.0.0.1"}.
- * <dd>{@code 7f 00 00 01}
- *
- * <dt>The IPv6 loopback address, {@code "::1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01}
- *
- * <dt>From the IPv6 reserved documentation prefix ({@code 2001:db8::/32}), {@code "2001:db8::1"}.
- * <dd>{@code 20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01}
- *
- * <dt>An IPv6 "IPv4 compatible" (or "compat") address, {@code "::192.168.0.1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01}
- *
- * <dt>An IPv6 "IPv4 mapped" address, {@code "::ffff:192.168.0.1"}.
- * <dd>{@code 00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01}
- *
+ *   <dt>The IPv4 loopback address, {@code "127.0.0.1"}.
+ *   <dd>{@code 7f 00 00 01}
+ *   <dt>The IPv6 loopback address, {@code "::1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01}
+ *   <dt>From the IPv6 reserved documentation prefix ({@code 2001:db8::/32}), {@code "2001:db8::1"}.
+ *   <dd>{@code 20 01 0d b8 00 00 00 00 00 00 00 00 00 00 00 01}
+ *   <dt>An IPv6 "IPv4 compatible" (or "compat") address, {@code "::192.168.0.1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 00 00 c0 a8 00 01}
+ *   <dt>An IPv6 "IPv4 mapped" address, {@code "::ffff:192.168.0.1"}.
+ *   <dd>{@code 00 00 00 00 00 00 00 00 00 00 ff ff c0 a8 00 01}
  * </dl>
  *
  * <p>A few notes about IPv6 "IPv4 mapped" addresses and their observed use in Java.
@@ -85,14 +80,15 @@ import javax.annotation.Nullable;
  * information on "bogons", including lists of IPv6 bogon space, see:
  *
  * <ul>
- * <li><a target="_parent" href="http://en.wikipedia.org/wiki/Bogon_filtering">http://en.wikipedia.
- * org/wiki/Bogon_filtering</a>
- * <li><a target="_parent" href="http://www.cymru.com/Bogons/ipv6.txt">http://www.cymru.com/Bogons/
- * ipv6.txt</a>
- * <li><a target="_parent" href="http://www.cymru.com/Bogons/v6bogon.html">http://www.cymru.com/
- * Bogons/v6bogon.html</a>
- * <li><a target="_parent" href="http://www.space.net/~gert/RIPE/ipv6-filters.html">http://www.
- * space.net/~gert/RIPE/ipv6-filters.html</a>
+ *   <li><a target="_parent"
+ *       href="http://en.wikipedia.org/wiki/Bogon_filtering">http://en.wikipedia.
+ *       org/wiki/Bogon_filtering</a>
+ *   <li><a target="_parent"
+ *       href="http://www.cymru.com/Bogons/ipv6.txt">http://www.cymru.com/Bogons/ ipv6.txt</a>
+ *   <li><a target="_parent" href="http://www.cymru.com/Bogons/v6bogon.html">http://www.cymru.com/
+ *       Bogons/v6bogon.html</a>
+ *   <li><a target="_parent" href="http://www.space.net/~gert/RIPE/ipv6-filters.html">http://www.
+ *       space.net/~gert/RIPE/ipv6-filters.html</a>
  * </ul>
  *
  * @author Erik Kline
@@ -131,8 +127,8 @@ public final class InetAddresses {
    *
    * <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
    *
-   * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g.
-   *     {@code "192.168.0.1"} or {@code "2001:db8::1"}
+   * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
+   *     "192.168.0.1"} or {@code "2001:db8::1"}
    * @return {@link InetAddress} representing the argument
    * @throws IllegalArgumentException if the argument is not a valid IP string literal
    */
@@ -158,7 +154,7 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] ipStringToBytes(String ipString) {
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
@@ -192,7 +188,7 @@ public final class InetAddresses {
     return null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] textToNumericFormatV4(String ipString) {
     byte[] bytes = new byte[IPV4_PART_COUNT];
     int i = 0;
@@ -207,7 +203,7 @@ public final class InetAddresses {
     return i == IPV4_PART_COUNT ? bytes : null;
   }
 
-  @Nullable
+  @NullableDecl
   private static byte[] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons, and N colons make N+1 parts.
     String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
@@ -271,7 +267,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  @Nullable
+  @NullableDecl
   private static String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
@@ -308,9 +304,9 @@ public final class InetAddresses {
   /**
    * Convert a byte array into an InetAddress.
    *
-   * {@link InetAddress#getByAddress} is documented as throwing a checked exception
-   * "if IP address is of illegal length." We replace it with an unchecked exception, for use by
-   * callers who already know that addr is an array of length 4 or 16.
+   * <p>{@link InetAddress#getByAddress} is documented as throwing a checked exception "if IP
+   * address is of illegal length." We replace it with an unchecked exception, for use by callers
+   * who already know that addr is an array of length 4 or 16.
    *
    * @param addr the raw 4-byte or 16-byte IP address in big-endian order
    * @return an InetAddress object created from the raw IP address
@@ -421,13 +417,12 @@ public final class InetAddresses {
    * Returns the string representation of an {@link InetAddress} suitable for inclusion in a URI.
    *
    * <p>For IPv4 addresses, this is identical to {@link InetAddress#getHostAddress()}, but for IPv6
-   * addresses it compresses zeroes and surrounds the text with square brackets; for example
-   * {@code "[2001:db8::1]"}.
+   * addresses it compresses zeroes and surrounds the text with square brackets; for example {@code
+   * "[2001:db8::1]"}.
    *
-   * <p>Per section 3.2.2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc3986#section-3.2.2">RFC 3986</a>, a URI
-   * containing an IPv6 string literal is of the form
-   * {@code "http://[2001:db8::1]:8888/index.html"}.
+   * <p>Per section 3.2.2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc3986#section-3.2.2">RFC 3986</a>, a URI containing an IPv6
+   * string literal is of the form {@code "http://[2001:db8::1]:8888/index.html"}.
    *
    * <p>Use of either {@link InetAddresses#toAddrString}, {@link InetAddress#getHostAddress()}, or
    * this method is recommended over {@link InetAddress#toString()} when an IP address string
@@ -467,7 +462,7 @@ public final class InetAddresses {
     return addr;
   }
 
-  @Nullable
+  @NullableDecl
   private static InetAddress forUriStringNoThrow(String hostAddr) {
     checkNotNull(hostAddr);
 
@@ -510,8 +505,8 @@ public final class InetAddresses {
    * string literals as {@code "::192.168.0.1"}, though {@code "::c0a8:1"} is also considered an
    * IPv4 compatible address (and equivalent to {@code "::192.168.0.1"}).
    *
-   * <p>For more on IPv4 compatible addresses see section 2.5.5.1 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1">RFC 4291</a>.
+   * <p>For more on IPv4 compatible addresses see section 2.5.5.1 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc4291#section-2.5.5.1">RFC 4291</a>.
    *
    * <p>NOTE: This method is different from {@link Inet6Address#isIPv4CompatibleAddress} in that it
    * more correctly classifies {@code "::"} and {@code "::1"} as proper IPv6 addresses (which they
@@ -556,8 +551,8 @@ public final class InetAddresses {
    * <p>6to4 addresses begin with the {@code "2002::/16"} prefix. The next 32 bits are the IPv4
    * address of the host to which IPv6-in-IPv4 tunneled packets should be routed.
    *
-   * <p>For more on 6to4 addresses see section 2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc3056#section-2">RFC 3056</a>.
+   * <p>For more on 6to4 addresses see section 2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc3056#section-2">RFC 3056</a>.
    *
    * @param ip {@link Inet6Address} to be examined for 6to4 address format
    * @return {@code true} if the argument is a 6to4 address
@@ -584,12 +579,12 @@ public final class InetAddresses {
    * A simple immutable data class to encapsulate the information to be found in a Teredo address.
    *
    * <p>All of the fields in this class are encoded in various portions of the IPv6 address as part
-   * of the protocol. More protocols details can be found at:
-   * <a target="_parent" href="http://en.wikipedia.org/wiki/Teredo_tunneling">http://en.wikipedia.
+   * of the protocol. More protocols details can be found at: <a target="_parent"
+   * href="http://en.wikipedia.org/wiki/Teredo_tunneling">http://en.wikipedia.
    * org/wiki/Teredo_tunneling</a>.
    *
-   * <p>The RFC can be found here:
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4380">RFC 4380</a>.
+   * <p>The RFC can be found here: <a target="_parent" href="http://tools.ietf.org/html/rfc4380">RFC
+   * 4380</a>.
    *
    * @since 5.0
    */
@@ -611,7 +606,7 @@ public final class InetAddresses {
      */
     // TODO: why is this public?
     public TeredoInfo(
-        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
+        @NullableDecl Inet4Address server, @NullableDecl Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(
@@ -693,8 +688,8 @@ public final class InetAddresses {
    * by concatenating the 24-bit IANA OUI (00-00-5E), the 8-bit hexadecimal value 0xFE, and a 32-bit
    * IPv4 address in network byte order [...]"
    *
-   * <p>For more on ISATAP addresses see section 6.1 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc5214#section-6.1">RFC 5214</a>.
+   * <p>For more on ISATAP addresses see section 6.1 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc5214#section-6.1">RFC 5214</a>.
    *
    * @param ip {@link Inet6Address} to be examined for ISATAP address format
    * @return {@code true} if the argument is an ISATAP address
@@ -782,8 +777,8 @@ public final class InetAddresses {
    * <p>An "IPv4 mapped" address is anything in the range ::ffff:0:0/96 (sometimes written as
    * ::ffff:0.0.0.0/96), with the last 32 bits interpreted as an IPv4 address.
    *
-   * <p>For more on IPv4 mapped addresses see section 2.5.5.2 of
-   * <a target="_parent" href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2">RFC 4291</a>.
+   * <p>For more on IPv4 mapped addresses see section 2.5.5.2 of <a target="_parent"
+   * href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2">RFC 4291</a>.
    *
    * <p>Note: This method takes a {@code String} argument because {@link InetAddress} automatically
    * collapses mapped addresses to IPv4. (It is actually possible to avoid this using one of the
@@ -908,8 +903,8 @@ public final class InetAddresses {
   }
 
   /**
-   * Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what
-   * {@link InetAddress#getByAddress} expects).
+   * Returns an address from a <b>little-endian ordered</b> byte array (the opposite of what {@link
+   * InetAddress#getByAddress} expects).
    *
    * <p>IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.
    *

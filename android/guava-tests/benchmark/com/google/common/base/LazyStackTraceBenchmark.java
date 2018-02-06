@@ -30,8 +30,11 @@ import java.util.List;
  * finder" implementation that might be used in a logging framework.
  */
 public class LazyStackTraceBenchmark {
-  @Param({"20", "200", "2000"}) int stackDepth;
-  @Param({"-1", "3", "15"}) int breakAt;
+  @Param({"20", "200", "2000"})
+  int stackDepth;
+
+  @Param({"-1", "3", "15"})
+  int breakAt;
 
   int recursionCount;
 
@@ -85,8 +88,6 @@ public class LazyStackTraceBenchmark {
   }
 
   private boolean timeFindCaller(int reps, int recurse) {
-    return recurse > 0
-        ? timeFindCaller(reps, recurse - 1)
-        : mode.timeIt(reps, breakAt);
+    return recurse > 0 ? timeFindCaller(reps, recurse - 1) : mode.timeIt(reps, breakAt);
   }
 }

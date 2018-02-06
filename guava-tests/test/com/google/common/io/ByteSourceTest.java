@@ -51,10 +51,14 @@ public class ByteSourceTest extends IoTestCase {
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     for (boolean asCharSource : new boolean[] {false, true}) {
-      suite.addTest(ByteSourceTester.tests("ByteSource.wrap[byte[]]",
-          SourceSinkFactories.byteArraySourceFactory(), asCharSource));
-      suite.addTest(ByteSourceTester.tests("ByteSource.empty[]",
-          SourceSinkFactories.emptyByteSourceFactory(), asCharSource));
+      suite.addTest(
+          ByteSourceTester.tests(
+              "ByteSource.wrap[byte[]]",
+              SourceSinkFactories.byteArraySourceFactory(),
+              asCharSource));
+      suite.addTest(
+          ByteSourceTester.tests(
+              "ByteSource.empty[]", SourceSinkFactories.emptyByteSourceFactory(), asCharSource));
     }
     suite.addTestSuite(ByteSourceTest.class);
     return suite;
@@ -122,21 +126,22 @@ public class ByteSourceTest extends IoTestCase {
 
   public void testRead_withProcessor() throws IOException {
     final byte[] processedBytes = new byte[bytes.length];
-    ByteProcessor<byte[]> processor = new ByteProcessor<byte[]>() {
-      int pos;
+    ByteProcessor<byte[]> processor =
+        new ByteProcessor<byte[]>() {
+          int pos;
 
-      @Override
-      public boolean processBytes(byte[] buf, int off, int len) throws IOException {
-        System.arraycopy(buf, off, processedBytes, pos, len);
-        pos += len;
-        return true;
-      }
+          @Override
+          public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+            System.arraycopy(buf, off, processedBytes, pos, len);
+            pos += len;
+            return true;
+          }
 
-      @Override
-      public byte[] getResult() {
-        return processedBytes;
-      }
-    };
+          @Override
+          public byte[] getResult() {
+            return processedBytes;
+          }
+        };
 
     source.read(processor);
     assertTrue(source.wasStreamOpened() && source.wasStreamClosed());
@@ -145,21 +150,22 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testRead_withProcessor_stopsOnFalse() throws IOException {
-    ByteProcessor<Void> processor = new ByteProcessor<Void>() {
-      boolean firstCall = true;
+    ByteProcessor<Void> processor =
+        new ByteProcessor<Void>() {
+          boolean firstCall = true;
 
-      @Override
-      public boolean processBytes(byte[] buf, int off, int len) throws IOException {
-        assertTrue("consume() called twice", firstCall);
-        firstCall = false;
-        return false;
-      }
+          @Override
+          public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+            assertTrue("consume() called twice", firstCall);
+            firstCall = false;
+            return false;
+          }
 
-      @Override
-      public Void getResult() {
-        return null;
-      }
-    };
+          @Override
+          public Void getResult() {
+            return null;
+          }
+        };
 
     source.read(processor);
     assertTrue(source.wasStreamOpened() && source.wasStreamClosed());
@@ -267,9 +273,7 @@ public class ByteSourceTest extends IoTestCase {
       @Override
       public int read() throws IOException {
         byte[] b = new byte[1];
-        return read(b) == -1
-            ? -1
-            : UnsignedBytes.toInt(b[0]);
+        return read(b) == -1 ? -1 : UnsignedBytes.toInt(b[0]);
       }
 
       @Override
@@ -287,13 +291,13 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   /**
-   * @param input      the size of the input source
-   * @param offset     the first argument to {@link ByteSource#slice}
-   * @param length     the second argument to {@link ByteSource#slice}
+   * @param input the size of the input source
+   * @param offset the first argument to {@link ByteSource#slice}
+   * @param length the second argument to {@link ByteSource#slice}
    * @param expectRead the number of bytes we expect to read
    */
-  private static void assertCorrectSlice(
-      int input, int offset, long length, int expectRead) throws IOException {
+  private static void assertCorrectSlice(int input, int offset, long length, int expectRead)
+      throws IOException {
     checkArgument(expectRead == (int) Math.max(0, Math.min(input, offset + length) - offset));
 
     byte[] expected = newPreFilledByteArray(offset, expectRead);
@@ -321,7 +325,8 @@ public class ByteSourceTest extends IoTestCase {
       }
       // ensure stream was closed IF it was opened (depends on implementation whether or not it's
       // opened at all if sink.newOutputStream() throws).
-      assertTrue("stream not closed when copying to sink with option: " + option,
+      assertTrue(
+          "stream not closed when copying to sink with option: " + option,
           !okSource.wasStreamOpened() || okSource.wasStreamClosed());
     }
   }
@@ -354,12 +359,9 @@ public class ByteSourceTest extends IoTestCase {
 
     byte[] expected = {0, 1, 2, 3, 4, 5};
 
-    assertArrayEquals(expected,
-        ByteSource.concat(ImmutableList.of(b1, b2, b3)).read());
-    assertArrayEquals(expected,
-        ByteSource.concat(b1, b2, b3).read());
-    assertArrayEquals(expected,
-        ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
+    assertArrayEquals(expected, ByteSource.concat(ImmutableList.of(b1, b2, b3)).read());
+    assertArrayEquals(expected, ByteSource.concat(b1, b2, b3).read());
+    assertArrayEquals(expected, ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
     assertEquals(expected.length, ByteSource.concat(b1, b2, b3).size());
     assertFalse(ByteSource.concat(b1, b2, b3).isEmpty());
 
@@ -377,23 +379,20 @@ public class ByteSourceTest extends IoTestCase {
     assertArrayEquals(expected, concatenated.slice(0, 8).read());
   }
 
-  private static final ByteSource BROKEN_CLOSE_SOURCE
-      = new TestByteSource(new byte[10], CLOSE_THROWS);
-  private static final ByteSource BROKEN_OPEN_SOURCE
-      = new TestByteSource(new byte[10], OPEN_THROWS);
-  private static final ByteSource BROKEN_READ_SOURCE
-      = new TestByteSource(new byte[10], READ_THROWS);
-  private static final ByteSink BROKEN_CLOSE_SINK
-      = new TestByteSink(CLOSE_THROWS);
-  private static final ByteSink BROKEN_OPEN_SINK
-      = new TestByteSink(OPEN_THROWS);
-  private static final ByteSink BROKEN_WRITE_SINK
-      = new TestByteSink(WRITE_THROWS);
+  private static final ByteSource BROKEN_CLOSE_SOURCE =
+      new TestByteSource(new byte[10], CLOSE_THROWS);
+  private static final ByteSource BROKEN_OPEN_SOURCE =
+      new TestByteSource(new byte[10], OPEN_THROWS);
+  private static final ByteSource BROKEN_READ_SOURCE =
+      new TestByteSource(new byte[10], READ_THROWS);
+  private static final ByteSink BROKEN_CLOSE_SINK = new TestByteSink(CLOSE_THROWS);
+  private static final ByteSink BROKEN_OPEN_SINK = new TestByteSink(OPEN_THROWS);
+  private static final ByteSink BROKEN_WRITE_SINK = new TestByteSink(WRITE_THROWS);
 
-  private static final ImmutableSet<ByteSource> BROKEN_SOURCES
-      = ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
-  private static final ImmutableSet<ByteSink> BROKEN_SINKS
-      = ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
+  private static final ImmutableSet<ByteSource> BROKEN_SOURCES =
+      ImmutableSet.of(BROKEN_CLOSE_SOURCE, BROKEN_OPEN_SOURCE, BROKEN_READ_SOURCE);
+  private static final ImmutableSet<ByteSink> BROKEN_SINKS =
+      ImmutableSet.of(BROKEN_CLOSE_SINK, BROKEN_OPEN_SINK, BROKEN_WRITE_SINK);
 
   public void testCopyExceptions() {
     if (!Closer.SuppressingSuppressor.isAvailable()) {
@@ -469,9 +468,7 @@ public class ByteSourceTest extends IoTestCase {
     }
   }
 
-  /**
-   * @return the number of exceptions that were suppressed on the expected thrown exception
-   */
+  /** @return the number of exceptions that were suppressed on the expected thrown exception */
   private static int runSuppressionFailureTest(ByteSource in, ByteSink out) {
     try {
       in.copyTo(out);
@@ -488,7 +485,8 @@ public class ByteSourceTest extends IoTestCase {
 
   private static ByteSink newNormalByteSink() {
     return new ByteSink() {
-      @Override public OutputStream openStream() {
+      @Override
+      public OutputStream openStream() {
         return new ByteArrayOutputStream();
       }
     };

@@ -27,7 +27,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.
@@ -41,29 +41,29 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
   private final Map<TypeToken<? extends B>, B> backingMap = Maps.newHashMap();
 
-  @Nullable
+  @NullableDecl
   @Override
   public <T extends B> T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
-  @Nullable
+  @NullableDecl
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(Class<T> type, @Nullable T value) {
+  public <T extends B> T putInstance(Class<T> type, @NullableDecl T value) {
     return trustedPut(TypeToken.of(type), value);
   }
 
-  @Nullable
+  @NullableDecl
   @Override
   public <T extends B> T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
-  @Nullable
+  @NullableDecl
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(TypeToken<T> type, @Nullable T value) {
+  public <T extends B> T putInstance(TypeToken<T> type, @NullableDecl T value) {
     return trustedPut(type.rejectTypeVariables(), value);
   }
 
@@ -103,13 +103,13 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @Nullable
-  private <T extends B> T trustedPut(TypeToken<T> type, @Nullable T value) {
+  @NullableDecl
+  private <T extends B> T trustedPut(TypeToken<T> type, @NullableDecl T value) {
     return (T) backingMap.put(type, value);
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @Nullable
+  @NullableDecl
   private <T extends B> T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
   }

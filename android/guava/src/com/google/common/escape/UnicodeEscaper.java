@@ -24,15 +24,14 @@ import com.google.common.annotations.GwtCompatible;
  * context (such as an XML document). Typically (but not always), the inverse process of
  * "unescaping" the text is performed automatically by the relevant parser.
  *
- * <p>For example, an XML escaper would convert the literal string {@code
- * "Foo<Bar>"} into {@code "Foo&lt;Bar&gt;"} to prevent {@code "<Bar>"} from being confused with an
- * XML tag. When the resulting XML document is parsed, the parser API will return this text as the
- * original literal string {@code
- * "Foo<Bar>"}.
+ * <p>For example, an XML escaper would convert the literal string {@code "Foo<Bar>"} into {@code
+ * "Foo&lt;Bar&gt;"} to prevent {@code "<Bar>"} from being confused with an XML tag. When the
+ * resulting XML document is parsed, the parser API will return this text as the original literal
+ * string {@code "Foo<Bar>"}.
  *
  * <p><b>Note:</b> This class is similar to {@link CharEscaper} but with one very important
- * difference. A CharEscaper can only process Java
- * <a href="http://en.wikipedia.org/wiki/UTF-16">UTF16</a> characters in isolation and may not cope
+ * difference. A CharEscaper can only process Java <a
+ * href="http://en.wikipedia.org/wiki/UTF-16">UTF16</a> characters in isolation and may not cope
  * when it encounters surrogate pairs. This class facilitates the correct escaping of all Unicode
  * characters.
  *
@@ -43,9 +42,9 @@ import com.google.common.annotations.GwtCompatible;
  * <p>A {@code UnicodeEscaper} instance is required to be stateless, and safe when used concurrently
  * by multiple threads.
  *
- * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
- * create your own escapers extend this class and implement the {@link #escape(int)} method.
+ * <p>Popular escapers are defined as constants in classes like {@link
+ * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To create
+ * your own escapers extend this class and implement the {@link #escape(int)} method.
  *
  * @author David Beaumont
  * @since 15.0
@@ -119,8 +118,8 @@ public abstract class UnicodeEscaper extends Escaper {
    *
    * <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
    * use this method. If an input string ends with an unmatched high surrogate character, then this
-   * method will throw {@link IllegalArgumentException}. You should ensure your input is valid
-   * <a href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+   * method will throw {@link IllegalArgumentException}. You should ensure your input is valid <a
+   * href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
    *
    * <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
    * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
@@ -146,8 +145,8 @@ public abstract class UnicodeEscaper extends Escaper {
    * protected to allow subclasses to override the fastpath escaping function to inline their
    * escaping test. See {@link CharEscaperBuilder} for an example usage.
    *
-   * <p>This method is not reentrant and may only be invoked by the top level
-   * {@link #escape(String)} method.
+   * <p>This method is not reentrant and may only be invoked by the top level {@link
+   * #escape(String)} method.
    *
    * @param s the literal string to be escaped
    * @param index the index to start escaping from
@@ -219,21 +218,22 @@ public abstract class UnicodeEscaper extends Escaper {
    * this method will never fail silently when encountering an invalid surrogate pair.
    *
    * <p>The behaviour of this method is as follows:
+   *
    * <ol>
-   * <li>If {@code index >= end}, {@link IndexOutOfBoundsException} is thrown.
-   * <li><b>If the character at the specified index is not a surrogate, it is returned.</b>
-   * <li>If the first character was a high surrogate value, then an attempt is made to read the next
-   *     character.
-   *     <ol>
-   *     <li><b>If the end of the sequence was reached, the negated value of the trailing high
-   *         surrogate is returned.</b>
-   *     <li><b>If the next character was a valid low surrogate, the code point value of the
-   *         high/low surrogate pair is returned.</b>
-   *     <li>If the next character was not a low surrogate value, then {@link
-   *         IllegalArgumentException} is thrown.
-   *     </ol>
-   * <li>If the first character was a low surrogate value, {@link IllegalArgumentException} is
-   *     thrown.
+   *   <li>If {@code index >= end}, {@link IndexOutOfBoundsException} is thrown.
+   *   <li><b>If the character at the specified index is not a surrogate, it is returned.</b>
+   *   <li>If the first character was a high surrogate value, then an attempt is made to read the
+   *       next character.
+   *       <ol>
+   *         <li><b>If the end of the sequence was reached, the negated value of the trailing high
+   *             surrogate is returned.</b>
+   *         <li><b>If the next character was a valid low surrogate, the code point value of the
+   *             high/low surrogate pair is returned.</b>
+   *         <li>If the next character was not a low surrogate value, then {@link
+   *             IllegalArgumentException} is thrown.
+   *       </ol>
+   *   <li>If the first character was a low surrogate value, {@link IllegalArgumentException} is
+   *       thrown.
    * </ol>
    *
    * @param seq the sequence of characters from which to decode the code point

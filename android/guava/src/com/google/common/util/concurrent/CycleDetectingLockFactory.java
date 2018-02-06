@@ -42,20 +42,21 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and
- * {@link ReentrantReadWriteLock} instances that detect potential deadlock by checking for cycles in
- * lock acquisition order.
+ * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and {@link
+ * ReentrantReadWriteLock} instances that detect potential deadlock by checking for cycles in lock
+ * acquisition order.
  *
  * <p>Potential deadlocks detected when calling the {@code lock()}, {@code lockInterruptibly()}, or
  * {@code tryLock()} methods will result in the execution of the {@link Policy} specified when
  * creating the factory. The currently available policies are:
+ *
  * <ul>
- * <li>DISABLED
- * <li>WARN
- * <li>THROW
+ *   <li>DISABLED
+ *   <li>WARN
+ *   <li>THROW
  * </ul>
  *
  * <p>The locks created by a factory instance will detect lock acquisition cycles with locks created
@@ -91,17 +92,18 @@ import javax.annotation.Nullable;
  *
  * <p>The implementation detects cycles by constructing a directed graph in which each lock
  * represents a node and each edge represents an acquisition ordering between two locks.
+ *
  * <ul>
- * <li>Each lock adds (and removes) itself to/from a ThreadLocal Set of acquired locks when the
- *     Thread acquires its first hold (and releases its last remaining hold).
- * <li>Before the lock is acquired, the lock is checked against the current set of acquired
- *     locks---to each of the acquired locks, an edge from the soon-to-be-acquired lock is either
- *     verified or created.
- * <li>If a new edge needs to be created, the outgoing edges of the acquired locks are traversed to
- *     check for a cycle that reaches the lock to be acquired. If no cycle is detected, a new "safe"
- *     edge is created.
- * <li>If a cycle is detected, an "unsafe" (cyclic) edge is created to represent a potential
- *     deadlock situation, and the appropriate Policy is executed.
+ *   <li>Each lock adds (and removes) itself to/from a ThreadLocal Set of acquired locks when the
+ *       Thread acquires its first hold (and releases its last remaining hold).
+ *   <li>Before the lock is acquired, the lock is checked against the current set of acquired
+ *       locks---to each of the acquired locks, an edge from the soon-to-be-acquired lock is either
+ *       verified or created.
+ *   <li>If a new edge needs to be created, the outgoing edges of the acquired locks are traversed
+ *       to check for a cycle that reaches the lock to be acquired. If no cycle is detected, a new
+ *       "safe" edge is created.
+ *   <li>If a cycle is detected, an "unsafe" (cyclic) edge is created to represent a potential
+ *       deadlock situation, and the appropriate Policy is executed.
  * </ul>
  *
  * <p>Note that detection of potential deadlock does not necessarily indicate that deadlock will
@@ -138,17 +140,17 @@ import javax.annotation.Nullable;
  * Benchmarks (as of December 2011) show that:
  *
  * <ul>
- * <li>for an unnested {@code lock()} and {@code unlock()}, a cycle detecting lock takes 38ns as
- *     opposed to the 24ns taken by a plain lock.
- * <li>for nested locking, the cost increases with the depth of the nesting:
- *     <ul>
- *     <li>2 levels: average of 64ns per lock()/unlock()
- *     <li>3 levels: average of 77ns per lock()/unlock()
- *     <li>4 levels: average of 99ns per lock()/unlock()
- *     <li>5 levels: average of 103ns per lock()/unlock()
- *     <li>10 levels: average of 184ns per lock()/unlock()
- *     <li>20 levels: average of 393ns per lock()/unlock()
- *     </ul>
+ *   <li>for an unnested {@code lock()} and {@code unlock()}, a cycle detecting lock takes 38ns as
+ *       opposed to the 24ns taken by a plain lock.
+ *   <li>for nested locking, the cost increases with the depth of the nesting:
+ *       <ul>
+ *         <li>2 levels: average of 64ns per lock()/unlock()
+ *         <li>3 levels: average of 77ns per lock()/unlock()
+ *         <li>4 levels: average of 99ns per lock()/unlock()
+ *         <li>5 levels: average of 103ns per lock()/unlock()
+ *         <li>10 levels: average of 184ns per lock()/unlock()
+ *         <li>20 levels: average of 393ns per lock()/unlock()
+ *       </ul>
  * </ul>
  *
  * <p>As such, the CycleDetectingLockFactory may not be suitable for performance-critical
@@ -173,8 +175,8 @@ public class CycleDetectingLockFactory {
   public interface Policy {
 
     /**
-     * Called when a potential deadlock is encountered. Implementations can throw the given
-     * {@code exception} and/or execute other desired logic.
+     * Called when a potential deadlock is encountered. Implementations can throw the given {@code
+     * exception} and/or execute other desired logic.
      *
      * <p>Note that the method will be called even upon an invocation of {@code tryLock()}. Although
      * {@code tryLock()} technically recovers from deadlock by eventually timing out, this behavior
@@ -192,9 +194,9 @@ public class CycleDetectingLockFactory {
   @Beta
   public enum Policies implements Policy {
     /**
-     * When potential deadlock is detected, this policy results in the throwing of the
-     * {@code PotentialDeadlockException} indicating the potential deadlock, which includes stack
-     * traces illustrating the cycle in lock acquisition order.
+     * When potential deadlock is detected, this policy results in the throwing of the {@code
+     * PotentialDeadlockException} indicating the potential deadlock, which includes stack traces
+     * illustrating the cycle in lock acquisition order.
      */
     THROW {
       @Override
@@ -204,8 +206,8 @@ public class CycleDetectingLockFactory {
     },
 
     /**
-     * When potential deadlock is detected, this policy results in the logging of a
-     * {@link Level#SEVERE} message indicating the potential deadlock, which includes stack traces
+     * When potential deadlock is detected, this policy results in the logging of a {@link
+     * Level#SEVERE} message indicating the potential deadlock, which includes stack traces
      * illustrating the cycle in lock acquisition order.
      */
     WARN {
@@ -229,16 +231,12 @@ public class CycleDetectingLockFactory {
     };
   }
 
-  /**
-   * Creates a new factory with the specified policy.
-   */
+  /** Creates a new factory with the specified policy. */
   public static CycleDetectingLockFactory newInstance(Policy policy) {
     return new CycleDetectingLockFactory(policy);
   }
 
-  /**
-   * Equivalent to {@code newReentrantLock(lockName, false)}.
-   */
+  /** Equivalent to {@code newReentrantLock(lockName, false)}. */
   public ReentrantLock newReentrantLock(String lockName) {
     return newReentrantLock(lockName, false);
   }
@@ -253,9 +251,7 @@ public class CycleDetectingLockFactory {
         : new CycleDetectingReentrantLock(new LockGraphNode(lockName), fair);
   }
 
-  /**
-   * Equivalent to {@code newReentrantReadWriteLock(lockName, false)}.
-   */
+  /** Equivalent to {@code newReentrantReadWriteLock(lockName, false)}. */
   public ReentrantReadWriteLock newReentrantReadWriteLock(String lockName) {
     return newReentrantReadWriteLock(lockName, false);
   }
@@ -275,9 +271,7 @@ public class CycleDetectingLockFactory {
   private static final ConcurrentMap<Class<? extends Enum>, Map<? extends Enum, LockGraphNode>>
       lockGraphNodesPerType = new MapMaker().weakKeys().makeMap();
 
-  /**
-   * Creates a {@code CycleDetectingLockFactory.WithExplicitOrdering<E>}.
-   */
+  /** Creates a {@code CycleDetectingLockFactory.WithExplicitOrdering<E>}. */
   public static <E extends Enum<E>> WithExplicitOrdering<E> newInstanceWithExplicitOrdering(
       Class<E> enumClass, Policy policy) {
     // createNodes maps each enumClass to a Map with the corresponding enum key
@@ -301,8 +295,8 @@ public class CycleDetectingLockFactory {
 
   /**
    * For a given Enum type, creates an immutable map from each of the Enum's values to a
-   * corresponding LockGraphNode, with the {@code allowedPriorLocks} and
-   * {@code disallowedPriorLocks} prepopulated with nodes according to the natural ordering of the
+   * corresponding LockGraphNode, with the {@code allowedPriorLocks} and {@code
+   * disallowedPriorLocks} prepopulated with nodes according to the natural ordering of the
    * associated Enum values.
    */
   @VisibleForTesting
@@ -337,14 +331,14 @@ public class CycleDetectingLockFactory {
   }
 
   /**
-   * <p>A {@code CycleDetectingLockFactory.WithExplicitOrdering} provides the additional enforcement
-   * of an application-specified ordering of lock acquisitions. The application defines the allowed
+   * A {@code CycleDetectingLockFactory.WithExplicitOrdering} provides the additional enforcement of
+   * an application-specified ordering of lock acquisitions. The application defines the allowed
    * ordering with an {@code Enum} whose values each correspond to a lock type. The order in which
    * the values are declared dictates the allowed order of lock acquisition. In other words, locks
    * corresponding to smaller values of {@link Enum#ordinal()} should only be acquired before locks
    * with larger ordinals. Example:
    *
-   * <pre>   {@code
+   * <pre>{@code
    * enum MyLockOrder {
    *   FIRST, SECOND, THIRD;
    * }
@@ -358,7 +352,8 @@ public class CycleDetectingLockFactory {
    *
    * lock1.lock();
    * lock3.lock();
-   * lock2.lock();  // will throw an IllegalStateException}</pre>
+   * lock2.lock();  // will throw an IllegalStateException
+   * }</pre>
    *
    * <p>As with all locks created by instances of {@code CycleDetectingLockFactory} explicitly
    * ordered locks participate in general cycle detection with all other cycle detecting locks, and
@@ -370,7 +365,7 @@ public class CycleDetectingLockFactory {
    * attempting to acquire multiple locks with the same Enum value (within the same thread) will
    * result in an IllegalStateException regardless of the factory's policy. For example:
    *
-   * <pre>   {@code
+   * <pre>{@code
    * CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory1 =
    *   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
    * CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory2 =
@@ -385,7 +380,8 @@ public class CycleDetectingLockFactory {
    * lockB.lock();  // will throw an IllegalStateException
    * lockC.lock();  // will throw an IllegalStateException
    *
-   * lockA.lock();  // reentrant acquisition is okay}</pre>
+   * lockA.lock();  // reentrant acquisition is okay
+   * }</pre>
    *
    * <p>It is the responsibility of the application to ensure that multiple lock instances with the
    * same rank are never acquired in the same thread.
@@ -405,9 +401,7 @@ public class CycleDetectingLockFactory {
       this.lockGraphNodes = lockGraphNodes;
     }
 
-    /**
-     * Equivalent to {@code newReentrantLock(rank, false)}.
-     */
+    /** Equivalent to {@code newReentrantLock(rank, false)}. */
     public ReentrantLock newReentrantLock(E rank) {
       return newReentrantLock(rank, false);
     }
@@ -426,9 +420,7 @@ public class CycleDetectingLockFactory {
           : new CycleDetectingReentrantLock(lockGraphNodes.get(rank), fair);
     }
 
-    /**
-     * Equivalent to {@code newReentrantReadWriteLock(rank, false)}.
-     */
+    /** Equivalent to {@code newReentrantReadWriteLock(rank, false)}. */
     public ReentrantReadWriteLock newReentrantReadWriteLock(E rank) {
       return newReentrantReadWriteLock(rank, false);
     }
@@ -459,8 +451,8 @@ public class CycleDetectingLockFactory {
   }
 
   /**
-   * Tracks the currently acquired locks for each Thread, kept up to date by calls to
-   * {@link #aboutToAcquire(CycleDetectingLock)} and {@link #lockStateChanged(CycleDetectingLock)}.
+   * Tracks the currently acquired locks for each Thread, kept up to date by calls to {@link
+   * #aboutToAcquire(CycleDetectingLock)} and {@link #lockStateChanged(CycleDetectingLock)}.
    */
   // This is logically a Set, but an ArrayList is used to minimize the amount
   // of allocation done on lock()/unlock().
@@ -549,8 +541,8 @@ public class CycleDetectingLockFactory {
     }
 
     /**
-     * Appends the chain of messages from the {@code conflictingStackTrace} to the original
-     * {@code message}.
+     * Appends the chain of messages from the {@code conflictingStackTrace} to the original {@code
+     * message}.
      */
     @Override
     public String getMessage() {
@@ -616,9 +608,9 @@ public class CycleDetectingLockFactory {
      * Checks the acquisition-ordering between {@code this}, which is about to be acquired, and the
      * specified {@code acquiredLock}.
      *
-     * <p>When this method returns, the {@code acquiredLock} should be in either the
-     * {@code preAcquireLocks} map, for the case in which it is safe to acquire {@code this} after
-     * the {@code acquiredLock}, or in the {@code disallowedPriorLocks} map, in which case it is not
+     * <p>When this method returns, the {@code acquiredLock} should be in either the {@code
+     * preAcquireLocks} map, for the case in which it is safe to acquire {@code this} after the
+     * {@code acquiredLock}, or in the {@code disallowedPriorLocks} map, in which case it is not
      * safe.
      */
     void checkAcquiredLock(Policy policy, LockGraphNode acquiredLock) {
@@ -676,13 +668,13 @@ public class CycleDetectingLockFactory {
     }
 
     /**
-     * Performs a depth-first traversal of the graph edges defined by each node's
-     * {@code allowedPriorLocks} to find a path between {@code this} and the specified {@code lock}.
+     * Performs a depth-first traversal of the graph edges defined by each node's {@code
+     * allowedPriorLocks} to find a path between {@code this} and the specified {@code lock}.
      *
      * @return If a path was found, a chained {@link ExampleStackTrace} illustrating the path to the
      *     {@code lock}, or {@code null} if no path was found.
      */
-    @Nullable
+    @NullableDecl
     private ExampleStackTrace findPathTo(LockGraphNode node, Set<LockGraphNode> seen) {
       if (!seen.add(this)) {
         return null; // Already traversed this node.

@@ -25,12 +25,14 @@ import junit.framework.TestCase;
 @GwtCompatible
 public class WellBehavedMapTest extends TestCase {
   enum Foo {
-    X, Y, Z, T
+    X,
+    Y,
+    Z,
+    T
   }
 
   public void testEntrySet_contain() {
-    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(
-        new EnumMap<Foo, Integer>(Foo.class));
+    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1, Foo.Y, 2, Foo.Z, 3));
 
     // testing with the exact entry
@@ -45,8 +47,7 @@ public class WellBehavedMapTest extends TestCase {
   }
 
   public void testEntry_setValue() {
-    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(
-        new EnumMap<Foo, Integer>(Foo.class));
+    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1, Foo.Y, 2, Foo.Z, 3));
 
     for (Entry<Foo, Integer> entry : map.entrySet()) {
@@ -57,8 +58,7 @@ public class WellBehavedMapTest extends TestCase {
   }
 
   public void testEntriesAreMutableAndConsistent() {
-    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(
-        new EnumMap<Foo, Integer>(Foo.class));
+    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1));
 
     Entry<Foo, Integer> entry1 = Iterables.getOnlyElement(map.entrySet());
@@ -84,8 +84,7 @@ public class WellBehavedMapTest extends TestCase {
   }
 
   public void testEntrySet_remove() {
-    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(
-        new EnumMap<Foo, Integer>(Foo.class));
+    WellBehavedMap<Foo, Integer> map = WellBehavedMap.wrap(new EnumMap<Foo, Integer>(Foo.class));
     map.putAll(ImmutableMap.of(Foo.X, 1, Foo.Y, 2, Foo.Z, 3));
     Set<Entry<Foo, Integer>> entrySet = map.entrySet();
 

@@ -42,4 +42,5 @@ abstract class InterruptibleTask<V> implements Runnable {
 
   final void interruptTask() {}
 
+  abstract String toPendingString();
 }

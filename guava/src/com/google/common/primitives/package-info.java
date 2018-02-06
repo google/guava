@@ -19,49 +19,50 @@
  * <p>This package is a part of the open-source <a href="http://github.com/google/guava">Guava</a>
  * library.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/PrimitivesExplained">primitive utilities</a>.
  *
  * <h2>Contents</h2>
  *
  * <h3>General static utilities</h3>
  *
  * <ul>
- * <li>{@link com.google.common.primitives.Primitives}
+ *   <li>{@link com.google.common.primitives.Primitives}
  * </ul>
  *
  * <h3>Per-type static utilities</h3>
  *
  * <ul>
- * <li>{@link com.google.common.primitives.Booleans}
- * <li>{@link com.google.common.primitives.Bytes}
- *     <ul>
- *     <li>{@link com.google.common.primitives.SignedBytes}
- *     <li>{@link com.google.common.primitives.UnsignedBytes}
- *     </ul>
- * <li>{@link com.google.common.primitives.Chars}
- * <li>{@link com.google.common.primitives.Doubles}
- * <li>{@link com.google.common.primitives.Floats}
- * <li>{@link com.google.common.primitives.Ints}
- *     <ul>
- *     <li>{@link com.google.common.primitives.UnsignedInts}
- *     </ul>
- * <li>{@link com.google.common.primitives.Longs}
- *     <ul>
- *     <li>{@link com.google.common.primitives.UnsignedLongs}
- *     </ul>
- * <li>{@link com.google.common.primitives.Shorts}
+ *   <li>{@link com.google.common.primitives.Booleans}
+ *   <li>{@link com.google.common.primitives.Bytes}
+ *       <ul>
+ *         <li>{@link com.google.common.primitives.SignedBytes}
+ *         <li>{@link com.google.common.primitives.UnsignedBytes}
+ *       </ul>
+ *   <li>{@link com.google.common.primitives.Chars}
+ *   <li>{@link com.google.common.primitives.Doubles}
+ *   <li>{@link com.google.common.primitives.Floats}
+ *   <li>{@link com.google.common.primitives.Ints}
+ *       <ul>
+ *         <li>{@link com.google.common.primitives.UnsignedInts}
+ *       </ul>
+ *   <li>{@link com.google.common.primitives.Longs}
+ *       <ul>
+ *         <li>{@link com.google.common.primitives.UnsignedLongs}
+ *       </ul>
+ *   <li>{@link com.google.common.primitives.Shorts}
  * </ul>
  *
  * <h3>Value types</h3>
+ *
  * <ul>
- * <li>{@link com.google.common.primitives.UnsignedInteger}
- * <li>{@link com.google.common.primitives.UnsignedLong}
+ *   <li>{@link com.google.common.primitives.UnsignedInteger}
+ *   <li>{@link com.google.common.primitives.UnsignedLong}
  * </ul>
  */
 @ParametersAreNonnullByDefault
 @CheckReturnValue
 package com.google.common.primitives;
 
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import javax.annotation.ParametersAreNonnullByDefault;

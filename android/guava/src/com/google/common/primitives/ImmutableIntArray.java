@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -27,8 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -38,8 +38,8 @@ import javax.annotation.Nullable;
  * <ul>
  *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
  *       edition, Item 15).
- *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and
- *       {@link #toString} behavior you expect
+ *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
+ *       #toString} behavior you expect
  *   <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
  *       hunt through classes like {@link Arrays} and {@link Ints} for them.
  *   <li>Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to
@@ -120,10 +120,17 @@ public final class ImmutableIntArray implements Serializable {
 
   // TODO(kevinb): go up to 11?
 
-  /** Returns an immutable array containing the given values, in order. */
+  /**
+   * Returns an immutable array containing the given values, in order.
+   *
+   * <p>The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.
+   */
   // Use (first, rest) so that `of(someIntArray)` won't compile (they should use copyOf), which is
   // okay since we have to copy the just-created array anyway.
   public static ImmutableIntArray of(int first, int... rest) {
+    checkArgument(
+        rest.length <= Integer.MAX_VALUE - 1,
+        "the total number of elements must fit in an int");
     int[] array = new int[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);
@@ -279,8 +286,8 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     /**
-     * Returns a new immutable array. The builder can continue to be used after this call, to
-     * append more values and build again.
+     * Returns a new immutable array. The builder can continue to be used after this call, to append
+     * more values and build again.
      *
      * <p><b>Performance note:</b> the returned array is backed by the same array as the builder, so
      * no data is copied as part of this step, but this may occupy more memory than strictly
@@ -448,7 +455,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(@NullableDecl Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -488,7 +495,7 @@ public final class ImmutableIntArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(@NullableDecl Object object) {
     if (object == this) {
       return true;
     }

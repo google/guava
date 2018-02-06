@@ -23,10 +23,10 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * An implementation-specific parameter class suitable for initializing
- * {@link ArrayBasedCharEscaper} or {@link ArrayBasedUnicodeEscaper} instances. This class should be
- * used when more than one escaper is created using the same character replacement mapping to allow
- * the underlying (implementation specific) data structures to be shared.
+ * An implementation-specific parameter class suitable for initializing {@link
+ * ArrayBasedCharEscaper} or {@link ArrayBasedUnicodeEscaper} instances. This class should be used
+ * when more than one escaper is created using the same character replacement mapping to allow the
+ * underlying (implementation specific) data structures to be shared.
  *
  * <p>The size of the data structure used by ArrayBasedCharEscaper and ArrayBasedUnicodeEscaper is
  * proportional to the highest valued character that has a replacement. For example a replacement

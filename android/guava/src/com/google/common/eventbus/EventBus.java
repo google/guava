@@ -38,11 +38,12 @@ import java.util.logging.Logger;
  * <h2>Receiving Events</h2>
  *
  * <p>To receive events, an object should:
+ *
  * <ol>
- * <li>Expose a public method, known as the <i>event subscriber</i>, which accepts a single argument
- *     of the type of event desired;
- * <li>Mark it with a {@link Subscribe} annotation;
- * <li>Pass itself to an EventBus instance's {@link #register(Object)} method.
+ *   <li>Expose a public method, known as the <i>event subscriber</i>, which accepts a single
+ *       argument of the type of event desired;
+ *   <li>Mark it with a {@link Subscribe} annotation;
+ *   <li>Pass itself to an EventBus instance's {@link #register(Object)} method.
  * </ol>
  *
  * <h2>Posting Events</h2>
@@ -68,9 +69,9 @@ import java.util.logging.Logger;
  * is intended solely to help find problems during development.
  *
  * <p>The EventBus guarantees that it will not call a subscriber method from multiple threads
- * simultaneously, unless the method explicitly allows it by bearing the
- * {@link AllowConcurrentEvents} annotation. If this annotation is not present, subscriber methods
- * need not worry about being reentrant, unless also called from outside the EventBus.
+ * simultaneously, unless the method explicitly allows it by bearing the {@link
+ * AllowConcurrentEvents} annotation. If this annotation is not present, subscriber methods need not
+ * worry about being reentrant, unless also called from outside the EventBus.
  *
  * <h2>Dead Events</h2>
  *
@@ -85,8 +86,8 @@ import java.util.logging.Logger;
  *
  * <p>This class is safe for concurrent use.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
  *
  * @author Cliff Biffle
  * @since 10.0
@@ -103,9 +104,7 @@ public class EventBus {
   private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
   private final Dispatcher dispatcher;
 
-  /**
-   * Creates a new EventBus named "default".
-   */
+  /** Creates a new EventBus named "default". */
   public EventBus() {
     this("default");
   }
@@ -158,16 +157,12 @@ public class EventBus {
     return identifier;
   }
 
-  /**
-   * Returns the default executor this event bus uses for dispatching events to subscribers.
-   */
+  /** Returns the default executor this event bus uses for dispatching events to subscribers. */
   final Executor executor() {
     return executor;
   }
 
-  /**
-   * Handles the given exception thrown by a subscriber with the given context.
-   */
+  /** Handles the given exception thrown by a subscriber with the given context. */
   void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {
     checkNotNull(e);
     checkNotNull(context);
@@ -226,9 +221,7 @@ public class EventBus {
     return MoreObjects.toStringHelper(this).addValue(identifier).toString();
   }
 
-  /**
-   * Simple logging handler for subscriber exceptions.
-   */
+  /** Simple logging handler for subscriber exceptions. */
   static final class LoggingHandler implements SubscriberExceptionHandler {
     static final LoggingHandler INSTANCE = new LoggingHandler();
 

@@ -32,9 +32,9 @@ import com.google.common.annotations.GwtCompatible;
  * <p>A {@code CharEscaper} instance is required to be stateless, and safe when used concurrently by
  * multiple threads.
  *
- * <p>Popular escapers are defined as constants in classes like
- * {@link com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To
- * create your own escapers extend this class and implement the {@link #escape(char)} method.
+ * <p>Popular escapers are defined as constants in classes like {@link
+ * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To create
+ * your own escapers extend this class and implement the {@link #escape(char)} method.
  *
  * @author Sven Mawson
  * @since 15.0
@@ -170,8 +170,6 @@ public abstract class CharEscaper extends Escaper {
     return copy;
   }
 
-  /**
-   * The multiplier for padding to use when growing the escape buffer.
-   */
+  /** The multiplier for padding to use when growing the escape buffer. */
   private static final int DEST_PAD_MULTIPLIER = 2;
 }

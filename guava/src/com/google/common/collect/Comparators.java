@@ -51,12 +51,12 @@ public final class Comparators {
    * Returns a new comparator which sorts iterables by comparing corresponding elements pairwise
    * until a nonzero result is found; imposes "dictionary order." If the end of one iterable is
    * reached, but not the other, the shorter iterable is considered to be less than the longer one.
-   * For example, a lexicographical natural ordering over integers considers {@code
-   * [] < [1] < [1, 1] < [1, 2] < [2]}.
+   * For example, a lexicographical natural ordering over integers considers {@code [] < [1] < [1,
+   * 1] < [1, 2] < [2]}.
    *
-   * <p>Note that {@code Collections.reverseOrder(lexicographical(comparator))} is not
-   * equivalent to {@code lexicographical(Collections.reverseOrder(comparator))} (consider how each
-   * would order {@code [1]} and {@code [1, 1]}).
+   * <p>Note that {@code Collections.reverseOrder(lexicographical(comparator))} is not equivalent to
+   * {@code lexicographical(Collections.reverseOrder(comparator))} (consider how each would order
+   * {@code [1]} and {@code [1, 1]}).
    */
   // Note: 90% of the time we don't add type parameters or wildcards that serve only to "tweak" the
   // desired return type. However, *nested* generics introduce a special class of problems that we
@@ -67,8 +67,8 @@ public final class Comparators {
 
   /**
    * Returns {@code true} if each element in {@code iterable} after the first is greater than or
-   * equal to the element that preceded it, according to the specified comparator. Note that this
-   * is always true when the iterable has fewer than two elements.
+   * equal to the element that preceded it, according to the specified comparator. Note that this is
+   * always true when the iterable has fewer than two elements.
    */
   public static <T> boolean isInOrder(Iterable<? extends T> iterable, Comparator<T> comparator) {
     checkNotNull(comparator);
@@ -110,19 +110,20 @@ public final class Comparators {
 
   /**
    * Returns a {@code Collector} that returns the {@code k} smallest (relative to the specified
-   * {@code Comparator}) input elements, in ascending order, as an unmodifiable {@code List}.
-   * Ties are broken arbitrarily.
+   * {@code Comparator}) input elements, in ascending order, as an unmodifiable {@code List}. Ties
+   * are broken arbitrarily.
    *
-   * For example:
-   *  <pre>   {@code
+   * <p>For example:
    *
-   *   Stream.of("foo", "quux", "banana", "elephant")
-   *       .collect(least(2, comparingInt(String::length)))
-   *   // returns {"foo", "quux"}}</pre>
+   * <pre>{@code
+   * Stream.of("foo", "quux", "banana", "elephant")
+   *     .collect(least(2, comparingInt(String::length)))
+   * // returns {"foo", "quux"}
+   * }</pre>
    *
-   * <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
-   * (worst-case O(n log k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which
-   * currently takes O(n log n) time and O(n) space.
+   * <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
+   * k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which currently takes O(n
+   * log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 22.0
@@ -140,20 +141,20 @@ public final class Comparators {
 
   /**
    * Returns a {@code Collector} that returns the {@code k} greatest (relative to the specified
-   * {@code Comparator}) input elements, in descending order, as an unmodifiable {@code List}.
-   * Ties are broken arbitrarily.
+   * {@code Comparator}) input elements, in descending order, as an unmodifiable {@code List}. Ties
+   * are broken arbitrarily.
    *
-   * For example:
-   *  <pre>   {@code
+   * <p>For example:
    *
-   *   Stream.of("foo", "quux", "banana", "elephant")
-   *       .collect(greatest(2, comparingInt(String::length)))
-   *   // returns {"elephant", "banana"}}</pre>
+   * <pre>{@code
+   * Stream.of("foo", "quux", "banana", "elephant")
+   *     .collect(greatest(2, comparingInt(String::length)))
+   * // returns {"elephant", "banana"}
+   * }</pre>
    *
-   * <p>This {@code Collector} uses O(k) memory and takes expected time O(n)
-   * (worst-case O(n log k)), as opposed to e.g.
-   * {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently takes O(n log n) time
-   * and O(n) space.
+   * <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
+   * k)), as opposed to e.g. {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently
+   * takes O(n log n) time and O(n) space.
    *
    * @throws IllegalArgumentException if {@code k < 0}
    * @since 22.0
@@ -170,7 +171,7 @@ public final class Comparators {
    * @since 22.0
    */
   @Beta
-  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<T> valueComparator) {
+  public static <T> Comparator<Optional<T>> emptiesFirst(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.comparing(o -> o.orElse(null), Comparator.nullsFirst(valueComparator));
   }
@@ -183,7 +184,7 @@ public final class Comparators {
    * @since 22.0
    */
   @Beta
-  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<T> valueComparator) {
+  public static <T> Comparator<Optional<T>> emptiesLast(Comparator<? super T> valueComparator) {
     checkNotNull(valueComparator);
     return Comparator.comparing(o -> o.orElse(null), Comparator.nullsLast(valueComparator));
   }

@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.
@@ -37,7 +37,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  public static String nullToEmpty(@Nullable String string) {
+  public static String nullToEmpty(@NullableDecl String string) {
     return (string == null) ? "" : string;
   }
 
@@ -47,8 +47,8 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
-  @Nullable
-  public static String emptyToNull(@Nullable String string) {
+  @NullableDecl
+  public static String emptyToNull(@NullableDecl String string) {
     return isNullOrEmpty(string) ? null : string;
   }
 
@@ -63,7 +63,7 @@ public final class Strings {
    * @param string a string reference to check
    * @return {@code true} if the string is null or is the empty string
    */
-  public static boolean isNullOrEmpty(@Nullable String string) {
+  public static boolean isNullOrEmpty(@NullableDecl String string) {
     return Platform.stringIsNullOrEmpty(string);
   }
 
@@ -72,8 +72,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padStart("7", 3, '0')} returns {@code "007"}
-   * <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
+   *   <li>{@code padStart("7", 3, '0')} returns {@code "007"}
+   *   <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -103,8 +103,8 @@ public final class Strings {
    * with as many copies of {@code padChar} as are necessary to reach that length. For example,
    *
    * <ul>
-   * <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
-   * <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
+   *   <li>{@code padEnd("4.", 5, '0')} returns {@code "4.000"}
+   *   <li>{@code padEnd("2010", 3, '!')} returns {@code "2010"}
    * </ul>
    *
    * <p>See {@link java.util.Formatter} for a richer set of formatting capabilities.
@@ -166,10 +166,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code prefix} such that
-   * {@code a.toString().startsWith(prefix) && b.toString().startsWith(prefix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common prefix, returns the empty
-   * string.
+   * Returns the longest string {@code prefix} such that {@code a.toString().startsWith(prefix) &&
+   * b.toString().startsWith(prefix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common prefix, returns the empty string.
    *
    * @since 11.0
    */
@@ -189,10 +188,9 @@ public final class Strings {
   }
 
   /**
-   * Returns the longest string {@code suffix} such that
-   * {@code a.toString().endsWith(suffix) && b.toString().endsWith(suffix)}, taking care not to
-   * split surrogate pairs. If {@code a} and {@code b} have no common suffix, returns the empty
-   * string.
+   * Returns the longest string {@code suffix} such that {@code a.toString().endsWith(suffix) &&
+   * b.toString().endsWith(suffix)}, taking care not to split surrogate pairs. If {@code a} and
+   * {@code b} have no common suffix, returns the empty string.
    *
    * @since 11.0
    */

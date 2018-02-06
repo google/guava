@@ -48,17 +48,17 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
     implements ClassToInstanceMap<B>, Serializable {
 
   /**
-   * Returns a new {@code MutableClassToInstanceMap} instance backed by a {@link
-   * HashMap} using the default initial capacity and load factor.
+   * Returns a new {@code MutableClassToInstanceMap} instance backed by a {@link HashMap} using the
+   * default initial capacity and load factor.
    */
   public static <B> MutableClassToInstanceMap<B> create() {
     return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends B>, B>());
   }
 
   /**
-   * Returns a new {@code MutableClassToInstanceMap} instance backed by a given
-   * empty {@code backingMap}. The caller surrenders control of the backing map,
-   * and thus should not allow any direct references to it to remain accessible.
+   * Returns a new {@code MutableClassToInstanceMap} instance backed by a given empty {@code
+   * backingMap}. The caller surrenders control of the backing map, and thus should not allow any
+   * direct references to it to remain accessible.
    */
   public static <B> MutableClassToInstanceMap<B> create(Map<Class<? extends B>, B> backingMap) {
     return new MutableClassToInstanceMap<B>(backingMap);
@@ -166,9 +166,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
     return new SerializedForm(delegate());
   }
 
-  /**
-   * Serialized form of the map, to avoid serializing the constraint.
-   */
+  /** Serialized form of the map, to avoid serializing the constraint. */
   private static final class SerializedForm<B> implements Serializable {
     private final Map<Class<? extends B>, B> backingMap;
 

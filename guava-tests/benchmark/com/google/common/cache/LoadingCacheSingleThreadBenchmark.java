@@ -30,13 +30,19 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Charles Fry
  */
 public class LoadingCacheSingleThreadBenchmark {
-  @Param({"1000", "2000"}) int maximumSize;
-  @Param("5000") int distinctKeys;
-  @Param("4") int segments;
+  @Param({"1000", "2000"})
+  int maximumSize;
+
+  @Param("5000")
+  int distinctKeys;
+
+  @Param("4")
+  int segments;
 
   // 1 means uniform likelihood of keys; higher means some keys are more popular
   // tweak this to control hit rate
-  @Param("2.5") double concentration;
+  @Param("2.5")
+  double concentration;
 
   Random random = new Random();
 
@@ -47,20 +53,23 @@ public class LoadingCacheSingleThreadBenchmark {
   static AtomicLong requests = new AtomicLong(0);
   static AtomicLong misses = new AtomicLong(0);
 
-  @BeforeExperiment void setUp() {
+  @BeforeExperiment
+  void setUp() {
     // random integers will be generated in this range, then raised to the
     // power of (1/concentration) and floor()ed
     max = Ints.checkedCast((long) Math.pow(distinctKeys, concentration));
 
-    cache = CacheBuilder.newBuilder()
-        .concurrencyLevel(segments)
-        .maximumSize(maximumSize)
-        .build(
-            new CacheLoader<Integer, Integer>() {
-              @Override public Integer load(Integer from) {
-                return (int) misses.incrementAndGet();
-              }
-            });
+    cache =
+        CacheBuilder.newBuilder()
+            .concurrencyLevel(segments)
+            .maximumSize(maximumSize)
+            .build(
+                new CacheLoader<Integer, Integer>() {
+                  @Override
+                  public Integer load(Integer from) {
+                    return (int) misses.incrementAndGet();
+                  }
+                });
 
     // To start, fill up the cache.
     // Each miss both increments the counter and causes the map to grow by one,
@@ -72,7 +81,8 @@ public class LoadingCacheSingleThreadBenchmark {
     misses.set(0);
   }
 
-  @Benchmark int time(int reps) {
+  @Benchmark
+  int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
       dummy += cache.getUnchecked(nextRandomKey());
@@ -93,7 +103,8 @@ public class LoadingCacheSingleThreadBenchmark {
     return (int) Math.pow(a, 1.0 / concentration);
   }
 
-  @AfterExperiment void tearDown() {
+  @AfterExperiment
+  void tearDown() {
     double req = requests.get();
     double hit = req - misses.get();
 

@@ -161,11 +161,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  @Override public boolean equals(Object obj) {
+  @Override
+  public boolean equals(Object obj) {
     return Sets.equalsImpl(this, obj);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return Sets.hashCodeImpl(this);
   }
 
@@ -218,19 +220,22 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       this.contents = Lists.newArrayListWithCapacity(initialCapacity);
     }
 
-    @Override public Builder<E> add(E element) {
+    @Override
+    public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
       return this;
     }
 
-    @Override public Builder<E> add(E... elements) {
+    @Override
+    public Builder<E> add(E... elements) {
       checkNotNull(elements); // for GWT
       contents.ensureCapacity(contents.size() + elements.length);
       super.add(elements);
       return this;
     }
 
-    @Override public Builder<E> addAll(Iterable<? extends E> elements) {
+    @Override
+    public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
         contents.ensureCapacity(contents.size() + collection.size());
@@ -239,7 +244,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
-    @Override public Builder<E> addAll(Iterator<? extends E> elements) {
+    @Override
+    public Builder<E> addAll(Iterator<? extends E> elements) {
       super.addAll(elements);
       return this;
     }
@@ -249,7 +255,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return this;
     }
 
-    @Override public ImmutableSet<E> build() {
+    @Override
+    public ImmutableSet<E> build() {
       return copyOf(contents.iterator());
     }
   }

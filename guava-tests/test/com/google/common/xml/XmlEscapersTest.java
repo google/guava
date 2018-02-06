@@ -47,28 +47,28 @@ public class XmlEscapersTest extends TestCase {
     assertEquals("&quot;test&quot;", xmlAttributeEscaper.escape("\"test\""));
     assertEquals("&apos;test&apos;", xmlAttributeEscaper.escape("\'test'"));
     // Test all escapes
-    assertEquals("a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;",
-        xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
+    assertEquals(
+        "a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;", xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
     // Test '\t', '\n' and '\r' are escaped.
     assertEquals("a&#x9;b&#xA;c&#xD;d", xmlAttributeEscaper.escape("a\tb\nc\rd"));
   }
 
   // Helper to assert common properties of xml escapers.
-  static void assertBasicXmlEscaper(CharEscaper xmlEscaper,
-      boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
+  static void assertBasicXmlEscaper(
+      CharEscaper xmlEscaper, boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
     // Simple examples (smoke tests)
     assertEquals("xxx", xmlEscaper.escape("xxx"));
-    assertEquals("test &amp; test &amp; test",
-        xmlEscaper.escape("test & test & test"));
+    assertEquals("test &amp; test &amp; test", xmlEscaper.escape("test & test & test"));
     assertEquals("test &lt;&lt; 1", xmlEscaper.escape("test << 1"));
     assertEquals("test &gt;&gt; 1", xmlEscaper.escape("test >> 1"));
     assertEquals("&lt;tab&gt;", xmlEscaper.escape("<tab>"));
 
     // Test all non-escaped ASCII characters.
-    String s = "!@#$%^*()_+=-/?\\|]}[{,.;:" +
-        "abcdefghijklmnopqrstuvwxyz" +
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-        "1234567890";
+    String s =
+        "!@#$%^*()_+=-/?\\|]}[{,.;:"
+            + "abcdefghijklmnopqrstuvwxyz"
+            + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            + "1234567890";
     assertEquals(s, xmlEscaper.escape(s));
 
     // Test ASCII control characters.
@@ -103,8 +103,7 @@ public class XmlEscapersTest extends TestCase {
         String input = String.valueOf(ch);
         String escaped = xmlEscaper.escape(input);
         assertEquals(
-            "char 0x" + Integer.toString(ch, 16) + " should not be escaped",
-            input, escaped);
+            "char 0x" + Integer.toString(ch, 16) + " should not be escaped", input, escaped);
       }
     }
 
@@ -112,9 +111,13 @@ public class XmlEscapersTest extends TestCase {
     assertEscaping(xmlEscaper, "\uFFFD", '\uFFFE');
     assertEscaping(xmlEscaper, "\uFFFD", '\uFFFF');
 
-    assertEquals("0xFFFE is forbidden and should be replaced during escaping",
-        "[\uFFFD]", xmlEscaper.escape("[\ufffe]"));
-    assertEquals("0xFFFF is forbidden and should be replaced during escaping",
-        "[\uFFFD]", xmlEscaper.escape("[\uffff]"));
+    assertEquals(
+        "0xFFFE is forbidden and should be replaced during escaping",
+        "[\uFFFD]",
+        xmlEscaper.escape("[\ufffe]"));
+    assertEquals(
+        "0xFFFF is forbidden and should be replaced during escaping",
+        "[\uFFFD]",
+        xmlEscaper.escape("[\uffff]"));
   }
 }

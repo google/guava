@@ -57,9 +57,7 @@ import java.util.concurrent.Executor;
  */
 @GwtCompatible(emulated = true)
 public abstract class CacheLoader<K, V> {
-  /**
-   * Constructor for use by subclasses.
-   */
+  /** Constructor for use by subclasses. */
   protected CacheLoader() {}
 
   /**
@@ -76,12 +74,12 @@ public abstract class CacheLoader<K, V> {
 
   /**
    * Computes or retrieves a replacement value corresponding to an already-cached {@code key}. This
-   * method is called when an existing cache entry is refreshed by
-   * {@link CacheBuilder#refreshAfterWrite}, or through a call to {@link LoadingCache#refresh}.
+   * method is called when an existing cache entry is refreshed by {@link
+   * CacheBuilder#refreshAfterWrite}, or through a call to {@link LoadingCache#refresh}.
    *
    * <p>This implementation synchronously delegates to {@link #load}. It is recommended that it be
-   * overridden with an asynchronous implementation when using
-   * {@link CacheBuilder#refreshAfterWrite}.
+   * overridden with an asynchronous implementation when using {@link
+   * CacheBuilder#refreshAfterWrite}.
    *
    * <p><b>Note:</b> <i>all exceptions thrown by this method will be logged and then swallowed</i>.
    *
@@ -103,8 +101,8 @@ public abstract class CacheLoader<K, V> {
   }
 
   /**
-   * Computes or retrieves the values corresponding to {@code keys}. This method is called by
-   * {@link LoadingCache#getAll}.
+   * Computes or retrieves the values corresponding to {@code keys}. This method is called by {@link
+   * LoadingCache#getAll}.
    *
    * <p>If the returned map doesn't contain all requested {@code keys} then the entries it does
    * contain will be cached, but {@code getAll} will throw an exception. If the returned map
@@ -171,8 +169,8 @@ public abstract class CacheLoader<K, V> {
   }
 
   /**
-   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to
-   * {@link CacheLoader#reload} using {@code executor}.
+   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to {@link
+   * CacheLoader#reload} using {@code executor}.
    *
    * <p>This method is useful only when {@code loader.reload} has a synchronous implementation, such
    * as {@linkplain #reload the default implementation}.

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
@@ -60,7 +60,7 @@ public final class MoreCollectors {
   public static <T> Collector<T, ?, Optional<T>> toOptional() {
     return (Collector) TO_OPTIONAL;
   }
-  
+
   private static final Object NULL_PLACEHOLDER = new Object();
 
   private static final Collector<Object, ?, Object> ONLY_ELEMENT =
@@ -91,8 +91,8 @@ public final class MoreCollectors {
   private static final class ToOptionalState {
     static final int MAX_EXTRAS = 4;
 
-    @Nullable Object element;
-    @Nullable List<Object> extras;
+    @NullableDecl Object element;
+    @NullableDecl List<Object> extras;
 
     ToOptionalState() {
       element = null;

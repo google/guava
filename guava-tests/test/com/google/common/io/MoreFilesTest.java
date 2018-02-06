@@ -57,18 +57,28 @@ public class MoreFilesTest extends TestCase {
 
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(ByteSourceTester.tests("MoreFiles.asByteSource[Path]",
-        SourceSinkFactories.pathByteSourceFactory(), true));
-    suite.addTest(ByteSinkTester.tests("MoreFiles.asByteSink[Path]",
-        SourceSinkFactories.pathByteSinkFactory()));
-    suite.addTest(ByteSinkTester.tests("MoreFiles.asByteSink[Path, APPEND]",
-        SourceSinkFactories.appendingPathByteSinkFactory()));
-    suite.addTest(CharSourceTester.tests("MoreFiles.asCharSource[Path, Charset]",
-        SourceSinkFactories.pathCharSourceFactory(), false));
-    suite.addTest(CharSinkTester.tests("MoreFiles.asCharSink[Path, Charset]",
-        SourceSinkFactories.pathCharSinkFactory()));
-    suite.addTest(CharSinkTester.tests("MoreFiles.asCharSink[Path, Charset, APPEND]",
-        SourceSinkFactories.appendingPathCharSinkFactory()));
+    suite.addTest(
+        ByteSourceTester.tests(
+            "MoreFiles.asByteSource[Path]", SourceSinkFactories.pathByteSourceFactory(), true));
+    suite.addTest(
+        ByteSinkTester.tests(
+            "MoreFiles.asByteSink[Path]", SourceSinkFactories.pathByteSinkFactory()));
+    suite.addTest(
+        ByteSinkTester.tests(
+            "MoreFiles.asByteSink[Path, APPEND]",
+            SourceSinkFactories.appendingPathByteSinkFactory()));
+    suite.addTest(
+        CharSourceTester.tests(
+            "MoreFiles.asCharSource[Path, Charset]",
+            SourceSinkFactories.pathCharSourceFactory(),
+            false));
+    suite.addTest(
+        CharSinkTester.tests(
+            "MoreFiles.asCharSink[Path, Charset]", SourceSinkFactories.pathCharSinkFactory()));
+    suite.addTest(
+        CharSinkTester.tests(
+            "MoreFiles.asCharSink[Path, Charset, APPEND]",
+            SourceSinkFactories.appendingPathCharSinkFactory()));
     suite.addTestSuite(MoreFilesTest.class);
     return suite;
   }
@@ -90,22 +100,26 @@ public class MoreFilesTest extends TestCase {
   protected void tearDown() throws Exception {
     if (tempDir != null) {
       // delete tempDir and its contents
-      Files.walkFileTree(tempDir, new SimpleFileVisitor<Path>() {
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-          Files.deleteIfExists(file);
-          return FileVisitResult.CONTINUE;
-        }
+      Files.walkFileTree(
+          tempDir,
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                throws IOException {
+              Files.deleteIfExists(file);
+              return FileVisitResult.CONTINUE;
+            }
 
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-          if (exc != null) {
-            return FileVisitResult.TERMINATE;
-          }
-          Files.deleteIfExists(dir);
-          return FileVisitResult.CONTINUE;
-        }
-      });
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+                throws IOException {
+              if (exc != null) {
+                return FileVisitResult.TERMINATE;
+              }
+              Files.deleteIfExists(dir);
+              return FileVisitResult.CONTINUE;
+            }
+          });
     }
   }
 
@@ -408,9 +422,12 @@ public class MoreFilesTest extends TestCase {
    * </pre>
    */
   static FileSystem newTestFileSystem(Feature... supportedFeatures) throws IOException {
-    FileSystem fs = Jimfs.newFileSystem(Configuration.unix().toBuilder()
-        .setSupportedFeatures(ObjectArrays.concat(SYMBOLIC_LINKS, supportedFeatures))
-        .build());
+    FileSystem fs =
+        Jimfs.newFileSystem(
+            Configuration.unix()
+                .toBuilder()
+                .setSupportedFeatures(ObjectArrays.concat(SYMBOLIC_LINKS, supportedFeatures))
+                .build());
     Files.createDirectories(fs.getPath("dir/b/i/j/l"));
     Files.createFile(fs.getPath("dir/a"));
     Files.createFile(fs.getPath("dir/c"));
@@ -437,8 +454,10 @@ public class MoreFilesTest extends TestCase {
         method.delete(dir);
         method.assertDeleteSucceeded(dir);
 
-        assertEquals("contents of /dontdelete deleted by delete method " + method,
-            3, MoreFiles.listFiles(fs.getPath("/dontdelete")).size());
+        assertEquals(
+            "contents of /dontdelete deleted by delete method " + method,
+            3,
+            MoreFiles.listFiles(fs.getPath("/dontdelete")).size());
       }
     }
   }
@@ -513,8 +532,10 @@ public class MoreFilesTest extends TestCase {
         method.delete(dir, ALLOW_INSECURE);
         method.assertDeleteSucceeded(dir);
 
-        assertEquals("contents of /dontdelete deleted by delete method " + method,
-            3, MoreFiles.listFiles(fs.getPath("/dontdelete")).size());
+        assertEquals(
+            "contents of /dontdelete deleted by delete method " + method,
+            3,
+            MoreFiles.listFiles(fs.getPath("/dontdelete")).size());
       }
     }
   }
@@ -549,12 +570,12 @@ public class MoreFilesTest extends TestCase {
   }
 
   /**
-   * This test attempts to create a situation in which one thread is constantly changing a file
-   * from being a real directory to being a symlink to another directory. It then calls
+   * This test attempts to create a situation in which one thread is constantly changing a file from
+   * being a real directory to being a symlink to another directory. It then calls
    * deleteDirectoryContents thousands of times on a directory whose subtree contains the file
-   * that's switching between directory and symlink to try to ensure that under no circumstance
-   * does deleteDirectoryContents follow the symlink to the other directory and delete that
-   * directory's contents.
+   * that's switching between directory and symlink to try to ensure that under no circumstance does
+   * deleteDirectoryContents follow the symlink to the other directory and delete that directory's
+   * contents.
    *
    * <p>We can only test this with a file system that supports SecureDirectoryStream, because it's
    * not possible to protect against this if the file system doesn't.
@@ -623,8 +644,8 @@ public class MoreFilesTest extends TestCase {
   /**
    * Starts a new task on the given executor that switches (deletes and replaces) a file between
    * being a directory and being a symlink. The given {@code file} is the file that should switch
-   * between being a directory and being a symlink, while the given {@code target} is the target
-   * the symlink should have.
+   * between being a directory and being a symlink, while the given {@code target} is the target the
+   * symlink should have.
    */
   private static void startDirectorySymlinkSwitching(
       final Path file, final Path target, ExecutorService executor) {
@@ -656,9 +677,7 @@ public class MoreFilesTest extends TestCase {
             });
   }
 
-  /**
-   * Enum defining the two MoreFiles methods that delete directory contents.
-   */
+  /** Enum defining the two MoreFiles methods that delete directory contents. */
   private enum DirectoryDeleteMethod {
     DELETE_DIRECTORY_CONTENTS {
       @Override
@@ -668,8 +687,10 @@ public class MoreFilesTest extends TestCase {
 
       @Override
       public void assertDeleteSucceeded(Path path) throws IOException {
-        assertEquals("contents of directory " + path + " not deleted with delete method " + this,
-            0, MoreFiles.listFiles(path).size());
+        assertEquals(
+            "contents of directory " + path + " not deleted with delete method " + this,
+            0,
+            MoreFiles.listFiles(path).size());
       }
     },
     DELETE_RECURSIVELY {
@@ -680,8 +701,7 @@ public class MoreFilesTest extends TestCase {
 
       @Override
       public void assertDeleteSucceeded(Path path) throws IOException {
-        assertFalse("file " + path + " not deleted with delete method " + this,
-            Files.exists(path));
+        assertFalse("file " + path + " not deleted with delete method " + this, Files.exists(path));
       }
     };
 

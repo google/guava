@@ -39,8 +39,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.annotation.Nullable;
 import junit.framework.TestCase;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link Quantiles}.
@@ -90,7 +90,7 @@ public class QuantilesTest extends TestCase {
       new Correspondence<Double, Double>() {
 
         @Override
-        public boolean compare(@Nullable Double actual, @Nullable Double expected) {
+        public boolean compare(@NullableDecl Double actual, @NullableDecl Double expected) {
           // Test for equality to allow non-finite values to match; otherwise, use the finite test.
           return actual.equals(expected)
               || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
@@ -104,15 +104,17 @@ public class QuantilesTest extends TestCase {
 
   // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
 
-  /**
-   * The squares of the 16 integers from 0 to 15, in an arbitrary order.
-   */
-  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES = ImmutableList.of(25.0, 100.0,
-      0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0, 196.0);
-  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS = ImmutableList.of(25L, 100L,
-      0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
-  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS = ImmutableList.of(25, 100,
-      0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
+  /** The squares of the 16 integers from 0 to 15, in an arbitrary order. */
+  private static final ImmutableList<Double> SIXTEEN_SQUARES_DOUBLES =
+      ImmutableList.of(
+          25.0, 100.0, 0.0, 144.0, 9.0, 121.0, 4.0, 225.0, 169.0, 64.0, 49.0, 16.0, 36.0, 1.0, 81.0,
+          196.0);
+
+  private static final ImmutableList<Long> SIXTEEN_SQUARES_LONGS =
+      ImmutableList.of(
+          25L, 100L, 0L, 144L, 9L, 121L, 4L, 225L, 169L, 64L, 49L, 16L, 36L, 1L, 81L, 196L);
+  private static final ImmutableList<Integer> SIXTEEN_SQUARES_INTEGERS =
+      ImmutableList.of(25, 100, 0, 144, 9, 121, 4, 225, 169, 64, 49, 16, 36, 1, 81, 196);
   private static final double SIXTEEN_SQUARES_MIN = 0.0;
   private static final double SIXTEEN_SQUARES_DECILE_1 = 0.5 * (1.0 + 4.0);
   private static final double SIXTEEN_SQUARES_QUARTILE_1 = 0.25 * 9.0 + 0.75 * 16.0;
@@ -238,7 +240,7 @@ public class QuantilesTest extends TestCase {
     // This test is the same as testScale_indexes_varargs_compute_doubleCollection except that the
     // array of indexes to be calculated is modified between the calls to indexes and compute: since
     // the contract is that it is snapshotted, this shouldn't make any difference to the result.
-    int[] indexes = { 0, 10, 5, 1, 8, 10 };
+    int[] indexes = {0, 10, 5, 1, 8, 10};
     ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(indexes);
     indexes[0] = 3;
     assertThat(intermediate.compute(SIXTEEN_SQUARES_DOUBLES))
@@ -253,7 +255,7 @@ public class QuantilesTest extends TestCase {
 
   public void testScale_indexes_largeVarargs_compute_doubleCollection() {
     int scale = Integer.MAX_VALUE;
-    int otherIndex = (Integer.MAX_VALUE - 1) / 3;  // this divides exactly
+    int otherIndex = (Integer.MAX_VALUE - 1) / 3; // this divides exactly
     // For the otherIndex calculation, we have q=Integer.MAX_VALUE, k=(Integer.MAX_VALUE-1)/3, and
     // N=16. Therefore k*(N-1)/q = 5-5/Integer.MAX_VALUE, which has floor 4 and fractional part
     // (1-5/Integer.MAX_VALUE).
@@ -390,8 +392,13 @@ public class QuantilesTest extends TestCase {
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NEGATIVE_INFINITY =
       ImmutableList.of(3.0, 5.0, NEGATIVE_INFINITY, 1.0, 4.0, 2.0);
   private static final ImmutableList<Double> NEGATIVE_INFINITY_AND_FIVE_POSITIVE_INFINITIES =
-      ImmutableList.of(POSITIVE_INFINITY, POSITIVE_INFINITY, NEGATIVE_INFINITY, POSITIVE_INFINITY,
-          POSITIVE_INFINITY, POSITIVE_INFINITY);
+      ImmutableList.of(
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          NEGATIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY,
+          POSITIVE_INFINITY);
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_NAN =
       ImmutableList.of(3.0, 5.0, NaN, 1.0, 4.0, 2.0);
 

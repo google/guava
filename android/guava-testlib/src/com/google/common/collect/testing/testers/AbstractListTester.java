@@ -21,6 +21,7 @@ import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Base class for list testers.
@@ -28,6 +29,7 @@ import java.util.List;
  * @author George van den Driessche
  */
 @GwtCompatible
+@Ignore // Affects only Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 public class AbstractListTester<E> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named list that was initialized to the value of
@@ -40,10 +42,10 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
 
   /**
    * {@inheritDoc}
-   * <p>
-   * The {@code AbstractListTester} implementation overrides
-   * {@link AbstractCollectionTester#expectContents(Collection)} to verify that
-   * the order of the elements in the list under test matches what is expected.
+   *
+   * <p>The {@code AbstractListTester} implementation overrides {@link
+   * AbstractCollectionTester#expectContents(Collection)} to verify that the order of the elements
+   * in the list under test matches what is expected.
    */
   @Override
   protected void expectContents(Collection<E> expectedCollection) {
@@ -62,9 +64,8 @@ public class AbstractListTester<E> extends AbstractCollectionTester<E> {
   }
 
   /**
-   * Used to delay string formatting until actually required, as it
-   * otherwise shows up in the test execution profile when running an
-   * extremely large numbers of tests.
+   * Used to delay string formatting until actually required, as it otherwise shows up in the test
+   * execution profile when running an extremely large numbers of tests.
    */
   private String reportContext(List<E> expected) {
     return Platform.format(

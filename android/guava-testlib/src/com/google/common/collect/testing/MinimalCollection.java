@@ -23,8 +23,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A simplistic collection which implements only the bare minimum allowed by the
- * spec, and throws exceptions whenever it can.
+ * A simplistic collection which implements only the bare minimum allowed by the spec, and throws
+ * exceptions whenever it can.
  *
  * @author Kevin Bourrillion
  */

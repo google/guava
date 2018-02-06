@@ -43,8 +43,8 @@ public class TypeResolverTest extends TestCase {
   public <T> void testWhere_indirectMapping() {
     Type t1 = new TypeCapture<T>() {}.capture();
     Type t2 = aTypeVariable();
-    assertEquals(String.class,
-        new TypeResolver().where(t1, t2).where(t2, String.class).resolveType(t1));
+    assertEquals(
+        String.class, new TypeResolver().where(t1, t2).where(t2, String.class).resolveType(t1));
   }
 
   public void testWhere_typeVariableSelfMapping() {
@@ -67,8 +67,8 @@ public class TypeResolverTest extends TestCase {
 
   public <T> void testWhere_rawClassSelfMapping() {
     TypeResolver resolver = new TypeResolver();
-    assertEquals(String.class,
-        resolver.where(String.class, String.class).resolveType(String.class));
+    assertEquals(
+        String.class, resolver.where(String.class, String.class).resolveType(String.class));
   }
 
   public <T> void testWhere_wildcardSelfMapping() {
@@ -83,7 +83,8 @@ public class TypeResolverTest extends TestCase {
     try {
       resolver.where(t, String.class);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T1, T2 extends List<T1>> void testWhere_recursiveMapping() {
@@ -94,144 +95,178 @@ public class TypeResolverTest extends TestCase {
 
   public <T> void testWhere_genericArrayMapping() {
     Type t = new TypeCapture<T>() {}.capture();
-    assertEquals(String.class, new TypeResolver()
-        .where(new TypeCapture<T[]>() {}.capture(), String[].class)
-        .resolveType(t));
+    assertEquals(
+        String.class,
+        new TypeResolver()
+            .where(new TypeCapture<T[]>() {}.capture(), String[].class)
+            .resolveType(t));
   }
 
   public <T> void testWhere_primitiveArrayMapping() {
     Type t = new TypeCapture<T>() {}.capture();
-    assertEquals(int.class,
+    assertEquals(
+        int.class,
         new TypeResolver().where(new TypeCapture<T[]>() {}.capture(), int[].class).resolveType(t));
   }
 
   public <T> void testWhere_parameterizedTypeMapping() {
     Type t = new TypeCapture<T>() {}.capture();
-    assertEquals(String.class, new TypeResolver()
-        .where(new TypeCapture<List<T>>() {}.capture(),
-            new TypeCapture<List<String>>() {}.capture())
-        .resolveType(t));
-    assertEquals(Types.subtypeOf(String.class), new TypeResolver()
-        .where(new TypeCapture<List<T>>() {}.capture(),
-            new TypeCapture<List<? extends String>>() {}.capture())
-        .resolveType(t));
-    assertEquals(Types.supertypeOf(String.class), new TypeResolver()
-        .where(new TypeCapture<List<T>>() {}.capture(),
-            new TypeCapture<List<? super String>>() {}.capture())
-        .resolveType(t));
+    assertEquals(
+        String.class,
+        new TypeResolver()
+            .where(
+                new TypeCapture<List<T>>() {}.capture(),
+                new TypeCapture<List<String>>() {}.capture())
+            .resolveType(t));
+    assertEquals(
+        Types.subtypeOf(String.class),
+        new TypeResolver()
+            .where(
+                new TypeCapture<List<T>>() {}.capture(),
+                new TypeCapture<List<? extends String>>() {}.capture())
+            .resolveType(t));
+    assertEquals(
+        Types.supertypeOf(String.class),
+        new TypeResolver()
+            .where(
+                new TypeCapture<List<T>>() {}.capture(),
+                new TypeCapture<List<? super String>>() {}.capture())
+            .resolveType(t));
   }
 
   public <T> void testWhere_wildcardTypeMapping() {
     Type t = new TypeCapture<T>() {}.capture();
-    assertEquals(String.class, new TypeResolver()
-        .where(new TypeCapture<List<? extends T>>() {}.capture(),
-            new TypeCapture<List<? extends String>>() {}.capture())
-        .resolveType(t));
-    assertEquals(String.class, new TypeResolver()
-        .where(new TypeCapture<List<? super T>>() {}.capture(),
-            new TypeCapture<List<? super String>>() {}.capture())
-        .resolveType(t));
+    assertEquals(
+        String.class,
+        new TypeResolver()
+            .where(
+                new TypeCapture<List<? extends T>>() {}.capture(),
+                new TypeCapture<List<? extends String>>() {}.capture())
+            .resolveType(t));
+    assertEquals(
+        String.class,
+        new TypeResolver()
+            .where(
+                new TypeCapture<List<? super T>>() {}.capture(),
+                new TypeCapture<List<? super String>>() {}.capture())
+            .resolveType(t));
   }
 
   public <T> void testWhere_incompatibleGenericArrayMapping() {
     try {
       new TypeResolver().where(new TypeCapture<T[]>() {}.capture(), String.class);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_incompatibleParameterizedTypeMapping() {
     try {
       new TypeResolver().where(new TypeCapture<Iterable<T>>() {}.capture(), List.class);
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_impossibleParameterizedTypeMapping() {
     try {
-      new TypeResolver().where(
-          new TypeCapture<List<T>>() {}.capture(),
-          new TypeCapture<Map<String, Integer>>() {}.capture());
+      new TypeResolver()
+          .where(
+              new TypeCapture<List<T>>() {}.capture(),
+              new TypeCapture<Map<String, Integer>>() {}.capture());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_incompatibleWildcardUpperBound() {
     try {
-      new TypeResolver().where(
-          new TypeCapture<List<? extends String>>() {}.capture(),
-          new TypeCapture<List<? extends Integer>>() {}.capture());
+      new TypeResolver()
+          .where(
+              new TypeCapture<List<? extends String>>() {}.capture(),
+              new TypeCapture<List<? extends Integer>>() {}.capture());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_incompatibleWildcardLowerBound() {
     try {
-      new TypeResolver().where(
-          new TypeCapture<List<? super String>>() {}.capture(),
-          new TypeCapture<List<? super Integer>>() {}.capture());
+      new TypeResolver()
+          .where(
+              new TypeCapture<List<? super String>>() {}.capture(),
+              new TypeCapture<List<? super Integer>>() {}.capture());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_incompatibleWildcardBounds() {
     try {
-      new TypeResolver().where(
-          new TypeCapture<List<? extends T>>() {}.capture(),
-          new TypeCapture<List<? super String>>() {}.capture());
+      new TypeResolver()
+          .where(
+              new TypeCapture<List<? extends T>>() {}.capture(),
+              new TypeCapture<List<? super String>>() {}.capture());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_wrongOrder() {
     try {
       new TypeResolver().where(String.class, aTypeVariable());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_mapFromConcreteParameterizedType() {
     try {
       new TypeResolver().where(new TypeCapture<List<String>>() {}.capture(), aTypeVariable());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <T> void testWhere_mapFromConcreteGenericArrayType() {
     try {
       new TypeResolver().where(new TypeCapture<List<String>>() {}.capture(), aTypeVariable());
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   public <K, V> void testWhere_actualArgHasWildcard() {
-    TypeResolver resolver = new TypeResolver().where(
-        new TypeCapture<Iterable<Map<?, V>>>() {}.capture(),
-        new TypeCapture<Iterable<Map<String, Integer>>>() {}.capture());
+    TypeResolver resolver =
+        new TypeResolver()
+            .where(
+                new TypeCapture<Iterable<Map<?, V>>>() {}.capture(),
+                new TypeCapture<Iterable<Map<String, Integer>>>() {}.capture());
     assertEquals(
         new TypeCapture<K>() {}.capture(), resolver.resolveType(new TypeCapture<K>() {}.capture()));
-    assertEquals(
-        Integer.class, resolver.resolveType(new TypeCapture<V>() {}.capture()));
+    assertEquals(Integer.class, resolver.resolveType(new TypeCapture<V>() {}.capture()));
   }
 
   public <T> void testWhere_mapFromWildcard() {
     Type subtype = new TypeCapture<TypedKeyMap<T>>() {}.capture();
-    assertEquals(new TypeCapture<TypedKeyMap<String>>() {}.capture(),
+    assertEquals(
+        new TypeCapture<TypedKeyMap<String>>() {}.capture(),
         new TypeResolver()
             .where(
                 new TypeCapture<Map<Integer, T>>() {}.capture(),
                 new TypeCapture<Map<?, String>>() {}.capture())
-        .resolveType(subtype));
+            .resolveType(subtype));
   }
 
   public <T> void testWhere_mapFromWildcardToParameterized() {
     Type subtype = new TypeCapture<TypedListKeyMap<T>>() {}.capture();
-    assertEquals(new TypeCapture<TypedListKeyMap<String>>() {}.capture(),
+    assertEquals(
+        new TypeCapture<TypedListKeyMap<String>>() {}.capture(),
         new TypeResolver()
             .where(
                 new TypeCapture<Map<List<Integer>, T>>() {}.capture(),
                 new TypeCapture<Map<?, String>>() {}.capture())
-        .resolveType(subtype));
+            .resolveType(subtype));
   }
 
   public <T> void testWhere_mapFromBoundedWildcard() {
@@ -246,6 +281,7 @@ public class TypeResolverTest extends TestCase {
   }
 
   interface TypedKeyMap<T> extends Map<Integer, T> {}
+
   interface TypedListKeyMap<T> extends Map<List<Integer>, T> {}
 
   private static <T> Type aTypeVariable() {
@@ -253,8 +289,8 @@ public class TypeResolverTest extends TestCase {
   }
 
   private static <T> Type aWildcardType() {
-    ParameterizedType parameterizedType = (ParameterizedType)
-        new TypeCapture<List<? extends T>>() {}.capture();
+    ParameterizedType parameterizedType =
+        (ParameterizedType) new TypeCapture<List<? extends T>>() {}.capture();
     return parameterizedType.getActualTypeArguments()[0];
   }
 }
