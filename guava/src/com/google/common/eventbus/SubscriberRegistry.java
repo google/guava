@@ -44,6 +44,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executor;
+import javax.annotation.Nullable;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -83,6 +85,29 @@ final class SubscriberRegistry {
         CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<>();
         eventSubscribers =
             MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
+      }
+
+      eventSubscribers.addAll(eventMethodsInListener);
+    }
+  }
+
+  /**
+   * Registers all subscriber methods on the given listener object and specify executor.
+   */
+  void register(Object listener, Executor executor) {
+    checkNotNull(executor, "executor");
+    Multimap<Class<?>, Subscriber> listenerMethods = findAllSubscribers(listener, executor);
+
+    for (Map.Entry<Class<?>, Collection<Subscriber>> entry : listenerMethods.asMap().entrySet()) {
+      Class<?> eventType = entry.getKey();
+      Collection<Subscriber> eventMethodsInListener = entry.getValue();
+
+      CopyOnWriteArraySet<Subscriber> eventSubscribers = subscribers.get(eventType);
+
+      if (eventSubscribers == null) {
+        CopyOnWriteArraySet<Subscriber> newSet = new CopyOnWriteArraySet<Subscriber>();
+        eventSubscribers =
+                MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
       }
 
       eventSubscribers.addAll(eventMethodsInListener);
@@ -165,6 +190,20 @@ final class SubscriberRegistry {
       Class<?>[] parameterTypes = method.getParameterTypes();
       Class<?> eventType = parameterTypes[0];
       methodsInListener.put(eventType, Subscriber.create(bus, listener, method));
+    }
+    return methodsInListener;
+  }
+
+  /**
+   * Returns all subscribers for the given listener grouped by the type of event they subscribe to.
+   */
+  private Multimap<Class<?>, Subscriber> findAllSubscribers(Object listener, Executor executor) {
+    Multimap<Class<?>, Subscriber> methodsInListener = HashMultimap.create();
+    Class<?> clazz = listener.getClass();
+    for (Method method : getAnnotatedMethods(clazz)) {
+      Class<?>[] parameterTypes = method.getParameterTypes();
+      Class<?> eventType = parameterTypes[0];
+      methodsInListener.put(eventType, Subscriber.create(bus, listener, method, executor));
     }
     return methodsInListener;
   }
