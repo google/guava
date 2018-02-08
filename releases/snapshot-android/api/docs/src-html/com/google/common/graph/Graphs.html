@@ -237,122 +237,122 @@
 <span class="sourceLineNo">229</span>    return new TransposedGraph&lt;N&gt;(graph);<a name="line.229"></a>
 <span class="sourceLineNo">230</span>  }<a name="line.230"></a>
 <span class="sourceLineNo">231</span><a name="line.231"></a>
-<span class="sourceLineNo">232</span>  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  // AbstractGraph) derives its behavior from calling successors().<a name="line.233"></a>
-<span class="sourceLineNo">234</span>  private static class TransposedGraph&lt;N&gt; extends ForwardingGraph&lt;N&gt; {<a name="line.234"></a>
-<span class="sourceLineNo">235</span>    private final Graph&lt;N&gt; graph;<a name="line.235"></a>
-<span class="sourceLineNo">236</span><a name="line.236"></a>
-<span class="sourceLineNo">237</span>    TransposedGraph(Graph&lt;N&gt; graph) {<a name="line.237"></a>
-<span class="sourceLineNo">238</span>      this.graph = graph;<a name="line.238"></a>
+<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * properties remain intact, and further updates to {@code graph} will be reflected in the view.<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   */<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public static &lt;N, V&gt; ValueGraph&lt;N, V&gt; transpose(ValueGraph&lt;N, V&gt; graph) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    if (!graph.isDirected()) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      return graph; // the transpose of an undirected graph is an identical graph<a name="line.238"></a>
 <span class="sourceLineNo">239</span>    }<a name="line.239"></a>
 <span class="sourceLineNo">240</span><a name="line.240"></a>
-<span class="sourceLineNo">241</span>    @Override<a name="line.241"></a>
-<span class="sourceLineNo">242</span>    protected Graph&lt;N&gt; delegate() {<a name="line.242"></a>
-<span class="sourceLineNo">243</span>      return graph;<a name="line.243"></a>
-<span class="sourceLineNo">244</span>    }<a name="line.244"></a>
-<span class="sourceLineNo">245</span><a name="line.245"></a>
-<span class="sourceLineNo">246</span>    @Override<a name="line.246"></a>
-<span class="sourceLineNo">247</span>    public Set&lt;N&gt; predecessors(N node) {<a name="line.247"></a>
-<span class="sourceLineNo">248</span>      return delegate().successors(node); // transpose<a name="line.248"></a>
-<span class="sourceLineNo">249</span>    }<a name="line.249"></a>
-<span class="sourceLineNo">250</span><a name="line.250"></a>
-<span class="sourceLineNo">251</span>    @Override<a name="line.251"></a>
-<span class="sourceLineNo">252</span>    public Set&lt;N&gt; successors(N node) {<a name="line.252"></a>
-<span class="sourceLineNo">253</span>      return delegate().predecessors(node); // transpose<a name="line.253"></a>
-<span class="sourceLineNo">254</span>    }<a name="line.254"></a>
-<span class="sourceLineNo">255</span><a name="line.255"></a>
-<span class="sourceLineNo">256</span>    @Override<a name="line.256"></a>
-<span class="sourceLineNo">257</span>    public int inDegree(N node) {<a name="line.257"></a>
-<span class="sourceLineNo">258</span>      return delegate().outDegree(node); // transpose<a name="line.258"></a>
+<span class="sourceLineNo">241</span>    if (graph instanceof TransposedValueGraph) {<a name="line.241"></a>
+<span class="sourceLineNo">242</span>      return ((TransposedValueGraph&lt;N, V&gt;) graph).graph;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    }<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>    return new TransposedValueGraph&lt;&gt;(graph);<a name="line.245"></a>
+<span class="sourceLineNo">246</span>  }<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * properties remain intact, and further updates to {@code network} will be reflected in the view.<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   */<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  public static &lt;N, E&gt; Network&lt;N, E&gt; transpose(Network&lt;N, E&gt; network) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    if (!network.isDirected()) {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>      return network; // the transpose of an undirected network is an identical network<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    }<a name="line.255"></a>
+<span class="sourceLineNo">256</span><a name="line.256"></a>
+<span class="sourceLineNo">257</span>    if (network instanceof TransposedNetwork) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      return ((TransposedNetwork&lt;N, E&gt;) network).network;<a name="line.258"></a>
 <span class="sourceLineNo">259</span>    }<a name="line.259"></a>
 <span class="sourceLineNo">260</span><a name="line.260"></a>
-<span class="sourceLineNo">261</span>    @Override<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    public int outDegree(N node) {<a name="line.262"></a>
-<span class="sourceLineNo">263</span>      return delegate().inDegree(node); // transpose<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    }<a name="line.264"></a>
-<span class="sourceLineNo">265</span><a name="line.265"></a>
-<span class="sourceLineNo">266</span>    @Override<a name="line.266"></a>
-<span class="sourceLineNo">267</span>    public boolean hasEdgeConnecting(N nodeU, N nodeV) {<a name="line.267"></a>
-<span class="sourceLineNo">268</span>      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    }<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  }<a name="line.270"></a>
-<span class="sourceLineNo">271</span><a name="line.271"></a>
-<span class="sourceLineNo">272</span>  /**<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   * properties remain intact, and further updates to {@code graph} will be reflected in the view.<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
-<span class="sourceLineNo">276</span>  public static &lt;N, V&gt; ValueGraph&lt;N, V&gt; transpose(ValueGraph&lt;N, V&gt; graph) {<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    if (!graph.isDirected()) {<a name="line.277"></a>
-<span class="sourceLineNo">278</span>      return graph; // the transpose of an undirected graph is an identical graph<a name="line.278"></a>
-<span class="sourceLineNo">279</span>    }<a name="line.279"></a>
-<span class="sourceLineNo">280</span><a name="line.280"></a>
-<span class="sourceLineNo">281</span>    if (graph instanceof TransposedValueGraph) {<a name="line.281"></a>
-<span class="sourceLineNo">282</span>      return ((TransposedValueGraph&lt;N, V&gt;) graph).graph;<a name="line.282"></a>
-<span class="sourceLineNo">283</span>    }<a name="line.283"></a>
-<span class="sourceLineNo">284</span><a name="line.284"></a>
-<span class="sourceLineNo">285</span>    return new TransposedValueGraph&lt;&gt;(graph);<a name="line.285"></a>
-<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">261</span>    return new TransposedNetwork&lt;&gt;(network);<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
+<span class="sourceLineNo">263</span><a name="line.263"></a>
+<span class="sourceLineNo">264</span>  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of<a name="line.264"></a>
+<span class="sourceLineNo">265</span>  // AbstractGraph) derives its behavior from calling successors().<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  private static class TransposedGraph&lt;N&gt; extends ForwardingGraph&lt;N&gt; {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    private final Graph&lt;N&gt; graph;<a name="line.267"></a>
+<span class="sourceLineNo">268</span><a name="line.268"></a>
+<span class="sourceLineNo">269</span>    TransposedGraph(Graph&lt;N&gt; graph) {<a name="line.269"></a>
+<span class="sourceLineNo">270</span>      this.graph = graph;<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    }<a name="line.271"></a>
+<span class="sourceLineNo">272</span><a name="line.272"></a>
+<span class="sourceLineNo">273</span>    @Override<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    protected Graph&lt;N&gt; delegate() {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      return graph;<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>    @Override<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    public Set&lt;N&gt; predecessors(N node) {<a name="line.279"></a>
+<span class="sourceLineNo">280</span>      return delegate().successors(node); // transpose<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    }<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>    @Override<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    public Set&lt;N&gt; successors(N node) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      return delegate().predecessors(node); // transpose<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    }<a name="line.286"></a>
 <span class="sourceLineNo">287</span><a name="line.287"></a>
-<span class="sourceLineNo">288</span>  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of<a name="line.288"></a>
-<span class="sourceLineNo">289</span>  // AbstractValueGraph) derives its behavior from calling successors().<a name="line.289"></a>
-<span class="sourceLineNo">290</span>  private static class TransposedValueGraph&lt;N, V&gt; extends ForwardingValueGraph&lt;N, V&gt; {<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    private final ValueGraph&lt;N, V&gt; graph;<a name="line.291"></a>
+<span class="sourceLineNo">288</span>    @Override<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    public int inDegree(N node) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      return delegate().outDegree(node); // transpose<a name="line.290"></a>
+<span class="sourceLineNo">291</span>    }<a name="line.291"></a>
 <span class="sourceLineNo">292</span><a name="line.292"></a>
-<span class="sourceLineNo">293</span>    TransposedValueGraph(ValueGraph&lt;N, V&gt; graph) {<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      this.graph = graph;<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
-<span class="sourceLineNo">296</span><a name="line.296"></a>
-<span class="sourceLineNo">297</span>    @Override<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    protected ValueGraph&lt;N, V&gt; delegate() {<a name="line.298"></a>
-<span class="sourceLineNo">299</span>      return graph;<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    }<a name="line.300"></a>
-<span class="sourceLineNo">301</span><a name="line.301"></a>
-<span class="sourceLineNo">302</span>    @Override<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    public Set&lt;N&gt; predecessors(N node) {<a name="line.303"></a>
-<span class="sourceLineNo">304</span>      return delegate().successors(node); // transpose<a name="line.304"></a>
-<span class="sourceLineNo">305</span>    }<a name="line.305"></a>
-<span class="sourceLineNo">306</span><a name="line.306"></a>
-<span class="sourceLineNo">307</span>    @Override<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    public Set&lt;N&gt; successors(N node) {<a name="line.308"></a>
-<span class="sourceLineNo">309</span>      return delegate().predecessors(node); // transpose<a name="line.309"></a>
-<span class="sourceLineNo">310</span>    }<a name="line.310"></a>
-<span class="sourceLineNo">311</span><a name="line.311"></a>
-<span class="sourceLineNo">312</span>    @Override<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    public int inDegree(N node) {<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      return delegate().outDegree(node); // transpose<a name="line.314"></a>
-<span class="sourceLineNo">315</span>    }<a name="line.315"></a>
-<span class="sourceLineNo">316</span><a name="line.316"></a>
-<span class="sourceLineNo">317</span>    @Override<a name="line.317"></a>
-<span class="sourceLineNo">318</span>    public int outDegree(N node) {<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      return delegate().inDegree(node); // transpose<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    }<a name="line.320"></a>
-<span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>    @Override<a name="line.322"></a>
-<span class="sourceLineNo">323</span>    public boolean hasEdgeConnecting(N nodeU, N nodeV) {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose<a name="line.324"></a>
-<span class="sourceLineNo">325</span>    }<a name="line.325"></a>
-<span class="sourceLineNo">326</span><a name="line.326"></a>
-<span class="sourceLineNo">327</span>    @Override<a name="line.327"></a>
-<span class="sourceLineNo">328</span>    @NullableDecl<a name="line.328"></a>
-<span class="sourceLineNo">329</span>    public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {<a name="line.329"></a>
-<span class="sourceLineNo">330</span>      return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose<a name="line.330"></a>
+<span class="sourceLineNo">293</span>    @Override<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    public int outDegree(N node) {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      return delegate().inDegree(node); // transpose<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>    @Override<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    public boolean hasEdgeConnecting(N nodeU, N nodeV) {<a name="line.299"></a>
+<span class="sourceLineNo">300</span>      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    }<a name="line.301"></a>
+<span class="sourceLineNo">302</span>  }<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>  // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  // AbstractValueGraph) derives its behavior from calling successors().<a name="line.305"></a>
+<span class="sourceLineNo">306</span>  private static class TransposedValueGraph&lt;N, V&gt; extends ForwardingValueGraph&lt;N, V&gt; {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    private final ValueGraph&lt;N, V&gt; graph;<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>    TransposedValueGraph(ValueGraph&lt;N, V&gt; graph) {<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      this.graph = graph;<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    }<a name="line.311"></a>
+<span class="sourceLineNo">312</span><a name="line.312"></a>
+<span class="sourceLineNo">313</span>    @Override<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    protected ValueGraph&lt;N, V&gt; delegate() {<a name="line.314"></a>
+<span class="sourceLineNo">315</span>      return graph;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    }<a name="line.316"></a>
+<span class="sourceLineNo">317</span><a name="line.317"></a>
+<span class="sourceLineNo">318</span>    @Override<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    public Set&lt;N&gt; predecessors(N node) {<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      return delegate().successors(node); // transpose<a name="line.320"></a>
+<span class="sourceLineNo">321</span>    }<a name="line.321"></a>
+<span class="sourceLineNo">322</span><a name="line.322"></a>
+<span class="sourceLineNo">323</span>    @Override<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    public Set&lt;N&gt; successors(N node) {<a name="line.324"></a>
+<span class="sourceLineNo">325</span>      return delegate().predecessors(node); // transpose<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    }<a name="line.326"></a>
+<span class="sourceLineNo">327</span><a name="line.327"></a>
+<span class="sourceLineNo">328</span>    @Override<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    public int inDegree(N node) {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      return delegate().outDegree(node); // transpose<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    }<a name="line.331"></a>
-<span class="sourceLineNo">332</span>  }<a name="line.332"></a>
-<span class="sourceLineNo">333</span><a name="line.333"></a>
-<span class="sourceLineNo">334</span>  /**<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   * properties remain intact, and further updates to {@code network} will be reflected in the view.<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   */<a name="line.337"></a>
-<span class="sourceLineNo">338</span>  public static &lt;N, E&gt; Network&lt;N, E&gt; transpose(Network&lt;N, E&gt; network) {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>    if (!network.isDirected()) {<a name="line.339"></a>
-<span class="sourceLineNo">340</span>      return network; // the transpose of an undirected network is an identical network<a name="line.340"></a>
+<span class="sourceLineNo">332</span><a name="line.332"></a>
+<span class="sourceLineNo">333</span>    @Override<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    public int outDegree(N node) {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>      return delegate().inDegree(node); // transpose<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    }<a name="line.336"></a>
+<span class="sourceLineNo">337</span><a name="line.337"></a>
+<span class="sourceLineNo">338</span>    @Override<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    public boolean hasEdgeConnecting(N nodeU, N nodeV) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose<a name="line.340"></a>
 <span class="sourceLineNo">341</span>    }<a name="line.341"></a>
 <span class="sourceLineNo">342</span><a name="line.342"></a>
-<span class="sourceLineNo">343</span>    if (network instanceof TransposedNetwork) {<a name="line.343"></a>
-<span class="sourceLineNo">344</span>      return ((TransposedNetwork&lt;N, E&gt;) network).network;<a name="line.344"></a>
-<span class="sourceLineNo">345</span>    }<a name="line.345"></a>
-<span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>    return new TransposedNetwork&lt;&gt;(network);<a name="line.347"></a>
+<span class="sourceLineNo">343</span>    @Override<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    @NullableDecl<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {<a name="line.345"></a>
+<span class="sourceLineNo">346</span>      return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose<a name="line.346"></a>
+<span class="sourceLineNo">347</span>    }<a name="line.347"></a>
 <span class="sourceLineNo">348</span>  }<a name="line.348"></a>
 <span class="sourceLineNo">349</span><a name="line.349"></a>
 <span class="sourceLineNo">350</span>  private static class TransposedNetwork&lt;N, E&gt; extends ForwardingNetwork&lt;N, E&gt; {<a name="line.350"></a>
@@ -552,14 +552,14 @@
 <span class="sourceLineNo">544</span>  }<a name="line.544"></a>
 <span class="sourceLineNo">545</span><a name="line.545"></a>
 <span class="sourceLineNo">546</span>  @CanIgnoreReturnValue<a name="line.546"></a>
-<span class="sourceLineNo">547</span>  static int checkPositive(int value) {<a name="line.547"></a>
-<span class="sourceLineNo">548</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.548"></a>
+<span class="sourceLineNo">547</span>  static long checkNonNegative(long value) {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.548"></a>
 <span class="sourceLineNo">549</span>    return value;<a name="line.549"></a>
 <span class="sourceLineNo">550</span>  }<a name="line.550"></a>
 <span class="sourceLineNo">551</span><a name="line.551"></a>
 <span class="sourceLineNo">552</span>  @CanIgnoreReturnValue<a name="line.552"></a>
-<span class="sourceLineNo">553</span>  static long checkNonNegative(long value) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    checkArgument(value &gt;= 0, "Not true that %s is non-negative.", value);<a name="line.554"></a>
+<span class="sourceLineNo">553</span>  static int checkPositive(int value) {<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    checkArgument(value &gt; 0, "Not true that %s is positive.", value);<a name="line.554"></a>
 <span class="sourceLineNo">555</span>    return value;<a name="line.555"></a>
 <span class="sourceLineNo">556</span>  }<a name="line.556"></a>
 <span class="sourceLineNo">557</span><a name="line.557"></a>

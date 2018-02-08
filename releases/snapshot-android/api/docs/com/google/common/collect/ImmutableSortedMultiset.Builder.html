@@ -289,6 +289,29 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultis
 </dl>
 </li>
 </ul>
+<a name="add-java.lang.Object:A-">
+<!--   -->
+</a><a name="add-E...-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>add</h4>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.504">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>...&nbsp;elements)</pre>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedMultiset</code>.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html#add-E...-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect">ImmutableMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>elements</code> - the elements to add</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this <code>Builder</code> object</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null or contains a null element</dd>
+</dl>
+</li>
+</ul>
 <a name="addCopies-java.lang.Object-int-">
 <!--   -->
 </a><a name="addCopies-E-int-">
@@ -298,7 +321,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultis
 <li class="blockList">
 <h4>addCopies</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.508">addCopies</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&nbsp;element,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.524">addCopies</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&nbsp;element,
                                                                           int&nbsp;occurrences)</pre>
 <div class="block">Adds a number of occurrences of an element to this <code>ImmutableSortedMultiset</code>.</div>
 <dl>
@@ -326,7 +349,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultis
 <li class="blockList">
 <h4>setCount</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.533">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&nbsp;element,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.549">setCount</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&nbsp;element,
                                                                          int&nbsp;count)</pre>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
  desired count.</div>
@@ -341,29 +364,6 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultis
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>element</code> is null</dd>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>count</code> is negative</dd>
-</dl>
-</li>
-</ul>
-<a name="add-java.lang.Object:A-">
-<!--   -->
-</a><a name="add-E...-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>add</h4>
-<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="class in com.google.common.collect">ImmutableSortedMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedMultiset.Builder.html#line.552">add</a>(<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>...&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSortedMultiset</code>.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html#add-E...-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableMultiset.Builder.html" title="class in com.google.common.collect">ImmutableMultiset.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedMultiset.Builder.html" title="type parameter in ImmutableSortedMultiset.Builder">E</a>&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - the elements to add</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>this <code>Builder</code> object</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null or contains a null element</dd>
 </dl>
 </li>
 </ul>

@@ -655,70 +655,6 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 </dl>
 </li>
 </ul>
-<a name="headSet-java.lang.Object-boolean-">
-<!--   -->
-</a><a name="headSet-K-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>headSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3857">headSet</a>(K&nbsp;toElement,
-                               boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are less than
- (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
- returned set is backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set supports all
- optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toElement</code> - high endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the high endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are less than
-         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
-</dl>
-</li>
-</ul>
-<a name="tailSet-java.lang.Object-boolean-">
-<!--   -->
-</a><a name="tailSet-K-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>tailSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3862">tailSet</a>(K&nbsp;fromElement,
-                               boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are greater
- than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
- The returned set is backed by this set, so changes in the returned set
- are reflected in this set, and vice-versa.  The returned set supports
- all optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the low endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are greater
-         than or equal to <code>fromElement</code></dd>
-</dl>
-</li>
-</ul>
 <a name="subSet-java.lang.Object-java.lang.Object-">
 <!--   -->
 </a><a name="subSet-K-K-">
@@ -727,7 +663,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3867">subSet</a>(K&nbsp;fromElement,
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3857">subSet</a>(K&nbsp;fromElement,
                            K&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#subSet-E-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements range
@@ -754,6 +690,38 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 </dl>
 </li>
 </ul>
+<a name="headSet-java.lang.Object-boolean-">
+<!--   -->
+</a><a name="headSet-K-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>headSet</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3862">headSet</a>(K&nbsp;toElement,
+                               boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are less than
+ (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
+ returned set is backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set supports all
+ optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toElement</code> - high endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are less than
+         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
+</dl>
+</li>
+</ul>
 <a name="headSet-java.lang.Object-">
 <!--   -->
 </a><a name="headSet-K-">
@@ -762,7 +730,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3872">headSet</a>(K&nbsp;toElement)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3867">headSet</a>(K&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements are
  strictly less than <tt>toElement</tt>.  The returned set is
@@ -782,6 +750,38 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractSet
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the portion of this set whose elements are strictly
          less than <tt>toElement</tt></dd>
+</dl>
+</li>
+</ul>
+<a name="tailSet-java.lang.Object-boolean-">
+<!--   -->
+</a><a name="tailSet-K-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>tailSet</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.NavigableKeySet.html#line.3872">tailSet</a>(K&nbsp;fromElement,
+                               boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are greater
+ than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
+ The returned set is backed by this set, so changes in the returned set
+ are reflected in this set, and vice-versa.  The returned set supports
+ all optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;K&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are greater
+         than or equal to <code>fromElement</code></dd>
 </dl>
 </li>
 </ul>

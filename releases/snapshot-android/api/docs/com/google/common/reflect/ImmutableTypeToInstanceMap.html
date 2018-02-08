@@ -334,6 +334,25 @@ implements <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html
 </dl>
 </li>
 </ul>
+<a name="getInstance-java.lang.Class-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getInstance</h4>
+<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/ImmutableTypeToInstanceMap.html#line.109">getInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-">TypeToInstanceMap</a></code></span></div>
+<div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
+ is present. This will only return a value that was bound to this specific class, not a value
+ that may have been bound to a subtype.
+
+ <p><code>getInstance(Foo.class)</code> is equivalent to <code>getInstance(TypeToken.of(Foo.class))</code>.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-">getInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
 <a name="putInstance-com.google.common.reflect.TypeToken-java.lang.Object-">
 <!--   -->
 </a><a name="putInstance-com.google.common.reflect.TypeToken-T-">
@@ -344,7 +363,7 @@ implements <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html
 <h4>putInstance</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/ImmutableTypeToInstanceMap.html#line.117">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/ImmutableTypeToInstanceMap.html#line.122">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                                                                       T&nbsp;value)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">unsupported operation</span></div>
 <div class="block">Guaranteed to throw an exception and leave the map unmodified.</div>
@@ -356,25 +375,6 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Immutab
      if there was no previous entry.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang">UnsupportedOperationException</a></code> - always</dd>
-</dl>
-</li>
-</ul>
-<a name="getInstance-java.lang.Class-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getInstance</h4>
-<pre>public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/ImmutableTypeToInstanceMap.html#line.122">getInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-">TypeToInstanceMap</a></code></span></div>
-<div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
- is present. This will only return a value that was bound to this specific class, not a value
- that may have been bound to a subtype.
-
- <p><code>getInstance(Foo.class)</code> is equivalent to <code>getInstance(TypeToken.of(Foo.class))</code>.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-">getInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/ImmutableTypeToInstanceMap.html" title="type parameter in ImmutableTypeToInstanceMap">B</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>

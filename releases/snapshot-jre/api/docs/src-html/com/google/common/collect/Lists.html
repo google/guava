@@ -118,50 +118,50 @@
 <span class="sourceLineNo">110</span>    return list;<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  }<a name="line.111"></a>
 <span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>  @VisibleForTesting<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  static int computeArrayListCapacity(int arraySize) {<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    checkNonnegative(arraySize, "arraySize");<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>    // TODO(kevinb): Figure out the right behavior, and document it<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code ArrayList} instance containing the given elements; a very thin<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * shortcut for creating an empty list then calling {@link Iterables#addAll}.<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   *<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * ImmutableList#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * FluentIterable} and call {@code elements.toList()}.)<a name="line.127"></a>
-<span class="sourceLineNo">128</span>   *<a name="line.128"></a>
-<span class="sourceLineNo">129</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   * need this method. Use the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection)<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * constructor} directly, taking advantage of the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond"<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * syntax&lt;/a&gt;.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  @CanIgnoreReturnValue // TODO(kak): Remove this<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  @GwtCompatible(serializable = true)<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayList(Iterable&lt;? extends E&gt; elements) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    checkNotNull(elements); // for GWT<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    // Let ArrayList's sizing logic work, if possible<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    return (elements instanceof Collection)<a name="line.139"></a>
-<span class="sourceLineNo">140</span>        ? new ArrayList&lt;&gt;(Collections2.cast(elements))<a name="line.140"></a>
-<span class="sourceLineNo">141</span>        : newArrayList(elements.iterator());<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code ArrayList} instance containing the given elements; a very thin<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   * shortcut for creating an empty list and then calling {@link Iterators#addAll}.<a name="line.146"></a>
-<span class="sourceLineNo">147</span>   *<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.148"></a>
-<span class="sourceLineNo">149</span>   * ImmutableList#copyOf(Iterator)} instead.<a name="line.149"></a>
-<span class="sourceLineNo">150</span>   */<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  @CanIgnoreReturnValue // TODO(kak): Remove this<a name="line.151"></a>
-<span class="sourceLineNo">152</span>  @GwtCompatible(serializable = true)<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayList(Iterator&lt;? extends E&gt; elements) {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    ArrayList&lt;E&gt; list = newArrayList();<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    Iterators.addAll(list, elements);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    return list;<a name="line.156"></a>
+<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code ArrayList} instance containing the given elements; a very thin<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * shortcut for creating an empty list then calling {@link Iterables#addAll}.<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   *<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * ImmutableList#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * FluentIterable} and call {@code elements.toList()}.)<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * need this method. Use the {@code ArrayList} {@linkplain ArrayList#ArrayList(Collection)<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * constructor} directly, taking advantage of the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond"<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * syntax&lt;/a&gt;.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  @CanIgnoreReturnValue // TODO(kak): Remove this<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  @GwtCompatible(serializable = true)<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayList(Iterable&lt;? extends E&gt; elements) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    checkNotNull(elements); // for GWT<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    // Let ArrayList's sizing logic work, if possible<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    return (elements instanceof Collection)<a name="line.131"></a>
+<span class="sourceLineNo">132</span>        ? new ArrayList&lt;&gt;(Collections2.cast(elements))<a name="line.132"></a>
+<span class="sourceLineNo">133</span>        : newArrayList(elements.iterator());<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  }<a name="line.134"></a>
+<span class="sourceLineNo">135</span><a name="line.135"></a>
+<span class="sourceLineNo">136</span>  /**<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code ArrayList} instance containing the given elements; a very thin<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * shortcut for creating an empty list and then calling {@link Iterators#addAll}.<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   *<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * ImmutableList#copyOf(Iterator)} instead.<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  @CanIgnoreReturnValue // TODO(kak): Remove this<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  @GwtCompatible(serializable = true)<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  public static &lt;E&gt; ArrayList&lt;E&gt; newArrayList(Iterator&lt;? extends E&gt; elements) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    ArrayList&lt;E&gt; list = newArrayList();<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    Iterators.addAll(list, elements);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    return list;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  @VisibleForTesting<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  static int computeArrayListCapacity(int arraySize) {<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    checkNonnegative(arraySize, "arraySize");<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>    // TODO(kevinb): Figure out the right behavior, and document it<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));<a name="line.156"></a>
 <span class="sourceLineNo">157</span>  }<a name="line.157"></a>
 <span class="sourceLineNo">158</span><a name="line.158"></a>
 <span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
@@ -299,50 +299,50 @@
 <span class="sourceLineNo">291</span>    return new OnePlusArrayList&lt;&gt;(first, rest);<a name="line.291"></a>
 <span class="sourceLineNo">292</span>  }<a name="line.292"></a>
 <span class="sourceLineNo">293</span><a name="line.293"></a>
-<span class="sourceLineNo">294</span>  /** @see Lists#asList(Object, Object[]) */<a name="line.294"></a>
-<span class="sourceLineNo">295</span>  private static class OnePlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      implements Serializable, RandomAccess {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>    @NullableDecl final E first;<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    final E[] rest;<a name="line.298"></a>
-<span class="sourceLineNo">299</span><a name="line.299"></a>
-<span class="sourceLineNo">300</span>    OnePlusArrayList(@NullableDecl E first, E[] rest) {<a name="line.300"></a>
-<span class="sourceLineNo">301</span>      this.first = first;<a name="line.301"></a>
-<span class="sourceLineNo">302</span>      this.rest = checkNotNull(rest);<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    }<a name="line.303"></a>
-<span class="sourceLineNo">304</span><a name="line.304"></a>
-<span class="sourceLineNo">305</span>    @Override<a name="line.305"></a>
-<span class="sourceLineNo">306</span>    public int size() {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      return IntMath.saturatedAdd(rest.length, 1);<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    }<a name="line.308"></a>
-<span class="sourceLineNo">309</span><a name="line.309"></a>
-<span class="sourceLineNo">310</span>    @Override<a name="line.310"></a>
-<span class="sourceLineNo">311</span>    public E get(int index) {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      // check explicitly so the IOOBE will have the right message<a name="line.312"></a>
-<span class="sourceLineNo">313</span>      checkElementIndex(index, size());<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      return (index == 0) ? first : rest[index - 1];<a name="line.314"></a>
-<span class="sourceLineNo">315</span>    }<a name="line.315"></a>
-<span class="sourceLineNo">316</span><a name="line.316"></a>
-<span class="sourceLineNo">317</span>    private static final long serialVersionUID = 0;<a name="line.317"></a>
-<span class="sourceLineNo">318</span>  }<a name="line.318"></a>
+<span class="sourceLineNo">294</span>  /**<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * Returns an unmodifiable list containing the specified first and second element, and backed by<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * the specified array of additional elements. Changes to the {@code rest} array will be reflected<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * in the returned list. Unlike {@link Arrays#asList}, the returned list is unmodifiable.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   *<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * &lt;p&gt;This is useful when a varargs method needs to use a signature such as {@code (Foo firstFoo,<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * Foo secondFoo, Foo... moreFoos)}, in order to avoid overload ambiguity or to enforce a minimum<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * argument count.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   *<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * &lt;p&gt;The returned list is serializable and implements {@link RandomAccess}.<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   *<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * @param first the first element<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   * @param second the second element<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * @param rest an array of additional elements, possibly empty<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * @return an unmodifiable list containing the specified elements<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   */<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  public static &lt;E&gt; List&lt;E&gt; asList(@NullableDecl E first, @NullableDecl E second, E[] rest) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    return new TwoPlusArrayList&lt;&gt;(first, second, rest);<a name="line.311"></a>
+<span class="sourceLineNo">312</span>  }<a name="line.312"></a>
+<span class="sourceLineNo">313</span><a name="line.313"></a>
+<span class="sourceLineNo">314</span>  /** @see Lists#asList(Object, Object[]) */<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  private static class OnePlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>      implements Serializable, RandomAccess {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    @NullableDecl final E first;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    final E[] rest;<a name="line.318"></a>
 <span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>  /**<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * Returns an unmodifiable list containing the specified first and second element, and backed by<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   * the specified array of additional elements. Changes to the {@code rest} array will be reflected<a name="line.322"></a>
-<span class="sourceLineNo">323</span>   * in the returned list. Unlike {@link Arrays#asList}, the returned list is unmodifiable.<a name="line.323"></a>
-<span class="sourceLineNo">324</span>   *<a name="line.324"></a>
-<span class="sourceLineNo">325</span>   * &lt;p&gt;This is useful when a varargs method needs to use a signature such as {@code (Foo firstFoo,<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * Foo secondFoo, Foo... moreFoos)}, in order to avoid overload ambiguity or to enforce a minimum<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   * argument count.<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   *<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   * &lt;p&gt;The returned list is serializable and implements {@link RandomAccess}.<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   *<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   * @param first the first element<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   * @param second the second element<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * @param rest an array of additional elements, possibly empty<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * @return an unmodifiable list containing the specified elements<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   */<a name="line.335"></a>
-<span class="sourceLineNo">336</span>  public static &lt;E&gt; List&lt;E&gt; asList(@NullableDecl E first, @NullableDecl E second, E[] rest) {<a name="line.336"></a>
-<span class="sourceLineNo">337</span>    return new TwoPlusArrayList&lt;&gt;(first, second, rest);<a name="line.337"></a>
+<span class="sourceLineNo">320</span>    OnePlusArrayList(@NullableDecl E first, E[] rest) {<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      this.first = first;<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      this.rest = checkNotNull(rest);<a name="line.322"></a>
+<span class="sourceLineNo">323</span>    }<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>    @Override<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    public int size() {<a name="line.326"></a>
+<span class="sourceLineNo">327</span>      return IntMath.saturatedAdd(rest.length, 1);<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    }<a name="line.328"></a>
+<span class="sourceLineNo">329</span><a name="line.329"></a>
+<span class="sourceLineNo">330</span>    @Override<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    public E get(int index) {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      // check explicitly so the IOOBE will have the right message<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      checkElementIndex(index, size());<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      return (index == 0) ? first : rest[index - 1];<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    }<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>    private static final long serialVersionUID = 0;<a name="line.337"></a>
 <span class="sourceLineNo">338</span>  }<a name="line.338"></a>
 <span class="sourceLineNo">339</span><a name="line.339"></a>
 <span class="sourceLineNo">340</span>  /** @see Lists#asList(Object, Object, Object[]) */<a name="line.340"></a>
@@ -716,60 +716,60 @@
 <span class="sourceLineNo">708</span>    return new StringAsImmutableList(checkNotNull(string));<a name="line.708"></a>
 <span class="sourceLineNo">709</span>  }<a name="line.709"></a>
 <span class="sourceLineNo">710</span><a name="line.710"></a>
-<span class="sourceLineNo">711</span>  @SuppressWarnings("serial") // serialized using ImmutableList serialization<a name="line.711"></a>
-<span class="sourceLineNo">712</span>  private static final class StringAsImmutableList extends ImmutableList&lt;Character&gt; {<a name="line.712"></a>
-<span class="sourceLineNo">713</span><a name="line.713"></a>
-<span class="sourceLineNo">714</span>    private final String string;<a name="line.714"></a>
-<span class="sourceLineNo">715</span><a name="line.715"></a>
-<span class="sourceLineNo">716</span>    StringAsImmutableList(String string) {<a name="line.716"></a>
-<span class="sourceLineNo">717</span>      this.string = string;<a name="line.717"></a>
-<span class="sourceLineNo">718</span>    }<a name="line.718"></a>
-<span class="sourceLineNo">719</span><a name="line.719"></a>
-<span class="sourceLineNo">720</span>    @Override<a name="line.720"></a>
-<span class="sourceLineNo">721</span>    public int indexOf(@NullableDecl Object object) {<a name="line.721"></a>
-<span class="sourceLineNo">722</span>      return (object instanceof Character) ? string.indexOf((Character) object) : -1;<a name="line.722"></a>
-<span class="sourceLineNo">723</span>    }<a name="line.723"></a>
+<span class="sourceLineNo">711</span>  /**<a name="line.711"></a>
+<span class="sourceLineNo">712</span>   * Returns a view of the specified {@code CharSequence} as a {@code List&lt;Character&gt;}, viewing<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   * {@code sequence} as a sequence of Unicode code units. The view does not support any<a name="line.713"></a>
+<span class="sourceLineNo">714</span>   * modification operations, but reflects any changes to the underlying character sequence.<a name="line.714"></a>
+<span class="sourceLineNo">715</span>   *<a name="line.715"></a>
+<span class="sourceLineNo">716</span>   * @param sequence the character sequence to view as a {@code List} of characters<a name="line.716"></a>
+<span class="sourceLineNo">717</span>   * @return an {@code List&lt;Character&gt;} view of the character sequence<a name="line.717"></a>
+<span class="sourceLineNo">718</span>   * @since 7.0<a name="line.718"></a>
+<span class="sourceLineNo">719</span>   */<a name="line.719"></a>
+<span class="sourceLineNo">720</span>  @Beta<a name="line.720"></a>
+<span class="sourceLineNo">721</span>  public static List&lt;Character&gt; charactersOf(CharSequence sequence) {<a name="line.721"></a>
+<span class="sourceLineNo">722</span>    return new CharSequenceAsList(checkNotNull(sequence));<a name="line.722"></a>
+<span class="sourceLineNo">723</span>  }<a name="line.723"></a>
 <span class="sourceLineNo">724</span><a name="line.724"></a>
-<span class="sourceLineNo">725</span>    @Override<a name="line.725"></a>
-<span class="sourceLineNo">726</span>    public int lastIndexOf(@NullableDecl Object object) {<a name="line.726"></a>
-<span class="sourceLineNo">727</span>      return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;<a name="line.727"></a>
-<span class="sourceLineNo">728</span>    }<a name="line.728"></a>
+<span class="sourceLineNo">725</span>  @SuppressWarnings("serial") // serialized using ImmutableList serialization<a name="line.725"></a>
+<span class="sourceLineNo">726</span>  private static final class StringAsImmutableList extends ImmutableList&lt;Character&gt; {<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>    private final String string;<a name="line.728"></a>
 <span class="sourceLineNo">729</span><a name="line.729"></a>
-<span class="sourceLineNo">730</span>    @Override<a name="line.730"></a>
-<span class="sourceLineNo">731</span>    public ImmutableList&lt;Character&gt; subList(int fromIndex, int toIndex) {<a name="line.731"></a>
-<span class="sourceLineNo">732</span>      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT<a name="line.732"></a>
-<span class="sourceLineNo">733</span>      return charactersOf(string.substring(fromIndex, toIndex));<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    }<a name="line.734"></a>
-<span class="sourceLineNo">735</span><a name="line.735"></a>
-<span class="sourceLineNo">736</span>    @Override<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    boolean isPartialView() {<a name="line.737"></a>
-<span class="sourceLineNo">738</span>      return false;<a name="line.738"></a>
-<span class="sourceLineNo">739</span>    }<a name="line.739"></a>
-<span class="sourceLineNo">740</span><a name="line.740"></a>
-<span class="sourceLineNo">741</span>    @Override<a name="line.741"></a>
-<span class="sourceLineNo">742</span>    public Character get(int index) {<a name="line.742"></a>
-<span class="sourceLineNo">743</span>      checkElementIndex(index, size()); // for GWT<a name="line.743"></a>
-<span class="sourceLineNo">744</span>      return string.charAt(index);<a name="line.744"></a>
-<span class="sourceLineNo">745</span>    }<a name="line.745"></a>
-<span class="sourceLineNo">746</span><a name="line.746"></a>
-<span class="sourceLineNo">747</span>    @Override<a name="line.747"></a>
-<span class="sourceLineNo">748</span>    public int size() {<a name="line.748"></a>
-<span class="sourceLineNo">749</span>      return string.length();<a name="line.749"></a>
-<span class="sourceLineNo">750</span>    }<a name="line.750"></a>
-<span class="sourceLineNo">751</span>  }<a name="line.751"></a>
-<span class="sourceLineNo">752</span><a name="line.752"></a>
-<span class="sourceLineNo">753</span>  /**<a name="line.753"></a>
-<span class="sourceLineNo">754</span>   * Returns a view of the specified {@code CharSequence} as a {@code List&lt;Character&gt;}, viewing<a name="line.754"></a>
-<span class="sourceLineNo">755</span>   * {@code sequence} as a sequence of Unicode code units. The view does not support any<a name="line.755"></a>
-<span class="sourceLineNo">756</span>   * modification operations, but reflects any changes to the underlying character sequence.<a name="line.756"></a>
-<span class="sourceLineNo">757</span>   *<a name="line.757"></a>
-<span class="sourceLineNo">758</span>   * @param sequence the character sequence to view as a {@code List} of characters<a name="line.758"></a>
-<span class="sourceLineNo">759</span>   * @return an {@code List&lt;Character&gt;} view of the character sequence<a name="line.759"></a>
-<span class="sourceLineNo">760</span>   * @since 7.0<a name="line.760"></a>
-<span class="sourceLineNo">761</span>   */<a name="line.761"></a>
-<span class="sourceLineNo">762</span>  @Beta<a name="line.762"></a>
-<span class="sourceLineNo">763</span>  public static List&lt;Character&gt; charactersOf(CharSequence sequence) {<a name="line.763"></a>
-<span class="sourceLineNo">764</span>    return new CharSequenceAsList(checkNotNull(sequence));<a name="line.764"></a>
+<span class="sourceLineNo">730</span>    StringAsImmutableList(String string) {<a name="line.730"></a>
+<span class="sourceLineNo">731</span>      this.string = string;<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    }<a name="line.732"></a>
+<span class="sourceLineNo">733</span><a name="line.733"></a>
+<span class="sourceLineNo">734</span>    @Override<a name="line.734"></a>
+<span class="sourceLineNo">735</span>    public int indexOf(@NullableDecl Object object) {<a name="line.735"></a>
+<span class="sourceLineNo">736</span>      return (object instanceof Character) ? string.indexOf((Character) object) : -1;<a name="line.736"></a>
+<span class="sourceLineNo">737</span>    }<a name="line.737"></a>
+<span class="sourceLineNo">738</span><a name="line.738"></a>
+<span class="sourceLineNo">739</span>    @Override<a name="line.739"></a>
+<span class="sourceLineNo">740</span>    public int lastIndexOf(@NullableDecl Object object) {<a name="line.740"></a>
+<span class="sourceLineNo">741</span>      return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;<a name="line.741"></a>
+<span class="sourceLineNo">742</span>    }<a name="line.742"></a>
+<span class="sourceLineNo">743</span><a name="line.743"></a>
+<span class="sourceLineNo">744</span>    @Override<a name="line.744"></a>
+<span class="sourceLineNo">745</span>    public ImmutableList&lt;Character&gt; subList(int fromIndex, int toIndex) {<a name="line.745"></a>
+<span class="sourceLineNo">746</span>      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT<a name="line.746"></a>
+<span class="sourceLineNo">747</span>      return charactersOf(string.substring(fromIndex, toIndex));<a name="line.747"></a>
+<span class="sourceLineNo">748</span>    }<a name="line.748"></a>
+<span class="sourceLineNo">749</span><a name="line.749"></a>
+<span class="sourceLineNo">750</span>    @Override<a name="line.750"></a>
+<span class="sourceLineNo">751</span>    boolean isPartialView() {<a name="line.751"></a>
+<span class="sourceLineNo">752</span>      return false;<a name="line.752"></a>
+<span class="sourceLineNo">753</span>    }<a name="line.753"></a>
+<span class="sourceLineNo">754</span><a name="line.754"></a>
+<span class="sourceLineNo">755</span>    @Override<a name="line.755"></a>
+<span class="sourceLineNo">756</span>    public Character get(int index) {<a name="line.756"></a>
+<span class="sourceLineNo">757</span>      checkElementIndex(index, size()); // for GWT<a name="line.757"></a>
+<span class="sourceLineNo">758</span>      return string.charAt(index);<a name="line.758"></a>
+<span class="sourceLineNo">759</span>    }<a name="line.759"></a>
+<span class="sourceLineNo">760</span><a name="line.760"></a>
+<span class="sourceLineNo">761</span>    @Override<a name="line.761"></a>
+<span class="sourceLineNo">762</span>    public int size() {<a name="line.762"></a>
+<span class="sourceLineNo">763</span>      return string.length();<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    }<a name="line.764"></a>
 <span class="sourceLineNo">765</span>  }<a name="line.765"></a>
 <span class="sourceLineNo">766</span><a name="line.766"></a>
 <span class="sourceLineNo">767</span>  private static final class CharSequenceAsList extends AbstractList&lt;Character&gt; {<a name="line.767"></a>

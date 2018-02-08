@@ -269,45 +269,45 @@
 <span class="sourceLineNo">261</span>    return put(key, value, false);<a name="line.261"></a>
 <span class="sourceLineNo">262</span>  }<a name="line.262"></a>
 <span class="sourceLineNo">263</span><a name="line.263"></a>
-<span class="sourceLineNo">264</span>  @CanIgnoreReturnValue<a name="line.264"></a>
-<span class="sourceLineNo">265</span>  @Override<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.266"></a>
-<span class="sourceLineNo">267</span>    return put(key, value, true);<a name="line.267"></a>
-<span class="sourceLineNo">268</span>  }<a name="line.268"></a>
-<span class="sourceLineNo">269</span><a name="line.269"></a>
-<span class="sourceLineNo">270</span>  private V put(@NullableDecl K key, @NullableDecl V value, boolean force) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    int keyHash = smearedHash(key);<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    int valueHash = smearedHash(value);<a name="line.272"></a>
-<span class="sourceLineNo">273</span><a name="line.273"></a>
-<span class="sourceLineNo">274</span>    BiEntry&lt;K, V&gt; oldEntryForKey = seekByKey(key, keyHash);<a name="line.274"></a>
-<span class="sourceLineNo">275</span>    if (oldEntryForKey != null<a name="line.275"></a>
-<span class="sourceLineNo">276</span>        &amp;&amp; valueHash == oldEntryForKey.valueHash<a name="line.276"></a>
-<span class="sourceLineNo">277</span>        &amp;&amp; Objects.equal(value, oldEntryForKey.value)) {<a name="line.277"></a>
-<span class="sourceLineNo">278</span>      return value;<a name="line.278"></a>
-<span class="sourceLineNo">279</span>    }<a name="line.279"></a>
-<span class="sourceLineNo">280</span><a name="line.280"></a>
-<span class="sourceLineNo">281</span>    BiEntry&lt;K, V&gt; oldEntryForValue = seekByValue(value, valueHash);<a name="line.281"></a>
-<span class="sourceLineNo">282</span>    if (oldEntryForValue != null) {<a name="line.282"></a>
-<span class="sourceLineNo">283</span>      if (force) {<a name="line.283"></a>
-<span class="sourceLineNo">284</span>        delete(oldEntryForValue);<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      } else {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>        throw new IllegalArgumentException("value already present: " + value);<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      }<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    }<a name="line.288"></a>
-<span class="sourceLineNo">289</span><a name="line.289"></a>
-<span class="sourceLineNo">290</span>    BiEntry&lt;K, V&gt; newEntry = new BiEntry&lt;&gt;(key, keyHash, value, valueHash);<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    if (oldEntryForKey != null) {<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      delete(oldEntryForKey);<a name="line.292"></a>
-<span class="sourceLineNo">293</span>      insert(newEntry, oldEntryForKey);<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      oldEntryForKey.prevInKeyInsertionOrder = null;<a name="line.294"></a>
-<span class="sourceLineNo">295</span>      oldEntryForKey.nextInKeyInsertionOrder = null;<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      rehashIfNecessary();<a name="line.296"></a>
-<span class="sourceLineNo">297</span>      return oldEntryForKey.value;<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    } else {<a name="line.298"></a>
-<span class="sourceLineNo">299</span>      insert(newEntry, null);<a name="line.299"></a>
-<span class="sourceLineNo">300</span>      rehashIfNecessary();<a name="line.300"></a>
-<span class="sourceLineNo">301</span>      return null;<a name="line.301"></a>
-<span class="sourceLineNo">302</span>    }<a name="line.302"></a>
+<span class="sourceLineNo">264</span>  private V put(@NullableDecl K key, @NullableDecl V value, boolean force) {<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    int keyHash = smearedHash(key);<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    int valueHash = smearedHash(value);<a name="line.266"></a>
+<span class="sourceLineNo">267</span><a name="line.267"></a>
+<span class="sourceLineNo">268</span>    BiEntry&lt;K, V&gt; oldEntryForKey = seekByKey(key, keyHash);<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    if (oldEntryForKey != null<a name="line.269"></a>
+<span class="sourceLineNo">270</span>        &amp;&amp; valueHash == oldEntryForKey.valueHash<a name="line.270"></a>
+<span class="sourceLineNo">271</span>        &amp;&amp; Objects.equal(value, oldEntryForKey.value)) {<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      return value;<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    }<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>    BiEntry&lt;K, V&gt; oldEntryForValue = seekByValue(value, valueHash);<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    if (oldEntryForValue != null) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      if (force) {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>        delete(oldEntryForValue);<a name="line.278"></a>
+<span class="sourceLineNo">279</span>      } else {<a name="line.279"></a>
+<span class="sourceLineNo">280</span>        throw new IllegalArgumentException("value already present: " + value);<a name="line.280"></a>
+<span class="sourceLineNo">281</span>      }<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    }<a name="line.282"></a>
+<span class="sourceLineNo">283</span><a name="line.283"></a>
+<span class="sourceLineNo">284</span>    BiEntry&lt;K, V&gt; newEntry = new BiEntry&lt;&gt;(key, keyHash, value, valueHash);<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    if (oldEntryForKey != null) {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      delete(oldEntryForKey);<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      insert(newEntry, oldEntryForKey);<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      oldEntryForKey.prevInKeyInsertionOrder = null;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>      oldEntryForKey.nextInKeyInsertionOrder = null;<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      rehashIfNecessary();<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      return oldEntryForKey.value;<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    } else {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>      insert(newEntry, null);<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      rehashIfNecessary();<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      return null;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  }<a name="line.297"></a>
+<span class="sourceLineNo">298</span><a name="line.298"></a>
+<span class="sourceLineNo">299</span>  @CanIgnoreReturnValue<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  @Override<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    return put(key, value, true);<a name="line.302"></a>
 <span class="sourceLineNo">303</span>  }<a name="line.303"></a>
 <span class="sourceLineNo">304</span><a name="line.304"></a>
 <span class="sourceLineNo">305</span>  @NullableDecl<a name="line.305"></a>

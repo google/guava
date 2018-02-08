@@ -543,25 +543,25 @@
 <span class="sourceLineNo">535</span>    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));<a name="line.535"></a>
 <span class="sourceLineNo">536</span>  }<a name="line.536"></a>
 <span class="sourceLineNo">537</span><a name="line.537"></a>
-<span class="sourceLineNo">538</span>  /** Concats a varargs array of iterators without making a defensive copy of the array. */<a name="line.538"></a>
-<span class="sourceLineNo">539</span>  static &lt;T&gt; Iterator&lt;T&gt; concatNoDefensiveCopy(Iterator&lt;? extends T&gt;... inputs) {<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    for (Iterator&lt;? extends T&gt; input : checkNotNull(inputs)) {<a name="line.540"></a>
-<span class="sourceLineNo">541</span>      checkNotNull(input);<a name="line.541"></a>
-<span class="sourceLineNo">542</span>    }<a name="line.542"></a>
-<span class="sourceLineNo">543</span>    return concat(consumingForArray(inputs));<a name="line.543"></a>
-<span class="sourceLineNo">544</span>  }<a name="line.544"></a>
-<span class="sourceLineNo">545</span><a name="line.545"></a>
-<span class="sourceLineNo">546</span>  /**<a name="line.546"></a>
-<span class="sourceLineNo">547</span>   * Combines multiple iterators into a single iterator. The returned iterator iterates across the<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * elements of each iterator in {@code inputs}. The input iterators are not polled until<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * necessary.<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   *<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   * &lt;p&gt;The returned iterator supports {@code remove()} when the corresponding input iterator<a name="line.551"></a>
-<span class="sourceLineNo">552</span>   * supports it. The methods of the returned iterator may throw {@code NullPointerException} if any<a name="line.552"></a>
-<span class="sourceLineNo">553</span>   * of the input iterators is null.<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   */<a name="line.554"></a>
-<span class="sourceLineNo">555</span>  public static &lt;T&gt; Iterator&lt;T&gt; concat(Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; inputs) {<a name="line.555"></a>
-<span class="sourceLineNo">556</span>    return new ConcatenatedIterator&lt;T&gt;(inputs);<a name="line.556"></a>
+<span class="sourceLineNo">538</span>  /**<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   * Combines multiple iterators into a single iterator. The returned iterator iterates across the<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * elements of each iterator in {@code inputs}. The input iterators are not polled until<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * necessary.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * &lt;p&gt;The returned iterator supports {@code remove()} when the corresponding input iterator<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * supports it. The methods of the returned iterator may throw {@code NullPointerException} if any<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * of the input iterators is null.<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   */<a name="line.546"></a>
+<span class="sourceLineNo">547</span>  public static &lt;T&gt; Iterator&lt;T&gt; concat(Iterator&lt;? extends Iterator&lt;? extends T&gt;&gt; inputs) {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    return new ConcatenatedIterator&lt;T&gt;(inputs);<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>  /** Concats a varargs array of iterators without making a defensive copy of the array. */<a name="line.551"></a>
+<span class="sourceLineNo">552</span>  static &lt;T&gt; Iterator&lt;T&gt; concatNoDefensiveCopy(Iterator&lt;? extends T&gt;... inputs) {<a name="line.552"></a>
+<span class="sourceLineNo">553</span>    for (Iterator&lt;? extends T&gt; input : checkNotNull(inputs)) {<a name="line.553"></a>
+<span class="sourceLineNo">554</span>      checkNotNull(input);<a name="line.554"></a>
+<span class="sourceLineNo">555</span>    }<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    return concat(consumingForArray(inputs));<a name="line.556"></a>
 <span class="sourceLineNo">557</span>  }<a name="line.557"></a>
 <span class="sourceLineNo">558</span><a name="line.558"></a>
 <span class="sourceLineNo">559</span>  /**<a name="line.559"></a>
@@ -821,30 +821,30 @@
 <span class="sourceLineNo">813</span>    return iterator.next();<a name="line.813"></a>
 <span class="sourceLineNo">814</span>  }<a name="line.814"></a>
 <span class="sourceLineNo">815</span><a name="line.815"></a>
-<span class="sourceLineNo">816</span>  static void checkNonnegative(int position) {<a name="line.816"></a>
-<span class="sourceLineNo">817</span>    if (position &lt; 0) {<a name="line.817"></a>
-<span class="sourceLineNo">818</span>      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");<a name="line.818"></a>
-<span class="sourceLineNo">819</span>    }<a name="line.819"></a>
-<span class="sourceLineNo">820</span>  }<a name="line.820"></a>
-<span class="sourceLineNo">821</span><a name="line.821"></a>
-<span class="sourceLineNo">822</span>  /**<a name="line.822"></a>
-<span class="sourceLineNo">823</span>   * Advances {@code iterator} {@code position + 1} times, returning the element at the {@code<a name="line.823"></a>
-<span class="sourceLineNo">824</span>   * position}th position or {@code defaultValue} otherwise.<a name="line.824"></a>
-<span class="sourceLineNo">825</span>   *<a name="line.825"></a>
-<span class="sourceLineNo">826</span>   * @param position position of the element to return<a name="line.826"></a>
-<span class="sourceLineNo">827</span>   * @param defaultValue the default value to return if the iterator is empty or if {@code position}<a name="line.827"></a>
-<span class="sourceLineNo">828</span>   *     is greater than the number of elements remaining in {@code iterator}<a name="line.828"></a>
-<span class="sourceLineNo">829</span>   * @return the element at the specified position in {@code iterator} or {@code defaultValue} if<a name="line.829"></a>
-<span class="sourceLineNo">830</span>   *     {@code iterator} produces fewer than {@code position + 1} elements.<a name="line.830"></a>
-<span class="sourceLineNo">831</span>   * @throws IndexOutOfBoundsException if {@code position} is negative<a name="line.831"></a>
-<span class="sourceLineNo">832</span>   * @since 4.0<a name="line.832"></a>
-<span class="sourceLineNo">833</span>   */<a name="line.833"></a>
-<span class="sourceLineNo">834</span>  @NullableDecl<a name="line.834"></a>
-<span class="sourceLineNo">835</span>  public static &lt;T&gt; T get(<a name="line.835"></a>
-<span class="sourceLineNo">836</span>      Iterator&lt;? extends T&gt; iterator, int position, @NullableDecl T defaultValue) {<a name="line.836"></a>
-<span class="sourceLineNo">837</span>    checkNonnegative(position);<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    advance(iterator, position);<a name="line.838"></a>
-<span class="sourceLineNo">839</span>    return getNext(iterator, defaultValue);<a name="line.839"></a>
+<span class="sourceLineNo">816</span>  /**<a name="line.816"></a>
+<span class="sourceLineNo">817</span>   * Advances {@code iterator} {@code position + 1} times, returning the element at the {@code<a name="line.817"></a>
+<span class="sourceLineNo">818</span>   * position}th position or {@code defaultValue} otherwise.<a name="line.818"></a>
+<span class="sourceLineNo">819</span>   *<a name="line.819"></a>
+<span class="sourceLineNo">820</span>   * @param position position of the element to return<a name="line.820"></a>
+<span class="sourceLineNo">821</span>   * @param defaultValue the default value to return if the iterator is empty or if {@code position}<a name="line.821"></a>
+<span class="sourceLineNo">822</span>   *     is greater than the number of elements remaining in {@code iterator}<a name="line.822"></a>
+<span class="sourceLineNo">823</span>   * @return the element at the specified position in {@code iterator} or {@code defaultValue} if<a name="line.823"></a>
+<span class="sourceLineNo">824</span>   *     {@code iterator} produces fewer than {@code position + 1} elements.<a name="line.824"></a>
+<span class="sourceLineNo">825</span>   * @throws IndexOutOfBoundsException if {@code position} is negative<a name="line.825"></a>
+<span class="sourceLineNo">826</span>   * @since 4.0<a name="line.826"></a>
+<span class="sourceLineNo">827</span>   */<a name="line.827"></a>
+<span class="sourceLineNo">828</span>  @NullableDecl<a name="line.828"></a>
+<span class="sourceLineNo">829</span>  public static &lt;T&gt; T get(<a name="line.829"></a>
+<span class="sourceLineNo">830</span>      Iterator&lt;? extends T&gt; iterator, int position, @NullableDecl T defaultValue) {<a name="line.830"></a>
+<span class="sourceLineNo">831</span>    checkNonnegative(position);<a name="line.831"></a>
+<span class="sourceLineNo">832</span>    advance(iterator, position);<a name="line.832"></a>
+<span class="sourceLineNo">833</span>    return getNext(iterator, defaultValue);<a name="line.833"></a>
+<span class="sourceLineNo">834</span>  }<a name="line.834"></a>
+<span class="sourceLineNo">835</span><a name="line.835"></a>
+<span class="sourceLineNo">836</span>  static void checkNonnegative(int position) {<a name="line.836"></a>
+<span class="sourceLineNo">837</span>    if (position &lt; 0) {<a name="line.837"></a>
+<span class="sourceLineNo">838</span>      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");<a name="line.838"></a>
+<span class="sourceLineNo">839</span>    }<a name="line.839"></a>
 <span class="sourceLineNo">840</span>  }<a name="line.840"></a>
 <span class="sourceLineNo">841</span><a name="line.841"></a>
 <span class="sourceLineNo">842</span>  /**<a name="line.842"></a>
@@ -1018,43 +1018,43 @@
 <span class="sourceLineNo">1010</span>    return forArray(array, 0, array.length, 0);<a name="line.1010"></a>
 <span class="sourceLineNo">1011</span>  }<a name="line.1011"></a>
 <span class="sourceLineNo">1012</span><a name="line.1012"></a>
-<span class="sourceLineNo">1013</span>  private static final class ArrayItr&lt;T&gt; extends AbstractIndexedListIterator&lt;T&gt; {<a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>    static final UnmodifiableListIterator&lt;Object&gt; EMPTY = new ArrayItr&lt;&gt;(new Object[0], 0, 0, 0);<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span><a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>    private final T[] array;<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>    private final int offset;<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span><a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>    ArrayItr(T[] array, int offset, int length, int index) {<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>      super(length, index);<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>      this.array = array;<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span>      this.offset = offset;<a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>    }<a name="line.1023"></a>
+<span class="sourceLineNo">1013</span>  /**<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>   * Returns a list iterator containing the elements in the specified range of {@code array} in<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>   * order, starting at the specified index.<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>   *<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>   * &lt;p&gt;The {@code Iterable} equivalent of this method is {@code<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>   * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>   */<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>  static &lt;T&gt; UnmodifiableListIterator&lt;T&gt; forArray(<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>      final T[] array, final int offset, int length, int index) {<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>    checkArgument(length &gt;= 0);<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>    int end = offset + length;<a name="line.1023"></a>
 <span class="sourceLineNo">1024</span><a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>    @Override<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span>    protected T get(int index) {<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>      return array[offset + index];<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span>    }<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>  }<a name="line.1029"></a>
-<span class="sourceLineNo">1030</span><a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>  /**<a name="line.1031"></a>
-<span class="sourceLineNo">1032</span>   * Returns a list iterator containing the elements in the specified range of {@code array} in<a name="line.1032"></a>
-<span class="sourceLineNo">1033</span>   * order, starting at the specified index.<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>   *<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>   * &lt;p&gt;The {@code Iterable} equivalent of this method is {@code<a name="line.1035"></a>
-<span class="sourceLineNo">1036</span>   * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.<a name="line.1036"></a>
-<span class="sourceLineNo">1037</span>   */<a name="line.1037"></a>
-<span class="sourceLineNo">1038</span>  static &lt;T&gt; UnmodifiableListIterator&lt;T&gt; forArray(<a name="line.1038"></a>
-<span class="sourceLineNo">1039</span>      final T[] array, final int offset, int length, int index) {<a name="line.1039"></a>
-<span class="sourceLineNo">1040</span>    checkArgument(length &gt;= 0);<a name="line.1040"></a>
-<span class="sourceLineNo">1041</span>    int end = offset + length;<a name="line.1041"></a>
-<span class="sourceLineNo">1042</span><a name="line.1042"></a>
-<span class="sourceLineNo">1043</span>    // Technically we should give a slightly more descriptive error on overflow<a name="line.1043"></a>
-<span class="sourceLineNo">1044</span>    Preconditions.checkPositionIndexes(offset, end, array.length);<a name="line.1044"></a>
-<span class="sourceLineNo">1045</span>    Preconditions.checkPositionIndex(index, length);<a name="line.1045"></a>
-<span class="sourceLineNo">1046</span>    if (length == 0) {<a name="line.1046"></a>
-<span class="sourceLineNo">1047</span>      return emptyListIterator();<a name="line.1047"></a>
-<span class="sourceLineNo">1048</span>    }<a name="line.1048"></a>
-<span class="sourceLineNo">1049</span>    return new ArrayItr&lt;T&gt;(array, offset, length, index);<a name="line.1049"></a>
+<span class="sourceLineNo">1025</span>    // Technically we should give a slightly more descriptive error on overflow<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>    Preconditions.checkPositionIndexes(offset, end, array.length);<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>    Preconditions.checkPositionIndex(index, length);<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>    if (length == 0) {<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>      return emptyListIterator();<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span>    }<a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>    return new ArrayItr&lt;T&gt;(array, offset, length, index);<a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>  }<a name="line.1032"></a>
+<span class="sourceLineNo">1033</span><a name="line.1033"></a>
+<span class="sourceLineNo">1034</span>  private static final class ArrayItr&lt;T&gt; extends AbstractIndexedListIterator&lt;T&gt; {<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>    static final UnmodifiableListIterator&lt;Object&gt; EMPTY = new ArrayItr&lt;&gt;(new Object[0], 0, 0, 0);<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span><a name="line.1036"></a>
+<span class="sourceLineNo">1037</span>    private final T[] array;<a name="line.1037"></a>
+<span class="sourceLineNo">1038</span>    private final int offset;<a name="line.1038"></a>
+<span class="sourceLineNo">1039</span><a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>    ArrayItr(T[] array, int offset, int length, int index) {<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>      super(length, index);<a name="line.1041"></a>
+<span class="sourceLineNo">1042</span>      this.array = array;<a name="line.1042"></a>
+<span class="sourceLineNo">1043</span>      this.offset = offset;<a name="line.1043"></a>
+<span class="sourceLineNo">1044</span>    }<a name="line.1044"></a>
+<span class="sourceLineNo">1045</span><a name="line.1045"></a>
+<span class="sourceLineNo">1046</span>    @Override<a name="line.1046"></a>
+<span class="sourceLineNo">1047</span>    protected T get(int index) {<a name="line.1047"></a>
+<span class="sourceLineNo">1048</span>      return array[offset + index];<a name="line.1048"></a>
+<span class="sourceLineNo">1049</span>    }<a name="line.1049"></a>
 <span class="sourceLineNo">1050</span>  }<a name="line.1050"></a>
 <span class="sourceLineNo">1051</span><a name="line.1051"></a>
 <span class="sourceLineNo">1052</span>  /**<a name="line.1052"></a>

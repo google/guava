@@ -547,6 +547,29 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 </dl>
 </li>
 </ul>
+<a name="parseUnsignedLong-java.lang.String-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>parseUnsignedLong</h4>
+<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.337">parseUnsignedLong</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
+                                                           int&nbsp;radix)</pre>
+<div class="block">Returns the unsigned <code>long</code> value represented by a string with the given radix.
+
+ <p><b>Java 8 users:</b> use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#parseUnsignedLong-java.lang.String-int-" title="class or interface in java.lang"><code>Long.parseUnsignedLong(String, int)</code></a> instead.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>string</code> - the string containing the unsigned <code>long</code> representation to be parsed.</dd>
+<dd><code>radix</code> - the radix to use while parsing <code>string</code></dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>long</code> with
+     the given radix, or if <code>radix</code> is not between <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MIN_RADIX" title="class or interface in java.lang"><code>Character.MIN_RADIX</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MAX_RADIX" title="class or interface in java.lang"><code>Character.MAX_RADIX</code></a>.</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#parseLong-java.lang.String-" title="class or interface in java.lang"><code>Long.parseLong(String)</code></a>)</dd>
+</dl>
+</li>
+</ul>
 <a name="decode-java.lang.String-">
 <!--   -->
 </a>
@@ -554,7 +577,7 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>decode</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.340">decode</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;stringValue)</pre>
+public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.379">decode</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;stringValue)</pre>
 <div class="block">Returns the unsigned <code>long</code> value represented by the given string.
 
  <p>Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
@@ -571,29 +594,6 @@ public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/pri
      value</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>13.0</dd>
-</dl>
-</li>
-</ul>
-<a name="parseUnsignedLong-java.lang.String-int-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>parseUnsignedLong</h4>
-<pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedLongs.html#line.367">parseUnsignedLong</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;string,
-                                                           int&nbsp;radix)</pre>
-<div class="block">Returns the unsigned <code>long</code> value represented by a string with the given radix.
-
- <p><b>Java 8 users:</b> use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#parseUnsignedLong-java.lang.String-int-" title="class or interface in java.lang"><code>Long.parseUnsignedLong(String, int)</code></a> instead.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>string</code> - the string containing the unsigned <code>long</code> representation to be parsed.</dd>
-<dd><code>radix</code> - the radix to use while parsing <code>string</code></dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NumberFormatException.html?is-external=true" title="class or interface in java.lang">NumberFormatException</a></code> - if the string does not contain a valid unsigned <code>long</code> with
-     the given radix, or if <code>radix</code> is not between <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MIN_RADIX" title="class or interface in java.lang"><code>Character.MIN_RADIX</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Character.html?is-external=true#MAX_RADIX" title="class or interface in java.lang"><code>Character.MAX_RADIX</code></a>.</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null (in contrast to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true#parseLong-java.lang.String-" title="class or interface in java.lang"><code>Long.parseLong(String)</code></a>)</dd>
 </dl>
 </li>
 </ul>

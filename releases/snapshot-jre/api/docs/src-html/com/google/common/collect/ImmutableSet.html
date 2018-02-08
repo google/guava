@@ -536,42 +536,42 @@
 <span class="sourceLineNo">528</span>      }<a name="line.528"></a>
 <span class="sourceLineNo">529</span>    }<a name="line.529"></a>
 <span class="sourceLineNo">530</span><a name="line.530"></a>
-<span class="sourceLineNo">531</span>    private void addDeduping(E element) {<a name="line.531"></a>
-<span class="sourceLineNo">532</span>      int mask = hashTable.length - 1;<a name="line.532"></a>
-<span class="sourceLineNo">533</span>      int hash = element.hashCode();<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      for (int i = Hashing.smear(hash); ; i++) {<a name="line.534"></a>
-<span class="sourceLineNo">535</span>        i &amp;= mask;<a name="line.535"></a>
-<span class="sourceLineNo">536</span>        Object previous = hashTable[i];<a name="line.536"></a>
-<span class="sourceLineNo">537</span>        if (previous == null) {<a name="line.537"></a>
-<span class="sourceLineNo">538</span>          hashTable[i] = element;<a name="line.538"></a>
-<span class="sourceLineNo">539</span>          hashCode += hash;<a name="line.539"></a>
-<span class="sourceLineNo">540</span>          super.add(element);<a name="line.540"></a>
-<span class="sourceLineNo">541</span>          return;<a name="line.541"></a>
-<span class="sourceLineNo">542</span>        } else if (previous.equals(element)) {<a name="line.542"></a>
-<span class="sourceLineNo">543</span>          return;<a name="line.543"></a>
-<span class="sourceLineNo">544</span>        }<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      }<a name="line.545"></a>
-<span class="sourceLineNo">546</span>    }<a name="line.546"></a>
-<span class="sourceLineNo">547</span><a name="line.547"></a>
-<span class="sourceLineNo">548</span>    /**<a name="line.548"></a>
-<span class="sourceLineNo">549</span>     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate<a name="line.549"></a>
-<span class="sourceLineNo">550</span>     * elements (only the first duplicate element is added).<a name="line.550"></a>
-<span class="sourceLineNo">551</span>     *<a name="line.551"></a>
-<span class="sourceLineNo">552</span>     * @param elements the elements to add<a name="line.552"></a>
-<span class="sourceLineNo">553</span>     * @return this {@code Builder} object<a name="line.553"></a>
-<span class="sourceLineNo">554</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.554"></a>
-<span class="sourceLineNo">555</span>     */<a name="line.555"></a>
-<span class="sourceLineNo">556</span>    @CanIgnoreReturnValue<a name="line.556"></a>
-<span class="sourceLineNo">557</span>    @Override<a name="line.557"></a>
-<span class="sourceLineNo">558</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      if (hashTable != null) {<a name="line.559"></a>
-<span class="sourceLineNo">560</span>        for (E e : elements) {<a name="line.560"></a>
-<span class="sourceLineNo">561</span>          add(e);<a name="line.561"></a>
-<span class="sourceLineNo">562</span>        }<a name="line.562"></a>
-<span class="sourceLineNo">563</span>      } else {<a name="line.563"></a>
-<span class="sourceLineNo">564</span>        super.add(elements);<a name="line.564"></a>
-<span class="sourceLineNo">565</span>      }<a name="line.565"></a>
-<span class="sourceLineNo">566</span>      return this;<a name="line.566"></a>
+<span class="sourceLineNo">531</span>    /**<a name="line.531"></a>
+<span class="sourceLineNo">532</span>     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate<a name="line.532"></a>
+<span class="sourceLineNo">533</span>     * elements (only the first duplicate element is added).<a name="line.533"></a>
+<span class="sourceLineNo">534</span>     *<a name="line.534"></a>
+<span class="sourceLineNo">535</span>     * @param elements the elements to add<a name="line.535"></a>
+<span class="sourceLineNo">536</span>     * @return this {@code Builder} object<a name="line.536"></a>
+<span class="sourceLineNo">537</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.537"></a>
+<span class="sourceLineNo">538</span>     */<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    @CanIgnoreReturnValue<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    @Override<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.541"></a>
+<span class="sourceLineNo">542</span>      if (hashTable != null) {<a name="line.542"></a>
+<span class="sourceLineNo">543</span>        for (E e : elements) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>          add(e);<a name="line.544"></a>
+<span class="sourceLineNo">545</span>        }<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      } else {<a name="line.546"></a>
+<span class="sourceLineNo">547</span>        super.add(elements);<a name="line.547"></a>
+<span class="sourceLineNo">548</span>      }<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      return this;<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    }<a name="line.550"></a>
+<span class="sourceLineNo">551</span><a name="line.551"></a>
+<span class="sourceLineNo">552</span>    private void addDeduping(E element) {<a name="line.552"></a>
+<span class="sourceLineNo">553</span>      int mask = hashTable.length - 1;<a name="line.553"></a>
+<span class="sourceLineNo">554</span>      int hash = element.hashCode();<a name="line.554"></a>
+<span class="sourceLineNo">555</span>      for (int i = Hashing.smear(hash); ; i++) {<a name="line.555"></a>
+<span class="sourceLineNo">556</span>        i &amp;= mask;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>        Object previous = hashTable[i];<a name="line.557"></a>
+<span class="sourceLineNo">558</span>        if (previous == null) {<a name="line.558"></a>
+<span class="sourceLineNo">559</span>          hashTable[i] = element;<a name="line.559"></a>
+<span class="sourceLineNo">560</span>          hashCode += hash;<a name="line.560"></a>
+<span class="sourceLineNo">561</span>          super.add(element);<a name="line.561"></a>
+<span class="sourceLineNo">562</span>          return;<a name="line.562"></a>
+<span class="sourceLineNo">563</span>        } else if (previous.equals(element)) {<a name="line.563"></a>
+<span class="sourceLineNo">564</span>          return;<a name="line.564"></a>
+<span class="sourceLineNo">565</span>        }<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      }<a name="line.566"></a>
 <span class="sourceLineNo">567</span>    }<a name="line.567"></a>
 <span class="sourceLineNo">568</span><a name="line.568"></a>
 <span class="sourceLineNo">569</span>    /**<a name="line.569"></a>

@@ -363,18 +363,18 @@
 <span class="sourceLineNo">355</span>      }<a name="line.355"></a>
 <span class="sourceLineNo">356</span>    }<a name="line.356"></a>
 <span class="sourceLineNo">357</span><a name="line.357"></a>
-<span class="sourceLineNo">358</span>    /** Called when a directory is scanned for resource files. */<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    protected abstract void scanDirectory(ClassLoader loader, File directory) throws IOException;<a name="line.359"></a>
-<span class="sourceLineNo">360</span><a name="line.360"></a>
-<span class="sourceLineNo">361</span>    /** Called when a jar file is scanned for resource entries. */<a name="line.361"></a>
-<span class="sourceLineNo">362</span>    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;<a name="line.362"></a>
-<span class="sourceLineNo">363</span><a name="line.363"></a>
-<span class="sourceLineNo">364</span>    @VisibleForTesting<a name="line.364"></a>
-<span class="sourceLineNo">365</span>    final void scan(File file, ClassLoader classloader) throws IOException {<a name="line.365"></a>
-<span class="sourceLineNo">366</span>      if (scannedUris.add(file.getCanonicalFile())) {<a name="line.366"></a>
-<span class="sourceLineNo">367</span>        scanFrom(file, classloader);<a name="line.367"></a>
-<span class="sourceLineNo">368</span>      }<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">358</span>    @VisibleForTesting<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    final void scan(File file, ClassLoader classloader) throws IOException {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      if (scannedUris.add(file.getCanonicalFile())) {<a name="line.360"></a>
+<span class="sourceLineNo">361</span>        scanFrom(file, classloader);<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      }<a name="line.362"></a>
+<span class="sourceLineNo">363</span>    }<a name="line.363"></a>
+<span class="sourceLineNo">364</span><a name="line.364"></a>
+<span class="sourceLineNo">365</span>    /** Called when a directory is scanned for resource files. */<a name="line.365"></a>
+<span class="sourceLineNo">366</span>    protected abstract void scanDirectory(ClassLoader loader, File directory) throws IOException;<a name="line.366"></a>
+<span class="sourceLineNo">367</span><a name="line.367"></a>
+<span class="sourceLineNo">368</span>    /** Called when a jar file is scanned for resource entries. */<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;<a name="line.369"></a>
 <span class="sourceLineNo">370</span><a name="line.370"></a>
 <span class="sourceLineNo">371</span>    private void scanFrom(File file, ClassLoader classloader) throws IOException {<a name="line.371"></a>
 <span class="sourceLineNo">372</span>      try {<a name="line.372"></a>

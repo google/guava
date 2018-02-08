@@ -597,7 +597,7 @@ public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/co
 <h4>removeIfZero</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.234">removeIfZero</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
+public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.242">removeIfZero</a>(<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>&nbsp;key)</pre>
 <div class="block">Atomically remove <code>key</code> from the map iff its associated value is 0.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -611,7 +611,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>removeAllZeros</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.244">removeAllZeros</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.252">removeAllZeros</a>()</pre>
 <div class="block">Removes all mappings from this map whose values are zero.
 
  <p>This method is not atomic: the map may be visible in intermediate states, where some of the
@@ -624,7 +624,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>sum</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.253">sum</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.261">sum</a>()</pre>
 <div class="block">Returns the sum of all values in this map.
 
  <p>This method is not atomic: the sum may or may not include other concurrent operations.</div>
@@ -636,7 +636,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.260">asMap</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../../com/google/common/util/concurrent/AtomicLongMap.html" title="type parameter in AtomicLongMap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.268">asMap</a>()</pre>
 <div class="block">Returns a live, read-only view of the map backing this <code>AtomicLongMap</code>.</div>
 </li>
 </ul>
@@ -646,7 +646,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.270">containsKey</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.278">containsKey</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns true if this map contains a mapping for the specified key.</div>
 </li>
 </ul>
@@ -656,7 +656,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.278">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.286">size</a>()</pre>
 <div class="block">Returns the number of key-value mappings in this map. If the map contains more than <code>Integer.MAX_VALUE</code> elements, returns <code>Integer.MAX_VALUE</code>.</div>
 </li>
 </ul>
@@ -666,7 +666,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.283">isEmpty</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.291">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if this map contains no key-value mappings.</div>
 </li>
 </ul>
@@ -676,7 +676,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.293">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.301">clear</a>()</pre>
 <div class="block">Removes all of the mappings from this map. The map will be empty after this call returns.
 
  <p>This method is not atomic: the map may not be empty after returning if there were concurrent
@@ -689,7 +689,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.298">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicLongMap.html#line.306">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that

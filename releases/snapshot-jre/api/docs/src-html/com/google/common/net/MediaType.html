@@ -742,69 +742,69 @@
 <span class="sourceLineNo">734</span>    return mediaType;<a name="line.734"></a>
 <span class="sourceLineNo">735</span>  }<a name="line.735"></a>
 <span class="sourceLineNo">736</span><a name="line.736"></a>
-<span class="sourceLineNo">737</span>  /**<a name="line.737"></a>
-<span class="sourceLineNo">738</span>   * Creates a media type with the "application" type and the given subtype.<a name="line.738"></a>
-<span class="sourceLineNo">739</span>   *<a name="line.739"></a>
-<span class="sourceLineNo">740</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.740"></a>
-<span class="sourceLineNo">741</span>   */<a name="line.741"></a>
-<span class="sourceLineNo">742</span>  static MediaType createApplicationType(String subtype) {<a name="line.742"></a>
-<span class="sourceLineNo">743</span>    return create(APPLICATION_TYPE, subtype);<a name="line.743"></a>
-<span class="sourceLineNo">744</span>  }<a name="line.744"></a>
-<span class="sourceLineNo">745</span><a name="line.745"></a>
-<span class="sourceLineNo">746</span>  /**<a name="line.746"></a>
-<span class="sourceLineNo">747</span>   * Creates a media type with the "audio" type and the given subtype.<a name="line.747"></a>
-<span class="sourceLineNo">748</span>   *<a name="line.748"></a>
-<span class="sourceLineNo">749</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.749"></a>
-<span class="sourceLineNo">750</span>   */<a name="line.750"></a>
-<span class="sourceLineNo">751</span>  static MediaType createAudioType(String subtype) {<a name="line.751"></a>
-<span class="sourceLineNo">752</span>    return create(AUDIO_TYPE, subtype);<a name="line.752"></a>
-<span class="sourceLineNo">753</span>  }<a name="line.753"></a>
-<span class="sourceLineNo">754</span><a name="line.754"></a>
-<span class="sourceLineNo">755</span>  /**<a name="line.755"></a>
-<span class="sourceLineNo">756</span>   * Creates a media type with the "image" type and the given subtype.<a name="line.756"></a>
-<span class="sourceLineNo">757</span>   *<a name="line.757"></a>
-<span class="sourceLineNo">758</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.758"></a>
-<span class="sourceLineNo">759</span>   */<a name="line.759"></a>
-<span class="sourceLineNo">760</span>  static MediaType createImageType(String subtype) {<a name="line.760"></a>
-<span class="sourceLineNo">761</span>    return create(IMAGE_TYPE, subtype);<a name="line.761"></a>
-<span class="sourceLineNo">762</span>  }<a name="line.762"></a>
-<span class="sourceLineNo">763</span><a name="line.763"></a>
-<span class="sourceLineNo">764</span>  /**<a name="line.764"></a>
-<span class="sourceLineNo">765</span>   * Creates a media type with the "text" type and the given subtype.<a name="line.765"></a>
-<span class="sourceLineNo">766</span>   *<a name="line.766"></a>
-<span class="sourceLineNo">767</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.767"></a>
-<span class="sourceLineNo">768</span>   */<a name="line.768"></a>
-<span class="sourceLineNo">769</span>  static MediaType createTextType(String subtype) {<a name="line.769"></a>
-<span class="sourceLineNo">770</span>    return create(TEXT_TYPE, subtype);<a name="line.770"></a>
-<span class="sourceLineNo">771</span>  }<a name="line.771"></a>
-<span class="sourceLineNo">772</span><a name="line.772"></a>
-<span class="sourceLineNo">773</span>  /**<a name="line.773"></a>
-<span class="sourceLineNo">774</span>   * Creates a media type with the "video" type and the given subtype.<a name="line.774"></a>
-<span class="sourceLineNo">775</span>   *<a name="line.775"></a>
-<span class="sourceLineNo">776</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.776"></a>
-<span class="sourceLineNo">777</span>   */<a name="line.777"></a>
-<span class="sourceLineNo">778</span>  static MediaType createVideoType(String subtype) {<a name="line.778"></a>
-<span class="sourceLineNo">779</span>    return create(VIDEO_TYPE, subtype);<a name="line.779"></a>
-<span class="sourceLineNo">780</span>  }<a name="line.780"></a>
-<span class="sourceLineNo">781</span><a name="line.781"></a>
-<span class="sourceLineNo">782</span>  private static MediaType create(<a name="line.782"></a>
-<span class="sourceLineNo">783</span>      String type, String subtype, Multimap&lt;String, String&gt; parameters) {<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    checkNotNull(type);<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    checkNotNull(subtype);<a name="line.785"></a>
-<span class="sourceLineNo">786</span>    checkNotNull(parameters);<a name="line.786"></a>
-<span class="sourceLineNo">787</span>    String normalizedType = normalizeToken(type);<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    String normalizedSubtype = normalizeToken(subtype);<a name="line.788"></a>
-<span class="sourceLineNo">789</span>    checkArgument(<a name="line.789"></a>
-<span class="sourceLineNo">790</span>        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.790"></a>
-<span class="sourceLineNo">791</span>        "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.791"></a>
-<span class="sourceLineNo">792</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.792"></a>
-<span class="sourceLineNo">793</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.793"></a>
-<span class="sourceLineNo">794</span>      String attribute = normalizeToken(entry.getKey());<a name="line.794"></a>
-<span class="sourceLineNo">795</span>      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.795"></a>
-<span class="sourceLineNo">796</span>    }<a name="line.796"></a>
-<span class="sourceLineNo">797</span>    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.797"></a>
-<span class="sourceLineNo">798</span>    // Return one of the constants if the media type is a known type.<a name="line.798"></a>
-<span class="sourceLineNo">799</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.799"></a>
+<span class="sourceLineNo">737</span>  private static MediaType create(<a name="line.737"></a>
+<span class="sourceLineNo">738</span>      String type, String subtype, Multimap&lt;String, String&gt; parameters) {<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    checkNotNull(type);<a name="line.739"></a>
+<span class="sourceLineNo">740</span>    checkNotNull(subtype);<a name="line.740"></a>
+<span class="sourceLineNo">741</span>    checkNotNull(parameters);<a name="line.741"></a>
+<span class="sourceLineNo">742</span>    String normalizedType = normalizeToken(type);<a name="line.742"></a>
+<span class="sourceLineNo">743</span>    String normalizedSubtype = normalizeToken(subtype);<a name="line.743"></a>
+<span class="sourceLineNo">744</span>    checkArgument(<a name="line.744"></a>
+<span class="sourceLineNo">745</span>        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.745"></a>
+<span class="sourceLineNo">746</span>        "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.746"></a>
+<span class="sourceLineNo">747</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.747"></a>
+<span class="sourceLineNo">748</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.748"></a>
+<span class="sourceLineNo">749</span>      String attribute = normalizeToken(entry.getKey());<a name="line.749"></a>
+<span class="sourceLineNo">750</span>      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.750"></a>
+<span class="sourceLineNo">751</span>    }<a name="line.751"></a>
+<span class="sourceLineNo">752</span>    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.752"></a>
+<span class="sourceLineNo">753</span>    // Return one of the constants if the media type is a known type.<a name="line.753"></a>
+<span class="sourceLineNo">754</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.754"></a>
+<span class="sourceLineNo">755</span>  }<a name="line.755"></a>
+<span class="sourceLineNo">756</span><a name="line.756"></a>
+<span class="sourceLineNo">757</span>  /**<a name="line.757"></a>
+<span class="sourceLineNo">758</span>   * Creates a media type with the "application" type and the given subtype.<a name="line.758"></a>
+<span class="sourceLineNo">759</span>   *<a name="line.759"></a>
+<span class="sourceLineNo">760</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.760"></a>
+<span class="sourceLineNo">761</span>   */<a name="line.761"></a>
+<span class="sourceLineNo">762</span>  static MediaType createApplicationType(String subtype) {<a name="line.762"></a>
+<span class="sourceLineNo">763</span>    return create(APPLICATION_TYPE, subtype);<a name="line.763"></a>
+<span class="sourceLineNo">764</span>  }<a name="line.764"></a>
+<span class="sourceLineNo">765</span><a name="line.765"></a>
+<span class="sourceLineNo">766</span>  /**<a name="line.766"></a>
+<span class="sourceLineNo">767</span>   * Creates a media type with the "audio" type and the given subtype.<a name="line.767"></a>
+<span class="sourceLineNo">768</span>   *<a name="line.768"></a>
+<span class="sourceLineNo">769</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.769"></a>
+<span class="sourceLineNo">770</span>   */<a name="line.770"></a>
+<span class="sourceLineNo">771</span>  static MediaType createAudioType(String subtype) {<a name="line.771"></a>
+<span class="sourceLineNo">772</span>    return create(AUDIO_TYPE, subtype);<a name="line.772"></a>
+<span class="sourceLineNo">773</span>  }<a name="line.773"></a>
+<span class="sourceLineNo">774</span><a name="line.774"></a>
+<span class="sourceLineNo">775</span>  /**<a name="line.775"></a>
+<span class="sourceLineNo">776</span>   * Creates a media type with the "image" type and the given subtype.<a name="line.776"></a>
+<span class="sourceLineNo">777</span>   *<a name="line.777"></a>
+<span class="sourceLineNo">778</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.778"></a>
+<span class="sourceLineNo">779</span>   */<a name="line.779"></a>
+<span class="sourceLineNo">780</span>  static MediaType createImageType(String subtype) {<a name="line.780"></a>
+<span class="sourceLineNo">781</span>    return create(IMAGE_TYPE, subtype);<a name="line.781"></a>
+<span class="sourceLineNo">782</span>  }<a name="line.782"></a>
+<span class="sourceLineNo">783</span><a name="line.783"></a>
+<span class="sourceLineNo">784</span>  /**<a name="line.784"></a>
+<span class="sourceLineNo">785</span>   * Creates a media type with the "text" type and the given subtype.<a name="line.785"></a>
+<span class="sourceLineNo">786</span>   *<a name="line.786"></a>
+<span class="sourceLineNo">787</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.787"></a>
+<span class="sourceLineNo">788</span>   */<a name="line.788"></a>
+<span class="sourceLineNo">789</span>  static MediaType createTextType(String subtype) {<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    return create(TEXT_TYPE, subtype);<a name="line.790"></a>
+<span class="sourceLineNo">791</span>  }<a name="line.791"></a>
+<span class="sourceLineNo">792</span><a name="line.792"></a>
+<span class="sourceLineNo">793</span>  /**<a name="line.793"></a>
+<span class="sourceLineNo">794</span>   * Creates a media type with the "video" type and the given subtype.<a name="line.794"></a>
+<span class="sourceLineNo">795</span>   *<a name="line.795"></a>
+<span class="sourceLineNo">796</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.796"></a>
+<span class="sourceLineNo">797</span>   */<a name="line.797"></a>
+<span class="sourceLineNo">798</span>  static MediaType createVideoType(String subtype) {<a name="line.798"></a>
+<span class="sourceLineNo">799</span>    return create(VIDEO_TYPE, subtype);<a name="line.799"></a>
 <span class="sourceLineNo">800</span>  }<a name="line.800"></a>
 <span class="sourceLineNo">801</span><a name="line.801"></a>
 <span class="sourceLineNo">802</span>  private static String normalizeToken(String token) {<a name="line.802"></a>

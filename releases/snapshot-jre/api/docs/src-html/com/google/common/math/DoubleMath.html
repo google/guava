@@ -230,57 +230,57 @@
 <span class="sourceLineNo">222</span>    return log(x) / LN_2; // surprisingly within 1 ulp according to tests<a name="line.222"></a>
 <span class="sourceLineNo">223</span>  }<a name="line.223"></a>
 <span class="sourceLineNo">224</span><a name="line.224"></a>
-<span class="sourceLineNo">225</span>  private static final double LN_2 = log(2);<a name="line.225"></a>
-<span class="sourceLineNo">226</span><a name="line.226"></a>
-<span class="sourceLineNo">227</span>  /**<a name="line.227"></a>
-<span class="sourceLineNo">228</span>   * Returns the base 2 logarithm of a double value, rounded with the specified rounding mode to an<a name="line.228"></a>
-<span class="sourceLineNo">229</span>   * {@code int}.<a name="line.229"></a>
+<span class="sourceLineNo">225</span>  /**<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * Returns the base 2 logarithm of a double value, rounded with the specified rounding mode to an<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * {@code int}.<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   *<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   * &lt;p&gt;Regardless of the rounding mode, this is faster than {@code (int) log2(x)}.<a name="line.229"></a>
 <span class="sourceLineNo">230</span>   *<a name="line.230"></a>
-<span class="sourceLineNo">231</span>   * &lt;p&gt;Regardless of the rounding mode, this is faster than {@code (int) log2(x)}.<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   *<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * @throws IllegalArgumentException if {@code x &lt;= 0.0}, {@code x} is NaN, or {@code x} is<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   *     infinite<a name="line.234"></a>
-<span class="sourceLineNo">235</span>   */<a name="line.235"></a>
-<span class="sourceLineNo">236</span>  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  @SuppressWarnings("fallthrough")<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  public static int log2(double x, RoundingMode mode) {<a name="line.238"></a>
-<span class="sourceLineNo">239</span>    checkArgument(x &gt; 0.0 &amp;&amp; isFinite(x), "x must be positive and finite");<a name="line.239"></a>
-<span class="sourceLineNo">240</span>    int exponent = getExponent(x);<a name="line.240"></a>
-<span class="sourceLineNo">241</span>    if (!isNormal(x)) {<a name="line.241"></a>
-<span class="sourceLineNo">242</span>      return log2(x * IMPLICIT_BIT, mode) - SIGNIFICAND_BITS;<a name="line.242"></a>
-<span class="sourceLineNo">243</span>      // Do the calculation on a normal value.<a name="line.243"></a>
-<span class="sourceLineNo">244</span>    }<a name="line.244"></a>
-<span class="sourceLineNo">245</span>    // x is positive, finite, and normal<a name="line.245"></a>
-<span class="sourceLineNo">246</span>    boolean increment;<a name="line.246"></a>
-<span class="sourceLineNo">247</span>    switch (mode) {<a name="line.247"></a>
-<span class="sourceLineNo">248</span>      case UNNECESSARY:<a name="line.248"></a>
-<span class="sourceLineNo">249</span>        checkRoundingUnnecessary(isPowerOfTwo(x));<a name="line.249"></a>
-<span class="sourceLineNo">250</span>        // fall through<a name="line.250"></a>
-<span class="sourceLineNo">251</span>      case FLOOR:<a name="line.251"></a>
-<span class="sourceLineNo">252</span>        increment = false;<a name="line.252"></a>
-<span class="sourceLineNo">253</span>        break;<a name="line.253"></a>
-<span class="sourceLineNo">254</span>      case CEILING:<a name="line.254"></a>
-<span class="sourceLineNo">255</span>        increment = !isPowerOfTwo(x);<a name="line.255"></a>
-<span class="sourceLineNo">256</span>        break;<a name="line.256"></a>
-<span class="sourceLineNo">257</span>      case DOWN:<a name="line.257"></a>
-<span class="sourceLineNo">258</span>        increment = exponent &lt; 0 &amp; !isPowerOfTwo(x);<a name="line.258"></a>
-<span class="sourceLineNo">259</span>        break;<a name="line.259"></a>
-<span class="sourceLineNo">260</span>      case UP:<a name="line.260"></a>
-<span class="sourceLineNo">261</span>        increment = exponent &gt;= 0 &amp; !isPowerOfTwo(x);<a name="line.261"></a>
-<span class="sourceLineNo">262</span>        break;<a name="line.262"></a>
-<span class="sourceLineNo">263</span>      case HALF_DOWN:<a name="line.263"></a>
-<span class="sourceLineNo">264</span>      case HALF_EVEN:<a name="line.264"></a>
-<span class="sourceLineNo">265</span>      case HALF_UP:<a name="line.265"></a>
-<span class="sourceLineNo">266</span>        double xScaled = scaleNormalize(x);<a name="line.266"></a>
-<span class="sourceLineNo">267</span>        // sqrt(2) is irrational, and the spec is relative to the "exact numerical result,"<a name="line.267"></a>
-<span class="sourceLineNo">268</span>        // so log2(x) is never exactly exponent + 0.5.<a name="line.268"></a>
-<span class="sourceLineNo">269</span>        increment = (xScaled * xScaled) &gt; 2.0;<a name="line.269"></a>
-<span class="sourceLineNo">270</span>        break;<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      default:<a name="line.271"></a>
-<span class="sourceLineNo">272</span>        throw new AssertionError();<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    }<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    return increment ? exponent + 1 : exponent;<a name="line.274"></a>
-<span class="sourceLineNo">275</span>  }<a name="line.275"></a>
+<span class="sourceLineNo">231</span>   * @throws IllegalArgumentException if {@code x &lt;= 0.0}, {@code x} is NaN, or {@code x} is<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   *     infinite<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   */<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  @GwtIncompatible // java.lang.Math.getExponent, com.google.common.math.DoubleUtils<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  @SuppressWarnings("fallthrough")<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public static int log2(double x, RoundingMode mode) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    checkArgument(x &gt; 0.0 &amp;&amp; isFinite(x), "x must be positive and finite");<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    int exponent = getExponent(x);<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    if (!isNormal(x)) {<a name="line.239"></a>
+<span class="sourceLineNo">240</span>      return log2(x * IMPLICIT_BIT, mode) - SIGNIFICAND_BITS;<a name="line.240"></a>
+<span class="sourceLineNo">241</span>      // Do the calculation on a normal value.<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    }<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    // x is positive, finite, and normal<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    boolean increment;<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    switch (mode) {<a name="line.245"></a>
+<span class="sourceLineNo">246</span>      case UNNECESSARY:<a name="line.246"></a>
+<span class="sourceLineNo">247</span>        checkRoundingUnnecessary(isPowerOfTwo(x));<a name="line.247"></a>
+<span class="sourceLineNo">248</span>        // fall through<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      case FLOOR:<a name="line.249"></a>
+<span class="sourceLineNo">250</span>        increment = false;<a name="line.250"></a>
+<span class="sourceLineNo">251</span>        break;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>      case CEILING:<a name="line.252"></a>
+<span class="sourceLineNo">253</span>        increment = !isPowerOfTwo(x);<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        break;<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      case DOWN:<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        increment = exponent &lt; 0 &amp; !isPowerOfTwo(x);<a name="line.256"></a>
+<span class="sourceLineNo">257</span>        break;<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      case UP:<a name="line.258"></a>
+<span class="sourceLineNo">259</span>        increment = exponent &gt;= 0 &amp; !isPowerOfTwo(x);<a name="line.259"></a>
+<span class="sourceLineNo">260</span>        break;<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      case HALF_DOWN:<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      case HALF_EVEN:<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      case HALF_UP:<a name="line.263"></a>
+<span class="sourceLineNo">264</span>        double xScaled = scaleNormalize(x);<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        // sqrt(2) is irrational, and the spec is relative to the "exact numerical result,"<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        // so log2(x) is never exactly exponent + 0.5.<a name="line.266"></a>
+<span class="sourceLineNo">267</span>        increment = (xScaled * xScaled) &gt; 2.0;<a name="line.267"></a>
+<span class="sourceLineNo">268</span>        break;<a name="line.268"></a>
+<span class="sourceLineNo">269</span>      default:<a name="line.269"></a>
+<span class="sourceLineNo">270</span>        throw new AssertionError();<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    }<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    return increment ? exponent + 1 : exponent;<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  }<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>  private static final double LN_2 = log(2);<a name="line.275"></a>
 <span class="sourceLineNo">276</span><a name="line.276"></a>
 <span class="sourceLineNo">277</span>  /**<a name="line.277"></a>
 <span class="sourceLineNo">278</span>   * Returns {@code true} if {@code x} represents a mathematical integer.<a name="line.278"></a>

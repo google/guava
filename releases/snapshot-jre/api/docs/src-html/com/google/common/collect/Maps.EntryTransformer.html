@@ -299,54 +299,54 @@
 <span class="sourceLineNo">291</span>  }<a name="line.291"></a>
 <span class="sourceLineNo">292</span><a name="line.292"></a>
 <span class="sourceLineNo">293</span>  /**<a name="line.293"></a>
-<span class="sourceLineNo">294</span>   * Creates a {@code HashMap} instance, with a high enough "initial capacity" that it &lt;i&gt;should&lt;/i&gt;<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * hold {@code expectedSize} elements without growth. This behavior cannot be broadly guaranteed,<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   * but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method<a name="line.296"></a>
-<span class="sourceLineNo">297</span>   * isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned map.<a name="line.297"></a>
-<span class="sourceLineNo">298</span>   *<a name="line.298"></a>
-<span class="sourceLineNo">299</span>   * @param expectedSize the number of entries you expect to add to the returned map<a name="line.299"></a>
-<span class="sourceLineNo">300</span>   * @return a new, empty {@code HashMap} with enough capacity to hold {@code expectedSize} entries<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   *     without resizing<a name="line.301"></a>
-<span class="sourceLineNo">302</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.302"></a>
-<span class="sourceLineNo">303</span>   */<a name="line.303"></a>
-<span class="sourceLineNo">304</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMapWithExpectedSize(int expectedSize) {<a name="line.304"></a>
-<span class="sourceLineNo">305</span>    return new HashMap&lt;&gt;(capacity(expectedSize));<a name="line.305"></a>
-<span class="sourceLineNo">306</span>  }<a name="line.306"></a>
-<span class="sourceLineNo">307</span><a name="line.307"></a>
-<span class="sourceLineNo">308</span>  /**<a name="line.308"></a>
-<span class="sourceLineNo">309</span>   * Returns a capacity that is sufficient to keep the map from being resized as long as it grows no<a name="line.309"></a>
-<span class="sourceLineNo">310</span>   * larger than expectedSize and the load factor is ≥ its default (0.75).<a name="line.310"></a>
-<span class="sourceLineNo">311</span>   */<a name="line.311"></a>
-<span class="sourceLineNo">312</span>  static int capacity(int expectedSize) {<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    if (expectedSize &lt; 3) {<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      checkNonnegative(expectedSize, "expectedSize");<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      return expectedSize + 1;<a name="line.315"></a>
-<span class="sourceLineNo">316</span>    }<a name="line.316"></a>
-<span class="sourceLineNo">317</span>    if (expectedSize &lt; Ints.MAX_POWER_OF_TWO) {<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      // This is the calculation used in JDK8 to resize when a putAll<a name="line.318"></a>
-<span class="sourceLineNo">319</span>      // happens; it seems to be the most conservative calculation we<a name="line.319"></a>
-<span class="sourceLineNo">320</span>      // can make.  0.75 is the default load factor.<a name="line.320"></a>
-<span class="sourceLineNo">321</span>      return (int) ((float) expectedSize / 0.75F + 1.0F);<a name="line.321"></a>
-<span class="sourceLineNo">322</span>    }<a name="line.322"></a>
-<span class="sourceLineNo">323</span>    return Integer.MAX_VALUE; // any large value<a name="line.323"></a>
+<span class="sourceLineNo">294</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashMap} instance with the same mappings as the specified map.<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   *<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   *<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code K} is an {@link Enum} type, use {@link #newEnumMap} instead.<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   *<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   *<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * @param map the mappings to be placed in the new map<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * @return a new {@code HashMap} initialized with the mappings from {@code map}<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    return new HashMap&lt;&gt;(map);<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  }<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>  /**<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * Creates a {@code HashMap} instance, with a high enough "initial capacity" that it &lt;i&gt;should&lt;/i&gt;<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * hold {@code expectedSize} elements without growth. This behavior cannot be broadly guaranteed,<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned map.<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   *<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   * @param expectedSize the number of entries you expect to add to the returned map<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * @return a new, empty {@code HashMap} with enough capacity to hold {@code expectedSize} entries<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   *     without resizing<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   */<a name="line.321"></a>
+<span class="sourceLineNo">322</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMapWithExpectedSize(int expectedSize) {<a name="line.322"></a>
+<span class="sourceLineNo">323</span>    return new HashMap&lt;&gt;(capacity(expectedSize));<a name="line.323"></a>
 <span class="sourceLineNo">324</span>  }<a name="line.324"></a>
 <span class="sourceLineNo">325</span><a name="line.325"></a>
 <span class="sourceLineNo">326</span>  /**<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashMap} instance with the same mappings as the specified map.<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   *<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   *<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code K} is an {@link Enum} type, use {@link #newEnumMap} instead.<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   *<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * deprecated. Instead, use the {@code HashMap} constructor directly, taking advantage of the new<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   * &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   *<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * @param map the mappings to be placed in the new map<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * @return a new {@code HashMap} initialized with the mappings from {@code map}<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   */<a name="line.339"></a>
-<span class="sourceLineNo">340</span>  public static &lt;K, V&gt; HashMap&lt;K, V&gt; newHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    return new HashMap&lt;&gt;(map);<a name="line.341"></a>
+<span class="sourceLineNo">327</span>   * Returns a capacity that is sufficient to keep the map from being resized as long as it grows no<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * larger than expectedSize and the load factor is ≥ its default (0.75).<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   */<a name="line.329"></a>
+<span class="sourceLineNo">330</span>  static int capacity(int expectedSize) {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    if (expectedSize &lt; 3) {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      checkNonnegative(expectedSize, "expectedSize");<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      return expectedSize + 1;<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    }<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    if (expectedSize &lt; Ints.MAX_POWER_OF_TWO) {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>      // This is the calculation used in JDK8 to resize when a putAll<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      // happens; it seems to be the most conservative calculation we<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      // can make.  0.75 is the default load factor.<a name="line.338"></a>
+<span class="sourceLineNo">339</span>      return (int) ((float) expectedSize / 0.75F + 1.0F);<a name="line.339"></a>
+<span class="sourceLineNo">340</span>    }<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    return Integer.MAX_VALUE; // any large value<a name="line.341"></a>
 <span class="sourceLineNo">342</span>  }<a name="line.342"></a>
 <span class="sourceLineNo">343</span><a name="line.343"></a>
 <span class="sourceLineNo">344</span>  /**<a name="line.344"></a>
@@ -365,36 +365,36 @@
 <span class="sourceLineNo">357</span>  }<a name="line.357"></a>
 <span class="sourceLineNo">358</span><a name="line.358"></a>
 <span class="sourceLineNo">359</span>  /**<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   * Creates a {@code LinkedHashMap} instance, with a high enough "initial capacity" that it<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   * &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without growth. This behavior cannot be<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * that the method isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned map.<a name="line.363"></a>
+<span class="sourceLineNo">360</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt;, insertion-ordered {@code LinkedHashMap} instance with the same<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   * mappings as the specified map.<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   *<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.<a name="line.363"></a>
 <span class="sourceLineNo">364</span>   *<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * @param expectedSize the number of entries you expect to add to the returned map<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * @return a new, empty {@code LinkedHashMap} with enough capacity to hold {@code expectedSize}<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   *     entries without resizing<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * @since 19.0<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   */<a name="line.370"></a>
-<span class="sourceLineNo">371</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMapWithExpectedSize(int expectedSize) {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    return new LinkedHashMap&lt;&gt;(capacity(expectedSize));<a name="line.372"></a>
-<span class="sourceLineNo">373</span>  }<a name="line.373"></a>
-<span class="sourceLineNo">374</span><a name="line.374"></a>
-<span class="sourceLineNo">375</span>  /**<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt;, insertion-ordered {@code LinkedHashMap} instance with the same<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   * mappings as the specified map.<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   *<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required, use {@link ImmutableMap#copyOf(Map)} instead.<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   *<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   * deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   *<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   * @param map the mappings to be placed in the new map<a name="line.385"></a>
-<span class="sourceLineNo">386</span>   * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}<a name="line.386"></a>
+<span class="sourceLineNo">365</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; this method is now unnecessary and should be treated as<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * deprecated. Instead, use the {@code LinkedHashMap} constructor directly, taking advantage of<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   *<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * @param map the mappings to be placed in the new map<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    return new LinkedHashMap&lt;&gt;(map);<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>  /**<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * Creates a {@code LinkedHashMap} instance, with a high enough "initial capacity" that it<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without growth. This behavior cannot be<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * that the method isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned map.<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   *<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   * @param expectedSize the number of entries you expect to add to the returned map<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * @return a new, empty {@code LinkedHashMap} with enough capacity to hold {@code expectedSize}<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   *     entries without resizing<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * @since 19.0<a name="line.386"></a>
 <span class="sourceLineNo">387</span>   */<a name="line.387"></a>
-<span class="sourceLineNo">388</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMap(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    return new LinkedHashMap&lt;&gt;(map);<a name="line.389"></a>
+<span class="sourceLineNo">388</span>  public static &lt;K, V&gt; LinkedHashMap&lt;K, V&gt; newLinkedHashMapWithExpectedSize(int expectedSize) {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return new LinkedHashMap&lt;&gt;(capacity(expectedSize));<a name="line.389"></a>
 <span class="sourceLineNo">390</span>  }<a name="line.390"></a>
 <span class="sourceLineNo">391</span><a name="line.391"></a>
 <span class="sourceLineNo">392</span>  /**<a name="line.392"></a>
@@ -557,194 +557,194 @@
 <span class="sourceLineNo">549</span>    return new MapDifferenceImpl&lt;&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.549"></a>
 <span class="sourceLineNo">550</span>  }<a name="line.550"></a>
 <span class="sourceLineNo">551</span><a name="line.551"></a>
-<span class="sourceLineNo">552</span>  private static &lt;K, V&gt; void doDifference(<a name="line.552"></a>
-<span class="sourceLineNo">553</span>      Map&lt;? extends K, ? extends V&gt; left,<a name="line.553"></a>
-<span class="sourceLineNo">554</span>      Map&lt;? extends K, ? extends V&gt; right,<a name="line.554"></a>
-<span class="sourceLineNo">555</span>      Equivalence&lt;? super V&gt; valueEquivalence,<a name="line.555"></a>
-<span class="sourceLineNo">556</span>      Map&lt;K, V&gt; onlyOnLeft,<a name="line.556"></a>
-<span class="sourceLineNo">557</span>      Map&lt;K, V&gt; onlyOnRight,<a name="line.557"></a>
-<span class="sourceLineNo">558</span>      Map&lt;K, V&gt; onBoth,<a name="line.558"></a>
-<span class="sourceLineNo">559</span>      Map&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences) {<a name="line.559"></a>
-<span class="sourceLineNo">560</span>    for (Entry&lt;? extends K, ? extends V&gt; entry : left.entrySet()) {<a name="line.560"></a>
-<span class="sourceLineNo">561</span>      K leftKey = entry.getKey();<a name="line.561"></a>
-<span class="sourceLineNo">562</span>      V leftValue = entry.getValue();<a name="line.562"></a>
-<span class="sourceLineNo">563</span>      if (right.containsKey(leftKey)) {<a name="line.563"></a>
-<span class="sourceLineNo">564</span>        V rightValue = onlyOnRight.remove(leftKey);<a name="line.564"></a>
-<span class="sourceLineNo">565</span>        if (valueEquivalence.equivalent(leftValue, rightValue)) {<a name="line.565"></a>
-<span class="sourceLineNo">566</span>          onBoth.put(leftKey, leftValue);<a name="line.566"></a>
-<span class="sourceLineNo">567</span>        } else {<a name="line.567"></a>
-<span class="sourceLineNo">568</span>          differences.put(leftKey, ValueDifferenceImpl.create(leftValue, rightValue));<a name="line.568"></a>
-<span class="sourceLineNo">569</span>        }<a name="line.569"></a>
-<span class="sourceLineNo">570</span>      } else {<a name="line.570"></a>
-<span class="sourceLineNo">571</span>        onlyOnLeft.put(leftKey, leftValue);<a name="line.571"></a>
-<span class="sourceLineNo">572</span>      }<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    }<a name="line.573"></a>
-<span class="sourceLineNo">574</span>  }<a name="line.574"></a>
-<span class="sourceLineNo">575</span><a name="line.575"></a>
-<span class="sourceLineNo">576</span>  private static &lt;K, V&gt; Map&lt;K, V&gt; unmodifiableMap(Map&lt;K, ? extends V&gt; map) {<a name="line.576"></a>
-<span class="sourceLineNo">577</span>    if (map instanceof SortedMap) {<a name="line.577"></a>
-<span class="sourceLineNo">578</span>      return Collections.unmodifiableSortedMap((SortedMap&lt;K, ? extends V&gt;) map);<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    } else {<a name="line.579"></a>
-<span class="sourceLineNo">580</span>      return Collections.unmodifiableMap(map);<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    }<a name="line.581"></a>
-<span class="sourceLineNo">582</span>  }<a name="line.582"></a>
-<span class="sourceLineNo">583</span><a name="line.583"></a>
-<span class="sourceLineNo">584</span>  static class MapDifferenceImpl&lt;K, V&gt; implements MapDifference&lt;K, V&gt; {<a name="line.584"></a>
-<span class="sourceLineNo">585</span>    final Map&lt;K, V&gt; onlyOnLeft;<a name="line.585"></a>
-<span class="sourceLineNo">586</span>    final Map&lt;K, V&gt; onlyOnRight;<a name="line.586"></a>
-<span class="sourceLineNo">587</span>    final Map&lt;K, V&gt; onBoth;<a name="line.587"></a>
-<span class="sourceLineNo">588</span>    final Map&lt;K, ValueDifference&lt;V&gt;&gt; differences;<a name="line.588"></a>
-<span class="sourceLineNo">589</span><a name="line.589"></a>
-<span class="sourceLineNo">590</span>    MapDifferenceImpl(<a name="line.590"></a>
-<span class="sourceLineNo">591</span>        Map&lt;K, V&gt; onlyOnLeft,<a name="line.591"></a>
-<span class="sourceLineNo">592</span>        Map&lt;K, V&gt; onlyOnRight,<a name="line.592"></a>
-<span class="sourceLineNo">593</span>        Map&lt;K, V&gt; onBoth,<a name="line.593"></a>
-<span class="sourceLineNo">594</span>        Map&lt;K, ValueDifference&lt;V&gt;&gt; differences) {<a name="line.594"></a>
-<span class="sourceLineNo">595</span>      this.onlyOnLeft = unmodifiableMap(onlyOnLeft);<a name="line.595"></a>
-<span class="sourceLineNo">596</span>      this.onlyOnRight = unmodifiableMap(onlyOnRight);<a name="line.596"></a>
-<span class="sourceLineNo">597</span>      this.onBoth = unmodifiableMap(onBoth);<a name="line.597"></a>
-<span class="sourceLineNo">598</span>      this.differences = unmodifiableMap(differences);<a name="line.598"></a>
-<span class="sourceLineNo">599</span>    }<a name="line.599"></a>
-<span class="sourceLineNo">600</span><a name="line.600"></a>
-<span class="sourceLineNo">601</span>    @Override<a name="line.601"></a>
-<span class="sourceLineNo">602</span>    public boolean areEqual() {<a name="line.602"></a>
-<span class="sourceLineNo">603</span>      return onlyOnLeft.isEmpty() &amp;&amp; onlyOnRight.isEmpty() &amp;&amp; differences.isEmpty();<a name="line.603"></a>
+<span class="sourceLineNo">552</span>  /**<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * Computes the difference between two sorted maps, using the comparator of the left map, or<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * {@code Ordering.natural()} if the left map uses the natural ordering of its elements. This<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   * difference is an immutable snapshot of the state of the maps at the time this method is called.<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * It will never change, even if the maps change at a later time.<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   *<a name="line.557"></a>
+<span class="sourceLineNo">558</span>   * &lt;p&gt;Since this method uses {@code TreeMap} instances internally, the keys of the right map must<a name="line.558"></a>
+<span class="sourceLineNo">559</span>   * all compare as distinct according to the comparator of the left map.<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   *<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt;If you only need to know whether two sorted maps have the same mappings, call<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * {@code left.equals(right)} instead of this method.<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   *<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   * @param left the map to treat as the "left" map for purposes of comparison<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * @param right the map to treat as the "right" map for purposes of comparison<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   * @return the difference between the two maps<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * @since 11.0<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   */<a name="line.568"></a>
+<span class="sourceLineNo">569</span>  public static &lt;K, V&gt; SortedMapDifference&lt;K, V&gt; difference(<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      SortedMap&lt;K, ? extends V&gt; left, Map&lt;? extends K, ? extends V&gt; right) {<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    checkNotNull(left);<a name="line.571"></a>
+<span class="sourceLineNo">572</span>    checkNotNull(right);<a name="line.572"></a>
+<span class="sourceLineNo">573</span>    Comparator&lt;? super K&gt; comparator = orNaturalOrder(left.comparator());<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    SortedMap&lt;K, V&gt; onlyOnLeft = Maps.newTreeMap(comparator);<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    SortedMap&lt;K, V&gt; onlyOnRight = Maps.newTreeMap(comparator);<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    onlyOnRight.putAll(right); // will whittle it down<a name="line.576"></a>
+<span class="sourceLineNo">577</span>    SortedMap&lt;K, V&gt; onBoth = Maps.newTreeMap(comparator);<a name="line.577"></a>
+<span class="sourceLineNo">578</span>    SortedMap&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences = Maps.newTreeMap(comparator);<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    return new SortedMapDifferenceImpl&lt;&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  }<a name="line.581"></a>
+<span class="sourceLineNo">582</span><a name="line.582"></a>
+<span class="sourceLineNo">583</span>  private static &lt;K, V&gt; void doDifference(<a name="line.583"></a>
+<span class="sourceLineNo">584</span>      Map&lt;? extends K, ? extends V&gt; left,<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      Map&lt;? extends K, ? extends V&gt; right,<a name="line.585"></a>
+<span class="sourceLineNo">586</span>      Equivalence&lt;? super V&gt; valueEquivalence,<a name="line.586"></a>
+<span class="sourceLineNo">587</span>      Map&lt;K, V&gt; onlyOnLeft,<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      Map&lt;K, V&gt; onlyOnRight,<a name="line.588"></a>
+<span class="sourceLineNo">589</span>      Map&lt;K, V&gt; onBoth,<a name="line.589"></a>
+<span class="sourceLineNo">590</span>      Map&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences) {<a name="line.590"></a>
+<span class="sourceLineNo">591</span>    for (Entry&lt;? extends K, ? extends V&gt; entry : left.entrySet()) {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      K leftKey = entry.getKey();<a name="line.592"></a>
+<span class="sourceLineNo">593</span>      V leftValue = entry.getValue();<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      if (right.containsKey(leftKey)) {<a name="line.594"></a>
+<span class="sourceLineNo">595</span>        V rightValue = onlyOnRight.remove(leftKey);<a name="line.595"></a>
+<span class="sourceLineNo">596</span>        if (valueEquivalence.equivalent(leftValue, rightValue)) {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>          onBoth.put(leftKey, leftValue);<a name="line.597"></a>
+<span class="sourceLineNo">598</span>        } else {<a name="line.598"></a>
+<span class="sourceLineNo">599</span>          differences.put(leftKey, ValueDifferenceImpl.create(leftValue, rightValue));<a name="line.599"></a>
+<span class="sourceLineNo">600</span>        }<a name="line.600"></a>
+<span class="sourceLineNo">601</span>      } else {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>        onlyOnLeft.put(leftKey, leftValue);<a name="line.602"></a>
+<span class="sourceLineNo">603</span>      }<a name="line.603"></a>
 <span class="sourceLineNo">604</span>    }<a name="line.604"></a>
-<span class="sourceLineNo">605</span><a name="line.605"></a>
-<span class="sourceLineNo">606</span>    @Override<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    public Map&lt;K, V&gt; entriesOnlyOnLeft() {<a name="line.607"></a>
-<span class="sourceLineNo">608</span>      return onlyOnLeft;<a name="line.608"></a>
-<span class="sourceLineNo">609</span>    }<a name="line.609"></a>
-<span class="sourceLineNo">610</span><a name="line.610"></a>
-<span class="sourceLineNo">611</span>    @Override<a name="line.611"></a>
-<span class="sourceLineNo">612</span>    public Map&lt;K, V&gt; entriesOnlyOnRight() {<a name="line.612"></a>
-<span class="sourceLineNo">613</span>      return onlyOnRight;<a name="line.613"></a>
-<span class="sourceLineNo">614</span>    }<a name="line.614"></a>
-<span class="sourceLineNo">615</span><a name="line.615"></a>
-<span class="sourceLineNo">616</span>    @Override<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    public Map&lt;K, V&gt; entriesInCommon() {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>      return onBoth;<a name="line.618"></a>
-<span class="sourceLineNo">619</span>    }<a name="line.619"></a>
+<span class="sourceLineNo">605</span>  }<a name="line.605"></a>
+<span class="sourceLineNo">606</span><a name="line.606"></a>
+<span class="sourceLineNo">607</span>  private static &lt;K, V&gt; Map&lt;K, V&gt; unmodifiableMap(Map&lt;K, ? extends V&gt; map) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    if (map instanceof SortedMap) {<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      return Collections.unmodifiableSortedMap((SortedMap&lt;K, ? extends V&gt;) map);<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    } else {<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      return Collections.unmodifiableMap(map);<a name="line.611"></a>
+<span class="sourceLineNo">612</span>    }<a name="line.612"></a>
+<span class="sourceLineNo">613</span>  }<a name="line.613"></a>
+<span class="sourceLineNo">614</span><a name="line.614"></a>
+<span class="sourceLineNo">615</span>  static class MapDifferenceImpl&lt;K, V&gt; implements MapDifference&lt;K, V&gt; {<a name="line.615"></a>
+<span class="sourceLineNo">616</span>    final Map&lt;K, V&gt; onlyOnLeft;<a name="line.616"></a>
+<span class="sourceLineNo">617</span>    final Map&lt;K, V&gt; onlyOnRight;<a name="line.617"></a>
+<span class="sourceLineNo">618</span>    final Map&lt;K, V&gt; onBoth;<a name="line.618"></a>
+<span class="sourceLineNo">619</span>    final Map&lt;K, ValueDifference&lt;V&gt;&gt; differences;<a name="line.619"></a>
 <span class="sourceLineNo">620</span><a name="line.620"></a>
-<span class="sourceLineNo">621</span>    @Override<a name="line.621"></a>
-<span class="sourceLineNo">622</span>    public Map&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering() {<a name="line.622"></a>
-<span class="sourceLineNo">623</span>      return differences;<a name="line.623"></a>
-<span class="sourceLineNo">624</span>    }<a name="line.624"></a>
-<span class="sourceLineNo">625</span><a name="line.625"></a>
-<span class="sourceLineNo">626</span>    @Override<a name="line.626"></a>
-<span class="sourceLineNo">627</span>    public boolean equals(Object object) {<a name="line.627"></a>
-<span class="sourceLineNo">628</span>      if (object == this) {<a name="line.628"></a>
-<span class="sourceLineNo">629</span>        return true;<a name="line.629"></a>
-<span class="sourceLineNo">630</span>      }<a name="line.630"></a>
-<span class="sourceLineNo">631</span>      if (object instanceof MapDifference) {<a name="line.631"></a>
-<span class="sourceLineNo">632</span>        MapDifference&lt;?, ?&gt; other = (MapDifference&lt;?, ?&gt;) object;<a name="line.632"></a>
-<span class="sourceLineNo">633</span>        return entriesOnlyOnLeft().equals(other.entriesOnlyOnLeft())<a name="line.633"></a>
-<span class="sourceLineNo">634</span>            &amp;&amp; entriesOnlyOnRight().equals(other.entriesOnlyOnRight())<a name="line.634"></a>
-<span class="sourceLineNo">635</span>            &amp;&amp; entriesInCommon().equals(other.entriesInCommon())<a name="line.635"></a>
-<span class="sourceLineNo">636</span>            &amp;&amp; entriesDiffering().equals(other.entriesDiffering());<a name="line.636"></a>
-<span class="sourceLineNo">637</span>      }<a name="line.637"></a>
-<span class="sourceLineNo">638</span>      return false;<a name="line.638"></a>
-<span class="sourceLineNo">639</span>    }<a name="line.639"></a>
-<span class="sourceLineNo">640</span><a name="line.640"></a>
-<span class="sourceLineNo">641</span>    @Override<a name="line.641"></a>
-<span class="sourceLineNo">642</span>    public int hashCode() {<a name="line.642"></a>
-<span class="sourceLineNo">643</span>      return Objects.hashCode(<a name="line.643"></a>
-<span class="sourceLineNo">644</span>          entriesOnlyOnLeft(), entriesOnlyOnRight(), entriesInCommon(), entriesDiffering());<a name="line.644"></a>
+<span class="sourceLineNo">621</span>    MapDifferenceImpl(<a name="line.621"></a>
+<span class="sourceLineNo">622</span>        Map&lt;K, V&gt; onlyOnLeft,<a name="line.622"></a>
+<span class="sourceLineNo">623</span>        Map&lt;K, V&gt; onlyOnRight,<a name="line.623"></a>
+<span class="sourceLineNo">624</span>        Map&lt;K, V&gt; onBoth,<a name="line.624"></a>
+<span class="sourceLineNo">625</span>        Map&lt;K, ValueDifference&lt;V&gt;&gt; differences) {<a name="line.625"></a>
+<span class="sourceLineNo">626</span>      this.onlyOnLeft = unmodifiableMap(onlyOnLeft);<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      this.onlyOnRight = unmodifiableMap(onlyOnRight);<a name="line.627"></a>
+<span class="sourceLineNo">628</span>      this.onBoth = unmodifiableMap(onBoth);<a name="line.628"></a>
+<span class="sourceLineNo">629</span>      this.differences = unmodifiableMap(differences);<a name="line.629"></a>
+<span class="sourceLineNo">630</span>    }<a name="line.630"></a>
+<span class="sourceLineNo">631</span><a name="line.631"></a>
+<span class="sourceLineNo">632</span>    @Override<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    public boolean areEqual() {<a name="line.633"></a>
+<span class="sourceLineNo">634</span>      return onlyOnLeft.isEmpty() &amp;&amp; onlyOnRight.isEmpty() &amp;&amp; differences.isEmpty();<a name="line.634"></a>
+<span class="sourceLineNo">635</span>    }<a name="line.635"></a>
+<span class="sourceLineNo">636</span><a name="line.636"></a>
+<span class="sourceLineNo">637</span>    @Override<a name="line.637"></a>
+<span class="sourceLineNo">638</span>    public Map&lt;K, V&gt; entriesOnlyOnLeft() {<a name="line.638"></a>
+<span class="sourceLineNo">639</span>      return onlyOnLeft;<a name="line.639"></a>
+<span class="sourceLineNo">640</span>    }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>    @Override<a name="line.642"></a>
+<span class="sourceLineNo">643</span>    public Map&lt;K, V&gt; entriesOnlyOnRight() {<a name="line.643"></a>
+<span class="sourceLineNo">644</span>      return onlyOnRight;<a name="line.644"></a>
 <span class="sourceLineNo">645</span>    }<a name="line.645"></a>
 <span class="sourceLineNo">646</span><a name="line.646"></a>
 <span class="sourceLineNo">647</span>    @Override<a name="line.647"></a>
-<span class="sourceLineNo">648</span>    public String toString() {<a name="line.648"></a>
-<span class="sourceLineNo">649</span>      if (areEqual()) {<a name="line.649"></a>
-<span class="sourceLineNo">650</span>        return "equal";<a name="line.650"></a>
-<span class="sourceLineNo">651</span>      }<a name="line.651"></a>
-<span class="sourceLineNo">652</span><a name="line.652"></a>
-<span class="sourceLineNo">653</span>      StringBuilder result = new StringBuilder("not equal");<a name="line.653"></a>
-<span class="sourceLineNo">654</span>      if (!onlyOnLeft.isEmpty()) {<a name="line.654"></a>
-<span class="sourceLineNo">655</span>        result.append(": only on left=").append(onlyOnLeft);<a name="line.655"></a>
-<span class="sourceLineNo">656</span>      }<a name="line.656"></a>
-<span class="sourceLineNo">657</span>      if (!onlyOnRight.isEmpty()) {<a name="line.657"></a>
-<span class="sourceLineNo">658</span>        result.append(": only on right=").append(onlyOnRight);<a name="line.658"></a>
-<span class="sourceLineNo">659</span>      }<a name="line.659"></a>
-<span class="sourceLineNo">660</span>      if (!differences.isEmpty()) {<a name="line.660"></a>
-<span class="sourceLineNo">661</span>        result.append(": value differences=").append(differences);<a name="line.661"></a>
-<span class="sourceLineNo">662</span>      }<a name="line.662"></a>
-<span class="sourceLineNo">663</span>      return result.toString();<a name="line.663"></a>
-<span class="sourceLineNo">664</span>    }<a name="line.664"></a>
-<span class="sourceLineNo">665</span>  }<a name="line.665"></a>
-<span class="sourceLineNo">666</span><a name="line.666"></a>
-<span class="sourceLineNo">667</span>  static class ValueDifferenceImpl&lt;V&gt; implements MapDifference.ValueDifference&lt;V&gt; {<a name="line.667"></a>
-<span class="sourceLineNo">668</span>    @NullableDecl private final V left;<a name="line.668"></a>
-<span class="sourceLineNo">669</span>    @NullableDecl private final V right;<a name="line.669"></a>
-<span class="sourceLineNo">670</span><a name="line.670"></a>
-<span class="sourceLineNo">671</span>    static &lt;V&gt; ValueDifference&lt;V&gt; create(@NullableDecl V left, @NullableDecl V right) {<a name="line.671"></a>
-<span class="sourceLineNo">672</span>      return new ValueDifferenceImpl&lt;V&gt;(left, right);<a name="line.672"></a>
-<span class="sourceLineNo">673</span>    }<a name="line.673"></a>
-<span class="sourceLineNo">674</span><a name="line.674"></a>
-<span class="sourceLineNo">675</span>    private ValueDifferenceImpl(@NullableDecl V left, @NullableDecl V right) {<a name="line.675"></a>
-<span class="sourceLineNo">676</span>      this.left = left;<a name="line.676"></a>
-<span class="sourceLineNo">677</span>      this.right = right;<a name="line.677"></a>
-<span class="sourceLineNo">678</span>    }<a name="line.678"></a>
-<span class="sourceLineNo">679</span><a name="line.679"></a>
-<span class="sourceLineNo">680</span>    @Override<a name="line.680"></a>
-<span class="sourceLineNo">681</span>    public V leftValue() {<a name="line.681"></a>
-<span class="sourceLineNo">682</span>      return left;<a name="line.682"></a>
-<span class="sourceLineNo">683</span>    }<a name="line.683"></a>
-<span class="sourceLineNo">684</span><a name="line.684"></a>
-<span class="sourceLineNo">685</span>    @Override<a name="line.685"></a>
-<span class="sourceLineNo">686</span>    public V rightValue() {<a name="line.686"></a>
-<span class="sourceLineNo">687</span>      return right;<a name="line.687"></a>
-<span class="sourceLineNo">688</span>    }<a name="line.688"></a>
-<span class="sourceLineNo">689</span><a name="line.689"></a>
-<span class="sourceLineNo">690</span>    @Override<a name="line.690"></a>
-<span class="sourceLineNo">691</span>    public boolean equals(@NullableDecl Object object) {<a name="line.691"></a>
-<span class="sourceLineNo">692</span>      if (object instanceof MapDifference.ValueDifference) {<a name="line.692"></a>
-<span class="sourceLineNo">693</span>        MapDifference.ValueDifference&lt;?&gt; that = (MapDifference.ValueDifference&lt;?&gt;) object;<a name="line.693"></a>
-<span class="sourceLineNo">694</span>        return Objects.equal(this.left, that.leftValue())<a name="line.694"></a>
-<span class="sourceLineNo">695</span>            &amp;&amp; Objects.equal(this.right, that.rightValue());<a name="line.695"></a>
-<span class="sourceLineNo">696</span>      }<a name="line.696"></a>
-<span class="sourceLineNo">697</span>      return false;<a name="line.697"></a>
-<span class="sourceLineNo">698</span>    }<a name="line.698"></a>
-<span class="sourceLineNo">699</span><a name="line.699"></a>
-<span class="sourceLineNo">700</span>    @Override<a name="line.700"></a>
-<span class="sourceLineNo">701</span>    public int hashCode() {<a name="line.701"></a>
-<span class="sourceLineNo">702</span>      return Objects.hashCode(left, right);<a name="line.702"></a>
-<span class="sourceLineNo">703</span>    }<a name="line.703"></a>
-<span class="sourceLineNo">704</span><a name="line.704"></a>
-<span class="sourceLineNo">705</span>    @Override<a name="line.705"></a>
-<span class="sourceLineNo">706</span>    public String toString() {<a name="line.706"></a>
-<span class="sourceLineNo">707</span>      return "(" + left + ", " + right + ")";<a name="line.707"></a>
-<span class="sourceLineNo">708</span>    }<a name="line.708"></a>
-<span class="sourceLineNo">709</span>  }<a name="line.709"></a>
+<span class="sourceLineNo">648</span>    public Map&lt;K, V&gt; entriesInCommon() {<a name="line.648"></a>
+<span class="sourceLineNo">649</span>      return onBoth;<a name="line.649"></a>
+<span class="sourceLineNo">650</span>    }<a name="line.650"></a>
+<span class="sourceLineNo">651</span><a name="line.651"></a>
+<span class="sourceLineNo">652</span>    @Override<a name="line.652"></a>
+<span class="sourceLineNo">653</span>    public Map&lt;K, ValueDifference&lt;V&gt;&gt; entriesDiffering() {<a name="line.653"></a>
+<span class="sourceLineNo">654</span>      return differences;<a name="line.654"></a>
+<span class="sourceLineNo">655</span>    }<a name="line.655"></a>
+<span class="sourceLineNo">656</span><a name="line.656"></a>
+<span class="sourceLineNo">657</span>    @Override<a name="line.657"></a>
+<span class="sourceLineNo">658</span>    public boolean equals(Object object) {<a name="line.658"></a>
+<span class="sourceLineNo">659</span>      if (object == this) {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>        return true;<a name="line.660"></a>
+<span class="sourceLineNo">661</span>      }<a name="line.661"></a>
+<span class="sourceLineNo">662</span>      if (object instanceof MapDifference) {<a name="line.662"></a>
+<span class="sourceLineNo">663</span>        MapDifference&lt;?, ?&gt; other = (MapDifference&lt;?, ?&gt;) object;<a name="line.663"></a>
+<span class="sourceLineNo">664</span>        return entriesOnlyOnLeft().equals(other.entriesOnlyOnLeft())<a name="line.664"></a>
+<span class="sourceLineNo">665</span>            &amp;&amp; entriesOnlyOnRight().equals(other.entriesOnlyOnRight())<a name="line.665"></a>
+<span class="sourceLineNo">666</span>            &amp;&amp; entriesInCommon().equals(other.entriesInCommon())<a name="line.666"></a>
+<span class="sourceLineNo">667</span>            &amp;&amp; entriesDiffering().equals(other.entriesDiffering());<a name="line.667"></a>
+<span class="sourceLineNo">668</span>      }<a name="line.668"></a>
+<span class="sourceLineNo">669</span>      return false;<a name="line.669"></a>
+<span class="sourceLineNo">670</span>    }<a name="line.670"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>    @Override<a name="line.672"></a>
+<span class="sourceLineNo">673</span>    public int hashCode() {<a name="line.673"></a>
+<span class="sourceLineNo">674</span>      return Objects.hashCode(<a name="line.674"></a>
+<span class="sourceLineNo">675</span>          entriesOnlyOnLeft(), entriesOnlyOnRight(), entriesInCommon(), entriesDiffering());<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    }<a name="line.676"></a>
+<span class="sourceLineNo">677</span><a name="line.677"></a>
+<span class="sourceLineNo">678</span>    @Override<a name="line.678"></a>
+<span class="sourceLineNo">679</span>    public String toString() {<a name="line.679"></a>
+<span class="sourceLineNo">680</span>      if (areEqual()) {<a name="line.680"></a>
+<span class="sourceLineNo">681</span>        return "equal";<a name="line.681"></a>
+<span class="sourceLineNo">682</span>      }<a name="line.682"></a>
+<span class="sourceLineNo">683</span><a name="line.683"></a>
+<span class="sourceLineNo">684</span>      StringBuilder result = new StringBuilder("not equal");<a name="line.684"></a>
+<span class="sourceLineNo">685</span>      if (!onlyOnLeft.isEmpty()) {<a name="line.685"></a>
+<span class="sourceLineNo">686</span>        result.append(": only on left=").append(onlyOnLeft);<a name="line.686"></a>
+<span class="sourceLineNo">687</span>      }<a name="line.687"></a>
+<span class="sourceLineNo">688</span>      if (!onlyOnRight.isEmpty()) {<a name="line.688"></a>
+<span class="sourceLineNo">689</span>        result.append(": only on right=").append(onlyOnRight);<a name="line.689"></a>
+<span class="sourceLineNo">690</span>      }<a name="line.690"></a>
+<span class="sourceLineNo">691</span>      if (!differences.isEmpty()) {<a name="line.691"></a>
+<span class="sourceLineNo">692</span>        result.append(": value differences=").append(differences);<a name="line.692"></a>
+<span class="sourceLineNo">693</span>      }<a name="line.693"></a>
+<span class="sourceLineNo">694</span>      return result.toString();<a name="line.694"></a>
+<span class="sourceLineNo">695</span>    }<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  }<a name="line.696"></a>
+<span class="sourceLineNo">697</span><a name="line.697"></a>
+<span class="sourceLineNo">698</span>  static class ValueDifferenceImpl&lt;V&gt; implements MapDifference.ValueDifference&lt;V&gt; {<a name="line.698"></a>
+<span class="sourceLineNo">699</span>    @NullableDecl private final V left;<a name="line.699"></a>
+<span class="sourceLineNo">700</span>    @NullableDecl private final V right;<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>    static &lt;V&gt; ValueDifference&lt;V&gt; create(@NullableDecl V left, @NullableDecl V right) {<a name="line.702"></a>
+<span class="sourceLineNo">703</span>      return new ValueDifferenceImpl&lt;V&gt;(left, right);<a name="line.703"></a>
+<span class="sourceLineNo">704</span>    }<a name="line.704"></a>
+<span class="sourceLineNo">705</span><a name="line.705"></a>
+<span class="sourceLineNo">706</span>    private ValueDifferenceImpl(@NullableDecl V left, @NullableDecl V right) {<a name="line.706"></a>
+<span class="sourceLineNo">707</span>      this.left = left;<a name="line.707"></a>
+<span class="sourceLineNo">708</span>      this.right = right;<a name="line.708"></a>
+<span class="sourceLineNo">709</span>    }<a name="line.709"></a>
 <span class="sourceLineNo">710</span><a name="line.710"></a>
-<span class="sourceLineNo">711</span>  /**<a name="line.711"></a>
-<span class="sourceLineNo">712</span>   * Computes the difference between two sorted maps, using the comparator of the left map, or<a name="line.712"></a>
-<span class="sourceLineNo">713</span>   * {@code Ordering.natural()} if the left map uses the natural ordering of its elements. This<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   * difference is an immutable snapshot of the state of the maps at the time this method is called.<a name="line.714"></a>
-<span class="sourceLineNo">715</span>   * It will never change, even if the maps change at a later time.<a name="line.715"></a>
-<span class="sourceLineNo">716</span>   *<a name="line.716"></a>
-<span class="sourceLineNo">717</span>   * &lt;p&gt;Since this method uses {@code TreeMap} instances internally, the keys of the right map must<a name="line.717"></a>
-<span class="sourceLineNo">718</span>   * all compare as distinct according to the comparator of the left map.<a name="line.718"></a>
-<span class="sourceLineNo">719</span>   *<a name="line.719"></a>
-<span class="sourceLineNo">720</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt;If you only need to know whether two sorted maps have the same mappings, call<a name="line.720"></a>
-<span class="sourceLineNo">721</span>   * {@code left.equals(right)} instead of this method.<a name="line.721"></a>
-<span class="sourceLineNo">722</span>   *<a name="line.722"></a>
-<span class="sourceLineNo">723</span>   * @param left the map to treat as the "left" map for purposes of comparison<a name="line.723"></a>
-<span class="sourceLineNo">724</span>   * @param right the map to treat as the "right" map for purposes of comparison<a name="line.724"></a>
-<span class="sourceLineNo">725</span>   * @return the difference between the two maps<a name="line.725"></a>
-<span class="sourceLineNo">726</span>   * @since 11.0<a name="line.726"></a>
-<span class="sourceLineNo">727</span>   */<a name="line.727"></a>
-<span class="sourceLineNo">728</span>  public static &lt;K, V&gt; SortedMapDifference&lt;K, V&gt; difference(<a name="line.728"></a>
-<span class="sourceLineNo">729</span>      SortedMap&lt;K, ? extends V&gt; left, Map&lt;? extends K, ? extends V&gt; right) {<a name="line.729"></a>
-<span class="sourceLineNo">730</span>    checkNotNull(left);<a name="line.730"></a>
-<span class="sourceLineNo">731</span>    checkNotNull(right);<a name="line.731"></a>
-<span class="sourceLineNo">732</span>    Comparator&lt;? super K&gt; comparator = orNaturalOrder(left.comparator());<a name="line.732"></a>
-<span class="sourceLineNo">733</span>    SortedMap&lt;K, V&gt; onlyOnLeft = Maps.newTreeMap(comparator);<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    SortedMap&lt;K, V&gt; onlyOnRight = Maps.newTreeMap(comparator);<a name="line.734"></a>
-<span class="sourceLineNo">735</span>    onlyOnRight.putAll(right); // will whittle it down<a name="line.735"></a>
-<span class="sourceLineNo">736</span>    SortedMap&lt;K, V&gt; onBoth = Maps.newTreeMap(comparator);<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    SortedMap&lt;K, MapDifference.ValueDifference&lt;V&gt;&gt; differences = Maps.newTreeMap(comparator);<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.738"></a>
-<span class="sourceLineNo">739</span>    return new SortedMapDifferenceImpl&lt;&gt;(onlyOnLeft, onlyOnRight, onBoth, differences);<a name="line.739"></a>
+<span class="sourceLineNo">711</span>    @Override<a name="line.711"></a>
+<span class="sourceLineNo">712</span>    public V leftValue() {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>      return left;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>    }<a name="line.714"></a>
+<span class="sourceLineNo">715</span><a name="line.715"></a>
+<span class="sourceLineNo">716</span>    @Override<a name="line.716"></a>
+<span class="sourceLineNo">717</span>    public V rightValue() {<a name="line.717"></a>
+<span class="sourceLineNo">718</span>      return right;<a name="line.718"></a>
+<span class="sourceLineNo">719</span>    }<a name="line.719"></a>
+<span class="sourceLineNo">720</span><a name="line.720"></a>
+<span class="sourceLineNo">721</span>    @Override<a name="line.721"></a>
+<span class="sourceLineNo">722</span>    public boolean equals(@NullableDecl Object object) {<a name="line.722"></a>
+<span class="sourceLineNo">723</span>      if (object instanceof MapDifference.ValueDifference) {<a name="line.723"></a>
+<span class="sourceLineNo">724</span>        MapDifference.ValueDifference&lt;?&gt; that = (MapDifference.ValueDifference&lt;?&gt;) object;<a name="line.724"></a>
+<span class="sourceLineNo">725</span>        return Objects.equal(this.left, that.leftValue())<a name="line.725"></a>
+<span class="sourceLineNo">726</span>            &amp;&amp; Objects.equal(this.right, that.rightValue());<a name="line.726"></a>
+<span class="sourceLineNo">727</span>      }<a name="line.727"></a>
+<span class="sourceLineNo">728</span>      return false;<a name="line.728"></a>
+<span class="sourceLineNo">729</span>    }<a name="line.729"></a>
+<span class="sourceLineNo">730</span><a name="line.730"></a>
+<span class="sourceLineNo">731</span>    @Override<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    public int hashCode() {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>      return Objects.hashCode(left, right);<a name="line.733"></a>
+<span class="sourceLineNo">734</span>    }<a name="line.734"></a>
+<span class="sourceLineNo">735</span><a name="line.735"></a>
+<span class="sourceLineNo">736</span>    @Override<a name="line.736"></a>
+<span class="sourceLineNo">737</span>    public String toString() {<a name="line.737"></a>
+<span class="sourceLineNo">738</span>      return "(" + left + ", " + right + ")";<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    }<a name="line.739"></a>
 <span class="sourceLineNo">740</span>  }<a name="line.740"></a>
 <span class="sourceLineNo">741</span><a name="line.741"></a>
 <span class="sourceLineNo">742</span>  static class SortedMapDifferenceImpl&lt;K, V&gt; extends MapDifferenceImpl&lt;K, V&gt;<a name="line.742"></a>
@@ -1195,30 +1195,30 @@
 <span class="sourceLineNo">1187</span>      }<a name="line.1187"></a>
 <span class="sourceLineNo">1188</span><a name="line.1188"></a>
 <span class="sourceLineNo">1189</span>      @Override<a name="line.1189"></a>
-<span class="sourceLineNo">1190</span>      public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.1190"></a>
-<span class="sourceLineNo">1191</span>        return removeOnlySortedSet(super.subSet(fromElement, toElement));<a name="line.1191"></a>
+<span class="sourceLineNo">1190</span>      public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.1190"></a>
+<span class="sourceLineNo">1191</span>        return removeOnlyNavigableSet(super.headSet(toElement, inclusive));<a name="line.1191"></a>
 <span class="sourceLineNo">1192</span>      }<a name="line.1192"></a>
 <span class="sourceLineNo">1193</span><a name="line.1193"></a>
 <span class="sourceLineNo">1194</span>      @Override<a name="line.1194"></a>
-<span class="sourceLineNo">1195</span>      public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.1195"></a>
-<span class="sourceLineNo">1196</span>        return removeOnlySortedSet(super.tailSet(fromElement));<a name="line.1196"></a>
+<span class="sourceLineNo">1195</span>      public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.1195"></a>
+<span class="sourceLineNo">1196</span>        return removeOnlySortedSet(super.subSet(fromElement, toElement));<a name="line.1196"></a>
 <span class="sourceLineNo">1197</span>      }<a name="line.1197"></a>
 <span class="sourceLineNo">1198</span><a name="line.1198"></a>
 <span class="sourceLineNo">1199</span>      @Override<a name="line.1199"></a>
-<span class="sourceLineNo">1200</span>      public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.1200"></a>
-<span class="sourceLineNo">1201</span>        return removeOnlyNavigableSet(super.headSet(toElement, inclusive));<a name="line.1201"></a>
-<span class="sourceLineNo">1202</span>      }<a name="line.1202"></a>
-<span class="sourceLineNo">1203</span><a name="line.1203"></a>
-<span class="sourceLineNo">1204</span>      @Override<a name="line.1204"></a>
-<span class="sourceLineNo">1205</span>      public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.1205"></a>
-<span class="sourceLineNo">1206</span>        return removeOnlyNavigableSet(super.tailSet(fromElement, inclusive));<a name="line.1206"></a>
-<span class="sourceLineNo">1207</span>      }<a name="line.1207"></a>
-<span class="sourceLineNo">1208</span><a name="line.1208"></a>
-<span class="sourceLineNo">1209</span>      @Override<a name="line.1209"></a>
-<span class="sourceLineNo">1210</span>      public NavigableSet&lt;E&gt; subSet(<a name="line.1210"></a>
-<span class="sourceLineNo">1211</span>          E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {<a name="line.1211"></a>
-<span class="sourceLineNo">1212</span>        return removeOnlyNavigableSet(<a name="line.1212"></a>
-<span class="sourceLineNo">1213</span>            super.subSet(fromElement, fromInclusive, toElement, toInclusive));<a name="line.1213"></a>
+<span class="sourceLineNo">1200</span>      public NavigableSet&lt;E&gt; subSet(<a name="line.1200"></a>
+<span class="sourceLineNo">1201</span>          E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {<a name="line.1201"></a>
+<span class="sourceLineNo">1202</span>        return removeOnlyNavigableSet(<a name="line.1202"></a>
+<span class="sourceLineNo">1203</span>            super.subSet(fromElement, fromInclusive, toElement, toInclusive));<a name="line.1203"></a>
+<span class="sourceLineNo">1204</span>      }<a name="line.1204"></a>
+<span class="sourceLineNo">1205</span><a name="line.1205"></a>
+<span class="sourceLineNo">1206</span>      @Override<a name="line.1206"></a>
+<span class="sourceLineNo">1207</span>      public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.1207"></a>
+<span class="sourceLineNo">1208</span>        return removeOnlySortedSet(super.tailSet(fromElement));<a name="line.1208"></a>
+<span class="sourceLineNo">1209</span>      }<a name="line.1209"></a>
+<span class="sourceLineNo">1210</span><a name="line.1210"></a>
+<span class="sourceLineNo">1211</span>      @Override<a name="line.1211"></a>
+<span class="sourceLineNo">1212</span>      public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.1212"></a>
+<span class="sourceLineNo">1213</span>        return removeOnlyNavigableSet(super.tailSet(fromElement, inclusive));<a name="line.1213"></a>
 <span class="sourceLineNo">1214</span>      }<a name="line.1214"></a>
 <span class="sourceLineNo">1215</span><a name="line.1215"></a>
 <span class="sourceLineNo">1216</span>      @Override<a name="line.1216"></a>
@@ -2676,533 +2676,533 @@
 <span class="sourceLineNo">2668</span>        map.unfiltered, Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate));<a name="line.2668"></a>
 <span class="sourceLineNo">2669</span>  }<a name="line.2669"></a>
 <span class="sourceLineNo">2670</span><a name="line.2670"></a>
-<span class="sourceLineNo">2671</span>  private abstract static class AbstractFilteredMap&lt;K, V&gt; extends ViewCachingAbstractMap&lt;K, V&gt; {<a name="line.2671"></a>
-<span class="sourceLineNo">2672</span>    final Map&lt;K, V&gt; unfiltered;<a name="line.2672"></a>
-<span class="sourceLineNo">2673</span>    final Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2673"></a>
-<span class="sourceLineNo">2674</span><a name="line.2674"></a>
-<span class="sourceLineNo">2675</span>    AbstractFilteredMap(Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.2675"></a>
-<span class="sourceLineNo">2676</span>      this.unfiltered = unfiltered;<a name="line.2676"></a>
-<span class="sourceLineNo">2677</span>      this.predicate = predicate;<a name="line.2677"></a>
-<span class="sourceLineNo">2678</span>    }<a name="line.2678"></a>
-<span class="sourceLineNo">2679</span><a name="line.2679"></a>
-<span class="sourceLineNo">2680</span>    boolean apply(@NullableDecl Object key, @NullableDecl V value) {<a name="line.2680"></a>
-<span class="sourceLineNo">2681</span>      // This method is called only when the key is in the map, implying that<a name="line.2681"></a>
-<span class="sourceLineNo">2682</span>      // key is a K.<a name="line.2682"></a>
-<span class="sourceLineNo">2683</span>      @SuppressWarnings("unchecked")<a name="line.2683"></a>
-<span class="sourceLineNo">2684</span>      K k = (K) key;<a name="line.2684"></a>
-<span class="sourceLineNo">2685</span>      return predicate.apply(Maps.immutableEntry(k, value));<a name="line.2685"></a>
-<span class="sourceLineNo">2686</span>    }<a name="line.2686"></a>
-<span class="sourceLineNo">2687</span><a name="line.2687"></a>
-<span class="sourceLineNo">2688</span>    @Override<a name="line.2688"></a>
-<span class="sourceLineNo">2689</span>    public V put(K key, V value) {<a name="line.2689"></a>
-<span class="sourceLineNo">2690</span>      checkArgument(apply(key, value));<a name="line.2690"></a>
-<span class="sourceLineNo">2691</span>      return unfiltered.put(key, value);<a name="line.2691"></a>
-<span class="sourceLineNo">2692</span>    }<a name="line.2692"></a>
-<span class="sourceLineNo">2693</span><a name="line.2693"></a>
-<span class="sourceLineNo">2694</span>    @Override<a name="line.2694"></a>
-<span class="sourceLineNo">2695</span>    public void putAll(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.2695"></a>
-<span class="sourceLineNo">2696</span>      for (Entry&lt;? extends K, ? extends V&gt; entry : map.entrySet()) {<a name="line.2696"></a>
-<span class="sourceLineNo">2697</span>        checkArgument(apply(entry.getKey(), entry.getValue()));<a name="line.2697"></a>
-<span class="sourceLineNo">2698</span>      }<a name="line.2698"></a>
-<span class="sourceLineNo">2699</span>      unfiltered.putAll(map);<a name="line.2699"></a>
-<span class="sourceLineNo">2700</span>    }<a name="line.2700"></a>
-<span class="sourceLineNo">2701</span><a name="line.2701"></a>
-<span class="sourceLineNo">2702</span>    @Override<a name="line.2702"></a>
-<span class="sourceLineNo">2703</span>    public boolean containsKey(Object key) {<a name="line.2703"></a>
-<span class="sourceLineNo">2704</span>      return unfiltered.containsKey(key) &amp;&amp; apply(key, unfiltered.get(key));<a name="line.2704"></a>
-<span class="sourceLineNo">2705</span>    }<a name="line.2705"></a>
+<span class="sourceLineNo">2671</span>  /**<a name="line.2671"></a>
+<span class="sourceLineNo">2672</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.2672"></a>
+<span class="sourceLineNo">2673</span>   * sorted map.<a name="line.2673"></a>
+<span class="sourceLineNo">2674</span>   */<a name="line.2674"></a>
+<span class="sourceLineNo">2675</span>  private static &lt;K, V&gt; SortedMap&lt;K, V&gt; filterFiltered(<a name="line.2675"></a>
+<span class="sourceLineNo">2676</span>      FilteredEntrySortedMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2676"></a>
+<span class="sourceLineNo">2677</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.2677"></a>
+<span class="sourceLineNo">2678</span>    return new FilteredEntrySortedMap&lt;&gt;(map.sortedMap(), predicate);<a name="line.2678"></a>
+<span class="sourceLineNo">2679</span>  }<a name="line.2679"></a>
+<span class="sourceLineNo">2680</span><a name="line.2680"></a>
+<span class="sourceLineNo">2681</span>  /**<a name="line.2681"></a>
+<span class="sourceLineNo">2682</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.2682"></a>
+<span class="sourceLineNo">2683</span>   * navigable map.<a name="line.2683"></a>
+<span class="sourceLineNo">2684</span>   */<a name="line.2684"></a>
+<span class="sourceLineNo">2685</span>  @GwtIncompatible // NavigableMap<a name="line.2685"></a>
+<span class="sourceLineNo">2686</span>  private static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterFiltered(<a name="line.2686"></a>
+<span class="sourceLineNo">2687</span>      FilteredEntryNavigableMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2687"></a>
+<span class="sourceLineNo">2688</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.2688"></a>
+<span class="sourceLineNo">2689</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.entryPredicate, entryPredicate);<a name="line.2689"></a>
+<span class="sourceLineNo">2690</span>    return new FilteredEntryNavigableMap&lt;&gt;(map.unfiltered, predicate);<a name="line.2690"></a>
+<span class="sourceLineNo">2691</span>  }<a name="line.2691"></a>
+<span class="sourceLineNo">2692</span><a name="line.2692"></a>
+<span class="sourceLineNo">2693</span>  /**<a name="line.2693"></a>
+<span class="sourceLineNo">2694</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.2694"></a>
+<span class="sourceLineNo">2695</span>   * map.<a name="line.2695"></a>
+<span class="sourceLineNo">2696</span>   */<a name="line.2696"></a>
+<span class="sourceLineNo">2697</span>  private static &lt;K, V&gt; BiMap&lt;K, V&gt; filterFiltered(<a name="line.2697"></a>
+<span class="sourceLineNo">2698</span>      FilteredEntryBiMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2698"></a>
+<span class="sourceLineNo">2699</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.2699"></a>
+<span class="sourceLineNo">2700</span>    return new FilteredEntryBiMap&lt;&gt;(map.unfiltered(), predicate);<a name="line.2700"></a>
+<span class="sourceLineNo">2701</span>  }<a name="line.2701"></a>
+<span class="sourceLineNo">2702</span><a name="line.2702"></a>
+<span class="sourceLineNo">2703</span>  private abstract static class AbstractFilteredMap&lt;K, V&gt; extends ViewCachingAbstractMap&lt;K, V&gt; {<a name="line.2703"></a>
+<span class="sourceLineNo">2704</span>    final Map&lt;K, V&gt; unfiltered;<a name="line.2704"></a>
+<span class="sourceLineNo">2705</span>    final Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2705"></a>
 <span class="sourceLineNo">2706</span><a name="line.2706"></a>
-<span class="sourceLineNo">2707</span>    @Override<a name="line.2707"></a>
-<span class="sourceLineNo">2708</span>    public V get(Object key) {<a name="line.2708"></a>
-<span class="sourceLineNo">2709</span>      V value = unfiltered.get(key);<a name="line.2709"></a>
-<span class="sourceLineNo">2710</span>      return ((value != null) &amp;&amp; apply(key, value)) ? value : null;<a name="line.2710"></a>
-<span class="sourceLineNo">2711</span>    }<a name="line.2711"></a>
-<span class="sourceLineNo">2712</span><a name="line.2712"></a>
-<span class="sourceLineNo">2713</span>    @Override<a name="line.2713"></a>
-<span class="sourceLineNo">2714</span>    public boolean isEmpty() {<a name="line.2714"></a>
-<span class="sourceLineNo">2715</span>      return entrySet().isEmpty();<a name="line.2715"></a>
-<span class="sourceLineNo">2716</span>    }<a name="line.2716"></a>
-<span class="sourceLineNo">2717</span><a name="line.2717"></a>
-<span class="sourceLineNo">2718</span>    @Override<a name="line.2718"></a>
-<span class="sourceLineNo">2719</span>    public V remove(Object key) {<a name="line.2719"></a>
-<span class="sourceLineNo">2720</span>      return containsKey(key) ? unfiltered.remove(key) : null;<a name="line.2720"></a>
-<span class="sourceLineNo">2721</span>    }<a name="line.2721"></a>
-<span class="sourceLineNo">2722</span><a name="line.2722"></a>
-<span class="sourceLineNo">2723</span>    @Override<a name="line.2723"></a>
-<span class="sourceLineNo">2724</span>    Collection&lt;V&gt; createValues() {<a name="line.2724"></a>
-<span class="sourceLineNo">2725</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, predicate);<a name="line.2725"></a>
-<span class="sourceLineNo">2726</span>    }<a name="line.2726"></a>
-<span class="sourceLineNo">2727</span>  }<a name="line.2727"></a>
-<span class="sourceLineNo">2728</span><a name="line.2728"></a>
-<span class="sourceLineNo">2729</span>  private static final class FilteredMapValues&lt;K, V&gt; extends Maps.Values&lt;K, V&gt; {<a name="line.2729"></a>
-<span class="sourceLineNo">2730</span>    final Map&lt;K, V&gt; unfiltered;<a name="line.2730"></a>
-<span class="sourceLineNo">2731</span>    final Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2731"></a>
-<span class="sourceLineNo">2732</span><a name="line.2732"></a>
-<span class="sourceLineNo">2733</span>    FilteredMapValues(<a name="line.2733"></a>
-<span class="sourceLineNo">2734</span>        Map&lt;K, V&gt; filteredMap, Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.2734"></a>
-<span class="sourceLineNo">2735</span>      super(filteredMap);<a name="line.2735"></a>
-<span class="sourceLineNo">2736</span>      this.unfiltered = unfiltered;<a name="line.2736"></a>
-<span class="sourceLineNo">2737</span>      this.predicate = predicate;<a name="line.2737"></a>
-<span class="sourceLineNo">2738</span>    }<a name="line.2738"></a>
-<span class="sourceLineNo">2739</span><a name="line.2739"></a>
-<span class="sourceLineNo">2740</span>    @Override<a name="line.2740"></a>
-<span class="sourceLineNo">2741</span>    public boolean remove(Object o) {<a name="line.2741"></a>
-<span class="sourceLineNo">2742</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2742"></a>
-<span class="sourceLineNo">2743</span>      while (entryItr.hasNext()) {<a name="line.2743"></a>
-<span class="sourceLineNo">2744</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2744"></a>
-<span class="sourceLineNo">2745</span>        if (predicate.apply(entry) &amp;&amp; Objects.equal(entry.getValue(), o)) {<a name="line.2745"></a>
-<span class="sourceLineNo">2746</span>          entryItr.remove();<a name="line.2746"></a>
-<span class="sourceLineNo">2747</span>          return true;<a name="line.2747"></a>
-<span class="sourceLineNo">2748</span>        }<a name="line.2748"></a>
-<span class="sourceLineNo">2749</span>      }<a name="line.2749"></a>
-<span class="sourceLineNo">2750</span>      return false;<a name="line.2750"></a>
-<span class="sourceLineNo">2751</span>    }<a name="line.2751"></a>
-<span class="sourceLineNo">2752</span><a name="line.2752"></a>
-<span class="sourceLineNo">2753</span>    @Override<a name="line.2753"></a>
-<span class="sourceLineNo">2754</span>    public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.2754"></a>
-<span class="sourceLineNo">2755</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2755"></a>
-<span class="sourceLineNo">2756</span>      boolean result = false;<a name="line.2756"></a>
-<span class="sourceLineNo">2757</span>      while (entryItr.hasNext()) {<a name="line.2757"></a>
-<span class="sourceLineNo">2758</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2758"></a>
-<span class="sourceLineNo">2759</span>        if (predicate.apply(entry) &amp;&amp; collection.contains(entry.getValue())) {<a name="line.2759"></a>
-<span class="sourceLineNo">2760</span>          entryItr.remove();<a name="line.2760"></a>
-<span class="sourceLineNo">2761</span>          result = true;<a name="line.2761"></a>
-<span class="sourceLineNo">2762</span>        }<a name="line.2762"></a>
-<span class="sourceLineNo">2763</span>      }<a name="line.2763"></a>
-<span class="sourceLineNo">2764</span>      return result;<a name="line.2764"></a>
-<span class="sourceLineNo">2765</span>    }<a name="line.2765"></a>
-<span class="sourceLineNo">2766</span><a name="line.2766"></a>
-<span class="sourceLineNo">2767</span>    @Override<a name="line.2767"></a>
-<span class="sourceLineNo">2768</span>    public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.2768"></a>
-<span class="sourceLineNo">2769</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2769"></a>
-<span class="sourceLineNo">2770</span>      boolean result = false;<a name="line.2770"></a>
-<span class="sourceLineNo">2771</span>      while (entryItr.hasNext()) {<a name="line.2771"></a>
-<span class="sourceLineNo">2772</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2772"></a>
-<span class="sourceLineNo">2773</span>        if (predicate.apply(entry) &amp;&amp; !collection.contains(entry.getValue())) {<a name="line.2773"></a>
-<span class="sourceLineNo">2774</span>          entryItr.remove();<a name="line.2774"></a>
-<span class="sourceLineNo">2775</span>          result = true;<a name="line.2775"></a>
-<span class="sourceLineNo">2776</span>        }<a name="line.2776"></a>
-<span class="sourceLineNo">2777</span>      }<a name="line.2777"></a>
-<span class="sourceLineNo">2778</span>      return result;<a name="line.2778"></a>
-<span class="sourceLineNo">2779</span>    }<a name="line.2779"></a>
-<span class="sourceLineNo">2780</span><a name="line.2780"></a>
-<span class="sourceLineNo">2781</span>    @Override<a name="line.2781"></a>
-<span class="sourceLineNo">2782</span>    public Object[] toArray() {<a name="line.2782"></a>
-<span class="sourceLineNo">2783</span>      // creating an ArrayList so filtering happens once<a name="line.2783"></a>
-<span class="sourceLineNo">2784</span>      return Lists.newArrayList(iterator()).toArray();<a name="line.2784"></a>
-<span class="sourceLineNo">2785</span>    }<a name="line.2785"></a>
-<span class="sourceLineNo">2786</span><a name="line.2786"></a>
-<span class="sourceLineNo">2787</span>    @Override<a name="line.2787"></a>
-<span class="sourceLineNo">2788</span>    public &lt;T&gt; T[] toArray(T[] array) {<a name="line.2788"></a>
-<span class="sourceLineNo">2789</span>      return Lists.newArrayList(iterator()).toArray(array);<a name="line.2789"></a>
-<span class="sourceLineNo">2790</span>    }<a name="line.2790"></a>
-<span class="sourceLineNo">2791</span>  }<a name="line.2791"></a>
-<span class="sourceLineNo">2792</span><a name="line.2792"></a>
-<span class="sourceLineNo">2793</span>  private static class FilteredKeyMap&lt;K, V&gt; extends AbstractFilteredMap&lt;K, V&gt; {<a name="line.2793"></a>
-<span class="sourceLineNo">2794</span>    final Predicate&lt;? super K&gt; keyPredicate;<a name="line.2794"></a>
-<span class="sourceLineNo">2795</span><a name="line.2795"></a>
-<span class="sourceLineNo">2796</span>    FilteredKeyMap(<a name="line.2796"></a>
-<span class="sourceLineNo">2797</span>        Map&lt;K, V&gt; unfiltered,<a name="line.2797"></a>
-<span class="sourceLineNo">2798</span>        Predicate&lt;? super K&gt; keyPredicate,<a name="line.2798"></a>
-<span class="sourceLineNo">2799</span>        Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2799"></a>
-<span class="sourceLineNo">2800</span>      super(unfiltered, entryPredicate);<a name="line.2800"></a>
-<span class="sourceLineNo">2801</span>      this.keyPredicate = keyPredicate;<a name="line.2801"></a>
-<span class="sourceLineNo">2802</span>    }<a name="line.2802"></a>
-<span class="sourceLineNo">2803</span><a name="line.2803"></a>
-<span class="sourceLineNo">2804</span>    @Override<a name="line.2804"></a>
-<span class="sourceLineNo">2805</span>    protected Set&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.2805"></a>
-<span class="sourceLineNo">2806</span>      return Sets.filter(unfiltered.entrySet(), predicate);<a name="line.2806"></a>
-<span class="sourceLineNo">2807</span>    }<a name="line.2807"></a>
-<span class="sourceLineNo">2808</span><a name="line.2808"></a>
-<span class="sourceLineNo">2809</span>    @Override<a name="line.2809"></a>
-<span class="sourceLineNo">2810</span>    Set&lt;K&gt; createKeySet() {<a name="line.2810"></a>
-<span class="sourceLineNo">2811</span>      return Sets.filter(unfiltered.keySet(), keyPredicate);<a name="line.2811"></a>
-<span class="sourceLineNo">2812</span>    }<a name="line.2812"></a>
-<span class="sourceLineNo">2813</span><a name="line.2813"></a>
-<span class="sourceLineNo">2814</span>    // The cast is called only when the key is in the unfiltered map, implying<a name="line.2814"></a>
-<span class="sourceLineNo">2815</span>    // that key is a K.<a name="line.2815"></a>
-<span class="sourceLineNo">2816</span>    @Override<a name="line.2816"></a>
-<span class="sourceLineNo">2817</span>    @SuppressWarnings("unchecked")<a name="line.2817"></a>
-<span class="sourceLineNo">2818</span>    public boolean containsKey(Object key) {<a name="line.2818"></a>
-<span class="sourceLineNo">2819</span>      return unfiltered.containsKey(key) &amp;&amp; keyPredicate.apply((K) key);<a name="line.2819"></a>
-<span class="sourceLineNo">2820</span>    }<a name="line.2820"></a>
-<span class="sourceLineNo">2821</span>  }<a name="line.2821"></a>
-<span class="sourceLineNo">2822</span><a name="line.2822"></a>
-<span class="sourceLineNo">2823</span>  static class FilteredEntryMap&lt;K, V&gt; extends AbstractFilteredMap&lt;K, V&gt; {<a name="line.2823"></a>
-<span class="sourceLineNo">2824</span>    /**<a name="line.2824"></a>
-<span class="sourceLineNo">2825</span>     * Entries in this set satisfy the predicate, but they don't validate the input to {@code<a name="line.2825"></a>
-<span class="sourceLineNo">2826</span>     * Entry.setValue()}.<a name="line.2826"></a>
-<span class="sourceLineNo">2827</span>     */<a name="line.2827"></a>
-<span class="sourceLineNo">2828</span>    final Set&lt;Entry&lt;K, V&gt;&gt; filteredEntrySet;<a name="line.2828"></a>
-<span class="sourceLineNo">2829</span><a name="line.2829"></a>
-<span class="sourceLineNo">2830</span>    FilteredEntryMap(Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2830"></a>
-<span class="sourceLineNo">2831</span>      super(unfiltered, entryPredicate);<a name="line.2831"></a>
-<span class="sourceLineNo">2832</span>      filteredEntrySet = Sets.filter(unfiltered.entrySet(), predicate);<a name="line.2832"></a>
-<span class="sourceLineNo">2833</span>    }<a name="line.2833"></a>
-<span class="sourceLineNo">2834</span><a name="line.2834"></a>
-<span class="sourceLineNo">2835</span>    @Override<a name="line.2835"></a>
-<span class="sourceLineNo">2836</span>    protected Set&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.2836"></a>
-<span class="sourceLineNo">2837</span>      return new EntrySet();<a name="line.2837"></a>
-<span class="sourceLineNo">2838</span>    }<a name="line.2838"></a>
-<span class="sourceLineNo">2839</span><a name="line.2839"></a>
-<span class="sourceLineNo">2840</span>    @WeakOuter<a name="line.2840"></a>
-<span class="sourceLineNo">2841</span>    private class EntrySet extends ForwardingSet&lt;Entry&lt;K, V&gt;&gt; {<a name="line.2841"></a>
-<span class="sourceLineNo">2842</span>      @Override<a name="line.2842"></a>
-<span class="sourceLineNo">2843</span>      protected Set&lt;Entry&lt;K, V&gt;&gt; delegate() {<a name="line.2843"></a>
-<span class="sourceLineNo">2844</span>        return filteredEntrySet;<a name="line.2844"></a>
-<span class="sourceLineNo">2845</span>      }<a name="line.2845"></a>
-<span class="sourceLineNo">2846</span><a name="line.2846"></a>
-<span class="sourceLineNo">2847</span>      @Override<a name="line.2847"></a>
-<span class="sourceLineNo">2848</span>      public Iterator&lt;Entry&lt;K, V&gt;&gt; iterator() {<a name="line.2848"></a>
-<span class="sourceLineNo">2849</span>        return new TransformedIterator&lt;Entry&lt;K, V&gt;, Entry&lt;K, V&gt;&gt;(filteredEntrySet.iterator()) {<a name="line.2849"></a>
-<span class="sourceLineNo">2850</span>          @Override<a name="line.2850"></a>
-<span class="sourceLineNo">2851</span>          Entry&lt;K, V&gt; transform(final Entry&lt;K, V&gt; entry) {<a name="line.2851"></a>
-<span class="sourceLineNo">2852</span>            return new ForwardingMapEntry&lt;K, V&gt;() {<a name="line.2852"></a>
-<span class="sourceLineNo">2853</span>              @Override<a name="line.2853"></a>
-<span class="sourceLineNo">2854</span>              protected Entry&lt;K, V&gt; delegate() {<a name="line.2854"></a>
-<span class="sourceLineNo">2855</span>                return entry;<a name="line.2855"></a>
-<span class="sourceLineNo">2856</span>              }<a name="line.2856"></a>
-<span class="sourceLineNo">2857</span><a name="line.2857"></a>
-<span class="sourceLineNo">2858</span>              @Override<a name="line.2858"></a>
-<span class="sourceLineNo">2859</span>              public V setValue(V newValue) {<a name="line.2859"></a>
-<span class="sourceLineNo">2860</span>                checkArgument(apply(getKey(), newValue));<a name="line.2860"></a>
-<span class="sourceLineNo">2861</span>                return super.setValue(newValue);<a name="line.2861"></a>
-<span class="sourceLineNo">2862</span>              }<a name="line.2862"></a>
-<span class="sourceLineNo">2863</span>            };<a name="line.2863"></a>
-<span class="sourceLineNo">2864</span>          }<a name="line.2864"></a>
-<span class="sourceLineNo">2865</span>        };<a name="line.2865"></a>
-<span class="sourceLineNo">2866</span>      }<a name="line.2866"></a>
-<span class="sourceLineNo">2867</span>    }<a name="line.2867"></a>
-<span class="sourceLineNo">2868</span><a name="line.2868"></a>
-<span class="sourceLineNo">2869</span>    @Override<a name="line.2869"></a>
-<span class="sourceLineNo">2870</span>    Set&lt;K&gt; createKeySet() {<a name="line.2870"></a>
-<span class="sourceLineNo">2871</span>      return new KeySet();<a name="line.2871"></a>
-<span class="sourceLineNo">2872</span>    }<a name="line.2872"></a>
-<span class="sourceLineNo">2873</span><a name="line.2873"></a>
-<span class="sourceLineNo">2874</span>    static &lt;K, V&gt; boolean removeAllKeys(<a name="line.2874"></a>
-<span class="sourceLineNo">2875</span>        Map&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate, Collection&lt;?&gt; keyCollection) {<a name="line.2875"></a>
-<span class="sourceLineNo">2876</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.2876"></a>
-<span class="sourceLineNo">2877</span>      boolean result = false;<a name="line.2877"></a>
-<span class="sourceLineNo">2878</span>      while (entryItr.hasNext()) {<a name="line.2878"></a>
-<span class="sourceLineNo">2879</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2879"></a>
-<span class="sourceLineNo">2880</span>        if (entryPredicate.apply(entry) &amp;&amp; keyCollection.contains(entry.getKey())) {<a name="line.2880"></a>
-<span class="sourceLineNo">2881</span>          entryItr.remove();<a name="line.2881"></a>
-<span class="sourceLineNo">2882</span>          result = true;<a name="line.2882"></a>
-<span class="sourceLineNo">2883</span>        }<a name="line.2883"></a>
-<span class="sourceLineNo">2884</span>      }<a name="line.2884"></a>
-<span class="sourceLineNo">2885</span>      return result;<a name="line.2885"></a>
-<span class="sourceLineNo">2886</span>    }<a name="line.2886"></a>
-<span class="sourceLineNo">2887</span><a name="line.2887"></a>
-<span class="sourceLineNo">2888</span>    static &lt;K, V&gt; boolean retainAllKeys(<a name="line.2888"></a>
-<span class="sourceLineNo">2889</span>        Map&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate, Collection&lt;?&gt; keyCollection) {<a name="line.2889"></a>
-<span class="sourceLineNo">2890</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.2890"></a>
-<span class="sourceLineNo">2891</span>      boolean result = false;<a name="line.2891"></a>
-<span class="sourceLineNo">2892</span>      while (entryItr.hasNext()) {<a name="line.2892"></a>
-<span class="sourceLineNo">2893</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2893"></a>
-<span class="sourceLineNo">2894</span>        if (entryPredicate.apply(entry) &amp;&amp; !keyCollection.contains(entry.getKey())) {<a name="line.2894"></a>
-<span class="sourceLineNo">2895</span>          entryItr.remove();<a name="line.2895"></a>
-<span class="sourceLineNo">2896</span>          result = true;<a name="line.2896"></a>
-<span class="sourceLineNo">2897</span>        }<a name="line.2897"></a>
+<span class="sourceLineNo">2707</span>    AbstractFilteredMap(Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.2707"></a>
+<span class="sourceLineNo">2708</span>      this.unfiltered = unfiltered;<a name="line.2708"></a>
+<span class="sourceLineNo">2709</span>      this.predicate = predicate;<a name="line.2709"></a>
+<span class="sourceLineNo">2710</span>    }<a name="line.2710"></a>
+<span class="sourceLineNo">2711</span><a name="line.2711"></a>
+<span class="sourceLineNo">2712</span>    boolean apply(@NullableDecl Object key, @NullableDecl V value) {<a name="line.2712"></a>
+<span class="sourceLineNo">2713</span>      // This method is called only when the key is in the map, implying that<a name="line.2713"></a>
+<span class="sourceLineNo">2714</span>      // key is a K.<a name="line.2714"></a>
+<span class="sourceLineNo">2715</span>      @SuppressWarnings("unchecked")<a name="line.2715"></a>
+<span class="sourceLineNo">2716</span>      K k = (K) key;<a name="line.2716"></a>
+<span class="sourceLineNo">2717</span>      return predicate.apply(Maps.immutableEntry(k, value));<a name="line.2717"></a>
+<span class="sourceLineNo">2718</span>    }<a name="line.2718"></a>
+<span class="sourceLineNo">2719</span><a name="line.2719"></a>
+<span class="sourceLineNo">2720</span>    @Override<a name="line.2720"></a>
+<span class="sourceLineNo">2721</span>    public V put(K key, V value) {<a name="line.2721"></a>
+<span class="sourceLineNo">2722</span>      checkArgument(apply(key, value));<a name="line.2722"></a>
+<span class="sourceLineNo">2723</span>      return unfiltered.put(key, value);<a name="line.2723"></a>
+<span class="sourceLineNo">2724</span>    }<a name="line.2724"></a>
+<span class="sourceLineNo">2725</span><a name="line.2725"></a>
+<span class="sourceLineNo">2726</span>    @Override<a name="line.2726"></a>
+<span class="sourceLineNo">2727</span>    public void putAll(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.2727"></a>
+<span class="sourceLineNo">2728</span>      for (Entry&lt;? extends K, ? extends V&gt; entry : map.entrySet()) {<a name="line.2728"></a>
+<span class="sourceLineNo">2729</span>        checkArgument(apply(entry.getKey(), entry.getValue()));<a name="line.2729"></a>
+<span class="sourceLineNo">2730</span>      }<a name="line.2730"></a>
+<span class="sourceLineNo">2731</span>      unfiltered.putAll(map);<a name="line.2731"></a>
+<span class="sourceLineNo">2732</span>    }<a name="line.2732"></a>
+<span class="sourceLineNo">2733</span><a name="line.2733"></a>
+<span class="sourceLineNo">2734</span>    @Override<a name="line.2734"></a>
+<span class="sourceLineNo">2735</span>    public boolean containsKey(Object key) {<a name="line.2735"></a>
+<span class="sourceLineNo">2736</span>      return unfiltered.containsKey(key) &amp;&amp; apply(key, unfiltered.get(key));<a name="line.2736"></a>
+<span class="sourceLineNo">2737</span>    }<a name="line.2737"></a>
+<span class="sourceLineNo">2738</span><a name="line.2738"></a>
+<span class="sourceLineNo">2739</span>    @Override<a name="line.2739"></a>
+<span class="sourceLineNo">2740</span>    public V get(Object key) {<a name="line.2740"></a>
+<span class="sourceLineNo">2741</span>      V value = unfiltered.get(key);<a name="line.2741"></a>
+<span class="sourceLineNo">2742</span>      return ((value != null) &amp;&amp; apply(key, value)) ? value : null;<a name="line.2742"></a>
+<span class="sourceLineNo">2743</span>    }<a name="line.2743"></a>
+<span class="sourceLineNo">2744</span><a name="line.2744"></a>
+<span class="sourceLineNo">2745</span>    @Override<a name="line.2745"></a>
+<span class="sourceLineNo">2746</span>    public boolean isEmpty() {<a name="line.2746"></a>
+<span class="sourceLineNo">2747</span>      return entrySet().isEmpty();<a name="line.2747"></a>
+<span class="sourceLineNo">2748</span>    }<a name="line.2748"></a>
+<span class="sourceLineNo">2749</span><a name="line.2749"></a>
+<span class="sourceLineNo">2750</span>    @Override<a name="line.2750"></a>
+<span class="sourceLineNo">2751</span>    public V remove(Object key) {<a name="line.2751"></a>
+<span class="sourceLineNo">2752</span>      return containsKey(key) ? unfiltered.remove(key) : null;<a name="line.2752"></a>
+<span class="sourceLineNo">2753</span>    }<a name="line.2753"></a>
+<span class="sourceLineNo">2754</span><a name="line.2754"></a>
+<span class="sourceLineNo">2755</span>    @Override<a name="line.2755"></a>
+<span class="sourceLineNo">2756</span>    Collection&lt;V&gt; createValues() {<a name="line.2756"></a>
+<span class="sourceLineNo">2757</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, predicate);<a name="line.2757"></a>
+<span class="sourceLineNo">2758</span>    }<a name="line.2758"></a>
+<span class="sourceLineNo">2759</span>  }<a name="line.2759"></a>
+<span class="sourceLineNo">2760</span><a name="line.2760"></a>
+<span class="sourceLineNo">2761</span>  private static final class FilteredMapValues&lt;K, V&gt; extends Maps.Values&lt;K, V&gt; {<a name="line.2761"></a>
+<span class="sourceLineNo">2762</span>    final Map&lt;K, V&gt; unfiltered;<a name="line.2762"></a>
+<span class="sourceLineNo">2763</span>    final Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate;<a name="line.2763"></a>
+<span class="sourceLineNo">2764</span><a name="line.2764"></a>
+<span class="sourceLineNo">2765</span>    FilteredMapValues(<a name="line.2765"></a>
+<span class="sourceLineNo">2766</span>        Map&lt;K, V&gt; filteredMap, Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; predicate) {<a name="line.2766"></a>
+<span class="sourceLineNo">2767</span>      super(filteredMap);<a name="line.2767"></a>
+<span class="sourceLineNo">2768</span>      this.unfiltered = unfiltered;<a name="line.2768"></a>
+<span class="sourceLineNo">2769</span>      this.predicate = predicate;<a name="line.2769"></a>
+<span class="sourceLineNo">2770</span>    }<a name="line.2770"></a>
+<span class="sourceLineNo">2771</span><a name="line.2771"></a>
+<span class="sourceLineNo">2772</span>    @Override<a name="line.2772"></a>
+<span class="sourceLineNo">2773</span>    public boolean remove(Object o) {<a name="line.2773"></a>
+<span class="sourceLineNo">2774</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2774"></a>
+<span class="sourceLineNo">2775</span>      while (entryItr.hasNext()) {<a name="line.2775"></a>
+<span class="sourceLineNo">2776</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2776"></a>
+<span class="sourceLineNo">2777</span>        if (predicate.apply(entry) &amp;&amp; Objects.equal(entry.getValue(), o)) {<a name="line.2777"></a>
+<span class="sourceLineNo">2778</span>          entryItr.remove();<a name="line.2778"></a>
+<span class="sourceLineNo">2779</span>          return true;<a name="line.2779"></a>
+<span class="sourceLineNo">2780</span>        }<a name="line.2780"></a>
+<span class="sourceLineNo">2781</span>      }<a name="line.2781"></a>
+<span class="sourceLineNo">2782</span>      return false;<a name="line.2782"></a>
+<span class="sourceLineNo">2783</span>    }<a name="line.2783"></a>
+<span class="sourceLineNo">2784</span><a name="line.2784"></a>
+<span class="sourceLineNo">2785</span>    @Override<a name="line.2785"></a>
+<span class="sourceLineNo">2786</span>    public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.2786"></a>
+<span class="sourceLineNo">2787</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2787"></a>
+<span class="sourceLineNo">2788</span>      boolean result = false;<a name="line.2788"></a>
+<span class="sourceLineNo">2789</span>      while (entryItr.hasNext()) {<a name="line.2789"></a>
+<span class="sourceLineNo">2790</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2790"></a>
+<span class="sourceLineNo">2791</span>        if (predicate.apply(entry) &amp;&amp; collection.contains(entry.getValue())) {<a name="line.2791"></a>
+<span class="sourceLineNo">2792</span>          entryItr.remove();<a name="line.2792"></a>
+<span class="sourceLineNo">2793</span>          result = true;<a name="line.2793"></a>
+<span class="sourceLineNo">2794</span>        }<a name="line.2794"></a>
+<span class="sourceLineNo">2795</span>      }<a name="line.2795"></a>
+<span class="sourceLineNo">2796</span>      return result;<a name="line.2796"></a>
+<span class="sourceLineNo">2797</span>    }<a name="line.2797"></a>
+<span class="sourceLineNo">2798</span><a name="line.2798"></a>
+<span class="sourceLineNo">2799</span>    @Override<a name="line.2799"></a>
+<span class="sourceLineNo">2800</span>    public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.2800"></a>
+<span class="sourceLineNo">2801</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = unfiltered.entrySet().iterator();<a name="line.2801"></a>
+<span class="sourceLineNo">2802</span>      boolean result = false;<a name="line.2802"></a>
+<span class="sourceLineNo">2803</span>      while (entryItr.hasNext()) {<a name="line.2803"></a>
+<span class="sourceLineNo">2804</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2804"></a>
+<span class="sourceLineNo">2805</span>        if (predicate.apply(entry) &amp;&amp; !collection.contains(entry.getValue())) {<a name="line.2805"></a>
+<span class="sourceLineNo">2806</span>          entryItr.remove();<a name="line.2806"></a>
+<span class="sourceLineNo">2807</span>          result = true;<a name="line.2807"></a>
+<span class="sourceLineNo">2808</span>        }<a name="line.2808"></a>
+<span class="sourceLineNo">2809</span>      }<a name="line.2809"></a>
+<span class="sourceLineNo">2810</span>      return result;<a name="line.2810"></a>
+<span class="sourceLineNo">2811</span>    }<a name="line.2811"></a>
+<span class="sourceLineNo">2812</span><a name="line.2812"></a>
+<span class="sourceLineNo">2813</span>    @Override<a name="line.2813"></a>
+<span class="sourceLineNo">2814</span>    public Object[] toArray() {<a name="line.2814"></a>
+<span class="sourceLineNo">2815</span>      // creating an ArrayList so filtering happens once<a name="line.2815"></a>
+<span class="sourceLineNo">2816</span>      return Lists.newArrayList(iterator()).toArray();<a name="line.2816"></a>
+<span class="sourceLineNo">2817</span>    }<a name="line.2817"></a>
+<span class="sourceLineNo">2818</span><a name="line.2818"></a>
+<span class="sourceLineNo">2819</span>    @Override<a name="line.2819"></a>
+<span class="sourceLineNo">2820</span>    public &lt;T&gt; T[] toArray(T[] array) {<a name="line.2820"></a>
+<span class="sourceLineNo">2821</span>      return Lists.newArrayList(iterator()).toArray(array);<a name="line.2821"></a>
+<span class="sourceLineNo">2822</span>    }<a name="line.2822"></a>
+<span class="sourceLineNo">2823</span>  }<a name="line.2823"></a>
+<span class="sourceLineNo">2824</span><a name="line.2824"></a>
+<span class="sourceLineNo">2825</span>  private static class FilteredKeyMap&lt;K, V&gt; extends AbstractFilteredMap&lt;K, V&gt; {<a name="line.2825"></a>
+<span class="sourceLineNo">2826</span>    final Predicate&lt;? super K&gt; keyPredicate;<a name="line.2826"></a>
+<span class="sourceLineNo">2827</span><a name="line.2827"></a>
+<span class="sourceLineNo">2828</span>    FilteredKeyMap(<a name="line.2828"></a>
+<span class="sourceLineNo">2829</span>        Map&lt;K, V&gt; unfiltered,<a name="line.2829"></a>
+<span class="sourceLineNo">2830</span>        Predicate&lt;? super K&gt; keyPredicate,<a name="line.2830"></a>
+<span class="sourceLineNo">2831</span>        Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2831"></a>
+<span class="sourceLineNo">2832</span>      super(unfiltered, entryPredicate);<a name="line.2832"></a>
+<span class="sourceLineNo">2833</span>      this.keyPredicate = keyPredicate;<a name="line.2833"></a>
+<span class="sourceLineNo">2834</span>    }<a name="line.2834"></a>
+<span class="sourceLineNo">2835</span><a name="line.2835"></a>
+<span class="sourceLineNo">2836</span>    @Override<a name="line.2836"></a>
+<span class="sourceLineNo">2837</span>    protected Set&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.2837"></a>
+<span class="sourceLineNo">2838</span>      return Sets.filter(unfiltered.entrySet(), predicate);<a name="line.2838"></a>
+<span class="sourceLineNo">2839</span>    }<a name="line.2839"></a>
+<span class="sourceLineNo">2840</span><a name="line.2840"></a>
+<span class="sourceLineNo">2841</span>    @Override<a name="line.2841"></a>
+<span class="sourceLineNo">2842</span>    Set&lt;K&gt; createKeySet() {<a name="line.2842"></a>
+<span class="sourceLineNo">2843</span>      return Sets.filter(unfiltered.keySet(), keyPredicate);<a name="line.2843"></a>
+<span class="sourceLineNo">2844</span>    }<a name="line.2844"></a>
+<span class="sourceLineNo">2845</span><a name="line.2845"></a>
+<span class="sourceLineNo">2846</span>    // The cast is called only when the key is in the unfiltered map, implying<a name="line.2846"></a>
+<span class="sourceLineNo">2847</span>    // that key is a K.<a name="line.2847"></a>
+<span class="sourceLineNo">2848</span>    @Override<a name="line.2848"></a>
+<span class="sourceLineNo">2849</span>    @SuppressWarnings("unchecked")<a name="line.2849"></a>
+<span class="sourceLineNo">2850</span>    public boolean containsKey(Object key) {<a name="line.2850"></a>
+<span class="sourceLineNo">2851</span>      return unfiltered.containsKey(key) &amp;&amp; keyPredicate.apply((K) key);<a name="line.2851"></a>
+<span class="sourceLineNo">2852</span>    }<a name="line.2852"></a>
+<span class="sourceLineNo">2853</span>  }<a name="line.2853"></a>
+<span class="sourceLineNo">2854</span><a name="line.2854"></a>
+<span class="sourceLineNo">2855</span>  static class FilteredEntryMap&lt;K, V&gt; extends AbstractFilteredMap&lt;K, V&gt; {<a name="line.2855"></a>
+<span class="sourceLineNo">2856</span>    /**<a name="line.2856"></a>
+<span class="sourceLineNo">2857</span>     * Entries in this set satisfy the predicate, but they don't validate the input to {@code<a name="line.2857"></a>
+<span class="sourceLineNo">2858</span>     * Entry.setValue()}.<a name="line.2858"></a>
+<span class="sourceLineNo">2859</span>     */<a name="line.2859"></a>
+<span class="sourceLineNo">2860</span>    final Set&lt;Entry&lt;K, V&gt;&gt; filteredEntrySet;<a name="line.2860"></a>
+<span class="sourceLineNo">2861</span><a name="line.2861"></a>
+<span class="sourceLineNo">2862</span>    FilteredEntryMap(Map&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2862"></a>
+<span class="sourceLineNo">2863</span>      super(unfiltered, entryPredicate);<a name="line.2863"></a>
+<span class="sourceLineNo">2864</span>      filteredEntrySet = Sets.filter(unfiltered.entrySet(), predicate);<a name="line.2864"></a>
+<span class="sourceLineNo">2865</span>    }<a name="line.2865"></a>
+<span class="sourceLineNo">2866</span><a name="line.2866"></a>
+<span class="sourceLineNo">2867</span>    @Override<a name="line.2867"></a>
+<span class="sourceLineNo">2868</span>    protected Set&lt;Entry&lt;K, V&gt;&gt; createEntrySet() {<a name="line.2868"></a>
+<span class="sourceLineNo">2869</span>      return new EntrySet();<a name="line.2869"></a>
+<span class="sourceLineNo">2870</span>    }<a name="line.2870"></a>
+<span class="sourceLineNo">2871</span><a name="line.2871"></a>
+<span class="sourceLineNo">2872</span>    @WeakOuter<a name="line.2872"></a>
+<span class="sourceLineNo">2873</span>    private class EntrySet extends ForwardingSet&lt;Entry&lt;K, V&gt;&gt; {<a name="line.2873"></a>
+<span class="sourceLineNo">2874</span>      @Override<a name="line.2874"></a>
+<span class="sourceLineNo">2875</span>      protected Set&lt;Entry&lt;K, V&gt;&gt; delegate() {<a name="line.2875"></a>
+<span class="sourceLineNo">2876</span>        return filteredEntrySet;<a name="line.2876"></a>
+<span class="sourceLineNo">2877</span>      }<a name="line.2877"></a>
+<span class="sourceLineNo">2878</span><a name="line.2878"></a>
+<span class="sourceLineNo">2879</span>      @Override<a name="line.2879"></a>
+<span class="sourceLineNo">2880</span>      public Iterator&lt;Entry&lt;K, V&gt;&gt; iterator() {<a name="line.2880"></a>
+<span class="sourceLineNo">2881</span>        return new TransformedIterator&lt;Entry&lt;K, V&gt;, Entry&lt;K, V&gt;&gt;(filteredEntrySet.iterator()) {<a name="line.2881"></a>
+<span class="sourceLineNo">2882</span>          @Override<a name="line.2882"></a>
+<span class="sourceLineNo">2883</span>          Entry&lt;K, V&gt; transform(final Entry&lt;K, V&gt; entry) {<a name="line.2883"></a>
+<span class="sourceLineNo">2884</span>            return new ForwardingMapEntry&lt;K, V&gt;() {<a name="line.2884"></a>
+<span class="sourceLineNo">2885</span>              @Override<a name="line.2885"></a>
+<span class="sourceLineNo">2886</span>              protected Entry&lt;K, V&gt; delegate() {<a name="line.2886"></a>
+<span class="sourceLineNo">2887</span>                return entry;<a name="line.2887"></a>
+<span class="sourceLineNo">2888</span>              }<a name="line.2888"></a>
+<span class="sourceLineNo">2889</span><a name="line.2889"></a>
+<span class="sourceLineNo">2890</span>              @Override<a name="line.2890"></a>
+<span class="sourceLineNo">2891</span>              public V setValue(V newValue) {<a name="line.2891"></a>
+<span class="sourceLineNo">2892</span>                checkArgument(apply(getKey(), newValue));<a name="line.2892"></a>
+<span class="sourceLineNo">2893</span>                return super.setValue(newValue);<a name="line.2893"></a>
+<span class="sourceLineNo">2894</span>              }<a name="line.2894"></a>
+<span class="sourceLineNo">2895</span>            };<a name="line.2895"></a>
+<span class="sourceLineNo">2896</span>          }<a name="line.2896"></a>
+<span class="sourceLineNo">2897</span>        };<a name="line.2897"></a>
 <span class="sourceLineNo">2898</span>      }<a name="line.2898"></a>
-<span class="sourceLineNo">2899</span>      return result;<a name="line.2899"></a>
-<span class="sourceLineNo">2900</span>    }<a name="line.2900"></a>
-<span class="sourceLineNo">2901</span><a name="line.2901"></a>
-<span class="sourceLineNo">2902</span>    @WeakOuter<a name="line.2902"></a>
-<span class="sourceLineNo">2903</span>    class KeySet extends Maps.KeySet&lt;K, V&gt; {<a name="line.2903"></a>
-<span class="sourceLineNo">2904</span>      KeySet() {<a name="line.2904"></a>
-<span class="sourceLineNo">2905</span>        super(FilteredEntryMap.this);<a name="line.2905"></a>
-<span class="sourceLineNo">2906</span>      }<a name="line.2906"></a>
-<span class="sourceLineNo">2907</span><a name="line.2907"></a>
-<span class="sourceLineNo">2908</span>      @Override<a name="line.2908"></a>
-<span class="sourceLineNo">2909</span>      public boolean remove(Object o) {<a name="line.2909"></a>
-<span class="sourceLineNo">2910</span>        if (containsKey(o)) {<a name="line.2910"></a>
-<span class="sourceLineNo">2911</span>          unfiltered.remove(o);<a name="line.2911"></a>
-<span class="sourceLineNo">2912</span>          return true;<a name="line.2912"></a>
-<span class="sourceLineNo">2913</span>        }<a name="line.2913"></a>
-<span class="sourceLineNo">2914</span>        return false;<a name="line.2914"></a>
-<span class="sourceLineNo">2915</span>      }<a name="line.2915"></a>
-<span class="sourceLineNo">2916</span><a name="line.2916"></a>
-<span class="sourceLineNo">2917</span>      @Override<a name="line.2917"></a>
-<span class="sourceLineNo">2918</span>      public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.2918"></a>
-<span class="sourceLineNo">2919</span>        return removeAllKeys(unfiltered, predicate, collection);<a name="line.2919"></a>
-<span class="sourceLineNo">2920</span>      }<a name="line.2920"></a>
-<span class="sourceLineNo">2921</span><a name="line.2921"></a>
-<span class="sourceLineNo">2922</span>      @Override<a name="line.2922"></a>
-<span class="sourceLineNo">2923</span>      public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.2923"></a>
-<span class="sourceLineNo">2924</span>        return retainAllKeys(unfiltered, predicate, collection);<a name="line.2924"></a>
-<span class="sourceLineNo">2925</span>      }<a name="line.2925"></a>
-<span class="sourceLineNo">2926</span><a name="line.2926"></a>
-<span class="sourceLineNo">2927</span>      @Override<a name="line.2927"></a>
-<span class="sourceLineNo">2928</span>      public Object[] toArray() {<a name="line.2928"></a>
-<span class="sourceLineNo">2929</span>        // creating an ArrayList so filtering happens once<a name="line.2929"></a>
-<span class="sourceLineNo">2930</span>        return Lists.newArrayList(iterator()).toArray();<a name="line.2930"></a>
-<span class="sourceLineNo">2931</span>      }<a name="line.2931"></a>
-<span class="sourceLineNo">2932</span><a name="line.2932"></a>
-<span class="sourceLineNo">2933</span>      @Override<a name="line.2933"></a>
-<span class="sourceLineNo">2934</span>      public &lt;T&gt; T[] toArray(T[] array) {<a name="line.2934"></a>
-<span class="sourceLineNo">2935</span>        return Lists.newArrayList(iterator()).toArray(array);<a name="line.2935"></a>
-<span class="sourceLineNo">2936</span>      }<a name="line.2936"></a>
-<span class="sourceLineNo">2937</span>    }<a name="line.2937"></a>
-<span class="sourceLineNo">2938</span>  }<a name="line.2938"></a>
+<span class="sourceLineNo">2899</span>    }<a name="line.2899"></a>
+<span class="sourceLineNo">2900</span><a name="line.2900"></a>
+<span class="sourceLineNo">2901</span>    @Override<a name="line.2901"></a>
+<span class="sourceLineNo">2902</span>    Set&lt;K&gt; createKeySet() {<a name="line.2902"></a>
+<span class="sourceLineNo">2903</span>      return new KeySet();<a name="line.2903"></a>
+<span class="sourceLineNo">2904</span>    }<a name="line.2904"></a>
+<span class="sourceLineNo">2905</span><a name="line.2905"></a>
+<span class="sourceLineNo">2906</span>    static &lt;K, V&gt; boolean removeAllKeys(<a name="line.2906"></a>
+<span class="sourceLineNo">2907</span>        Map&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate, Collection&lt;?&gt; keyCollection) {<a name="line.2907"></a>
+<span class="sourceLineNo">2908</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.2908"></a>
+<span class="sourceLineNo">2909</span>      boolean result = false;<a name="line.2909"></a>
+<span class="sourceLineNo">2910</span>      while (entryItr.hasNext()) {<a name="line.2910"></a>
+<span class="sourceLineNo">2911</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2911"></a>
+<span class="sourceLineNo">2912</span>        if (entryPredicate.apply(entry) &amp;&amp; keyCollection.contains(entry.getKey())) {<a name="line.2912"></a>
+<span class="sourceLineNo">2913</span>          entryItr.remove();<a name="line.2913"></a>
+<span class="sourceLineNo">2914</span>          result = true;<a name="line.2914"></a>
+<span class="sourceLineNo">2915</span>        }<a name="line.2915"></a>
+<span class="sourceLineNo">2916</span>      }<a name="line.2916"></a>
+<span class="sourceLineNo">2917</span>      return result;<a name="line.2917"></a>
+<span class="sourceLineNo">2918</span>    }<a name="line.2918"></a>
+<span class="sourceLineNo">2919</span><a name="line.2919"></a>
+<span class="sourceLineNo">2920</span>    static &lt;K, V&gt; boolean retainAllKeys(<a name="line.2920"></a>
+<span class="sourceLineNo">2921</span>        Map&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate, Collection&lt;?&gt; keyCollection) {<a name="line.2921"></a>
+<span class="sourceLineNo">2922</span>      Iterator&lt;Entry&lt;K, V&gt;&gt; entryItr = map.entrySet().iterator();<a name="line.2922"></a>
+<span class="sourceLineNo">2923</span>      boolean result = false;<a name="line.2923"></a>
+<span class="sourceLineNo">2924</span>      while (entryItr.hasNext()) {<a name="line.2924"></a>
+<span class="sourceLineNo">2925</span>        Entry&lt;K, V&gt; entry = entryItr.next();<a name="line.2925"></a>
+<span class="sourceLineNo">2926</span>        if (entryPredicate.apply(entry) &amp;&amp; !keyCollection.contains(entry.getKey())) {<a name="line.2926"></a>
+<span class="sourceLineNo">2927</span>          entryItr.remove();<a name="line.2927"></a>
+<span class="sourceLineNo">2928</span>          result = true;<a name="line.2928"></a>
+<span class="sourceLineNo">2929</span>        }<a name="line.2929"></a>
+<span class="sourceLineNo">2930</span>      }<a name="line.2930"></a>
+<span class="sourceLineNo">2931</span>      return result;<a name="line.2931"></a>
+<span class="sourceLineNo">2932</span>    }<a name="line.2932"></a>
+<span class="sourceLineNo">2933</span><a name="line.2933"></a>
+<span class="sourceLineNo">2934</span>    @WeakOuter<a name="line.2934"></a>
+<span class="sourceLineNo">2935</span>    class KeySet extends Maps.KeySet&lt;K, V&gt; {<a name="line.2935"></a>
+<span class="sourceLineNo">2936</span>      KeySet() {<a name="line.2936"></a>
+<span class="sourceLineNo">2937</span>        super(FilteredEntryMap.this);<a name="line.2937"></a>
+<span class="sourceLineNo">2938</span>      }<a name="line.2938"></a>
 <span class="sourceLineNo">2939</span><a name="line.2939"></a>
-<span class="sourceLineNo">2940</span>  /**<a name="line.2940"></a>
-<span class="sourceLineNo">2941</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.2941"></a>
-<span class="sourceLineNo">2942</span>   * sorted map.<a name="line.2942"></a>
-<span class="sourceLineNo">2943</span>   */<a name="line.2943"></a>
-<span class="sourceLineNo">2944</span>  private static &lt;K, V&gt; SortedMap&lt;K, V&gt; filterFiltered(<a name="line.2944"></a>
-<span class="sourceLineNo">2945</span>      FilteredEntrySortedMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2945"></a>
-<span class="sourceLineNo">2946</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.2946"></a>
-<span class="sourceLineNo">2947</span>    return new FilteredEntrySortedMap&lt;&gt;(map.sortedMap(), predicate);<a name="line.2947"></a>
-<span class="sourceLineNo">2948</span>  }<a name="line.2948"></a>
-<span class="sourceLineNo">2949</span><a name="line.2949"></a>
-<span class="sourceLineNo">2950</span>  private static class FilteredEntrySortedMap&lt;K, V&gt; extends FilteredEntryMap&lt;K, V&gt;<a name="line.2950"></a>
-<span class="sourceLineNo">2951</span>      implements SortedMap&lt;K, V&gt; {<a name="line.2951"></a>
-<span class="sourceLineNo">2952</span><a name="line.2952"></a>
-<span class="sourceLineNo">2953</span>    FilteredEntrySortedMap(<a name="line.2953"></a>
-<span class="sourceLineNo">2954</span>        SortedMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2954"></a>
-<span class="sourceLineNo">2955</span>      super(unfiltered, entryPredicate);<a name="line.2955"></a>
-<span class="sourceLineNo">2956</span>    }<a name="line.2956"></a>
-<span class="sourceLineNo">2957</span><a name="line.2957"></a>
-<span class="sourceLineNo">2958</span>    SortedMap&lt;K, V&gt; sortedMap() {<a name="line.2958"></a>
-<span class="sourceLineNo">2959</span>      return (SortedMap&lt;K, V&gt;) unfiltered;<a name="line.2959"></a>
-<span class="sourceLineNo">2960</span>    }<a name="line.2960"></a>
-<span class="sourceLineNo">2961</span><a name="line.2961"></a>
-<span class="sourceLineNo">2962</span>    @Override<a name="line.2962"></a>
-<span class="sourceLineNo">2963</span>    public SortedSet&lt;K&gt; keySet() {<a name="line.2963"></a>
-<span class="sourceLineNo">2964</span>      return (SortedSet&lt;K&gt;) super.keySet();<a name="line.2964"></a>
-<span class="sourceLineNo">2965</span>    }<a name="line.2965"></a>
-<span class="sourceLineNo">2966</span><a name="line.2966"></a>
-<span class="sourceLineNo">2967</span>    @Override<a name="line.2967"></a>
-<span class="sourceLineNo">2968</span>    SortedSet&lt;K&gt; createKeySet() {<a name="line.2968"></a>
-<span class="sourceLineNo">2969</span>      return new SortedKeySet();<a name="line.2969"></a>
-<span class="sourceLineNo">2970</span>    }<a name="line.2970"></a>
+<span class="sourceLineNo">2940</span>      @Override<a name="line.2940"></a>
+<span class="sourceLineNo">2941</span>      public boolean remove(Object o) {<a name="line.2941"></a>
+<span class="sourceLineNo">2942</span>        if (containsKey(o)) {<a name="line.2942"></a>
+<span class="sourceLineNo">2943</span>          unfiltered.remove(o);<a name="line.2943"></a>
+<span class="sourceLineNo">2944</span>          return true;<a name="line.2944"></a>
+<span class="sourceLineNo">2945</span>        }<a name="line.2945"></a>
+<span class="sourceLineNo">2946</span>        return false;<a name="line.2946"></a>
+<span class="sourceLineNo">2947</span>      }<a name="line.2947"></a>
+<span class="sourceLineNo">2948</span><a name="line.2948"></a>
+<span class="sourceLineNo">2949</span>      @Override<a name="line.2949"></a>
+<span class="sourceLineNo">2950</span>      public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.2950"></a>
+<span class="sourceLineNo">2951</span>        return removeAllKeys(unfiltered, predicate, collection);<a name="line.2951"></a>
+<span class="sourceLineNo">2952</span>      }<a name="line.2952"></a>
+<span class="sourceLineNo">2953</span><a name="line.2953"></a>
+<span class="sourceLineNo">2954</span>      @Override<a name="line.2954"></a>
+<span class="sourceLineNo">2955</span>      public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.2955"></a>
+<span class="sourceLineNo">2956</span>        return retainAllKeys(unfiltered, predicate, collection);<a name="line.2956"></a>
+<span class="sourceLineNo">2957</span>      }<a name="line.2957"></a>
+<span class="sourceLineNo">2958</span><a name="line.2958"></a>
+<span class="sourceLineNo">2959</span>      @Override<a name="line.2959"></a>
+<span class="sourceLineNo">2960</span>      public Object[] toArray() {<a name="line.2960"></a>
+<span class="sourceLineNo">2961</span>        // creating an ArrayList so filtering happens once<a name="line.2961"></a>
+<span class="sourceLineNo">2962</span>        return Lists.newArrayList(iterator()).toArray();<a name="line.2962"></a>
+<span class="sourceLineNo">2963</span>      }<a name="line.2963"></a>
+<span class="sourceLineNo">2964</span><a name="line.2964"></a>
+<span class="sourceLineNo">2965</span>      @Override<a name="line.2965"></a>
+<span class="sourceLineNo">2966</span>      public &lt;T&gt; T[] toArray(T[] array) {<a name="line.2966"></a>
+<span class="sourceLineNo">2967</span>        return Lists.newArrayList(iterator()).toArray(array);<a name="line.2967"></a>
+<span class="sourceLineNo">2968</span>      }<a name="line.2968"></a>
+<span class="sourceLineNo">2969</span>    }<a name="line.2969"></a>
+<span class="sourceLineNo">2970</span>  }<a name="line.2970"></a>
 <span class="sourceLineNo">2971</span><a name="line.2971"></a>
-<span class="sourceLineNo">2972</span>    @WeakOuter<a name="line.2972"></a>
-<span class="sourceLineNo">2973</span>    class SortedKeySet extends KeySet implements SortedSet&lt;K&gt; {<a name="line.2973"></a>
-<span class="sourceLineNo">2974</span>      @Override<a name="line.2974"></a>
-<span class="sourceLineNo">2975</span>      public Comparator&lt;? super K&gt; comparator() {<a name="line.2975"></a>
-<span class="sourceLineNo">2976</span>        return sortedMap().comparator();<a name="line.2976"></a>
-<span class="sourceLineNo">2977</span>      }<a name="line.2977"></a>
-<span class="sourceLineNo">2978</span><a name="line.2978"></a>
-<span class="sourceLineNo">2979</span>      @Override<a name="line.2979"></a>
-<span class="sourceLineNo">2980</span>      public SortedSet&lt;K&gt; subSet(K fromElement, K toElement) {<a name="line.2980"></a>
-<span class="sourceLineNo">2981</span>        return (SortedSet&lt;K&gt;) subMap(fromElement, toElement).keySet();<a name="line.2981"></a>
-<span class="sourceLineNo">2982</span>      }<a name="line.2982"></a>
+<span class="sourceLineNo">2972</span>  private static class FilteredEntrySortedMap&lt;K, V&gt; extends FilteredEntryMap&lt;K, V&gt;<a name="line.2972"></a>
+<span class="sourceLineNo">2973</span>      implements SortedMap&lt;K, V&gt; {<a name="line.2973"></a>
+<span class="sourceLineNo">2974</span><a name="line.2974"></a>
+<span class="sourceLineNo">2975</span>    FilteredEntrySortedMap(<a name="line.2975"></a>
+<span class="sourceLineNo">2976</span>        SortedMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.2976"></a>
+<span class="sourceLineNo">2977</span>      super(unfiltered, entryPredicate);<a name="line.2977"></a>
+<span class="sourceLineNo">2978</span>    }<a name="line.2978"></a>
+<span class="sourceLineNo">2979</span><a name="line.2979"></a>
+<span class="sourceLineNo">2980</span>    SortedMap&lt;K, V&gt; sortedMap() {<a name="line.2980"></a>
+<span class="sourceLineNo">2981</span>      return (SortedMap&lt;K, V&gt;) unfiltered;<a name="line.2981"></a>
+<span class="sourceLineNo">2982</span>    }<a name="line.2982"></a>
 <span class="sourceLineNo">2983</span><a name="line.2983"></a>
-<span class="sourceLineNo">2984</span>      @Override<a name="line.2984"></a>
-<span class="sourceLineNo">2985</span>      public SortedSet&lt;K&gt; headSet(K toElement) {<a name="line.2985"></a>
-<span class="sourceLineNo">2986</span>        return (SortedSet&lt;K&gt;) headMap(toElement).keySet();<a name="line.2986"></a>
-<span class="sourceLineNo">2987</span>      }<a name="line.2987"></a>
+<span class="sourceLineNo">2984</span>    @Override<a name="line.2984"></a>
+<span class="sourceLineNo">2985</span>    public SortedSet&lt;K&gt; keySet() {<a name="line.2985"></a>
+<span class="sourceLineNo">2986</span>      return (SortedSet&lt;K&gt;) super.keySet();<a name="line.2986"></a>
+<span class="sourceLineNo">2987</span>    }<a name="line.2987"></a>
 <span class="sourceLineNo">2988</span><a name="line.2988"></a>
-<span class="sourceLineNo">2989</span>      @Override<a name="line.2989"></a>
-<span class="sourceLineNo">2990</span>      public SortedSet&lt;K&gt; tailSet(K fromElement) {<a name="line.2990"></a>
-<span class="sourceLineNo">2991</span>        return (SortedSet&lt;K&gt;) tailMap(fromElement).keySet();<a name="line.2991"></a>
-<span class="sourceLineNo">2992</span>      }<a name="line.2992"></a>
+<span class="sourceLineNo">2989</span>    @Override<a name="line.2989"></a>
+<span class="sourceLineNo">2990</span>    SortedSet&lt;K&gt; createKeySet() {<a name="line.2990"></a>
+<span class="sourceLineNo">2991</span>      return new SortedKeySet();<a name="line.2991"></a>
+<span class="sourceLineNo">2992</span>    }<a name="line.2992"></a>
 <span class="sourceLineNo">2993</span><a name="line.2993"></a>
-<span class="sourceLineNo">2994</span>      @Override<a name="line.2994"></a>
-<span class="sourceLineNo">2995</span>      public K first() {<a name="line.2995"></a>
-<span class="sourceLineNo">2996</span>        return firstKey();<a name="line.2996"></a>
-<span class="sourceLineNo">2997</span>      }<a name="line.2997"></a>
-<span class="sourceLineNo">2998</span><a name="line.2998"></a>
-<span class="sourceLineNo">2999</span>      @Override<a name="line.2999"></a>
-<span class="sourceLineNo">3000</span>      public K last() {<a name="line.3000"></a>
-<span class="sourceLineNo">3001</span>        return lastKey();<a name="line.3001"></a>
-<span class="sourceLineNo">3002</span>      }<a name="line.3002"></a>
-<span class="sourceLineNo">3003</span>    }<a name="line.3003"></a>
-<span class="sourceLineNo">3004</span><a name="line.3004"></a>
-<span class="sourceLineNo">3005</span>    @Override<a name="line.3005"></a>
-<span class="sourceLineNo">3006</span>    public Comparator&lt;? super K&gt; comparator() {<a name="line.3006"></a>
-<span class="sourceLineNo">3007</span>      return sortedMap().comparator();<a name="line.3007"></a>
-<span class="sourceLineNo">3008</span>    }<a name="line.3008"></a>
-<span class="sourceLineNo">3009</span><a name="line.3009"></a>
-<span class="sourceLineNo">3010</span>    @Override<a name="line.3010"></a>
-<span class="sourceLineNo">3011</span>    public K firstKey() {<a name="line.3011"></a>
-<span class="sourceLineNo">3012</span>      // correctly throws NoSuchElementException when filtered map is empty.<a name="line.3012"></a>
-<span class="sourceLineNo">3013</span>      return keySet().iterator().next();<a name="line.3013"></a>
-<span class="sourceLineNo">3014</span>    }<a name="line.3014"></a>
+<span class="sourceLineNo">2994</span>    @WeakOuter<a name="line.2994"></a>
+<span class="sourceLineNo">2995</span>    class SortedKeySet extends KeySet implements SortedSet&lt;K&gt; {<a name="line.2995"></a>
+<span class="sourceLineNo">2996</span>      @Override<a name="line.2996"></a>
+<span class="sourceLineNo">2997</span>      public Comparator&lt;? super K&gt; comparator() {<a name="line.2997"></a>
+<span class="sourceLineNo">2998</span>        return sortedMap().comparator();<a name="line.2998"></a>
+<span class="sourceLineNo">2999</span>      }<a name="line.2999"></a>
+<span class="sourceLineNo">3000</span><a name="line.3000"></a>
+<span class="sourceLineNo">3001</span>      @Override<a name="line.3001"></a>
+<span class="sourceLineNo">3002</span>      public SortedSet&lt;K&gt; subSet(K fromElement, K toElement) {<a name="line.3002"></a>
+<span class="sourceLineNo">3003</span>        return (SortedSet&lt;K&gt;) subMap(fromElement, toElement).keySet();<a name="line.3003"></a>
+<span class="sourceLineNo">3004</span>      }<a name="line.3004"></a>
+<span class="sourceLineNo">3005</span><a name="line.3005"></a>
+<span class="sourceLineNo">3006</span>      @Override<a name="line.3006"></a>
+<span class="sourceLineNo">3007</span>      public SortedSet&lt;K&gt; headSet(K toElement) {<a name="line.3007"></a>
+<span class="sourceLineNo">3008</span>        return (SortedSet&lt;K&gt;) headMap(toElement).keySet();<a name="line.3008"></a>
+<span class="sourceLineNo">3009</span>      }<a name="line.3009"></a>
+<span class="sourceLineNo">3010</span><a name="line.3010"></a>
+<span class="sourceLineNo">3011</span>      @Override<a name="line.3011"></a>
+<span class="sourceLineNo">3012</span>      public SortedSet&lt;K&gt; tailSet(K fromElement) {<a name="line.3012"></a>
+<span class="sourceLineNo">3013</span>        return (SortedSet&lt;K&gt;) tailMap(fromElement).keySet();<a name="line.3013"></a>
+<span class="sourceLineNo">3014</span>      }<a name="line.3014"></a>
 <span class="sourceLineNo">3015</span><a name="line.3015"></a>
-<span class="sourceLineNo">3016</span>    @Override<a name="line.3016"></a>
-<span class="sourceLineNo">3017</span>    public K lastKey() {<a name="line.3017"></a>
-<span class="sourceLineNo">3018</span>      SortedMap&lt;K, V&gt; headMap = sortedMap();<a name="line.3018"></a>
-<span class="sourceLineNo">3019</span>      while (true) {<a name="line.3019"></a>
-<span class="sourceLineNo">3020</span>        // correctly throws NoSuchElementException when filtered map is empty.<a name="line.3020"></a>
-<span class="sourceLineNo">3021</span>        K key = headMap.lastKey();<a name="line.3021"></a>
-<span class="sourceLineNo">3022</span>        if (apply(key, unfiltered.get(key))) {<a name="line.3022"></a>
-<span class="sourceLineNo">3023</span>          return key;<a name="line.3023"></a>
-<span class="sourceLineNo">3024</span>        }<a name="line.3024"></a>
-<span class="sourceLineNo">3025</span>        headMap = sortedMap().headMap(key);<a name="line.3025"></a>
-<span class="sourceLineNo">3026</span>      }<a name="line.3026"></a>
-<span class="sourceLineNo">3027</span>    }<a name="line.3027"></a>
-<span class="sourceLineNo">3028</span><a name="line.3028"></a>
-<span class="sourceLineNo">3029</span>    @Override<a name="line.3029"></a>
-<span class="sourceLineNo">3030</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.3030"></a>
-<span class="sourceLineNo">3031</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().headMap(toKey), predicate);<a name="line.3031"></a>
-<span class="sourceLineNo">3032</span>    }<a name="line.3032"></a>
-<span class="sourceLineNo">3033</span><a name="line.3033"></a>
-<span class="sourceLineNo">3034</span>    @Override<a name="line.3034"></a>
-<span class="sourceLineNo">3035</span>    public SortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.3035"></a>
-<span class="sourceLineNo">3036</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().subMap(fromKey, toKey), predicate);<a name="line.3036"></a>
-<span class="sourceLineNo">3037</span>    }<a name="line.3037"></a>
-<span class="sourceLineNo">3038</span><a name="line.3038"></a>
-<span class="sourceLineNo">3039</span>    @Override<a name="line.3039"></a>
-<span class="sourceLineNo">3040</span>    public SortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.3040"></a>
-<span class="sourceLineNo">3041</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().tailMap(fromKey), predicate);<a name="line.3041"></a>
-<span class="sourceLineNo">3042</span>    }<a name="line.3042"></a>
-<span class="sourceLineNo">3043</span>  }<a name="line.3043"></a>
-<span class="sourceLineNo">3044</span><a name="line.3044"></a>
-<span class="sourceLineNo">3045</span>  /**<a name="line.3045"></a>
-<span class="sourceLineNo">3046</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.3046"></a>
-<span class="sourceLineNo">3047</span>   * navigable map.<a name="line.3047"></a>
-<span class="sourceLineNo">3048</span>   */<a name="line.3048"></a>
-<span class="sourceLineNo">3049</span>  @GwtIncompatible // NavigableMap<a name="line.3049"></a>
-<span class="sourceLineNo">3050</span>  private static &lt;K, V&gt; NavigableMap&lt;K, V&gt; filterFiltered(<a name="line.3050"></a>
-<span class="sourceLineNo">3051</span>      FilteredEntryNavigableMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3051"></a>
-<span class="sourceLineNo">3052</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =<a name="line.3052"></a>
-<span class="sourceLineNo">3053</span>        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.entryPredicate, entryPredicate);<a name="line.3053"></a>
-<span class="sourceLineNo">3054</span>    return new FilteredEntryNavigableMap&lt;&gt;(map.unfiltered, predicate);<a name="line.3054"></a>
-<span class="sourceLineNo">3055</span>  }<a name="line.3055"></a>
-<span class="sourceLineNo">3056</span><a name="line.3056"></a>
-<span class="sourceLineNo">3057</span>  @GwtIncompatible // NavigableMap<a name="line.3057"></a>
-<span class="sourceLineNo">3058</span>  private static class FilteredEntryNavigableMap&lt;K, V&gt; extends AbstractNavigableMap&lt;K, V&gt; {<a name="line.3058"></a>
-<span class="sourceLineNo">3059</span>    /*<a name="line.3059"></a>
-<span class="sourceLineNo">3060</span>     * It's less code to extend AbstractNavigableMap and forward the filtering logic to<a name="line.3060"></a>
-<span class="sourceLineNo">3061</span>     * FilteredEntryMap than to extend FilteredEntrySortedMap and reimplement all the NavigableMap<a name="line.3061"></a>
-<span class="sourceLineNo">3062</span>     * methods.<a name="line.3062"></a>
-<span class="sourceLineNo">3063</span>     */<a name="line.3063"></a>
-<span class="sourceLineNo">3064</span><a name="line.3064"></a>
-<span class="sourceLineNo">3065</span>    private final NavigableMap&lt;K, V&gt; unfiltered;<a name="line.3065"></a>
-<span class="sourceLineNo">3066</span>    private final Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate;<a name="line.3066"></a>
-<span class="sourceLineNo">3067</span>    private final Map&lt;K, V&gt; filteredDelegate;<a name="line.3067"></a>
-<span class="sourceLineNo">3068</span><a name="line.3068"></a>
-<span class="sourceLineNo">3069</span>    FilteredEntryNavigableMap(<a name="line.3069"></a>
-<span class="sourceLineNo">3070</span>        NavigableMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3070"></a>
-<span class="sourceLineNo">3071</span>      this.unfiltered = checkNotNull(unfiltered);<a name="line.3071"></a>
-<span class="sourceLineNo">3072</span>      this.entryPredicate = entryPredicate;<a name="line.3072"></a>
-<span class="sourceLineNo">3073</span>      this.filteredDelegate = new FilteredEntryMap&lt;&gt;(unfiltered, entryPredicate);<a name="line.3073"></a>
-<span class="sourceLineNo">3074</span>    }<a name="line.3074"></a>
-<span class="sourceLineNo">3075</span><a name="line.3075"></a>
-<span class="sourceLineNo">3076</span>    @Override<a name="line.3076"></a>
-<span class="sourceLineNo">3077</span>    public Comparator&lt;? super K&gt; comparator() {<a name="line.3077"></a>
-<span class="sourceLineNo">3078</span>      return unfiltered.comparator();<a name="line.3078"></a>
-<span class="sourceLineNo">3079</span>    }<a name="line.3079"></a>
-<span class="sourceLineNo">3080</span><a name="line.3080"></a>
-<span class="sourceLineNo">3081</span>    @Override<a name="line.3081"></a>
-<span class="sourceLineNo">3082</span>    public NavigableSet&lt;K&gt; navigableKeySet() {<a name="line.3082"></a>
-<span class="sourceLineNo">3083</span>      return new Maps.NavigableKeySet&lt;K, V&gt;(this) {<a name="line.3083"></a>
-<span class="sourceLineNo">3084</span>        @Override<a name="line.3084"></a>
-<span class="sourceLineNo">3085</span>        public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.3085"></a>
-<span class="sourceLineNo">3086</span>          return FilteredEntryMap.removeAllKeys(unfiltered, entryPredicate, collection);<a name="line.3086"></a>
-<span class="sourceLineNo">3087</span>        }<a name="line.3087"></a>
-<span class="sourceLineNo">3088</span><a name="line.3088"></a>
-<span class="sourceLineNo">3089</span>        @Override<a name="line.3089"></a>
-<span class="sourceLineNo">3090</span>        public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.3090"></a>
-<span class="sourceLineNo">3091</span>          return FilteredEntryMap.retainAllKeys(unfiltered, entryPredicate, collection);<a name="line.3091"></a>
-<span class="sourceLineNo">3092</span>        }<a name="line.3092"></a>
-<span class="sourceLineNo">3093</span>      };<a name="line.3093"></a>
-<span class="sourceLineNo">3094</span>    }<a name="line.3094"></a>
-<span class="sourceLineNo">3095</span><a name="line.3095"></a>
-<span class="sourceLineNo">3096</span>    @Override<a name="line.3096"></a>
-<span class="sourceLineNo">3097</span>    public Collection&lt;V&gt; values() {<a name="line.3097"></a>
-<span class="sourceLineNo">3098</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, entryPredicate);<a name="line.3098"></a>
-<span class="sourceLineNo">3099</span>    }<a name="line.3099"></a>
-<span class="sourceLineNo">3100</span><a name="line.3100"></a>
-<span class="sourceLineNo">3101</span>    @Override<a name="line.3101"></a>
-<span class="sourceLineNo">3102</span>    Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {<a name="line.3102"></a>
-<span class="sourceLineNo">3103</span>      return Iterators.filter(unfiltered.entrySet().iterator(), entryPredicate);<a name="line.3103"></a>
+<span class="sourceLineNo">3016</span>      @Override<a name="line.3016"></a>
+<span class="sourceLineNo">3017</span>      public K first() {<a name="line.3017"></a>
+<span class="sourceLineNo">3018</span>        return firstKey();<a name="line.3018"></a>
+<span class="sourceLineNo">3019</span>      }<a name="line.3019"></a>
+<span class="sourceLineNo">3020</span><a name="line.3020"></a>
+<span class="sourceLineNo">3021</span>      @Override<a name="line.3021"></a>
+<span class="sourceLineNo">3022</span>      public K last() {<a name="line.3022"></a>
+<span class="sourceLineNo">3023</span>        return lastKey();<a name="line.3023"></a>
+<span class="sourceLineNo">3024</span>      }<a name="line.3024"></a>
+<span class="sourceLineNo">3025</span>    }<a name="line.3025"></a>
+<span class="sourceLineNo">3026</span><a name="line.3026"></a>
+<span class="sourceLineNo">3027</span>    @Override<a name="line.3027"></a>
+<span class="sourceLineNo">3028</span>    public Comparator&lt;? super K&gt; comparator() {<a name="line.3028"></a>
+<span class="sourceLineNo">3029</span>      return sortedMap().comparator();<a name="line.3029"></a>
+<span class="sourceLineNo">3030</span>    }<a name="line.3030"></a>
+<span class="sourceLineNo">3031</span><a name="line.3031"></a>
+<span class="sourceLineNo">3032</span>    @Override<a name="line.3032"></a>
+<span class="sourceLineNo">3033</span>    public K firstKey() {<a name="line.3033"></a>
+<span class="sourceLineNo">3034</span>      // correctly throws NoSuchElementException when filtered map is empty.<a name="line.3034"></a>
+<span class="sourceLineNo">3035</span>      return keySet().iterator().next();<a name="line.3035"></a>
+<span class="sourceLineNo">3036</span>    }<a name="line.3036"></a>
+<span class="sourceLineNo">3037</span><a name="line.3037"></a>
+<span class="sourceLineNo">3038</span>    @Override<a name="line.3038"></a>
+<span class="sourceLineNo">3039</span>    public K lastKey() {<a name="line.3039"></a>
+<span class="sourceLineNo">3040</span>      SortedMap&lt;K, V&gt; headMap = sortedMap();<a name="line.3040"></a>
+<span class="sourceLineNo">3041</span>      while (true) {<a name="line.3041"></a>
+<span class="sourceLineNo">3042</span>        // correctly throws NoSuchElementException when filtered map is empty.<a name="line.3042"></a>
+<span class="sourceLineNo">3043</span>        K key = headMap.lastKey();<a name="line.3043"></a>
+<span class="sourceLineNo">3044</span>        if (apply(key, unfiltered.get(key))) {<a name="line.3044"></a>
+<span class="sourceLineNo">3045</span>          return key;<a name="line.3045"></a>
+<span class="sourceLineNo">3046</span>        }<a name="line.3046"></a>
+<span class="sourceLineNo">3047</span>        headMap = sortedMap().headMap(key);<a name="line.3047"></a>
+<span class="sourceLineNo">3048</span>      }<a name="line.3048"></a>
+<span class="sourceLineNo">3049</span>    }<a name="line.3049"></a>
+<span class="sourceLineNo">3050</span><a name="line.3050"></a>
+<span class="sourceLineNo">3051</span>    @Override<a name="line.3051"></a>
+<span class="sourceLineNo">3052</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.3052"></a>
+<span class="sourceLineNo">3053</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().headMap(toKey), predicate);<a name="line.3053"></a>
+<span class="sourceLineNo">3054</span>    }<a name="line.3054"></a>
+<span class="sourceLineNo">3055</span><a name="line.3055"></a>
+<span class="sourceLineNo">3056</span>    @Override<a name="line.3056"></a>
+<span class="sourceLineNo">3057</span>    public SortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.3057"></a>
+<span class="sourceLineNo">3058</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().subMap(fromKey, toKey), predicate);<a name="line.3058"></a>
+<span class="sourceLineNo">3059</span>    }<a name="line.3059"></a>
+<span class="sourceLineNo">3060</span><a name="line.3060"></a>
+<span class="sourceLineNo">3061</span>    @Override<a name="line.3061"></a>
+<span class="sourceLineNo">3062</span>    public SortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.3062"></a>
+<span class="sourceLineNo">3063</span>      return new FilteredEntrySortedMap&lt;&gt;(sortedMap().tailMap(fromKey), predicate);<a name="line.3063"></a>
+<span class="sourceLineNo">3064</span>    }<a name="line.3064"></a>
+<span class="sourceLineNo">3065</span>  }<a name="line.3065"></a>
+<span class="sourceLineNo">3066</span><a name="line.3066"></a>
+<span class="sourceLineNo">3067</span>  @GwtIncompatible // NavigableMap<a name="line.3067"></a>
+<span class="sourceLineNo">3068</span>  private static class FilteredEntryNavigableMap&lt;K, V&gt; extends AbstractNavigableMap&lt;K, V&gt; {<a name="line.3068"></a>
+<span class="sourceLineNo">3069</span>    /*<a name="line.3069"></a>
+<span class="sourceLineNo">3070</span>     * It's less code to extend AbstractNavigableMap and forward the filtering logic to<a name="line.3070"></a>
+<span class="sourceLineNo">3071</span>     * FilteredEntryMap than to extend FilteredEntrySortedMap and reimplement all the NavigableMap<a name="line.3071"></a>
+<span class="sourceLineNo">3072</span>     * methods.<a name="line.3072"></a>
+<span class="sourceLineNo">3073</span>     */<a name="line.3073"></a>
+<span class="sourceLineNo">3074</span><a name="line.3074"></a>
+<span class="sourceLineNo">3075</span>    private final NavigableMap&lt;K, V&gt; unfiltered;<a name="line.3075"></a>
+<span class="sourceLineNo">3076</span>    private final Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate;<a name="line.3076"></a>
+<span class="sourceLineNo">3077</span>    private final Map&lt;K, V&gt; filteredDelegate;<a name="line.3077"></a>
+<span class="sourceLineNo">3078</span><a name="line.3078"></a>
+<span class="sourceLineNo">3079</span>    FilteredEntryNavigableMap(<a name="line.3079"></a>
+<span class="sourceLineNo">3080</span>        NavigableMap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3080"></a>
+<span class="sourceLineNo">3081</span>      this.unfiltered = checkNotNull(unfiltered);<a name="line.3081"></a>
+<span class="sourceLineNo">3082</span>      this.entryPredicate = entryPredicate;<a name="line.3082"></a>
+<span class="sourceLineNo">3083</span>      this.filteredDelegate = new FilteredEntryMap&lt;&gt;(unfiltered, entryPredicate);<a name="line.3083"></a>
+<span class="sourceLineNo">3084</span>    }<a name="line.3084"></a>
+<span class="sourceLineNo">3085</span><a name="line.3085"></a>
+<span class="sourceLineNo">3086</span>    @Override<a name="line.3086"></a>
+<span class="sourceLineNo">3087</span>    public Comparator&lt;? super K&gt; comparator() {<a name="line.3087"></a>
+<span class="sourceLineNo">3088</span>      return unfiltered.comparator();<a name="line.3088"></a>
+<span class="sourceLineNo">3089</span>    }<a name="line.3089"></a>
+<span class="sourceLineNo">3090</span><a name="line.3090"></a>
+<span class="sourceLineNo">3091</span>    @Override<a name="line.3091"></a>
+<span class="sourceLineNo">3092</span>    public NavigableSet&lt;K&gt; navigableKeySet() {<a name="line.3092"></a>
+<span class="sourceLineNo">3093</span>      return new Maps.NavigableKeySet&lt;K, V&gt;(this) {<a name="line.3093"></a>
+<span class="sourceLineNo">3094</span>        @Override<a name="line.3094"></a>
+<span class="sourceLineNo">3095</span>        public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.3095"></a>
+<span class="sourceLineNo">3096</span>          return FilteredEntryMap.removeAllKeys(unfiltered, entryPredicate, collection);<a name="line.3096"></a>
+<span class="sourceLineNo">3097</span>        }<a name="line.3097"></a>
+<span class="sourceLineNo">3098</span><a name="line.3098"></a>
+<span class="sourceLineNo">3099</span>        @Override<a name="line.3099"></a>
+<span class="sourceLineNo">3100</span>        public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.3100"></a>
+<span class="sourceLineNo">3101</span>          return FilteredEntryMap.retainAllKeys(unfiltered, entryPredicate, collection);<a name="line.3101"></a>
+<span class="sourceLineNo">3102</span>        }<a name="line.3102"></a>
+<span class="sourceLineNo">3103</span>      };<a name="line.3103"></a>
 <span class="sourceLineNo">3104</span>    }<a name="line.3104"></a>
 <span class="sourceLineNo">3105</span><a name="line.3105"></a>
 <span class="sourceLineNo">3106</span>    @Override<a name="line.3106"></a>
-<span class="sourceLineNo">3107</span>    Iterator&lt;Entry&lt;K, V&gt;&gt; descendingEntryIterator() {<a name="line.3107"></a>
-<span class="sourceLineNo">3108</span>      return Iterators.filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);<a name="line.3108"></a>
+<span class="sourceLineNo">3107</span>    public Collection&lt;V&gt; values() {<a name="line.3107"></a>
+<span class="sourceLineNo">3108</span>      return new FilteredMapValues&lt;&gt;(this, unfiltered, entryPredicate);<a name="line.3108"></a>
 <span class="sourceLineNo">3109</span>    }<a name="line.3109"></a>
 <span class="sourceLineNo">3110</span><a name="line.3110"></a>
 <span class="sourceLineNo">3111</span>    @Override<a name="line.3111"></a>
-<span class="sourceLineNo">3112</span>    public int size() {<a name="line.3112"></a>
-<span class="sourceLineNo">3113</span>      return filteredDelegate.size();<a name="line.3113"></a>
+<span class="sourceLineNo">3112</span>    Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator() {<a name="line.3112"></a>
+<span class="sourceLineNo">3113</span>      return Iterators.filter(unfiltered.entrySet().iterator(), entryPredicate);<a name="line.3113"></a>
 <span class="sourceLineNo">3114</span>    }<a name="line.3114"></a>
 <span class="sourceLineNo">3115</span><a name="line.3115"></a>
 <span class="sourceLineNo">3116</span>    @Override<a name="line.3116"></a>
-<span class="sourceLineNo">3117</span>    public boolean isEmpty() {<a name="line.3117"></a>
-<span class="sourceLineNo">3118</span>      return !Iterables.any(unfiltered.entrySet(), entryPredicate);<a name="line.3118"></a>
+<span class="sourceLineNo">3117</span>    Iterator&lt;Entry&lt;K, V&gt;&gt; descendingEntryIterator() {<a name="line.3117"></a>
+<span class="sourceLineNo">3118</span>      return Iterators.filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);<a name="line.3118"></a>
 <span class="sourceLineNo">3119</span>    }<a name="line.3119"></a>
 <span class="sourceLineNo">3120</span><a name="line.3120"></a>
 <span class="sourceLineNo">3121</span>    @Override<a name="line.3121"></a>
-<span class="sourceLineNo">3122</span>    @NullableDecl<a name="line.3122"></a>
-<span class="sourceLineNo">3123</span>    public V get(@NullableDecl Object key) {<a name="line.3123"></a>
-<span class="sourceLineNo">3124</span>      return filteredDelegate.get(key);<a name="line.3124"></a>
-<span class="sourceLineNo">3125</span>    }<a name="line.3125"></a>
-<span class="sourceLineNo">3126</span><a name="line.3126"></a>
-<span class="sourceLineNo">3127</span>    @Override<a name="line.3127"></a>
-<span class="sourceLineNo">3128</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.3128"></a>
-<span class="sourceLineNo">3129</span>      return filteredDelegate.containsKey(key);<a name="line.3129"></a>
-<span class="sourceLineNo">3130</span>    }<a name="line.3130"></a>
-<span class="sourceLineNo">3131</span><a name="line.3131"></a>
-<span class="sourceLineNo">3132</span>    @Override<a name="line.3132"></a>
-<span class="sourceLineNo">3133</span>    public V put(K key, V value) {<a name="line.3133"></a>
-<span class="sourceLineNo">3134</span>      return filteredDelegate.put(key, value);<a name="line.3134"></a>
+<span class="sourceLineNo">3122</span>    public int size() {<a name="line.3122"></a>
+<span class="sourceLineNo">3123</span>      return filteredDelegate.size();<a name="line.3123"></a>
+<span class="sourceLineNo">3124</span>    }<a name="line.3124"></a>
+<span class="sourceLineNo">3125</span><a name="line.3125"></a>
+<span class="sourceLineNo">3126</span>    @Override<a name="line.3126"></a>
+<span class="sourceLineNo">3127</span>    public boolean isEmpty() {<a name="line.3127"></a>
+<span class="sourceLineNo">3128</span>      return !Iterables.any(unfiltered.entrySet(), entryPredicate);<a name="line.3128"></a>
+<span class="sourceLineNo">3129</span>    }<a name="line.3129"></a>
+<span class="sourceLineNo">3130</span><a name="line.3130"></a>
+<span class="sourceLineNo">3131</span>    @Override<a name="line.3131"></a>
+<span class="sourceLineNo">3132</span>    @NullableDecl<a name="line.3132"></a>
+<span class="sourceLineNo">3133</span>    public V get(@NullableDecl Object key) {<a name="line.3133"></a>
+<span class="sourceLineNo">3134</span>      return filteredDelegate.get(key);<a name="line.3134"></a>
 <span class="sourceLineNo">3135</span>    }<a name="line.3135"></a>
 <span class="sourceLineNo">3136</span><a name="line.3136"></a>
 <span class="sourceLineNo">3137</span>    @Override<a name="line.3137"></a>
-<span class="sourceLineNo">3138</span>    public V remove(@NullableDecl Object key) {<a name="line.3138"></a>
-<span class="sourceLineNo">3139</span>      return filteredDelegate.remove(key);<a name="line.3139"></a>
+<span class="sourceLineNo">3138</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.3138"></a>
+<span class="sourceLineNo">3139</span>      return filteredDelegate.containsKey(key);<a name="line.3139"></a>
 <span class="sourceLineNo">3140</span>    }<a name="line.3140"></a>
 <span class="sourceLineNo">3141</span><a name="line.3141"></a>
 <span class="sourceLineNo">3142</span>    @Override<a name="line.3142"></a>
-<span class="sourceLineNo">3143</span>    public void putAll(Map&lt;? extends K, ? extends V&gt; m) {<a name="line.3143"></a>
-<span class="sourceLineNo">3144</span>      filteredDelegate.putAll(m);<a name="line.3144"></a>
+<span class="sourceLineNo">3143</span>    public V put(K key, V value) {<a name="line.3143"></a>
+<span class="sourceLineNo">3144</span>      return filteredDelegate.put(key, value);<a name="line.3144"></a>
 <span class="sourceLineNo">3145</span>    }<a name="line.3145"></a>
 <span class="sourceLineNo">3146</span><a name="line.3146"></a>
 <span class="sourceLineNo">3147</span>    @Override<a name="line.3147"></a>
-<span class="sourceLineNo">3148</span>    public void clear() {<a name="line.3148"></a>
-<span class="sourceLineNo">3149</span>      filteredDelegate.clear();<a name="line.3149"></a>
+<span class="sourceLineNo">3148</span>    public V remove(@NullableDecl Object key) {<a name="line.3148"></a>
+<span class="sourceLineNo">3149</span>      return filteredDelegate.remove(key);<a name="line.3149"></a>
 <span class="sourceLineNo">3150</span>    }<a name="line.3150"></a>
 <span class="sourceLineNo">3151</span><a name="line.3151"></a>
 <span class="sourceLineNo">3152</span>    @Override<a name="line.3152"></a>
-<span class="sourceLineNo">3153</span>    public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.3153"></a>
-<span class="sourceLineNo">3154</span>      return filteredDelegate.entrySet();<a name="line.3154"></a>
+<span class="sourceLineNo">3153</span>    public void putAll(Map&lt;? extends K, ? extends V&gt; m) {<a name="line.3153"></a>
+<span class="sourceLineNo">3154</span>      filteredDelegate.putAll(m);<a name="line.3154"></a>
 <span class="sourceLineNo">3155</span>    }<a name="line.3155"></a>
 <span class="sourceLineNo">3156</span><a name="line.3156"></a>
 <span class="sourceLineNo">3157</span>    @Override<a name="line.3157"></a>
-<span class="sourceLineNo">3158</span>    public Entry&lt;K, V&gt; pollFirstEntry() {<a name="line.3158"></a>
-<span class="sourceLineNo">3159</span>      return Iterables.removeFirstMatching(unfiltered.entrySet(), entryPredicate);<a name="line.3159"></a>
+<span class="sourceLineNo">3158</span>    public void clear() {<a name="line.3158"></a>
+<span class="sourceLineNo">3159</span>      filteredDelegate.clear();<a name="line.3159"></a>
 <span class="sourceLineNo">3160</span>    }<a name="line.3160"></a>
 <span class="sourceLineNo">3161</span><a name="line.3161"></a>
 <span class="sourceLineNo">3162</span>    @Override<a name="line.3162"></a>
-<span class="sourceLineNo">3163</span>    public Entry&lt;K, V&gt; pollLastEntry() {<a name="line.3163"></a>
-<span class="sourceLineNo">3164</span>      return Iterables.removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);<a name="line.3164"></a>
+<span class="sourceLineNo">3163</span>    public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.3163"></a>
+<span class="sourceLineNo">3164</span>      return filteredDelegate.entrySet();<a name="line.3164"></a>
 <span class="sourceLineNo">3165</span>    }<a name="line.3165"></a>
 <span class="sourceLineNo">3166</span><a name="line.3166"></a>
 <span class="sourceLineNo">3167</span>    @Override<a name="line.3167"></a>
-<span class="sourceLineNo">3168</span>    public NavigableMap&lt;K, V&gt; descendingMap() {<a name="line.3168"></a>
-<span class="sourceLineNo">3169</span>      return filterEntries(unfiltered.descendingMap(), entryPredicate);<a name="line.3169"></a>
+<span class="sourceLineNo">3168</span>    public Entry&lt;K, V&gt; pollFirstEntry() {<a name="line.3168"></a>
+<span class="sourceLineNo">3169</span>      return Iterables.removeFirstMatching(unfiltered.entrySet(), entryPredicate);<a name="line.3169"></a>
 <span class="sourceLineNo">3170</span>    }<a name="line.3170"></a>
 <span class="sourceLineNo">3171</span><a name="line.3171"></a>
 <span class="sourceLineNo">3172</span>    @Override<a name="line.3172"></a>
-<span class="sourceLineNo">3173</span>    public NavigableMap&lt;K, V&gt; subMap(<a name="line.3173"></a>
-<span class="sourceLineNo">3174</span>        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.3174"></a>
-<span class="sourceLineNo">3175</span>      return filterEntries(<a name="line.3175"></a>
-<span class="sourceLineNo">3176</span>          unfiltered.subMap(fromKey, fromInclusive, toKey, toInclusive), entryPredicate);<a name="line.3176"></a>
-<span class="sourceLineNo">3177</span>    }<a name="line.3177"></a>
-<span class="sourceLineNo">3178</span><a name="line.3178"></a>
-<span class="sourceLineNo">3179</span>    @Override<a name="line.3179"></a>
-<span class="sourceLineNo">3180</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.3180"></a>
-<span class="sourceLineNo">3181</span>      return filterEntries(unfiltered.headMap(toKey, inclusive), entryPredicate);<a name="line.3181"></a>
-<span class="sourceLineNo">3182</span>    }<a name="line.3182"></a>
-<span class="sourceLineNo">3183</span><a name="line.3183"></a>
-<span class="sourceLineNo">3184</span>    @Override<a name="line.3184"></a>
-<span class="sourceLineNo">3185</span>    public NavigableMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.3185"></a>
-<span class="sourceLineNo">3186</span>      return filterEntries(unfiltered.tailMap(fromKey, inclusive), entryPredicate);<a name="line.3186"></a>
+<span class="sourceLineNo">3173</span>    public Entry&lt;K, V&gt; pollLastEntry() {<a name="line.3173"></a>
+<span class="sourceLineNo">3174</span>      return Iterables.removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);<a name="line.3174"></a>
+<span class="sourceLineNo">3175</span>    }<a name="line.3175"></a>
+<span class="sourceLineNo">3176</span><a name="line.3176"></a>
+<span class="sourceLineNo">3177</span>    @Override<a name="line.3177"></a>
+<span class="sourceLineNo">3178</span>    public NavigableMap&lt;K, V&gt; descendingMap() {<a name="line.3178"></a>
+<span class="sourceLineNo">3179</span>      return filterEntries(unfiltered.descendingMap(), entryPredicate);<a name="line.3179"></a>
+<span class="sourceLineNo">3180</span>    }<a name="line.3180"></a>
+<span class="sourceLineNo">3181</span><a name="line.3181"></a>
+<span class="sourceLineNo">3182</span>    @Override<a name="line.3182"></a>
+<span class="sourceLineNo">3183</span>    public NavigableMap&lt;K, V&gt; subMap(<a name="line.3183"></a>
+<span class="sourceLineNo">3184</span>        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.3184"></a>
+<span class="sourceLineNo">3185</span>      return filterEntries(<a name="line.3185"></a>
+<span class="sourceLineNo">3186</span>          unfiltered.subMap(fromKey, fromInclusive, toKey, toInclusive), entryPredicate);<a name="line.3186"></a>
 <span class="sourceLineNo">3187</span>    }<a name="line.3187"></a>
-<span class="sourceLineNo">3188</span>  }<a name="line.3188"></a>
-<span class="sourceLineNo">3189</span><a name="line.3189"></a>
-<span class="sourceLineNo">3190</span>  /**<a name="line.3190"></a>
-<span class="sourceLineNo">3191</span>   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered<a name="line.3191"></a>
-<span class="sourceLineNo">3192</span>   * map.<a name="line.3192"></a>
-<span class="sourceLineNo">3193</span>   */<a name="line.3193"></a>
-<span class="sourceLineNo">3194</span>  private static &lt;K, V&gt; BiMap&lt;K, V&gt; filterFiltered(<a name="line.3194"></a>
-<span class="sourceLineNo">3195</span>      FilteredEntryBiMap&lt;K, V&gt; map, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {<a name="line.3195"></a>
-<span class="sourceLineNo">3196</span>    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate = Predicates.&lt;Entry&lt;K, V&gt;&gt;and(map.predicate, entryPredicate);<a name="line.3196"></a>
-<span class="sourceLineNo">3197</span>    return new FilteredEntryBiMap&lt;&gt;(map.unfiltered(), predicate);<a name="line.3197"></a>
+<span class="sourceLineNo">3188</span><a name="line.3188"></a>
+<span class="sourceLineNo">3189</span>    @Override<a name="line.3189"></a>
+<span class="sourceLineNo">3190</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.3190"></a>
+<span class="sourceLineNo">3191</span>      return filterEntries(unfiltered.headMap(toKey, inclusive), entryPredicate);<a name="line.3191"></a>
+<span class="sourceLineNo">3192</span>    }<a name="line.3192"></a>
+<span class="sourceLineNo">3193</span><a name="line.3193"></a>
+<span class="sourceLineNo">3194</span>    @Override<a name="line.3194"></a>
+<span class="sourceLineNo">3195</span>    public NavigableMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.3195"></a>
+<span class="sourceLineNo">3196</span>      return filterEntries(unfiltered.tailMap(fromKey, inclusive), entryPredicate);<a name="line.3196"></a>
+<span class="sourceLineNo">3197</span>    }<a name="line.3197"></a>
 <span class="sourceLineNo">3198</span>  }<a name="line.3198"></a>
 <span class="sourceLineNo">3199</span><a name="line.3199"></a>
 <span class="sourceLineNo">3200</span>  static final class FilteredEntryBiMap&lt;K, V&gt; extends FilteredEntryMap&lt;K, V&gt;<a name="line.3200"></a>
@@ -3409,25 +3409,25 @@
 <span class="sourceLineNo">3401</span>    }<a name="line.3401"></a>
 <span class="sourceLineNo">3402</span><a name="line.3402"></a>
 <span class="sourceLineNo">3403</span>    @Override<a name="line.3403"></a>
-<span class="sourceLineNo">3404</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.3404"></a>
-<span class="sourceLineNo">3405</span>      return headMap(toKey, false);<a name="line.3405"></a>
-<span class="sourceLineNo">3406</span>    }<a name="line.3406"></a>
-<span class="sourceLineNo">3407</span><a name="line.3407"></a>
-<span class="sourceLineNo">3408</span>    @Override<a name="line.3408"></a>
-<span class="sourceLineNo">3409</span>    public SortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.3409"></a>
-<span class="sourceLineNo">3410</span>      return tailMap(fromKey, true);<a name="line.3410"></a>
-<span class="sourceLineNo">3411</span>    }<a name="line.3411"></a>
-<span class="sourceLineNo">3412</span><a name="line.3412"></a>
-<span class="sourceLineNo">3413</span>    @Override<a name="line.3413"></a>
-<span class="sourceLineNo">3414</span>    public NavigableMap&lt;K, V&gt; subMap(<a name="line.3414"></a>
-<span class="sourceLineNo">3415</span>        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.3415"></a>
-<span class="sourceLineNo">3416</span>      return Maps.unmodifiableNavigableMap(<a name="line.3416"></a>
-<span class="sourceLineNo">3417</span>          delegate.subMap(fromKey, fromInclusive, toKey, toInclusive));<a name="line.3417"></a>
+<span class="sourceLineNo">3404</span>    public NavigableMap&lt;K, V&gt; subMap(<a name="line.3404"></a>
+<span class="sourceLineNo">3405</span>        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {<a name="line.3405"></a>
+<span class="sourceLineNo">3406</span>      return Maps.unmodifiableNavigableMap(<a name="line.3406"></a>
+<span class="sourceLineNo">3407</span>          delegate.subMap(fromKey, fromInclusive, toKey, toInclusive));<a name="line.3407"></a>
+<span class="sourceLineNo">3408</span>    }<a name="line.3408"></a>
+<span class="sourceLineNo">3409</span><a name="line.3409"></a>
+<span class="sourceLineNo">3410</span>    @Override<a name="line.3410"></a>
+<span class="sourceLineNo">3411</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.3411"></a>
+<span class="sourceLineNo">3412</span>      return headMap(toKey, false);<a name="line.3412"></a>
+<span class="sourceLineNo">3413</span>    }<a name="line.3413"></a>
+<span class="sourceLineNo">3414</span><a name="line.3414"></a>
+<span class="sourceLineNo">3415</span>    @Override<a name="line.3415"></a>
+<span class="sourceLineNo">3416</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.3416"></a>
+<span class="sourceLineNo">3417</span>      return Maps.unmodifiableNavigableMap(delegate.headMap(toKey, inclusive));<a name="line.3417"></a>
 <span class="sourceLineNo">3418</span>    }<a name="line.3418"></a>
 <span class="sourceLineNo">3419</span><a name="line.3419"></a>
 <span class="sourceLineNo">3420</span>    @Override<a name="line.3420"></a>
-<span class="sourceLineNo">3421</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.3421"></a>
-<span class="sourceLineNo">3422</span>      return Maps.unmodifiableNavigableMap(delegate.headMap(toKey, inclusive));<a name="line.3422"></a>
+<span class="sourceLineNo">3421</span>    public SortedMap&lt;K, V&gt; tailMap(K fromKey) {<a name="line.3421"></a>
+<span class="sourceLineNo">3422</span>      return tailMap(fromKey, true);<a name="line.3422"></a>
 <span class="sourceLineNo">3423</span>    }<a name="line.3423"></a>
 <span class="sourceLineNo">3424</span><a name="line.3424"></a>
 <span class="sourceLineNo">3425</span>    @Override<a name="line.3425"></a>
@@ -3862,23 +3862,23 @@
 <span class="sourceLineNo">3854</span>    }<a name="line.3854"></a>
 <span class="sourceLineNo">3855</span><a name="line.3855"></a>
 <span class="sourceLineNo">3856</span>    @Override<a name="line.3856"></a>
-<span class="sourceLineNo">3857</span>    public NavigableSet&lt;K&gt; headSet(K toElement, boolean inclusive) {<a name="line.3857"></a>
-<span class="sourceLineNo">3858</span>      return map().headMap(toElement, inclusive).navigableKeySet();<a name="line.3858"></a>
+<span class="sourceLineNo">3857</span>    public SortedSet&lt;K&gt; subSet(K fromElement, K toElement) {<a name="line.3857"></a>
+<span class="sourceLineNo">3858</span>      return subSet(fromElement, true, toElement, false);<a name="line.3858"></a>
 <span class="sourceLineNo">3859</span>    }<a name="line.3859"></a>
 <span class="sourceLineNo">3860</span><a name="line.3860"></a>
 <span class="sourceLineNo">3861</span>    @Override<a name="line.3861"></a>
-<span class="sourceLineNo">3862</span>    public NavigableSet&lt;K&gt; tailSet(K fromElement, boolean inclusive) {<a name="line.3862"></a>
-<span class="sourceLineNo">3863</span>      return map().tailMap(fromElement, inclusive).navigableKeySet();<a name="line.3863"></a>
+<span class="sourceLineNo">3862</span>    public NavigableSet&lt;K&gt; headSet(K toElement, boolean inclusive) {<a name="line.3862"></a>
+<span class="sourceLineNo">3863</span>      return map().headMap(toElement, inclusive).navigableKeySet();<a name="line.3863"></a>
 <span class="sourceLineNo">3864</span>    }<a name="line.3864"></a>
 <span class="sourceLineNo">3865</span><a name="line.3865"></a>
 <span class="sourceLineNo">3866</span>    @Override<a name="line.3866"></a>
-<span class="sourceLineNo">3867</span>    public SortedSet&lt;K&gt; subSet(K fromElement, K toElement) {<a name="line.3867"></a>
-<span class="sourceLineNo">3868</span>      return subSet(fromElement, true, toElement, false);<a name="line.3868"></a>
+<span class="sourceLineNo">3867</span>    public SortedSet&lt;K&gt; headSet(K toElement) {<a name="line.3867"></a>
+<span class="sourceLineNo">3868</span>      return headSet(toElement, false);<a name="line.3868"></a>
 <span class="sourceLineNo">3869</span>    }<a name="line.3869"></a>
 <span class="sourceLineNo">3870</span><a name="line.3870"></a>
 <span class="sourceLineNo">3871</span>    @Override<a name="line.3871"></a>
-<span class="sourceLineNo">3872</span>    public SortedSet&lt;K&gt; headSet(K toElement) {<a name="line.3872"></a>
-<span class="sourceLineNo">3873</span>      return headSet(toElement, false);<a name="line.3873"></a>
+<span class="sourceLineNo">3872</span>    public NavigableSet&lt;K&gt; tailSet(K fromElement, boolean inclusive) {<a name="line.3872"></a>
+<span class="sourceLineNo">3873</span>      return map().tailMap(fromElement, inclusive).navigableKeySet();<a name="line.3873"></a>
 <span class="sourceLineNo">3874</span>    }<a name="line.3874"></a>
 <span class="sourceLineNo">3875</span><a name="line.3875"></a>
 <span class="sourceLineNo">3876</span>    @Override<a name="line.3876"></a>
@@ -4200,23 +4200,23 @@
 <span class="sourceLineNo">4192</span>    }<a name="line.4192"></a>
 <span class="sourceLineNo">4193</span><a name="line.4193"></a>
 <span class="sourceLineNo">4194</span>    @Override<a name="line.4194"></a>
-<span class="sourceLineNo">4195</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.4195"></a>
-<span class="sourceLineNo">4196</span>      return forward().tailMap(toKey, inclusive).descendingMap();<a name="line.4196"></a>
+<span class="sourceLineNo">4195</span>    public SortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.4195"></a>
+<span class="sourceLineNo">4196</span>      return subMap(fromKey, true, toKey, false);<a name="line.4196"></a>
 <span class="sourceLineNo">4197</span>    }<a name="line.4197"></a>
 <span class="sourceLineNo">4198</span><a name="line.4198"></a>
 <span class="sourceLineNo">4199</span>    @Override<a name="line.4199"></a>
-<span class="sourceLineNo">4200</span>    public NavigableMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.4200"></a>
-<span class="sourceLineNo">4201</span>      return forward().headMap(fromKey, inclusive).descendingMap();<a name="line.4201"></a>
+<span class="sourceLineNo">4200</span>    public NavigableMap&lt;K, V&gt; headMap(K toKey, boolean inclusive) {<a name="line.4200"></a>
+<span class="sourceLineNo">4201</span>      return forward().tailMap(toKey, inclusive).descendingMap();<a name="line.4201"></a>
 <span class="sourceLineNo">4202</span>    }<a name="line.4202"></a>
 <span class="sourceLineNo">4203</span><a name="line.4203"></a>
 <span class="sourceLineNo">4204</span>    @Override<a name="line.4204"></a>
-<span class="sourceLineNo">4205</span>    public SortedMap&lt;K, V&gt; subMap(K fromKey, K toKey) {<a name="line.4205"></a>
-<span class="sourceLineNo">4206</span>      return subMap(fromKey, true, toKey, false);<a name="line.4206"></a>
+<span class="sourceLineNo">4205</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.4205"></a>
+<span class="sourceLineNo">4206</span>      return headMap(toKey, false);<a name="line.4206"></a>
 <span class="sourceLineNo">4207</span>    }<a name="line.4207"></a>
 <span class="sourceLineNo">4208</span><a name="line.4208"></a>
 <span class="sourceLineNo">4209</span>    @Override<a name="line.4209"></a>
-<span class="sourceLineNo">4210</span>    public SortedMap&lt;K, V&gt; headMap(K toKey) {<a name="line.4210"></a>
-<span class="sourceLineNo">4211</span>      return headMap(toKey, false);<a name="line.4211"></a>
+<span class="sourceLineNo">4210</span>    public NavigableMap&lt;K, V&gt; tailMap(K fromKey, boolean inclusive) {<a name="line.4210"></a>
+<span class="sourceLineNo">4211</span>      return forward().headMap(fromKey, inclusive).descendingMap();<a name="line.4211"></a>
 <span class="sourceLineNo">4212</span>    }<a name="line.4212"></a>
 <span class="sourceLineNo">4213</span><a name="line.4213"></a>
 <span class="sourceLineNo">4214</span>    @Override<a name="line.4214"></a>

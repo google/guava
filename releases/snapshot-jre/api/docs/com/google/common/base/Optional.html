@@ -416,13 +416,31 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 </dl>
 </li>
 </ul>
+<a name="toJavaUtil--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toJavaUtil</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.155">toJavaUtil</a>()</pre>
+<div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.
+
+ <p>Unfortunately, the method reference <code>Optional::toJavaUtil</code> will not work, because it
+ could refer to either the static or instance version of this method. Write out the lambda
+ expression <code>o -&gt; o.toJavaUtil()</code> instead.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
+</li>
+</ul>
 <a name="isPresent--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isPresent</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.153">isPresent</a>()</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.166">isPresent</a>()</pre>
 <div class="block">Returns <code>true</code> if this holder contains a (non-null) instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> no differences.</div>
@@ -434,7 +452,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.167">get</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.180">get</a>()</pre>
 <div class="block">Returns the contained instance, which must be present. If the instance might be absent, use
  <a href="../../../../com/google/common/base/Optional.html#or-T-"><code>or(Object)</code></a> or <a href="../../../../com/google/common/base/Optional.html#orNull--"><code>orNull()</code></a> instead.
 
@@ -454,7 +472,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.205">or</a>(<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.218">or</a>(<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</pre>
 <div class="block">Returns the contained instance if it is present; <code>defaultValue</code> otherwise. If no default
  value should be required because the instance is known to be present, use <a href="../../../../com/google/common/base/Optional.html#get--"><code>get()</code></a>
  instead. For a default value of <code>null</code>, use <a href="../../../../com/google/common/base/Optional.html#orNull--"><code>orNull()</code></a>.
@@ -494,7 +512,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>or</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.214">or</a>(<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.227">or</a>(<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</pre>
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
@@ -509,7 +527,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>or</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.227">or</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.240">or</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</pre>
 <div class="block">Returns the contained instance if it is present; <code>supplier.get()</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>Optional.orElseGet</code>, except when <code>supplier</code> returns <code>null</code>. In this case this
@@ -527,7 +545,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <li class="blockList">
 <h4>orNull</h4>
 <pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.237">orNull</a>()</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.250">orNull</a>()</pre>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="../../../../com/google/common/base/Optional.html#get--"><code>get()</code></a> instead.
 
@@ -541,7 +559,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.260">asSet</a>()</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.273">asSet</a>()</pre>
 <div class="block">Returns an immutable singleton <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> whose only element is the contained instance if it
  is present; an empty immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> otherwise.
 
@@ -571,7 +589,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public abstract&nbsp;&lt;V&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.273">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>,V&gt;&nbsp;function)</pre>
+<pre>public abstract&nbsp;&lt;V&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.286">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>,V&gt;&nbsp;function)</pre>
 <div class="block">If the instance is present, it is transformed with the given <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="../../../../com/google/common/base/Optional.html#absent--"><code>absent()</code></a> is returned.
 
@@ -582,24 +600,6 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if the function returns <code>null</code></dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>12.0</dd>
-</dl>
-</li>
-</ul>
-<a name="toJavaUtil--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>toJavaUtil</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.284">toJavaUtil</a>()</pre>
-<div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.
-
- <p>Unfortunately, the method reference <code>Optional::toJavaUtil</code> will not work, because it
- could refer to either the static or instance version of this method. Write out the lambda
- expression <code>o -&gt; o.toJavaUtil()</code> instead.</div>
-<dl>
-<dt><span class="simpleTagLabel">Since:</span></dt>
-<dd>21.0</dd>
 </dl>
 </li>
 </ul>

@@ -211,31 +211,31 @@
 <span class="sourceLineNo">203</span>    return copyFromEntries(multiset.entrySet());<a name="line.203"></a>
 <span class="sourceLineNo">204</span>  }<a name="line.204"></a>
 <span class="sourceLineNo">205</span><a name="line.205"></a>
-<span class="sourceLineNo">206</span>  private static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyFromElements(E... elements) {<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    Multiset&lt;E&gt; multiset = LinkedHashMultiset.create();<a name="line.207"></a>
-<span class="sourceLineNo">208</span>    Collections.addAll(multiset, elements);<a name="line.208"></a>
-<span class="sourceLineNo">209</span>    return copyFromEntries(multiset.entrySet());<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
-<span class="sourceLineNo">211</span><a name="line.211"></a>
-<span class="sourceLineNo">212</span>  static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyFromEntries(<a name="line.212"></a>
-<span class="sourceLineNo">213</span>      Collection&lt;? extends Entry&lt;? extends E&gt;&gt; entries) {<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    if (entries.isEmpty()) {<a name="line.214"></a>
-<span class="sourceLineNo">215</span>      return of();<a name="line.215"></a>
-<span class="sourceLineNo">216</span>    } else {<a name="line.216"></a>
-<span class="sourceLineNo">217</span>      return new RegularImmutableMultiset&lt;E&gt;(entries);<a name="line.217"></a>
-<span class="sourceLineNo">218</span>    }<a name="line.218"></a>
-<span class="sourceLineNo">219</span>  }<a name="line.219"></a>
-<span class="sourceLineNo">220</span><a name="line.220"></a>
-<span class="sourceLineNo">221</span>  /**<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"<a name="line.222"></a>
-<span class="sourceLineNo">223</span>   * described in the class documentation.<a name="line.223"></a>
-<span class="sourceLineNo">224</span>   *<a name="line.224"></a>
-<span class="sourceLineNo">225</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.225"></a>
-<span class="sourceLineNo">226</span>   */<a name="line.226"></a>
-<span class="sourceLineNo">227</span>  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {<a name="line.227"></a>
-<span class="sourceLineNo">228</span>    Multiset&lt;E&gt; multiset = LinkedHashMultiset.create();<a name="line.228"></a>
-<span class="sourceLineNo">229</span>    Iterators.addAll(multiset, elements);<a name="line.229"></a>
-<span class="sourceLineNo">230</span>    return copyFromEntries(multiset.entrySet());<a name="line.230"></a>
+<span class="sourceLineNo">206</span>  /**<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * described in the class documentation.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  public static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    Multiset&lt;E&gt; multiset = LinkedHashMultiset.create();<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    Iterators.addAll(multiset, elements);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    return copyFromEntries(multiset.entrySet());<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  }<a name="line.216"></a>
+<span class="sourceLineNo">217</span><a name="line.217"></a>
+<span class="sourceLineNo">218</span>  private static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyFromElements(E... elements) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    Multiset&lt;E&gt; multiset = LinkedHashMultiset.create();<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    Collections.addAll(multiset, elements);<a name="line.220"></a>
+<span class="sourceLineNo">221</span>    return copyFromEntries(multiset.entrySet());<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  }<a name="line.222"></a>
+<span class="sourceLineNo">223</span><a name="line.223"></a>
+<span class="sourceLineNo">224</span>  static &lt;E&gt; ImmutableMultiset&lt;E&gt; copyFromEntries(<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      Collection&lt;? extends Entry&lt;? extends E&gt;&gt; entries) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    if (entries.isEmpty()) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      return of();<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    } else {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      return new RegularImmutableMultiset&lt;E&gt;(entries);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>    }<a name="line.230"></a>
 <span class="sourceLineNo">231</span>  }<a name="line.231"></a>
 <span class="sourceLineNo">232</span><a name="line.232"></a>
 <span class="sourceLineNo">233</span>  ImmutableMultiset() {}<a name="line.233"></a>
@@ -491,49 +491,49 @@
 <span class="sourceLineNo">483</span>    }<a name="line.483"></a>
 <span class="sourceLineNo">484</span><a name="line.484"></a>
 <span class="sourceLineNo">485</span>    /**<a name="line.485"></a>
-<span class="sourceLineNo">486</span>     * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.<a name="line.486"></a>
+<span class="sourceLineNo">486</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.486"></a>
 <span class="sourceLineNo">487</span>     *<a name="line.487"></a>
-<span class="sourceLineNo">488</span>     * @param element the element to add<a name="line.488"></a>
-<span class="sourceLineNo">489</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.489"></a>
-<span class="sourceLineNo">490</span>     *     case no change will be made.<a name="line.490"></a>
-<span class="sourceLineNo">491</span>     * @return this {@code Builder} object<a name="line.491"></a>
-<span class="sourceLineNo">492</span>     * @throws NullPointerException if {@code element} is null<a name="line.492"></a>
-<span class="sourceLineNo">493</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.493"></a>
-<span class="sourceLineNo">494</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.494"></a>
-<span class="sourceLineNo">495</span>     */<a name="line.495"></a>
-<span class="sourceLineNo">496</span>    @CanIgnoreReturnValue<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.497"></a>
-<span class="sourceLineNo">498</span>      contents.add(checkNotNull(element), occurrences);<a name="line.498"></a>
-<span class="sourceLineNo">499</span>      return this;<a name="line.499"></a>
-<span class="sourceLineNo">500</span>    }<a name="line.500"></a>
-<span class="sourceLineNo">501</span><a name="line.501"></a>
-<span class="sourceLineNo">502</span>    /**<a name="line.502"></a>
-<span class="sourceLineNo">503</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.503"></a>
-<span class="sourceLineNo">504</span>     * desired count.<a name="line.504"></a>
-<span class="sourceLineNo">505</span>     *<a name="line.505"></a>
-<span class="sourceLineNo">506</span>     * @param element the element to add or remove occurrences of<a name="line.506"></a>
-<span class="sourceLineNo">507</span>     * @param count the desired count of the element in this multiset<a name="line.507"></a>
-<span class="sourceLineNo">508</span>     * @return this {@code Builder} object<a name="line.508"></a>
-<span class="sourceLineNo">509</span>     * @throws NullPointerException if {@code element} is null<a name="line.509"></a>
-<span class="sourceLineNo">510</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.510"></a>
-<span class="sourceLineNo">511</span>     */<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    @CanIgnoreReturnValue<a name="line.512"></a>
-<span class="sourceLineNo">513</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.513"></a>
-<span class="sourceLineNo">514</span>      contents.setCount(checkNotNull(element), count);<a name="line.514"></a>
-<span class="sourceLineNo">515</span>      return this;<a name="line.515"></a>
-<span class="sourceLineNo">516</span>    }<a name="line.516"></a>
-<span class="sourceLineNo">517</span><a name="line.517"></a>
-<span class="sourceLineNo">518</span>    /**<a name="line.518"></a>
-<span class="sourceLineNo">519</span>     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.<a name="line.519"></a>
-<span class="sourceLineNo">520</span>     *<a name="line.520"></a>
-<span class="sourceLineNo">521</span>     * @param elements the elements to add<a name="line.521"></a>
+<span class="sourceLineNo">488</span>     * @param elements the elements to add<a name="line.488"></a>
+<span class="sourceLineNo">489</span>     * @return this {@code Builder} object<a name="line.489"></a>
+<span class="sourceLineNo">490</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.490"></a>
+<span class="sourceLineNo">491</span>     */<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    @CanIgnoreReturnValue<a name="line.492"></a>
+<span class="sourceLineNo">493</span>    @Override<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.494"></a>
+<span class="sourceLineNo">495</span>      super.add(elements);<a name="line.495"></a>
+<span class="sourceLineNo">496</span>      return this;<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    }<a name="line.497"></a>
+<span class="sourceLineNo">498</span><a name="line.498"></a>
+<span class="sourceLineNo">499</span>    /**<a name="line.499"></a>
+<span class="sourceLineNo">500</span>     * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>     *<a name="line.501"></a>
+<span class="sourceLineNo">502</span>     * @param element the element to add<a name="line.502"></a>
+<span class="sourceLineNo">503</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.503"></a>
+<span class="sourceLineNo">504</span>     *     case no change will be made.<a name="line.504"></a>
+<span class="sourceLineNo">505</span>     * @return this {@code Builder} object<a name="line.505"></a>
+<span class="sourceLineNo">506</span>     * @throws NullPointerException if {@code element} is null<a name="line.506"></a>
+<span class="sourceLineNo">507</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.507"></a>
+<span class="sourceLineNo">508</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.508"></a>
+<span class="sourceLineNo">509</span>     */<a name="line.509"></a>
+<span class="sourceLineNo">510</span>    @CanIgnoreReturnValue<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.511"></a>
+<span class="sourceLineNo">512</span>      contents.add(checkNotNull(element), occurrences);<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      return this;<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    }<a name="line.514"></a>
+<span class="sourceLineNo">515</span><a name="line.515"></a>
+<span class="sourceLineNo">516</span>    /**<a name="line.516"></a>
+<span class="sourceLineNo">517</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.517"></a>
+<span class="sourceLineNo">518</span>     * desired count.<a name="line.518"></a>
+<span class="sourceLineNo">519</span>     *<a name="line.519"></a>
+<span class="sourceLineNo">520</span>     * @param element the element to add or remove occurrences of<a name="line.520"></a>
+<span class="sourceLineNo">521</span>     * @param count the desired count of the element in this multiset<a name="line.521"></a>
 <span class="sourceLineNo">522</span>     * @return this {@code Builder} object<a name="line.522"></a>
-<span class="sourceLineNo">523</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.523"></a>
-<span class="sourceLineNo">524</span>     */<a name="line.524"></a>
-<span class="sourceLineNo">525</span>    @CanIgnoreReturnValue<a name="line.525"></a>
-<span class="sourceLineNo">526</span>    @Override<a name="line.526"></a>
-<span class="sourceLineNo">527</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.527"></a>
-<span class="sourceLineNo">528</span>      super.add(elements);<a name="line.528"></a>
+<span class="sourceLineNo">523</span>     * @throws NullPointerException if {@code element} is null<a name="line.523"></a>
+<span class="sourceLineNo">524</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.524"></a>
+<span class="sourceLineNo">525</span>     */<a name="line.525"></a>
+<span class="sourceLineNo">526</span>    @CanIgnoreReturnValue<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      contents.setCount(checkNotNull(element), count);<a name="line.528"></a>
 <span class="sourceLineNo">529</span>      return this;<a name="line.529"></a>
 <span class="sourceLineNo">530</span>    }<a name="line.530"></a>
 <span class="sourceLineNo">531</span><a name="line.531"></a>

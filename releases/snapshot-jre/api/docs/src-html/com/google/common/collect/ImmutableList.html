@@ -790,8 +790,8 @@
 <span class="sourceLineNo">782</span>     */<a name="line.782"></a>
 <span class="sourceLineNo">783</span>    @CanIgnoreReturnValue<a name="line.783"></a>
 <span class="sourceLineNo">784</span>    @Override<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.785"></a>
-<span class="sourceLineNo">786</span>      super.addAll(elements);<a name="line.786"></a>
+<span class="sourceLineNo">785</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>      super.add(elements);<a name="line.786"></a>
 <span class="sourceLineNo">787</span>      return this;<a name="line.787"></a>
 <span class="sourceLineNo">788</span>    }<a name="line.788"></a>
 <span class="sourceLineNo">789</span><a name="line.789"></a>
@@ -804,8 +804,8 @@
 <span class="sourceLineNo">796</span>     */<a name="line.796"></a>
 <span class="sourceLineNo">797</span>    @CanIgnoreReturnValue<a name="line.797"></a>
 <span class="sourceLineNo">798</span>    @Override<a name="line.798"></a>
-<span class="sourceLineNo">799</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.799"></a>
-<span class="sourceLineNo">800</span>      super.add(elements);<a name="line.800"></a>
+<span class="sourceLineNo">799</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>      super.addAll(elements);<a name="line.800"></a>
 <span class="sourceLineNo">801</span>      return this;<a name="line.801"></a>
 <span class="sourceLineNo">802</span>    }<a name="line.802"></a>
 <span class="sourceLineNo">803</span><a name="line.803"></a>

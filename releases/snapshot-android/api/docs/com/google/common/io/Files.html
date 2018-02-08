@@ -614,13 +614,38 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 </dl>
 </li>
 </ul>
+<a name="write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.304">write</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;from,
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to,
+                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
+                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>. This method is scheduled to be
+     removed in January 2019.</span></div>
+<div class="block">Writes a character sequence (such as a string) to a file using the given character set.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>from</code> - the character sequence to write</dd>
+<dd><code>to</code> - the destination file</dd>
+<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset"><code>StandardCharsets</code></a> for
+     helpful predefined constants</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
+</dl>
+</li>
+</ul>
 <a name="copy-java.io.File-java.io.OutputStream-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.302">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.318">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;to)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies all bytes from a file to an output stream.
@@ -641,7 +666,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <ul class="blockList">
 <li class="blockList">
 <h4>copy</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.325">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.341">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Copies all the bytes from one file to another.
@@ -665,56 +690,6 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 </dl>
 </li>
 </ul>
-<a name="write-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>write</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.342">write</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;from,
-                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to,
-                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
-                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asCharSink(to, charset).write(from)</code>. This method is scheduled to be
-     removed in January 2019.</span></div>
-<div class="block">Writes a character sequence (such as a string) to a file using the given character set.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>from</code> - the character sequence to write</dd>
-<dd><code>to</code> - the destination file</dd>
-<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset"><code>StandardCharsets</code></a> for
-     helpful predefined constants</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
-</dl>
-</li>
-</ul>
-<a name="append-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>append</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.358">append</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;from,
-                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to,
-                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
-                               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>. This
-     method is scheduled to be removed in January 2019.</span></div>
-<div class="block">Appends a character sequence (such as a string) to a file using the given character set.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>from</code> - the character sequence to append</dd>
-<dd><code>to</code> - the destination file</dd>
-<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset"><code>StandardCharsets</code></a> for
-     helpful predefined constants</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
-</dl>
-</li>
-</ul>
 <a name="copy-java.io.File-java.nio.charset.Charset-java.lang.Appendable-">
 <!--   -->
 </a>
@@ -722,7 +697,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <li class="blockList">
 <h4>copy</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.374">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.358">copy</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Appendable.html?is-external=true" title="class or interface in java.lang">Appendable</a>&nbsp;to)
                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -735,6 +710,31 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <dd><code>charset</code> - the charset used to decode the input stream; see <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset"><code>StandardCharsets</code></a> for
      helpful predefined constants</dd>
 <dd><code>to</code> - the appendable object</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
+</dl>
+</li>
+</ul>
+<a name="append-java.lang.CharSequence-java.io.File-java.nio.charset.Charset-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>append</h4>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.374">append</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;from,
+                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to,
+                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
+                               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>. This
+     method is scheduled to be removed in January 2019.</span></div>
+<div class="block">Appends a character sequence (such as a string) to a file using the given character set.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>from</code> - the character sequence to append</dd>
+<dd><code>to</code> - the destination file</dd>
+<dd><code>charset</code> - the charset used to encode the output stream; see <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/StandardCharsets.html?is-external=true" title="class or interface in java.nio.charset"><code>StandardCharsets</code></a> for
+     helpful predefined constants</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if an I/O error occurs</dd>
 </dl>

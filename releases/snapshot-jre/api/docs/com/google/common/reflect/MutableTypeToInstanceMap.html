@@ -328,6 +328,24 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Mutable
 </dl>
 </li>
 </ul>
+<a name="getInstance-com.google.common.reflect.TypeToken-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getInstance</h4>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.52">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-com.google.common.reflect.TypeToken-">TypeToInstanceMap</a></code></span></div>
+<div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
+ present. This will only return a value that was bound to this specific type, not a value that
+ may have been bound to a subtype.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-com.google.common.reflect.TypeToken-">getInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
 <a name="putInstance-java.lang.Class-java.lang.Object-">
 <!--   -->
 </a><a name="putInstance-java.lang.Class-T-">
@@ -338,7 +356,7 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Mutable
 <h4>putInstance</h4>
 <pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
  <a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.53">putInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
+public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.59">putInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
                                                                         <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                                                         T&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance-java.lang.Class-T-">TypeToInstanceMap</a></code></span></div>
@@ -351,24 +369,6 @@ public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/Mutable
 <dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance-java.lang.Class-T-">putInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the value previously associated with this class (possibly <code>null</code>), or <code>null</code> if there was no previous entry.</dd>
-</dl>
-</li>
-</ul>
-<a name="getInstance-com.google.common.reflect.TypeToken-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getInstance</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-public&nbsp;&lt;T extends <a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/MutableTypeToInstanceMap.html#line.59">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-com.google.common.reflect.TypeToken-">TypeToInstanceMap</a></code></span></div>
-<div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
- present. This will only return a value that was bound to this specific type, not a value that
- may have been bound to a subtype.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-com.google.common.reflect.TypeToken-">getInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="interface in com.google.common.reflect">TypeToInstanceMap</a>&lt;<a href="../../../../com/google/common/reflect/MutableTypeToInstanceMap.html" title="type parameter in MutableTypeToInstanceMap">B</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>

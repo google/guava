@@ -3041,16 +3041,6 @@
  #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.]]>
       </doc>
     </method>
-    <method name="join" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="map" type="java.util.Map&lt;?, ?&gt;"/>
-      <doc>
-      <![CDATA[Returns a string containing the string representation of each entry of {@code map}, using the
- previously configured separator and key-value separator.]]>
-      </doc>
-    </method>
     <method name="appendTo" return="A extends java.lang.Appendable"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -3105,6 +3095,16 @@
  #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.
 
  @since 11.0]]>
+      </doc>
+    </method>
+    <method name="join" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="map" type="java.util.Map&lt;?, ?&gt;"/>
+      <doc>
+      <![CDATA[Returns a string containing the string representation of each entry of {@code map}, using the
+ previously configured separator and key-value separator.]]>
       </doc>
     </method>
     <method name="join" return="java.lang.String"
@@ -17714,11 +17714,11 @@
  @throws NullPointerException if {@code element} is null]]>
       </doc>
     </method>
-    <method name="addAll" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
+    <method name="add" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="elements" type="java.lang.Iterable&lt;? extends E&gt;"/>
+      <param name="elements" type="E[]"/>
       <doc>
       <![CDATA[Adds each element of {@code elements} to the {@code ImmutableList}.
 
@@ -17727,11 +17727,11 @@
  @throws NullPointerException if {@code elements} is null or contains a null element]]>
       </doc>
     </method>
-    <method name="add" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
+    <method name="addAll" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="elements" type="E[]"/>
+      <param name="elements" type="java.lang.Iterable&lt;? extends E&gt;"/>
       <doc>
       <![CDATA[Adds each element of {@code elements} to the {@code ImmutableList}.
 
@@ -19267,6 +19267,19 @@
  @throws NullPointerException if {@code element} is null]]>
       </doc>
     </method>
+    <method name="add" return="com.google.common.collect.ImmutableMultiset.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elements" type="E[]"/>
+      <doc>
+      <![CDATA[Adds each element of {@code elements} to the {@code ImmutableMultiset}.
+
+ @param elements the elements to add
+ @return this {@code Builder} object
+ @throws NullPointerException if {@code elements} is null or contains a null element]]>
+      </doc>
+    </method>
     <method name="addCopies" return="com.google.common.collect.ImmutableMultiset.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -19300,19 +19313,6 @@
  @return this {@code Builder} object
  @throws NullPointerException if {@code element} is null
  @throws IllegalArgumentException if {@code count} is negative]]>
-      </doc>
-    </method>
-    <method name="add" return="com.google.common.collect.ImmutableMultiset.Builder&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="elements" type="E[]"/>
-      <doc>
-      <![CDATA[Adds each element of {@code elements} to the {@code ImmutableMultiset}.
-
- @param elements the elements to add
- @return this {@code Builder} object
- @throws NullPointerException if {@code elements} is null or contains a null element]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.collect.ImmutableMultiset.Builder&lt;E&gt;"
@@ -19610,20 +19610,6 @@
       <![CDATA[Returns an immutable copy of the specified {@code RangeSet}.]]>
       </doc>
     </method>
-    <method name="unionOf" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="ranges" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
-      <doc>
-      <![CDATA[Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.
-
- <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate
- or connected ranges are permitted, and will be coalesced in the result.
-
- @since 21.0]]>
-      </doc>
-    </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -19635,6 +19621,20 @@
  will be merged.
 
  @throws IllegalArgumentException if any ranges overlap or are empty
+ @since 21.0]]>
+      </doc>
+    </method>
+    <method name="unionOf" return="com.google.common.collect.ImmutableRangeSet&lt;C&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="ranges" type="java.lang.Iterable&lt;com.google.common.collect.Range&lt;C&gt;&gt;"/>
+      <doc>
+      <![CDATA[Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.
+
+ <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate
+ or connected ranges are permitted, and will be coalesced in the result.
+
  @since 21.0]]>
       </doc>
     </method>
@@ -21501,6 +21501,19 @@
  @throws NullPointerException if {@code element} is null]]>
       </doc>
     </method>
+    <method name="add" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="elements" type="E[]"/>
+      <doc>
+      <![CDATA[Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.
+
+ @param elements the elements to add
+ @return this {@code Builder} object
+ @throws NullPointerException if {@code elements} is null or contains a null element]]>
+      </doc>
+    </method>
     <method name="addCopies" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -21534,19 +21547,6 @@
  @return this {@code Builder} object
  @throws NullPointerException if {@code element} is null
  @throws IllegalArgumentException if {@code count} is negative]]>
-      </doc>
-    </method>
-    <method name="add" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="elements" type="E[]"/>
-      <doc>
-      <![CDATA[Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.
-
- @param elements the elements to add
- @return this {@code Builder} object
- @throws NullPointerException if {@code elements} is null or contains a null element]]>
       </doc>
     </method>
     <method name="addAll" return="com.google.common.collect.ImmutableSortedMultiset.Builder&lt;E&gt;"
@@ -25452,23 +25452,6 @@
  @return a new, empty {@code HashMap}]]>
       </doc>
     </method>
-    <method name="newHashMapWithExpectedSize" return="java.util.HashMap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="expectedSize" type="int"/>
-      <doc>
-      <![CDATA[Creates a {@code HashMap} instance, with a high enough "initial capacity" that it <i>should</i>
- hold {@code expectedSize} elements without growth. This behavior cannot be broadly guaranteed,
- but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
- isn't inadvertently <i>oversizing</i> the returned map.
-
- @param expectedSize the number of entries you expect to add to the returned map
- @return a new, empty {@code HashMap} with enough capacity to hold {@code expectedSize} entries
-     without resizing
- @throws IllegalArgumentException if {@code expectedSize} is negative]]>
-      </doc>
-    </method>
     <method name="newHashMap" return="java.util.HashMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -25489,6 +25472,23 @@
  @return a new {@code HashMap} initialized with the mappings from {@code map}]]>
       </doc>
     </method>
+    <method name="newHashMapWithExpectedSize" return="java.util.HashMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Creates a {@code HashMap} instance, with a high enough "initial capacity" that it <i>should</i>
+ hold {@code expectedSize} elements without growth. This behavior cannot be broadly guaranteed,
+ but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
+ isn't inadvertently <i>oversizing</i> the returned map.
+
+ @param expectedSize the number of entries you expect to add to the returned map
+ @return a new, empty {@code HashMap} with enough capacity to hold {@code expectedSize} entries
+     without resizing
+ @throws IllegalArgumentException if {@code expectedSize} is negative]]>
+      </doc>
+    </method>
     <method name="newLinkedHashMap" return="java.util.LinkedHashMap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -25503,24 +25503,6 @@
  the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.
 
  @return a new, empty {@code LinkedHashMap}]]>
-      </doc>
-    </method>
-    <method name="newLinkedHashMapWithExpectedSize" return="java.util.LinkedHashMap&lt;K, V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="expectedSize" type="int"/>
-      <doc>
-      <![CDATA[Creates a {@code LinkedHashMap} instance, with a high enough "initial capacity" that it
- <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
- broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
- that the method isn't inadvertently <i>oversizing</i> the returned map.
-
- @param expectedSize the number of entries you expect to add to the returned map
- @return a new, empty {@code LinkedHashMap} with enough capacity to hold {@code expectedSize}
-     entries without resizing
- @throws IllegalArgumentException if {@code expectedSize} is negative
- @since 19.0]]>
       </doc>
     </method>
     <method name="newLinkedHashMap" return="java.util.LinkedHashMap&lt;K, V&gt;"
@@ -25540,6 +25522,24 @@
 
  @param map the mappings to be placed in the new map
  @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}]]>
+      </doc>
+    </method>
+    <method name="newLinkedHashMapWithExpectedSize" return="java.util.LinkedHashMap&lt;K, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Creates a {@code LinkedHashMap} instance, with a high enough "initial capacity" that it
+ <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
+ broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
+ that the method isn't inadvertently <i>oversizing</i> the returned map.
+
+ @param expectedSize the number of entries you expect to add to the returned map
+ @return a new, empty {@code LinkedHashMap} with enough capacity to hold {@code expectedSize}
+     entries without resizing
+ @throws IllegalArgumentException if {@code expectedSize} is negative
+ @since 19.0]]>
       </doc>
     </method>
     <method name="newConcurrentMap" return="java.util.concurrent.ConcurrentMap&lt;K, V&gt;"
@@ -28392,6 +28392,53 @@
  @since 7.0]]>
       </doc>
     </method>
+    <method name="transformValues" return="com.google.common.collect.ListMultimap&lt;K, V2&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="fromMultimap" type="com.google.common.collect.ListMultimap&lt;K, V1&gt;"/>
+      <param name="function" type="com.google.common.base.Function&lt;? super V1, V2&gt;"/>
+      <doc>
+      <![CDATA[Returns a view of a {@code ListMultimap} where each value is transformed by a function. All
+ other properties of the multimap, such as iteration order, are left intact. For example, the
+ code:
+
+ <pre>{@code
+ ListMultimap<String, Integer> multimap
+      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+ Function<Integer, Double> sqrt =
+     new Function<Integer, Double>() {
+       public Double apply(Integer in) {
+         return Math.sqrt((int) in);
+       }
+     };
+ ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
+     sqrt);
+ System.out.println(transformed);
+ }</pre>
+
+ ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
+
+ <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+ supports removal operations, and these are reflected in the underlying multimap.
+
+ <p>It's acceptable for the underlying multimap to contain null keys, and even null values
+ provided that the function is capable of accepting null input. The transformed multimap might
+ contain null values, if the function sometimes gives a null result.
+
+ <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+ is.
+
+ <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+ multimap to be a view, but it means that the function will be applied many times for bulk
+ operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
+ perform well, {@code function} should be fast. To avoid lazy evaluation when the returned
+ multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
+ choosing.
+
+ @since 7.0]]>
+      </doc>
+    </method>
     <method name="transformEntries" return="com.google.common.collect.Multimap&lt;K, V2&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -28446,53 +28493,6 @@
  type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as
  {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the
  transformed multimap.
-
- @since 7.0]]>
-      </doc>
-    </method>
-    <method name="transformValues" return="com.google.common.collect.ListMultimap&lt;K, V2&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="fromMultimap" type="com.google.common.collect.ListMultimap&lt;K, V1&gt;"/>
-      <param name="function" type="com.google.common.base.Function&lt;? super V1, V2&gt;"/>
-      <doc>
-      <![CDATA[Returns a view of a {@code ListMultimap} where each value is transformed by a function. All
- other properties of the multimap, such as iteration order, are left intact. For example, the
- code:
-
- <pre>{@code
- ListMultimap<String, Integer> multimap
-      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
- Function<Integer, Double> sqrt =
-     new Function<Integer, Double>() {
-       public Double apply(Integer in) {
-         return Math.sqrt((int) in);
-       }
-     };
- ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
-     sqrt);
- System.out.println(transformed);
- }</pre>
-
- ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
-
- <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
- supports removal operations, and these are reflected in the underlying multimap.
-
- <p>It's acceptable for the underlying multimap to contain null keys, and even null values
- provided that the function is capable of accepting null input. The transformed multimap might
- contain null values, if the function sometimes gives a null result.
-
- <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
- is.
-
- <p>The function is applied lazily, invoked when needed. This is necessary for the returned
- multimap to be a view, but it means that the function will be applied many times for bulk
- operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
- perform well, {@code function} should be fast. To avoid lazy evaluation when the returned
- multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
- choosing.
 
  @since 7.0]]>
       </doc>
@@ -28946,6 +28946,31 @@
      return normally.]]>
       </doc>
     </method>
+    <method name="add" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="E"/>
+      <doc>
+      <![CDATA[Adds a single occurrence of the specified element to this multiset.
+
+ <p>This method refines {@link Collection#add}, which only <i>ensures</i> the presence of the
+ element, to further specify that a successful call must always increment the count of the
+ element, and the overall size of the collection, by one.
+
+ <p>To both add the element and obtain the previous count of that element, use {@link
+ #add(Object, int) add}{@code (element, 1)} instead.
+
+ @param element the element to add one occurrence of; may be null only if explicitly allowed by
+     the implementation
+ @return {@code true} always, since this call is required to modify the multiset, unlike other
+     {@link Collection} types
+ @throws NullPointerException if {@code element} is null and this implementation does not permit
+     null elements
+ @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences of {@code element}
+     are already contained in this multiset]]>
+      </doc>
+    </method>
     <method name="remove" return="int"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -28963,6 +28988,24 @@
      case no change will be made.
  @return the count of the element before the operation; possibly zero
  @throws IllegalArgumentException if {@code occurrences} is negative]]>
+      </doc>
+    </method>
+    <method name="remove" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="element" type="java.lang.Object"/>
+      <doc>
+      <![CDATA[Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
+
+ <p>This method refines {@link Collection#remove} to further specify that it <b>may not</b>
+ throw an exception in response to {@code element} being null or of the wrong type.
+
+ <p>To both remove the element and obtain the previous count of that element, use {@link
+ #remove(Object, int) remove}{@code (element, 1)} instead.
+
+ @param element the element to remove one occurrence of
+ @return {@code true} if an occurrence was found and removed]]>
       </doc>
     </method>
     <method name="setCount" return="int"
@@ -29134,49 +29177,6 @@
  @return {@code true} if this multiset contains at least one occurrence of each element
      contained in {@code elements}
  @throws NullPointerException if {@code elements} is null]]>
-      </doc>
-    </method>
-    <method name="add" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="element" type="E"/>
-      <doc>
-      <![CDATA[Adds a single occurrence of the specified element to this multiset.
-
- <p>This method refines {@link Collection#add}, which only <i>ensures</i> the presence of the
- element, to further specify that a successful call must always increment the count of the
- element, and the overall size of the collection, by one.
-
- <p>To both add the element and obtain the previous count of that element, use {@link
- #add(Object, int) add}{@code (element, 1)} instead.
-
- @param element the element to add one occurrence of; may be null only if explicitly allowed by
-     the implementation
- @return {@code true} always, since this call is required to modify the multiset, unlike other
-     {@link Collection} types
- @throws NullPointerException if {@code element} is null and this implementation does not permit
-     null elements
- @throws IllegalArgumentException if {@link Integer#MAX_VALUE} occurrences of {@code element}
-     are already contained in this multiset]]>
-      </doc>
-    </method>
-    <method name="remove" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
-      <doc>
-      <![CDATA[Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
-
- <p>This method refines {@link Collection#remove} to further specify that it <b>may not</b>
- throw an exception in response to {@code element} being null or of the wrong type.
-
- <p>To both remove the element and obtain the previous count of that element, use {@link
- #remove(Object, int) remove}{@code (element, 1)} instead.
-
- @param element the element to remove one occurrence of
- @return {@code true} if an occurrence was found and removed]]>
       </doc>
     </method>
     <method name="removeAll" return="boolean"
@@ -32212,24 +32212,6 @@
  This method is not actually very useful and will likely be deprecated in the future.]]>
       </doc>
     </method>
-    <method name="newHashSetWithExpectedSize" return="java.util.HashSet&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="expectedSize" type="int"/>
-      <doc>
-      <![CDATA[Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
- elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
- is what most users want and expect it to do.
-
- <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
-
- @param expectedSize the number of elements you expect to add to the returned set
- @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
-     without resizing
- @throws IllegalArgumentException if {@code expectedSize} is negative]]>
-      </doc>
-    </method>
     <method name="newHashSet" return="java.util.HashSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -32270,6 +32252,24 @@
  instead.
 
  <p>Overall, this method is not very useful and will likely be deprecated in the future.]]>
+      </doc>
+    </method>
+    <method name="newHashSetWithExpectedSize" return="java.util.HashSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
+ elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
+ is what most users want and expect it to do.
+
+ <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
+
+ @param expectedSize the number of elements you expect to add to the returned set
+ @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
+     without resizing
+ @throws IllegalArgumentException if {@code expectedSize} is negative]]>
       </doc>
     </method>
     <method name="newConcurrentHashSet" return="java.util.Set&lt;E&gt;"
@@ -32322,24 +32322,6 @@
  @return a new, empty {@code LinkedHashSet}]]>
       </doc>
     </method>
-    <method name="newLinkedHashSetWithExpectedSize" return="java.util.LinkedHashSet&lt;E&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="expectedSize" type="int"/>
-      <doc>
-      <![CDATA[Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it
- <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
- broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
- that the method isn't inadvertently <i>oversizing</i> the returned set.
-
- @param expectedSize the number of elements you expect to add to the returned set
- @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}
-     elements without resizing
- @throws IllegalArgumentException if {@code expectedSize} is negative
- @since 11.0]]>
-      </doc>
-    </method>
     <method name="newLinkedHashSet" return="java.util.LinkedHashSet&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -32359,6 +32341,24 @@
 
  @param elements the elements that the set should contain, in order
  @return a new {@code LinkedHashSet} containing those elements (minus duplicates)]]>
+      </doc>
+    </method>
+    <method name="newLinkedHashSetWithExpectedSize" return="java.util.LinkedHashSet&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="expectedSize" type="int"/>
+      <doc>
+      <![CDATA[Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it
+ <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
+ broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
+ that the method isn't inadvertently <i>oversizing</i> the returned set.
+
+ @param expectedSize the number of elements you expect to add to the returned set
+ @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}
+     elements without resizing
+ @throws IllegalArgumentException if {@code expectedSize} is negative
+ @since 11.0]]>
       </doc>
     </method>
     <method name="newTreeSet" return="java.util.TreeSet&lt;E&gt;"
@@ -34956,14 +34956,6 @@
       deprecated="not deprecated">
       <param name="s" type="java.lang.String"/>
     </method>
-    <method name="nextEscapeIndex" return="int"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="protected"
-      deprecated="not deprecated">
-      <param name="csq" type="java.lang.CharSequence"/>
-      <param name="index" type="int"/>
-      <param name="end" type="int"/>
-    </method>
     <method name="escape" return="char[]"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="protected"
@@ -34974,6 +34966,14 @@
  given character does not have an explicit replacement and lies outside the safe range then
  {@link #escapeUnsafe} is called.]]>
       </doc>
+    </method>
+    <method name="nextEscapeIndex" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="protected"
+      deprecated="not deprecated">
+      <param name="csq" type="java.lang.CharSequence"/>
+      <param name="index" type="int"/>
+      <param name="end" type="int"/>
     </method>
     <method name="escapeUnsafe" return="char[]"
       abstract="true" native="false" synchronized="false"
@@ -35039,24 +35039,6 @@
  @throws NullPointerException if {@code string} is null]]>
       </doc>
     </method>
-    <method name="escapeSlow" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="protected"
-      deprecated="not deprecated">
-      <param name="s" type="java.lang.String"/>
-      <param name="index" type="int"/>
-      <doc>
-      <![CDATA[Returns the escaped form of a given literal string, starting at the given index. This method is
- called by the {@link #escape(String)} method when it discovers that escaping is required. It is
- protected to allow subclasses to override the fastpath escaping function to inline their
- escaping test. See {@link CharEscaperBuilder} for an example usage.
-
- @param s the literal string to be escaped
- @param index the index to start escaping from
- @return the escaped form of {@code string}
- @throws NullPointerException if {@code string} is null]]>
-      </doc>
-    </method>
     <method name="escape" return="char[]"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
@@ -35076,6 +35058,24 @@
 
  @param c the character to escape if necessary
  @return the replacement characters, or {@code null} if no escaping was needed]]>
+      </doc>
+    </method>
+    <method name="escapeSlow" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="protected"
+      deprecated="not deprecated">
+      <param name="s" type="java.lang.String"/>
+      <param name="index" type="int"/>
+      <doc>
+      <![CDATA[Returns the escaped form of a given literal string, starting at the given index. This method is
+ called by the {@link #escape(String)} method when it discovers that escaping is required. It is
+ protected to allow subclasses to override the fastpath escaping function to inline their
+ escaping test. See {@link CharEscaperBuilder} for an example usage.
+
+ @param s the literal string to be escaped
+ @param index the index to start escaping from
+ @return the escaped form of {@code string}
+ @throws NullPointerException if {@code string} is null]]>
       </doc>
     </method>
     <doc>
@@ -35437,6 +35437,30 @@
  @return the replacement characters, or {@code null} if no escaping was needed]]>
       </doc>
     </method>
+    <method name="escape" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="string" type="java.lang.String"/>
+      <doc>
+      <![CDATA[Returns the escaped form of a given literal string.
+
+ <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
+ use this method. If an input string ends with an unmatched high surrogate character, then this
+ method will throw {@link IllegalArgumentException}. You should ensure your input is valid <a
+ href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+
+ <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
+ efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
+ directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
+ performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
+
+ @param string the literal string to be escaped
+ @return the escaped form of {@code string}
+ @throws NullPointerException if {@code string} is null
+ @throws IllegalArgumentException if invalid surrogate characters are encountered]]>
+      </doc>
+    </method>
     <method name="nextEscapeIndex" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
@@ -35465,30 +35489,6 @@
  @param end the index immediately after the last character to be scanned
  @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
      surrogate pairs]]>
-      </doc>
-    </method>
-    <method name="escape" return="java.lang.String"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="string" type="java.lang.String"/>
-      <doc>
-      <![CDATA[Returns the escaped form of a given literal string.
-
- <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
- use this method. If an input string ends with an unmatched high surrogate character, then this
- method will throw {@link IllegalArgumentException}. You should ensure your input is valid <a
- href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
-
- <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
- efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
- directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
- performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
-
- @param string the literal string to be escaped
- @return the escaped form of {@code string}
- @throws NullPointerException if {@code string} is null
- @throws IllegalArgumentException if invalid surrogate characters are encountered]]>
       </doc>
     </method>
     <method name="escapeSlow" return="java.lang.String"
@@ -43073,6 +43073,27 @@
  @throws IOException if an I/O error occurs]]>
       </doc>
     </method>
+    <method name="write"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.">
+      <param name="from" type="java.lang.CharSequence"/>
+      <param name="to" type="java.io.File"/>
+      <param name="charset" type="java.nio.charset.Charset"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Writes a character sequence (such as a string) to a file using the given character set.
+
+ @param from the character sequence to write
+ @param to the destination file
+ @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
+     helpful predefined constants
+ @throws IOException if an I/O error occurs
+ @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
+     removed in January 2019.]]>
+      </doc>
+    </method>
     <method name="copy"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -43118,25 +43139,25 @@
  @throws IllegalArgumentException if {@code from.equals(to)}]]>
       </doc>
     </method>
-    <method name="write"
+    <method name="copy"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.">
-      <param name="from" type="java.lang.CharSequence"/>
-      <param name="to" type="java.io.File"/>
+      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.">
+      <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
+      <param name="to" type="java.lang.Appendable"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Writes a character sequence (such as a string) to a file using the given character set.
+      <![CDATA[Copies all characters from a file to an appendable object, using the given character set.
 
- @param from the character sequence to write
- @param to the destination file
- @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
+ @param from the source file
+ @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
      helpful predefined constants
+ @param to the appendable object
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.]]>
+ @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
+     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="append"
@@ -43158,27 +43179,6 @@
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
      method is scheduled to be removed in January 2019.]]>
-      </doc>
-    </method>
-    <method name="copy"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.">
-      <param name="from" type="java.io.File"/>
-      <param name="charset" type="java.nio.charset.Charset"/>
-      <param name="to" type="java.lang.Appendable"/>
-      <exception name="IOException" type="java.io.IOException"/>
-      <doc>
-      <![CDATA[Copies all characters from a file to an appendable object, using the given character set.
-
- @param from the source file
- @param charset the charset used to decode the input stream; see {@link StandardCharsets} for
-     helpful predefined constants
- @param to the appendable object
- @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -56027,6 +56027,26 @@
      Long#parseLong(String)})]]>
       </doc>
     </method>
+    <method name="parseUnsignedLong" return="long"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="string" type="java.lang.String"/>
+      <param name="radix" type="int"/>
+      <doc>
+      <![CDATA[Returns the unsigned {@code long} value represented by a string with the given radix.
+
+ <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
+
+ @param string the string containing the unsigned {@code long} representation to be parsed.
+ @param radix the radix to use while parsing {@code string}
+ @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with
+     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and {@link
+     Character#MAX_RADIX}.
+ @throws NullPointerException if {@code string} is null (in contrast to {@link
+     Long#parseLong(String)})]]>
+      </doc>
+    </method>
     <method name="decode" return="long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -56047,26 +56067,6 @@
  @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
      value
  @since 13.0]]>
-      </doc>
-    </method>
-    <method name="parseUnsignedLong" return="long"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="string" type="java.lang.String"/>
-      <param name="radix" type="int"/>
-      <doc>
-      <![CDATA[Returns the unsigned {@code long} value represented by a string with the given radix.
-
- <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
-
- @param string the string containing the unsigned {@code long} representation to be parsed.
- @param radix the radix to use while parsing {@code string}
- @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with
-     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and {@link
-     Character#MAX_RADIX}.
- @throws NullPointerException if {@code string} is null (in contrast to {@link
-     Long#parseLong(String)})]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -56495,6 +56495,12 @@
       deprecated="not deprecated">
       <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
     </method>
+    <method name="getInstance" return="T extends B"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="type" type="java.lang.Class&lt;T&gt;"/>
+    </method>
     <method name="putInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -56507,12 +56513,6 @@
  @deprecated unsupported operation
  @throws UnsupportedOperationException always]]>
       </doc>
-    </method>
-    <method name="getInstance" return="T extends B"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="type" type="java.lang.Class&lt;T&gt;"/>
     </method>
     <method name="putInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
@@ -56786,18 +56786,18 @@
       deprecated="not deprecated">
       <param name="type" type="java.lang.Class&lt;T&gt;"/>
     </method>
+    <method name="getInstance" return="T extends B"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
+    </method>
     <method name="putInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="type" type="java.lang.Class&lt;T&gt;"/>
       <param name="value" type="T extends B"/>
-    </method>
-    <method name="getInstance" return="T extends B"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
     </method>
     <method name="putInstance" return="T extends B"
       abstract="false" native="false" synchronized="false"
@@ -57134,6 +57134,17 @@
  getInstance(TypeToken.of(Foo.class))}.]]>
       </doc>
     </method>
+    <method name="getInstance" return="T extends B"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
+      <doc>
+      <![CDATA[Returns the value the specified type is mapped to, or {@code null} if no entry for this type is
+ present. This will only return a value that was bound to this specific type, not a value that
+ may have been bound to a subtype.]]>
+      </doc>
+    </method>
     <method name="putInstance" return="T extends B"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -57149,17 +57160,6 @@
 
  @return the value previously associated with this class (possibly {@code null}), or {@code
      null} if there was no previous entry.]]>
-      </doc>
-    </method>
-    <method name="getInstance" return="T extends B"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="type" type="com.google.common.reflect.TypeToken&lt;T&gt;"/>
-      <doc>
-      <![CDATA[Returns the value the specified type is mapped to, or {@code null} if no entry for this type is
- present. This will only return a value that was bound to this specific type, not a value that
- may have been bound to a subtype.]]>
       </doc>
     </method>
     <method name="putInstance" return="T extends B"
@@ -62980,17 +62980,6 @@
       <![CDATA[Enters this monitor. Blocks indefinitely.]]>
       </doc>
     </method>
-    <method name="enterInterruptibly"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
-      <doc>
-      <![CDATA[Enters this monitor. Blocks indefinitely, but may be interrupted.
-
- @throws InterruptedException if interrupted while waiting]]>
-      </doc>
-    </method>
     <method name="enter" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -63001,6 +62990,17 @@
       <![CDATA[Enters this monitor. Blocks at most the given time.
 
  @return whether the monitor was entered]]>
+      </doc>
+    </method>
+    <method name="enterInterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Enters this monitor. Blocks indefinitely, but may be interrupted.
+
+ @throws InterruptedException if interrupted while waiting]]>
       </doc>
     </method>
     <method name="enterInterruptibly" return="boolean"
@@ -63041,15 +63041,6 @@
  @throws InterruptedException if interrupted while waiting]]>
       </doc>
     </method>
-    <method name="enterWhenUninterruptibly"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
-      <doc>
-      <![CDATA[Enters this monitor when the guard is satisfied. Blocks indefinitely.]]>
-      </doc>
-    </method>
     <method name="enterWhen" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -63065,6 +63056,15 @@
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
  @throws InterruptedException if interrupted while waiting]]>
+      </doc>
+    </method>
+    <method name="enterWhenUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <doc>
+      <![CDATA[Enters this monitor when the guard is satisfied. Blocks indefinitely.]]>
       </doc>
     </method>
     <method name="enterWhenUninterruptibly" return="boolean"
@@ -63093,20 +63093,6 @@
  @return whether the monitor was entered, which guarantees that the guard is now satisfied]]>
       </doc>
     </method>
-    <method name="enterIfInterruptibly" return="boolean"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
-      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
-      <doc>
-      <![CDATA[Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
- not wait for the guard to be satisfied, and may be interrupted.
-
- @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @throws InterruptedException if interrupted while waiting]]>
-      </doc>
-    </method>
     <method name="enterIf" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -63119,6 +63105,20 @@
  lock, but does not wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied]]>
+      </doc>
+    </method>
+    <method name="enterIfInterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
+ not wait for the guard to be satisfied, and may be interrupted.
+
+ @return whether the monitor was entered, which guarantees that the guard is now satisfied
+ @throws InterruptedException if interrupted while waiting]]>
       </doc>
     </method>
     <method name="enterIfInterruptibly" return="boolean"
@@ -63163,16 +63163,6 @@
  @throws InterruptedException if interrupted while waiting]]>
       </doc>
     </method>
-    <method name="waitForUninterruptibly"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
-      <doc>
-      <![CDATA[Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
- currently occupying this monitor.]]>
-      </doc>
-    </method>
     <method name="waitFor" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -63187,6 +63177,16 @@
 
  @return whether the guard is now satisfied
  @throws InterruptedException if interrupted while waiting]]>
+      </doc>
+    </method>
+    <method name="waitForUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <doc>
+      <![CDATA[Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
+ currently occupying this monitor.]]>
       </doc>
     </method>
     <method name="waitForUninterruptibly" return="boolean"
@@ -63543,46 +63543,6 @@
  @return an unmodifiable version of the input which will not hang the JVM]]>
       </doc>
     </method>
-    <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="executor" type="java.util.concurrent.ScheduledThreadPoolExecutor"/>
-      <param name="terminationTimeout" type="long"/>
-      <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
-      <doc>
-      <![CDATA[Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
- the application is complete. It does so by using daemon threads and adding a shutdown hook to
- wait for their completion.
-
- <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
-
- @param executor the executor to modify to make sure it exits when the application is finished
- @param terminationTimeout how long to wait for the executor to finish before terminating the
-     JVM
- @param timeUnit unit of time for the time parameter
- @return an unmodifiable version of the input which will not hang the JVM]]>
-      </doc>
-    </method>
-    <method name="addDelayedShutdownHook"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="service" type="java.util.concurrent.ExecutorService"/>
-      <param name="terminationTimeout" type="long"/>
-      <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
-      <doc>
-      <![CDATA[Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
- This is useful if the given service uses daemon threads, and we want to keep the JVM from
- exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
- normally.
-
- @param service ExecutorService which uses daemon threads
- @param terminationTimeout how long to wait for the executor to finish before terminating the
-     JVM
- @param timeUnit unit of time for the time parameter]]>
-      </doc>
-    </method>
     <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -63607,6 +63567,27 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="executor" type="java.util.concurrent.ScheduledThreadPoolExecutor"/>
+      <param name="terminationTimeout" type="long"/>
+      <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
+      <doc>
+      <![CDATA[Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete. It does so by using daemon threads and adding a shutdown hook to
+ wait for their completion.
+
+ <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
+
+ @param executor the executor to modify to make sure it exits when the application is finished
+ @param terminationTimeout how long to wait for the executor to finish before terminating the
+     JVM
+ @param timeUnit unit of time for the time parameter
+ @return an unmodifiable version of the input which will not hang the JVM]]>
+      </doc>
+    </method>
+    <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="executor" type="java.util.concurrent.ScheduledThreadPoolExecutor"/>
       <doc>
       <![CDATA[Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete. It does so by using daemon threads and adding a shutdown hook to
@@ -63619,6 +63600,25 @@
 
  @param executor the executor to modify to make sure it exits when the application is finished
  @return an unmodifiable version of the input which will not hang the JVM]]>
+      </doc>
+    </method>
+    <method name="addDelayedShutdownHook"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="service" type="java.util.concurrent.ExecutorService"/>
+      <param name="terminationTimeout" type="long"/>
+      <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
+      <doc>
+      <![CDATA[Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
+ This is useful if the given service uses daemon threads, and we want to keep the JVM from
+ exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+ normally.
+
+ @param service ExecutorService which uses daemon threads
+ @param terminationTimeout how long to wait for the executor to finish before terminating the
+     JVM
+ @param timeUnit unit of time for the time parameter]]>
       </doc>
     </method>
     <method name="newDirectExecutorService" return="com.google.common.util.concurrent.ListeningExecutorService"
@@ -65450,6 +65450,18 @@
       <![CDATA[Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly.]]>
       </doc>
     </method>
+    <method name="joinUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="toJoin" type="java.lang.Thread"/>
+      <param name="timeout" type="long"/>
+      <param name="unit" type="java.util.concurrent.TimeUnit"/>
+      <doc>
+      <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
+ uninterruptibly.]]>
+      </doc>
+    </method>
     <method name="getUninterruptibly" return="V"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -65500,18 +65512,6 @@
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled
  @throws TimeoutException if the wait timed out]]>
-      </doc>
-    </method>
-    <method name="joinUninterruptibly"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="toJoin" type="java.lang.Thread"/>
-      <param name="timeout" type="long"/>
-      <param name="unit" type="java.util.concurrent.TimeUnit"/>
-      <doc>
-      <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
- uninterruptibly.]]>
       </doc>
     </method>
     <method name="takeUninterruptibly" return="E"

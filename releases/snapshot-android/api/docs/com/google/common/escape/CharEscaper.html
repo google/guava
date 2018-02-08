@@ -267,36 +267,13 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 </dl>
 </li>
 </ul>
-<a name="escapeSlow-java.lang.String-int-">
+<a name="escape-char-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>escapeSlow</h4>
-<pre>protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.79">escapeSlow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s,
-                                  int&nbsp;index)</pre>
-<div class="block">Returns the escaped form of a given literal string, starting at the given index. This method is
- called by the <a href="../../../../com/google/common/escape/CharEscaper.html#escape-java.lang.String-"><code>escape(String)</code></a> method when it discovers that escaping is required. It is
- protected to allow subclasses to override the fastpath escaping function to inline their
- escaping test. See <a href="../../../../com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape"><code>CharEscaperBuilder</code></a> for an example usage.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - the literal string to be escaped</dd>
-<dd><code>index</code> - the index to start escaping from</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the escaped form of <code>string</code></dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null</dd>
-</dl>
-</li>
-</ul>
-<a name="escape-char-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
 <h4>escape</h4>
-<pre>protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.156">escape</a>(char&nbsp;c)</pre>
+<pre>protected abstract&nbsp;char[]&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.83">escape</a>(char&nbsp;c)</pre>
 <div class="block">Returns the escaped form of the given character, or <code>null</code> if this character does not
  need to be escaped. If an empty array is returned, this effectively strips the input character
  from the resulting text.
@@ -312,6 +289,29 @@ extends <a href="../../../../com/google/common/escape/Escaper.html" title="class
 <dd><code>c</code> - the character to escape if necessary</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the replacement characters, or <code>null</code> if no escaping was needed</dd>
+</dl>
+</li>
+</ul>
+<a name="escapeSlow-java.lang.String-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>escapeSlow</h4>
+<pre>protected final&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/escape/CharEscaper.html#line.96">escapeSlow</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;s,
+                                  int&nbsp;index)</pre>
+<div class="block">Returns the escaped form of a given literal string, starting at the given index. This method is
+ called by the <a href="../../../../com/google/common/escape/CharEscaper.html#escape-java.lang.String-"><code>escape(String)</code></a> method when it discovers that escaping is required. It is
+ protected to allow subclasses to override the fastpath escaping function to inline their
+ escaping test. See <a href="../../../../com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape"><code>CharEscaperBuilder</code></a> for an example usage.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>s</code> - the literal string to be escaped</dd>
+<dd><code>index</code> - the index to start escaping from</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the escaped form of <code>string</code></dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>string</code> is null</dd>
 </dl>
 </li>
 </ul>

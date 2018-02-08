@@ -83,25 +83,25 @@
 <span class="sourceLineNo">075</span>    return (ImmutableRangeSet&lt;C&gt;) EMPTY;<a name="line.75"></a>
 <span class="sourceLineNo">076</span>  }<a name="line.76"></a>
 <span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  /** Returns an immutable range set containing the single range {@link Range#all()}. */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @SuppressWarnings("unchecked")<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  static &lt;C extends Comparable&gt; ImmutableRangeSet&lt;C&gt; all() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return (ImmutableRangeSet&lt;C&gt;) ALL;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * Returns an immutable range set containing the specified single range. If {@link Range#isEmpty()<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * range.isEmpty()}, this is equivalent to {@link ImmutableRangeSet#of()}.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public static &lt;C extends Comparable&gt; ImmutableRangeSet&lt;C&gt; of(Range&lt;C&gt; range) {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    checkNotNull(range);<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    if (range.isEmpty()) {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>      return of();<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    } else if (range.equals(Range.all())) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>      return all();<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    } else {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>      return new ImmutableRangeSet&lt;C&gt;(ImmutableList.of(range));<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    }<a name="line.96"></a>
+<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Returns an immutable range set containing the specified single range. If {@link Range#isEmpty()<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * range.isEmpty()}, this is equivalent to {@link ImmutableRangeSet#of()}.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  public static &lt;C extends Comparable&gt; ImmutableRangeSet&lt;C&gt; of(Range&lt;C&gt; range) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    checkNotNull(range);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    if (range.isEmpty()) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      return of();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    } else if (range.equals(Range.all())) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      return all();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    } else {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>      return new ImmutableRangeSet&lt;C&gt;(ImmutableList.of(range));<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    }<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  /** Returns an immutable range set containing the single range {@link Range#all()}. */<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  @SuppressWarnings("unchecked")<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  static &lt;C extends Comparable&gt; ImmutableRangeSet&lt;C&gt; all() {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    return (ImmutableRangeSet&lt;C&gt;) ALL;<a name="line.96"></a>
 <span class="sourceLineNo">097</span>  }<a name="line.97"></a>
 <span class="sourceLineNo">098</span><a name="line.98"></a>
 <span class="sourceLineNo">099</span>  /** Returns an immutable copy of the specified {@code RangeSet}. */<a name="line.99"></a>
@@ -123,27 +123,27 @@
 <span class="sourceLineNo">115</span>  }<a name="line.115"></a>
 <span class="sourceLineNo">116</span><a name="line.116"></a>
 <span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   *<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * &lt;p&gt;This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   * or connected ranges are permitted, and will be coalesced in the result.<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   *<a name="line.122"></a>
+<span class="sourceLineNo">118</span>   * Returns an {@code ImmutableRangeSet} containing each of the specified disjoint ranges.<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * Overlapping ranges and empty ranges are forbidden, though adjacent ranges are permitted and<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * will be merged.<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   *<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * @throws IllegalArgumentException if any ranges overlap or are empty<a name="line.122"></a>
 <span class="sourceLineNo">123</span>   * @since 21.0<a name="line.123"></a>
 <span class="sourceLineNo">124</span>   */<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; ImmutableRangeSet&lt;C&gt; unionOf(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.125"></a>
-<span class="sourceLineNo">126</span>    return copyOf(TreeRangeSet.create(ranges));<a name="line.126"></a>
+<span class="sourceLineNo">125</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; ImmutableRangeSet&lt;C&gt; copyOf(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    return new ImmutableRangeSet.Builder&lt;C&gt;().addAll(ranges).build();<a name="line.126"></a>
 <span class="sourceLineNo">127</span>  }<a name="line.127"></a>
 <span class="sourceLineNo">128</span><a name="line.128"></a>
 <span class="sourceLineNo">129</span>  /**<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   * Returns an {@code ImmutableRangeSet} containing each of the specified disjoint ranges.<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * Overlapping ranges and empty ranges are forbidden, though adjacent ranges are permitted and<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * will be merged.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   *<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   * @throws IllegalArgumentException if any ranges overlap or are empty<a name="line.134"></a>
+<span class="sourceLineNo">130</span>   * Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   *<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * &lt;p&gt;This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * or connected ranges are permitted, and will be coalesced in the result.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *<a name="line.134"></a>
 <span class="sourceLineNo">135</span>   * @since 21.0<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   */<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; ImmutableRangeSet&lt;C&gt; copyOf(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    return new ImmutableRangeSet.Builder&lt;C&gt;().addAll(ranges).build();<a name="line.138"></a>
+<span class="sourceLineNo">137</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; ImmutableRangeSet&lt;C&gt; unionOf(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    return copyOf(TreeRangeSet.create(ranges));<a name="line.138"></a>
 <span class="sourceLineNo">139</span>  }<a name="line.139"></a>
 <span class="sourceLineNo">140</span><a name="line.140"></a>
 <span class="sourceLineNo">141</span>  ImmutableRangeSet(ImmutableList&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.141"></a>

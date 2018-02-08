@@ -366,20 +366,20 @@
 <span class="sourceLineNo">358</span>    return listIterator(0);<a name="line.358"></a>
 <span class="sourceLineNo">359</span>  }<a name="line.359"></a>
 <span class="sourceLineNo">360</span><a name="line.360"></a>
-<span class="sourceLineNo">361</span>  /** A singleton implementation of iterator() for the empty ImmutableList. */<a name="line.361"></a>
-<span class="sourceLineNo">362</span>  private static final UnmodifiableListIterator&lt;Object&gt; EMPTY_ITR =<a name="line.362"></a>
-<span class="sourceLineNo">363</span>      new Itr&lt;Object&gt;(RegularImmutableList.EMPTY, 0);<a name="line.363"></a>
-<span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>  @SuppressWarnings("unchecked")<a name="line.365"></a>
-<span class="sourceLineNo">366</span>  @Override<a name="line.366"></a>
-<span class="sourceLineNo">367</span>  public UnmodifiableListIterator&lt;E&gt; listIterator(int index) {<a name="line.367"></a>
-<span class="sourceLineNo">368</span>    checkPositionIndex(index, size());<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    if (isEmpty()) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>      return (UnmodifiableListIterator&lt;E&gt;) EMPTY_ITR;<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    } else {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>      return new Itr&lt;E&gt;(this, index);<a name="line.372"></a>
-<span class="sourceLineNo">373</span>    }<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
+<span class="sourceLineNo">361</span>  @SuppressWarnings("unchecked")<a name="line.361"></a>
+<span class="sourceLineNo">362</span>  @Override<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  public UnmodifiableListIterator&lt;E&gt; listIterator(int index) {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    checkPositionIndex(index, size());<a name="line.364"></a>
+<span class="sourceLineNo">365</span>    if (isEmpty()) {<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      return (UnmodifiableListIterator&lt;E&gt;) EMPTY_ITR;<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    } else {<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      return new Itr&lt;E&gt;(this, index);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">370</span>  }<a name="line.370"></a>
+<span class="sourceLineNo">371</span><a name="line.371"></a>
+<span class="sourceLineNo">372</span>  /** A singleton implementation of iterator() for the empty ImmutableList. */<a name="line.372"></a>
+<span class="sourceLineNo">373</span>  private static final UnmodifiableListIterator&lt;Object&gt; EMPTY_ITR =<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      new Itr&lt;Object&gt;(RegularImmutableList.EMPTY, 0);<a name="line.374"></a>
 <span class="sourceLineNo">375</span><a name="line.375"></a>
 <span class="sourceLineNo">376</span>  static class Itr&lt;E&gt; extends AbstractIndexedListIterator&lt;E&gt; {<a name="line.376"></a>
 <span class="sourceLineNo">377</span>    private final ImmutableList&lt;E&gt; list;<a name="line.377"></a>
@@ -739,8 +739,8 @@
 <span class="sourceLineNo">731</span>     */<a name="line.731"></a>
 <span class="sourceLineNo">732</span>    @CanIgnoreReturnValue<a name="line.732"></a>
 <span class="sourceLineNo">733</span>    @Override<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.734"></a>
-<span class="sourceLineNo">735</span>      super.addAll(elements);<a name="line.735"></a>
+<span class="sourceLineNo">734</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.734"></a>
+<span class="sourceLineNo">735</span>      super.add(elements);<a name="line.735"></a>
 <span class="sourceLineNo">736</span>      return this;<a name="line.736"></a>
 <span class="sourceLineNo">737</span>    }<a name="line.737"></a>
 <span class="sourceLineNo">738</span><a name="line.738"></a>
@@ -753,8 +753,8 @@
 <span class="sourceLineNo">745</span>     */<a name="line.745"></a>
 <span class="sourceLineNo">746</span>    @CanIgnoreReturnValue<a name="line.746"></a>
 <span class="sourceLineNo">747</span>    @Override<a name="line.747"></a>
-<span class="sourceLineNo">748</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.748"></a>
-<span class="sourceLineNo">749</span>      super.add(elements);<a name="line.749"></a>
+<span class="sourceLineNo">748</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.748"></a>
+<span class="sourceLineNo">749</span>      super.addAll(elements);<a name="line.749"></a>
 <span class="sourceLineNo">750</span>      return this;<a name="line.750"></a>
 <span class="sourceLineNo">751</span>    }<a name="line.751"></a>
 <span class="sourceLineNo">752</span><a name="line.752"></a>

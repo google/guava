@@ -276,6 +276,31 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 </dl>
 </li>
 </ul>
+<a name="getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExitingExecutorService</h4>
+<pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+ <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.102">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor)</pre>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+ completion.
+
+ <p>This method waits 120 seconds before continuing with JVM termination, even if the executor
+ has not finished its work.
+
+ <p>This is mainly for fixed thread pools. See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true#newFixedThreadPool-int-" title="class or interface in java.util.concurrent"><code>Executors.newFixedThreadPool(int)</code></a>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an unmodifiable version of the input which will not hang the JVM</dd>
+</dl>
+</li>
+</ul>
 <a name="getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">
 <!--   -->
 </a>
@@ -284,7 +309,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingScheduledExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.102">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.121">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                                                                                   long&nbsp;terminationTimeout,
                                                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
@@ -303,55 +328,6 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 </dl>
 </li>
 </ul>
-<a name="addDelayedShutdownHook-java.util.concurrent.ExecutorService-long-java.util.concurrent.TimeUnit-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>addDelayedShutdownHook</h4>
-<pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
- <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.121">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
-                                                                  long&nbsp;terminationTimeout,
-                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
-<div class="block">Add a shutdown hook to wait for thread completion in the given <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.
- This is useful if the given service uses daemon threads, and we want to keep the JVM from
- exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
- normally.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>service</code> - ExecutorService which uses daemon threads</dd>
-<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
-     JVM</dd>
-<dd><code>timeUnit</code> - unit of time for the time parameter</dd>
-</dl>
-</li>
-</ul>
-<a name="getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getExitingExecutorService</h4>
-<pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
- <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.141">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor)</pre>
-<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
- is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
- completion.
-
- <p>This method waits 120 seconds before continuing with JVM termination, even if the executor
- has not finished its work.
-
- <p>This is mainly for fixed thread pools. See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true#newFixedThreadPool-int-" title="class or interface in java.util.concurrent"><code>Executors.newFixedThreadPool(int)</code></a>.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable version of the input which will not hang the JVM</dd>
-</dl>
-</li>
-</ul>
 <a name="getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-">
 <!--   -->
 </a>
@@ -360,7 +336,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingScheduledExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.160">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.142">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete. It does so by using daemon threads and adding a shutdown hook to
  wait for their completion.
@@ -374,6 +350,30 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>an unmodifiable version of the input which will not hang the JVM</dd>
+</dl>
+</li>
+</ul>
+<a name="addDelayedShutdownHook-java.util.concurrent.ExecutorService-long-java.util.concurrent.TimeUnit-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>addDelayedShutdownHook</h4>
+<pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+ <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.160">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+                                                                  long&nbsp;terminationTimeout,
+                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
+<div class="block">Add a shutdown hook to wait for thread completion in the given <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.
+ This is useful if the given service uses daemon threads, and we want to keep the JVM from
+ exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+ normally.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>service</code> - ExecutorService which uses daemon threads</dd>
+<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
+     JVM</dd>
+<dd><code>timeUnit</code> - unit of time for the time parameter</dd>
 </dl>
 </li>
 </ul>

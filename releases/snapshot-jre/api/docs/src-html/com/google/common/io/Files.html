@@ -298,89 +298,89 @@
 <span class="sourceLineNo">290</span>  }<a name="line.290"></a>
 <span class="sourceLineNo">291</span><a name="line.291"></a>
 <span class="sourceLineNo">292</span>  /**<a name="line.292"></a>
-<span class="sourceLineNo">293</span>   * Copies all bytes from a file to an output stream.<a name="line.293"></a>
+<span class="sourceLineNo">293</span>   * Writes a character sequence (such as a string) to a file using the given character set.<a name="line.293"></a>
 <span class="sourceLineNo">294</span>   *<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   * &lt;p&gt;&lt;b&gt;{@link java.nio.file.Path} equivalent:&lt;/b&gt; {@link<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   * java.nio.file.Files#copy(java.nio.file.Path, OutputStream)}.<a name="line.296"></a>
-<span class="sourceLineNo">297</span>   *<a name="line.297"></a>
-<span class="sourceLineNo">298</span>   * @param from the source file<a name="line.298"></a>
-<span class="sourceLineNo">299</span>   * @param to the output stream<a name="line.299"></a>
-<span class="sourceLineNo">300</span>   * @throws IOException if an I/O error occurs<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   */<a name="line.301"></a>
-<span class="sourceLineNo">302</span>  public static void copy(File from, OutputStream to) throws IOException {<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    asByteSource(from).copyTo(to);<a name="line.303"></a>
-<span class="sourceLineNo">304</span>  }<a name="line.304"></a>
-<span class="sourceLineNo">305</span><a name="line.305"></a>
-<span class="sourceLineNo">306</span>  /**<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   * Copies all the bytes from one file to another.<a name="line.307"></a>
-<span class="sourceLineNo">308</span>   *<a name="line.308"></a>
-<span class="sourceLineNo">309</span>   * &lt;p&gt;Copying is not an atomic operation - in the case of an I/O error, power loss, process<a name="line.309"></a>
-<span class="sourceLineNo">310</span>   * termination, or other problems, {@code to} may not be a complete copy of {@code from}. If you<a name="line.310"></a>
-<span class="sourceLineNo">311</span>   * need to guard against those conditions, you should employ other file-level synchronization.<a name="line.311"></a>
-<span class="sourceLineNo">312</span>   *<a name="line.312"></a>
-<span class="sourceLineNo">313</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If {@code to} represents an existing file, that file will be overwritten<a name="line.313"></a>
-<span class="sourceLineNo">314</span>   * with the contents of {@code from}. If {@code to} and {@code from} refer to the &lt;i&gt;same&lt;/i&gt;<a name="line.314"></a>
-<span class="sourceLineNo">315</span>   * file, the contents of that file will be deleted.<a name="line.315"></a>
-<span class="sourceLineNo">316</span>   *<a name="line.316"></a>
-<span class="sourceLineNo">317</span>   * &lt;p&gt;&lt;b&gt;{@link java.nio.file.Path} equivalent:&lt;/b&gt; {@link<a name="line.317"></a>
-<span class="sourceLineNo">318</span>   * java.nio.file.Files#copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)}.<a name="line.318"></a>
-<span class="sourceLineNo">319</span>   *<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * @param from the source file<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * @param to the destination file<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   * @throws IOException if an I/O error occurs<a name="line.322"></a>
-<span class="sourceLineNo">323</span>   * @throws IllegalArgumentException if {@code from.equals(to)}<a name="line.323"></a>
-<span class="sourceLineNo">324</span>   */<a name="line.324"></a>
-<span class="sourceLineNo">325</span>  public static void copy(File from, File to) throws IOException {<a name="line.325"></a>
-<span class="sourceLineNo">326</span>    checkArgument(!from.equals(to), "Source %s and destination %s must be different", from, to);<a name="line.326"></a>
-<span class="sourceLineNo">327</span>    asByteSource(from).copyTo(asByteSink(to));<a name="line.327"></a>
-<span class="sourceLineNo">328</span>  }<a name="line.328"></a>
-<span class="sourceLineNo">329</span><a name="line.329"></a>
-<span class="sourceLineNo">330</span>  /**<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   * Writes a character sequence (such as a string) to a file using the given character set.<a name="line.331"></a>
+<span class="sourceLineNo">295</span>   * @param from the character sequence to write<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * @param to the destination file<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   *     helpful predefined constants<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * @throws IOException if an I/O error occurs<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   *     removed in January 2019.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   */<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  @Deprecated<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  public static void write(CharSequence from, File to, Charset charset) throws IOException {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    asCharSink(to, charset).write(from);<a name="line.305"></a>
+<span class="sourceLineNo">306</span>  }<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  /**<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * Copies all bytes from a file to an output stream.<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   *<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * &lt;p&gt;&lt;b&gt;{@link java.nio.file.Path} equivalent:&lt;/b&gt; {@link<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * java.nio.file.Files#copy(java.nio.file.Path, OutputStream)}.<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   *<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * @param from the source file<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * @param to the output stream<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * @throws IOException if an I/O error occurs<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   */<a name="line.317"></a>
+<span class="sourceLineNo">318</span>  public static void copy(File from, OutputStream to) throws IOException {<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    asByteSource(from).copyTo(to);<a name="line.319"></a>
+<span class="sourceLineNo">320</span>  }<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>  /**<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * Copies all the bytes from one file to another.<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   *<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * &lt;p&gt;Copying is not an atomic operation - in the case of an I/O error, power loss, process<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * termination, or other problems, {@code to} may not be a complete copy of {@code from}. If you<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   * need to guard against those conditions, you should employ other file-level synchronization.<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   *<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If {@code to} represents an existing file, that file will be overwritten<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * with the contents of {@code from}. If {@code to} and {@code from} refer to the &lt;i&gt;same&lt;/i&gt;<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   * file, the contents of that file will be deleted.<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   *<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * @param from the character sequence to write<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * @param to the destination file<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   *     helpful predefined constants<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * @throws IOException if an I/O error occurs<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   *     removed in January 2019.<a name="line.339"></a>
+<span class="sourceLineNo">333</span>   * &lt;p&gt;&lt;b&gt;{@link java.nio.file.Path} equivalent:&lt;/b&gt; {@link<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   * java.nio.file.Files#copy(java.nio.file.Path, java.nio.file.Path, java.nio.file.CopyOption...)}.<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   *<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * @param from the source file<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * @param to the destination file<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * @throws IOException if an I/O error occurs<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   * @throws IllegalArgumentException if {@code from.equals(to)}<a name="line.339"></a>
 <span class="sourceLineNo">340</span>   */<a name="line.340"></a>
-<span class="sourceLineNo">341</span>  @Deprecated<a name="line.341"></a>
-<span class="sourceLineNo">342</span>  public static void write(CharSequence from, File to, Charset charset) throws IOException {<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    asCharSink(to, charset).write(from);<a name="line.343"></a>
+<span class="sourceLineNo">341</span>  public static void copy(File from, File to) throws IOException {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    checkArgument(!from.equals(to), "Source %s and destination %s must be different", from, to);<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    asByteSource(from).copyTo(asByteSink(to));<a name="line.343"></a>
 <span class="sourceLineNo">344</span>  }<a name="line.344"></a>
 <span class="sourceLineNo">345</span><a name="line.345"></a>
 <span class="sourceLineNo">346</span>  /**<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   * Appends a character sequence (such as a string) to a file using the given character set.<a name="line.347"></a>
+<span class="sourceLineNo">347</span>   * Copies all characters from a file to an appendable object, using the given character set.<a name="line.347"></a>
 <span class="sourceLineNo">348</span>   *<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   * @param from the character sequence to append<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   * @param to the destination file<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   *     helpful predefined constants<a name="line.352"></a>
+<span class="sourceLineNo">349</span>   * @param from the source file<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   *     helpful predefined constants<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * @param to the appendable object<a name="line.352"></a>
 <span class="sourceLineNo">353</span>   * @throws IOException if an I/O error occurs<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   *     method is scheduled to be removed in January 2019.<a name="line.355"></a>
+<span class="sourceLineNo">354</span>   * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   *     be removed in January 2019.<a name="line.355"></a>
 <span class="sourceLineNo">356</span>   */<a name="line.356"></a>
 <span class="sourceLineNo">357</span>  @Deprecated<a name="line.357"></a>
-<span class="sourceLineNo">358</span>  public static void append(CharSequence from, File to, Charset charset) throws IOException {<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    asCharSink(to, charset, FileWriteMode.APPEND).write(from);<a name="line.359"></a>
+<span class="sourceLineNo">358</span>  public static void copy(File from, Charset charset, Appendable to) throws IOException {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    asCharSource(from, charset).copyTo(to);<a name="line.359"></a>
 <span class="sourceLineNo">360</span>  }<a name="line.360"></a>
 <span class="sourceLineNo">361</span><a name="line.361"></a>
 <span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * Copies all characters from a file to an appendable object, using the given character set.<a name="line.363"></a>
+<span class="sourceLineNo">363</span>   * Appends a character sequence (such as a string) to a file using the given character set.<a name="line.363"></a>
 <span class="sourceLineNo">364</span>   *<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * @param from the source file<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   *     helpful predefined constants<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * @param to the appendable object<a name="line.368"></a>
+<span class="sourceLineNo">365</span>   * @param from the character sequence to append<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * @param to the destination file<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * @param charset the charset used to encode the output stream; see {@link StandardCharsets} for<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   *     helpful predefined constants<a name="line.368"></a>
 <span class="sourceLineNo">369</span>   * @throws IOException if an I/O error occurs<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   *     be removed in January 2019.<a name="line.371"></a>
+<span class="sourceLineNo">370</span>   * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *     method is scheduled to be removed in January 2019.<a name="line.371"></a>
 <span class="sourceLineNo">372</span>   */<a name="line.372"></a>
 <span class="sourceLineNo">373</span>  @Deprecated<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  public static void copy(File from, Charset charset, Appendable to) throws IOException {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    asCharSource(from, charset).copyTo(to);<a name="line.375"></a>
+<span class="sourceLineNo">374</span>  public static void append(CharSequence from, File to, Charset charset) throws IOException {<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    asCharSink(to, charset, FileWriteMode.APPEND).write(from);<a name="line.375"></a>
 <span class="sourceLineNo">376</span>  }<a name="line.376"></a>
 <span class="sourceLineNo">377</span><a name="line.377"></a>
 <span class="sourceLineNo">378</span>  /**<a name="line.378"></a>

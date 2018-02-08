@@ -329,72 +329,72 @@
 <span class="sourceLineNo">321</span>  }<a name="line.321"></a>
 <span class="sourceLineNo">322</span><a name="line.322"></a>
 <span class="sourceLineNo">323</span>  /**<a name="line.323"></a>
-<span class="sourceLineNo">324</span>   * Returns the unsigned {@code long} value represented by the given string.<a name="line.324"></a>
+<span class="sourceLineNo">324</span>   * Returns the unsigned {@code long} value represented by a string with the given radix.<a name="line.324"></a>
 <span class="sourceLineNo">325</span>   *<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * &lt;p&gt;Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:<a name="line.326"></a>
+<span class="sourceLineNo">326</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String, int)} instead.<a name="line.326"></a>
 <span class="sourceLineNo">327</span>   *<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * &lt;ul&gt;<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   *   &lt;li&gt;{@code 0x}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   *   &lt;li&gt;{@code 0X}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   *   &lt;li&gt;{@code #}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   *   &lt;li&gt;{@code 0}&lt;i&gt;OctalDigits&lt;/i&gt;<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * &lt;/ul&gt;<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   *<a name="line.334"></a>
-<span class="sourceLineNo">335</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   *     value<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   * @since 13.0<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   */<a name="line.338"></a>
-<span class="sourceLineNo">339</span>  @CanIgnoreReturnValue<a name="line.339"></a>
-<span class="sourceLineNo">340</span>  public static long decode(String stringValue) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    ParseRequest request = ParseRequest.fromString(stringValue);<a name="line.341"></a>
-<span class="sourceLineNo">342</span><a name="line.342"></a>
-<span class="sourceLineNo">343</span>    try {<a name="line.343"></a>
-<span class="sourceLineNo">344</span>      return parseUnsignedLong(request.rawValue, request.radix);<a name="line.344"></a>
-<span class="sourceLineNo">345</span>    } catch (NumberFormatException e) {<a name="line.345"></a>
-<span class="sourceLineNo">346</span>      NumberFormatException decodeException =<a name="line.346"></a>
-<span class="sourceLineNo">347</span>          new NumberFormatException("Error parsing value: " + stringValue);<a name="line.347"></a>
-<span class="sourceLineNo">348</span>      decodeException.initCause(e);<a name="line.348"></a>
-<span class="sourceLineNo">349</span>      throw decodeException;<a name="line.349"></a>
-<span class="sourceLineNo">350</span>    }<a name="line.350"></a>
-<span class="sourceLineNo">351</span>  }<a name="line.351"></a>
-<span class="sourceLineNo">352</span><a name="line.352"></a>
-<span class="sourceLineNo">353</span>  /**<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   * Returns the unsigned {@code long} value represented by a string with the given radix.<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   *<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Long#parseUnsignedLong(String, int)} instead.<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   *<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   * @param string the string containing the unsigned {@code long} representation to be parsed.<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   * @param radix the radix to use while parsing {@code string}<a name="line.359"></a>
-<span class="sourceLineNo">360</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   *     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and {@link<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   *     Character#MAX_RADIX}.<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * @throws NullPointerException if {@code string} is null (in contrast to {@link<a name="line.363"></a>
-<span class="sourceLineNo">364</span>   *     Long#parseLong(String)})<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   */<a name="line.365"></a>
-<span class="sourceLineNo">366</span>  @CanIgnoreReturnValue<a name="line.366"></a>
-<span class="sourceLineNo">367</span>  public static long parseUnsignedLong(String string, int radix) {<a name="line.367"></a>
-<span class="sourceLineNo">368</span>    checkNotNull(string);<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    if (string.length() == 0) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>      throw new NumberFormatException("empty string");<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    }<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    if (radix &lt; Character.MIN_RADIX || radix &gt; Character.MAX_RADIX) {<a name="line.372"></a>
-<span class="sourceLineNo">373</span>      throw new NumberFormatException("illegal radix: " + radix);<a name="line.373"></a>
-<span class="sourceLineNo">374</span>    }<a name="line.374"></a>
-<span class="sourceLineNo">375</span><a name="line.375"></a>
-<span class="sourceLineNo">376</span>    int maxSafePos = ParseOverflowDetection.maxSafeDigits[radix] - 1;<a name="line.376"></a>
-<span class="sourceLineNo">377</span>    long value = 0;<a name="line.377"></a>
-<span class="sourceLineNo">378</span>    for (int pos = 0; pos &lt; string.length(); pos++) {<a name="line.378"></a>
-<span class="sourceLineNo">379</span>      int digit = Character.digit(string.charAt(pos), radix);<a name="line.379"></a>
-<span class="sourceLineNo">380</span>      if (digit == -1) {<a name="line.380"></a>
-<span class="sourceLineNo">381</span>        throw new NumberFormatException(string);<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      }<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      if (pos &gt; maxSafePos &amp;&amp; ParseOverflowDetection.overflowInParse(value, digit, radix)) {<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        throw new NumberFormatException("Too large for unsigned long: " + string);<a name="line.384"></a>
-<span class="sourceLineNo">385</span>      }<a name="line.385"></a>
-<span class="sourceLineNo">386</span>      value = (value * radix) + digit;<a name="line.386"></a>
-<span class="sourceLineNo">387</span>    }<a name="line.387"></a>
-<span class="sourceLineNo">388</span><a name="line.388"></a>
-<span class="sourceLineNo">389</span>    return value;<a name="line.389"></a>
+<span class="sourceLineNo">328</span>   * @param string the string containing the unsigned {@code long} representation to be parsed.<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * @param radix the radix to use while parsing {@code string}<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long} with<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   *     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and {@link<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   *     Character#MAX_RADIX}.<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * @throws NullPointerException if {@code string} is null (in contrast to {@link<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   *     Long#parseLong(String)})<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   */<a name="line.335"></a>
+<span class="sourceLineNo">336</span>  @CanIgnoreReturnValue<a name="line.336"></a>
+<span class="sourceLineNo">337</span>  public static long parseUnsignedLong(String string, int radix) {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    checkNotNull(string);<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    if (string.length() == 0) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      throw new NumberFormatException("empty string");<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    }<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    if (radix &lt; Character.MIN_RADIX || radix &gt; Character.MAX_RADIX) {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>      throw new NumberFormatException("illegal radix: " + radix);<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    }<a name="line.344"></a>
+<span class="sourceLineNo">345</span><a name="line.345"></a>
+<span class="sourceLineNo">346</span>    int maxSafePos = ParseOverflowDetection.maxSafeDigits[radix] - 1;<a name="line.346"></a>
+<span class="sourceLineNo">347</span>    long value = 0;<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    for (int pos = 0; pos &lt; string.length(); pos++) {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>      int digit = Character.digit(string.charAt(pos), radix);<a name="line.349"></a>
+<span class="sourceLineNo">350</span>      if (digit == -1) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>        throw new NumberFormatException(string);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>      }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      if (pos &gt; maxSafePos &amp;&amp; ParseOverflowDetection.overflowInParse(value, digit, radix)) {<a name="line.353"></a>
+<span class="sourceLineNo">354</span>        throw new NumberFormatException("Too large for unsigned long: " + string);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>      }<a name="line.355"></a>
+<span class="sourceLineNo">356</span>      value = (value * radix) + digit;<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    }<a name="line.357"></a>
+<span class="sourceLineNo">358</span><a name="line.358"></a>
+<span class="sourceLineNo">359</span>    return value;<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * Returns the unsigned {@code long} value represented by the given string.<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   *<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * &lt;p&gt;Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   *<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * &lt;ul&gt;<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   *   &lt;li&gt;{@code 0x}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   *   &lt;li&gt;{@code 0X}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   *   &lt;li&gt;{@code #}&lt;i&gt;HexDigits&lt;/i&gt;<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *   &lt;li&gt;{@code 0}&lt;i&gt;OctalDigits&lt;/i&gt;<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * &lt;/ul&gt;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   *<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *     value<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * @since 13.0<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   */<a name="line.377"></a>
+<span class="sourceLineNo">378</span>  @CanIgnoreReturnValue<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  public static long decode(String stringValue) {<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    ParseRequest request = ParseRequest.fromString(stringValue);<a name="line.380"></a>
+<span class="sourceLineNo">381</span><a name="line.381"></a>
+<span class="sourceLineNo">382</span>    try {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      return parseUnsignedLong(request.rawValue, request.radix);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    } catch (NumberFormatException e) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      NumberFormatException decodeException =<a name="line.385"></a>
+<span class="sourceLineNo">386</span>          new NumberFormatException("Error parsing value: " + stringValue);<a name="line.386"></a>
+<span class="sourceLineNo">387</span>      decodeException.initCause(e);<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      throw decodeException;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    }<a name="line.389"></a>
 <span class="sourceLineNo">390</span>  }<a name="line.390"></a>
 <span class="sourceLineNo">391</span><a name="line.391"></a>
 <span class="sourceLineNo">392</span>  /*<a name="line.392"></a>

@@ -604,17 +604,17 @@
 <span class="sourceLineNo">596</span>      return Arrays.copyOfRange(bytes, offset, offset + length);<a name="line.596"></a>
 <span class="sourceLineNo">597</span>    }<a name="line.597"></a>
 <span class="sourceLineNo">598</span><a name="line.598"></a>
-<span class="sourceLineNo">599</span>    @Override<a name="line.599"></a>
-<span class="sourceLineNo">600</span>    public long copyTo(OutputStream output) throws IOException {<a name="line.600"></a>
-<span class="sourceLineNo">601</span>      output.write(bytes, offset, length);<a name="line.601"></a>
-<span class="sourceLineNo">602</span>      return length;<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    }<a name="line.603"></a>
-<span class="sourceLineNo">604</span><a name="line.604"></a>
-<span class="sourceLineNo">605</span>    @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here<a name="line.605"></a>
+<span class="sourceLineNo">599</span>    @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here<a name="line.599"></a>
+<span class="sourceLineNo">600</span>    @Override<a name="line.600"></a>
+<span class="sourceLineNo">601</span>    public &lt;T&gt; T read(ByteProcessor&lt;T&gt; processor) throws IOException {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>      processor.processBytes(bytes, offset, length);<a name="line.602"></a>
+<span class="sourceLineNo">603</span>      return processor.getResult();<a name="line.603"></a>
+<span class="sourceLineNo">604</span>    }<a name="line.604"></a>
+<span class="sourceLineNo">605</span><a name="line.605"></a>
 <span class="sourceLineNo">606</span>    @Override<a name="line.606"></a>
-<span class="sourceLineNo">607</span>    public &lt;T&gt; T read(ByteProcessor&lt;T&gt; processor) throws IOException {<a name="line.607"></a>
-<span class="sourceLineNo">608</span>      processor.processBytes(bytes, offset, length);<a name="line.608"></a>
-<span class="sourceLineNo">609</span>      return processor.getResult();<a name="line.609"></a>
+<span class="sourceLineNo">607</span>    public long copyTo(OutputStream output) throws IOException {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>      output.write(bytes, offset, length);<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      return length;<a name="line.609"></a>
 <span class="sourceLineNo">610</span>    }<a name="line.610"></a>
 <span class="sourceLineNo">611</span><a name="line.611"></a>
 <span class="sourceLineNo">612</span>    @Override<a name="line.612"></a>

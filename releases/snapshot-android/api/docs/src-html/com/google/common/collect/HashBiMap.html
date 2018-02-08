@@ -264,49 +264,49 @@
 <span class="sourceLineNo">256</span>    return put(key, value, false);<a name="line.256"></a>
 <span class="sourceLineNo">257</span>  }<a name="line.257"></a>
 <span class="sourceLineNo">258</span><a name="line.258"></a>
-<span class="sourceLineNo">259</span>  @Override<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  @NullableDecl<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  @CanIgnoreReturnValue<a name="line.261"></a>
-<span class="sourceLineNo">262</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    return put(key, value, true);<a name="line.263"></a>
-<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
-<span class="sourceLineNo">265</span><a name="line.265"></a>
-<span class="sourceLineNo">266</span>  @NullableDecl<a name="line.266"></a>
-<span class="sourceLineNo">267</span>  V put(@NullableDecl K key, @NullableDecl V value, boolean force) {<a name="line.267"></a>
-<span class="sourceLineNo">268</span>    int keyHash = Hashing.smearedHash(key);<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    int entryForKey = findEntryByKey(key, keyHash);<a name="line.269"></a>
-<span class="sourceLineNo">270</span>    if (entryForKey != ABSENT) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      V oldValue = values[entryForKey];<a name="line.271"></a>
-<span class="sourceLineNo">272</span>      if (Objects.equal(oldValue, value)) {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>        return value;<a name="line.273"></a>
-<span class="sourceLineNo">274</span>      } else {<a name="line.274"></a>
-<span class="sourceLineNo">275</span>        replaceValueInEntry(entryForKey, value, force);<a name="line.275"></a>
-<span class="sourceLineNo">276</span>        return oldValue;<a name="line.276"></a>
-<span class="sourceLineNo">277</span>      }<a name="line.277"></a>
-<span class="sourceLineNo">278</span>    }<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>    int valueHash = Hashing.smearedHash(value);<a name="line.280"></a>
-<span class="sourceLineNo">281</span>    int valueEntry = findEntryByValue(value, valueHash);<a name="line.281"></a>
-<span class="sourceLineNo">282</span>    if (force) {<a name="line.282"></a>
-<span class="sourceLineNo">283</span>      if (valueEntry != ABSENT) {<a name="line.283"></a>
-<span class="sourceLineNo">284</span>        removeEntryValueHashKnown(valueEntry, valueHash);<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      }<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    } else {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      checkArgument(valueEntry == ABSENT, "Value already present: %s", value);<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    }<a name="line.288"></a>
+<span class="sourceLineNo">259</span>  @NullableDecl<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  V put(@NullableDecl K key, @NullableDecl V value, boolean force) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    int keyHash = Hashing.smearedHash(key);<a name="line.261"></a>
+<span class="sourceLineNo">262</span>    int entryForKey = findEntryByKey(key, keyHash);<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    if (entryForKey != ABSENT) {<a name="line.263"></a>
+<span class="sourceLineNo">264</span>      V oldValue = values[entryForKey];<a name="line.264"></a>
+<span class="sourceLineNo">265</span>      if (Objects.equal(oldValue, value)) {<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        return value;<a name="line.266"></a>
+<span class="sourceLineNo">267</span>      } else {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>        replaceValueInEntry(entryForKey, value, force);<a name="line.268"></a>
+<span class="sourceLineNo">269</span>        return oldValue;<a name="line.269"></a>
+<span class="sourceLineNo">270</span>      }<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    }<a name="line.271"></a>
+<span class="sourceLineNo">272</span><a name="line.272"></a>
+<span class="sourceLineNo">273</span>    int valueHash = Hashing.smearedHash(value);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    int valueEntry = findEntryByValue(value, valueHash);<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    if (force) {<a name="line.275"></a>
+<span class="sourceLineNo">276</span>      if (valueEntry != ABSENT) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>        removeEntryValueHashKnown(valueEntry, valueHash);<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      }<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    } else {<a name="line.279"></a>
+<span class="sourceLineNo">280</span>      checkArgument(valueEntry == ABSENT, "Value already present: %s", value);<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    }<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>    ensureCapacity(size + 1);<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    keys[size] = key;<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    values[size] = value;<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>    insertIntoTableKToV(size, keyHash);<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    insertIntoTableVToK(size, valueHash);<a name="line.288"></a>
 <span class="sourceLineNo">289</span><a name="line.289"></a>
-<span class="sourceLineNo">290</span>    ensureCapacity(size + 1);<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    keys[size] = key;<a name="line.291"></a>
-<span class="sourceLineNo">292</span>    values[size] = value;<a name="line.292"></a>
-<span class="sourceLineNo">293</span><a name="line.293"></a>
-<span class="sourceLineNo">294</span>    insertIntoTableKToV(size, keyHash);<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    insertIntoTableVToK(size, valueHash);<a name="line.295"></a>
+<span class="sourceLineNo">290</span>    setSucceeds(lastInInsertionOrder, size);<a name="line.290"></a>
+<span class="sourceLineNo">291</span>    setSucceeds(size, ENDPOINT);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    size++;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    modCount++;<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    return null;<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  }<a name="line.295"></a>
 <span class="sourceLineNo">296</span><a name="line.296"></a>
-<span class="sourceLineNo">297</span>    setSucceeds(lastInInsertionOrder, size);<a name="line.297"></a>
-<span class="sourceLineNo">298</span>    setSucceeds(size, ENDPOINT);<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    size++;<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    modCount++;<a name="line.300"></a>
-<span class="sourceLineNo">301</span>    return null;<a name="line.301"></a>
+<span class="sourceLineNo">297</span>  @Override<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  @NullableDecl<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  @CanIgnoreReturnValue<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    return put(key, value, true);<a name="line.301"></a>
 <span class="sourceLineNo">302</span>  }<a name="line.302"></a>
 <span class="sourceLineNo">303</span><a name="line.303"></a>
 <span class="sourceLineNo">304</span>  @NullableDecl<a name="line.304"></a>
@@ -557,31 +557,31 @@
 <span class="sourceLineNo">549</span>    removeEntryKeyHashKnown(entry, Hashing.smearedHash(keys[entry]));<a name="line.549"></a>
 <span class="sourceLineNo">550</span>  }<a name="line.550"></a>
 <span class="sourceLineNo">551</span><a name="line.551"></a>
-<span class="sourceLineNo">552</span>  /** Removes the entry at the specified index, given the hash of its key. */<a name="line.552"></a>
-<span class="sourceLineNo">553</span>  void removeEntryKeyHashKnown(int entry, int keyHash) {<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));<a name="line.554"></a>
-<span class="sourceLineNo">555</span>  }<a name="line.555"></a>
-<span class="sourceLineNo">556</span><a name="line.556"></a>
-<span class="sourceLineNo">557</span>  /** Removes the entry at the specified index, given the hash of its value. */<a name="line.557"></a>
-<span class="sourceLineNo">558</span>  void removeEntryValueHashKnown(int entry, int valueHash) {<a name="line.558"></a>
-<span class="sourceLineNo">559</span>    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);<a name="line.559"></a>
-<span class="sourceLineNo">560</span>  }<a name="line.560"></a>
+<span class="sourceLineNo">552</span>  /** Removes the entry at the specified index, given the hash of its key and value. */<a name="line.552"></a>
+<span class="sourceLineNo">553</span>  private void removeEntry(int entry, int keyHash, int valueHash) {<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    checkArgument(entry != ABSENT);<a name="line.554"></a>
+<span class="sourceLineNo">555</span>    deleteFromTableKToV(entry, keyHash);<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    deleteFromTableVToK(entry, valueHash);<a name="line.556"></a>
+<span class="sourceLineNo">557</span><a name="line.557"></a>
+<span class="sourceLineNo">558</span>    int oldPredecessor = prevInInsertionOrder[entry];<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    int oldSuccessor = nextInInsertionOrder[entry];<a name="line.559"></a>
+<span class="sourceLineNo">560</span>    setSucceeds(oldPredecessor, oldSuccessor);<a name="line.560"></a>
 <span class="sourceLineNo">561</span><a name="line.561"></a>
-<span class="sourceLineNo">562</span>  /** Removes the entry at the specified index, given the hash of its key and value. */<a name="line.562"></a>
-<span class="sourceLineNo">563</span>  private void removeEntry(int entry, int keyHash, int valueHash) {<a name="line.563"></a>
-<span class="sourceLineNo">564</span>    checkArgument(entry != ABSENT);<a name="line.564"></a>
-<span class="sourceLineNo">565</span>    deleteFromTableKToV(entry, keyHash);<a name="line.565"></a>
-<span class="sourceLineNo">566</span>    deleteFromTableVToK(entry, valueHash);<a name="line.566"></a>
-<span class="sourceLineNo">567</span><a name="line.567"></a>
-<span class="sourceLineNo">568</span>    int oldPredecessor = prevInInsertionOrder[entry];<a name="line.568"></a>
-<span class="sourceLineNo">569</span>    int oldSuccessor = nextInInsertionOrder[entry];<a name="line.569"></a>
-<span class="sourceLineNo">570</span>    setSucceeds(oldPredecessor, oldSuccessor);<a name="line.570"></a>
-<span class="sourceLineNo">571</span><a name="line.571"></a>
-<span class="sourceLineNo">572</span>    moveEntryToIndex(size - 1, entry);<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    keys[size - 1] = null;<a name="line.573"></a>
-<span class="sourceLineNo">574</span>    values[size - 1] = null;<a name="line.574"></a>
-<span class="sourceLineNo">575</span>    size--;<a name="line.575"></a>
-<span class="sourceLineNo">576</span>    modCount++;<a name="line.576"></a>
+<span class="sourceLineNo">562</span>    moveEntryToIndex(size - 1, entry);<a name="line.562"></a>
+<span class="sourceLineNo">563</span>    keys[size - 1] = null;<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    values[size - 1] = null;<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    size--;<a name="line.565"></a>
+<span class="sourceLineNo">566</span>    modCount++;<a name="line.566"></a>
+<span class="sourceLineNo">567</span>  }<a name="line.567"></a>
+<span class="sourceLineNo">568</span><a name="line.568"></a>
+<span class="sourceLineNo">569</span>  /** Removes the entry at the specified index, given the hash of its key. */<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  void removeEntryKeyHashKnown(int entry, int keyHash) {<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));<a name="line.571"></a>
+<span class="sourceLineNo">572</span>  }<a name="line.572"></a>
+<span class="sourceLineNo">573</span><a name="line.573"></a>
+<span class="sourceLineNo">574</span>  /** Removes the entry at the specified index, given the hash of its value. */<a name="line.574"></a>
+<span class="sourceLineNo">575</span>  void removeEntryValueHashKnown(int entry, int valueHash) {<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);<a name="line.576"></a>
 <span class="sourceLineNo">577</span>  }<a name="line.577"></a>
 <span class="sourceLineNo">578</span><a name="line.578"></a>
 <span class="sourceLineNo">579</span>  /**<a name="line.579"></a>

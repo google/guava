@@ -356,45 +356,45 @@
 <span class="sourceLineNo">348</span>    return fromMapEntries(multimap.asMap().entrySet(), null);<a name="line.348"></a>
 <span class="sourceLineNo">349</span>  }<a name="line.349"></a>
 <span class="sourceLineNo">350</span><a name="line.350"></a>
-<span class="sourceLineNo">351</span>  /** Creates an ImmutableListMultimap from an asMap.entrySet. */<a name="line.351"></a>
-<span class="sourceLineNo">352</span>  static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; fromMapEntries(<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.353"></a>
-<span class="sourceLineNo">354</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.354"></a>
-<span class="sourceLineNo">355</span>    if (mapEntries.isEmpty()) {<a name="line.355"></a>
-<span class="sourceLineNo">356</span>      return of();<a name="line.356"></a>
-<span class="sourceLineNo">357</span>    }<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    ImmutableMap.Builder&lt;K, ImmutableList&lt;V&gt;&gt; builder =<a name="line.358"></a>
-<span class="sourceLineNo">359</span>        new ImmutableMap.Builder&lt;&gt;(mapEntries.size());<a name="line.359"></a>
-<span class="sourceLineNo">360</span>    int size = 0;<a name="line.360"></a>
-<span class="sourceLineNo">361</span><a name="line.361"></a>
-<span class="sourceLineNo">362</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry : mapEntries) {<a name="line.362"></a>
-<span class="sourceLineNo">363</span>      K key = entry.getKey();<a name="line.363"></a>
-<span class="sourceLineNo">364</span>      Collection&lt;? extends V&gt; values = entry.getValue();<a name="line.364"></a>
-<span class="sourceLineNo">365</span>      ImmutableList&lt;V&gt; list =<a name="line.365"></a>
-<span class="sourceLineNo">366</span>          (valueComparator == null)<a name="line.366"></a>
-<span class="sourceLineNo">367</span>              ? ImmutableList.copyOf(values)<a name="line.367"></a>
-<span class="sourceLineNo">368</span>              : ImmutableList.sortedCopyOf(valueComparator, values);<a name="line.368"></a>
-<span class="sourceLineNo">369</span>      if (!list.isEmpty()) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>        builder.put(key, list);<a name="line.370"></a>
-<span class="sourceLineNo">371</span>        size += list.size();<a name="line.371"></a>
-<span class="sourceLineNo">372</span>      }<a name="line.372"></a>
-<span class="sourceLineNo">373</span>    }<a name="line.373"></a>
-<span class="sourceLineNo">374</span><a name="line.374"></a>
-<span class="sourceLineNo">375</span>    return new ImmutableListMultimap&lt;&gt;(builder.build(), size);<a name="line.375"></a>
-<span class="sourceLineNo">376</span>  }<a name="line.376"></a>
-<span class="sourceLineNo">377</span><a name="line.377"></a>
-<span class="sourceLineNo">378</span>  /**<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * Returns an immutable multimap containing the specified entries. The returned multimap iterates<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   * over keys in the order they were first encountered in the input, and the values for each key<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   * are iterated in the order they were encountered.<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   *<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   * @since 19.0<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   */<a name="line.385"></a>
-<span class="sourceLineNo">386</span>  @Beta<a name="line.386"></a>
-<span class="sourceLineNo">387</span>  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; copyOf(<a name="line.387"></a>
-<span class="sourceLineNo">388</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    return new Builder&lt;K, V&gt;().putAll(entries).build();<a name="line.389"></a>
+<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * Returns an immutable multimap containing the specified entries. The returned multimap iterates<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * over keys in the order they were first encountered in the input, and the values for each key<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * are iterated in the order they were encountered.<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   *<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   * @since 19.0<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   */<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  @Beta<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; copyOf(<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>    return new Builder&lt;K, V&gt;().putAll(entries).build();<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  }<a name="line.363"></a>
+<span class="sourceLineNo">364</span><a name="line.364"></a>
+<span class="sourceLineNo">365</span>  /** Creates an ImmutableListMultimap from an asMap.entrySet. */<a name="line.365"></a>
+<span class="sourceLineNo">366</span>  static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; fromMapEntries(<a name="line.366"></a>
+<span class="sourceLineNo">367</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    if (mapEntries.isEmpty()) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      return of();<a name="line.370"></a>
+<span class="sourceLineNo">371</span>    }<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    ImmutableMap.Builder&lt;K, ImmutableList&lt;V&gt;&gt; builder =<a name="line.372"></a>
+<span class="sourceLineNo">373</span>        new ImmutableMap.Builder&lt;&gt;(mapEntries.size());<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    int size = 0;<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry : mapEntries) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      K key = entry.getKey();<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      Collection&lt;? extends V&gt; values = entry.getValue();<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      ImmutableList&lt;V&gt; list =<a name="line.379"></a>
+<span class="sourceLineNo">380</span>          (valueComparator == null)<a name="line.380"></a>
+<span class="sourceLineNo">381</span>              ? ImmutableList.copyOf(values)<a name="line.381"></a>
+<span class="sourceLineNo">382</span>              : ImmutableList.sortedCopyOf(valueComparator, values);<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      if (!list.isEmpty()) {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        builder.put(key, list);<a name="line.384"></a>
+<span class="sourceLineNo">385</span>        size += list.size();<a name="line.385"></a>
+<span class="sourceLineNo">386</span>      }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    }<a name="line.387"></a>
+<span class="sourceLineNo">388</span><a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return new ImmutableListMultimap&lt;&gt;(builder.build(), size);<a name="line.389"></a>
 <span class="sourceLineNo">390</span>  }<a name="line.390"></a>
 <span class="sourceLineNo">391</span><a name="line.391"></a>
 <span class="sourceLineNo">392</span>  ImmutableListMultimap(ImmutableMap&lt;K, ImmutableList&lt;V&gt;&gt; map, int size) {<a name="line.392"></a>

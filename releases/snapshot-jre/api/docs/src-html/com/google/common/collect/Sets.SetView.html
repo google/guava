@@ -244,61 +244,61 @@
 <span class="sourceLineNo">236</span>  }<a name="line.236"></a>
 <span class="sourceLineNo">237</span><a name="line.237"></a>
 <span class="sourceLineNo">238</span>  /**<a name="line.238"></a>
-<span class="sourceLineNo">239</span>   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}<a name="line.239"></a>
-<span class="sourceLineNo">240</span>   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * is what most users want and expect it to do.<a name="line.241"></a>
+<span class="sourceLineNo">239</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given elements. A very thin<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * convenience for creating an empty set then calling {@link Collection#addAll} or {@link<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * Iterables#addAll}.<a name="line.241"></a>
 <span class="sourceLineNo">242</span>   *<a name="line.242"></a>
-<span class="sourceLineNo">243</span>   * &lt;p&gt;This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   *<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   * @param expectedSize the number of elements you expect to add to the returned set<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements<a name="line.246"></a>
-<span class="sourceLineNo">247</span>   *     without resizing<a name="line.247"></a>
-<span class="sourceLineNo">248</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.248"></a>
-<span class="sourceLineNo">249</span>   */<a name="line.249"></a>
-<span class="sourceLineNo">250</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSetWithExpectedSize(int expectedSize) {<a name="line.250"></a>
-<span class="sourceLineNo">251</span>    return new HashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  }<a name="line.252"></a>
-<span class="sourceLineNo">253</span><a name="line.253"></a>
-<span class="sourceLineNo">254</span>  /**<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given elements. A very thin<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * convenience for creating an empty set then calling {@link Collection#addAll} or {@link<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   * Iterables#addAll}.<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   *<a name="line.258"></a>
-<span class="sourceLineNo">259</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.259"></a>
-<span class="sourceLineNo">260</span>   * ImmutableSet#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link<a name="line.260"></a>
-<span class="sourceLineNo">261</span>   * FluentIterable} and call {@code elements.toSet()}.)<a name="line.261"></a>
-<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * instead.<a name="line.264"></a>
+<span class="sourceLineNo">243</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * ImmutableSet#copyOf(Iterable)} instead. (Or, change {@code elements} to be a {@link<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * FluentIterable} and call {@code elements.toSet()}.)<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   *<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, use {@link #newEnumSet(Iterable, Class)}<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * instead.<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   *<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   *<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   */<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    return (elements instanceof Collection)<a name="line.257"></a>
+<span class="sourceLineNo">258</span>        ? new HashSet&lt;E&gt;(Collections2.cast(elements))<a name="line.258"></a>
+<span class="sourceLineNo">259</span>        : newHashSet(elements.iterator());<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  }<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>  /**<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given elements. A very thin<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * convenience for creating an empty set and then calling {@link Iterators#addAll}.<a name="line.264"></a>
 <span class="sourceLineNo">265</span>   *<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   * need this method. Instead, use the {@code HashSet} constructor directly, taking advantage of<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   * the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   *<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   */<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    return (elements instanceof Collection)<a name="line.273"></a>
-<span class="sourceLineNo">274</span>        ? new HashSet&lt;E&gt;(Collections2.cast(elements))<a name="line.274"></a>
-<span class="sourceLineNo">275</span>        : newHashSet(elements.iterator());<a name="line.275"></a>
-<span class="sourceLineNo">276</span>  }<a name="line.276"></a>
-<span class="sourceLineNo">277</span><a name="line.277"></a>
-<span class="sourceLineNo">278</span>  /**<a name="line.278"></a>
-<span class="sourceLineNo">279</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code HashSet} instance containing the given elements. A very thin<a name="line.279"></a>
-<span class="sourceLineNo">280</span>   * convenience for creating an empty set and then calling {@link Iterators#addAll}.<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   *<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   * ImmutableSet#copyOf(Iterator)} instead.<a name="line.283"></a>
+<span class="sourceLineNo">266</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * ImmutableSet#copyOf(Iterator)} instead.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   *<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, you should create an {@link EnumSet}<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * instead.<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   *<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterator&lt;? extends E&gt; elements) {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    HashSet&lt;E&gt; set = newHashSet();<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    Iterators.addAll(set, elements);<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    return set;<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * is what most users want and expect it to do.<a name="line.283"></a>
 <span class="sourceLineNo">284</span>   *<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code E} is an {@link Enum} type, you should create an {@link EnumSet}<a name="line.285"></a>
-<span class="sourceLineNo">286</span>   * instead.<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   *<a name="line.287"></a>
-<span class="sourceLineNo">288</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.288"></a>
-<span class="sourceLineNo">289</span>   */<a name="line.289"></a>
-<span class="sourceLineNo">290</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSet(Iterator&lt;? extends E&gt; elements) {<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    HashSet&lt;E&gt; set = newHashSet();<a name="line.291"></a>
-<span class="sourceLineNo">292</span>    Iterators.addAll(set, elements);<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    return set;<a name="line.293"></a>
+<span class="sourceLineNo">285</span>   * &lt;p&gt;This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   *<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * @param expectedSize the number of elements you expect to add to the returned set<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   *     without resizing<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   */<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  public static &lt;E&gt; HashSet&lt;E&gt; newHashSetWithExpectedSize(int expectedSize) {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    return new HashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.293"></a>
 <span class="sourceLineNo">294</span>  }<a name="line.294"></a>
 <span class="sourceLineNo">295</span><a name="line.295"></a>
 <span class="sourceLineNo">296</span>  /**<a name="line.296"></a>
@@ -352,43 +352,43 @@
 <span class="sourceLineNo">344</span>  }<a name="line.344"></a>
 <span class="sourceLineNo">345</span><a name="line.345"></a>
 <span class="sourceLineNo">346</span>  /**<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   * Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   * &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without growth. This behavior cannot be<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   * that the method isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned set.<a name="line.350"></a>
+<span class="sourceLineNo">347</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code LinkedHashSet} instance containing the given elements in order.<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   *<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   * ImmutableSet#copyOf(Iterable)} instead.<a name="line.350"></a>
 <span class="sourceLineNo">351</span>   *<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   * @param expectedSize the number of elements you expect to add to the returned set<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   * @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   *     elements without resizing<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   * @since 11.0<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   */<a name="line.357"></a>
-<span class="sourceLineNo">358</span>  public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSetWithExpectedSize(int expectedSize) {<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    return new LinkedHashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
-<span class="sourceLineNo">361</span><a name="line.361"></a>
-<span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * Creates a &lt;i&gt;mutable&lt;/i&gt; {@code LinkedHashSet} instance containing the given elements in order.<a name="line.363"></a>
-<span class="sourceLineNo">364</span>   *<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if mutability is not required and the elements are non-null, use {@link<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * ImmutableSet#copyOf(Iterable)} instead.<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   *<a name="line.367"></a>
-<span class="sourceLineNo">368</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   * of the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   *<a name="line.373"></a>
-<span class="sourceLineNo">374</span>   * @param elements the elements that the set should contain, in order<a name="line.374"></a>
-<span class="sourceLineNo">375</span>   * @return a new {@code LinkedHashSet} containing those elements (minus duplicates)<a name="line.375"></a>
-<span class="sourceLineNo">376</span>   */<a name="line.376"></a>
-<span class="sourceLineNo">377</span>  public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.377"></a>
-<span class="sourceLineNo">378</span>    if (elements instanceof Collection) {<a name="line.378"></a>
-<span class="sourceLineNo">379</span>      return new LinkedHashSet&lt;E&gt;(Collections2.cast(elements));<a name="line.379"></a>
-<span class="sourceLineNo">380</span>    }<a name="line.380"></a>
-<span class="sourceLineNo">381</span>    LinkedHashSet&lt;E&gt; set = newLinkedHashSet();<a name="line.381"></a>
-<span class="sourceLineNo">382</span>    Iterables.addAll(set, elements);<a name="line.382"></a>
-<span class="sourceLineNo">383</span>    return set;<a name="line.383"></a>
+<span class="sourceLineNo">352</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; if {@code elements} is a {@link Collection}, you don't<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * need this method. Instead, use the {@code LinkedHashSet} constructor directly, taking advantage<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * of the new &lt;a href="http://goo.gl/iz2Wi"&gt;"diamond" syntax&lt;/a&gt;.<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   *<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   * &lt;p&gt;Overall, this method is not very useful and will likely be deprecated in the future.<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   *<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   * @param elements the elements that the set should contain, in order<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   * @return a new {@code LinkedHashSet} containing those elements (minus duplicates)<a name="line.359"></a>
+<span class="sourceLineNo">360</span>   */<a name="line.360"></a>
+<span class="sourceLineNo">361</span>  public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSet(Iterable&lt;? extends E&gt; elements) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>    if (elements instanceof Collection) {<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      return new LinkedHashSet&lt;E&gt;(Collections2.cast(elements));<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    }<a name="line.364"></a>
+<span class="sourceLineNo">365</span>    LinkedHashSet&lt;E&gt; set = newLinkedHashSet();<a name="line.365"></a>
+<span class="sourceLineNo">366</span>    Iterables.addAll(set, elements);<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    return set;<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  }<a name="line.368"></a>
+<span class="sourceLineNo">369</span><a name="line.369"></a>
+<span class="sourceLineNo">370</span>  /**<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   * Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * &lt;i&gt;should&lt;/i&gt; hold {@code expectedSize} elements without growth. This behavior cannot be<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * that the method isn't inadvertently &lt;i&gt;oversizing&lt;/i&gt; the returned set.<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * @param expectedSize the number of elements you expect to add to the returned set<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   *     elements without resizing<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * @throws IllegalArgumentException if {@code expectedSize} is negative<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * @since 11.0<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   */<a name="line.381"></a>
+<span class="sourceLineNo">382</span>  public static &lt;E&gt; LinkedHashSet&lt;E&gt; newLinkedHashSetWithExpectedSize(int expectedSize) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    return new LinkedHashSet&lt;E&gt;(Maps.capacity(expectedSize));<a name="line.383"></a>
 <span class="sourceLineNo">384</span>  }<a name="line.384"></a>
 <span class="sourceLineNo">385</span><a name="line.385"></a>
 <span class="sourceLineNo">386</span>  // TreeSet<a name="line.386"></a>
@@ -1068,140 +1068,140 @@
 <span class="sourceLineNo">1060</span>    return new FilteredSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.1060"></a>
 <span class="sourceLineNo">1061</span>  }<a name="line.1061"></a>
 <span class="sourceLineNo">1062</span><a name="line.1062"></a>
-<span class="sourceLineNo">1063</span>  private static class FilteredSet&lt;E&gt; extends FilteredCollection&lt;E&gt; implements Set&lt;E&gt; {<a name="line.1063"></a>
-<span class="sourceLineNo">1064</span>    FilteredSet(Set&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1064"></a>
-<span class="sourceLineNo">1065</span>      super(unfiltered, predicate);<a name="line.1065"></a>
-<span class="sourceLineNo">1066</span>    }<a name="line.1066"></a>
-<span class="sourceLineNo">1067</span><a name="line.1067"></a>
-<span class="sourceLineNo">1068</span>    @Override<a name="line.1068"></a>
-<span class="sourceLineNo">1069</span>    public boolean equals(@NullableDecl Object object) {<a name="line.1069"></a>
-<span class="sourceLineNo">1070</span>      return equalsImpl(this, object);<a name="line.1070"></a>
-<span class="sourceLineNo">1071</span>    }<a name="line.1071"></a>
-<span class="sourceLineNo">1072</span><a name="line.1072"></a>
-<span class="sourceLineNo">1073</span>    @Override<a name="line.1073"></a>
-<span class="sourceLineNo">1074</span>    public int hashCode() {<a name="line.1074"></a>
-<span class="sourceLineNo">1075</span>      return hashCodeImpl(this);<a name="line.1075"></a>
-<span class="sourceLineNo">1076</span>    }<a name="line.1076"></a>
-<span class="sourceLineNo">1077</span>  }<a name="line.1077"></a>
-<span class="sourceLineNo">1078</span><a name="line.1078"></a>
-<span class="sourceLineNo">1079</span>  /**<a name="line.1079"></a>
-<span class="sourceLineNo">1080</span>   * Returns the elements of a {@code SortedSet}, {@code unfiltered}, that satisfy a predicate. The<a name="line.1080"></a>
-<span class="sourceLineNo">1081</span>   * returned set is a live view of {@code unfiltered}; changes to one affect the other.<a name="line.1081"></a>
-<span class="sourceLineNo">1082</span>   *<a name="line.1082"></a>
-<span class="sourceLineNo">1083</span>   * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all other set methods<a name="line.1083"></a>
-<span class="sourceLineNo">1084</span>   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code<a name="line.1084"></a>
-<span class="sourceLineNo">1085</span>   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements<a name="line.1086"></a>
-<span class="sourceLineNo">1087</span>   * that satisfy the filter will be removed from the underlying set.<a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>   *<a name="line.1088"></a>
-<span class="sourceLineNo">1089</span>   * &lt;p&gt;The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.<a name="line.1089"></a>
-<span class="sourceLineNo">1090</span>   *<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>   * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate across every element in<a name="line.1091"></a>
-<span class="sourceLineNo">1092</span>   * the underlying set and determine which elements satisfy the filter. When a live view is<a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>   * &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span>   * use the copy.<a name="line.1094"></a>
-<span class="sourceLineNo">1095</span>   *<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>   * {@link Predicate#apply}. Do not provide a predicate such as {@code<a name="line.1097"></a>
-<span class="sourceLineNo">1098</span>   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link<a name="line.1098"></a>
-<span class="sourceLineNo">1099</span>   * Iterables#filter(Iterable, Class)} for related functionality.)<a name="line.1099"></a>
-<span class="sourceLineNo">1100</span>   *<a name="line.1100"></a>
-<span class="sourceLineNo">1101</span>   * @since 11.0<a name="line.1101"></a>
-<span class="sourceLineNo">1102</span>   */<a name="line.1102"></a>
-<span class="sourceLineNo">1103</span>  public static &lt;E&gt; SortedSet&lt;E&gt; filter(SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1103"></a>
-<span class="sourceLineNo">1104</span>    if (unfiltered instanceof FilteredSet) {<a name="line.1104"></a>
-<span class="sourceLineNo">1105</span>      // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.1105"></a>
-<span class="sourceLineNo">1106</span>      // collection.<a name="line.1106"></a>
-<span class="sourceLineNo">1107</span>      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.1107"></a>
-<span class="sourceLineNo">1108</span>      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.1108"></a>
-<span class="sourceLineNo">1109</span>      return new FilteredSortedSet&lt;E&gt;((SortedSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.1109"></a>
-<span class="sourceLineNo">1110</span>    }<a name="line.1110"></a>
-<span class="sourceLineNo">1111</span><a name="line.1111"></a>
-<span class="sourceLineNo">1112</span>    return new FilteredSortedSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.1112"></a>
-<span class="sourceLineNo">1113</span>  }<a name="line.1113"></a>
-<span class="sourceLineNo">1114</span><a name="line.1114"></a>
-<span class="sourceLineNo">1115</span>  private static class FilteredSortedSet&lt;E&gt; extends FilteredSet&lt;E&gt; implements SortedSet&lt;E&gt; {<a name="line.1115"></a>
-<span class="sourceLineNo">1116</span><a name="line.1116"></a>
-<span class="sourceLineNo">1117</span>    FilteredSortedSet(SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1117"></a>
-<span class="sourceLineNo">1118</span>      super(unfiltered, predicate);<a name="line.1118"></a>
-<span class="sourceLineNo">1119</span>    }<a name="line.1119"></a>
-<span class="sourceLineNo">1120</span><a name="line.1120"></a>
-<span class="sourceLineNo">1121</span>    @Override<a name="line.1121"></a>
-<span class="sourceLineNo">1122</span>    public Comparator&lt;? super E&gt; comparator() {<a name="line.1122"></a>
-<span class="sourceLineNo">1123</span>      return ((SortedSet&lt;E&gt;) unfiltered).comparator();<a name="line.1123"></a>
-<span class="sourceLineNo">1124</span>    }<a name="line.1124"></a>
-<span class="sourceLineNo">1125</span><a name="line.1125"></a>
-<span class="sourceLineNo">1126</span>    @Override<a name="line.1126"></a>
-<span class="sourceLineNo">1127</span>    public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.1127"></a>
-<span class="sourceLineNo">1128</span>      return new FilteredSortedSet&lt;E&gt;(<a name="line.1128"></a>
-<span class="sourceLineNo">1129</span>          ((SortedSet&lt;E&gt;) unfiltered).subSet(fromElement, toElement), predicate);<a name="line.1129"></a>
-<span class="sourceLineNo">1130</span>    }<a name="line.1130"></a>
-<span class="sourceLineNo">1131</span><a name="line.1131"></a>
-<span class="sourceLineNo">1132</span>    @Override<a name="line.1132"></a>
-<span class="sourceLineNo">1133</span>    public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.1133"></a>
-<span class="sourceLineNo">1134</span>      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).headSet(toElement), predicate);<a name="line.1134"></a>
-<span class="sourceLineNo">1135</span>    }<a name="line.1135"></a>
-<span class="sourceLineNo">1136</span><a name="line.1136"></a>
-<span class="sourceLineNo">1137</span>    @Override<a name="line.1137"></a>
-<span class="sourceLineNo">1138</span>    public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.1138"></a>
-<span class="sourceLineNo">1139</span>      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).tailSet(fromElement), predicate);<a name="line.1139"></a>
-<span class="sourceLineNo">1140</span>    }<a name="line.1140"></a>
-<span class="sourceLineNo">1141</span><a name="line.1141"></a>
-<span class="sourceLineNo">1142</span>    @Override<a name="line.1142"></a>
-<span class="sourceLineNo">1143</span>    public E first() {<a name="line.1143"></a>
-<span class="sourceLineNo">1144</span>      return Iterators.find(unfiltered.iterator(), predicate);<a name="line.1144"></a>
-<span class="sourceLineNo">1145</span>    }<a name="line.1145"></a>
-<span class="sourceLineNo">1146</span><a name="line.1146"></a>
-<span class="sourceLineNo">1147</span>    @Override<a name="line.1147"></a>
-<span class="sourceLineNo">1148</span>    public E last() {<a name="line.1148"></a>
-<span class="sourceLineNo">1149</span>      SortedSet&lt;E&gt; sortedUnfiltered = (SortedSet&lt;E&gt;) unfiltered;<a name="line.1149"></a>
-<span class="sourceLineNo">1150</span>      while (true) {<a name="line.1150"></a>
-<span class="sourceLineNo">1151</span>        E element = sortedUnfiltered.last();<a name="line.1151"></a>
-<span class="sourceLineNo">1152</span>        if (predicate.apply(element)) {<a name="line.1152"></a>
-<span class="sourceLineNo">1153</span>          return element;<a name="line.1153"></a>
-<span class="sourceLineNo">1154</span>        }<a name="line.1154"></a>
-<span class="sourceLineNo">1155</span>        sortedUnfiltered = sortedUnfiltered.headSet(element);<a name="line.1155"></a>
-<span class="sourceLineNo">1156</span>      }<a name="line.1156"></a>
-<span class="sourceLineNo">1157</span>    }<a name="line.1157"></a>
-<span class="sourceLineNo">1158</span>  }<a name="line.1158"></a>
+<span class="sourceLineNo">1063</span>  /**<a name="line.1063"></a>
+<span class="sourceLineNo">1064</span>   * Returns the elements of a {@code SortedSet}, {@code unfiltered}, that satisfy a predicate. The<a name="line.1064"></a>
+<span class="sourceLineNo">1065</span>   * returned set is a live view of {@code unfiltered}; changes to one affect the other.<a name="line.1065"></a>
+<span class="sourceLineNo">1066</span>   *<a name="line.1066"></a>
+<span class="sourceLineNo">1067</span>   * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all other set methods<a name="line.1067"></a>
+<span class="sourceLineNo">1068</span>   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code<a name="line.1068"></a>
+<span class="sourceLineNo">1069</span>   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods<a name="line.1069"></a>
+<span class="sourceLineNo">1070</span>   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements<a name="line.1070"></a>
+<span class="sourceLineNo">1071</span>   * that satisfy the filter will be removed from the underlying set.<a name="line.1071"></a>
+<span class="sourceLineNo">1072</span>   *<a name="line.1072"></a>
+<span class="sourceLineNo">1073</span>   * &lt;p&gt;The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.<a name="line.1073"></a>
+<span class="sourceLineNo">1074</span>   *<a name="line.1074"></a>
+<span class="sourceLineNo">1075</span>   * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate across every element in<a name="line.1075"></a>
+<span class="sourceLineNo">1076</span>   * the underlying set and determine which elements satisfy the filter. When a live view is<a name="line.1076"></a>
+<span class="sourceLineNo">1077</span>   * &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and<a name="line.1077"></a>
+<span class="sourceLineNo">1078</span>   * use the copy.<a name="line.1078"></a>
+<span class="sourceLineNo">1079</span>   *<a name="line.1079"></a>
+<span class="sourceLineNo">1080</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at<a name="line.1080"></a>
+<span class="sourceLineNo">1081</span>   * {@link Predicate#apply}. Do not provide a predicate such as {@code<a name="line.1081"></a>
+<span class="sourceLineNo">1082</span>   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link<a name="line.1082"></a>
+<span class="sourceLineNo">1083</span>   * Iterables#filter(Iterable, Class)} for related functionality.)<a name="line.1083"></a>
+<span class="sourceLineNo">1084</span>   *<a name="line.1084"></a>
+<span class="sourceLineNo">1085</span>   * @since 11.0<a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>   */<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>  public static &lt;E&gt; SortedSet&lt;E&gt; filter(SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span>    if (unfiltered instanceof FilteredSet) {<a name="line.1088"></a>
+<span class="sourceLineNo">1089</span>      // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>      // collection.<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span>      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>      return new FilteredSortedSet&lt;E&gt;((SortedSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>    }<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span><a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>    return new FilteredSortedSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>  }<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span><a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>  /**<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>   * Returns the elements of a {@code NavigableSet}, {@code unfiltered}, that satisfy a predicate.<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span>   * The returned set is a live view of {@code unfiltered}; changes to one affect the other.<a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>   *<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>   * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all other set methods<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span>   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements<a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>   * that satisfy the filter will be removed from the underlying set.<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>   *<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>   * &lt;p&gt;The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>   *<a name="line.1110"></a>
+<span class="sourceLineNo">1111</span>   * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate across every element in<a name="line.1111"></a>
+<span class="sourceLineNo">1112</span>   * the underlying set and determine which elements satisfy the filter. When a live view is<a name="line.1112"></a>
+<span class="sourceLineNo">1113</span>   * &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and<a name="line.1113"></a>
+<span class="sourceLineNo">1114</span>   * use the copy.<a name="line.1114"></a>
+<span class="sourceLineNo">1115</span>   *<a name="line.1115"></a>
+<span class="sourceLineNo">1116</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at<a name="line.1116"></a>
+<span class="sourceLineNo">1117</span>   * {@link Predicate#apply}. Do not provide a predicate such as {@code<a name="line.1117"></a>
+<span class="sourceLineNo">1118</span>   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link<a name="line.1118"></a>
+<span class="sourceLineNo">1119</span>   * Iterables#filter(Iterable, Class)} for related functionality.)<a name="line.1119"></a>
+<span class="sourceLineNo">1120</span>   *<a name="line.1120"></a>
+<span class="sourceLineNo">1121</span>   * @since 14.0<a name="line.1121"></a>
+<span class="sourceLineNo">1122</span>   */<a name="line.1122"></a>
+<span class="sourceLineNo">1123</span>  @GwtIncompatible // NavigableSet<a name="line.1123"></a>
+<span class="sourceLineNo">1124</span>  @SuppressWarnings("unchecked")<a name="line.1124"></a>
+<span class="sourceLineNo">1125</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; filter(<a name="line.1125"></a>
+<span class="sourceLineNo">1126</span>      NavigableSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1126"></a>
+<span class="sourceLineNo">1127</span>    if (unfiltered instanceof FilteredSet) {<a name="line.1127"></a>
+<span class="sourceLineNo">1128</span>      // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.1128"></a>
+<span class="sourceLineNo">1129</span>      // collection.<a name="line.1129"></a>
+<span class="sourceLineNo">1130</span>      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.1130"></a>
+<span class="sourceLineNo">1131</span>      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.1131"></a>
+<span class="sourceLineNo">1132</span>      return new FilteredNavigableSet&lt;E&gt;((NavigableSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.1132"></a>
+<span class="sourceLineNo">1133</span>    }<a name="line.1133"></a>
+<span class="sourceLineNo">1134</span><a name="line.1134"></a>
+<span class="sourceLineNo">1135</span>    return new FilteredNavigableSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.1135"></a>
+<span class="sourceLineNo">1136</span>  }<a name="line.1136"></a>
+<span class="sourceLineNo">1137</span><a name="line.1137"></a>
+<span class="sourceLineNo">1138</span>  private static class FilteredSet&lt;E&gt; extends FilteredCollection&lt;E&gt; implements Set&lt;E&gt; {<a name="line.1138"></a>
+<span class="sourceLineNo">1139</span>    FilteredSet(Set&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1139"></a>
+<span class="sourceLineNo">1140</span>      super(unfiltered, predicate);<a name="line.1140"></a>
+<span class="sourceLineNo">1141</span>    }<a name="line.1141"></a>
+<span class="sourceLineNo">1142</span><a name="line.1142"></a>
+<span class="sourceLineNo">1143</span>    @Override<a name="line.1143"></a>
+<span class="sourceLineNo">1144</span>    public boolean equals(@NullableDecl Object object) {<a name="line.1144"></a>
+<span class="sourceLineNo">1145</span>      return equalsImpl(this, object);<a name="line.1145"></a>
+<span class="sourceLineNo">1146</span>    }<a name="line.1146"></a>
+<span class="sourceLineNo">1147</span><a name="line.1147"></a>
+<span class="sourceLineNo">1148</span>    @Override<a name="line.1148"></a>
+<span class="sourceLineNo">1149</span>    public int hashCode() {<a name="line.1149"></a>
+<span class="sourceLineNo">1150</span>      return hashCodeImpl(this);<a name="line.1150"></a>
+<span class="sourceLineNo">1151</span>    }<a name="line.1151"></a>
+<span class="sourceLineNo">1152</span>  }<a name="line.1152"></a>
+<span class="sourceLineNo">1153</span><a name="line.1153"></a>
+<span class="sourceLineNo">1154</span>  private static class FilteredSortedSet&lt;E&gt; extends FilteredSet&lt;E&gt; implements SortedSet&lt;E&gt; {<a name="line.1154"></a>
+<span class="sourceLineNo">1155</span><a name="line.1155"></a>
+<span class="sourceLineNo">1156</span>    FilteredSortedSet(SortedSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1156"></a>
+<span class="sourceLineNo">1157</span>      super(unfiltered, predicate);<a name="line.1157"></a>
+<span class="sourceLineNo">1158</span>    }<a name="line.1158"></a>
 <span class="sourceLineNo">1159</span><a name="line.1159"></a>
-<span class="sourceLineNo">1160</span>  /**<a name="line.1160"></a>
-<span class="sourceLineNo">1161</span>   * Returns the elements of a {@code NavigableSet}, {@code unfiltered}, that satisfy a predicate.<a name="line.1161"></a>
-<span class="sourceLineNo">1162</span>   * The returned set is a live view of {@code unfiltered}; changes to one affect the other.<a name="line.1162"></a>
-<span class="sourceLineNo">1163</span>   *<a name="line.1163"></a>
-<span class="sourceLineNo">1164</span>   * &lt;p&gt;The resulting set's iterator does not support {@code remove()}, but all other set methods<a name="line.1164"></a>
-<span class="sourceLineNo">1165</span>   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code<a name="line.1165"></a>
-<span class="sourceLineNo">1166</span>   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods<a name="line.1166"></a>
-<span class="sourceLineNo">1167</span>   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements<a name="line.1167"></a>
-<span class="sourceLineNo">1168</span>   * that satisfy the filter will be removed from the underlying set.<a name="line.1168"></a>
-<span class="sourceLineNo">1169</span>   *<a name="line.1169"></a>
-<span class="sourceLineNo">1170</span>   * &lt;p&gt;The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.<a name="line.1170"></a>
-<span class="sourceLineNo">1171</span>   *<a name="line.1171"></a>
-<span class="sourceLineNo">1172</span>   * &lt;p&gt;Many of the filtered set's methods, such as {@code size()}, iterate across every element in<a name="line.1172"></a>
-<span class="sourceLineNo">1173</span>   * the underlying set and determine which elements satisfy the filter. When a live view is<a name="line.1173"></a>
-<span class="sourceLineNo">1174</span>   * &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and<a name="line.1174"></a>
-<span class="sourceLineNo">1175</span>   * use the copy.<a name="line.1175"></a>
-<span class="sourceLineNo">1176</span>   *<a name="line.1176"></a>
-<span class="sourceLineNo">1177</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code predicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at<a name="line.1177"></a>
-<span class="sourceLineNo">1178</span>   * {@link Predicate#apply}. Do not provide a predicate such as {@code<a name="line.1178"></a>
-<span class="sourceLineNo">1179</span>   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link<a name="line.1179"></a>
-<span class="sourceLineNo">1180</span>   * Iterables#filter(Iterable, Class)} for related functionality.)<a name="line.1180"></a>
-<span class="sourceLineNo">1181</span>   *<a name="line.1181"></a>
-<span class="sourceLineNo">1182</span>   * @since 14.0<a name="line.1182"></a>
-<span class="sourceLineNo">1183</span>   */<a name="line.1183"></a>
-<span class="sourceLineNo">1184</span>  @GwtIncompatible // NavigableSet<a name="line.1184"></a>
-<span class="sourceLineNo">1185</span>  @SuppressWarnings("unchecked")<a name="line.1185"></a>
-<span class="sourceLineNo">1186</span>  public static &lt;E&gt; NavigableSet&lt;E&gt; filter(<a name="line.1186"></a>
-<span class="sourceLineNo">1187</span>      NavigableSet&lt;E&gt; unfiltered, Predicate&lt;? super E&gt; predicate) {<a name="line.1187"></a>
-<span class="sourceLineNo">1188</span>    if (unfiltered instanceof FilteredSet) {<a name="line.1188"></a>
-<span class="sourceLineNo">1189</span>      // Support clear(), removeAll(), and retainAll() when filtering a filtered<a name="line.1189"></a>
-<span class="sourceLineNo">1190</span>      // collection.<a name="line.1190"></a>
-<span class="sourceLineNo">1191</span>      FilteredSet&lt;E&gt; filtered = (FilteredSet&lt;E&gt;) unfiltered;<a name="line.1191"></a>
-<span class="sourceLineNo">1192</span>      Predicate&lt;E&gt; combinedPredicate = Predicates.&lt;E&gt;and(filtered.predicate, predicate);<a name="line.1192"></a>
-<span class="sourceLineNo">1193</span>      return new FilteredNavigableSet&lt;E&gt;((NavigableSet&lt;E&gt;) filtered.unfiltered, combinedPredicate);<a name="line.1193"></a>
-<span class="sourceLineNo">1194</span>    }<a name="line.1194"></a>
-<span class="sourceLineNo">1195</span><a name="line.1195"></a>
-<span class="sourceLineNo">1196</span>    return new FilteredNavigableSet&lt;E&gt;(checkNotNull(unfiltered), checkNotNull(predicate));<a name="line.1196"></a>
+<span class="sourceLineNo">1160</span>    @Override<a name="line.1160"></a>
+<span class="sourceLineNo">1161</span>    public Comparator&lt;? super E&gt; comparator() {<a name="line.1161"></a>
+<span class="sourceLineNo">1162</span>      return ((SortedSet&lt;E&gt;) unfiltered).comparator();<a name="line.1162"></a>
+<span class="sourceLineNo">1163</span>    }<a name="line.1163"></a>
+<span class="sourceLineNo">1164</span><a name="line.1164"></a>
+<span class="sourceLineNo">1165</span>    @Override<a name="line.1165"></a>
+<span class="sourceLineNo">1166</span>    public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.1166"></a>
+<span class="sourceLineNo">1167</span>      return new FilteredSortedSet&lt;E&gt;(<a name="line.1167"></a>
+<span class="sourceLineNo">1168</span>          ((SortedSet&lt;E&gt;) unfiltered).subSet(fromElement, toElement), predicate);<a name="line.1168"></a>
+<span class="sourceLineNo">1169</span>    }<a name="line.1169"></a>
+<span class="sourceLineNo">1170</span><a name="line.1170"></a>
+<span class="sourceLineNo">1171</span>    @Override<a name="line.1171"></a>
+<span class="sourceLineNo">1172</span>    public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.1172"></a>
+<span class="sourceLineNo">1173</span>      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).headSet(toElement), predicate);<a name="line.1173"></a>
+<span class="sourceLineNo">1174</span>    }<a name="line.1174"></a>
+<span class="sourceLineNo">1175</span><a name="line.1175"></a>
+<span class="sourceLineNo">1176</span>    @Override<a name="line.1176"></a>
+<span class="sourceLineNo">1177</span>    public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.1177"></a>
+<span class="sourceLineNo">1178</span>      return new FilteredSortedSet&lt;E&gt;(((SortedSet&lt;E&gt;) unfiltered).tailSet(fromElement), predicate);<a name="line.1178"></a>
+<span class="sourceLineNo">1179</span>    }<a name="line.1179"></a>
+<span class="sourceLineNo">1180</span><a name="line.1180"></a>
+<span class="sourceLineNo">1181</span>    @Override<a name="line.1181"></a>
+<span class="sourceLineNo">1182</span>    public E first() {<a name="line.1182"></a>
+<span class="sourceLineNo">1183</span>      return Iterators.find(unfiltered.iterator(), predicate);<a name="line.1183"></a>
+<span class="sourceLineNo">1184</span>    }<a name="line.1184"></a>
+<span class="sourceLineNo">1185</span><a name="line.1185"></a>
+<span class="sourceLineNo">1186</span>    @Override<a name="line.1186"></a>
+<span class="sourceLineNo">1187</span>    public E last() {<a name="line.1187"></a>
+<span class="sourceLineNo">1188</span>      SortedSet&lt;E&gt; sortedUnfiltered = (SortedSet&lt;E&gt;) unfiltered;<a name="line.1188"></a>
+<span class="sourceLineNo">1189</span>      while (true) {<a name="line.1189"></a>
+<span class="sourceLineNo">1190</span>        E element = sortedUnfiltered.last();<a name="line.1190"></a>
+<span class="sourceLineNo">1191</span>        if (predicate.apply(element)) {<a name="line.1191"></a>
+<span class="sourceLineNo">1192</span>          return element;<a name="line.1192"></a>
+<span class="sourceLineNo">1193</span>        }<a name="line.1193"></a>
+<span class="sourceLineNo">1194</span>        sortedUnfiltered = sortedUnfiltered.headSet(element);<a name="line.1194"></a>
+<span class="sourceLineNo">1195</span>      }<a name="line.1195"></a>
+<span class="sourceLineNo">1196</span>    }<a name="line.1196"></a>
 <span class="sourceLineNo">1197</span>  }<a name="line.1197"></a>
 <span class="sourceLineNo">1198</span><a name="line.1198"></a>
 <span class="sourceLineNo">1199</span>  @GwtIncompatible // NavigableSet<a name="line.1199"></a>
@@ -2021,54 +2021,54 @@
 <span class="sourceLineNo">2013</span>    }<a name="line.2013"></a>
 <span class="sourceLineNo">2014</span><a name="line.2014"></a>
 <span class="sourceLineNo">2015</span>    @Override<a name="line.2015"></a>
-<span class="sourceLineNo">2016</span>    public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.2016"></a>
-<span class="sourceLineNo">2017</span>      return forward.tailSet(toElement, inclusive).descendingSet();<a name="line.2017"></a>
+<span class="sourceLineNo">2016</span>    public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.2016"></a>
+<span class="sourceLineNo">2017</span>      return standardSubSet(fromElement, toElement);<a name="line.2017"></a>
 <span class="sourceLineNo">2018</span>    }<a name="line.2018"></a>
 <span class="sourceLineNo">2019</span><a name="line.2019"></a>
 <span class="sourceLineNo">2020</span>    @Override<a name="line.2020"></a>
-<span class="sourceLineNo">2021</span>    public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.2021"></a>
-<span class="sourceLineNo">2022</span>      return forward.headSet(fromElement, inclusive).descendingSet();<a name="line.2022"></a>
+<span class="sourceLineNo">2021</span>    public NavigableSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.2021"></a>
+<span class="sourceLineNo">2022</span>      return forward.tailSet(toElement, inclusive).descendingSet();<a name="line.2022"></a>
 <span class="sourceLineNo">2023</span>    }<a name="line.2023"></a>
 <span class="sourceLineNo">2024</span><a name="line.2024"></a>
-<span class="sourceLineNo">2025</span>    @SuppressWarnings("unchecked")<a name="line.2025"></a>
-<span class="sourceLineNo">2026</span>    @Override<a name="line.2026"></a>
-<span class="sourceLineNo">2027</span>    public Comparator&lt;? super E&gt; comparator() {<a name="line.2027"></a>
-<span class="sourceLineNo">2028</span>      Comparator&lt;? super E&gt; forwardComparator = forward.comparator();<a name="line.2028"></a>
-<span class="sourceLineNo">2029</span>      if (forwardComparator == null) {<a name="line.2029"></a>
-<span class="sourceLineNo">2030</span>        return (Comparator) Ordering.natural().reverse();<a name="line.2030"></a>
-<span class="sourceLineNo">2031</span>      } else {<a name="line.2031"></a>
-<span class="sourceLineNo">2032</span>        return reverse(forwardComparator);<a name="line.2032"></a>
-<span class="sourceLineNo">2033</span>      }<a name="line.2033"></a>
-<span class="sourceLineNo">2034</span>    }<a name="line.2034"></a>
-<span class="sourceLineNo">2035</span><a name="line.2035"></a>
-<span class="sourceLineNo">2036</span>    // If we inline this, we get a javac error.<a name="line.2036"></a>
-<span class="sourceLineNo">2037</span>    private static &lt;T&gt; Ordering&lt;T&gt; reverse(Comparator&lt;T&gt; forward) {<a name="line.2037"></a>
-<span class="sourceLineNo">2038</span>      return Ordering.from(forward).reverse();<a name="line.2038"></a>
-<span class="sourceLineNo">2039</span>    }<a name="line.2039"></a>
-<span class="sourceLineNo">2040</span><a name="line.2040"></a>
+<span class="sourceLineNo">2025</span>    @Override<a name="line.2025"></a>
+<span class="sourceLineNo">2026</span>    public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.2026"></a>
+<span class="sourceLineNo">2027</span>      return standardHeadSet(toElement);<a name="line.2027"></a>
+<span class="sourceLineNo">2028</span>    }<a name="line.2028"></a>
+<span class="sourceLineNo">2029</span><a name="line.2029"></a>
+<span class="sourceLineNo">2030</span>    @Override<a name="line.2030"></a>
+<span class="sourceLineNo">2031</span>    public NavigableSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.2031"></a>
+<span class="sourceLineNo">2032</span>      return forward.headSet(fromElement, inclusive).descendingSet();<a name="line.2032"></a>
+<span class="sourceLineNo">2033</span>    }<a name="line.2033"></a>
+<span class="sourceLineNo">2034</span><a name="line.2034"></a>
+<span class="sourceLineNo">2035</span>    @Override<a name="line.2035"></a>
+<span class="sourceLineNo">2036</span>    public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.2036"></a>
+<span class="sourceLineNo">2037</span>      return standardTailSet(fromElement);<a name="line.2037"></a>
+<span class="sourceLineNo">2038</span>    }<a name="line.2038"></a>
+<span class="sourceLineNo">2039</span><a name="line.2039"></a>
+<span class="sourceLineNo">2040</span>    @SuppressWarnings("unchecked")<a name="line.2040"></a>
 <span class="sourceLineNo">2041</span>    @Override<a name="line.2041"></a>
-<span class="sourceLineNo">2042</span>    public E first() {<a name="line.2042"></a>
-<span class="sourceLineNo">2043</span>      return forward.last();<a name="line.2043"></a>
-<span class="sourceLineNo">2044</span>    }<a name="line.2044"></a>
-<span class="sourceLineNo">2045</span><a name="line.2045"></a>
-<span class="sourceLineNo">2046</span>    @Override<a name="line.2046"></a>
-<span class="sourceLineNo">2047</span>    public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.2047"></a>
-<span class="sourceLineNo">2048</span>      return standardHeadSet(toElement);<a name="line.2048"></a>
+<span class="sourceLineNo">2042</span>    public Comparator&lt;? super E&gt; comparator() {<a name="line.2042"></a>
+<span class="sourceLineNo">2043</span>      Comparator&lt;? super E&gt; forwardComparator = forward.comparator();<a name="line.2043"></a>
+<span class="sourceLineNo">2044</span>      if (forwardComparator == null) {<a name="line.2044"></a>
+<span class="sourceLineNo">2045</span>        return (Comparator) Ordering.natural().reverse();<a name="line.2045"></a>
+<span class="sourceLineNo">2046</span>      } else {<a name="line.2046"></a>
+<span class="sourceLineNo">2047</span>        return reverse(forwardComparator);<a name="line.2047"></a>
+<span class="sourceLineNo">2048</span>      }<a name="line.2048"></a>
 <span class="sourceLineNo">2049</span>    }<a name="line.2049"></a>
 <span class="sourceLineNo">2050</span><a name="line.2050"></a>
-<span class="sourceLineNo">2051</span>    @Override<a name="line.2051"></a>
-<span class="sourceLineNo">2052</span>    public E last() {<a name="line.2052"></a>
-<span class="sourceLineNo">2053</span>      return forward.first();<a name="line.2053"></a>
+<span class="sourceLineNo">2051</span>    // If we inline this, we get a javac error.<a name="line.2051"></a>
+<span class="sourceLineNo">2052</span>    private static &lt;T&gt; Ordering&lt;T&gt; reverse(Comparator&lt;T&gt; forward) {<a name="line.2052"></a>
+<span class="sourceLineNo">2053</span>      return Ordering.from(forward).reverse();<a name="line.2053"></a>
 <span class="sourceLineNo">2054</span>    }<a name="line.2054"></a>
 <span class="sourceLineNo">2055</span><a name="line.2055"></a>
 <span class="sourceLineNo">2056</span>    @Override<a name="line.2056"></a>
-<span class="sourceLineNo">2057</span>    public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.2057"></a>
-<span class="sourceLineNo">2058</span>      return standardSubSet(fromElement, toElement);<a name="line.2058"></a>
+<span class="sourceLineNo">2057</span>    public E first() {<a name="line.2057"></a>
+<span class="sourceLineNo">2058</span>      return forward.last();<a name="line.2058"></a>
 <span class="sourceLineNo">2059</span>    }<a name="line.2059"></a>
 <span class="sourceLineNo">2060</span><a name="line.2060"></a>
 <span class="sourceLineNo">2061</span>    @Override<a name="line.2061"></a>
-<span class="sourceLineNo">2062</span>    public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.2062"></a>
-<span class="sourceLineNo">2063</span>      return standardTailSet(fromElement);<a name="line.2063"></a>
+<span class="sourceLineNo">2062</span>    public E last() {<a name="line.2062"></a>
+<span class="sourceLineNo">2063</span>      return forward.first();<a name="line.2063"></a>
 <span class="sourceLineNo">2064</span>    }<a name="line.2064"></a>
 <span class="sourceLineNo">2065</span><a name="line.2065"></a>
 <span class="sourceLineNo">2066</span>    @Override<a name="line.2066"></a>

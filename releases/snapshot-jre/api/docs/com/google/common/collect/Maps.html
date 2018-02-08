@@ -641,35 +641,13 @@ public static&nbsp;&lt;T,K extends <a href="https://docs.oracle.com/javase/9/doc
 </dl>
 </li>
 </ul>
-<a name="newHashMapWithExpectedSize-int-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>newHashMapWithExpectedSize</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.304">newHashMapWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
-<div class="block">Creates a <code>HashMap</code> instance, with a high enough "initial capacity" that it <i>should</i>
- hold <code>expectedSize</code> elements without growth. This behavior cannot be broadly guaranteed,
- but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
- isn't inadvertently <i>oversizing</i> the returned map.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>expectedSize</code> - the number of entries you expect to add to the returned map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new, empty <code>HashMap</code> with enough capacity to hold <code>expectedSize</code> entries
-     without resizing</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedSize</code> is negative</dd>
-</dl>
-</li>
-</ul>
 <a name="newHashMap-java.util.Map-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>newHashMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.340">newHashMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.307">newHashMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
 <div class="block">Creates a <i>mutable</i> <code>HashMap</code> instance with the same mappings as the specified map.
 
  <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableMap.html#copyOf-java.util.Map-"><code>ImmutableMap.copyOf(Map)</code></a> instead.
@@ -684,6 +662,28 @@ public static&nbsp;&lt;T,K extends <a href="https://docs.oracle.com/javase/9/doc
 <dd><code>map</code> - the mappings to be placed in the new map</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a new <code>HashMap</code> initialized with the mappings from <code>map</code></dd>
+</dl>
+</li>
+</ul>
+<a name="newHashMapWithExpectedSize-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>newHashMapWithExpectedSize</h4>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util">HashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.322">newHashMapWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+<div class="block">Creates a <code>HashMap</code> instance, with a high enough "initial capacity" that it <i>should</i>
+ hold <code>expectedSize</code> elements without growth. This behavior cannot be broadly guaranteed,
+ but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
+ isn't inadvertently <i>oversizing</i> the returned map.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>expectedSize</code> - the number of entries you expect to add to the returned map</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new, empty <code>HashMap</code> with enough capacity to hold <code>expectedSize</code> entries
+     without resizing</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedSize</code> is negative</dd>
 </dl>
 </li>
 </ul>
@@ -707,13 +707,36 @@ public static&nbsp;&lt;T,K extends <a href="https://docs.oracle.com/javase/9/doc
 </dl>
 </li>
 </ul>
+<a name="newLinkedHashMap-java.util.Map-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>newLinkedHashMap</h4>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.372">newLinkedHashMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
+<div class="block">Creates a <i>mutable</i>, insertion-ordered <code>LinkedHashMap</code> instance with the same
+ mappings as the specified map.
+
+ <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableMap.html#copyOf-java.util.Map-"><code>ImmutableMap.copyOf(Map)</code></a> instead.
+
+ <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
+ deprecated. Instead, use the <code>LinkedHashMap</code> constructor directly, taking advantage of
+ the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>map</code> - the mappings to be placed in the new map</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new, <code>LinkedHashMap</code> initialized with the mappings from <code>map</code></dd>
+</dl>
+</li>
+</ul>
 <a name="newLinkedHashMapWithExpectedSize-int-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>newLinkedHashMapWithExpectedSize</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.371">newLinkedHashMapWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.388">newLinkedHashMapWithExpectedSize</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Creates a <code>LinkedHashMap</code> instance, with a high enough "initial capacity" that it
  <i>should</i> hold <code>expectedSize</code> elements without growth. This behavior cannot be
  broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
@@ -728,29 +751,6 @@ public static&nbsp;&lt;T,K extends <a href="https://docs.oracle.com/javase/9/doc
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>expectedSize</code> is negative</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0</dd>
-</dl>
-</li>
-</ul>
-<a name="newLinkedHashMap-java.util.Map-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>newLinkedHashMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/LinkedHashMap.html?is-external=true" title="class or interface in java.util">LinkedHashMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.388">newLinkedHashMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
-<div class="block">Creates a <i>mutable</i>, insertion-ordered <code>LinkedHashMap</code> instance with the same
- mappings as the specified map.
-
- <p><b>Note:</b> if mutability is not required, use <a href="../../../../com/google/common/collect/ImmutableMap.html#copyOf-java.util.Map-"><code>ImmutableMap.copyOf(Map)</code></a> instead.
-
- <p><b>Note for Java 7 and later:</b> this method is now unnecessary and should be treated as
- deprecated. Instead, use the <code>LinkedHashMap</code> constructor directly, taking advantage of
- the new <a href="http://goo.gl/iz2Wi">"diamond" syntax</a>.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>map</code> - the mappings to be placed in the new map</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new, <code>LinkedHashMap</code> initialized with the mappings from <code>map</code></dd>
 </dl>
 </li>
 </ul>
@@ -952,7 +952,7 @@ public static&nbsp;&lt;T,K extends <a href="https://docs.oracle.com/javase/9/doc
 <ul class="blockList">
 <li class="blockList">
 <h4>difference</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedMapDifference.html" title="interface in com.google.common.collect">SortedMapDifference</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.728">difference</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,? extends V&gt;&nbsp;left,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/SortedMapDifference.html" title="interface in com.google.common.collect">SortedMapDifference</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Maps.html#line.569">difference</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedMap.html?is-external=true" title="class or interface in java.util">SortedMap</a>&lt;K,? extends V&gt;&nbsp;left,
                                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;right)</pre>
 <div class="block">Computes the difference between two sorted maps, using the comparator of the left map, or
  <code>Ordering.natural()</code> if the left map uses the natural ordering of its elements. This

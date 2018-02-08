@@ -261,49 +261,49 @@
 <span class="sourceLineNo">253</span>    return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));<a name="line.253"></a>
 <span class="sourceLineNo">254</span>  }<a name="line.254"></a>
 <span class="sourceLineNo">255</span><a name="line.255"></a>
-<span class="sourceLineNo">256</span>  /** Concatenates a varargs array of iterables without making a defensive copy of the array. */<a name="line.256"></a>
-<span class="sourceLineNo">257</span>  private static &lt;T&gt; FluentIterable&lt;T&gt; concatNoDefensiveCopy(<a name="line.257"></a>
-<span class="sourceLineNo">258</span>      final Iterable&lt;? extends T&gt;... inputs) {<a name="line.258"></a>
-<span class="sourceLineNo">259</span>    for (Iterable&lt;? extends T&gt; input : inputs) {<a name="line.259"></a>
-<span class="sourceLineNo">260</span>      checkNotNull(input);<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    }<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    return new FluentIterable&lt;T&gt;() {<a name="line.262"></a>
-<span class="sourceLineNo">263</span>      @Override<a name="line.263"></a>
-<span class="sourceLineNo">264</span>      public Iterator&lt;T&gt; iterator() {<a name="line.264"></a>
-<span class="sourceLineNo">265</span>        return Iterators.concat(<a name="line.265"></a>
-<span class="sourceLineNo">266</span>            /* lazily generate the iterators on each input only as needed */<a name="line.266"></a>
-<span class="sourceLineNo">267</span>            new AbstractIndexedListIterator&lt;Iterator&lt;? extends T&gt;&gt;(inputs.length) {<a name="line.267"></a>
-<span class="sourceLineNo">268</span>              @Override<a name="line.268"></a>
-<span class="sourceLineNo">269</span>              public Iterator&lt;? extends T&gt; get(int i) {<a name="line.269"></a>
-<span class="sourceLineNo">270</span>                return inputs[i].iterator();<a name="line.270"></a>
-<span class="sourceLineNo">271</span>              }<a name="line.271"></a>
-<span class="sourceLineNo">272</span>            });<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      }<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    };<a name="line.274"></a>
-<span class="sourceLineNo">275</span>  }<a name="line.275"></a>
-<span class="sourceLineNo">276</span><a name="line.276"></a>
-<span class="sourceLineNo">277</span>  /**<a name="line.277"></a>
-<span class="sourceLineNo">278</span>   * Returns a fluent iterable that combines several iterables. The returned iterable has an<a name="line.278"></a>
-<span class="sourceLineNo">279</span>   * iterator that traverses the elements of each iterable in {@code inputs}. The input iterators<a name="line.279"></a>
-<span class="sourceLineNo">280</span>   * are not polled until necessary.<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   *<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   * iterator supports it. The methods of the returned iterable may throw {@code<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   * NullPointerException} if any of the input iterators is {@code null}.<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   *<a name="line.285"></a>
-<span class="sourceLineNo">286</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code streamOfStreams.flatMap(s -&gt; s)} or {@code<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   * streamOfIterables.flatMap(Streams::stream)}. (See {@link Streams#stream}.)<a name="line.287"></a>
-<span class="sourceLineNo">288</span>   *<a name="line.288"></a>
-<span class="sourceLineNo">289</span>   * @since 20.0<a name="line.289"></a>
-<span class="sourceLineNo">290</span>   */<a name="line.290"></a>
-<span class="sourceLineNo">291</span>  @Beta<a name="line.291"></a>
-<span class="sourceLineNo">292</span>  public static &lt;T&gt; FluentIterable&lt;T&gt; concat(<a name="line.292"></a>
-<span class="sourceLineNo">293</span>      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; inputs) {<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    checkNotNull(inputs);<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    return new FluentIterable&lt;T&gt;() {<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      @Override<a name="line.296"></a>
-<span class="sourceLineNo">297</span>      public Iterator&lt;T&gt; iterator() {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.&lt;T&gt;toIterator()));<a name="line.298"></a>
+<span class="sourceLineNo">256</span>  /**<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * Returns a fluent iterable that combines several iterables. The returned iterable has an<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * iterator that traverses the elements of each iterable in {@code inputs}. The input iterators<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   * are not polled until necessary.<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   *<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * &lt;p&gt;The returned iterable's iterator supports {@code remove()} when the corresponding input<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * iterator supports it. The methods of the returned iterable may throw {@code<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * NullPointerException} if any of the input iterators is {@code null}.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   *<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code streamOfStreams.flatMap(s -&gt; s)} or {@code<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * streamOfIterables.flatMap(Streams::stream)}. (See {@link Streams#stream}.)<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * @since 20.0<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   */<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  @Beta<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  public static &lt;T&gt; FluentIterable&lt;T&gt; concat(<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; inputs) {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    checkNotNull(inputs);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    return new FluentIterable&lt;T&gt;() {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      @Override<a name="line.275"></a>
+<span class="sourceLineNo">276</span>      public Iterator&lt;T&gt; iterator() {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>        return Iterators.concat(Iterators.transform(inputs.iterator(), Iterables.&lt;T&gt;toIterator()));<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      }<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    };<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  }<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>  /** Concatenates a varargs array of iterables without making a defensive copy of the array. */<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  private static &lt;T&gt; FluentIterable&lt;T&gt; concatNoDefensiveCopy(<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      final Iterable&lt;? extends T&gt;... inputs) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    for (Iterable&lt;? extends T&gt; input : inputs) {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      checkNotNull(input);<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    }<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    return new FluentIterable&lt;T&gt;() {<a name="line.288"></a>
+<span class="sourceLineNo">289</span>      @Override<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      public Iterator&lt;T&gt; iterator() {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>        return Iterators.concat(<a name="line.291"></a>
+<span class="sourceLineNo">292</span>            /* lazily generate the iterators on each input only as needed */<a name="line.292"></a>
+<span class="sourceLineNo">293</span>            new AbstractIndexedListIterator&lt;Iterator&lt;? extends T&gt;&gt;(inputs.length) {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>              @Override<a name="line.294"></a>
+<span class="sourceLineNo">295</span>              public Iterator&lt;? extends T&gt; get(int i) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>                return inputs[i].iterator();<a name="line.296"></a>
+<span class="sourceLineNo">297</span>              }<a name="line.297"></a>
+<span class="sourceLineNo">298</span>            });<a name="line.298"></a>
 <span class="sourceLineNo">299</span>      }<a name="line.299"></a>
 <span class="sourceLineNo">300</span>    };<a name="line.300"></a>
 <span class="sourceLineNo">301</span>  }<a name="line.301"></a>

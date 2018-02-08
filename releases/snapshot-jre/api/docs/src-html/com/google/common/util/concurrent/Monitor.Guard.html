@@ -395,41 +395,41 @@
 <span class="sourceLineNo">387</span>  }<a name="line.387"></a>
 <span class="sourceLineNo">388</span><a name="line.388"></a>
 <span class="sourceLineNo">389</span>  /**<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * Enters this monitor. Blocks indefinitely, but may be interrupted.<a name="line.390"></a>
+<span class="sourceLineNo">390</span>   * Enters this monitor. Blocks at most the given time.<a name="line.390"></a>
 <span class="sourceLineNo">391</span>   *<a name="line.391"></a>
-<span class="sourceLineNo">392</span>   * @throws InterruptedException if interrupted while waiting<a name="line.392"></a>
+<span class="sourceLineNo">392</span>   * @return whether the monitor was entered<a name="line.392"></a>
 <span class="sourceLineNo">393</span>   */<a name="line.393"></a>
-<span class="sourceLineNo">394</span>  public void enterInterruptibly() throws InterruptedException {<a name="line.394"></a>
-<span class="sourceLineNo">395</span>    lock.lockInterruptibly();<a name="line.395"></a>
-<span class="sourceLineNo">396</span>  }<a name="line.396"></a>
-<span class="sourceLineNo">397</span><a name="line.397"></a>
-<span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
-<span class="sourceLineNo">399</span>   * Enters this monitor. Blocks at most the given time.<a name="line.399"></a>
-<span class="sourceLineNo">400</span>   *<a name="line.400"></a>
-<span class="sourceLineNo">401</span>   * @return whether the monitor was entered<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   */<a name="line.402"></a>
-<span class="sourceLineNo">403</span>  public boolean enter(long time, TimeUnit unit) {<a name="line.403"></a>
-<span class="sourceLineNo">404</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.404"></a>
-<span class="sourceLineNo">405</span>    final ReentrantLock lock = this.lock;<a name="line.405"></a>
-<span class="sourceLineNo">406</span>    if (!fair &amp;&amp; lock.tryLock()) {<a name="line.406"></a>
-<span class="sourceLineNo">407</span>      return true;<a name="line.407"></a>
-<span class="sourceLineNo">408</span>    }<a name="line.408"></a>
-<span class="sourceLineNo">409</span>    boolean interrupted = Thread.interrupted();<a name="line.409"></a>
-<span class="sourceLineNo">410</span>    try {<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      final long startTime = System.nanoTime();<a name="line.411"></a>
-<span class="sourceLineNo">412</span>      for (long remainingNanos = timeoutNanos; ; ) {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>        try {<a name="line.413"></a>
-<span class="sourceLineNo">414</span>          return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);<a name="line.414"></a>
-<span class="sourceLineNo">415</span>        } catch (InterruptedException interrupt) {<a name="line.415"></a>
-<span class="sourceLineNo">416</span>          interrupted = true;<a name="line.416"></a>
-<span class="sourceLineNo">417</span>          remainingNanos = remainingNanos(startTime, timeoutNanos);<a name="line.417"></a>
-<span class="sourceLineNo">418</span>        }<a name="line.418"></a>
-<span class="sourceLineNo">419</span>      }<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    } finally {<a name="line.420"></a>
-<span class="sourceLineNo">421</span>      if (interrupted) {<a name="line.421"></a>
-<span class="sourceLineNo">422</span>        Thread.currentThread().interrupt();<a name="line.422"></a>
-<span class="sourceLineNo">423</span>      }<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    }<a name="line.424"></a>
+<span class="sourceLineNo">394</span>  public boolean enter(long time, TimeUnit unit) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.395"></a>
+<span class="sourceLineNo">396</span>    final ReentrantLock lock = this.lock;<a name="line.396"></a>
+<span class="sourceLineNo">397</span>    if (!fair &amp;&amp; lock.tryLock()) {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      return true;<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    }<a name="line.399"></a>
+<span class="sourceLineNo">400</span>    boolean interrupted = Thread.interrupted();<a name="line.400"></a>
+<span class="sourceLineNo">401</span>    try {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      final long startTime = System.nanoTime();<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      for (long remainingNanos = timeoutNanos; ; ) {<a name="line.403"></a>
+<span class="sourceLineNo">404</span>        try {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>          return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        } catch (InterruptedException interrupt) {<a name="line.406"></a>
+<span class="sourceLineNo">407</span>          interrupted = true;<a name="line.407"></a>
+<span class="sourceLineNo">408</span>          remainingNanos = remainingNanos(startTime, timeoutNanos);<a name="line.408"></a>
+<span class="sourceLineNo">409</span>        }<a name="line.409"></a>
+<span class="sourceLineNo">410</span>      }<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    } finally {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>      if (interrupted) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        Thread.currentThread().interrupt();<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      }<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    }<a name="line.415"></a>
+<span class="sourceLineNo">416</span>  }<a name="line.416"></a>
+<span class="sourceLineNo">417</span><a name="line.417"></a>
+<span class="sourceLineNo">418</span>  /**<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * Enters this monitor. Blocks indefinitely, but may be interrupted.<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   *<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   * @throws InterruptedException if interrupted while waiting<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   */<a name="line.422"></a>
+<span class="sourceLineNo">423</span>  public void enterInterruptibly() throws InterruptedException {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    lock.lockInterruptibly();<a name="line.424"></a>
 <span class="sourceLineNo">425</span>  }<a name="line.425"></a>
 <span class="sourceLineNo">426</span><a name="line.426"></a>
 <span class="sourceLineNo">427</span>  /**<a name="line.427"></a>
@@ -479,83 +479,83 @@
 <span class="sourceLineNo">471</span>    }<a name="line.471"></a>
 <span class="sourceLineNo">472</span>  }<a name="line.472"></a>
 <span class="sourceLineNo">473</span><a name="line.473"></a>
-<span class="sourceLineNo">474</span>  /** Enters this monitor when the guard is satisfied. Blocks indefinitely. */<a name="line.474"></a>
-<span class="sourceLineNo">475</span>  public void enterWhenUninterruptibly(Guard guard) {<a name="line.475"></a>
-<span class="sourceLineNo">476</span>    if (guard.monitor != this) {<a name="line.476"></a>
-<span class="sourceLineNo">477</span>      throw new IllegalMonitorStateException();<a name="line.477"></a>
-<span class="sourceLineNo">478</span>    }<a name="line.478"></a>
-<span class="sourceLineNo">479</span>    final ReentrantLock lock = this.lock;<a name="line.479"></a>
-<span class="sourceLineNo">480</span>    boolean signalBeforeWaiting = lock.isHeldByCurrentThread();<a name="line.480"></a>
-<span class="sourceLineNo">481</span>    lock.lock();<a name="line.481"></a>
-<span class="sourceLineNo">482</span><a name="line.482"></a>
-<span class="sourceLineNo">483</span>    boolean satisfied = false;<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    try {<a name="line.484"></a>
-<span class="sourceLineNo">485</span>      if (!guard.isSatisfied()) {<a name="line.485"></a>
-<span class="sourceLineNo">486</span>        awaitUninterruptibly(guard, signalBeforeWaiting);<a name="line.486"></a>
-<span class="sourceLineNo">487</span>      }<a name="line.487"></a>
-<span class="sourceLineNo">488</span>      satisfied = true;<a name="line.488"></a>
-<span class="sourceLineNo">489</span>    } finally {<a name="line.489"></a>
-<span class="sourceLineNo">490</span>      if (!satisfied) {<a name="line.490"></a>
-<span class="sourceLineNo">491</span>        leave();<a name="line.491"></a>
-<span class="sourceLineNo">492</span>      }<a name="line.492"></a>
-<span class="sourceLineNo">493</span>    }<a name="line.493"></a>
-<span class="sourceLineNo">494</span>  }<a name="line.494"></a>
-<span class="sourceLineNo">495</span><a name="line.495"></a>
-<span class="sourceLineNo">496</span>  /**<a name="line.496"></a>
-<span class="sourceLineNo">497</span>   * Enters this monitor when the guard is satisfied. Blocks at most the given time, including both<a name="line.497"></a>
-<span class="sourceLineNo">498</span>   * the time to acquire the lock and the time to wait for the guard to be satisfied, and may be<a name="line.498"></a>
-<span class="sourceLineNo">499</span>   * interrupted.<a name="line.499"></a>
-<span class="sourceLineNo">500</span>   *<a name="line.500"></a>
-<span class="sourceLineNo">501</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.501"></a>
-<span class="sourceLineNo">502</span>   * @throws InterruptedException if interrupted while waiting<a name="line.502"></a>
-<span class="sourceLineNo">503</span>   */<a name="line.503"></a>
-<span class="sourceLineNo">504</span>  public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.505"></a>
-<span class="sourceLineNo">506</span>    if (guard.monitor != this) {<a name="line.506"></a>
-<span class="sourceLineNo">507</span>      throw new IllegalMonitorStateException();<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    }<a name="line.508"></a>
-<span class="sourceLineNo">509</span>    final ReentrantLock lock = this.lock;<a name="line.509"></a>
-<span class="sourceLineNo">510</span>    boolean reentrant = lock.isHeldByCurrentThread();<a name="line.510"></a>
-<span class="sourceLineNo">511</span>    long startTime = 0L;<a name="line.511"></a>
-<span class="sourceLineNo">512</span><a name="line.512"></a>
-<span class="sourceLineNo">513</span>    locked:<a name="line.513"></a>
-<span class="sourceLineNo">514</span>    {<a name="line.514"></a>
-<span class="sourceLineNo">515</span>      if (!fair) {<a name="line.515"></a>
-<span class="sourceLineNo">516</span>        // Check interrupt status to get behavior consistent with fair case.<a name="line.516"></a>
-<span class="sourceLineNo">517</span>        if (Thread.interrupted()) {<a name="line.517"></a>
-<span class="sourceLineNo">518</span>          throw new InterruptedException();<a name="line.518"></a>
-<span class="sourceLineNo">519</span>        }<a name="line.519"></a>
-<span class="sourceLineNo">520</span>        if (lock.tryLock()) {<a name="line.520"></a>
-<span class="sourceLineNo">521</span>          break locked;<a name="line.521"></a>
-<span class="sourceLineNo">522</span>        }<a name="line.522"></a>
-<span class="sourceLineNo">523</span>      }<a name="line.523"></a>
-<span class="sourceLineNo">524</span>      startTime = initNanoTime(timeoutNanos);<a name="line.524"></a>
-<span class="sourceLineNo">525</span>      if (!lock.tryLock(time, unit)) {<a name="line.525"></a>
-<span class="sourceLineNo">526</span>        return false;<a name="line.526"></a>
-<span class="sourceLineNo">527</span>      }<a name="line.527"></a>
-<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
-<span class="sourceLineNo">529</span><a name="line.529"></a>
-<span class="sourceLineNo">530</span>    boolean satisfied = false;<a name="line.530"></a>
-<span class="sourceLineNo">531</span>    boolean threw = true;<a name="line.531"></a>
-<span class="sourceLineNo">532</span>    try {<a name="line.532"></a>
-<span class="sourceLineNo">533</span>      satisfied =<a name="line.533"></a>
-<span class="sourceLineNo">534</span>          guard.isSatisfied()<a name="line.534"></a>
-<span class="sourceLineNo">535</span>              || awaitNanos(<a name="line.535"></a>
-<span class="sourceLineNo">536</span>                  guard,<a name="line.536"></a>
-<span class="sourceLineNo">537</span>                  (startTime == 0L) ? timeoutNanos : remainingNanos(startTime, timeoutNanos),<a name="line.537"></a>
-<span class="sourceLineNo">538</span>                  reentrant);<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      threw = false;<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      return satisfied;<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    } finally {<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      if (!satisfied) {<a name="line.542"></a>
-<span class="sourceLineNo">543</span>        try {<a name="line.543"></a>
-<span class="sourceLineNo">544</span>          // Don't need to signal if timed out, but do if interrupted<a name="line.544"></a>
-<span class="sourceLineNo">545</span>          if (threw &amp;&amp; !reentrant) {<a name="line.545"></a>
-<span class="sourceLineNo">546</span>            signalNextWaiter();<a name="line.546"></a>
-<span class="sourceLineNo">547</span>          }<a name="line.547"></a>
-<span class="sourceLineNo">548</span>        } finally {<a name="line.548"></a>
-<span class="sourceLineNo">549</span>          lock.unlock();<a name="line.549"></a>
-<span class="sourceLineNo">550</span>        }<a name="line.550"></a>
+<span class="sourceLineNo">474</span>  /**<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * Enters this monitor when the guard is satisfied. Blocks at most the given time, including both<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   * the time to acquire the lock and the time to wait for the guard to be satisfied, and may be<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * interrupted.<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   *<a name="line.478"></a>
+<span class="sourceLineNo">479</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.479"></a>
+<span class="sourceLineNo">480</span>   * @throws InterruptedException if interrupted while waiting<a name="line.480"></a>
+<span class="sourceLineNo">481</span>   */<a name="line.481"></a>
+<span class="sourceLineNo">482</span>  public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.483"></a>
+<span class="sourceLineNo">484</span>    if (guard.monitor != this) {<a name="line.484"></a>
+<span class="sourceLineNo">485</span>      throw new IllegalMonitorStateException();<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
+<span class="sourceLineNo">487</span>    final ReentrantLock lock = this.lock;<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    boolean reentrant = lock.isHeldByCurrentThread();<a name="line.488"></a>
+<span class="sourceLineNo">489</span>    long startTime = 0L;<a name="line.489"></a>
+<span class="sourceLineNo">490</span><a name="line.490"></a>
+<span class="sourceLineNo">491</span>    locked:<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    {<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      if (!fair) {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>        // Check interrupt status to get behavior consistent with fair case.<a name="line.494"></a>
+<span class="sourceLineNo">495</span>        if (Thread.interrupted()) {<a name="line.495"></a>
+<span class="sourceLineNo">496</span>          throw new InterruptedException();<a name="line.496"></a>
+<span class="sourceLineNo">497</span>        }<a name="line.497"></a>
+<span class="sourceLineNo">498</span>        if (lock.tryLock()) {<a name="line.498"></a>
+<span class="sourceLineNo">499</span>          break locked;<a name="line.499"></a>
+<span class="sourceLineNo">500</span>        }<a name="line.500"></a>
+<span class="sourceLineNo">501</span>      }<a name="line.501"></a>
+<span class="sourceLineNo">502</span>      startTime = initNanoTime(timeoutNanos);<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      if (!lock.tryLock(time, unit)) {<a name="line.503"></a>
+<span class="sourceLineNo">504</span>        return false;<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      }<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    }<a name="line.506"></a>
+<span class="sourceLineNo">507</span><a name="line.507"></a>
+<span class="sourceLineNo">508</span>    boolean satisfied = false;<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    boolean threw = true;<a name="line.509"></a>
+<span class="sourceLineNo">510</span>    try {<a name="line.510"></a>
+<span class="sourceLineNo">511</span>      satisfied =<a name="line.511"></a>
+<span class="sourceLineNo">512</span>          guard.isSatisfied()<a name="line.512"></a>
+<span class="sourceLineNo">513</span>              || awaitNanos(<a name="line.513"></a>
+<span class="sourceLineNo">514</span>                  guard,<a name="line.514"></a>
+<span class="sourceLineNo">515</span>                  (startTime == 0L) ? timeoutNanos : remainingNanos(startTime, timeoutNanos),<a name="line.515"></a>
+<span class="sourceLineNo">516</span>                  reentrant);<a name="line.516"></a>
+<span class="sourceLineNo">517</span>      threw = false;<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      return satisfied;<a name="line.518"></a>
+<span class="sourceLineNo">519</span>    } finally {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>      if (!satisfied) {<a name="line.520"></a>
+<span class="sourceLineNo">521</span>        try {<a name="line.521"></a>
+<span class="sourceLineNo">522</span>          // Don't need to signal if timed out, but do if interrupted<a name="line.522"></a>
+<span class="sourceLineNo">523</span>          if (threw &amp;&amp; !reentrant) {<a name="line.523"></a>
+<span class="sourceLineNo">524</span>            signalNextWaiter();<a name="line.524"></a>
+<span class="sourceLineNo">525</span>          }<a name="line.525"></a>
+<span class="sourceLineNo">526</span>        } finally {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>          lock.unlock();<a name="line.527"></a>
+<span class="sourceLineNo">528</span>        }<a name="line.528"></a>
+<span class="sourceLineNo">529</span>      }<a name="line.529"></a>
+<span class="sourceLineNo">530</span>    }<a name="line.530"></a>
+<span class="sourceLineNo">531</span>  }<a name="line.531"></a>
+<span class="sourceLineNo">532</span><a name="line.532"></a>
+<span class="sourceLineNo">533</span>  /** Enters this monitor when the guard is satisfied. Blocks indefinitely. */<a name="line.533"></a>
+<span class="sourceLineNo">534</span>  public void enterWhenUninterruptibly(Guard guard) {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    if (guard.monitor != this) {<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      throw new IllegalMonitorStateException();<a name="line.536"></a>
+<span class="sourceLineNo">537</span>    }<a name="line.537"></a>
+<span class="sourceLineNo">538</span>    final ReentrantLock lock = this.lock;<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    boolean signalBeforeWaiting = lock.isHeldByCurrentThread();<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    lock.lock();<a name="line.540"></a>
+<span class="sourceLineNo">541</span><a name="line.541"></a>
+<span class="sourceLineNo">542</span>    boolean satisfied = false;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>    try {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>      if (!guard.isSatisfied()) {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>        awaitUninterruptibly(guard, signalBeforeWaiting);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      }<a name="line.546"></a>
+<span class="sourceLineNo">547</span>      satisfied = true;<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    } finally {<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      if (!satisfied) {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>        leave();<a name="line.550"></a>
 <span class="sourceLineNo">551</span>      }<a name="line.551"></a>
 <span class="sourceLineNo">552</span>    }<a name="line.552"></a>
 <span class="sourceLineNo">553</span>  }<a name="line.553"></a>
@@ -650,18 +650,18 @@
 <span class="sourceLineNo">642</span>  }<a name="line.642"></a>
 <span class="sourceLineNo">643</span><a name="line.643"></a>
 <span class="sourceLineNo">644</span>  /**<a name="line.644"></a>
-<span class="sourceLineNo">645</span>   * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does<a name="line.645"></a>
-<span class="sourceLineNo">646</span>   * not wait for the guard to be satisfied, and may be interrupted.<a name="line.646"></a>
+<span class="sourceLineNo">645</span>   * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the<a name="line.645"></a>
+<span class="sourceLineNo">646</span>   * lock, but does not wait for the guard to be satisfied.<a name="line.646"></a>
 <span class="sourceLineNo">647</span>   *<a name="line.647"></a>
 <span class="sourceLineNo">648</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.648"></a>
-<span class="sourceLineNo">649</span>   * @throws InterruptedException if interrupted while waiting<a name="line.649"></a>
-<span class="sourceLineNo">650</span>   */<a name="line.650"></a>
-<span class="sourceLineNo">651</span>  public boolean enterIfInterruptibly(Guard guard) throws InterruptedException {<a name="line.651"></a>
-<span class="sourceLineNo">652</span>    if (guard.monitor != this) {<a name="line.652"></a>
-<span class="sourceLineNo">653</span>      throw new IllegalMonitorStateException();<a name="line.653"></a>
-<span class="sourceLineNo">654</span>    }<a name="line.654"></a>
-<span class="sourceLineNo">655</span>    final ReentrantLock lock = this.lock;<a name="line.655"></a>
-<span class="sourceLineNo">656</span>    lock.lockInterruptibly();<a name="line.656"></a>
+<span class="sourceLineNo">649</span>   */<a name="line.649"></a>
+<span class="sourceLineNo">650</span>  public boolean enterIf(Guard guard, long time, TimeUnit unit) {<a name="line.650"></a>
+<span class="sourceLineNo">651</span>    if (guard.monitor != this) {<a name="line.651"></a>
+<span class="sourceLineNo">652</span>      throw new IllegalMonitorStateException();<a name="line.652"></a>
+<span class="sourceLineNo">653</span>    }<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    if (!enter(time, unit)) {<a name="line.654"></a>
+<span class="sourceLineNo">655</span>      return false;<a name="line.655"></a>
+<span class="sourceLineNo">656</span>    }<a name="line.656"></a>
 <span class="sourceLineNo">657</span><a name="line.657"></a>
 <span class="sourceLineNo">658</span>    boolean satisfied = false;<a name="line.658"></a>
 <span class="sourceLineNo">659</span>    try {<a name="line.659"></a>
@@ -674,18 +674,18 @@
 <span class="sourceLineNo">666</span>  }<a name="line.666"></a>
 <span class="sourceLineNo">667</span><a name="line.667"></a>
 <span class="sourceLineNo">668</span>  /**<a name="line.668"></a>
-<span class="sourceLineNo">669</span>   * Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the<a name="line.669"></a>
-<span class="sourceLineNo">670</span>   * lock, but does not wait for the guard to be satisfied.<a name="line.670"></a>
+<span class="sourceLineNo">669</span>   * Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does<a name="line.669"></a>
+<span class="sourceLineNo">670</span>   * not wait for the guard to be satisfied, and may be interrupted.<a name="line.670"></a>
 <span class="sourceLineNo">671</span>   *<a name="line.671"></a>
 <span class="sourceLineNo">672</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.672"></a>
-<span class="sourceLineNo">673</span>   */<a name="line.673"></a>
-<span class="sourceLineNo">674</span>  public boolean enterIf(Guard guard, long time, TimeUnit unit) {<a name="line.674"></a>
-<span class="sourceLineNo">675</span>    if (guard.monitor != this) {<a name="line.675"></a>
-<span class="sourceLineNo">676</span>      throw new IllegalMonitorStateException();<a name="line.676"></a>
-<span class="sourceLineNo">677</span>    }<a name="line.677"></a>
-<span class="sourceLineNo">678</span>    if (!enter(time, unit)) {<a name="line.678"></a>
-<span class="sourceLineNo">679</span>      return false;<a name="line.679"></a>
-<span class="sourceLineNo">680</span>    }<a name="line.680"></a>
+<span class="sourceLineNo">673</span>   * @throws InterruptedException if interrupted while waiting<a name="line.673"></a>
+<span class="sourceLineNo">674</span>   */<a name="line.674"></a>
+<span class="sourceLineNo">675</span>  public boolean enterIfInterruptibly(Guard guard) throws InterruptedException {<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    if (guard.monitor != this) {<a name="line.676"></a>
+<span class="sourceLineNo">677</span>      throw new IllegalMonitorStateException();<a name="line.677"></a>
+<span class="sourceLineNo">678</span>    }<a name="line.678"></a>
+<span class="sourceLineNo">679</span>    final ReentrantLock lock = this.lock;<a name="line.679"></a>
+<span class="sourceLineNo">680</span>    lock.lockInterruptibly();<a name="line.680"></a>
 <span class="sourceLineNo">681</span><a name="line.681"></a>
 <span class="sourceLineNo">682</span>    boolean satisfied = false;<a name="line.682"></a>
 <span class="sourceLineNo">683</span>    try {<a name="line.683"></a>
@@ -766,37 +766,37 @@
 <span class="sourceLineNo">758</span>  }<a name="line.758"></a>
 <span class="sourceLineNo">759</span><a name="line.759"></a>
 <span class="sourceLineNo">760</span>  /**<a name="line.760"></a>
-<span class="sourceLineNo">761</span>   * Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread<a name="line.761"></a>
-<span class="sourceLineNo">762</span>   * currently occupying this monitor.<a name="line.762"></a>
-<span class="sourceLineNo">763</span>   */<a name="line.763"></a>
-<span class="sourceLineNo">764</span>  public void waitForUninterruptibly(Guard guard) {<a name="line.764"></a>
-<span class="sourceLineNo">765</span>    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {<a name="line.765"></a>
-<span class="sourceLineNo">766</span>      throw new IllegalMonitorStateException();<a name="line.766"></a>
-<span class="sourceLineNo">767</span>    }<a name="line.767"></a>
-<span class="sourceLineNo">768</span>    if (!guard.isSatisfied()) {<a name="line.768"></a>
-<span class="sourceLineNo">769</span>      awaitUninterruptibly(guard, true);<a name="line.769"></a>
-<span class="sourceLineNo">770</span>    }<a name="line.770"></a>
-<span class="sourceLineNo">771</span>  }<a name="line.771"></a>
-<span class="sourceLineNo">772</span><a name="line.772"></a>
-<span class="sourceLineNo">773</span>  /**<a name="line.773"></a>
-<span class="sourceLineNo">774</span>   * Waits for the guard to be satisfied. Waits at most the given time, and may be interrupted. May<a name="line.774"></a>
-<span class="sourceLineNo">775</span>   * be called only by a thread currently occupying this monitor.<a name="line.775"></a>
-<span class="sourceLineNo">776</span>   *<a name="line.776"></a>
-<span class="sourceLineNo">777</span>   * @return whether the guard is now satisfied<a name="line.777"></a>
-<span class="sourceLineNo">778</span>   * @throws InterruptedException if interrupted while waiting<a name="line.778"></a>
-<span class="sourceLineNo">779</span>   */<a name="line.779"></a>
-<span class="sourceLineNo">780</span>  public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {<a name="line.780"></a>
-<span class="sourceLineNo">781</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.781"></a>
-<span class="sourceLineNo">782</span>    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {<a name="line.782"></a>
-<span class="sourceLineNo">783</span>      throw new IllegalMonitorStateException();<a name="line.783"></a>
-<span class="sourceLineNo">784</span>    }<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    if (guard.isSatisfied()) {<a name="line.785"></a>
-<span class="sourceLineNo">786</span>      return true;<a name="line.786"></a>
-<span class="sourceLineNo">787</span>    }<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    if (Thread.interrupted()) {<a name="line.788"></a>
-<span class="sourceLineNo">789</span>      throw new InterruptedException();<a name="line.789"></a>
-<span class="sourceLineNo">790</span>    }<a name="line.790"></a>
-<span class="sourceLineNo">791</span>    return awaitNanos(guard, timeoutNanos, true);<a name="line.791"></a>
+<span class="sourceLineNo">761</span>   * Waits for the guard to be satisfied. Waits at most the given time, and may be interrupted. May<a name="line.761"></a>
+<span class="sourceLineNo">762</span>   * be called only by a thread currently occupying this monitor.<a name="line.762"></a>
+<span class="sourceLineNo">763</span>   *<a name="line.763"></a>
+<span class="sourceLineNo">764</span>   * @return whether the guard is now satisfied<a name="line.764"></a>
+<span class="sourceLineNo">765</span>   * @throws InterruptedException if interrupted while waiting<a name="line.765"></a>
+<span class="sourceLineNo">766</span>   */<a name="line.766"></a>
+<span class="sourceLineNo">767</span>  public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {<a name="line.767"></a>
+<span class="sourceLineNo">768</span>    final long timeoutNanos = toSafeNanos(time, unit);<a name="line.768"></a>
+<span class="sourceLineNo">769</span>    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {<a name="line.769"></a>
+<span class="sourceLineNo">770</span>      throw new IllegalMonitorStateException();<a name="line.770"></a>
+<span class="sourceLineNo">771</span>    }<a name="line.771"></a>
+<span class="sourceLineNo">772</span>    if (guard.isSatisfied()) {<a name="line.772"></a>
+<span class="sourceLineNo">773</span>      return true;<a name="line.773"></a>
+<span class="sourceLineNo">774</span>    }<a name="line.774"></a>
+<span class="sourceLineNo">775</span>    if (Thread.interrupted()) {<a name="line.775"></a>
+<span class="sourceLineNo">776</span>      throw new InterruptedException();<a name="line.776"></a>
+<span class="sourceLineNo">777</span>    }<a name="line.777"></a>
+<span class="sourceLineNo">778</span>    return awaitNanos(guard, timeoutNanos, true);<a name="line.778"></a>
+<span class="sourceLineNo">779</span>  }<a name="line.779"></a>
+<span class="sourceLineNo">780</span><a name="line.780"></a>
+<span class="sourceLineNo">781</span>  /**<a name="line.781"></a>
+<span class="sourceLineNo">782</span>   * Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread<a name="line.782"></a>
+<span class="sourceLineNo">783</span>   * currently occupying this monitor.<a name="line.783"></a>
+<span class="sourceLineNo">784</span>   */<a name="line.784"></a>
+<span class="sourceLineNo">785</span>  public void waitForUninterruptibly(Guard guard) {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>    if (!((guard.monitor == this) &amp; lock.isHeldByCurrentThread())) {<a name="line.786"></a>
+<span class="sourceLineNo">787</span>      throw new IllegalMonitorStateException();<a name="line.787"></a>
+<span class="sourceLineNo">788</span>    }<a name="line.788"></a>
+<span class="sourceLineNo">789</span>    if (!guard.isSatisfied()) {<a name="line.789"></a>
+<span class="sourceLineNo">790</span>      awaitUninterruptibly(guard, true);<a name="line.790"></a>
+<span class="sourceLineNo">791</span>    }<a name="line.791"></a>
 <span class="sourceLineNo">792</span>  }<a name="line.792"></a>
 <span class="sourceLineNo">793</span><a name="line.793"></a>
 <span class="sourceLineNo">794</span>  /**<a name="line.794"></a>

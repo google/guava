@@ -702,167 +702,6 @@ extends <a href="../../../../com/google/common/collect/ForwardingNavigableSet.ht
 </dl>
 </li>
 </ul>
-<a name="headSet-java.lang.Object-boolean-">
-<!--   -->
-</a><a name="headSet-E-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>headSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1899">headSet</a>(E&nbsp;toElement,
-                               boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are less than
- (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
- returned set is backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set supports all
- optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-">headSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a>&lt;E&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toElement</code> - high endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the high endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are less than
-         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
-</dl>
-</li>
-</ul>
-<a name="tailSet-java.lang.Object-boolean-">
-<!--   -->
-</a><a name="tailSet-E-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>tailSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1904">tailSet</a>(E&nbsp;fromElement,
-                               boolean&nbsp;inclusive)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are greater
- than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
- The returned set is backed by this set, so changes in the returned set
- are reflected in this set, and vice-versa.  The returned set supports
- all optional set operations that this set supports.
-
- <p>The returned set will throw an <code>IllegalArgumentException</code>
- on an attempt to insert an element outside its range.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a>&lt;E&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>fromElement</code> - low endpoint of the returned set</dd>
-<dd><code>inclusive</code> - <code>true</code> if the low endpoint
-        is to be included in the returned view</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are greater
-         than or equal to <code>fromElement</code></dd>
-</dl>
-</li>
-</ul>
-<a name="comparator--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>comparator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1910">comparator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
-<div class="block">Returns the comparator used to order the elements in this set,
- or <tt>null</tt> if this set uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">natural ordering</a> of its elements.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#comparator--">comparator</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the comparator used to order the elements in this set,
-         or <tt>null</tt> if this set uses the natural ordering
-         of its elements</dd>
-</dl>
-</li>
-</ul>
-<a name="first--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>first</h4>
-<pre>public&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1925">first</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
-<div class="block">Returns the first (lowest) element currently in this set.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">first</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#first--">first</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the first (lowest) element currently in this set</dd>
-</dl>
-</li>
-</ul>
-<a name="headSet-java.lang.Object-">
-<!--   -->
-</a><a name="headSet-E-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>headSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1930">headSet</a>(E&nbsp;toElement)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
-<div class="block">Returns a view of the portion of this set whose elements are
- strictly less than <tt>toElement</tt>.  The returned set is
- backed by this set, so changes in the returned set are
- reflected in this set, and vice-versa.  The returned set
- supports all optional set operations that this set supports.
-
- <p>The returned set will throw an <tt>IllegalArgumentException</tt>
- on an attempt to insert an element outside its range.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-">headSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a view of the portion of this set whose elements are strictly
-         less than <tt>toElement</tt></dd>
-</dl>
-</li>
-</ul>
-<a name="last--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>last</h4>
-<pre>public&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1935">last</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
-<div class="block">Returns the last (highest) element currently in this set.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">last</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#last--">last</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the last (highest) element currently in this set</dd>
-</dl>
-</li>
-</ul>
 <a name="subSet-java.lang.Object-java.lang.Object-">
 <!--   -->
 </a><a name="subSet-E-E-">
@@ -871,7 +710,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingNavigableSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1940">subSet</a>(E&nbsp;fromElement,
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1899">subSet</a>(E&nbsp;fromElement,
                            E&nbsp;toElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#subSet-E-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements range
@@ -900,6 +739,107 @@ extends <a href="../../../../com/google/common/collect/ForwardingNavigableSet.ht
 </dl>
 </li>
 </ul>
+<a name="headSet-java.lang.Object-boolean-">
+<!--   -->
+</a><a name="headSet-E-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>headSet</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1904">headSet</a>(E&nbsp;toElement,
+                               boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are less than
+ (or equal to, if <code>inclusive</code> is true) <code>toElement</code>.  The
+ returned set is backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set supports all
+ optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#headSet-E-boolean-">headSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toElement</code> - high endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are less than
+         (or equal to, if <code>inclusive</code> is true) <code>toElement</code></dd>
+</dl>
+</li>
+</ul>
+<a name="headSet-java.lang.Object-">
+<!--   -->
+</a><a name="headSet-E-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>headSet</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1909">headSet</a>(E&nbsp;toElement)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are
+ strictly less than <tt>toElement</tt>.  The returned set is
+ backed by this set, so changes in the returned set are
+ reflected in this set, and vice-versa.  The returned set
+ supports all optional set operations that this set supports.
+
+ <p>The returned set will throw an <tt>IllegalArgumentException</tt>
+ on an attempt to insert an element outside its range.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#headSet-E-" title="class or interface in java.util">headSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#headSet-E-">headSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toElement</code> - high endpoint (exclusive) of the returned set</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are strictly
+         less than <tt>toElement</tt></dd>
+</dl>
+</li>
+</ul>
+<a name="tailSet-java.lang.Object-boolean-">
+<!--   -->
+</a><a name="tailSet-E-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>tailSet</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1914">tailSet</a>(E&nbsp;fromElement,
+                               boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
+<div class="block">Returns a view of the portion of this set whose elements are greater
+ than (or equal to, if <code>inclusive</code> is true) <code>fromElement</code>.
+ The returned set is backed by this set, so changes in the returned set
+ are reflected in this set, and vice-versa.  The returned set supports
+ all optional set operations that this set supports.
+
+ <p>The returned set will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert an element outside its range.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">tailSet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html#tailSet-E-boolean-">tailSet</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingNavigableSet.html" title="class in com.google.common.collect">ForwardingNavigableSet</a>&lt;E&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromElement</code> - low endpoint of the returned set</dd>
+<dd><code>inclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this set whose elements are greater
+         than or equal to <code>fromElement</code></dd>
+</dl>
+</li>
+</ul>
 <a name="tailSet-java.lang.Object-">
 <!--   -->
 </a><a name="tailSet-E-">
@@ -908,7 +848,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingNavigableSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1945">tailSet</a>(E&nbsp;fromElement)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1919">tailSet</a>(E&nbsp;fromElement)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#tailSet-E-" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements are
  greater than or equal to <tt>fromElement</tt>.  The returned
@@ -930,6 +870,66 @@ extends <a href="../../../../com/google/common/collect/ForwardingNavigableSet.ht
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a view of the portion of this set whose elements are greater
          than or equal to <tt>fromElement</tt></dd>
+</dl>
+</li>
+</ul>
+<a name="comparator--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>comparator</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1925">comparator</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns the comparator used to order the elements in this set,
+ or <tt>null</tt> if this set uses the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">natural ordering</a> of its elements.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util">comparator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#comparator--">comparator</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the comparator used to order the elements in this set,
+         or <tt>null</tt> if this set uses the natural ordering
+         of its elements</dd>
+</dl>
+</li>
+</ul>
+<a name="first--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>first</h4>
+<pre>public&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1940">first</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns the first (lowest) element currently in this set.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">first</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#first--">first</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first (lowest) element currently in this set</dd>
+</dl>
+</li>
+</ul>
+<a name="last--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>last</h4>
+<pre>public&nbsp;E&nbsp;<a href="../../../../src-html/com/google/common/collect/Sets.DescendingSet.html#line.1945">last</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
+<div class="block">Returns the last (highest) element currently in this set.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">last</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true" title="class or interface in java.util">SortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html#last--">last</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingSortedSet.html" title="class in com.google.common.collect">ForwardingSortedSet</a>&lt;E&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the last (highest) element currently in this set</dd>
 </dl>
 </li>
 </ul>

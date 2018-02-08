@@ -124,58 +124,58 @@
 <span class="sourceLineNo">116</span>    return new FunctionForMapNoDefault&lt;&gt;(map);<a name="line.116"></a>
 <span class="sourceLineNo">117</span>  }<a name="line.117"></a>
 <span class="sourceLineNo">118</span><a name="line.118"></a>
-<span class="sourceLineNo">119</span>  private static class FunctionForMapNoDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    final Map&lt;K, V&gt; map;<a name="line.120"></a>
-<span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>    FunctionForMapNoDefault(Map&lt;K, V&gt; map) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>      this.map = checkNotNull(map);<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>    @Override<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    public V apply(@NullableDecl K key) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      V result = map.get(key);<a name="line.128"></a>
-<span class="sourceLineNo">129</span>      checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);<a name="line.129"></a>
-<span class="sourceLineNo">130</span>      return result;<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    }<a name="line.131"></a>
-<span class="sourceLineNo">132</span><a name="line.132"></a>
-<span class="sourceLineNo">133</span>    @Override<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    public boolean equals(@NullableDecl Object o) {<a name="line.134"></a>
-<span class="sourceLineNo">135</span>      if (o instanceof FunctionForMapNoDefault) {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>        FunctionForMapNoDefault&lt;?, ?&gt; that = (FunctionForMapNoDefault&lt;?, ?&gt;) o;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>        return map.equals(that.map);<a name="line.137"></a>
-<span class="sourceLineNo">138</span>      }<a name="line.138"></a>
-<span class="sourceLineNo">139</span>      return false;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    }<a name="line.140"></a>
-<span class="sourceLineNo">141</span><a name="line.141"></a>
-<span class="sourceLineNo">142</span>    @Override<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    public int hashCode() {<a name="line.143"></a>
-<span class="sourceLineNo">144</span>      return map.hashCode();<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    }<a name="line.145"></a>
-<span class="sourceLineNo">146</span><a name="line.146"></a>
-<span class="sourceLineNo">147</span>    @Override<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    public String toString() {<a name="line.148"></a>
-<span class="sourceLineNo">149</span>      return "Functions.forMap(" + map + ")";<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    }<a name="line.150"></a>
-<span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>    private static final long serialVersionUID = 0;<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
-<span class="sourceLineNo">154</span><a name="line.154"></a>
-<span class="sourceLineNo">155</span>  /**<a name="line.155"></a>
-<span class="sourceLineNo">156</span>   * Returns a function which performs a map lookup with a default value. The function created by<a name="line.156"></a>
-<span class="sourceLineNo">157</span>   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key<a name="line.157"></a>
-<span class="sourceLineNo">158</span>   * set. See also {@link #forMap(Map)}, which throws an exception in this case.<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   *<a name="line.159"></a>
-<span class="sourceLineNo">160</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; you can just write the lambda expression {@code k -&gt;<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * map.getWithDefault(k, defaultValue)} instead.<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   * @param map source map that determines the function behavior<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   * @param defaultValue the value to return for inputs that aren't map keys<a name="line.164"></a>
-<span class="sourceLineNo">165</span>   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code<a name="line.165"></a>
-<span class="sourceLineNo">166</span>   *     defaultValue} otherwise<a name="line.166"></a>
-<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  public static &lt;K, V&gt; Function&lt;K, V&gt; forMap(<a name="line.168"></a>
-<span class="sourceLineNo">169</span>      Map&lt;K, ? extends V&gt; map, @NullableDecl V defaultValue) {<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    return new ForMapWithDefault&lt;&gt;(map, defaultValue);<a name="line.170"></a>
+<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * Returns a function which performs a map lookup with a default value. The function created by<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * set. See also {@link #forMap(Map)}, which throws an exception in this case.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; you can just write the lambda expression {@code k -&gt;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * map.getWithDefault(k, defaultValue)} instead.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   *<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * @param map source map that determines the function behavior<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * @param defaultValue the value to return for inputs that aren't map keys<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *     defaultValue} otherwise<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   */<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  public static &lt;K, V&gt; Function&lt;K, V&gt; forMap(<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      Map&lt;K, ? extends V&gt; map, @NullableDecl V defaultValue) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    return new ForMapWithDefault&lt;&gt;(map, defaultValue);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  private static class FunctionForMapNoDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    final Map&lt;K, V&gt; map;<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>    FunctionForMapNoDefault(Map&lt;K, V&gt; map) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>      this.map = checkNotNull(map);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    }<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>    @Override<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    public V apply(@NullableDecl K key) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      V result = map.get(key);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>      return result;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>    @Override<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    public boolean equals(@NullableDecl Object o) {<a name="line.152"></a>
+<span class="sourceLineNo">153</span>      if (o instanceof FunctionForMapNoDefault) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>        FunctionForMapNoDefault&lt;?, ?&gt; that = (FunctionForMapNoDefault&lt;?, ?&gt;) o;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>        return map.equals(that.map);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>      }<a name="line.156"></a>
+<span class="sourceLineNo">157</span>      return false;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>    @Override<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    public int hashCode() {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>      return map.hashCode();<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>    @Override<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    public String toString() {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>      return "Functions.forMap(" + map + ")";<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    }<a name="line.168"></a>
+<span class="sourceLineNo">169</span><a name="line.169"></a>
+<span class="sourceLineNo">170</span>    private static final long serialVersionUID = 0;<a name="line.170"></a>
 <span class="sourceLineNo">171</span>  }<a name="line.171"></a>
 <span class="sourceLineNo">172</span><a name="line.172"></a>
 <span class="sourceLineNo">173</span>  private static class ForMapWithDefault&lt;K, V&gt; implements Function&lt;K, V&gt;, Serializable {<a name="line.173"></a>

@@ -298,43 +298,43 @@
 <span class="sourceLineNo">290</span>    return fromMapEntries(multimap.asMap().entrySet(), valueComparator);<a name="line.290"></a>
 <span class="sourceLineNo">291</span>  }<a name="line.291"></a>
 <span class="sourceLineNo">292</span><a name="line.292"></a>
-<span class="sourceLineNo">293</span>  /** Creates an ImmutableSetMultimap from an asMap.entrySet. */<a name="line.293"></a>
-<span class="sourceLineNo">294</span>  static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; fromMapEntries(<a name="line.294"></a>
-<span class="sourceLineNo">295</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>    if (mapEntries.isEmpty()) {<a name="line.297"></a>
-<span class="sourceLineNo">298</span>      return of();<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    }<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    ImmutableMap.Builder&lt;K, ImmutableSet&lt;V&gt;&gt; builder =<a name="line.300"></a>
-<span class="sourceLineNo">301</span>        new ImmutableMap.Builder&lt;&gt;(mapEntries.size());<a name="line.301"></a>
-<span class="sourceLineNo">302</span>    int size = 0;<a name="line.302"></a>
-<span class="sourceLineNo">303</span><a name="line.303"></a>
-<span class="sourceLineNo">304</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry : mapEntries) {<a name="line.304"></a>
-<span class="sourceLineNo">305</span>      K key = entry.getKey();<a name="line.305"></a>
-<span class="sourceLineNo">306</span>      Collection&lt;? extends V&gt; values = entry.getValue();<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      ImmutableSet&lt;V&gt; set = valueSet(valueComparator, values);<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      if (!set.isEmpty()) {<a name="line.308"></a>
-<span class="sourceLineNo">309</span>        builder.put(key, set);<a name="line.309"></a>
-<span class="sourceLineNo">310</span>        size += set.size();<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      }<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    }<a name="line.312"></a>
-<span class="sourceLineNo">313</span><a name="line.313"></a>
-<span class="sourceLineNo">314</span>    return new ImmutableSetMultimap&lt;&gt;(builder.build(), size, valueComparator);<a name="line.314"></a>
-<span class="sourceLineNo">315</span>  }<a name="line.315"></a>
-<span class="sourceLineNo">316</span><a name="line.316"></a>
-<span class="sourceLineNo">317</span>  /**<a name="line.317"></a>
-<span class="sourceLineNo">318</span>   * Returns an immutable multimap containing the specified entries. The returned multimap iterates<a name="line.318"></a>
-<span class="sourceLineNo">319</span>   * over keys in the order they were first encountered in the input, and the values for each key<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * are iterated in the order they were encountered. If two values for the same key are {@linkplain<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * Object#equals equal}, the first value encountered is used.<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   *<a name="line.322"></a>
-<span class="sourceLineNo">323</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.323"></a>
-<span class="sourceLineNo">324</span>   * @since 19.0<a name="line.324"></a>
-<span class="sourceLineNo">325</span>   */<a name="line.325"></a>
-<span class="sourceLineNo">326</span>  @Beta<a name="line.326"></a>
-<span class="sourceLineNo">327</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; copyOf(<a name="line.327"></a>
-<span class="sourceLineNo">328</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.328"></a>
-<span class="sourceLineNo">329</span>    return new Builder&lt;K, V&gt;().putAll(entries).build();<a name="line.329"></a>
+<span class="sourceLineNo">293</span>  /**<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * Returns an immutable multimap containing the specified entries. The returned multimap iterates<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * over keys in the order they were first encountered in the input, and the values for each key<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * are iterated in the order they were encountered. If two values for the same key are {@linkplain<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * Object#equals equal}, the first value encountered is used.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   *<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * @since 19.0<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   */<a name="line.301"></a>
+<span class="sourceLineNo">302</span>  @Beta<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; copyOf(<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    return new Builder&lt;K, V&gt;().putAll(entries).build();<a name="line.305"></a>
+<span class="sourceLineNo">306</span>  }<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  /** Creates an ImmutableSetMultimap from an asMap.entrySet. */<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; fromMapEntries(<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.310"></a>
+<span class="sourceLineNo">311</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.311"></a>
+<span class="sourceLineNo">312</span>    if (mapEntries.isEmpty()) {<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return of();<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    ImmutableMap.Builder&lt;K, ImmutableSet&lt;V&gt;&gt; builder =<a name="line.315"></a>
+<span class="sourceLineNo">316</span>        new ImmutableMap.Builder&lt;&gt;(mapEntries.size());<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    int size = 0;<a name="line.317"></a>
+<span class="sourceLineNo">318</span><a name="line.318"></a>
+<span class="sourceLineNo">319</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry : mapEntries) {<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      K key = entry.getKey();<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      Collection&lt;? extends V&gt; values = entry.getValue();<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      ImmutableSet&lt;V&gt; set = valueSet(valueComparator, values);<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      if (!set.isEmpty()) {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>        builder.put(key, set);<a name="line.324"></a>
+<span class="sourceLineNo">325</span>        size += set.size();<a name="line.325"></a>
+<span class="sourceLineNo">326</span>      }<a name="line.326"></a>
+<span class="sourceLineNo">327</span>    }<a name="line.327"></a>
+<span class="sourceLineNo">328</span><a name="line.328"></a>
+<span class="sourceLineNo">329</span>    return new ImmutableSetMultimap&lt;&gt;(builder.build(), size, valueComparator);<a name="line.329"></a>
 <span class="sourceLineNo">330</span>  }<a name="line.330"></a>
 <span class="sourceLineNo">331</span><a name="line.331"></a>
 <span class="sourceLineNo">332</span>  /**<a name="line.332"></a>

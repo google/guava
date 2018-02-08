@@ -479,51 +479,51 @@
 <span class="sourceLineNo">471</span>    }<a name="line.471"></a>
 <span class="sourceLineNo">472</span><a name="line.472"></a>
 <span class="sourceLineNo">473</span>    /**<a name="line.473"></a>
-<span class="sourceLineNo">474</span>     * Adds a number of occurrences of an element to this {@code ImmutableSortedMultiset}.<a name="line.474"></a>
+<span class="sourceLineNo">474</span>     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.<a name="line.474"></a>
 <span class="sourceLineNo">475</span>     *<a name="line.475"></a>
-<span class="sourceLineNo">476</span>     * @param element the element to add<a name="line.476"></a>
-<span class="sourceLineNo">477</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.477"></a>
-<span class="sourceLineNo">478</span>     *     case no change will be made.<a name="line.478"></a>
-<span class="sourceLineNo">479</span>     * @return this {@code Builder} object<a name="line.479"></a>
-<span class="sourceLineNo">480</span>     * @throws NullPointerException if {@code element} is null<a name="line.480"></a>
-<span class="sourceLineNo">481</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.481"></a>
-<span class="sourceLineNo">482</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.482"></a>
-<span class="sourceLineNo">483</span>     */<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    @CanIgnoreReturnValue<a name="line.484"></a>
-<span class="sourceLineNo">485</span>    @Override<a name="line.485"></a>
-<span class="sourceLineNo">486</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.486"></a>
-<span class="sourceLineNo">487</span>      super.addCopies(element, occurrences);<a name="line.487"></a>
-<span class="sourceLineNo">488</span>      return this;<a name="line.488"></a>
-<span class="sourceLineNo">489</span>    }<a name="line.489"></a>
-<span class="sourceLineNo">490</span><a name="line.490"></a>
-<span class="sourceLineNo">491</span>    /**<a name="line.491"></a>
-<span class="sourceLineNo">492</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.492"></a>
-<span class="sourceLineNo">493</span>     * desired count.<a name="line.493"></a>
-<span class="sourceLineNo">494</span>     *<a name="line.494"></a>
-<span class="sourceLineNo">495</span>     * @param element the element to add or remove occurrences of<a name="line.495"></a>
-<span class="sourceLineNo">496</span>     * @param count the desired count of the element in this multiset<a name="line.496"></a>
-<span class="sourceLineNo">497</span>     * @return this {@code Builder} object<a name="line.497"></a>
-<span class="sourceLineNo">498</span>     * @throws NullPointerException if {@code element} is null<a name="line.498"></a>
-<span class="sourceLineNo">499</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.499"></a>
-<span class="sourceLineNo">500</span>     */<a name="line.500"></a>
-<span class="sourceLineNo">501</span>    @CanIgnoreReturnValue<a name="line.501"></a>
-<span class="sourceLineNo">502</span>    @Override<a name="line.502"></a>
-<span class="sourceLineNo">503</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.503"></a>
-<span class="sourceLineNo">504</span>      super.setCount(element, count);<a name="line.504"></a>
-<span class="sourceLineNo">505</span>      return this;<a name="line.505"></a>
-<span class="sourceLineNo">506</span>    }<a name="line.506"></a>
-<span class="sourceLineNo">507</span><a name="line.507"></a>
-<span class="sourceLineNo">508</span>    /**<a name="line.508"></a>
-<span class="sourceLineNo">509</span>     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.<a name="line.509"></a>
-<span class="sourceLineNo">510</span>     *<a name="line.510"></a>
-<span class="sourceLineNo">511</span>     * @param elements the elements to add<a name="line.511"></a>
-<span class="sourceLineNo">512</span>     * @return this {@code Builder} object<a name="line.512"></a>
-<span class="sourceLineNo">513</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.513"></a>
+<span class="sourceLineNo">476</span>     * @param elements the elements to add<a name="line.476"></a>
+<span class="sourceLineNo">477</span>     * @return this {@code Builder} object<a name="line.477"></a>
+<span class="sourceLineNo">478</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.478"></a>
+<span class="sourceLineNo">479</span>     */<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    @CanIgnoreReturnValue<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    @Override<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.482"></a>
+<span class="sourceLineNo">483</span>      super.add(elements);<a name="line.483"></a>
+<span class="sourceLineNo">484</span>      return this;<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    }<a name="line.485"></a>
+<span class="sourceLineNo">486</span><a name="line.486"></a>
+<span class="sourceLineNo">487</span>    /**<a name="line.487"></a>
+<span class="sourceLineNo">488</span>     * Adds a number of occurrences of an element to this {@code ImmutableSortedMultiset}.<a name="line.488"></a>
+<span class="sourceLineNo">489</span>     *<a name="line.489"></a>
+<span class="sourceLineNo">490</span>     * @param element the element to add<a name="line.490"></a>
+<span class="sourceLineNo">491</span>     * @param occurrences the number of occurrences of the element to add. May be zero, in which<a name="line.491"></a>
+<span class="sourceLineNo">492</span>     *     case no change will be made.<a name="line.492"></a>
+<span class="sourceLineNo">493</span>     * @return this {@code Builder} object<a name="line.493"></a>
+<span class="sourceLineNo">494</span>     * @throws NullPointerException if {@code element} is null<a name="line.494"></a>
+<span class="sourceLineNo">495</span>     * @throws IllegalArgumentException if {@code occurrences} is negative, or if this operation<a name="line.495"></a>
+<span class="sourceLineNo">496</span>     *     would result in more than {@link Integer#MAX_VALUE} occurrences of the element<a name="line.496"></a>
+<span class="sourceLineNo">497</span>     */<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    @CanIgnoreReturnValue<a name="line.498"></a>
+<span class="sourceLineNo">499</span>    @Override<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    public Builder&lt;E&gt; addCopies(E element, int occurrences) {<a name="line.500"></a>
+<span class="sourceLineNo">501</span>      super.addCopies(element, occurrences);<a name="line.501"></a>
+<span class="sourceLineNo">502</span>      return this;<a name="line.502"></a>
+<span class="sourceLineNo">503</span>    }<a name="line.503"></a>
+<span class="sourceLineNo">504</span><a name="line.504"></a>
+<span class="sourceLineNo">505</span>    /**<a name="line.505"></a>
+<span class="sourceLineNo">506</span>     * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.506"></a>
+<span class="sourceLineNo">507</span>     * desired count.<a name="line.507"></a>
+<span class="sourceLineNo">508</span>     *<a name="line.508"></a>
+<span class="sourceLineNo">509</span>     * @param element the element to add or remove occurrences of<a name="line.509"></a>
+<span class="sourceLineNo">510</span>     * @param count the desired count of the element in this multiset<a name="line.510"></a>
+<span class="sourceLineNo">511</span>     * @return this {@code Builder} object<a name="line.511"></a>
+<span class="sourceLineNo">512</span>     * @throws NullPointerException if {@code element} is null<a name="line.512"></a>
+<span class="sourceLineNo">513</span>     * @throws IllegalArgumentException if {@code count} is negative<a name="line.513"></a>
 <span class="sourceLineNo">514</span>     */<a name="line.514"></a>
 <span class="sourceLineNo">515</span>    @CanIgnoreReturnValue<a name="line.515"></a>
 <span class="sourceLineNo">516</span>    @Override<a name="line.516"></a>
-<span class="sourceLineNo">517</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.517"></a>
-<span class="sourceLineNo">518</span>      super.add(elements);<a name="line.518"></a>
+<span class="sourceLineNo">517</span>    public Builder&lt;E&gt; setCount(E element, int count) {<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      super.setCount(element, count);<a name="line.518"></a>
 <span class="sourceLineNo">519</span>      return this;<a name="line.519"></a>
 <span class="sourceLineNo">520</span>    }<a name="line.520"></a>
 <span class="sourceLineNo">521</span><a name="line.521"></a>
