@@ -53,6 +53,10 @@ public abstract class AbstractMapTester<K, V>
     resetContainer();
   }
 
+  protected void resetMap(Entry<K, V>[] entries) {
+    resetContainer(getSubjectGenerator().create((Object[]) entries));
+  }
+
   protected void expectMissingKeys(K... elements) {
     for (K element : elements) {
       assertFalse("Should not contain key " + element, getMap().containsKey(element));
@@ -207,10 +211,6 @@ public abstract class AbstractMapTester<K, V>
    */
   protected V get(K key) {
     return getMap().get(key);
-  }
-
-  protected void resetMap(Entry<K, V>[] entries) {
-    resetContainer(getSubjectGenerator().create((Object[]) entries));
   }
 
   protected final K k0() {

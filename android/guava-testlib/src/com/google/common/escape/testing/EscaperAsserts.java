@@ -69,16 +69,6 @@ public final class EscaperAsserts {
   }
 
   /**
-   * Asserts that an escaper does not escape the given character.
-   *
-   * @param escaper the non-null escaper to test
-   * @param c the character to test
-   */
-  public static void assertUnescaped(CharEscaper escaper, char c) {
-    Assert.assertNull(computeReplacement(escaper, c));
-  }
-
-  /**
    * Asserts that a Unicode escaper escapes the given code point into the expected string.
    *
    * @param escaper the non-null escaper to test
@@ -90,6 +80,16 @@ public final class EscaperAsserts {
     String escaped = computeReplacement(escaper, cp);
     Assert.assertNotNull(escaped);
     Assert.assertEquals(expected, escaped);
+  }
+
+  /**
+   * Asserts that an escaper does not escape the given character.
+   *
+   * @param escaper the non-null escaper to test
+   * @param c the character to test
+   */
+  public static void assertUnescaped(CharEscaper escaper, char c) {
+    Assert.assertNull(computeReplacement(escaper, c));
   }
 
   /**

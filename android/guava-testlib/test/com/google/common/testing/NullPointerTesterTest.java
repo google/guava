@@ -484,13 +484,13 @@ public class NullPointerTesterTest extends TestCase {
       checkNotNull(s);
     }
 
+    public void twoMixedArgs(@NullableDecl Integer i, String s) {
+      checkNotNull(s);
+    }
+
     public void twoMixedArgsThrows(String s, @NullableDecl Integer i) {
       checkNotNull(s);
       doThrow(i);
-    }
-
-    public void twoMixedArgs(@NullableDecl Integer i, String s) {
-      checkNotNull(s);
     }
 
     public void twoMixedArgsThrows(@NullableDecl Integer i, String s) {

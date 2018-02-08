@@ -1190,6 +1190,53 @@ public final class Multimaps {
   }
 
   /**
+   * Returns a view of a {@code ListMultimap} where each value is transformed by a function. All
+   * other properties of the multimap, such as iteration order, are left intact. For example, the
+   * code:
+   *
+   * <pre>{@code
+   * ListMultimap<String, Integer> multimap
+   *      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+   * Function<Integer, Double> sqrt =
+   *     new Function<Integer, Double>() {
+   *       public Double apply(Integer in) {
+   *         return Math.sqrt((int) in);
+   *       }
+   *     };
+   * ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
+   *     sqrt);
+   * System.out.println(transformed);
+   * }</pre>
+   *
+   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+   * supports removal operations, and these are reflected in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys, and even null values
+   * provided that the function is capable of accepting null input. The transformed multimap might
+   * contain null values, if the function sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+   * is.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary for the returned
+   * multimap to be a view, but it means that the function will be applied many times for bulk
+   * operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
+   * perform well, {@code function} should be fast. To avoid lazy evaluation when the returned
+   * multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
+   * choosing.
+   *
+   * @since 7.0
+   */
+  public static <K, V1, V2> ListMultimap<K, V2> transformValues(
+      ListMultimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
+    return transformEntries(fromMultimap, transformer);
+  }
+
+  /**
    * Returns a view of a multimap whose values are derived from the original multimap's entries. In
    * contrast to {@link #transformValues}, this method's entry-transformation logic may depend on
    * the key as well as the value.
@@ -1243,6 +1290,59 @@ public final class Multimaps {
   public static <K, V1, V2> Multimap<K, V2> transformEntries(
       Multimap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<>(fromMap, transformer);
+  }
+
+  /**
+   * Returns a view of a {@code ListMultimap} whose values are derived from the original multimap's
+   * entries. In contrast to {@link #transformValues(ListMultimap, Function)}, this method's
+   * entry-transformation logic may depend on the key as well as the value.
+   *
+   * <p>All other properties of the transformed multimap, such as iteration order, are left intact.
+   * For example, the code:
+   *
+   * <pre>{@code
+   * Multimap<String, Integer> multimap =
+   *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
+   * EntryTransformer<String, Integer, String> transformer =
+   *     new EntryTransformer<String, Integer, String>() {
+   *       public String transformEntry(String key, Integer value) {
+   *         return key + value;
+   *       }
+   *     };
+   * Multimap<String, String> transformed =
+   *     Multimaps.transformEntries(multimap, transformer);
+   * System.out.println(transformed);
+   * }</pre>
+   *
+   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
+   * supports removal operations, and these are reflected in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys and null values provided
+   * that the transformer is capable of accepting null inputs. The transformed multimap might
+   * contain null values if the transformer sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
+   * is.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is necessary for the returned
+   * multimap to be a view, but it means that the transformer will be applied many times for bulk
+   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform
+   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap
+   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of {@code
+   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of
+   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as
+   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the
+   * transformed multimap.
+   *
+   * @since 7.0
+   */
+  public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
+      ListMultimap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedEntriesListMultimap<>(fromMap, transformer);
   }
 
   private static class TransformedEntriesMultimap<K, V1, V2> extends AbstractMultimap<K, V2> {
@@ -1360,106 +1460,6 @@ public final class Multimaps {
       return Collections2.transform(
           fromMultimap.entries(), Maps.<K, V1, V2>asEntryToValueFunction(transformer));
     }
-  }
-
-  /**
-   * Returns a view of a {@code ListMultimap} where each value is transformed by a function. All
-   * other properties of the multimap, such as iteration order, are left intact. For example, the
-   * code:
-   *
-   * <pre>{@code
-   * ListMultimap<String, Integer> multimap
-   *      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
-   * Function<Integer, Double> sqrt =
-   *     new Function<Integer, Double>() {
-   *       public Double apply(Integer in) {
-   *         return Math.sqrt((int) in);
-   *       }
-   *     };
-   * ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
-   *     sqrt);
-   * System.out.println(transformed);
-   * }</pre>
-   *
-   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
-   *
-   * <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
-   * supports removal operations, and these are reflected in the underlying multimap.
-   *
-   * <p>It's acceptable for the underlying multimap to contain null keys, and even null values
-   * provided that the function is capable of accepting null input. The transformed multimap might
-   * contain null values, if the function sometimes gives a null result.
-   *
-   * <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
-   * is.
-   *
-   * <p>The function is applied lazily, invoked when needed. This is necessary for the returned
-   * multimap to be a view, but it means that the function will be applied many times for bulk
-   * operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
-   * perform well, {@code function} should be fast. To avoid lazy evaluation when the returned
-   * multimap doesn't need to be a view, copy the returned multimap into a new multimap of your
-   * choosing.
-   *
-   * @since 7.0
-   */
-  public static <K, V1, V2> ListMultimap<K, V2> transformValues(
-      ListMultimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
-    checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
-    return transformEntries(fromMultimap, transformer);
-  }
-
-  /**
-   * Returns a view of a {@code ListMultimap} whose values are derived from the original multimap's
-   * entries. In contrast to {@link #transformValues(ListMultimap, Function)}, this method's
-   * entry-transformation logic may depend on the key as well as the value.
-   *
-   * <p>All other properties of the transformed multimap, such as iteration order, are left intact.
-   * For example, the code:
-   *
-   * <pre>{@code
-   * Multimap<String, Integer> multimap =
-   *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
-   * EntryTransformer<String, Integer, String> transformer =
-   *     new EntryTransformer<String, Integer, String>() {
-   *       public String transformEntry(String key, Integer value) {
-   *         return key + value;
-   *       }
-   *     };
-   * Multimap<String, String> transformed =
-   *     Multimaps.transformEntries(multimap, transformer);
-   * System.out.println(transformed);
-   * }</pre>
-   *
-   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
-   *
-   * <p>Changes in the underlying multimap are reflected in this view. Conversely, this view
-   * supports removal operations, and these are reflected in the underlying multimap.
-   *
-   * <p>It's acceptable for the underlying multimap to contain null keys and null values provided
-   * that the transformer is capable of accepting null inputs. The transformed multimap might
-   * contain null values if the transformer sometimes gives a null result.
-   *
-   * <p>The returned multimap is not thread-safe or serializable, even if the underlying multimap
-   * is.
-   *
-   * <p>The transformer is applied lazily, invoked when needed. This is necessary for the returned
-   * multimap to be a view, but it means that the transformer will be applied many times for bulk
-   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform
-   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap
-   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.
-   *
-   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of {@code
-   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of
-   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as
-   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the
-   * transformed multimap.
-   *
-   * @since 7.0
-   */
-  public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
-      ListMultimap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return new TransformedEntriesListMultimap<>(fromMap, transformer);
   }
 
   private static final class TransformedEntriesListMultimap<K, V1, V2>

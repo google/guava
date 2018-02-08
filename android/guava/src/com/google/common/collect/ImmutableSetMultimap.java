@@ -290,6 +290,21 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     return fromMapEntries(multimap.asMap().entrySet(), valueComparator);
   }
 
+  /**
+   * Returns an immutable multimap containing the specified entries. The returned multimap iterates
+   * over keys in the order they were first encountered in the input, and the values for each key
+   * are iterated in the order they were encountered. If two values for the same key are {@linkplain
+   * Object#equals equal}, the first value encountered is used.
+   *
+   * @throws NullPointerException if any key, value, or entry is null
+   * @since 19.0
+   */
+  @Beta
+  public static <K, V> ImmutableSetMultimap<K, V> copyOf(
+      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    return new Builder<K, V>().putAll(entries).build();
+  }
+
   /** Creates an ImmutableSetMultimap from an asMap.entrySet. */
   static <K, V> ImmutableSetMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
@@ -312,21 +327,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     }
 
     return new ImmutableSetMultimap<>(builder.build(), size, valueComparator);
-  }
-
-  /**
-   * Returns an immutable multimap containing the specified entries. The returned multimap iterates
-   * over keys in the order they were first encountered in the input, and the values for each key
-   * are iterated in the order they were encountered. If two values for the same key are {@linkplain
-   * Object#equals equal}, the first value encountered is used.
-   *
-   * @throws NullPointerException if any key, value, or entry is null
-   * @since 19.0
-   */
-  @Beta
-  public static <K, V> ImmutableSetMultimap<K, V> copyOf(
-      Iterable<? extends Entry<? extends K, ? extends V>> entries) {
-    return new Builder<K, V>().putAll(entries).build();
   }
 
   /**

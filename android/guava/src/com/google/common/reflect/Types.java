@@ -640,20 +640,20 @@ final class Types {
 
     abstract Type usedInGenericType(Type type);
 
-    String typeName(Type type) {
-      return Types.toString(type);
-    }
-
-    boolean jdkTypeDuplicatesOwnerName() {
-      return true;
-    }
-
     final ImmutableList<Type> usedInGenericType(Type[] types) {
       ImmutableList.Builder<Type> builder = ImmutableList.builder();
       for (Type type : types) {
         builder.add(usedInGenericType(type));
       }
       return builder.build();
+    }
+
+    String typeName(Type type) {
+      return Types.toString(type);
+    }
+
+    boolean jdkTypeDuplicatesOwnerName() {
+      return true;
     }
   }
 

@@ -203,6 +203,18 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     return copyFromEntries(multiset.entrySet());
   }
 
+  /**
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  public static <E> ImmutableMultiset<E> copyOf(Iterator<? extends E> elements) {
+    Multiset<E> multiset = LinkedHashMultiset.create();
+    Iterators.addAll(multiset, elements);
+    return copyFromEntries(multiset.entrySet());
+  }
+
   private static <E> ImmutableMultiset<E> copyFromElements(E... elements) {
     Multiset<E> multiset = LinkedHashMultiset.create();
     Collections.addAll(multiset, elements);
@@ -216,18 +228,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     } else {
       return new RegularImmutableMultiset<E>(entries);
     }
-  }
-
-  /**
-   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
-   * described in the class documentation.
-   *
-   * @throws NullPointerException if any of {@code elements} is null
-   */
-  public static <E> ImmutableMultiset<E> copyOf(Iterator<? extends E> elements) {
-    Multiset<E> multiset = LinkedHashMultiset.create();
-    Iterators.addAll(multiset, elements);
-    return copyFromEntries(multiset.entrySet());
   }
 
   ImmutableMultiset() {}
@@ -483,6 +483,20 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     /**
+     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
+     *
+     * @param elements the elements to add
+     * @return this {@code Builder} object
+     * @throws NullPointerException if {@code elements} is null or contains a null element
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<E> add(E... elements) {
+      super.add(elements);
+      return this;
+    }
+
+    /**
      * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.
      *
      * @param element the element to add
@@ -512,20 +526,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     @CanIgnoreReturnValue
     public Builder<E> setCount(E element, int count) {
       contents.setCount(checkNotNull(element), count);
-      return this;
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
-     *
-     * @param elements the elements to add
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E... elements) {
-      super.add(elements);
       return this;
     }
 

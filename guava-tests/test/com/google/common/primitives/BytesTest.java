@@ -247,15 +247,6 @@ public class BytesTest extends TestCase {
     testReverse(new byte[] {-1, 1, -2, 2}, new byte[] {2, -2, 1, -1});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new byte[] {}, 0, 0, new byte[] {});
-    testReverse(new byte[] {1}, 0, 1, new byte[] {1});
-    testReverse(new byte[] {1, 2}, 0, 2, new byte[] {2, 1});
-    testReverse(new byte[] {3, 1, 1}, 0, 2, new byte[] {1, 3, 1});
-    testReverse(new byte[] {3, 1, 1}, 0, 1, new byte[] {3, 1, 1});
-    testReverse(new byte[] {-1, 1, -2, 2}, 1, 3, new byte[] {-1, -2, 1, 2});
-  }
-
   private static void testReverse(byte[] input, byte[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Bytes.reverse(input);
@@ -266,6 +257,15 @@ public class BytesTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     Bytes.reverse(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new byte[] {}, 0, 0, new byte[] {});
+    testReverse(new byte[] {1}, 0, 1, new byte[] {1});
+    testReverse(new byte[] {1, 2}, 0, 2, new byte[] {2, 1});
+    testReverse(new byte[] {3, 1, 1}, 0, 2, new byte[] {1, 3, 1});
+    testReverse(new byte[] {3, 1, 1}, 0, 1, new byte[] {3, 1, 1});
+    testReverse(new byte[] {-1, 1, -2, 2}, 1, 3, new byte[] {-1, -2, 1, 2});
   }
 
   @GwtIncompatible // NullPointerTester

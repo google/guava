@@ -535,14 +535,6 @@ public final class Iterators {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
   }
 
-  /** Concats a varargs array of iterators without making a defensive copy of the array. */
-  static <T> Iterator<T> concatNoDefensiveCopy(Iterator<? extends T>... inputs) {
-    for (Iterator<? extends T> input : checkNotNull(inputs)) {
-      checkNotNull(input);
-    }
-    return concat(consumingForArray(inputs));
-  }
-
   /**
    * Combines multiple iterators into a single iterator. The returned iterator iterates across the
    * elements of each iterator in {@code inputs}. The input iterators are not polled until
@@ -554,6 +546,14 @@ public final class Iterators {
    */
   public static <T> Iterator<T> concat(Iterator<? extends Iterator<? extends T>> inputs) {
     return new ConcatenatedIterator<T>(inputs);
+  }
+
+  /** Concats a varargs array of iterators without making a defensive copy of the array. */
+  static <T> Iterator<T> concatNoDefensiveCopy(Iterator<? extends T>... inputs) {
+    for (Iterator<? extends T> input : checkNotNull(inputs)) {
+      checkNotNull(input);
+    }
+    return concat(consumingForArray(inputs));
   }
 
   /**
@@ -813,12 +813,6 @@ public final class Iterators {
     return iterator.next();
   }
 
-  static void checkNonnegative(int position) {
-    if (position < 0) {
-      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");
-    }
-  }
-
   /**
    * Advances {@code iterator} {@code position + 1} times, returning the element at the {@code
    * position}th position or {@code defaultValue} otherwise.
@@ -837,6 +831,12 @@ public final class Iterators {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
+  }
+
+  static void checkNonnegative(int position) {
+    if (position < 0) {
+      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");
+    }
   }
 
   /**
@@ -1010,24 +1010,6 @@ public final class Iterators {
     return forArray(array, 0, array.length, 0);
   }
 
-  private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
-    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
-
-    private final T[] array;
-    private final int offset;
-
-    ArrayItr(T[] array, int offset, int length, int index) {
-      super(length, index);
-      this.array = array;
-      this.offset = offset;
-    }
-
-    @Override
-    protected T get(int index) {
-      return array[offset + index];
-    }
-  }
-
   /**
    * Returns a list iterator containing the elements in the specified range of {@code array} in
    * order, starting at the specified index.
@@ -1047,6 +1029,24 @@ public final class Iterators {
       return emptyListIterator();
     }
     return new ArrayItr<T>(array, offset, length, index);
+  }
+
+  private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
+
+    private final T[] array;
+    private final int offset;
+
+    ArrayItr(T[] array, int offset, int length, int index) {
+      super(length, index);
+      this.array = array;
+      this.offset = offset;
+    }
+
+    @Override
+    protected T get(int index) {
+      return array[offset + index];
+    }
   }
 
   /**

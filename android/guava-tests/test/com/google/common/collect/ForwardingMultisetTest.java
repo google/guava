@@ -216,6 +216,11 @@ public class ForwardingMultisetTest extends TestCase {
                       }
 
                       @Override
+                      public boolean add(String element) {
+                        throw new UnsupportedOperationException();
+                      }
+
+                      @Override
                       public Set<Entry<String>> entrySet() {
                         final Set<Entry<String>> backingSet = super.entrySet();
                         return new ForwardingSet<Entry<String>>() {
@@ -288,11 +293,6 @@ public class ForwardingMultisetTest extends TestCase {
 
                       @Override
                       public int setCount(String element, int count) {
-                        throw new UnsupportedOperationException();
-                      }
-
-                      @Override
-                      public boolean add(String element) {
                         throw new UnsupportedOperationException();
                       }
 

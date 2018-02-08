@@ -225,6 +225,10 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return Ints.saturatedCast(aggregateForEntries(Aggregate.DISTINCT));
   }
 
+  static int distinctElements(@NullableDecl AvlNode<?> node) {
+    return (node == null) ? 0 : node.distinctElements;
+  }
+
   @Override
   public int count(@NullableDecl Object element) {
     try {
@@ -540,10 +544,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         rootReference,
         range.intersect(GeneralRange.downTo(comparator(), lowerBound, boundType)),
         header);
-  }
-
-  static int distinctElements(@NullableDecl AvlNode<?> node) {
-    return (node == null) ? 0 : node.distinctElements;
   }
 
   private static final class Reference<T> {

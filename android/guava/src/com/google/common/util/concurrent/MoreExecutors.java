@@ -85,45 +85,6 @@ public final class MoreExecutors {
   }
 
   /**
-   * Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
-   * the application is complete. It does so by using daemon threads and adding a shutdown hook to
-   * wait for their completion.
-   *
-   * <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
-   *
-   * @param executor the executor to modify to make sure it exits when the application is finished
-   * @param terminationTimeout how long to wait for the executor to finish before terminating the
-   *     JVM
-   * @param timeUnit unit of time for the time parameter
-   * @return an unmodifiable version of the input which will not hang the JVM
-   */
-  @Beta
-  @GwtIncompatible // TODO
-  public static ScheduledExecutorService getExitingScheduledExecutorService(
-      ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
-    return new Application()
-        .getExitingScheduledExecutorService(executor, terminationTimeout, timeUnit);
-  }
-
-  /**
-   * Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
-   * This is useful if the given service uses daemon threads, and we want to keep the JVM from
-   * exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
-   * normally.
-   *
-   * @param service ExecutorService which uses daemon threads
-   * @param terminationTimeout how long to wait for the executor to finish before terminating the
-   *     JVM
-   * @param timeUnit unit of time for the time parameter
-   */
-  @Beta
-  @GwtIncompatible // TODO
-  public static void addDelayedShutdownHook(
-      ExecutorService service, long terminationTimeout, TimeUnit timeUnit) {
-    new Application().addDelayedShutdownHook(service, terminationTimeout, timeUnit);
-  }
-
-  /**
    * Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
    * is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
    * completion.
@@ -147,6 +108,27 @@ public final class MoreExecutors {
    * the application is complete. It does so by using daemon threads and adding a shutdown hook to
    * wait for their completion.
    *
+   * <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
+   *
+   * @param executor the executor to modify to make sure it exits when the application is finished
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
+   * @param timeUnit unit of time for the time parameter
+   * @return an unmodifiable version of the input which will not hang the JVM
+   */
+  @Beta
+  @GwtIncompatible // TODO
+  public static ScheduledExecutorService getExitingScheduledExecutorService(
+      ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
+    return new Application()
+        .getExitingScheduledExecutorService(executor, terminationTimeout, timeUnit);
+  }
+
+  /**
+   * Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+   * the application is complete. It does so by using daemon threads and adding a shutdown hook to
+   * wait for their completion.
+   *
    * <p>This method waits 120 seconds before continuing with JVM termination, even if the executor
    * has not finished its work.
    *
@@ -162,6 +144,24 @@ public final class MoreExecutors {
     return new Application().getExitingScheduledExecutorService(executor);
   }
 
+  /**
+   * Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
+   * This is useful if the given service uses daemon threads, and we want to keep the JVM from
+   * exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+   * normally.
+   *
+   * @param service ExecutorService which uses daemon threads
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
+   * @param timeUnit unit of time for the time parameter
+   */
+  @Beta
+  @GwtIncompatible // TODO
+  public static void addDelayedShutdownHook(
+      ExecutorService service, long terminationTimeout, TimeUnit timeUnit) {
+    new Application().addDelayedShutdownHook(service, terminationTimeout, timeUnit);
+  }
+
   /** Represents the current application to register shutdown hooks. */
   @GwtIncompatible // TODO
   @VisibleForTesting
@@ -175,12 +175,21 @@ public final class MoreExecutors {
       return service;
     }
 
+    final ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
+      return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
+    }
+
     final ScheduledExecutorService getExitingScheduledExecutorService(
         ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
       useDaemonThreadFactory(executor);
       ScheduledExecutorService service = Executors.unconfigurableScheduledExecutorService(executor);
       addDelayedShutdownHook(executor, terminationTimeout, timeUnit);
       return service;
+    }
+
+    final ScheduledExecutorService getExitingScheduledExecutorService(
+        ScheduledThreadPoolExecutor executor) {
+      return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
     }
 
     final void addDelayedShutdownHook(
@@ -206,15 +215,6 @@ public final class MoreExecutors {
                   }
                 }
               }));
-    }
-
-    final ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
-      return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
-    }
-
-    final ScheduledExecutorService getExitingScheduledExecutorService(
-        ScheduledThreadPoolExecutor executor) {
-      return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
     }
 
     @VisibleForTesting

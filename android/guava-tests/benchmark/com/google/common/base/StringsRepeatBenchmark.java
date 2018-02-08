@@ -49,20 +49,22 @@ public class StringsRepeatBenchmark {
     }
   }
 
+  private static String oldRepeat(String string, int count) {
+    // If this multiplication overflows, a NegativeArraySizeException or
+    // OutOfMemoryError is not far behind
+    final int len = string.length();
+    final int size = len * count;
+    char[] array = new char[size];
+    for (int i = 0; i < size; i += len) {
+      string.getChars(0, len, array, i);
+    }
+    return new String(array);
+  }
+
   @Benchmark
   void mikeRepeat(int reps) {
     for (int i = 0; i < reps; i++) {
       String x = mikeRepeat(originalString, count);
-      if (x.length() != (originalString.length() * count)) {
-        throw new RuntimeException("Wrong length: " + x);
-      }
-    }
-  }
-
-  @Benchmark
-  void martinRepeat(int reps) {
-    for (int i = 0; i < reps; i++) {
-      String x = martinRepeat(originalString, count);
       if (x.length() != (originalString.length() * count)) {
         throw new RuntimeException("Wrong length: " + x);
       }
@@ -92,16 +94,14 @@ public class StringsRepeatBenchmark {
     return new String(array);
   }
 
-  private static String oldRepeat(String string, int count) {
-    // If this multiplication overflows, a NegativeArraySizeException or
-    // OutOfMemoryError is not far behind
-    final int len = string.length();
-    final int size = len * count;
-    char[] array = new char[size];
-    for (int i = 0; i < size; i += len) {
-      string.getChars(0, len, array, i);
+  @Benchmark
+  void martinRepeat(int reps) {
+    for (int i = 0; i < reps; i++) {
+      String x = martinRepeat(originalString, count);
+      if (x.length() != (originalString.length() * count)) {
+        throw new RuntimeException("Wrong length: " + x);
+      }
     }
-    return new String(array);
   }
 
   private static String martinRepeat(String string, int count) {

@@ -61,12 +61,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return (ImmutableRangeSet<C>) EMPTY;
   }
 
-  /** Returns an immutable range set containing the single range {@link Range#all()}. */
-  @SuppressWarnings("unchecked")
-  static <C extends Comparable> ImmutableRangeSet<C> all() {
-    return (ImmutableRangeSet<C>) ALL;
-  }
-
   /**
    * Returns an immutable range set containing the specified single range. If {@link Range#isEmpty()
    * range.isEmpty()}, this is equivalent to {@link ImmutableRangeSet#of()}.
@@ -80,6 +74,12 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     } else {
       return new ImmutableRangeSet<C>(ImmutableList.of(range));
     }
+  }
+
+  /** Returns an immutable range set containing the single range {@link Range#all()}. */
+  @SuppressWarnings("unchecked")
+  static <C extends Comparable> ImmutableRangeSet<C> all() {
+    return (ImmutableRangeSet<C>) ALL;
   }
 
   /** Returns an immutable copy of the specified {@code RangeSet}. */
@@ -101,18 +101,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   /**
-   * Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.
-   *
-   * <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate
-   * or connected ranges are permitted, and will be coalesced in the result.
-   *
-   * @since 21.0
-   */
-  public static <C extends Comparable<?>> ImmutableRangeSet<C> unionOf(Iterable<Range<C>> ranges) {
-    return copyOf(TreeRangeSet.create(ranges));
-  }
-
-  /**
    * Returns an {@code ImmutableRangeSet} containing each of the specified disjoint ranges.
    * Overlapping ranges and empty ranges are forbidden, though adjacent ranges are permitted and
    * will be merged.
@@ -122,6 +110,18 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    */
   public static <C extends Comparable<?>> ImmutableRangeSet<C> copyOf(Iterable<Range<C>> ranges) {
     return new ImmutableRangeSet.Builder<C>().addAll(ranges).build();
+  }
+
+  /**
+   * Returns an {@code ImmutableRangeSet} representing the union of the specified ranges.
+   *
+   * <p>This is the smallest {@code RangeSet} which encloses each of the specified ranges. Duplicate
+   * or connected ranges are permitted, and will be coalesced in the result.
+   *
+   * @since 21.0
+   */
+  public static <C extends Comparable<?>> ImmutableRangeSet<C> unionOf(Iterable<Range<C>> ranges) {
+    return copyOf(TreeRangeSet.create(ranges));
   }
 
   ImmutableRangeSet(ImmutableList<Range<C>> ranges) {

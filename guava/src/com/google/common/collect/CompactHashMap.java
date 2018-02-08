@@ -373,11 +373,6 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return remove(key, smearedHash(key));
   }
 
-  @CanIgnoreReturnValue
-  private V removeEntry(int entryIndex) {
-    return remove(keys[entryIndex], getHash(entries[entryIndex]));
-  }
-
   @NullableDecl
   private V remove(@NullableDecl Object key, int hash) {
     int tableIndex = hash & hashTableMask();
@@ -411,6 +406,11 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
       next = getNext(entries[next]);
     } while (next != UNSET);
     return null;
+  }
+
+  @CanIgnoreReturnValue
+  private V removeEntry(int entryIndex) {
+    return remove(keys[entryIndex], getHash(entries[entryIndex]));
   }
 
   /**

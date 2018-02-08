@@ -222,8 +222,6 @@ public final class DoubleMath {
     return log(x) / LN_2; // surprisingly within 1 ulp according to tests
   }
 
-  private static final double LN_2 = log(2);
-
   /**
    * Returns the base 2 logarithm of a double value, rounded with the specified rounding mode to an
    * {@code int}.
@@ -273,6 +271,8 @@ public final class DoubleMath {
     }
     return increment ? exponent + 1 : exponent;
   }
+
+  private static final double LN_2 = log(2);
 
   /**
    * Returns {@code true} if {@code x} represents a mathematical integer.

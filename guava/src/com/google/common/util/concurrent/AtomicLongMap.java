@@ -225,6 +225,14 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
+   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
+   * otherwise, this method returns false.
+   */
+  boolean remove(K key, long value) {
+    return map.remove(key, value);
+  }
+
+  /**
    * Atomically remove {@code key} from the map iff its associated value is 0.
    *
    * @since 20.0
@@ -333,13 +341,5 @@ public final class AtomicLongMap<K> implements Serializable {
     } else {
       return map.replace(key, expectedOldValue, newValue);
     }
-  }
-
-  /**
-   * If {@code (key, value)} is currently in the map, this method removes it and returns true;
-   * otherwise, this method returns false.
-   */
-  boolean remove(K key, long value) {
-    return map.remove(key, value);
   }
 }

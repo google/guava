@@ -782,8 +782,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @CanIgnoreReturnValue
     @Override
-    public Builder<E> addAll(Iterable<? extends E> elements) {
-      super.addAll(elements);
+    public Builder<E> add(E... elements) {
+      super.add(elements);
       return this;
     }
 
@@ -796,8 +796,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @CanIgnoreReturnValue
     @Override
-    public Builder<E> add(E... elements) {
-      super.add(elements);
+    public Builder<E> addAll(Iterable<? extends E> elements) {
+      super.addAll(elements);
       return this;
     }
 

@@ -358,10 +358,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return listIterator(0);
   }
 
-  /** A singleton implementation of iterator() for the empty ImmutableList. */
-  private static final UnmodifiableListIterator<Object> EMPTY_ITR =
-      new Itr<Object>(RegularImmutableList.EMPTY, 0);
-
   @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableListIterator<E> listIterator(int index) {
@@ -372,6 +368,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return new Itr<E>(this, index);
     }
   }
+
+  /** A singleton implementation of iterator() for the empty ImmutableList. */
+  private static final UnmodifiableListIterator<Object> EMPTY_ITR =
+      new Itr<Object>(RegularImmutableList.EMPTY, 0);
 
   static class Itr<E> extends AbstractIndexedListIterator<E> {
     private final ImmutableList<E> list;
@@ -731,8 +731,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @CanIgnoreReturnValue
     @Override
-    public Builder<E> addAll(Iterable<? extends E> elements) {
-      super.addAll(elements);
+    public Builder<E> add(E... elements) {
+      super.add(elements);
       return this;
     }
 
@@ -745,8 +745,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @CanIgnoreReturnValue
     @Override
-    public Builder<E> add(E... elements) {
-      super.add(elements);
+    public Builder<E> addAll(Iterable<? extends E> elements) {
+      super.addAll(elements);
       return this;
     }
 

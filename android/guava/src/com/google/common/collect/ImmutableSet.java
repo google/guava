@@ -494,23 +494,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
 
-    private void addDeduping(E element) {
-      int mask = hashTable.length - 1;
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
-          super.add(element);
-          return;
-        } else if (previous.equals(element)) {
-          return;
-        }
-      }
-    }
-
     /**
      * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
      * elements (only the first duplicate element is added).
@@ -530,6 +513,23 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         super.add(elements);
       }
       return this;
+    }
+
+    private void addDeduping(E element) {
+      int mask = hashTable.length - 1;
+      int hash = element.hashCode();
+      for (int i = Hashing.smear(hash); ; i++) {
+        i &= mask;
+        Object previous = hashTable[i];
+        if (previous == null) {
+          hashTable[i] = element;
+          hashCode += hash;
+          super.add(element);
+          return;
+        } else if (previous.equals(element)) {
+          return;
+        }
+      }
     }
 
     /**

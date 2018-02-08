@@ -471,6 +471,20 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     }
 
     /**
+     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.
+     *
+     * @param elements the elements to add
+     * @return this {@code Builder} object
+     * @throws NullPointerException if {@code elements} is null or contains a null element
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<E> add(E... elements) {
+      super.add(elements);
+      return this;
+    }
+
+    /**
      * Adds a number of occurrences of an element to this {@code ImmutableSortedMultiset}.
      *
      * @param element the element to add
@@ -502,20 +516,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     @Override
     public Builder<E> setCount(E element, int count) {
       super.setCount(element, count);
-      return this;
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableSortedMultiset}.
-     *
-     * @param elements the elements to add
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E... elements) {
-      super.add(elements);
       return this;
     }
 
