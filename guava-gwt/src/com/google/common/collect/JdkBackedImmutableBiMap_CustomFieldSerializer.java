@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2018 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class implements the GWT serialization of {@link RegularImmutableBiMap}.
+ * This class implements the GWT serialization of {@link JdkBackedImmutableBiMap}.
  *
- * @author Chris Povirk
+ * @author Louis Wasserman
  */
-public class RegularImmutableBiMap_CustomFieldSerializer {
+public class JdkBackedImmutableBiMap_CustomFieldSerializer {
+
   public static void deserialize(SerializationStreamReader reader, ImmutableBiMap<?, ?> instance) {}
 
   public static ImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)

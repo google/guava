@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -33,10 +34,14 @@ import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapCo
 import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGenerator;
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.SerializableTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -45,6 +50,7 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link ImmutableBiMap}.
@@ -68,6 +74,25 @@ public class ImmutableBiMapTest extends TestCase {
     suite.addTest(
         BiMapTestSuiteBuilder.using(new ImmutableBiMapGenerator())
             .named("ImmutableBiMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES)
+            .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
+            .createTestSuite());
+    suite.addTest(
+        BiMapTestSuiteBuilder.using(
+                new TestStringBiMapGenerator() {
+                  @Override
+                  protected BiMap<String, String> create(Entry<String, String>[] entries) {
+                    return ImmutableBiMap.<String, String>builder()
+                        .putAll(Arrays.asList(entries))
+                        .buildJdkBacked();
+                  }
+                })
+            .named("ImmutableBiMap [JDK backed]")
             .withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.SERIALIZABLE,
@@ -604,5 +629,304 @@ public class ImmutableBiMapTest extends TestCase {
       assertEquals(alternatingKeysAndValues[i++], entry.getKey());
       assertEquals(alternatingKeysAndValues[i++], entry.getValue());
     }
+  }
+
+  /**
+   * A Comparable wrapper around a String which executes callbacks on calls to hashCode, equals, and
+   * compareTo.
+   */
+  private static class CountsHashCodeAndEquals implements Comparable<CountsHashCodeAndEquals> {
+    private final String delegateString;
+    private final Runnable onHashCode;
+    private final Runnable onEquals;
+    private final Runnable onCompareTo;
+
+    CountsHashCodeAndEquals(
+        String delegateString, Runnable onHashCode, Runnable onEquals, Runnable onCompareTo) {
+      this.delegateString = delegateString;
+      this.onHashCode = onHashCode;
+      this.onEquals = onEquals;
+      this.onCompareTo = onCompareTo;
+    }
+
+    @Override
+    public int hashCode() {
+      onHashCode.run();
+      return delegateString.hashCode();
+    }
+
+    @Override
+    public boolean equals(@NullableDecl Object other) {
+      onEquals.run();
+      return other instanceof CountsHashCodeAndEquals
+          && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);
+    }
+
+    @Override
+    public int compareTo(CountsHashCodeAndEquals o) {
+      onCompareTo.run();
+      return delegateString.compareTo(o.delegateString);
+    }
+  }
+
+  /** A holder of counters for calls to hashCode, equals, and compareTo. */
+  private static final class CallsCounter {
+    long hashCode;
+    long equals;
+    long compareTo;
+
+    long total() {
+      return hashCode + equals + compareTo;
+    }
+
+    void zero() {
+      hashCode = 0;
+      equals = 0;
+      compareTo = 0;
+    }
+  }
+
+  /** All the ways to create an ImmutableBiMap. */
+  enum ConstructionPathway {
+    COPY_OF_MAP {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        Map<Object, Object> sourceMap = new LinkedHashMap<>();
+        for (Entry<?, ?> entry : entries) {
+          if (sourceMap.put(entry.getKey(), entry.getValue()) != null) {
+            throw new UnsupportedOperationException("duplicate key");
+          }
+        }
+        counter.zero();
+        return ImmutableBiMap.copyOf(sourceMap);
+      }
+    },
+    COPY_OF_ENTRIES {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        return ImmutableBiMap.copyOf(entries);
+      }
+    },
+    BUILDER_PUT_ONE_BY_ONE {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        ImmutableBiMap.Builder<Object, Object> builder = ImmutableBiMap.builder();
+        for (Entry<?, ?> entry : entries) {
+          builder.put(entry);
+        }
+        return builder.build();
+      }
+    },
+    BUILDER_PUT_ENTRY_ONE_BY_ONE {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        ImmutableBiMap.Builder<Object, Object> builder = ImmutableBiMap.builder();
+        for (Entry<?, ?> entry : entries) {
+          builder.put(entry);
+        }
+        return builder.build();
+      }
+    },
+    BUILDER_PUT_ALL_MAP {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        Map<Object, Object> sourceMap = new LinkedHashMap<>();
+        for (Entry<?, ?> entry : entries) {
+          if (sourceMap.put(entry.getKey(), entry.getValue()) != null) {
+            throw new UnsupportedOperationException("duplicate key");
+          }
+        }
+        counter.zero();
+        ImmutableBiMap.Builder<Object, Object> builder = ImmutableBiMap.builder();
+        builder.putAll(sourceMap);
+        return builder.build();
+      }
+    },
+    BUILDER_PUT_ALL_ENTRIES {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        ImmutableBiMap.Builder<Object, Object> builder = ImmutableBiMap.builder();
+        builder.putAll(entries);
+        return builder.build();
+      }
+    },
+    FORCE_JDK {
+      @Override
+      ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        ImmutableBiMap.Builder<Object, Object> builder = ImmutableBiMap.builder();
+        builder.putAll(entries);
+        return builder.buildJdkBacked();
+      }
+    };
+
+    @CanIgnoreReturnValue
+    abstract ImmutableBiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter);
+  }
+
+  /**
+   * Returns a list of objects with the same hash code, of size 2^power, counting calls to equals,
+   * hashCode, and compareTo in counter.
+   */
+  static List<CountsHashCodeAndEquals> createAdversarialObjects(int power, CallsCounter counter) {
+    String str1 = "Aa";
+    String str2 = "BB";
+    assertEquals(str1.hashCode(), str2.hashCode());
+    List<String> haveSameHashes2 = Arrays.asList(str1, str2);
+    List<CountsHashCodeAndEquals> result =
+        Lists.newArrayList(
+            Lists.transform(
+                Lists.cartesianProduct(Collections.nCopies(power, haveSameHashes2)),
+                strs ->
+                    new CountsHashCodeAndEquals(
+                        String.join("", strs),
+                        () -> counter.hashCode++,
+                        () -> counter.equals++,
+                        () -> counter.compareTo++)));
+    assertEquals(
+        result.get(0).delegateString.hashCode(),
+        result.get(result.size() - 1).delegateString.hashCode());
+    return result;
+  }
+
+  enum AdversaryType {
+    ADVERSARIAL_KEYS {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        return createAdversarialObjects(power, counter)
+            .stream()
+            .map(k -> Maps.immutableEntry(k, new Object()))
+            .collect(toList());
+      }
+    },
+    ADVERSARIAL_VALUES {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        return createAdversarialObjects(power, counter)
+            .stream()
+            .map(k -> Maps.immutableEntry(new Object(), k))
+            .collect(toList());
+      }
+    },
+    ADVERSARIAL_KEYS_AND_VALUES {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        List<?> keys = createAdversarialObjects(power, counter);
+        List<?> values = createAdversarialObjects(power, counter);
+        return Streams.zip(keys.stream(), values.stream(), Maps::immutableEntry).collect(toList());
+      }
+    };
+
+    abstract List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter);
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingInConstruction() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      int smallSize = smallEntries.size();
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      int largeSize = largeEntries.size();
+
+      for (ConstructionPathway pathway : ConstructionPathway.values()) {
+        smallCounter.zero();
+        pathway.create(smallEntries, smallCounter);
+        long smallOps = smallCounter.total();
+
+        largeCounter.zero();
+        pathway.create(largeEntries, largeCounter);
+        long largeOps = largeCounter.total();
+
+        double ratio = (double) largeOps / smallOps;
+        assertThat(ratio)
+            .named(
+                "ratio of equals/hashCode/compareTo operations to build an ImmutableBiMap with %s"
+                    + " via %s with %s entries versus %s entries",
+                adversary, pathway, largeSize, smallSize)
+            .isAtMost(2 * (largeSize * Math.log(largeSize)) / (smallSize * Math.log(smallSize)));
+        // allow up to 2x wobble in the constant factors
+      }
+    }
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingOnForwardGet() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      ImmutableBiMap<?, ?> smallMap =
+          ConstructionPathway.COPY_OF_ENTRIES.create(smallEntries, smallCounter);
+      int smallSize = smallEntries.size();
+      long smallOps = worstCaseQueryOperations(smallMap, smallCounter);
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      ImmutableBiMap<?, ?> largeMap =
+          ConstructionPathway.COPY_OF_ENTRIES.create(largeEntries, largeCounter);
+      int largeSize = largeEntries.size();
+      long largeOps = worstCaseQueryOperations(largeMap, largeCounter);
+
+      if (smallOps == 0 && largeOps == 0) {
+        continue; // no queries on the CHCAE objects
+      }
+
+      double ratio = (double) largeOps / smallOps;
+      assertThat(ratio)
+          .named(
+              "Ratio of worst case get operations for an ImmutableBiMap with %s of size "
+                  + "%s versus %s",
+              adversary, largeSize, smallSize)
+          .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
+      // allow up to 2x wobble in the constant factors
+    }
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingOnInverseGet() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      ImmutableBiMap<?, ?> smallMap =
+          ConstructionPathway.COPY_OF_ENTRIES.create(smallEntries, smallCounter);
+      int smallSize = smallEntries.size();
+      long smallOps = worstCaseQueryOperations(smallMap.inverse(), smallCounter);
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      ImmutableBiMap<?, ?> largeMap =
+          ConstructionPathway.COPY_OF_ENTRIES.create(largeEntries, largeCounter);
+      int largeSize = largeEntries.size();
+      long largeOps = worstCaseQueryOperations(largeMap.inverse(), largeCounter);
+
+      if (smallOps == 0 && largeOps == 0) {
+        continue; // no queries on the CHCAE objects
+      }
+      double ratio = (double) largeOps / smallOps;
+      assertThat(ratio)
+          .named(
+              "Ratio of worst case get operations for an ImmutableBiMap with %s of size "
+                  + "%s versus %s",
+              adversary, largeSize, smallSize)
+          .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
+      // allow up to 2x wobble in the constant factors
+    }
+  }
+
+  private static long worstCaseQueryOperations(Map<?, ?> map, CallsCounter counter) {
+    long worstCalls = 0;
+    for (Object k : map.keySet()) {
+      counter.zero();
+      Object unused = map.get(k);
+      worstCalls = Math.max(worstCalls, counter.total());
+    }
+    return worstCalls;
   }
 }
