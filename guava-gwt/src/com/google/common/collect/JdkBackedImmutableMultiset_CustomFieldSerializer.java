@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 The Guava Authors
+ * Copyright (C) 2018 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,12 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of {@link RegularImmutableMultiset}.
+ * This class implements the GWT serialization of {@link JdkBackedImmutableMultiset}.
  *
  * @author Louis Wasserman
  */
-public class RegularImmutableMultiset_CustomFieldSerializer {
+public class JdkBackedImmutableMultiset_CustomFieldSerializer {
+
   public static void deserialize(SerializationStreamReader reader, ImmutableMultiset<?> instance) {}
 
   public static ImmutableMultiset<Object> instantiate(SerializationStreamReader reader)
