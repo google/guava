@@ -122,7 +122,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static class <a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.491">ImmutableSet.Builder</a>&lt;E&gt;
+<pre>public static class <a href="../../../../src-html/com/google/common/collect/ImmutableSet.html#line.448">ImmutableSet.Builder</a>&lt;E&gt;
 extends <a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;E&gt;</pre>
 <div class="block">A builder for creating <code>ImmutableSet</code> instances. Example:
 
@@ -160,9 +160,7 @@ extends <a href="../../../../com/google/common/collect/ImmutableCollection.Build
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#Builder--">Builder</a></span>()</code>
-<div class="block">Creates a new builder.</div>
-</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#Builder--">Builder</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -182,34 +180,32 @@ extends <a href="../../../../com/google/common/collect/ImmutableCollection.Build
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#add-E...-">add</a></span>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>...&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#add-E-">add</a></span>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&nbsp;element)</code>
-<div class="block">Adds <code>element</code> to the <code>ImmutableSet</code>.</div>
+<div class="block">Adds <code>element</code> to the <code>ImmutableCollection</code> being built.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#addAll-java.lang.Iterable-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#addAll-java.util.Iterator-">addAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</code>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ImmutableSet.Builder.html#build--">build</a></span>()</code>
-<div class="block">Returns a newly-created <code>ImmutableSet</code> based on the contents of the <code>Builder</code>.</div>
+<div class="block">Returns a newly-created <code>ImmutableCollection</code> of the appropriate type, containing the
+ elements provided to this builder.</div>
 </td>
 </tr>
 </table>
@@ -240,8 +236,7 @@ extends <a href="../../../../com/google/common/collect/ImmutableCollection.Build
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Builder</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.499">Builder</a>()</pre>
-<div class="block">Creates a new builder. The returned builder is equivalent to the builder generated by <a href="../../../../com/google/common/collect/ImmutableSet.html#builder--"><code>ImmutableSet.builder()</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.452">Builder</a>()</pre>
 </li>
 </ul>
 </li>
@@ -261,17 +256,18 @@ extends <a href="../../../../com/google/common/collect/ImmutableCollection.Build
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.519">add</a>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&nbsp;element)</pre>
-<div class="block">Adds <code>element</code> to the <code>ImmutableSet</code>. If the <code>ImmutableSet</code> already
- contains <code>element</code>, then <code>add</code> has no effect (only the previously added element
- is retained).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.482">add</a>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&nbsp;element)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#add-E-">ImmutableCollection.Builder</a></code></span></div>
+<div class="block">Adds <code>element</code> to the <code>ImmutableCollection</code> being built.
+
+ <p>Note that each builder class covariantly returns its own type from this method.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#add-E-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>element</code> - the element to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this <code>Builder</code> object</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>element</code> is null</dd>
+<dd>this <code>Builder</code> instance</dd>
 </dl>
 </li>
 </ul>
@@ -284,16 +280,19 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.
 <li class="blockList">
 <h4>add</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.541">add</a>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>...&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.491">add</a>(<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>...&nbsp;elements)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#add-E...-">ImmutableCollection.Builder</a></code></span></div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.
+
+ <p>Note that each builder class overrides this method in order to covariantly return its own
+ type.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#add-E...-">add</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>elements</code> - the elements to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this <code>Builder</code> object</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null or contains a null element</dd>
+<dd>this <code>Builder</code> instance</dd>
 </dl>
 </li>
 </ul>
@@ -304,16 +303,19 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.579">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.506">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#addAll-java.lang.Iterable-">ImmutableCollection.Builder</a></code></span></div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.
+
+ <p>Note that each builder class overrides this method in order to covariantly return its own
+ type.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#addAll-java.lang.Iterable-">addAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - the <code>Iterable</code> to add to the <code>ImmutableSet</code></dd>
+<dd><code>elements</code> - the elements to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this <code>Builder</code> object</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null or contains a null element</dd>
+<dd>this <code>Builder</code> instance</dd>
 </dl>
 </li>
 </ul>
@@ -324,18 +326,19 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.
 <li class="blockList">
 <h4>addAll</h4>
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.601">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</pre>
-<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableSet</code>, ignoring duplicate
- elements (only the first duplicate element is added).</div>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="class in com.google.common.collect">ImmutableSet.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.513">addAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;elements)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#addAll-java.util.Iterator-">ImmutableCollection.Builder</a></code></span></div>
+<div class="block">Adds each element of <code>elements</code> to the <code>ImmutableCollection</code> being built.
+
+ <p>Note that each builder class overrides this method in order to covariantly return its own
+ type.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#addAll-java.util.Iterator-">addAll</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - the elements to add to the <code>ImmutableSet</code></dd>
+<dd><code>elements</code> - the elements to add</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>this <code>Builder</code> object</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null or contains a null element</dd>
+<dd>this <code>Builder</code> instance</dd>
 </dl>
 </li>
 </ul>
@@ -345,8 +348,12 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.628">build</a>()</pre>
-<div class="block">Returns a newly-created <code>ImmutableSet</code> based on the contents of the <code>Builder</code>.</div>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSet.Builder.html#line.525">build</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#build--">ImmutableCollection.Builder</a></code></span></div>
+<div class="block">Returns a newly-created <code>ImmutableCollection</code> of the appropriate type, containing the
+ elements provided to this builder.
+
+ <p>Note that each builder class covariantly returns the appropriate type of <code>ImmutableCollection</code> from this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html#build--">build</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSet.Builder.html" title="type parameter in ImmutableSet.Builder">E</a>&gt;</code></dd>

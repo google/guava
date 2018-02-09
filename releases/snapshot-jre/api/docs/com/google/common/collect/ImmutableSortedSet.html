@@ -936,7 +936,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.547">comparator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.600">comparator</a>()</pre>
 <div class="block">Returns the comparator that orders the elements, which is <a href="../../../../com/google/common/collect/Ordering.html#natural--"><code>Ordering.natural()</code></a> when the
  natural ordering of the elements is used. Note that its behavior is not consistent with <a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#comparator--" title="class or interface in java.util"><code>SortedSet.comparator()</code></a>, which returns <code>null</code> to indicate natural ordering.</div>
 <dl>
@@ -955,7 +955,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.552">iterator</a>()</pre>
+<pre>public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.605">iterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/google/common/collect/ImmutableCollection.html#iterator--">ImmutableCollection</a></code></span></div>
 <div class="block">Returns an unmodifiable iterator across the elements in this collection.</div>
 <dl>
@@ -982,7 +982,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>headSet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.565">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.618">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
 <div class="block">Returns a view of the portion of this set whose elements are
  strictly less than <tt>toElement</tt>.  The returned set is
  backed by this set, so changes in the returned set are
@@ -1021,7 +1021,7 @@ public static&nbsp;&lt;E&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>headSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.572">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.625">headSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                                       boolean&nbsp;inclusive)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#headSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements are less than
@@ -1055,7 +1055,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>subSet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.589">subSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.642">subSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                     <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement)</pre>
 <div class="block">Returns a view of the portion of this set whose elements range
  from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>,
@@ -1098,7 +1098,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>subSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.596">subSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.649">subSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                                      boolean&nbsp;fromInclusive,
                                                      <a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;toElement,
                                                      boolean&nbsp;toInclusive)</pre>
@@ -1138,7 +1138,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>tailSet</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.615">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.668">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement)</pre>
 <div class="block">Returns a view of the portion of this set whose elements are
  greater than or equal to <tt>fromElement</tt>.  The returned
  set is backed by this set, so changes in the returned set are
@@ -1177,7 +1177,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>tailSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.622">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.675">tailSet</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;fromElement,
                                                       boolean&nbsp;inclusive)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#tailSet-E-boolean-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns a view of the portion of this set whose elements are greater
@@ -1212,7 +1212,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>lower</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.640">lower</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.693">lower</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#lower-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns the greatest element in this set strictly less than the
  given element, or <code>null</code> if there is no such element.</div>
@@ -1238,7 +1238,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>floor</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.647">floor</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.700">floor</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#floor-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns the greatest element in this set less than or equal to
  the given element, or <code>null</code> if there is no such element.</div>
@@ -1264,7 +1264,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>ceiling</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.654">ceiling</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.707">ceiling</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#ceiling-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns the least element in this set greater than or equal to
  the given element, or <code>null</code> if there is no such element.</div>
@@ -1290,7 +1290,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>higher</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.661">higher</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.714">higher</a>(<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;e)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#higher-E-" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns the least element in this set strictly greater than the
  given element, or <code>null</code> if there is no such element.</div>
@@ -1313,7 +1313,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>first</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.666">first</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.719">first</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#first--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns the first (lowest) element currently in this set.</div>
 <dl>
@@ -1330,7 +1330,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>last</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.671">last</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.724">last</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/SortedSet.html?is-external=true#last--" title="class or interface in java.util">java.util.SortedSet</a></code></span></div>
 <div class="block">Returns the last (highest) element currently in this set.</div>
 <dl>
@@ -1350,7 +1350,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.686">pollFirst</a>()</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.739">pollFirst</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the set unmodified.</div>
 <dl>
@@ -1374,7 +1374,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSorted
 <pre><a href="http://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.701">pollLast</a>()</pre>
+public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.754">pollLast</a>()</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Unsupported operation.</span></div>
 <div class="block">Guaranteed to throw an exception and leave the set unmodified.</div>
 <dl>
@@ -1396,7 +1396,7 @@ public final&nbsp;<a href="../../../../com/google/common/collect/ImmutableSorted
 <li class="blockList">
 <h4>descendingSet</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.712">descendingSet</a>()</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.765">descendingSet</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingSet--" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns a reverse order view of the elements contained in this set.
  The descending set is backed by this set, so changes to the set are
@@ -1425,7 +1425,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>spliterator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util">Spliterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.729">spliterator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util">Spliterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.782">spliterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#spliterator--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Spliterator.html?is-external=true" title="class or interface in java.util"><code>Spliterator</code></a> over the elements in this collection.
 
@@ -1475,7 +1475,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/ImmutableSortedSet.ht
 <li class="blockList">
 <h4>descendingIterator</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.754">descendingIterator</a>()</pre>
+public abstract&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;<a href="../../../../com/google/common/collect/ImmutableSortedSet.html" title="type parameter in ImmutableSortedSet">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ImmutableSortedSet.html#line.807">descendingIterator</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true#descendingIterator--" title="class or interface in java.util">java.util.NavigableSet</a></code></span></div>
 <div class="block">Returns an iterator over the elements in this set, in descending order.
  Equivalent in effect to <code>descendingSet().iterator()</code>.</div>

@@ -374,7 +374,7 @@
 <span class="sourceLineNo">366</span>  abstract Entry&lt;E&gt; getEntry(int index);<a name="line.366"></a>
 <span class="sourceLineNo">367</span><a name="line.367"></a>
 <span class="sourceLineNo">368</span>  @WeakOuter<a name="line.368"></a>
-<span class="sourceLineNo">369</span>  private final class EntrySet extends ImmutableSet.Indexed&lt;Entry&lt;E&gt;&gt; {<a name="line.369"></a>
+<span class="sourceLineNo">369</span>  private final class EntrySet extends IndexedImmutableSet&lt;Entry&lt;E&gt;&gt; {<a name="line.369"></a>
 <span class="sourceLineNo">370</span>    @Override<a name="line.370"></a>
 <span class="sourceLineNo">371</span>    boolean isPartialView() {<a name="line.371"></a>
 <span class="sourceLineNo">372</span>      return ImmutableMultiset.this.isPartialView();<a name="line.372"></a>
