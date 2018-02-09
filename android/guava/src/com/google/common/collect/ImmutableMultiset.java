@@ -316,7 +316,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   abstract Entry<E> getEntry(int index);
 
   @WeakOuter
-  private final class EntrySet extends ImmutableSet.Indexed<Entry<E>> {
+  private final class EntrySet extends IndexedImmutableSet<Entry<E>> {
     @Override
     boolean isPartialView() {
       return ImmutableMultiset.this.isPartialView();

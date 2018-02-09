@@ -19,16 +19,17 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -169,77 +170,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         E elem = (E) elements[0];
         return of(elem);
       default:
-        // continue below to handle the general case
-    }
-    int tableSize = chooseTableSize(n);
-    Object[] table = new Object[tableSize];
-    int mask = tableSize - 1;
-    int hashCode = 0;
-    int uniques = 0;
-    for (int i = 0; i < n; i++) {
-      Object element = checkElementNotNull(elements[i], i);
-      int hash = element.hashCode();
-      for (int j = Hashing.smear(hash); ; j++) {
-        int index = j & mask;
-        Object value = table[index];
-        if (value == null) {
-          // Came to an empty slot. Put the element here.
-          elements[uniques++] = element;
-          table[index] = element;
-          hashCode += hash;
-          break;
-        } else if (value.equals(element)) {
-          break;
+        SetBuilderImpl<E> builder =
+            new RegularSetBuilderImpl<E>(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
+        for (int i = 0; i < n; i++) {
+          @SuppressWarnings("unchecked")
+          E e = (E) checkNotNull(elements[i]);
+          builder = builder.add(e);
         }
-      }
+        return builder.review().build();
     }
-    Arrays.fill(elements, uniques, n, null);
-    if (uniques == 1) {
-      // There is only one element or elements are all duplicates
-      @SuppressWarnings("unchecked") // we are careful to only pass in E
-      E element = (E) elements[0];
-      return new SingletonImmutableSet<E>(element, hashCode);
-    } else if (tableSize != chooseTableSize(uniques)) {
-      // Resize the table when the array includes too many duplicates.
-      // when this happens, we have already made a copy
-      return construct(uniques, elements);
-    } else {
-      Object[] uniqueElements =
-          (uniques < elements.length) ? Arrays.copyOf(elements, uniques) : elements;
-      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
-    }
-  }
-
-  // We use power-of-2 tables, and this is the highest int that's a power of 2
-  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
-
-  // Represents how tightly we can pack things, as a maximum.
-  private static final double DESIRED_LOAD_FACTOR = 0.7;
-
-  // If the set has this many elements, it will "max out" the table size
-  private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
-
-  /**
-   * Returns an array size suitable for the backing array of a hash table that uses open addressing
-   * with linear probing in its implementation. The returned size is the smallest power of two that
-   * can hold setSize elements with the desired load factor. Always returns at least setSize + 2.
-   */
-  @VisibleForTesting
-  static int chooseTableSize(int setSize) {
-    setSize = Math.max(setSize, 2);
-    // Correct the size for open addressing to match desired load factor.
-    if (setSize < CUTOFF) {
-      // Round up to the next highest power of 2.
-      int tableSize = Integer.highestOneBit(setSize - 1) << 1;
-      while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
-        tableSize <<= 1;
-      }
-      return tableSize;
-    }
-
-    // The table can't be completely full or we'll get infinite reprobes
-    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
-    return MAX_TABLE_SIZE;
   }
 
   /**
@@ -470,6 +409,24 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return new Builder<E>(expectedSize);
   }
 
+  /** Builds a new open-addressed hash table from the first n objects in elements. */
+  static Object[] rebuildHashTable(int newTableSize, Object[] elements, int n) {
+    Object[] hashTable = new Object[newTableSize];
+    int mask = hashTable.length - 1;
+    for (int i = 0; i < n; i++) {
+      Object e = elements[i];
+      int j0 = Hashing.smear(e.hashCode());
+      for (int j = j0; ; j++) {
+        int index = j & mask;
+        if (hashTable[index] == null) {
+          hashTable[index] = e;
+          break;
+        }
+      }
+    }
+    return hashTable;
+  }
+
   /**
    * A builder for creating {@code ImmutableSet} instances. Example:
    *
@@ -488,46 +445,55 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 2.0
    */
-  public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
-    @NullableDecl @VisibleForTesting Object[] hashTable;
-    private int hashCode;
+  public static class Builder<E> extends ImmutableCollection.Builder<E> {
+    private SetBuilderImpl<E> impl;
+    boolean forceCopy;
 
-    /**
-     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link
-     * ImmutableSet#builder}.
-     */
     public Builder() {
-      super(DEFAULT_INITIAL_CAPACITY);
+      this(DEFAULT_INITIAL_CAPACITY);
     }
 
     Builder(int capacity) {
-      super(capacity);
-      this.hashTable = new Object[chooseTableSize(capacity)];
+      impl = new RegularSetBuilderImpl<E>(capacity);
     }
 
-    /**
-     * Adds {@code element} to the {@code ImmutableSet}. If the {@code ImmutableSet} already
-     * contains {@code element}, then {@code add} has no effect (only the previously added element
-     * is retained).
-     *
-     * @param element the element to add
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code element} is null
-     */
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E element) {
-      checkNotNull(element);
-      if (hashTable != null && chooseTableSize(size) <= hashTable.length) {
-        addDeduping(element);
-        return this;
-      } else {
-        hashTable = null;
-        super.add(element);
-        return this;
+    Builder(@SuppressWarnings("unused") boolean subclass) {
+      this.impl = null; // unused
+    }
+
+    @VisibleForTesting
+    void forceJdk() {
+      this.impl = new JdkBackedSetBuilderImpl<E>(impl);
+    }
+
+    final void copyIfNecessary() {
+      if (forceCopy) {
+        copy();
+        forceCopy = false;
       }
     }
 
+    void copy() {
+      impl = impl.copy();
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public Builder<E> add(E element) {
+      checkNotNull(element);
+      copyIfNecessary();
+      impl = impl.add(element);
+      return this;
+    }
+
+    @Override
+    @CanIgnoreReturnValue
+    public Builder<E> add(E... elements) {
+      super.add(elements);
+      return this;
+    }
+
+    @Override
     /**
      * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
      * elements (only the first duplicate element is added).
@@ -537,114 +503,331 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @throws NullPointerException if {@code elements} is null or contains a null element
      */
     @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E... elements) {
-      if (hashTable != null) {
-        for (E e : elements) {
-          add(e);
-        }
-      } else {
-        super.add(elements);
-      }
-      return this;
-    }
-
-    private void addDeduping(E element) {
-      int mask = hashTable.length - 1;
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
-          super.add(element);
-          return;
-        } else if (previous.equals(element)) {
-          return;
-        }
-      }
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
-     * elements (only the first duplicate element is added).
-     *
-     * @param elements the {@code Iterable} to add to the {@code ImmutableSet}
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
     public Builder<E> addAll(Iterable<? extends E> elements) {
-      checkNotNull(elements);
-      if (hashTable != null) {
-        for (E e : elements) {
-          add(e);
-        }
-      } else {
-        super.addAll(elements);
-      }
+      super.addAll(elements);
       return this;
     }
 
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
-     * elements (only the first duplicate element is added).
-     *
-     * @param elements the elements to add to the {@code ImmutableSet}
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
     @Override
+    @CanIgnoreReturnValue
     public Builder<E> addAll(Iterator<? extends E> elements) {
-      checkNotNull(elements);
-      while (elements.hasNext()) {
-        add(elements.next());
-      }
+      super.addAll(elements);
       return this;
     }
 
-    @SuppressWarnings("unchecked")
-    @CanIgnoreReturnValue
-    @Override
-    Builder<E> combine(ArrayBasedBuilder<E> builder) {
-      if (hashTable != null && builder instanceof Builder) {
-        for (int i = 0; i < builder.size; i++) {
-          addDeduping((E) builder.contents[i]);
-        }
-      } else {
-        super.combine(builder);
-      }
+    Builder<E> combine(Builder<E> other) {
+      copyIfNecessary();
+      this.impl = this.impl.combine(other.impl);
       return this;
     }
 
-    /**
-     * Returns a newly-created {@code ImmutableSet} based on the contents of the {@code Builder}.
-     */
-    @SuppressWarnings("unchecked")
     @Override
     public ImmutableSet<E> build() {
-      switch (size) {
+      forceCopy = true;
+      impl = impl.review();
+      return impl.build();
+    }
+  }
+
+  /** Swappable internal implementation of an ImmutableSet.Builder. */
+  private abstract static class SetBuilderImpl<E> {
+    E[] dedupedElements;
+    int distinct;
+
+    @SuppressWarnings("unchecked")
+    SetBuilderImpl(int expectedCapacity) {
+      this.dedupedElements = (E[]) new Object[expectedCapacity];
+      this.distinct = 0;
+    }
+
+    /** Initializes this SetBuilderImpl with a copy of the deduped elements array from toCopy. */
+    SetBuilderImpl(SetBuilderImpl<E> toCopy) {
+      this.dedupedElements = Arrays.copyOf(toCopy.dedupedElements, toCopy.dedupedElements.length);
+      this.distinct = toCopy.distinct;
+    }
+
+    /**
+     * Resizes internal data structures if necessary to store the specified number of distinct
+     * elements.
+     */
+    private void ensureCapacity(int minCapacity) {
+      if (minCapacity > dedupedElements.length) {
+        int newCapacity =
+            ImmutableCollection.Builder.expandedCapacity(dedupedElements.length, minCapacity);
+        dedupedElements = Arrays.copyOf(dedupedElements, newCapacity);
+      }
+    }
+
+    /** Adds e to the insertion-order array of deduplicated elements. Calls ensureCapacity. */
+    final void addDedupedElement(E e) {
+      ensureCapacity(distinct + 1);
+      dedupedElements[distinct++] = e;
+    }
+
+    /**
+     * Adds e to this SetBuilderImpl, returning the updated result. Only use the returned
+     * SetBuilderImpl, since we may switch implementations if e.g. hash flooding is detected.
+     */
+    abstract SetBuilderImpl<E> add(E e);
+
+    /** Adds all the elements from the specified SetBuilderImpl to this SetBuilderImpl. */
+    final SetBuilderImpl<E> combine(SetBuilderImpl<E> other) {
+      SetBuilderImpl<E> result = this;
+      for (int i = 0; i < other.distinct; i++) {
+        result = result.add(other.dedupedElements[i]);
+      }
+      return result;
+    }
+
+    /**
+     * Creates a new copy of this SetBuilderImpl. Modifications to that SetBuilderImpl will not
+     * affect this SetBuilderImpl or sets constructed from this SetBuilderImpl via build().
+     */
+    abstract SetBuilderImpl<E> copy();
+
+    /**
+     * Call this before build(). Does a final check on the internal data structures, e.g. shrinking
+     * unnecessarily large structures or detecting previously unnoticed hash flooding.
+     */
+    SetBuilderImpl<E> review() {
+      return this;
+    }
+
+    abstract ImmutableSet<E> build();
+  }
+
+  // We use power-of-2 tables, and this is the highest int that's a power of 2
+  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
+
+  // Represents how tightly we can pack things, as a maximum.
+  private static final double DESIRED_LOAD_FACTOR = 0.7;
+
+  // If the set has this many elements, it will "max out" the table size
+  private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
+
+  /**
+   * Returns an array size suitable for the backing array of a hash table that uses open addressing
+   * with linear probing in its implementation. The returned size is the smallest power of two that
+   * can hold setSize elements with the desired load factor. Always returns at least setSize + 2.
+   */
+  @VisibleForTesting
+  static int chooseTableSize(int setSize) {
+    setSize = Math.max(setSize, 2);
+    // Correct the size for open addressing to match desired load factor.
+    if (setSize < CUTOFF) {
+      // Round up to the next highest power of 2.
+      int tableSize = Integer.highestOneBit(setSize - 1) << 1;
+      while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
+        tableSize <<= 1;
+      }
+      return tableSize;
+    }
+
+    // The table can't be completely full or we'll get infinite reprobes
+    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
+    return MAX_TABLE_SIZE;
+  }
+
+  /**
+   * We attempt to detect deliberate hash flooding attempts, and if one is detected, fall back to a
+   * wrapper around j.u.HashSet, which has built in flooding protection. HASH_FLOODING_FPP is the
+   * maximum allowed probability of falsely detecting a hash flooding attack if the input is
+   * randomly generated.
+   *
+   * <p>MAX_RUN_MULTIPLIER was determined experimentally to match this FPP.
+   */
+  static final double HASH_FLOODING_FPP = 0.001;
+
+  // NB: yes, this is surprisingly high, but that's what the experiments said was necessary
+  static final int MAX_RUN_MULTIPLIER = 12;
+
+  /**
+   * Checks the whole hash table for poor hash distribution. Takes O(n).
+   *
+   * <p>The online hash flooding detecting in RegularSetBuilderImpl.add can detect e.g. many exactly
+   * matching hash codes, which would cause construction to take O(n^2), but can't detect e.g. hash
+   * codes adversarially designed to go into ascending table locations, which keeps construction
+   * O(n) (as desired) but then can have O(n) queries later.
+   *
+   * <p>If this returns false, then no query can take more than O(log n).
+   *
+   * <p>Note that for a RegularImmutableSet with elements with truly random hash codes, contains
+   * operations take expected O(1) time but with high probability take O(log n) for at least some
+   * element. (https://en.wikipedia.org/wiki/Linear_probing#Analysis)
+   */
+  static boolean hashFloodingDetected(Object[] hashTable) {
+    int maxRunBeforeFallback = maxRunBeforeFallback(hashTable.length);
+
+    // Test for a run wrapping around the end of the table, then check for runs in the middle.
+    int endOfStartRun;
+    for (endOfStartRun = 0; endOfStartRun < hashTable.length; ) {
+      if (hashTable[endOfStartRun] == null) {
+        break;
+      }
+      endOfStartRun++;
+      if (endOfStartRun > maxRunBeforeFallback) {
+        return true;
+      }
+    }
+    int startOfEndRun;
+    for (startOfEndRun = hashTable.length - 1; startOfEndRun > endOfStartRun; startOfEndRun--) {
+      if (hashTable[startOfEndRun] == null) {
+        break;
+      }
+      if (endOfStartRun + (hashTable.length - 1 - startOfEndRun) > maxRunBeforeFallback) {
+        return true;
+      }
+    }
+    for (int i = endOfStartRun + 1; i < startOfEndRun; i++) {
+      for (int runLength = 0; i < startOfEndRun && hashTable[i] != null; i++) {
+        runLength++;
+        if (runLength > maxRunBeforeFallback) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * If more than this many consecutive positions are filled in a table of the specified size,
+   * report probable hash flooding.
+   */
+  static int maxRunBeforeFallback(int tableSize) {
+    return MAX_RUN_MULTIPLIER * IntMath.log2(tableSize, RoundingMode.UNNECESSARY);
+  }
+
+  /**
+   * Default implementation of the guts of ImmutableSet.Builder, creating an open-addressed hash
+   * table and deduplicating elements as they come, so it only allocates O(max(distinct,
+   * expectedCapacity)) rather than O(calls to add).
+   *
+   * <p>This implementation attempts to detect hash flooding, and if it's identified, falls back to
+   * JdkBackedSetBuilderImpl.
+   */
+  private static final class RegularSetBuilderImpl<E> extends SetBuilderImpl<E> {
+    private Object[] hashTable;
+    private int maxRunBeforeFallback;
+    private int expandTableThreshold;
+    private int hashCode;
+
+    RegularSetBuilderImpl(int expectedCapacity) {
+      super(expectedCapacity);
+      int tableSize = chooseTableSize(expectedCapacity);
+      this.hashTable = new Object[tableSize];
+      this.maxRunBeforeFallback = maxRunBeforeFallback(tableSize);
+      this.expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * tableSize);
+    }
+
+    RegularSetBuilderImpl(RegularSetBuilderImpl<E> toCopy) {
+      super(toCopy);
+      this.hashTable = Arrays.copyOf(toCopy.hashTable, toCopy.hashTable.length);
+      this.maxRunBeforeFallback = toCopy.maxRunBeforeFallback;
+      this.expandTableThreshold = toCopy.expandTableThreshold;
+      this.hashCode = toCopy.hashCode;
+    }
+
+    void ensureTableCapacity(int minCapacity) {
+      if (minCapacity > expandTableThreshold && hashTable.length < MAX_TABLE_SIZE) {
+        int newTableSize = hashTable.length * 2;
+        hashTable = rebuildHashTable(newTableSize, dedupedElements, distinct);
+        maxRunBeforeFallback = maxRunBeforeFallback(newTableSize);
+        expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * newTableSize);
+      }
+    }
+
+    @Override
+    SetBuilderImpl<E> add(E e) {
+      checkNotNull(e);
+      int eHash = e.hashCode();
+      int i0 = Hashing.smear(eHash);
+      int mask = hashTable.length - 1;
+      for (int i = i0; i - i0 < maxRunBeforeFallback; i++) {
+        int index = i & mask;
+        Object tableEntry = hashTable[index];
+        if (tableEntry == null) {
+          addDedupedElement(e);
+          hashTable[index] = e;
+          hashCode += eHash;
+          ensureTableCapacity(distinct); // rebuilds table if necessary
+          return this;
+        } else if (tableEntry.equals(e)) { // not a new element, ignore
+          return this;
+        }
+      }
+      // we fell out of the loop due to a long run; fall back to JDK impl
+      return new JdkBackedSetBuilderImpl<E>(this).add(e);
+    }
+
+    @Override
+    SetBuilderImpl<E> copy() {
+      return new RegularSetBuilderImpl<E>(this);
+    }
+
+    @Override
+    SetBuilderImpl<E> review() {
+      int targetTableSize = chooseTableSize(distinct);
+      if (targetTableSize * 2 < hashTable.length) {
+        hashTable = rebuildHashTable(targetTableSize, dedupedElements, distinct);
+      }
+      return hashFloodingDetected(hashTable) ? new JdkBackedSetBuilderImpl<E>(this) : this;
+    }
+
+    @Override
+    ImmutableSet<E> build() {
+      switch (distinct) {
         case 0:
           return of();
         case 1:
-          return (ImmutableSet<E>) of(contents[0]);
+          return of(dedupedElements[0]);
         default:
-          ImmutableSet<E> result;
-          if (hashTable != null && size == contents.length) {
-            result =
-                new RegularImmutableSet<E>(contents, hashCode, hashTable, hashTable.length - 1);
-          } else {
-            result = construct(size, contents);
-            // construct has the side effect of deduping contents, so we update size
-            // accordingly.
-            size = result.size();
-          }
-          forceCopy = true;
-          hashTable = null;
-          return result;
+          Object[] elements =
+              (distinct == dedupedElements.length)
+                  ? dedupedElements
+                  : Arrays.copyOf(dedupedElements, distinct);
+          return new RegularImmutableSet<E>(elements, hashCode, hashTable, hashTable.length - 1);
+      }
+    }
+  }
+
+  /**
+   * SetBuilderImpl version that uses a JDK HashSet, which has built in hash flooding protection.
+   */
+  private static final class JdkBackedSetBuilderImpl<E> extends SetBuilderImpl<E> {
+    private final Set<Object> delegate;
+
+    JdkBackedSetBuilderImpl(SetBuilderImpl<E> toCopy) {
+      super(toCopy); // initializes dedupedElements and distinct
+      delegate = Sets.newHashSetWithExpectedSize(distinct);
+      for (int i = 0; i < distinct; i++) {
+        delegate.add(dedupedElements[i]);
+      }
+    }
+
+    @Override
+    SetBuilderImpl<E> add(E e) {
+      checkNotNull(e);
+      if (delegate.add(e)) {
+        addDedupedElement(e);
+      }
+      return this;
+    }
+
+    @Override
+    SetBuilderImpl<E> copy() {
+      return new JdkBackedSetBuilderImpl<>(this);
+    }
+
+    @Override
+    ImmutableSet<E> build() {
+      switch (distinct) {
+        case 0:
+          return of();
+        case 1:
+          return of(dedupedElements[0]);
+        default:
+          return new JdkBackedImmutableSet<E>(
+              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));
       }
     }
   }

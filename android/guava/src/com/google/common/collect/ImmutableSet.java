@@ -350,40 +350,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return ImmutableList.asImmutableList(toArray());
   }
 
-  abstract static class Indexed<E> extends ImmutableSet<E> {
-    abstract E get(int index);
-
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    int copyIntoArray(Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableList<E>() {
-        @Override
-        public E get(int index) {
-          return Indexed.this.get(index);
-        }
-
-        @Override
-        boolean isPartialView() {
-          return Indexed.this.isPartialView();
-        }
-
-        @Override
-        public int size() {
-          return Indexed.this.size();
-        }
-      };
-    }
-  }
-
   /*
    * This class is used to serialize all ImmutableSet instances, except for
    * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It

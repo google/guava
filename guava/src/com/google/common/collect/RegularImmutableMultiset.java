@@ -143,7 +143,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @WeakOuter
-  private final class ElementSet extends ImmutableSet.Indexed<E> {
+  private final class ElementSet extends IndexedImmutableSet<E> {
 
     @Override
     E get(int index) {

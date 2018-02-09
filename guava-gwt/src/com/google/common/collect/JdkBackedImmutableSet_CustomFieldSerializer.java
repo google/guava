@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2018 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import com.google.gwt.user.client.rpc.core.java.util.Collection_CustomFieldSeria
 import java.util.List;
 
 /**
- * This class implements the GWT serialization of {@link RegularImmutableSet}.
+ * This class implements the GWT serialization of {@link JdkBackedImmutableSet}.
  *
- * @author Hayward Chan
+ * @author Louis Wasserman
  */
-public class RegularImmutableSet_CustomFieldSerializer {
+public class JdkBackedImmutableSet_CustomFieldSerializer {
 
   public static void deserialize(SerializationStreamReader reader, ImmutableSet<?> instance) {}
 

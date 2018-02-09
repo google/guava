@@ -209,7 +209,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @GwtCompatible(emulated = true)
-  private static final class KeySet<K, V> extends ImmutableSet.Indexed<K> {
+  private static final class KeySet<K, V> extends IndexedImmutableSet<K> {
     @Weak private final RegularImmutableMap<K, V> map;
 
     KeySet(RegularImmutableMap<K, V> map) {

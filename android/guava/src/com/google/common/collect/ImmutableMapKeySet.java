@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-final class ImmutableMapKeySet<K, V> extends ImmutableSet.Indexed<K> {
+final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   @Weak private final ImmutableMap<K, V> map;
 
   ImmutableMapKeySet(ImmutableMap<K, V> map) {
