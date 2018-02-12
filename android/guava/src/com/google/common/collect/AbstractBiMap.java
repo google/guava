@@ -424,6 +424,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
      */
 
     @Override
+    public V forcePut(K key, V value) {
+      V result = get(key);
+      inverse().forcePut(value, key);
+      return result;
+    }
+
+    @Override
     K checkKey(K key) {
       return inverse.checkValue(key);
     }

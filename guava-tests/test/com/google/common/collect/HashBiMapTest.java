@@ -16,7 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -24,14 +27,20 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestBiMapGenerator;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link HashBiMap}.
@@ -41,14 +50,26 @@ import junit.framework.TestSuite;
 @GwtCompatible(emulated = true)
 public class HashBiMapTest extends TestCase {
 
-  public static final class HashBiMapGenerator extends TestStringBiMapGenerator {
+  private static final ImmutableList<HashBiMapGenerator> GENERATORS =
+      ImmutableList.of(new HashBiMapGenerator(), new HashBiMapJdkBackedGenerator());
+
+  public static class HashBiMapGenerator extends TestStringBiMapGenerator {
     @Override
-    protected BiMap<String, String> create(Entry<String, String>[] entries) {
-      BiMap<String, String> result = HashBiMap.create();
+    protected HashBiMap<String, String> create(Entry<String, String>[] entries) {
+      HashBiMap<String, String> result = HashBiMap.create();
       for (Entry<String, String> entry : entries) {
         result.put(entry.getKey(), entry.getValue());
       }
       return result;
+    }
+  }
+
+  private static final class HashBiMapJdkBackedGenerator extends HashBiMapGenerator {
+    @Override
+    protected HashBiMap<String, String> create(Entry<String, String>[] entries) {
+      HashBiMap<String, String> map = super.create(entries);
+      map.switchToFloodProtection();
+      return map;
     }
   }
 
@@ -58,6 +79,19 @@ public class HashBiMapTest extends TestCase {
     suite.addTest(
         BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
             .named("HashBiMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.KNOWN_ORDER,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE)
+            .createTestSuite());
+    suite.addTest(
+        BiMapTestSuiteBuilder.using(new HashBiMapJdkBackedGenerator())
+            .named("HashBiMap [JDK backed]")
             .withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.SERIALIZABLE,
@@ -119,127 +153,92 @@ public class HashBiMapTest extends TestCase {
   }
 
   public void testBiMapEntrySetIteratorRemove() {
-    BiMap<Integer, String> map = HashBiMap.create();
-    map.put(1, "one");
-    Set<Entry<Integer, String>> entries = map.entrySet();
-    Iterator<Entry<Integer, String>> iterator = entries.iterator();
-    Entry<Integer, String> entry = iterator.next();
-    entry.setValue("two"); // changes the iterator's current entry value
-    assertEquals("two", map.get(1));
-    assertEquals(Integer.valueOf(1), map.inverse().get("two"));
-    iterator.remove(); // removes the updated entry
-    assertTrue(map.isEmpty());
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map = generator.create(mapEntry("1", "one"));
+      Set<Entry<String, String>> entries = map.entrySet();
+      Iterator<Entry<String, String>> iterator = entries.iterator();
+      Entry<String, String> entry = iterator.next();
+      entry.setValue("two"); // changes the iterator's current entry value
+      assertEquals("two", map.get("1"));
+      assertEquals("1", map.inverse().get("two"));
+      iterator.remove(); // removes the updated entry
+      assertTrue(map.isEmpty());
+    }
   }
 
   public void testInsertionOrder() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-    assertThat(map.entrySet())
-        .containsExactly(
-            Maps.immutableEntry("foo", 1),
-            Maps.immutableEntry("bar", 2),
-            Maps.immutableEntry("quux", 3))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      assertThat(map).containsExactly("foo", "1", "bar", "2", "quux", "3").inOrder();
+    }
   }
 
   public void testInsertionOrderAfterRemoveFirst() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.remove("foo");
-    assertThat(map.entrySet())
-        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 3))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      map.remove("foo");
+      assertThat(map).containsExactly("bar", "2", "quux", "3").inOrder();
+    }
   }
 
   public void testInsertionOrderAfterRemoveMiddle() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.remove("bar");
-    assertThat(map.entrySet())
-        .containsExactly(Maps.immutableEntry("foo", 1), Maps.immutableEntry("quux", 3))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      map.remove("bar");
+      assertThat(map).containsExactly("foo", "1", "quux", "3").inOrder();
+    }
   }
 
   public void testInsertionOrderAfterRemoveLast() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.remove("quux");
-    assertThat(map.entrySet())
-        .containsExactly(Maps.immutableEntry("foo", 1), Maps.immutableEntry("bar", 2))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      map.remove("quux");
+      assertThat(map).containsExactly("foo", "1", "bar", "2").inOrder();
+    }
   }
 
   public void testInsertionOrderAfterForcePut() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.forcePut("quux", 1);
-    assertThat(map.entrySet())
-        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 1))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      map.forcePut("quux", "1");
+      assertThat(map).containsExactly("bar", "2", "quux", "1").inOrder();
+      assertThat(map.inverse()).containsExactly("2", "bar", "1", "quux").inOrder();
+    }
   }
 
   public void testInsertionOrderAfterInverseForcePut() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.inverse().forcePut(1, "quux");
-    assertThat(map.entrySet())
-        .containsExactly(Maps.immutableEntry("bar", 2), Maps.immutableEntry("quux", 1))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(mapEntry("foo", "1"), mapEntry("bar", "2"), mapEntry("quux", "3"));
+      map.inverse().forcePut("1", "quux");
+      assertThat(map).containsExactly("bar", "2", "quux", "1").inOrder();
+      assertThat(map.inverse()).containsExactly("2", "bar", "1", "quux").inOrder();
+    }
   }
 
   public void testInverseInsertionOrderAfterInverse() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("bar", 2);
-    map.put("quux", 1);
-
-    assertThat(map.inverse().entrySet())
-        .containsExactly(Maps.immutableEntry(2, "bar"), Maps.immutableEntry(1, "quux"))
-        .inOrder();
-  }
-
-  public void testInverseInsertionOrderAfterInverseForcePut() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-
-    map.inverse().forcePut(1, "quux");
-    assertThat(map.inverse().entrySet())
-        .containsExactly(Maps.immutableEntry(2, "bar"), Maps.immutableEntry(1, "quux"))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map = generator.create(mapEntry("bar", "2"), mapEntry("quux", "1"));
+      assertThat(map.inverse()).containsExactly("2", "bar", "1", "quux").inOrder();
+    }
   }
 
   public void testInverseInsertionOrderAfterInverseForcePutPresentKey() {
-    BiMap<String, Integer> map = HashBiMap.create();
-    map.put("foo", 1);
-    map.put("bar", 2);
-    map.put("quux", 3);
-    map.put("nab", 4);
-
-    map.inverse().forcePut(4, "bar");
-    assertThat(map.entrySet())
-        .containsExactly(
-            Maps.immutableEntry("foo", 1),
-            Maps.immutableEntry("bar", 4),
-            Maps.immutableEntry("quux", 3))
-        .inOrder();
+    for (TestBiMapGenerator<String, String> generator : GENERATORS) {
+      BiMap<String, String> map =
+          generator.create(
+              mapEntry("foo", "1"),
+              mapEntry("bar", "2"),
+              mapEntry("quux", "3"),
+              mapEntry("nab", "4"));
+      map.inverse().forcePut("4", "bar");
+      assertThat(map).containsExactly("foo", "1", "bar", "4", "quux", "3").inOrder();
+    }
   }
 
   public void testInverseEntrySetValueNewKey() {
@@ -254,5 +253,268 @@ public class HashBiMapTest extends TestCase {
     assertThat(map.entrySet())
         .containsExactly(Maps.immutableEntry(2, "b"), Maps.immutableEntry(3, "a"))
         .inOrder();
+  }
+
+  /**
+   * A Comparable wrapper around a String which executes callbacks on calls to hashCode, equals, and
+   * compareTo.
+   */
+  private static class CountsHashCodeAndEquals implements Comparable<CountsHashCodeAndEquals> {
+    private final String delegateString;
+    private final Runnable onHashCode;
+    private final Runnable onEquals;
+    private final Runnable onCompareTo;
+
+    CountsHashCodeAndEquals(
+        String delegateString, Runnable onHashCode, Runnable onEquals, Runnable onCompareTo) {
+      this.delegateString = delegateString;
+      this.onHashCode = onHashCode;
+      this.onEquals = onEquals;
+      this.onCompareTo = onCompareTo;
+    }
+
+    @Override
+    public int hashCode() {
+      onHashCode.run();
+      return delegateString.hashCode();
+    }
+
+    @Override
+    public boolean equals(@NullableDecl Object other) {
+      onEquals.run();
+      return other instanceof CountsHashCodeAndEquals
+          && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);
+    }
+
+    @Override
+    public int compareTo(CountsHashCodeAndEquals o) {
+      onCompareTo.run();
+      return delegateString.compareTo(o.delegateString);
+    }
+  }
+
+  /** A holder of counters for calls to hashCode, equals, and compareTo. */
+  private static final class CallsCounter {
+    long hashCode;
+    long equals;
+    long compareTo;
+
+    long total() {
+      return hashCode + equals + compareTo;
+    }
+
+    void zero() {
+      hashCode = 0;
+      equals = 0;
+      compareTo = 0;
+    }
+  }
+
+  /** All the ways to create an ImmutableBiMap. */
+  enum ConstructionPathway {
+    COPY_OF_MAP {
+      @Override
+      BiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        Map<Object, Object> sourceMap = Maps.newLinkedHashMap();
+        for (Entry<?, ?> entry : entries) {
+          if (sourceMap.put(entry.getKey(), entry.getValue()) != null) {
+            throw new UnsupportedOperationException("duplicate key");
+          }
+        }
+        counter.zero();
+        return HashBiMap.create(sourceMap);
+      }
+    },
+    PUT_ONE_BY_ONE {
+      @Override
+      BiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        BiMap<Object, Object> map = HashBiMap.create();
+        for (Entry<?, ?> entry : entries) {
+          map.put(entry.getKey(), entry.getValue());
+        }
+        return map;
+      }
+    },
+    PUT_ALL_MAP {
+      @Override
+      BiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter) {
+        Map<Object, Object> sourceMap = Maps.newLinkedHashMap();
+        for (Entry<?, ?> entry : entries) {
+          if (sourceMap.put(entry.getKey(), entry.getValue()) != null) {
+            throw new UnsupportedOperationException("duplicate key");
+          }
+        }
+        counter.zero();
+        BiMap<Object, Object> map = HashBiMap.create();
+        map.putAll(sourceMap);
+        return map;
+      }
+    };
+
+    @CanIgnoreReturnValue
+    abstract BiMap<?, ?> create(List<? extends Entry<?, ?>> entries, CallsCounter counter);
+  }
+
+  /**
+   * Returns a list of objects with the same hash code, of size 2^power, counting calls to equals,
+   * hashCode, and compareTo in counter.
+   */
+  static List<CountsHashCodeAndEquals> createAdversarialObjects(int power, CallsCounter counter) {
+    String str1 = "Aa";
+    String str2 = "BB";
+    assertEquals(str1.hashCode(), str2.hashCode());
+    List<String> haveSameHashes2 = Arrays.asList(str1, str2);
+    List<CountsHashCodeAndEquals> result =
+        Lists.newArrayList(
+            Lists.transform(
+                Lists.cartesianProduct(Collections.nCopies(power, haveSameHashes2)),
+                strs ->
+                    new CountsHashCodeAndEquals(
+                        String.join("", strs),
+                        () -> counter.hashCode++,
+                        () -> counter.equals++,
+                        () -> counter.compareTo++)));
+    assertEquals(
+        result.get(0).delegateString.hashCode(),
+        result.get(result.size() - 1).delegateString.hashCode());
+    return result;
+  }
+
+  enum AdversaryType {
+    ADVERSARIAL_KEYS {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        return createAdversarialObjects(power, counter)
+            .stream()
+            .map(k -> Maps.immutableEntry(k, new Object()))
+            .collect(toList());
+      }
+    },
+    ADVERSARIAL_VALUES {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        return createAdversarialObjects(power, counter)
+            .stream()
+            .map(k -> Maps.immutableEntry(new Object(), k))
+            .collect(toList());
+      }
+    },
+    ADVERSARIAL_KEYS_AND_VALUES {
+      @Override
+      List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
+        List<?> keys = createAdversarialObjects(power, counter);
+        List<?> values = createAdversarialObjects(power, counter);
+        return Streams.zip(keys.stream(), values.stream(), Maps::immutableEntry).collect(toList());
+      }
+    };
+
+    abstract List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter);
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingInConstruction() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      int smallSize = smallEntries.size();
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      int largeSize = largeEntries.size();
+
+      for (ConstructionPathway pathway : ConstructionPathway.values()) {
+        smallCounter.zero();
+        pathway.create(smallEntries, smallCounter);
+        long smallOps = smallCounter.total();
+
+        largeCounter.zero();
+        pathway.create(largeEntries, largeCounter);
+        long largeOps = largeCounter.total();
+
+        double ratio = (double) largeOps / smallOps;
+        assertThat(ratio)
+            .named(
+                "ratio of equals/hashCode/compareTo operations to build an HashBiMap with %s"
+                    + " via %s with %s entries versus %s entries",
+                adversary, pathway, largeSize, smallSize)
+            .isAtMost(2 * (largeSize * Math.log(largeSize)) / (smallSize * Math.log(smallSize)));
+        // allow up to 2x wobble in the constant factors
+      }
+    }
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingOnForwardGet() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      BiMap<?, ?> smallMap = ConstructionPathway.PUT_ONE_BY_ONE.create(smallEntries, smallCounter);
+      int smallSize = smallEntries.size();
+      long smallOps = worstCaseQueryOperations(smallMap, smallCounter);
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      BiMap<?, ?> largeMap = ConstructionPathway.PUT_ONE_BY_ONE.create(largeEntries, largeCounter);
+      int largeSize = largeEntries.size();
+      long largeOps = worstCaseQueryOperations(largeMap, largeCounter);
+
+      if (smallOps == 0 && largeOps == 0) {
+        continue; // no queries on the CHCAE objects
+      }
+
+      double ratio = (double) largeOps / smallOps;
+      assertThat(ratio)
+          .named(
+              "Ratio of worst case get operations for an HashBiMap with %s of size "
+                  + "%s versus %s",
+              adversary, largeSize, smallSize)
+          .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
+      // allow up to 2x wobble in the constant factors
+    }
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingOnInverseGet() {
+    for (AdversaryType adversary : AdversaryType.values()) {
+      CallsCounter smallCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> smallEntries =
+          adversary.createAdversarialEntries(10, smallCounter);
+      BiMap<?, ?> smallMap = ConstructionPathway.PUT_ONE_BY_ONE.create(smallEntries, smallCounter);
+      int smallSize = smallEntries.size();
+      long smallOps = worstCaseQueryOperations(smallMap.inverse(), smallCounter);
+
+      CallsCounter largeCounter = new CallsCounter();
+      List<? extends Entry<?, ?>> largeEntries =
+          adversary.createAdversarialEntries(15, largeCounter);
+      BiMap<?, ?> largeMap = ConstructionPathway.PUT_ONE_BY_ONE.create(largeEntries, largeCounter);
+      int largeSize = largeEntries.size();
+      long largeOps = worstCaseQueryOperations(largeMap.inverse(), largeCounter);
+
+      if (smallOps == 0 && largeOps == 0) {
+        continue; // no queries on the CHCAE objects
+      }
+      double ratio = (double) largeOps / smallOps;
+      assertThat(ratio)
+          .named(
+              "Ratio of worst case get operations for an HashBiMap with %s of size "
+                  + "%s versus %s",
+              adversary, largeSize, smallSize)
+          .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
+      // allow up to 2x wobble in the constant factors
+    }
+  }
+
+  private static long worstCaseQueryOperations(Map<?, ?> map, CallsCounter counter) {
+    long worstCalls = 0;
+    for (Object k : map.keySet()) {
+      counter.zero();
+      Object unused = map.get(k);
+      worstCalls = Math.max(worstCalls, counter.total());
+    }
+    return worstCalls;
   }
 }
