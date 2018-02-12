@@ -62,6 +62,11 @@ public class ForwardingListTest extends TestCase {
     }
 
     @Override
+    public boolean addAll(int index, Collection<? extends T> elements) {
+      return standardAddAll(index, elements);
+    }
+
+    @Override
     public void clear() {
       standardClear();
     }
@@ -104,11 +109,6 @@ public class ForwardingListTest extends TestCase {
     @Override
     public String toString() {
       return standardToString();
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> elements) {
-      return standardAddAll(index, elements);
     }
 
     @Override

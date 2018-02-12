@@ -734,6 +734,26 @@ public final class MediaType {
     return mediaType;
   }
 
+  private static MediaType create(
+      String type, String subtype, Multimap<String, String> parameters) {
+    checkNotNull(type);
+    checkNotNull(subtype);
+    checkNotNull(parameters);
+    String normalizedType = normalizeToken(type);
+    String normalizedSubtype = normalizeToken(subtype);
+    checkArgument(
+        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
+        "A wildcard type cannot be used with a non-wildcard subtype");
+    ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
+    for (Entry<String, String> entry : parameters.entries()) {
+      String attribute = normalizeToken(entry.getKey());
+      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));
+    }
+    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
+    // Return one of the constants if the media type is a known type.
+    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
+  }
+
   /**
    * Creates a media type with the "application" type and the given subtype.
    *
@@ -777,26 +797,6 @@ public final class MediaType {
    */
   static MediaType createVideoType(String subtype) {
     return create(VIDEO_TYPE, subtype);
-  }
-
-  private static MediaType create(
-      String type, String subtype, Multimap<String, String> parameters) {
-    checkNotNull(type);
-    checkNotNull(subtype);
-    checkNotNull(parameters);
-    String normalizedType = normalizeToken(type);
-    String normalizedSubtype = normalizeToken(subtype);
-    checkArgument(
-        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
-        "A wildcard type cannot be used with a non-wildcard subtype");
-    ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
-    for (Entry<String, String> entry : parameters.entries()) {
-      String attribute = normalizeToken(entry.getKey());
-      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));
-    }
-    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
-    // Return one of the constants if the media type is a known type.
-    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   private static String normalizeToken(String token) {

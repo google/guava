@@ -49,15 +49,15 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
   @NullableDecl
   @Override
-  @CanIgnoreReturnValue
-  public <T extends B> T putInstance(Class<T> type, @NullableDecl T value) {
-    return trustedPut(TypeToken.of(type), value);
+  public <T extends B> T getInstance(TypeToken<T> type) {
+    return trustedGet(type.rejectTypeVariables());
   }
 
   @NullableDecl
   @Override
-  public <T extends B> T getInstance(TypeToken<T> type) {
-    return trustedGet(type.rejectTypeVariables());
+  @CanIgnoreReturnValue
+  public <T extends B> T putInstance(Class<T> type, @NullableDecl T value) {
+    return trustedPut(TypeToken.of(type), value);
   }
 
   @NullableDecl

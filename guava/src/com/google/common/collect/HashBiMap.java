@@ -267,12 +267,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return put(key, value, false);
   }
 
-  @CanIgnoreReturnValue
-  @Override
-  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
-    return put(key, value, true);
-  }
-
   private V put(@NullableDecl K key, @NullableDecl V value, boolean force) {
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
@@ -306,6 +300,12 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       rehashIfNecessary();
       return null;
     }
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
+    return put(key, value, true);
   }
 
   @NullableDecl

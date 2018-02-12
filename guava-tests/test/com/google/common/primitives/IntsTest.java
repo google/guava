@@ -312,15 +312,6 @@ public class IntsTest extends TestCase {
     testReverse(new int[] {-1, 1, -2, 2}, new int[] {2, -2, 1, -1});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new int[] {}, 0, 0, new int[] {});
-    testReverse(new int[] {1}, 0, 1, new int[] {1});
-    testReverse(new int[] {1, 2}, 0, 2, new int[] {2, 1});
-    testReverse(new int[] {3, 1, 1}, 0, 2, new int[] {1, 3, 1});
-    testReverse(new int[] {3, 1, 1}, 0, 1, new int[] {3, 1, 1});
-    testReverse(new int[] {-1, 1, -2, 2}, 1, 3, new int[] {-1, -2, 1, 2});
-  }
-
   private static void testReverse(int[] input, int[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Ints.reverse(input);
@@ -333,21 +324,21 @@ public class IntsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testReverseIndexed() {
+    testReverse(new int[] {}, 0, 0, new int[] {});
+    testReverse(new int[] {1}, 0, 1, new int[] {1});
+    testReverse(new int[] {1, 2}, 0, 2, new int[] {2, 1});
+    testReverse(new int[] {3, 1, 1}, 0, 2, new int[] {1, 3, 1});
+    testReverse(new int[] {3, 1, 1}, 0, 1, new int[] {3, 1, 1});
+    testReverse(new int[] {-1, 1, -2, 2}, 1, 3, new int[] {-1, -2, 1, 2});
+  }
+
   public void testSortDescending() {
     testSortDescending(new int[] {}, new int[] {});
     testSortDescending(new int[] {1}, new int[] {1});
     testSortDescending(new int[] {1, 2}, new int[] {2, 1});
     testSortDescending(new int[] {1, 3, 1}, new int[] {3, 1, 1});
     testSortDescending(new int[] {-1, 1, -2, 2}, new int[] {2, 1, -1, -2});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new int[] {}, 0, 0, new int[] {});
-    testSortDescending(new int[] {1}, 0, 1, new int[] {1});
-    testSortDescending(new int[] {1, 2}, 0, 2, new int[] {2, 1});
-    testSortDescending(new int[] {1, 3, 1}, 0, 2, new int[] {3, 1, 1});
-    testSortDescending(new int[] {1, 3, 1}, 0, 1, new int[] {1, 3, 1});
-    testSortDescending(new int[] {-1, -2, 1, 2}, 1, 3, new int[] {-1, 1, -2, 2});
   }
 
   private static void testSortDescending(int[] input, int[] expectedOutput) {
@@ -361,6 +352,15 @@ public class IntsTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     Ints.sortDescending(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new int[] {}, 0, 0, new int[] {});
+    testSortDescending(new int[] {1}, 0, 1, new int[] {1});
+    testSortDescending(new int[] {1, 2}, 0, 2, new int[] {2, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 2, new int[] {3, 1, 1});
+    testSortDescending(new int[] {1, 3, 1}, 0, 1, new int[] {1, 3, 1});
+    testSortDescending(new int[] {-1, -2, 1, 2}, 1, 3, new int[] {-1, 1, -2, 2});
   }
 
   @GwtIncompatible // SerializableTester

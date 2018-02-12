@@ -80,6 +80,32 @@ public abstract class UnicodeEscaper extends Escaper {
   protected abstract char[] escape(int cp);
 
   /**
+   * Returns the escaped form of a given literal string.
+   *
+   * <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
+   * use this method. If an input string ends with an unmatched high surrogate character, then this
+   * method will throw {@link IllegalArgumentException}. You should ensure your input is valid <a
+   * href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
+   *
+   * <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
+   * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
+   * directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
+   * performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
+   *
+   * @param string the literal string to be escaped
+   * @return the escaped form of {@code string}
+   * @throws NullPointerException if {@code string} is null
+   * @throws IllegalArgumentException if invalid surrogate characters are encountered
+   */
+  @Override
+  public String escape(String string) {
+    checkNotNull(string);
+    int end = string.length();
+    int index = nextEscapeIndex(string, 0, end);
+    return index == end ? string : escapeSlow(string, index);
+  }
+
+  /**
    * Scans a sub-sequence of characters from a given {@link CharSequence}, returning the index of
    * the next character that requires escaping.
    *
@@ -111,32 +137,6 @@ public abstract class UnicodeEscaper extends Escaper {
       index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;
     }
     return index;
-  }
-
-  /**
-   * Returns the escaped form of a given literal string.
-   *
-   * <p>If you are escaping input in arbitrary successive chunks, then it is not generally safe to
-   * use this method. If an input string ends with an unmatched high surrogate character, then this
-   * method will throw {@link IllegalArgumentException}. You should ensure your input is valid <a
-   * href="http://en.wikipedia.org/wiki/UTF-16">UTF-16</a> before calling this method.
-   *
-   * <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
-   * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
-   * directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
-   * performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
-   *
-   * @param string the literal string to be escaped
-   * @return the escaped form of {@code string}
-   * @throws NullPointerException if {@code string} is null
-   * @throws IllegalArgumentException if invalid surrogate characters are encountered
-   */
-  @Override
-  public String escape(String string) {
-    checkNotNull(string);
-    int end = string.length();
-    int index = nextEscapeIndex(string, 0, end);
-    return index == end ? string : escapeSlow(string, index);
   }
 
   /**

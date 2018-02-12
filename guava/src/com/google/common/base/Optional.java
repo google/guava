@@ -143,6 +143,19 @@ public abstract class Optional<T> implements Serializable {
     return googleOptional == null ? null : googleOptional.toJavaUtil();
   }
 
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to this optional.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> o.toJavaUtil()} instead.
+   *
+   * @since 21.0
+   */
+  public java.util.Optional<T> toJavaUtil() {
+    return java.util.Optional.ofNullable(orNull());
+  }
+
   Optional() {}
 
   /**
@@ -271,19 +284,6 @@ public abstract class Optional<T> implements Serializable {
    * @since 12.0
    */
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
-
-  /**
-   * Returns the equivalent {@code java.util.Optional} value to this optional.
-   *
-   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
-   * could refer to either the static or instance version of this method. Write out the lambda
-   * expression {@code o -> o.toJavaUtil()} instead.
-   *
-   * @since 21.0
-   */
-  public java.util.Optional<T> toJavaUtil() {
-    return java.util.Optional.ofNullable(orNull());
-  }
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the

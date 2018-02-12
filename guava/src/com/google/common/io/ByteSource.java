@@ -596,17 +596,17 @@ public abstract class ByteSource {
       return Arrays.copyOfRange(bytes, offset, offset + length);
     }
 
-    @Override
-    public long copyTo(OutputStream output) throws IOException {
-      output.write(bytes, offset, length);
-      return length;
-    }
-
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
     public <T> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();
+    }
+
+    @Override
+    public long copyTo(OutputStream output) throws IOException {
+      output.write(bytes, offset, length);
+      return length;
     }
 
     @Override

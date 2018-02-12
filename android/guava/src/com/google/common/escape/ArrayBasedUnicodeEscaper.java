@@ -153,21 +153,6 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
     return s;
   }
 
-  /* Overridden for performance. */
-  @Override
-  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {
-    while (index < end) {
-      char c = csq.charAt(index);
-      if ((c < replacementsLength && replacements[c] != null)
-          || c > safeMaxChar
-          || c < safeMinChar) {
-        break;
-      }
-      index++;
-    }
-    return index;
-  }
-
   /**
    * Escapes a single Unicode code point using the replacement array and safe range values. If the
    * given character does not have an explicit replacement and lies outside the safe range then
@@ -185,6 +170,21 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
       return null;
     }
     return escapeUnsafe(cp);
+  }
+
+  /* Overridden for performance. */
+  @Override
+  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {
+    while (index < end) {
+      char c = csq.charAt(index);
+      if ((c < replacementsLength && replacements[c] != null)
+          || c > safeMaxChar
+          || c < safeMinChar) {
+        break;
+      }
+      index++;
+    }
+    return index;
   }
 
   /**

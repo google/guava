@@ -350,40 +350,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return ImmutableList.asImmutableList(toArray());
   }
 
-  abstract static class Indexed<E> extends ImmutableSet<E> {
-    abstract E get(int index);
-
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    int copyIntoArray(Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableList<E>() {
-        @Override
-        public E get(int index) {
-          return Indexed.this.get(index);
-        }
-
-        @Override
-        boolean isPartialView() {
-          return Indexed.this.isPartialView();
-        }
-
-        @Override
-        public int size() {
-          return Indexed.this.size();
-        }
-      };
-    }
-  }
-
   /*
    * This class is used to serialize all ImmutableSet instances, except for
    * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It
@@ -494,23 +460,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
 
-    private void addDeduping(E element) {
-      int mask = hashTable.length - 1;
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
-          super.add(element);
-          return;
-        } else if (previous.equals(element)) {
-          return;
-        }
-      }
-    }
-
     /**
      * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
      * elements (only the first duplicate element is added).
@@ -530,6 +479,23 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         super.add(elements);
       }
       return this;
+    }
+
+    private void addDeduping(E element) {
+      int mask = hashTable.length - 1;
+      int hash = element.hashCode();
+      for (int i = Hashing.smear(hash); ; i++) {
+        i &= mask;
+        Object previous = hashTable[i];
+        if (previous == null) {
+          hashTable[i] = element;
+          hashCode += hash;
+          super.add(element);
+          return;
+        } else if (previous.equals(element)) {
+          return;
+        }
+      }
     }
 
     /**

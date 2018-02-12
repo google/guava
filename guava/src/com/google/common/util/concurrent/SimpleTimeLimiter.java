@@ -105,6 +105,14 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return newProxy(interfaceType, handler);
   }
 
+  // TODO: replace with version in common.reflect if and when it's open-sourced
+  private static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
+    Object object =
+        Proxy.newProxyInstance(
+            interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
+    return interfaceType.cast(object);
+  }
+
   private
   <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
@@ -255,14 +263,6 @@ public final class SimpleTimeLimiter implements TimeLimiter {
       }
     }
     return false;
-  }
-
-  // TODO: replace with version in common.reflect if and when it's open-sourced
-  private static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
-    Object object =
-        Proxy.newProxyInstance(
-            interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
-    return interfaceType.cast(object);
   }
 
   private void wrapAndThrowExecutionExceptionOrError(Throwable cause) throws ExecutionException {

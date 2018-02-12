@@ -59,6 +59,12 @@ public class SynchronizedDequeTest extends TestCase {
     }
 
     @Override
+    public boolean remove(Object object) {
+      assertTrue(Thread.holdsLock(mutex));
+      return delegate.remove(object);
+    }
+
+    @Override
     public E peek() {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.peek();
@@ -105,12 +111,6 @@ public class SynchronizedDequeTest extends TestCase {
     public boolean add(E element) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.add(element);
-    }
-
-    @Override
-    public boolean remove(Object object) {
-      assertTrue(Thread.holdsLock(mutex));
-      return delegate.remove(object);
     }
 
     @Override

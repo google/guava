@@ -29,24 +29,16 @@ import java.util.Map;
  * @author Chris Povirk
  */
 public class RegularImmutableBiMap_CustomFieldSerializer {
-  public static void deserialize(
-      SerializationStreamReader reader, RegularImmutableBiMap<?, ?> instance) {}
+  public static void deserialize(SerializationStreamReader reader, ImmutableBiMap<?, ?> instance) {}
 
-  public static RegularImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)
+  public static ImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
     Map<Object, Object> entries = new LinkedHashMap<>();
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
-    /*
-     * For this custom field serializer to be invoked, the map must have been
-     * RegularImmutableBiMap before it's serialized. Since RegularImmutableBiMap
-     * always have one or more elements, ImmutableBiMap.copyOf always return a
-     * RegularImmutableBiMap back.
-     */
-    return (RegularImmutableBiMap<Object, Object>) ImmutableBiMap.copyOf(entries);
+    return ImmutableBiMap.copyOf(entries);
   }
 
-  public static void serialize(
-      SerializationStreamWriter writer, RegularImmutableBiMap<?, ?> instance)
+  public static void serialize(SerializationStreamWriter writer, ImmutableBiMap<?, ?> instance)
       throws SerializationException {
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }

@@ -64,6 +64,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
   }
 
   /**
+   * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
+   * relative to the specified comparator, and returns them via {@link #topK} in ascending order.
+   *
+   * @throws IllegalArgumentException if {@code k < 0}
+   */
+  public static <T> TopKSelector<T> least(int k, Comparator<? super T> comparator) {
+    return new TopKSelector<T>(comparator, k);
+  }
+
+  /**
    * Returns a {@code TopKSelector} that collects the greatest {@code k} elements added to it,
    * relative to the natural ordering of the elements, and returns them via {@link #topK} in
    * descending order.
@@ -72,16 +82,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
    */
   public static <T extends Comparable<? super T>> TopKSelector<T> greatest(int k) {
     return greatest(k, Ordering.natural());
-  }
-
-  /**
-   * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
-   * relative to the specified comparator, and returns them via {@link #topK} in ascending order.
-   *
-   * @throws IllegalArgumentException if {@code k < 0}
-   */
-  public static <T> TopKSelector<T> least(int k, Comparator<? super T> comparator) {
-    return new TopKSelector<T>(comparator, k);
   }
 
   /**

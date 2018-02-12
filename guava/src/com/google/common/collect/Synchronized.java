@@ -1549,6 +1549,11 @@ final class Synchronized {
     }
 
     @Override
+    public SortedSet<E> headSet(E toElement) {
+      return headSet(toElement, false);
+    }
+
+    @Override
     public E higher(E e) {
       synchronized (mutex) {
         return delegate().higher(e);
@@ -1586,20 +1591,15 @@ final class Synchronized {
     }
 
     @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
+      return subSet(fromElement, true, toElement, false);
+    }
+
+    @Override
     public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       synchronized (mutex) {
         return Synchronized.navigableSet(delegate().tailSet(fromElement, inclusive), mutex);
       }
-    }
-
-    @Override
-    public SortedSet<E> headSet(E toElement) {
-      return headSet(toElement, false);
-    }
-
-    @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
-      return subSet(fromElement, true, toElement, false);
     }
 
     @Override
@@ -1713,6 +1713,11 @@ final class Synchronized {
     }
 
     @Override
+    public SortedMap<K, V> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override
     public Entry<K, V> higherEntry(K key) {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().higherEntry(key), mutex);
@@ -1787,20 +1792,15 @@ final class Synchronized {
     }
 
     @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override
     public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
       synchronized (mutex) {
         return navigableMap(delegate().tailMap(fromKey, inclusive), mutex);
       }
-    }
-
-    @Override
-    public SortedMap<K, V> headMap(K toKey) {
-      return headMap(toKey, false);
-    }
-
-    @Override
-    public SortedMap<K, V> subMap(K fromKey, K toKey) {
-      return subMap(fromKey, true, toKey, false);
     }
 
     @Override

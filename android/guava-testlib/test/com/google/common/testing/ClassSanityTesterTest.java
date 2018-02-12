@@ -744,16 +744,16 @@ public class ClassSanityTesterTest extends TestCase {
       throw new RuntimeException();
     }
 
+    // Good!
+    static GoodEquals create(String a, int b) {
+      return new GoodEquals(a, b);
+    }
+
     // keep trying
     @SuppressWarnings("unused")
     @NullableDecl
     public static GoodEquals createMayReturnNull(int a, int b) {
       return null;
-    }
-
-    // Good!
-    static GoodEquals create(String a, int b) {
-      return new GoodEquals(a, b);
     }
 
     @Override

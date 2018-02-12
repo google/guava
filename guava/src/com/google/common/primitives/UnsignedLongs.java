@@ -321,36 +321,6 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns the unsigned {@code long} value represented by the given string.
-   *
-   * <p>Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
-   *
-   * <ul>
-   *   <li>{@code 0x}<i>HexDigits</i>
-   *   <li>{@code 0X}<i>HexDigits</i>
-   *   <li>{@code #}<i>HexDigits</i>
-   *   <li>{@code 0}<i>OctalDigits</i>
-   * </ul>
-   *
-   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
-   *     value
-   * @since 13.0
-   */
-  @CanIgnoreReturnValue
-  public static long decode(String stringValue) {
-    ParseRequest request = ParseRequest.fromString(stringValue);
-
-    try {
-      return parseUnsignedLong(request.rawValue, request.radix);
-    } catch (NumberFormatException e) {
-      NumberFormatException decodeException =
-          new NumberFormatException("Error parsing value: " + stringValue);
-      decodeException.initCause(e);
-      throw decodeException;
-    }
-  }
-
-  /**
    * Returns the unsigned {@code long} value represented by a string with the given radix.
    *
    * <p><b>Java 8 users:</b> use {@link Long#parseUnsignedLong(String, int)} instead.
@@ -387,6 +357,36 @@ public final class UnsignedLongs {
     }
 
     return value;
+  }
+
+  /**
+   * Returns the unsigned {@code long} value represented by the given string.
+   *
+   * <p>Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
+   *
+   * <ul>
+   *   <li>{@code 0x}<i>HexDigits</i>
+   *   <li>{@code 0X}<i>HexDigits</i>
+   *   <li>{@code #}<i>HexDigits</i>
+   *   <li>{@code 0}<i>OctalDigits</i>
+   * </ul>
+   *
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
+   *     value
+   * @since 13.0
+   */
+  @CanIgnoreReturnValue
+  public static long decode(String stringValue) {
+    ParseRequest request = ParseRequest.fromString(stringValue);
+
+    try {
+      return parseUnsignedLong(request.rawValue, request.radix);
+    } catch (NumberFormatException e) {
+      NumberFormatException decodeException =
+          new NumberFormatException("Error parsing value: " + stringValue);
+      decodeException.initCause(e);
+      throw decodeException;
+    }
   }
 
   /*

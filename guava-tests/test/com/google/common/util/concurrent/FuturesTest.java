@@ -926,10 +926,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  private static <I, O> FunctionSpy<I, O> spy(Function<I, O> delegate) {
-    return new FunctionSpy<>(delegate);
-  }
-
   private static <X extends Throwable, V> Function<X, V> unexpectedFunction() {
     return new Function<X, V>() {
       @Override
@@ -956,6 +952,10 @@ public class FuturesTest extends TestCase {
     void verifyCallCount(int expected) {
       assertThat(count).isEqualTo(expected);
     }
+  }
+
+  private static <I, O> FunctionSpy<I, O> spy(Function<I, O> delegate) {
+    return new FunctionSpy<>(delegate);
   }
 
   private static <X extends Throwable, V> AsyncFunctionSpy<X, V> spy(AsyncFunction<X, V> delegate) {

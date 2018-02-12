@@ -57,22 +57,6 @@ class AppendableWriter extends Writer {
     target.append(new String(cbuf, off, len));
   }
 
-  @Override
-  public void flush() throws IOException {
-    checkNotClosed();
-    if (target instanceof Flushable) {
-      ((Flushable) target).flush();
-    }
-  }
-
-  @Override
-  public void close() throws IOException {
-    this.closed = true;
-    if (target instanceof Closeable) {
-      ((Closeable) target).close();
-    }
-  }
-
   /*
    * Override a few functions for performance reasons to avoid creating unnecessary strings.
    */
@@ -94,6 +78,22 @@ class AppendableWriter extends Writer {
     checkNotClosed();
     // tricky: append takes start, end pair...
     target.append(str, off, off + len);
+  }
+
+  @Override
+  public void flush() throws IOException {
+    checkNotClosed();
+    if (target instanceof Flushable) {
+      ((Flushable) target).flush();
+    }
+  }
+
+  @Override
+  public void close() throws IOException {
+    this.closed = true;
+    if (target instanceof Closeable) {
+      ((Closeable) target).close();
+    }
   }
 
   @Override

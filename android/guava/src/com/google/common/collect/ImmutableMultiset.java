@@ -157,6 +157,16 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     return builder.build();
   }
 
+  /**
+   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
+   * described in the class documentation.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  public static <E> ImmutableMultiset<E> copyOf(Iterator<? extends E> elements) {
+    return new ImmutableMultiset.Builder<E>().addAll(elements).build();
+  }
+
   private static <E> ImmutableMultiset<E> copyFromElements(E... elements) {
     return new ImmutableMultiset.Builder<E>().add(elements).build();
   }
@@ -168,16 +178,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       builder.addCopies(entry.getElement(), entry.getCount());
     }
     return builder.build();
-  }
-
-  /**
-   * Returns an immutable multiset containing the given elements, in the "grouped iteration order"
-   * described in the class documentation.
-   *
-   * @throws NullPointerException if any of {@code elements} is null
-   */
-  public static <E> ImmutableMultiset<E> copyOf(Iterator<? extends E> elements) {
-    return new ImmutableMultiset.Builder<E>().addAll(elements).build();
   }
 
   ImmutableMultiset() {}
@@ -316,7 +316,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   abstract Entry<E> getEntry(int index);
 
   @WeakOuter
-  private final class EntrySet extends ImmutableSet.Indexed<Entry<E>> {
+  private final class EntrySet extends IndexedImmutableSet<Entry<E>> {
     @Override
     boolean isPartialView() {
       return ImmutableMultiset.this.isPartialView();
@@ -449,6 +449,20 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     /**
+     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
+     *
+     * @param elements the elements to add
+     * @return this {@code Builder} object
+     * @throws NullPointerException if {@code elements} is null or contains a null element
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<E> add(E... elements) {
+      super.add(elements);
+      return this;
+    }
+
+    /**
      * Adds a number of occurrences of an element to this {@code ImmutableMultiset}.
      *
      * @param element the element to add
@@ -508,20 +522,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     /**
      * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
      *
-     * @param elements the elements to add
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E... elements) {
-      super.add(elements);
-      return this;
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
-     *
      * @param elements the {@code Iterable} to add to the {@code ImmutableMultiset}
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code elements} is null or contains a null element
@@ -551,6 +551,20 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
 
     /**
+     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
+     *
+     * @param elements the elements to add to the {@code ImmutableMultiset}
+     * @return this {@code Builder} object
+     * @throws NullPointerException if {@code elements} is null or contains a null element
+     */
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<E> addAll(Iterator<? extends E> elements) {
+      super.addAll(elements);
+      return this;
+    }
+
+    /**
      * If the specified collection is backed by an ObjectCountHashMap, it will be much more
      * efficient to iterate over it by index rather than an entry iterator, which will need to
      * allocate an object for each entry, so we check for that.
@@ -564,20 +578,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       } else {
         return null;
       }
-    }
-
-    /**
-     * Adds each element of {@code elements} to the {@code ImmutableMultiset}.
-     *
-     * @param elements the elements to add to the {@code ImmutableMultiset}
-     * @return this {@code Builder} object
-     * @throws NullPointerException if {@code elements} is null or contains a null element
-     */
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> addAll(Iterator<? extends E> elements) {
-      super.addAll(elements);
-      return this;
     }
 
     /**

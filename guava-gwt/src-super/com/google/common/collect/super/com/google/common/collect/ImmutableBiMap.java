@@ -121,6 +121,11 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       }
       return new RegularImmutableBiMap<K, V>(super.build());
     }
+
+    @Override
+    ImmutableBiMap<K, V> buildJdkBacked() {
+      return build();
+    }
   }
 
   public static <K, V> ImmutableBiMap<K, V> copyOf(Map<? extends K, ? extends V> map) {

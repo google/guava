@@ -1944,16 +1944,16 @@ public class CacheLoadingTest extends TestCase {
     testConcurrentLoading(CacheBuilder.newBuilder());
   }
 
-  public void testConcurrentExpirationLoading() throws InterruptedException {
-    testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS));
-  }
-
   private static void testConcurrentLoading(CacheBuilder<Object, Object> builder)
       throws InterruptedException {
     testConcurrentLoadingDefault(builder);
     testConcurrentLoadingNull(builder);
     testConcurrentLoadingUncheckedException(builder);
     testConcurrentLoadingCheckedException(builder);
+  }
+
+  public void testConcurrentExpirationLoading() throws InterruptedException {
+    testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS));
   }
 
   /**

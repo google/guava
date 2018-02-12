@@ -29,23 +29,16 @@ import java.util.List;
  */
 public class RegularImmutableSet_CustomFieldSerializer {
 
-  public static void deserialize(
-      SerializationStreamReader reader, RegularImmutableSet<?> instance) {}
+  public static void deserialize(SerializationStreamReader reader, ImmutableSet<?> instance) {}
 
-  public static RegularImmutableSet<Object> instantiate(SerializationStreamReader reader)
+  public static ImmutableSet<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
     List<Object> elements = Lists.newArrayList();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
-    /*
-     * For this custom field serializer to be invoked, the set must have been
-     * RegularImmutableSet before it's serialized.  Since RegularImmutableSet
-     * always have two or more elements, ImmutableSet.copyOf always return
-     * a RegularImmutableSet back.
-     */
-    return (RegularImmutableSet<Object>) ImmutableSet.copyOf(elements);
+    return ImmutableSet.copyOf(elements);
   }
 
-  public static void serialize(SerializationStreamWriter writer, RegularImmutableSet<?> instance)
+  public static void serialize(SerializationStreamWriter writer, ImmutableSet<?> instance)
       throws SerializationException {
     Collection_CustomFieldSerializerBase.serialize(writer, instance);
   }

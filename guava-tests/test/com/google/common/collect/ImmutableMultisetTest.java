@@ -36,8 +36,11 @@ import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +50,7 @@ import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -70,6 +74,21 @@ public class ImmutableMultisetTest extends TestCase {
                   }
                 })
             .named("ImmutableMultiset")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+                CollectionFeature.ALLOWS_NULL_QUERIES)
+            .createTestSuite());
+
+    suite.addTest(
+        MultisetTestSuiteBuilder.using(
+                new TestStringMultisetGenerator() {
+                  @Override
+                  protected Multiset<String> create(String[] elements) {
+                    return ImmutableMultiset.<String>builder().add(elements).buildJdkBacked();
+                  }
+                })
+            .named("ImmutableMultiset [JDK backed]")
             .withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
@@ -648,5 +667,187 @@ public class ImmutableMultisetTest extends TestCase {
     builder.add("b");
     assertThat(builder.build().elementSet()).containsExactly("a", "c", "b").inOrder();
     assertThat(multiset.elementSet()).containsExactly("a", "c").inOrder();
+  }
+
+  /**
+   * A Comparable wrapper around a String which executes callbacks on calls to hashCode, equals, and
+   * compareTo.
+   */
+  private static class CountsHashCodeAndEquals implements Comparable<CountsHashCodeAndEquals> {
+    private final String delegateString;
+    private final Runnable onHashCode;
+    private final Runnable onEquals;
+    private final Runnable onCompareTo;
+
+    CountsHashCodeAndEquals(
+        String delegateString, Runnable onHashCode, Runnable onEquals, Runnable onCompareTo) {
+      this.delegateString = delegateString;
+      this.onHashCode = onHashCode;
+      this.onEquals = onEquals;
+      this.onCompareTo = onCompareTo;
+    }
+
+    @Override
+    public int hashCode() {
+      onHashCode.run();
+      return delegateString.hashCode();
+    }
+
+    @Override
+    public boolean equals(@NullableDecl Object other) {
+      onEquals.run();
+      return other instanceof CountsHashCodeAndEquals
+          && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);
+    }
+
+    @Override
+    public int compareTo(CountsHashCodeAndEquals o) {
+      onCompareTo.run();
+      return delegateString.compareTo(o.delegateString);
+    }
+  }
+
+  /** A holder of counters for calls to hashCode, equals, and compareTo. */
+  private static final class CallsCounter {
+    long hashCode;
+    long equals;
+    long compareTo;
+
+    long total() {
+      return hashCode + equals + compareTo;
+    }
+
+    void zero() {
+      hashCode = 0;
+      equals = 0;
+      compareTo = 0;
+    }
+  }
+
+  /** All the ways to create an ImmutableMultiset. */
+  enum ConstructionPathway {
+    COPY_OF_COLLECTION {
+      @Override
+      ImmutableMultiset<?> create(List<?> keys) {
+        return ImmutableMultiset.copyOf(keys);
+      }
+    },
+    COPY_OF_ITERATOR {
+      @Override
+      ImmutableMultiset<?> create(List<?> keys) {
+        return ImmutableMultiset.copyOf(keys.iterator());
+      }
+    },
+    BUILDER_ADD_ENTRY_BY_ENTRY {
+      @Override
+      ImmutableMultiset<?> create(List<?> keys) {
+        ImmutableMultiset.Builder<Object> builder = ImmutableMultiset.builder();
+        for (Object o : keys) {
+          builder.add(o);
+        }
+        return builder.build();
+      }
+    },
+    BUILDER_ADD_ALL_COLLECTION {
+      @Override
+      ImmutableMultiset<?> create(List<?> keys) {
+        ImmutableMultiset.Builder<Object> builder = ImmutableMultiset.builder();
+        builder.addAll(keys);
+        return builder.build();
+      }
+    };
+
+    @CanIgnoreReturnValue
+    abstract ImmutableMultiset<?> create(List<?> keys);
+  }
+
+  /**
+   * Returns a list of objects with the same hash code, of size 2^power, counting calls to equals,
+   * hashCode, and compareTo in counter.
+   */
+  static List<CountsHashCodeAndEquals> createAdversarialInput(int power, CallsCounter counter) {
+    String str1 = "Aa";
+    String str2 = "BB";
+    assertEquals(str1.hashCode(), str2.hashCode());
+    List<String> haveSameHashes2 = Arrays.asList(str1, str2);
+    List<CountsHashCodeAndEquals> result =
+        Lists.newArrayList(
+            Lists.transform(
+                Lists.cartesianProduct(Collections.nCopies(power, haveSameHashes2)),
+                strs ->
+                    new CountsHashCodeAndEquals(
+                        String.join("", strs),
+                        () -> counter.hashCode++,
+                        () -> counter.equals++,
+                        () -> counter.compareTo++)));
+    assertEquals(
+        result.get(0).delegateString.hashCode(),
+        result.get(result.size() - 1).delegateString.hashCode());
+    return result;
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingInConstruction() {
+    CallsCounter smallCounter = new CallsCounter();
+    List<CountsHashCodeAndEquals> haveSameHashesSmall = createAdversarialInput(10, smallCounter);
+    int smallSize = haveSameHashesSmall.size();
+
+    CallsCounter largeCounter = new CallsCounter();
+    List<CountsHashCodeAndEquals> haveSameHashesLarge = createAdversarialInput(15, largeCounter);
+    int largeSize = haveSameHashesLarge.size();
+
+    for (ConstructionPathway pathway : ConstructionPathway.values()) {
+      smallCounter.zero();
+      pathway.create(haveSameHashesSmall);
+      long smallOps = smallCounter.total();
+
+      largeCounter.zero();
+      pathway.create(haveSameHashesLarge);
+      long largeOps = largeCounter.total();
+
+      double ratio = (double) largeOps / smallOps;
+      assertThat(ratio)
+          .named(
+              "ratio of equals/hashCode/compareTo operations to build an ImmutableMultiset via %s"
+                  + " with %s entries versus %s entries",
+              pathway, largeSize, smallSize)
+          .isAtMost(2 * (largeSize * Math.log(largeSize)) / (smallSize * Math.log(smallSize)));
+      // allow up to 2x wobble in the constant factors
+    }
+  }
+
+  @GwtIncompatible
+  public void testResistsHashFloodingOnCount() {
+    CallsCounter smallCounter = new CallsCounter();
+    List<CountsHashCodeAndEquals> haveSameHashesSmall = createAdversarialInput(10, smallCounter);
+    int smallSize = haveSameHashesSmall.size();
+    ImmutableMultiset<?> smallMap =
+        ConstructionPathway.COPY_OF_COLLECTION.create(haveSameHashesSmall);
+    long worstCaseQuerySmall = worstCaseQueryOperations(smallMap, smallCounter);
+
+    CallsCounter largeCounter = new CallsCounter();
+    List<CountsHashCodeAndEquals> haveSameHashesLarge = createAdversarialInput(15, largeCounter);
+    int largeSize = haveSameHashesLarge.size();
+    ImmutableMultiset<?> largeMap =
+        ConstructionPathway.COPY_OF_COLLECTION.create(haveSameHashesLarge);
+    long worstCaseQueryLarge = worstCaseQueryOperations(largeMap, largeCounter);
+
+    double ratio = (double) worstCaseQueryLarge / worstCaseQuerySmall;
+    assertThat(ratio)
+        .named(
+            "Ratio of worst case query operations for an ImmutableMultiset of size %s versus %s",
+            largeSize, smallSize)
+        .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
+    // allow up to 2x wobble in the constant factors
+  }
+
+  private static long worstCaseQueryOperations(Multiset<?> multiset, CallsCounter counter) {
+    long worstCalls = 0;
+    for (Object k : multiset.elementSet()) {
+      counter.zero();
+      int unused = multiset.count(k);
+      worstCalls = Math.max(worstCalls, counter.total());
+    }
+    return worstCalls;
   }
 }

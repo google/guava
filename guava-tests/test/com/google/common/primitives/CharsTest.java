@@ -328,15 +328,6 @@ public class CharsTest extends TestCase {
     testReverse(new char[] {'A', '1', 'B', '2'}, new char[] {'2', 'B', '1', 'A'});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new char[] {}, 0, 0, new char[] {});
-    testReverse(new char[] {'1'}, 0, 1, new char[] {'1'});
-    testReverse(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
-    testReverse(new char[] {'3', '1', '1'}, 0, 2, new char[] {'1', '3', '1'});
-    testReverse(new char[] {'3', '1', '1'}, 0, 1, new char[] {'3', '1', '1'});
-    testReverse(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
-  }
-
   private static void testReverse(char[] input, char[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Chars.reverse(input);
@@ -349,21 +340,21 @@ public class CharsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testReverseIndexed() {
+    testReverse(new char[] {}, 0, 0, new char[] {});
+    testReverse(new char[] {'1'}, 0, 1, new char[] {'1'});
+    testReverse(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
+    testReverse(new char[] {'3', '1', '1'}, 0, 2, new char[] {'1', '3', '1'});
+    testReverse(new char[] {'3', '1', '1'}, 0, 1, new char[] {'3', '1', '1'});
+    testReverse(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
+  }
+
   public void testSortDescending() {
     testSortDescending(new char[] {}, new char[] {});
     testSortDescending(new char[] {'1'}, new char[] {'1'});
     testSortDescending(new char[] {'1', '2'}, new char[] {'2', '1'});
     testSortDescending(new char[] {'1', '3', '1'}, new char[] {'3', '1', '1'});
     testSortDescending(new char[] {'A', '1', 'B', '2'}, new char[] {'B', 'A', '2', '1'});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new char[] {}, 0, 0, new char[] {});
-    testSortDescending(new char[] {'1'}, 0, 1, new char[] {'1'});
-    testSortDescending(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
-    testSortDescending(new char[] {'1', '3', '1'}, 0, 2, new char[] {'3', '1', '1'});
-    testSortDescending(new char[] {'1', '3', '1'}, 0, 1, new char[] {'1', '3', '1'});
-    testSortDescending(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
   }
 
   private static void testSortDescending(char[] input, char[] expectedOutput) {
@@ -377,6 +368,15 @@ public class CharsTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     Chars.sortDescending(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new char[] {}, 0, 0, new char[] {});
+    testSortDescending(new char[] {'1'}, 0, 1, new char[] {'1'});
+    testSortDescending(new char[] {'1', '2'}, 0, 2, new char[] {'2', '1'});
+    testSortDescending(new char[] {'1', '3', '1'}, 0, 2, new char[] {'3', '1', '1'});
+    testSortDescending(new char[] {'1', '3', '1'}, 0, 1, new char[] {'1', '3', '1'});
+    testSortDescending(new char[] {'A', '1', 'B', '2'}, 1, 3, new char[] {'A', 'B', '1', '2'});
   }
 
   public void testToArray() {

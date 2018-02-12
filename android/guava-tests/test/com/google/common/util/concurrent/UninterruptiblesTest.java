@@ -546,6 +546,11 @@ public class UninterruptiblesTest extends TestCase {
       completed.assertCompletionExpected();
     }
 
+    void tryAcquireSuccessfully(int permits, long timeoutMillis) {
+      assertTrue(tryAcquireUninterruptibly(semaphore, permits, timeoutMillis, MILLISECONDS));
+      completed.assertCompletionExpected();
+    }
+
     /**
      * Requests a permit from the semaphore with a timeout and asserts that the wait returned within
      * the expected timeout.
@@ -553,11 +558,6 @@ public class UninterruptiblesTest extends TestCase {
     private void tryAcquireUnsuccessfully(long timeoutMillis) {
       assertFalse(tryAcquireUninterruptibly(semaphore, timeoutMillis, MILLISECONDS));
       completed.assertCompletionNotExpected(timeoutMillis);
-    }
-
-    void tryAcquireSuccessfully(int permits, long timeoutMillis) {
-      assertTrue(tryAcquireUninterruptibly(semaphore, permits, timeoutMillis, MILLISECONDS));
-      completed.assertCompletionExpected();
     }
 
     private void tryAcquireUnsuccessfully(int permits, long timeoutMillis) {
@@ -774,6 +774,16 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
+    public boolean await(long time, TimeUnit unit) throws InterruptedException {
+      lock.lock();
+      try {
+        return condition.await(time, unit);
+      } finally {
+        lock.unlock();
+      }
+    }
+
+    @Override
     public void awaitUninterruptibly() {
       lock.lock();
       try {
@@ -788,16 +798,6 @@ public class UninterruptiblesTest extends TestCase {
       lock.lock();
       try {
         return condition.awaitNanos(nanosTimeout);
-      } finally {
-        lock.unlock();
-      }
-    }
-
-    @Override
-    public boolean await(long time, TimeUnit unit) throws InterruptedException {
-      lock.lock();
-      try {
-        return condition.await(time, unit);
       } finally {
         lock.unlock();
       }

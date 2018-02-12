@@ -160,6 +160,34 @@ public final class GcFinalization {
   }
 
   /**
+   * Waits until the given predicate returns true, invoking the garbage collector as necessary to
+   * try to ensure that this will happen.
+   *
+   * @throws RuntimeException if timed out or interrupted while waiting
+   */
+  public static void awaitDone(FinalizationPredicate predicate) {
+    if (predicate.isDone()) {
+      return;
+    }
+    final long timeoutSeconds = timeoutSeconds();
+    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
+    do {
+      System.runFinalization();
+      if (predicate.isDone()) {
+        return;
+      }
+      CountDownLatch done = new CountDownLatch(1);
+      createUnreachableLatchFinalizer(done);
+      await(done);
+      if (predicate.isDone()) {
+        return;
+      }
+    } while (System.nanoTime() - deadline < 0);
+    throw formatRuntimeException(
+        "Predicate did not become true within %d second timeout", timeoutSeconds);
+  }
+
+  /**
    * Waits until the given latch has {@linkplain CountDownLatch#countDown counted down} to zero,
    * invoking the garbage collector as necessary to try to ensure that this will happen.
    *
@@ -215,34 +243,6 @@ public final class GcFinalization {
    */
   public interface FinalizationPredicate {
     boolean isDone();
-  }
-
-  /**
-   * Waits until the given predicate returns true, invoking the garbage collector as necessary to
-   * try to ensure that this will happen.
-   *
-   * @throws RuntimeException if timed out or interrupted while waiting
-   */
-  public static void awaitDone(FinalizationPredicate predicate) {
-    if (predicate.isDone()) {
-      return;
-    }
-    final long timeoutSeconds = timeoutSeconds();
-    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
-    do {
-      System.runFinalization();
-      if (predicate.isDone()) {
-        return;
-      }
-      CountDownLatch done = new CountDownLatch(1);
-      createUnreachableLatchFinalizer(done);
-      await(done);
-      if (predicate.isDone()) {
-        return;
-      }
-    } while (System.nanoTime() - deadline < 0);
-    throw formatRuntimeException(
-        "Predicate did not become true within %d second timeout", timeoutSeconds);
   }
 
   /**

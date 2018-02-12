@@ -374,6 +374,22 @@ public final class ClassSanityTester {
   }
 
   /**
+   * Instantiates using {@code factory}. If {@code factory} is annotated nullable and returns null,
+   * null will be returned.
+   *
+   * @throws ParameterNotInstantiableException if the static methods cannot be invoked because the
+   *     default value of a parameter cannot be determined.
+   * @throws IllegalAccessException if the class isn't public or is nested inside a non-public
+   *     class, preventing its methods from being accessible.
+   * @throws InvocationTargetException if a static method threw exception.
+   */
+  @NullableDecl
+  private <T> T instantiate(Invokable<?, ? extends T> factory)
+      throws ParameterNotInstantiableException, InvocationTargetException, IllegalAccessException {
+    return invoke(factory, getDummyArguments(factory));
+  }
+
+  /**
    * Returns an object responsible for performing sanity tests against the return values of all
    * public static methods declared by {@code cls}, excluding superclasses.
    */
@@ -545,22 +561,6 @@ public final class ClassSanityTester {
           factoriesToTest.isEmpty());
       return factoriesToTest;
     }
-  }
-
-  /**
-   * Instantiates using {@code factory}. If {@code factory} is annotated nullable and returns null,
-   * null will be returned.
-   *
-   * @throws ParameterNotInstantiableException if the static methods cannot be invoked because the
-   *     default value of a parameter cannot be determined.
-   * @throws IllegalAccessException if the class isn't public or is nested inside a non-public
-   *     class, preventing its methods from being accessible.
-   * @throws InvocationTargetException if a static method threw exception.
-   */
-  @NullableDecl
-  private <T> T instantiate(Invokable<?, ? extends T> factory)
-      throws ParameterNotInstantiableException, InvocationTargetException, IllegalAccessException {
-    return invoke(factory, getDummyArguments(factory));
   }
 
   private void testEqualsUsing(final Invokable<?, ?> factory)
