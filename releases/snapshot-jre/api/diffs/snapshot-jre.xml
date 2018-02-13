@@ -51552,6 +51552,17 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="L16_AUDIO" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for L16 audio, as defined by <a href="https://tools.ietf.org/html/rfc2586">RFC
+ 2586</a>.
+
+ @since 24.0]]>
+      </doc>
+    </field>
     <field name="L24_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
