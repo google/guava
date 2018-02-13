@@ -23,19 +23,23 @@ import java.util.Collections;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
- * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order
- * that matches the insertion order. All optional operations (adding and
- * removing) are supported. All elements, including {@code null}, are permitted.
+ * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that
+ * matches the insertion order. All optional operations (adding and removing) are supported. All
+ * elements, including {@code null}, are permitted.
  *
  * <p>{@code contains(x)}, {@code add(x)} and {@code remove(x)}, are all (expected and amortized)
- * constant time operations. Expected in the hashtable sense (depends on the hash function
- * doing a good job of distributing the elements to the buckets to a distribution not far from
- * uniform), and amortized since some operations can trigger a hash table resize.
+ * constant time operations. Expected in the hashtable sense (depends on the hash function doing a
+ * good job of distributing the elements to the buckets to a distribution not far from uniform), and
+ * amortized since some operations can trigger a hash table resize.
  *
- * <p>This implementation consumes significantly less memory than {@code java.util.LinkedHashSet}
- * or even {@code java.util.HashSet}, and places considerably less load on the garbage collector.
- * Like {@code java.util.LinkedHashSet}, it offers insertion-order iteration, with identical
- * behavior.
+ * <p>This implementation consumes significantly less memory than {@code java.util.LinkedHashSet} or
+ * even {@code java.util.HashSet}, and places considerably less load on the garbage collector. Like
+ * {@code java.util.LinkedHashSet}, it offers insertion-order iteration, with identical behavior.
+ *
+ * <p>This class should not be assumed to be universally superior to {@code
+ * java.util.LinkedHashSet}. Generally speaking, this class reduces object allocation and memory
+ * consumption at the price of moderately increased constant factors of CPU. Only use this class
+ * when there is a specific reason to prioritize memory over CPU.
  *
  * @author Louis Wasserman
  */
