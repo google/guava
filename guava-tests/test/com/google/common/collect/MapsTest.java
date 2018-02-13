@@ -203,14 +203,12 @@ public class MapsTest extends TestCase {
   @SuppressWarnings("serial")
   public void testLinkedHashMapWithInitialMap() {
     Map<String, String> map =
-        new LinkedHashMap<String, String>() {
-          {
-            put("Hello", "World");
-            put("first", "second");
-            put("polygene", "lubricants");
-            put("alpha", "betical");
-          }
-        };
+        new LinkedHashMap<String, String>(
+            ImmutableMap.of(
+                "Hello", "World",
+                "first", "second",
+                "polygene", "lubricants",
+                "alpha", "betical"));
 
     LinkedHashMap<String, String> copy = Maps.newLinkedHashMap(map);
 
