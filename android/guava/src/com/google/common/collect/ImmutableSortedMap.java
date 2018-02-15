@@ -358,14 +358,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted maps with an explicit comparator. If the
-   * comparator has a more general type than the map's keys, such as creating a {@code
-   * SortedMap<Integer, String>} with a {@code Comparator<Number>}, use the {@link Builder}
-   * constructor instead.
+   * Returns a builder that creates immutable sorted maps with an explicit comparator.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
-  public static <K, V> Builder<K, V> orderedBy(Comparator<K> comparator) {
+  public static <K, V> Builder<K, V> orderedBy(Comparator<? super K> comparator) {
     return new Builder<>(comparator);
   }
 

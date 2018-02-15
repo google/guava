@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
@@ -815,6 +816,18 @@ public class MinMaxPriorityQueueTest extends TestCase {
       assertIntact(queue);
       assertThat(queue).containsExactlyElementsIn(elements);
     }
+  }
+
+  private static final Comparator<Object> TO_STRING =
+	      new Comparator<Object>() {
+	        @Override
+	        public int compare(Object o1, Object o2) {
+	          return o1.toString().compareTo(o2.toString());
+	        }
+	      };
+
+  public void testBuilderSupertypeComparator() {
+	  MinMaxPriorityQueue<Integer> queue = MinMaxPriorityQueue.orderedBy(TO_STRING).create();
   }
 
   /** Returns the seed used for the randomization. */

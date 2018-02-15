@@ -343,14 +343,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   public abstract ImmutableSortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
 
   /**
-   * Returns a builder that creates immutable sorted multisets with an explicit comparator. If the
-   * comparator has a more general type than the set being generated, such as creating a {@code
-   * SortedMultiset<Integer>} with a {@code Comparator<Number>}, use the {@link Builder} constructor
-   * instead.
+   * Returns a builder that creates immutable sorted multisets with an explicit comparator.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
-  public static <E> Builder<E> orderedBy(Comparator<E> comparator) {
+  public static <E> Builder<E> orderedBy(Comparator<? super E> comparator) {
     return new Builder<E>(comparator);
   }
 
