@@ -662,101 +662,102 @@
 <span class="sourceLineNo">654</span>      return true;<a name="line.654"></a>
 <span class="sourceLineNo">655</span>    }<a name="line.655"></a>
 <span class="sourceLineNo">656</span><a name="line.656"></a>
-<span class="sourceLineNo">657</span>    // We can't label this with @Override, because it doesn't override anything<a name="line.657"></a>
-<span class="sourceLineNo">658</span>    // in the GWT emulated version.<a name="line.658"></a>
+<span class="sourceLineNo">657</span>    @GwtIncompatible<a name="line.657"></a>
+<span class="sourceLineNo">658</span>    @Override<a name="line.658"></a>
 <span class="sourceLineNo">659</span>    Object writeReplace() {<a name="line.659"></a>
 <span class="sourceLineNo">660</span>      return new KeysSerializedForm(ImmutableMultimap.this);<a name="line.660"></a>
 <span class="sourceLineNo">661</span>    }<a name="line.661"></a>
 <span class="sourceLineNo">662</span>  }<a name="line.662"></a>
-<span class="sourceLineNo">663</span>  <a name="line.663"></a>
-<span class="sourceLineNo">664</span>  private static final class KeysSerializedForm implements Serializable {<a name="line.664"></a>
-<span class="sourceLineNo">665</span>    final ImmutableMultimap&lt;?, ?&gt; multimap;<a name="line.665"></a>
-<span class="sourceLineNo">666</span><a name="line.666"></a>
-<span class="sourceLineNo">667</span>    KeysSerializedForm(ImmutableMultimap&lt;?, ?&gt; multimap) {<a name="line.667"></a>
-<span class="sourceLineNo">668</span>      this.multimap = multimap;<a name="line.668"></a>
-<span class="sourceLineNo">669</span>    }<a name="line.669"></a>
-<span class="sourceLineNo">670</span><a name="line.670"></a>
-<span class="sourceLineNo">671</span>    Object readResolve() {<a name="line.671"></a>
-<span class="sourceLineNo">672</span>      return multimap.keys();<a name="line.672"></a>
-<span class="sourceLineNo">673</span>    }<a name="line.673"></a>
-<span class="sourceLineNo">674</span>  }<a name="line.674"></a>
-<span class="sourceLineNo">675</span><a name="line.675"></a>
-<span class="sourceLineNo">676</span>  /**<a name="line.676"></a>
-<span class="sourceLineNo">677</span>   * Returns an immutable collection of the values in this multimap. Its iterator traverses the<a name="line.677"></a>
-<span class="sourceLineNo">678</span>   * values for the first key, the values for the second key, and so on.<a name="line.678"></a>
-<span class="sourceLineNo">679</span>   */<a name="line.679"></a>
-<span class="sourceLineNo">680</span>  @Override<a name="line.680"></a>
-<span class="sourceLineNo">681</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.681"></a>
-<span class="sourceLineNo">682</span>    return (ImmutableCollection&lt;V&gt;) super.values();<a name="line.682"></a>
-<span class="sourceLineNo">683</span>  }<a name="line.683"></a>
-<span class="sourceLineNo">684</span><a name="line.684"></a>
-<span class="sourceLineNo">685</span>  @Override<a name="line.685"></a>
-<span class="sourceLineNo">686</span>  ImmutableCollection&lt;V&gt; createValues() {<a name="line.686"></a>
-<span class="sourceLineNo">687</span>    return new Values&lt;&gt;(this);<a name="line.687"></a>
-<span class="sourceLineNo">688</span>  }<a name="line.688"></a>
-<span class="sourceLineNo">689</span><a name="line.689"></a>
-<span class="sourceLineNo">690</span>  @Override<a name="line.690"></a>
-<span class="sourceLineNo">691</span>  UnmodifiableIterator&lt;V&gt; valueIterator() {<a name="line.691"></a>
-<span class="sourceLineNo">692</span>    return new UnmodifiableIterator&lt;V&gt;() {<a name="line.692"></a>
-<span class="sourceLineNo">693</span>      Iterator&lt;? extends ImmutableCollection&lt;V&gt;&gt; valueCollectionItr = map.values().iterator();<a name="line.693"></a>
-<span class="sourceLineNo">694</span>      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();<a name="line.694"></a>
-<span class="sourceLineNo">695</span><a name="line.695"></a>
-<span class="sourceLineNo">696</span>      @Override<a name="line.696"></a>
-<span class="sourceLineNo">697</span>      public boolean hasNext() {<a name="line.697"></a>
-<span class="sourceLineNo">698</span>        return valueItr.hasNext() || valueCollectionItr.hasNext();<a name="line.698"></a>
-<span class="sourceLineNo">699</span>      }<a name="line.699"></a>
-<span class="sourceLineNo">700</span><a name="line.700"></a>
-<span class="sourceLineNo">701</span>      @Override<a name="line.701"></a>
-<span class="sourceLineNo">702</span>      public V next() {<a name="line.702"></a>
-<span class="sourceLineNo">703</span>        if (!valueItr.hasNext()) {<a name="line.703"></a>
-<span class="sourceLineNo">704</span>          valueItr = valueCollectionItr.next().iterator();<a name="line.704"></a>
-<span class="sourceLineNo">705</span>        }<a name="line.705"></a>
-<span class="sourceLineNo">706</span>        return valueItr.next();<a name="line.706"></a>
-<span class="sourceLineNo">707</span>      }<a name="line.707"></a>
-<span class="sourceLineNo">708</span>    };<a name="line.708"></a>
-<span class="sourceLineNo">709</span>  }<a name="line.709"></a>
-<span class="sourceLineNo">710</span><a name="line.710"></a>
-<span class="sourceLineNo">711</span>  private static final class Values&lt;K, V&gt; extends ImmutableCollection&lt;V&gt; {<a name="line.711"></a>
-<span class="sourceLineNo">712</span>    @Weak private final transient ImmutableMultimap&lt;K, V&gt; multimap;<a name="line.712"></a>
-<span class="sourceLineNo">713</span><a name="line.713"></a>
-<span class="sourceLineNo">714</span>    Values(ImmutableMultimap&lt;K, V&gt; multimap) {<a name="line.714"></a>
-<span class="sourceLineNo">715</span>      this.multimap = multimap;<a name="line.715"></a>
-<span class="sourceLineNo">716</span>    }<a name="line.716"></a>
-<span class="sourceLineNo">717</span><a name="line.717"></a>
-<span class="sourceLineNo">718</span>    @Override<a name="line.718"></a>
-<span class="sourceLineNo">719</span>    public boolean contains(@NullableDecl Object object) {<a name="line.719"></a>
-<span class="sourceLineNo">720</span>      return multimap.containsValue(object);<a name="line.720"></a>
-<span class="sourceLineNo">721</span>    }<a name="line.721"></a>
-<span class="sourceLineNo">722</span><a name="line.722"></a>
-<span class="sourceLineNo">723</span>    @Override<a name="line.723"></a>
-<span class="sourceLineNo">724</span>    public UnmodifiableIterator&lt;V&gt; iterator() {<a name="line.724"></a>
-<span class="sourceLineNo">725</span>      return multimap.valueIterator();<a name="line.725"></a>
-<span class="sourceLineNo">726</span>    }<a name="line.726"></a>
-<span class="sourceLineNo">727</span><a name="line.727"></a>
-<span class="sourceLineNo">728</span>    @GwtIncompatible // not present in emulated superclass<a name="line.728"></a>
-<span class="sourceLineNo">729</span>    @Override<a name="line.729"></a>
-<span class="sourceLineNo">730</span>    int copyIntoArray(Object[] dst, int offset) {<a name="line.730"></a>
-<span class="sourceLineNo">731</span>      for (ImmutableCollection&lt;V&gt; valueCollection : multimap.map.values()) {<a name="line.731"></a>
-<span class="sourceLineNo">732</span>        offset = valueCollection.copyIntoArray(dst, offset);<a name="line.732"></a>
-<span class="sourceLineNo">733</span>      }<a name="line.733"></a>
-<span class="sourceLineNo">734</span>      return offset;<a name="line.734"></a>
-<span class="sourceLineNo">735</span>    }<a name="line.735"></a>
-<span class="sourceLineNo">736</span><a name="line.736"></a>
-<span class="sourceLineNo">737</span>    @Override<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    public int size() {<a name="line.738"></a>
-<span class="sourceLineNo">739</span>      return multimap.size();<a name="line.739"></a>
-<span class="sourceLineNo">740</span>    }<a name="line.740"></a>
-<span class="sourceLineNo">741</span><a name="line.741"></a>
-<span class="sourceLineNo">742</span>    @Override<a name="line.742"></a>
-<span class="sourceLineNo">743</span>    boolean isPartialView() {<a name="line.743"></a>
-<span class="sourceLineNo">744</span>      return true;<a name="line.744"></a>
-<span class="sourceLineNo">745</span>    }<a name="line.745"></a>
-<span class="sourceLineNo">746</span><a name="line.746"></a>
-<span class="sourceLineNo">747</span>    private static final long serialVersionUID = 0;<a name="line.747"></a>
-<span class="sourceLineNo">748</span>  }<a name="line.748"></a>
-<span class="sourceLineNo">749</span><a name="line.749"></a>
-<span class="sourceLineNo">750</span>  private static final long serialVersionUID = 0;<a name="line.750"></a>
-<span class="sourceLineNo">751</span>}<a name="line.751"></a>
+<span class="sourceLineNo">663</span><a name="line.663"></a>
+<span class="sourceLineNo">664</span>  @GwtIncompatible<a name="line.664"></a>
+<span class="sourceLineNo">665</span>  private static final class KeysSerializedForm implements Serializable {<a name="line.665"></a>
+<span class="sourceLineNo">666</span>    final ImmutableMultimap&lt;?, ?&gt; multimap;<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>    KeysSerializedForm(ImmutableMultimap&lt;?, ?&gt; multimap) {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>      this.multimap = multimap;<a name="line.669"></a>
+<span class="sourceLineNo">670</span>    }<a name="line.670"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>    Object readResolve() {<a name="line.672"></a>
+<span class="sourceLineNo">673</span>      return multimap.keys();<a name="line.673"></a>
+<span class="sourceLineNo">674</span>    }<a name="line.674"></a>
+<span class="sourceLineNo">675</span>  }<a name="line.675"></a>
+<span class="sourceLineNo">676</span><a name="line.676"></a>
+<span class="sourceLineNo">677</span>  /**<a name="line.677"></a>
+<span class="sourceLineNo">678</span>   * Returns an immutable collection of the values in this multimap. Its iterator traverses the<a name="line.678"></a>
+<span class="sourceLineNo">679</span>   * values for the first key, the values for the second key, and so on.<a name="line.679"></a>
+<span class="sourceLineNo">680</span>   */<a name="line.680"></a>
+<span class="sourceLineNo">681</span>  @Override<a name="line.681"></a>
+<span class="sourceLineNo">682</span>  public ImmutableCollection&lt;V&gt; values() {<a name="line.682"></a>
+<span class="sourceLineNo">683</span>    return (ImmutableCollection&lt;V&gt;) super.values();<a name="line.683"></a>
+<span class="sourceLineNo">684</span>  }<a name="line.684"></a>
+<span class="sourceLineNo">685</span><a name="line.685"></a>
+<span class="sourceLineNo">686</span>  @Override<a name="line.686"></a>
+<span class="sourceLineNo">687</span>  ImmutableCollection&lt;V&gt; createValues() {<a name="line.687"></a>
+<span class="sourceLineNo">688</span>    return new Values&lt;&gt;(this);<a name="line.688"></a>
+<span class="sourceLineNo">689</span>  }<a name="line.689"></a>
+<span class="sourceLineNo">690</span><a name="line.690"></a>
+<span class="sourceLineNo">691</span>  @Override<a name="line.691"></a>
+<span class="sourceLineNo">692</span>  UnmodifiableIterator&lt;V&gt; valueIterator() {<a name="line.692"></a>
+<span class="sourceLineNo">693</span>    return new UnmodifiableIterator&lt;V&gt;() {<a name="line.693"></a>
+<span class="sourceLineNo">694</span>      Iterator&lt;? extends ImmutableCollection&lt;V&gt;&gt; valueCollectionItr = map.values().iterator();<a name="line.694"></a>
+<span class="sourceLineNo">695</span>      Iterator&lt;V&gt; valueItr = Iterators.emptyIterator();<a name="line.695"></a>
+<span class="sourceLineNo">696</span><a name="line.696"></a>
+<span class="sourceLineNo">697</span>      @Override<a name="line.697"></a>
+<span class="sourceLineNo">698</span>      public boolean hasNext() {<a name="line.698"></a>
+<span class="sourceLineNo">699</span>        return valueItr.hasNext() || valueCollectionItr.hasNext();<a name="line.699"></a>
+<span class="sourceLineNo">700</span>      }<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>      @Override<a name="line.702"></a>
+<span class="sourceLineNo">703</span>      public V next() {<a name="line.703"></a>
+<span class="sourceLineNo">704</span>        if (!valueItr.hasNext()) {<a name="line.704"></a>
+<span class="sourceLineNo">705</span>          valueItr = valueCollectionItr.next().iterator();<a name="line.705"></a>
+<span class="sourceLineNo">706</span>        }<a name="line.706"></a>
+<span class="sourceLineNo">707</span>        return valueItr.next();<a name="line.707"></a>
+<span class="sourceLineNo">708</span>      }<a name="line.708"></a>
+<span class="sourceLineNo">709</span>    };<a name="line.709"></a>
+<span class="sourceLineNo">710</span>  }<a name="line.710"></a>
+<span class="sourceLineNo">711</span><a name="line.711"></a>
+<span class="sourceLineNo">712</span>  private static final class Values&lt;K, V&gt; extends ImmutableCollection&lt;V&gt; {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>    @Weak private final transient ImmutableMultimap&lt;K, V&gt; multimap;<a name="line.713"></a>
+<span class="sourceLineNo">714</span><a name="line.714"></a>
+<span class="sourceLineNo">715</span>    Values(ImmutableMultimap&lt;K, V&gt; multimap) {<a name="line.715"></a>
+<span class="sourceLineNo">716</span>      this.multimap = multimap;<a name="line.716"></a>
+<span class="sourceLineNo">717</span>    }<a name="line.717"></a>
+<span class="sourceLineNo">718</span><a name="line.718"></a>
+<span class="sourceLineNo">719</span>    @Override<a name="line.719"></a>
+<span class="sourceLineNo">720</span>    public boolean contains(@NullableDecl Object object) {<a name="line.720"></a>
+<span class="sourceLineNo">721</span>      return multimap.containsValue(object);<a name="line.721"></a>
+<span class="sourceLineNo">722</span>    }<a name="line.722"></a>
+<span class="sourceLineNo">723</span><a name="line.723"></a>
+<span class="sourceLineNo">724</span>    @Override<a name="line.724"></a>
+<span class="sourceLineNo">725</span>    public UnmodifiableIterator&lt;V&gt; iterator() {<a name="line.725"></a>
+<span class="sourceLineNo">726</span>      return multimap.valueIterator();<a name="line.726"></a>
+<span class="sourceLineNo">727</span>    }<a name="line.727"></a>
+<span class="sourceLineNo">728</span><a name="line.728"></a>
+<span class="sourceLineNo">729</span>    @GwtIncompatible // not present in emulated superclass<a name="line.729"></a>
+<span class="sourceLineNo">730</span>    @Override<a name="line.730"></a>
+<span class="sourceLineNo">731</span>    int copyIntoArray(Object[] dst, int offset) {<a name="line.731"></a>
+<span class="sourceLineNo">732</span>      for (ImmutableCollection&lt;V&gt; valueCollection : multimap.map.values()) {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>        offset = valueCollection.copyIntoArray(dst, offset);<a name="line.733"></a>
+<span class="sourceLineNo">734</span>      }<a name="line.734"></a>
+<span class="sourceLineNo">735</span>      return offset;<a name="line.735"></a>
+<span class="sourceLineNo">736</span>    }<a name="line.736"></a>
+<span class="sourceLineNo">737</span><a name="line.737"></a>
+<span class="sourceLineNo">738</span>    @Override<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    public int size() {<a name="line.739"></a>
+<span class="sourceLineNo">740</span>      return multimap.size();<a name="line.740"></a>
+<span class="sourceLineNo">741</span>    }<a name="line.741"></a>
+<span class="sourceLineNo">742</span><a name="line.742"></a>
+<span class="sourceLineNo">743</span>    @Override<a name="line.743"></a>
+<span class="sourceLineNo">744</span>    boolean isPartialView() {<a name="line.744"></a>
+<span class="sourceLineNo">745</span>      return true;<a name="line.745"></a>
+<span class="sourceLineNo">746</span>    }<a name="line.746"></a>
+<span class="sourceLineNo">747</span><a name="line.747"></a>
+<span class="sourceLineNo">748</span>    private static final long serialVersionUID = 0;<a name="line.748"></a>
+<span class="sourceLineNo">749</span>  }<a name="line.749"></a>
+<span class="sourceLineNo">750</span><a name="line.750"></a>
+<span class="sourceLineNo">751</span>  private static final long serialVersionUID = 0;<a name="line.751"></a>
+<span class="sourceLineNo">752</span>}<a name="line.752"></a>
 
 
 

@@ -358,16 +358,16 @@
 <span class="sourceLineNo">350</span>      return ImmutableMultiset.this.hashCode();<a name="line.350"></a>
 <span class="sourceLineNo">351</span>    }<a name="line.351"></a>
 <span class="sourceLineNo">352</span><a name="line.352"></a>
-<span class="sourceLineNo">353</span>    // We can't label this with @Override, because it doesn't override anything<a name="line.353"></a>
-<span class="sourceLineNo">354</span>    // in the GWT emulated version.<a name="line.354"></a>
-<span class="sourceLineNo">355</span>    // TODO(cpovirk): try making all copies of this method @GwtIncompatible instead<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    Object writeReplace() {<a name="line.356"></a>
-<span class="sourceLineNo">357</span>      return new EntrySetSerializedForm&lt;E&gt;(ImmutableMultiset.this);<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    }<a name="line.358"></a>
-<span class="sourceLineNo">359</span><a name="line.359"></a>
-<span class="sourceLineNo">360</span>    private static final long serialVersionUID = 0;<a name="line.360"></a>
-<span class="sourceLineNo">361</span>  }<a name="line.361"></a>
-<span class="sourceLineNo">362</span><a name="line.362"></a>
+<span class="sourceLineNo">353</span>    @GwtIncompatible<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    @Override<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    Object writeReplace() {<a name="line.355"></a>
+<span class="sourceLineNo">356</span>      return new EntrySetSerializedForm&lt;E&gt;(ImmutableMultiset.this);<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    }<a name="line.357"></a>
+<span class="sourceLineNo">358</span><a name="line.358"></a>
+<span class="sourceLineNo">359</span>    private static final long serialVersionUID = 0;<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  @GwtIncompatible<a name="line.362"></a>
 <span class="sourceLineNo">363</span>  static class EntrySetSerializedForm&lt;E&gt; implements Serializable {<a name="line.363"></a>
 <span class="sourceLineNo">364</span>    final ImmutableMultiset&lt;E&gt; multiset;<a name="line.364"></a>
 <span class="sourceLineNo">365</span><a name="line.365"></a>
@@ -380,8 +380,8 @@
 <span class="sourceLineNo">372</span>    }<a name="line.372"></a>
 <span class="sourceLineNo">373</span>  }<a name="line.373"></a>
 <span class="sourceLineNo">374</span><a name="line.374"></a>
-<span class="sourceLineNo">375</span>  // We can't label this with @Override, because it doesn't override anything<a name="line.375"></a>
-<span class="sourceLineNo">376</span>  // in the GWT emulated version.<a name="line.376"></a>
+<span class="sourceLineNo">375</span>  @GwtIncompatible<a name="line.375"></a>
+<span class="sourceLineNo">376</span>  @Override<a name="line.376"></a>
 <span class="sourceLineNo">377</span>  abstract Object writeReplace();<a name="line.377"></a>
 <span class="sourceLineNo">378</span><a name="line.378"></a>
 <span class="sourceLineNo">379</span>  /**<a name="line.379"></a>
