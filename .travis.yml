@@ -11,7 +11,7 @@ addons:
     packages:
       - oracle-java8-installer
 
-install: mvn -B install -U -DskipTests=true -f $ROOT_POM
+install: mvn -B install -U -DskipTests=true -Danimal.sniffer.skip=true -f $ROOT_POM
 
 # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
 script: travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Danimal.sniffer.skip=true -f $ROOT_POM
