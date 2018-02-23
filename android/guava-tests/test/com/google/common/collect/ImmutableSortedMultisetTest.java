@@ -472,6 +472,21 @@ public class ImmutableSortedMultisetTest extends TestCase {
     }
   }
 
+  private static final Comparator<Object> TO_STRING =
+      new Comparator<Object>() {
+        @Override
+        public int compare(Object o1, Object o2) {
+          return o1.toString().compareTo(o2.toString());
+        }
+      };
+
+  public void testBuilderGenerics_SuperComparator() {
+    ImmutableSortedMultiset.Builder<Integer> builder =
+        ImmutableSortedMultiset.orderedBy(TO_STRING);
+
+    ImmutableSortedMultiset.Builder<Integer> builder2 =
+        new ImmutableSortedMultiset.Builder<>(TO_STRING);
+  }
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }

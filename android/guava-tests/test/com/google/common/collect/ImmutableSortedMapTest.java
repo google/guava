@@ -861,4 +861,20 @@ public class ImmutableSortedMapTest extends TestCase {
     ImmutableSortedMap.Builder<SuperComparableExample, Object> reverse =
         ImmutableSortedMap.reverseOrder();
   }
+
+  private static final Comparator<Object> TO_STRING =
+      new Comparator<Object>() {
+        @Override
+        public int compare(Object o1, Object o2) {
+          return o1.toString().compareTo(o2.toString());
+        }
+      };
+
+  public void testBuilderGenerics_SuperComparator() {
+    ImmutableSortedMap.Builder<Integer, Object> builder =
+        ImmutableSortedMap.orderedBy(TO_STRING);
+
+    ImmutableSortedMap.Builder<Integer, Object> builder2 =
+        new ImmutableSortedMap.Builder<>(TO_STRING);
+  }
 }

@@ -821,6 +821,13 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     assertThat(set).containsExactly(101, 12, 3, 44).inOrder();
   }
 
+  public void testSupertypeComparatorToOrderedBy() {
+    ImmutableSortedSet.Builder<Integer> setBuilder =
+        ImmutableSortedSet.orderedBy(TO_STRING);
+    SortedSet<Integer> set = setBuilder.add(3, 12, 101, 44).build();
+    assertThat(set).containsExactly(101, 12, 3, 44).inOrder();
+  }
+
   public void testSupertypeComparatorSubtypeElements() {
     SortedSet<Number> set =
         new ImmutableSortedSet.Builder<Number>(TO_STRING).add(3, 12, 101, 44).build();

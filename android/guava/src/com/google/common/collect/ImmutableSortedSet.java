@@ -362,14 +362,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
-   * Returns a builder that creates immutable sorted sets with an explicit comparator. If the
-   * comparator has a more general type than the set being generated, such as creating a {@code
-   * SortedSet<Integer>} with a {@code Comparator<Number>}, use the {@link Builder} constructor
-   * instead.
+   * Returns a builder that creates immutable sorted sets with an explicit comparator.
    *
    * @throws NullPointerException if {@code comparator} is null
    */
-  public static <E> Builder<E> orderedBy(Comparator<E> comparator) {
+  public static <E> Builder<E> orderedBy(Comparator<? super E> comparator) {
     return new Builder<E>(comparator);
   }
 
