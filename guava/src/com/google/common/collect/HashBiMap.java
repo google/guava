@@ -22,7 +22,6 @@ import static com.google.common.collect.Hashing.smearedHash;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -32,6 +31,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
@@ -103,24 +103,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   private static final double LOAD_FACTOR = 1.0;
 
-  /**
-   * Maximum allowed false positive probability of detecting a hash flooding attack given random
-   * input.
-   */
-  @VisibleForTesting static final double HASH_FLOODING_FPP = 0.001;
-
-  /**
-   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
-   * implementation. Experimentally determined.
-   */
-  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 9;
-
-  /**
-   * If hash flooding is detected, create this HashMap-backed implementation and forward all
-   * operations to it.
-   */
-  @NullableDecl @VisibleForTesting transient BiMap<K, V> floodingDelegate = null;
-
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
   @NullableDecl private transient BiEntry<K, V> firstInKeyInsertionOrder;
@@ -134,7 +116,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   private void init(int expectedSize) {
-    this.floodingDelegate = null;
     checkNonnegative(expectedSize, "expectedSize");
     int tableSize = Hashing.closedTableSize(expectedSize, LOAD_FACTOR);
     this.hashTableKToV = createTable(tableSize);
@@ -232,38 +213,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       }
     }
 
-    int keyBucketLength = 0;
-    for (BiEntry<K, V> keyBucketEntry = hashTableKToV[keyBucket];
-        keyBucketEntry != null;
-        keyBucketEntry = keyBucketEntry.nextInKToVBucket) {
-      keyBucketLength++;
-    }
-    int valueBucketLength = 0;
-    for (BiEntry<K, V> valueBucketEntry = hashTableVToK[valueBucket];
-        valueBucketEntry != null;
-        valueBucketEntry = valueBucketEntry.nextInVToKBucket) {
-      valueBucketLength++;
-    }
-    if (keyBucketLength > MAX_HASH_BUCKET_LENGTH || valueBucketLength > MAX_HASH_BUCKET_LENGTH) {
-      switchToFloodProtection();
-    }
-
     size++;
     modCount++;
-  }
-
-  @VisibleForTesting
-  void switchToFloodProtection() {
-    floodingDelegate = new JdkBackedHashBiMap<>(size());
-    for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
-        entry != null;
-        entry = entry.nextInKeyInsertionOrder) {
-      floodingDelegate.put(entry.getKey(), entry.getValue());
-    }
-    hashTableKToV = null;
-    hashTableVToK = null;
-    firstInKeyInsertionOrder = null;
-    lastInKeyInsertionOrder = null;
   }
 
   private BiEntry<K, V> seekByKey(@NullableDecl Object key, int keyHash) {
@@ -290,38 +241,24 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   public boolean containsKey(@NullableDecl Object key) {
-    return (floodingDelegate == null)
-        ? seekByKey(key, smearedHash(key)) != null
-        : floodingDelegate.containsKey(key);
+    return seekByKey(key, smearedHash(key)) != null;
   }
 
   @Override
   public boolean containsValue(@NullableDecl Object value) {
-    return (floodingDelegate == null)
-        ? seekByValue(value, smearedHash(value)) != null
-        : floodingDelegate.containsValue(value);
+    return seekByValue(value, smearedHash(value)) != null;
   }
 
   @NullableDecl
   @Override
   public V get(@NullableDecl Object key) {
-    return (floodingDelegate == null)
-        ? Maps.valueOrNull(seekByKey(key, smearedHash(key)))
-        : floodingDelegate.get(key);
+    return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
   @CanIgnoreReturnValue
   @Override
   public V put(@NullableDecl K key, @NullableDecl V value) {
-    return (floodingDelegate == null) ? put(key, value, false) : floodingDelegate.put(key, value);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
-    return (floodingDelegate == null)
-        ? put(key, value, true)
-        : floodingDelegate.forcePut(key, value);
+    return put(key, value, false);
   }
 
   private V put(@NullableDecl K key, @NullableDecl V value, boolean force) {
@@ -357,6 +294,12 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       rehashIfNecessary();
       return null;
     }
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
+    return put(key, value, true);
   }
 
   @NullableDecl
@@ -405,9 +348,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   private void rehashIfNecessary() {
-    if (floodingDelegate != null) {
-      return;
-    }
     BiEntry<K, V>[] oldKToV = hashTableKToV;
     if (Hashing.needsResizing(size, oldKToV.length, LOAD_FACTOR)) {
       int newTableSize = oldKToV.length * 2;
@@ -434,9 +374,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @CanIgnoreReturnValue
   @Override
   public V remove(@NullableDecl Object key) {
-    if (floodingDelegate != null) {
-      return floodingDelegate.remove(key);
-    }
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;
@@ -450,12 +387,17 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   public void clear() {
-    init(size());
+    size = 0;
+    Arrays.fill(hashTableKToV, null);
+    Arrays.fill(hashTableVToK, null);
+    firstInKeyInsertionOrder = null;
+    lastInKeyInsertionOrder = null;
+    modCount++;
   }
 
   @Override
   public int size() {
-    return (floodingDelegate == null) ? size : floodingDelegate.size();
+    return size;
   }
 
   abstract class Itr<T> implements Iterator<T> {
@@ -512,9 +454,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public Iterator<K> iterator() {
-      if (floodingDelegate != null) {
-        return floodingDelegate.keySet().iterator();
-      }
       return new Itr<K>() {
         @Override
         K output(BiEntry<K, V> entry) {
@@ -525,9 +464,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public boolean remove(@NullableDecl Object o) {
-      if (floodingDelegate != null) {
-        return floodingDelegate.keySet().remove(o);
-      }
       BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
       if (entry == null) {
         return false;
@@ -547,9 +483,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   Iterator<Entry<K, V>> entryIterator() {
-    if (floodingDelegate != null) {
-      return floodingDelegate.entrySet().iterator();
-    }
     return new Itr<Entry<K, V>>() {
       @Override
       Entry<K, V> output(BiEntry<K, V> entry) {
@@ -600,28 +533,20 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
   @Override
   public void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
-    if (floodingDelegate == null) {
-      for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
-          entry != null;
-          entry = entry.nextInKeyInsertionOrder) {
-        action.accept(entry.key, entry.value);
-      }
-    } else {
-      floodingDelegate.forEach(action);
+    for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
+        entry != null;
+        entry = entry.nextInKeyInsertionOrder) {
+      action.accept(entry.key, entry.value);
     }
   }
 
   @Override
   public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     checkNotNull(function);
-    if (floodingDelegate == null) {
-      BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
-      clear();
-      for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-        put(entry.key, function.apply(entry.key, entry.value));
-      }
-    } else {
-      floodingDelegate.replaceAll(function);
+    BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+    clear();
+    for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+      put(entry.key, function.apply(entry.key, entry.value));
     }
   }
 
@@ -641,7 +566,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public int size() {
-      return HashBiMap.this.size();
+      return size;
     }
 
     @Override
@@ -656,31 +581,22 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public K get(@NullableDecl Object value) {
-      return (floodingDelegate == null)
-          ? Maps.keyOrNull(seekByValue(value, smearedHash(value)))
-          : floodingDelegate.inverse().get(value);
+      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
     }
 
     @CanIgnoreReturnValue
     @Override
     public K put(@NullableDecl V value, @NullableDecl K key) {
-      return (floodingDelegate == null)
-          ? putInverse(value, key, false)
-          : floodingDelegate.inverse().put(value, key);
+      return putInverse(value, key, false);
     }
 
     @Override
     public K forcePut(@NullableDecl V value, @NullableDecl K key) {
-      return (floodingDelegate == null)
-          ? putInverse(value, key, true)
-          : floodingDelegate.inverse().forcePut(value, key);
+      return putInverse(value, key, true);
     }
 
     @Override
     public K remove(@NullableDecl Object value) {
-      if (floodingDelegate != null) {
-        return floodingDelegate.inverse().remove(value);
-      }
       BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
       if (entry == null) {
         return null;
@@ -699,7 +615,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     public Set<V> keySet() {
-      return (floodingDelegate == null) ? new InverseKeySet() : floodingDelegate.values();
+      return new InverseKeySet();
     }
 
     @WeakOuter
@@ -737,9 +653,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @Override
     Iterator<Entry<V, K>> entryIterator() {
-      if (floodingDelegate != null) {
-        return floodingDelegate.inverse().entrySet().iterator();
-      }
       return new Itr<Entry<V, K>>() {
         @Override
         Entry<V, K> output(BiEntry<K, V> entry) {
@@ -792,14 +705,10 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     @Override
     public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
       checkNotNull(function);
-      if (floodingDelegate == null) {
-        BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
-        clear();
-        for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-          put(entry.value, function.apply(entry.value, entry.key));
-        }
-      } else {
-        floodingDelegate.inverse().replaceAll(function);
+      BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+      clear();
+      for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
+        put(entry.value, function.apply(entry.value, entry.key));
       }
     }
 
@@ -839,12 +748,4 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @GwtIncompatible // Not needed in emulated source
   private static final long serialVersionUID = 0;
-
-  static final class JdkBackedHashBiMap<K, V> extends AbstractBiMap<K, V> {
-    JdkBackedHashBiMap(int expectedSize) {
-      super(
-          Maps.newLinkedHashMapWithExpectedSize(expectedSize),
-          Maps.newHashMapWithExpectedSize(expectedSize));
-    }
-  }
 }

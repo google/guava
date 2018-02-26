@@ -68,6 +68,11 @@ public void testInverseInsertionOrderAfterInverse() throws Exception {
   testCase.testInverseInsertionOrderAfterInverse();
 }
 
+public void testInverseInsertionOrderAfterInverseForcePut() throws Exception {
+  com.google.common.collect.HashBiMapTest testCase = new com.google.common.collect.HashBiMapTest();
+  testCase.testInverseInsertionOrderAfterInverseForcePut();
+}
+
 public void testInverseInsertionOrderAfterInverseForcePutPresentKey() throws Exception {
   com.google.common.collect.HashBiMapTest testCase = new com.google.common.collect.HashBiMapTest();
   testCase.testInverseInsertionOrderAfterInverseForcePutPresentKey();
