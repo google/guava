@@ -19,6 +19,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.charactersOf;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
@@ -176,12 +177,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirstIterable_javadocExample_canBeIteratedMultipleTimes() {
+    Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).breadthFirst(charactersOf("bf"));
+
+    assertEqualCharNodes(result, "bfaecd");
+    assertEqualCharNodes(result, "bfaecd");
+  }
+
+  @Test
   public void forGraph_breadthFirst_diamond() {
     Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
     assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
     assertEqualCharNodes(traverser.breadthFirst('b'), "bd");
     assertEqualCharNodes(traverser.breadthFirst('c'), "cd");
     assertEqualCharNodes(traverser.breadthFirst('d'), "d");
+  }
+
+  @Test
+  public void forGraph_breadthFirstIterable_diamond() {
+    Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("")), "");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bc")), "bcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("acdb")), "acdb");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("db")), "db");
   }
 
   @Test
@@ -194,12 +213,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirstIterable_multiGraph() {
+    Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("ac")), "acbd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("cb")), "cbad");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("db")), "db");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("d")), "d");
+  }
+
+  @Test
   public void forGraph_breadthFirst_cycle() {
     Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
     assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
     assertEqualCharNodes(traverser.breadthFirst('b'), "bcda");
     assertEqualCharNodes(traverser.breadthFirst('c'), "cdab");
     assertEqualCharNodes(traverser.breadthFirst('d'), "dabc");
+  }
+
+  @Test
+  public void forGraph_breadthFirstIterable_cycle() {
+    Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bd")), "bdca");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("dc")), "dcab");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bc")), "bcda");
   }
 
   @Test
@@ -212,12 +249,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirstIterable_twoCycles() {
+    Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bd")), "bdca");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("dc")), "dcab");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bc")), "bcda");
+  }
+
+  @Test
   public void forGraph_breadthFirst_tree() throws Exception {
     Traverser<Character> traverser = Traverser.forGraph(TREE);
 
     assertEqualCharNodes(traverser.breadthFirst('h'), "hdegabcf");
     assertEqualCharNodes(traverser.breadthFirst('d'), "dabc");
     assertEqualCharNodes(traverser.breadthFirst('a'), "a");
+  }
+
+  @Test
+  public void forGraph_breadthFirstIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("hg")), "hgdefabc");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("gd")), "gdfabc");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bdgh")), "bdghacfe");
   }
 
   @Test
@@ -228,8 +283,21 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirstIterable_twoTrees() {
+    assertEqualCharNodes(Traverser.forGraph(TWO_TREES).breadthFirst(charactersOf("a")), "ab");
+    assertEqualCharNodes(Traverser.forGraph(TWO_TREES).breadthFirst(charactersOf("ac")), "acbd");
+  }
+
+  @Test
   public void forGraph_breadthFirst_singleRoot() {
     Iterable<Character> result = Traverser.forGraph(SINGLE_ROOT).breadthFirst('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
+  public void forGraph_breadthFirstIterable_singleRoot() {
+    Iterable<Character> result = Traverser.forGraph(SINGLE_ROOT).breadthFirst(charactersOf("a"));
 
     assertEqualCharNodes(result, "a");
   }
@@ -238,6 +306,21 @@ public class TraverserTest {
   public void forGraph_breadthFirst_emptyGraph() {
     try {
       Traverser.forGraph(createDirectedGraph()).breadthFirst('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  /**
+   * Checks that the elements of the iterable are calculated on the fly. Concretely, that means that
+   * {@link SuccessorsFunction#successors(Object)} can only be called for a subset of all nodes.
+   */
+  @Test
+  public void forGraph_breadthFirstIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forGraph(createDirectedGraph()).breadthFirst(charactersOf("")), "");
+    try {
+      Traverser.forGraph(createDirectedGraph()).breadthFirst(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -261,11 +344,33 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_breadthFirstIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).breadthFirst(charactersOf("ab"));
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'b');
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_javadocExample_canBeIteratedMultipleTimes() {
     Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).depthFirstPreOrder('a');
 
     assertEqualCharNodes(result, "abecfd");
     assertEqualCharNodes(result, "abecfd");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrderIterable_javadocExample_canBeIteratedMultipleTimes() {
+    Iterable<Character> result =
+        Traverser.forGraph(JAVADOC_GRAPH).depthFirstPreOrder(charactersOf("bc"));
+
+    assertEqualCharNodes(result, "bacefd");
+    assertEqualCharNodes(result, "bacefd");
   }
 
   @Test
@@ -278,12 +383,31 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrderIterable_diamond() {
+    Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("")), "");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bc")), "bdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "abdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("acdb")), "abdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("db")), "db");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_multigraph() {
     Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
     assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abdc");
     assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bd");
     assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cabd");
     assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrderIterable_multigraph() {
+    Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("ac")), "abdc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("cb")), "cabd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("db")), "db");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("d")), "d");
   }
 
   @Test
@@ -296,12 +420,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrderIterable_cycle() {
+    Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bd")), "bcda");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("dc")), "dabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bc")), "bcda");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_twoCycles() {
     Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
     assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
     assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcda");
     assertEqualCharNodes(traverser.depthFirstPreOrder('c'), "cdab");
     assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrderIterable_twoCycles() {
+    Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bd")), "bcda");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("dc")), "dabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bc")), "bcda");
   }
 
   @Test
@@ -314,10 +456,26 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrderIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("hg")), "hdabcegf");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("gd")), "gfdabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bdgh")), "bdacgfhe");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_twoTrees() {
     Iterable<Character> result = Traverser.forGraph(TWO_TREES).depthFirstPreOrder('a');
 
     assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrderIterable_twoTrees() {
+    assertEqualCharNodes(Traverser.forGraph(TWO_TREES).depthFirstPreOrder(charactersOf("a")), "ab");
+    assertEqualCharNodes(
+        Traverser.forGraph(TWO_TREES).depthFirstPreOrder(charactersOf("ac")), "abcd");
   }
 
   @Test
@@ -328,9 +486,28 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrderIterable_singleRoot() {
+    Iterable<Character> result =
+        Traverser.forGraph(SINGLE_ROOT).depthFirstPreOrder(charactersOf("a"));
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forGraph_depthFirstPreOrder_emptyGraph() {
     try {
       Traverser.forGraph(createDirectedGraph()).depthFirstPreOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forGraph_depthFirstPreOrderIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forGraph(createDirectedGraph()).depthFirstPreOrder(charactersOf("")), "");
+    try {
+      Traverser.forGraph(createDirectedGraph()).depthFirstPreOrder(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -350,10 +527,31 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPreOrderIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder(charactersOf("ac"));
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'c', 'd');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'c', 'd', 'd');
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_javadocExample_canBeIteratedMultipleTimes() {
     Iterable<Character> result = Traverser.forGraph(JAVADOC_GRAPH).depthFirstPostOrder('a');
     assertEqualCharNodes(result, "fcebda");
     assertEqualCharNodes(result, "fcebda");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_javadocExample_canBeIteratedMultipleTimes() {
+    Iterable<Character> result =
+        Traverser.forGraph(JAVADOC_GRAPH).depthFirstPostOrder(charactersOf("bf"));
+    assertEqualCharNodes(result, "efcdab");
+    assertEqualCharNodes(result, "efcdab");
   }
 
   @Test
@@ -366,12 +564,31 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrderIterable_diamond() {
+    Traverser<Character> traverser = Traverser.forGraph(DIAMOND_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("")), "");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bc")), "dbc");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("a")), "dbca");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("acdb")), "dbca");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("db")), "db");
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_multigraph() {
     Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
     assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dbca");
     assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "db");
     assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "dbac");
     assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_multigraph() {
+    Traverser<Character> traverser = Traverser.forGraph(MULTI_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("ac")), "dbca");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("cb")), "dbac");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("db")), "db");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("d")), "d");
   }
 
   @Test
@@ -384,12 +601,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrderIterable_cycle() {
+    Traverser<Character> traverser = Traverser.forGraph(CYCLE_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("a")), "dcba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bd")), "adcb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("dc")), "cbad");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bc")), "adcb");
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_twoCycles() {
     Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
     assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "dcba");
     assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "adcb");
     assertEqualCharNodes(traverser.depthFirstPostOrder('c'), "badc");
     assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "cbad");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_twoCycles() {
+    Traverser<Character> traverser = Traverser.forGraph(TWO_CYCLES_GRAPH);
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("a")), "dcba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bd")), "adcb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("dc")), "cbad");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bc")), "adcb");
   }
 
   @Test
@@ -402,10 +637,27 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrderIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forGraph(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("hg")), "abcdefgh");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("gd")), "fgabcd");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bdgh")), "bacdfgeh");
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_twoTrees() {
     Iterable<Character> result = Traverser.forGraph(TWO_TREES).depthFirstPostOrder('a');
 
     assertEqualCharNodes(result, "ba");
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_twoTrees() {
+    assertEqualCharNodes(
+        Traverser.forGraph(TWO_TREES).depthFirstPostOrder(charactersOf("a")), "ba");
+    assertEqualCharNodes(
+        Traverser.forGraph(TWO_TREES).depthFirstPostOrder(charactersOf("ac")), "badc");
   }
 
   @Test
@@ -416,9 +668,28 @@ public class TraverserTest {
   }
 
   @Test
+  public void forGraph_depthFirstPostOrderIterable_singleRoot() {
+    Iterable<Character> result =
+        Traverser.forGraph(SINGLE_ROOT).depthFirstPostOrder(charactersOf("a"));
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forGraph_depthFirstPostOrder_emptyGraph() {
     try {
       Traverser.forGraph(createDirectedGraph()).depthFirstPostOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forGraph(createDirectedGraph()).depthFirstPostOrder(charactersOf("")), "");
+    try {
+      Traverser.forGraph(createDirectedGraph()).depthFirstPostOrder(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -435,6 +706,19 @@ public class TraverserTest {
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "db");
     assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'd', 'd');
+  }
+
+  @Test
+  public void forGraph_depthFirstPostOrderIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(DIAMOND_GRAPH);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder(charactersOf("ac"));
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "db");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'c', 'd');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "db");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'a', 'b', 'b', 'c', 'd', 'd');
   }
 
   @Test
@@ -510,12 +794,31 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirstIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("")), "");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("h")), "hdegabcf");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("gd")), "gdfabc");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("age")), "agef");
+  }
+
+  @Test
   public void forTree_breadthFirst_cyclicGraphContainingTree() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
 
     assertEqualCharNodes(traverser.breadthFirst('a'), "abcd");
     assertEqualCharNodes(traverser.breadthFirst('b'), "bcd");
     assertEqualCharNodes(traverser.breadthFirst('d'), "d");
+  }
+
+  @Test
+  public void forTree_breadthFirstIterable_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("b")), "bcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("cd")), "cd");
   }
 
   @Test
@@ -528,10 +831,25 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirstIterable_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("bg")), "bgcdh");
+    assertEqualCharNodes(traverser.breadthFirst(charactersOf("ga")), "gahbcd");
+  }
+
+  @Test
   public void forTree_breadthFirst_twoTrees() {
     Iterable<Character> result = Traverser.forTree(TWO_TREES).breadthFirst('a');
 
     assertEqualCharNodes(result, "ab");
+  }
+
+  @Test
+  public void forTree_breadthFirstIterable_twoTrees() {
+    assertEqualCharNodes(Traverser.forTree(TWO_TREES).breadthFirst(charactersOf("a")), "ab");
+    assertEqualCharNodes(Traverser.forTree(TWO_TREES).breadthFirst(charactersOf("ca")), "cadb");
   }
 
   @Test
@@ -542,9 +860,27 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_breadthFirstIterable_singleRoot() {
+    Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).breadthFirst(charactersOf("a"));
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
   public void forTree_breadthFirst_emptyGraph() {
     try {
       Traverser.forTree(createDirectedGraph()).breadthFirst('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forTree_breadthFirstIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forTree(createDirectedGraph()).breadthFirst(charactersOf("")), "");
+    try {
+      Traverser.forTree(createDirectedGraph()).breadthFirst(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -564,12 +900,35 @@ public class TraverserTest {
   }
 
   @Test
-  public void forTree_depthFirstPreOrder_tree() throws Exception {
+  public void forTree_breadthFirstIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).breadthFirst(charactersOf("dg"));
+
+    assertEqualCharNodes(Iterables.limit(result, 3), "dga");
+    assertThat(graph.requestedNodes).containsExactly('a', 'd', 'd', 'g', 'g');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 3), "dga");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'd', 'd', 'd', 'g', 'g', 'g');
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrderIterable_tree() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(TREE);
 
-    assertEqualCharNodes(traverser.depthFirstPreOrder('h'), "hdabcegf");
-    assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "dabc");
-    assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "a");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("h")), "hdabcegf");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("d")), "dabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrderIterableIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("")), "");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("h")), "hdabcegf");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("gd")), "gfdabc");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("age")), "agfe");
   }
 
   @Test
@@ -582,12 +941,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrderIterable_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("b")), "bcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("cd")), "cd");
+  }
+
+  @Test
   public void forTree_depthFirstPreOrder_graphContainingTreeAndDiamond() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
 
     assertEqualCharNodes(traverser.depthFirstPreOrder('a'), "abcd");
     assertEqualCharNodes(traverser.depthFirstPreOrder('b'), "bcd");
     assertEqualCharNodes(traverser.depthFirstPreOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrderIterable_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("a")), "abcd");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("bg")), "bcdgh");
+    assertEqualCharNodes(traverser.depthFirstPreOrder(charactersOf("ga")), "ghabcd");
   }
 
   @Test
@@ -598,8 +975,23 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrderIterable_twoTrees() {
+    assertEqualCharNodes(Traverser.forTree(TWO_TREES).depthFirstPreOrder(charactersOf("a")), "ab");
+    assertEqualCharNodes(
+        Traverser.forTree(TWO_TREES).depthFirstPreOrder(charactersOf("ca")), "cdab");
+  }
+
+  @Test
   public void forTree_depthFirstPreOrder_singleRoot() {
     Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).depthFirstPreOrder('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrderIterable_singleRoot() {
+    Iterable<Character> result =
+        Traverser.forTree(SINGLE_ROOT).depthFirstPreOrder(charactersOf("a"));
 
     assertEqualCharNodes(result, "a");
   }
@@ -608,6 +1000,17 @@ public class TraverserTest {
   public void forTree_depthFirstPreOrder_emptyGraph() {
     try {
       Traverser.forTree(createDirectedGraph()).depthFirstPreOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forTree_depthFirstPreOrderIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forTree(createDirectedGraph()).depthFirstPreOrder(charactersOf("")), "");
+    try {
+      Traverser.forTree(createDirectedGraph()).depthFirstPreOrder(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -627,12 +1030,35 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPreOrderIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPreOrder(charactersOf("dg"));
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "da");
+    assertThat(graph.requestedNodes).containsExactly('a', 'd', 'd', 'g');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "da");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'd', 'd', 'd', 'g');
+  }
+
+  @Test
   public void forTree_depthFirstPostOrder_tree() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(TREE);
 
     assertEqualCharNodes(traverser.depthFirstPostOrder('h'), "abcdefgh");
     assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "abcd");
     assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrderIterable_tree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("")), "");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("h")), "abcdefgh");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("gd")), "fgabcd");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("age")), "afge");
   }
 
   @Test
@@ -645,12 +1071,30 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPostOrderIterable_cyclicGraphContainingTree() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(CYCLIC_GRAPH_CONTAINING_TREE);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("a")), "cdba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("b")), "cdb");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("cd")), "cd");
+  }
+
+  @Test
   public void forTree_depthFirstPostOrder_graphContainingTreeAndDiamond() throws Exception {
     Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
 
     assertEqualCharNodes(traverser.depthFirstPostOrder('a'), "cdba");
     assertEqualCharNodes(traverser.depthFirstPostOrder('b'), "cdb");
     assertEqualCharNodes(traverser.depthFirstPostOrder('d'), "d");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrderIterable_graphContainingTreeAndDiamond() throws Exception {
+    Traverser<Character> traverser = Traverser.forTree(GRAPH_CONTAINING_TREE_AND_DIAMOND);
+
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("a")), "cdba");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("bg")), "cdbhg");
+    assertEqualCharNodes(traverser.depthFirstPostOrder(charactersOf("ga")), "hgcdba");
   }
 
   @Test
@@ -661,8 +1105,23 @@ public class TraverserTest {
   }
 
   @Test
+  public void forTree_depthFirstPostOrderIterable_twoTrees() {
+    assertEqualCharNodes(Traverser.forTree(TWO_TREES).depthFirstPostOrder(charactersOf("a")), "ba");
+    assertEqualCharNodes(
+        Traverser.forTree(TWO_TREES).depthFirstPostOrder(charactersOf("ca")), "dcba");
+  }
+
+  @Test
   public void forTree_depthFirstPostOrder_singleRoot() {
     Iterable<Character> result = Traverser.forTree(SINGLE_ROOT).depthFirstPostOrder('a');
+
+    assertEqualCharNodes(result, "a");
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrderIterable_singleRoot() {
+    Iterable<Character> result =
+        Traverser.forTree(SINGLE_ROOT).depthFirstPostOrder(charactersOf("a"));
 
     assertEqualCharNodes(result, "a");
   }
@@ -671,6 +1130,17 @@ public class TraverserTest {
   public void forTree_depthFirstPostOrder_emptyGraph() {
     try {
       Traverser.forTree(createDirectedGraph()).depthFirstPostOrder('a');
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrderIterable_emptyGraph() {
+    assertEqualCharNodes(
+        Traverser.forTree(createDirectedGraph()).depthFirstPostOrder(charactersOf("")), "");
+    try {
+      Traverser.forTree(createDirectedGraph()).depthFirstPostOrder(charactersOf("a"));
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }
@@ -687,6 +1157,19 @@ public class TraverserTest {
     // Iterate again to see if calculation is done again
     assertEqualCharNodes(Iterables.limit(result, 2), "ab");
     assertThat(graph.requestedNodes).containsExactly('h', 'h', 'h', 'd', 'd', 'a', 'a', 'b', 'b');
+  }
+
+  @Test
+  public void forTree_depthFirstPostOrderIterable_iterableIsLazy() {
+    RequestSavingGraph graph = new RequestSavingGraph(TREE);
+    Iterable<Character> result = Traverser.forGraph(graph).depthFirstPostOrder(charactersOf("dg"));
+
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'b', 'd', 'd', 'g');
+
+    // Iterate again to see if calculation is done again
+    assertEqualCharNodes(Iterables.limit(result, 2), "ab");
+    assertThat(graph.requestedNodes).containsExactly('a', 'a', 'b', 'b', 'd', 'd', 'd', 'g');
   }
 
   private static SuccessorsFunction<Character> createDirectedGraph(String... edges) {
