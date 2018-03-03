@@ -1474,9 +1474,10 @@ public class TypeTokenTest extends TestCase {
 
   public void testWildcardCaptured_methodParameter_upperBound() throws Exception {
     TypeToken<Holder<?>> type = new TypeToken<Holder<?>>() {};
-    TypeToken<?> parameterType =
-        type.resolveType(
-            Holder.class.getDeclaredMethod("setList", List.class).getGenericParameterTypes()[0]);
+    ImmutableList<Parameter> parameters =
+        type.method(Holder.class.getDeclaredMethod("setList", List.class)).getParameters();
+    assertThat(parameters).hasSize(1);
+    TypeToken<?> parameterType = parameters.get(0).getType();
     assertEquals(List.class, parameterType.getRawType());
     assertFalse(
         parameterType.getType().toString(),
@@ -1493,9 +1494,10 @@ public class TypeTokenTest extends TestCase {
 
   public void testWildcardCaptured_wildcardWithImplicitBound() throws Exception {
     TypeToken<Holder<?>> type = new TypeToken<Holder<?>>() {};
-    TypeToken<?> parameterType =
-        type.resolveType(
-            Holder.class.getDeclaredMethod("setList", List.class).getGenericParameterTypes()[0]);
+    ImmutableList<Parameter> parameters =
+        type.method(Holder.class.getDeclaredMethod("setList", List.class)).getParameters();
+    assertThat(parameters).hasSize(1);
+    TypeToken<?> parameterType = parameters.get(0).getType();
     Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
     assertThat(typeArgs).asList().hasSize(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
@@ -1505,9 +1507,10 @@ public class TypeTokenTest extends TestCase {
 
   public void testWildcardCaptured_wildcardWithExplicitBound() throws Exception {
     TypeToken<Holder<? extends Number>> type = new TypeToken<Holder<? extends Number>>() {};
-    TypeToken<?> parameterType =
-        type.resolveType(
-            Holder.class.getDeclaredMethod("setList", List.class).getGenericParameterTypes()[0]);
+    ImmutableList<Parameter> parameters =
+        type.method(Holder.class.getDeclaredMethod("setList", List.class)).getParameters();
+    assertThat(parameters).hasSize(1);
+    TypeToken<?> parameterType = parameters.get(0).getType();
     Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
     assertThat(typeArgs).asList().hasSize(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];

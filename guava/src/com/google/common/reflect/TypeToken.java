@@ -40,8 +40,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
@@ -101,8 +103,11 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private final Type runtimeType;
 
-  /** Resolver for resolving types with {@link #runtimeType} as context. */
-  @MonotonicNonNullDecl private transient TypeResolver typeResolver;
+  /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */
+  @MonotonicNonNullDecl private transient TypeResolver invariantTypeResolver;
+
+  /** Resolver for resolving covariant types with {@link #runtimeType} as context. */
+  @MonotonicNonNullDecl private transient TypeResolver covariantTypeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
@@ -152,7 +157,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     if (captured instanceof Class) {
       this.runtimeType = captured;
     } else {
-      this.runtimeType = of(declaringClass).resolveType(captured).runtimeType;
+      this.runtimeType = TypeResolver.covariantly(declaringClass).resolveType(captured);
     }
   }
 
@@ -259,24 +264,16 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   public final TypeToken<?> resolveType(Type type) {
     checkNotNull(type);
-    TypeResolver resolver = typeResolver;
-    if (resolver == null) {
-      resolver = (typeResolver = TypeResolver.accordingTo(runtimeType));
-    }
-    return of(resolver.resolveType(type));
-  }
-
-  private Type[] resolveInPlace(Type[] types) {
-    for (int i = 0; i < types.length; i++) {
-      types[i] = resolveType(types[i]).getType();
-    }
-    return types;
+    // Being conservative here because the user could use resolveType() to resolve a type in an
+    // invariant context.
+    return of(getInvariantTypeResolver().resolveType(type));
   }
 
   private TypeToken<?> resolveSupertype(Type type) {
-    TypeToken<?> supertype = resolveType(type);
+    TypeToken<?> supertype = of(getCovariantTypeResolver().resolveType(type));
     // super types' type mapping is a subset of type mapping of this type.
-    supertype.typeResolver = typeResolver;
+    supertype.covariantTypeResolver = covariantTypeResolver;
+    supertype.invariantTypeResolver = invariantTypeResolver;
     return supertype;
   }
 
@@ -585,17 +582,17 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return new Invokable.MethodInvokable<T>(method) {
       @Override
       Type getGenericReturnType() {
-        return resolveType(super.getGenericReturnType()).getType();
+        return getCovariantTypeResolver().resolveType(super.getGenericReturnType());
       }
 
       @Override
       Type[] getGenericParameterTypes() {
-        return resolveInPlace(super.getGenericParameterTypes());
+        return getInvariantTypeResolver().resolveTypesInPlace(super.getGenericParameterTypes());
       }
 
       @Override
       Type[] getGenericExceptionTypes() {
-        return resolveInPlace(super.getGenericExceptionTypes());
+        return getCovariantTypeResolver().resolveTypesInPlace(super.getGenericExceptionTypes());
       }
 
       @Override
@@ -624,17 +621,17 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return new Invokable.ConstructorInvokable<T>(constructor) {
       @Override
       Type getGenericReturnType() {
-        return resolveType(super.getGenericReturnType()).getType();
+        return getCovariantTypeResolver().resolveType(super.getGenericReturnType());
       }
 
       @Override
       Type[] getGenericParameterTypes() {
-        return resolveInPlace(super.getGenericParameterTypes());
+        return getInvariantTypeResolver().resolveTypesInPlace(super.getGenericParameterTypes());
       }
 
       @Override
       Type[] getGenericExceptionTypes() {
-        return resolveInPlace(super.getGenericExceptionTypes());
+        return getCovariantTypeResolver().resolveTypesInPlace(super.getGenericExceptionTypes());
       }
 
       @Override
@@ -893,17 +890,15 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     if (!someRawTypeIsSubclassOf(matchedClass)) {
       return false;
     }
-    Type[] typeParams = matchedClass.getTypeParameters();
-    Type[] toTypeArgs = supertype.getActualTypeArguments();
-    for (int i = 0; i < typeParams.length; i++) {
+    TypeVariable<?>[] typeVars = matchedClass.getTypeParameters();
+    Type[] supertypeArgs = supertype.getActualTypeArguments();
+    for (int i = 0; i < typeVars.length; i++) {
+      Type subtypeParam = getCovariantTypeResolver().resolveType(typeVars[i]);
       // If 'supertype' is "List<? extends CharSequence>"
       // and 'this' is StringArrayList,
-      // First step is to figure out StringArrayList "is-a" List<E> and <E> is
-      // String.
-      // typeParams[0] is E and fromTypeToken.get(typeParams[0]) will resolve to
-      // String.
-      // String is then matched against <? extends CharSequence>.
-      if (!resolveType(typeParams[i]).is(toTypeArgs[i])) {
+      // First step is to figure out StringArrayList "is-a" List<E> where <E> = String.
+      // String is then matched against <? extends CharSequence>, the supertypeArgs[0].
+      if (!of(subtypeParam).is(supertypeArgs[i], typeVars[i])) {
         return false;
       }
     }
@@ -947,28 +942,106 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   /**
-   * Return true if any of the following conditions is met:
+   * {@code A.is(B)} is defined as {@code Foo<A>.isSubtypeOf(Foo<B>)}.
    *
-   * <ul>
-   *   <li>'this' and {@code formalType} are equal
-   *   <li>{@code formalType} is {@code <? extends Foo>} and 'this' is a subtype of {@code Foo}
-   *   <li>{@code formalType} is {@code <? super Foo>} and 'this' is a supertype of {@code Foo}
-   * </ul>
+   * <p>Specifically, returns true if any of the following conditions is met:
+   * <ol>
+   *   <li>'this' and {@code formalType} are equal.
+   *   <li>'this' and {@code formalType} have equal canonical form.
+   *   <li>{@code formalType} is {@code <? extends Foo>} and 'this' is a subtype of {@code Foo}.
+   *   <li>{@code formalType} is {@code <? super Foo>} and 'this' is a supertype of {@code Foo}.
+   * </ol>
+   * Note that condition 2 isn't technically accurate under the context of a recursively
+   * bounded type variables. For example, {@code Enum<? extends Enum<E>>} canonicalizes to
+   * {@code Enum<?>} where {@code E} is the type variable declared on the {@code Enum} class
+   * declaration. It's technically <em>not</em> true that {@code Foo<Enum<? extends Enum<E>>>} is a
+   * subtype of {@code Foo<Enum<?>>} according to JLS. See testRecursiveWildcardSubtypeBug() for
+   * a real example.
+   *
+   * <p>It appears that properly handling recursive type bounds in the presence of implicit type
+   * bounds is not easy. For now we punt, hoping that this defect should rarely cause issues in real
+   * code.
+   *
+   * @param formalType is {@code Foo<formalType>} a supertype of {@code Foo<T>}?
+   * @param declaration The type variable in the context of a parameterized type. Used to infer
+   *        type bound when {@code formalType} is a wildcard with implicit upper bound.
    */
-  private boolean is(Type formalType) {
+  private boolean is(Type formalType, TypeVariable<?> declaration) {
     if (runtimeType.equals(formalType)) {
       return true;
     }
     if (formalType instanceof WildcardType) {
+      WildcardType your = canonicalizeWildcardType(declaration, (WildcardType) formalType);
       // if "formalType" is <? extends Foo>, "this" can be:
       // Foo, SubFoo, <? extends Foo>, <? extends SubFoo>, <T extends Foo> or
       // <T extends SubFoo>.
       // if "formalType" is <? super Foo>, "this" can be:
       // Foo, SuperFoo, <? super Foo> or <? super SuperFoo>.
-      return every(((WildcardType) formalType).getUpperBounds()).isSupertypeOf(runtimeType)
-          && every(((WildcardType) formalType).getLowerBounds()).isSubtypeOf(runtimeType);
+      return every(your.getUpperBounds()).isSupertypeOf(runtimeType)
+          && every(your.getLowerBounds()).isSubtypeOf(runtimeType);
     }
-    return false;
+    return canonicalizeWildcardsInType(runtimeType)
+        .equals(canonicalizeWildcardsInType(formalType));
+  }
+
+  /**
+   * In reflection, {@code Foo<?>.getUpperBounds()[0]} is always {@code Object.class}, even when Foo
+   * is defined as {@code Foo<T extends String>}. Thus directly calling {@code <?>.is(String.class)}
+   * will return false. To mitigate, we canonicalize wildcards by enforcing the following
+   * invariants:
+   * <ol>
+   * <li>{@code canonicalize(t)} always produces the equal result for equivalent types. For example
+   *     both {@code Enum<?>} and {@code Enum<? extends Enum<?>>} canonicalize to
+   *     {@code Enum<? extends Enum<E>}.
+   * <li>{@code canonicalize(t)} produces a "literal" supertype of t.
+   *     For example: {@code Enum<? extends Enum<?>>} canonicalizes to {@code Enum<?>}, which is
+   *     a supertype (if we disregard the upper bound is implicitly an Enum too).
+   * <li>If {@code canonicalize(A) == canonicalize(B)}, then {@code Foo<A>.isSubtypeOf(Foo<B>)} and
+   *     vice versa. i.e. {@code A.is(B)} and {@code B.is(A)}.
+   * <li>{@code canonicalize(canonicalize(A)) == canonicalize(A)}.
+   * </ol>
+   */
+  private static Type canonicalizeTypeArg(TypeVariable<?> declaration, Type typeArg) {
+    return typeArg instanceof WildcardType
+        ? canonicalizeWildcardType(declaration, ((WildcardType) typeArg))
+        : canonicalizeWildcardsInType(typeArg);
+  }
+
+  private static Type canonicalizeWildcardsInType(Type type) {
+    if (type instanceof ParameterizedType) {
+      return canonicalizeWildcardsInParameterizedType((ParameterizedType) type);
+    }
+    if (type instanceof GenericArrayType) {
+      return Types.newArrayType(
+          canonicalizeWildcardsInType(((GenericArrayType) type).getGenericComponentType()));
+    }
+    return type;
+  }
+
+  // WARNING: the returned type may have empty upper bounds, which may violate common expectations
+  // by user code or even some of our own code. It's fine for the purpose of checking subtypes.
+  // Just don't ever let the user access it.
+  private static WildcardType canonicalizeWildcardType(
+      TypeVariable<?> declaration, WildcardType type) {
+    Type[] declared = declaration.getBounds();
+    List<Type> upperBounds = new ArrayList<>();
+    for (Type bound : type.getUpperBounds()) {
+      if (!any(declared).isSubtypeOf(bound)) {
+        upperBounds.add(canonicalizeWildcardsInType(bound));
+      }
+    }
+    return new Types.WildcardTypeImpl(type.getLowerBounds(), upperBounds.toArray(new Type[0]));
+  }
+
+  private static ParameterizedType canonicalizeWildcardsInParameterizedType(
+      ParameterizedType type) {
+    Class<?> rawType = (Class<?>) type.getRawType();
+    TypeVariable<?>[] typeVars = rawType.getTypeParameters();
+    Type[] typeArgs = type.getActualTypeArguments();
+    for (int i = 0; i < typeArgs.length; i++) {
+      typeArgs[i] = canonicalizeTypeArg(typeVars[i], typeArgs[i]);
+    }
+    return Types.newParameterizedTypeWithOwner(type.getOwnerType(), rawType, typeArgs);
   }
 
   private static Bounds every(Type[] bounds) {
@@ -1102,6 +1175,22 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     } else {
       return of(cls);
     }
+  }
+
+  private TypeResolver getCovariantTypeResolver() {
+    TypeResolver resolver = covariantTypeResolver;
+    if (resolver == null) {
+      resolver = (covariantTypeResolver = TypeResolver.covariantly(runtimeType));
+    }
+    return resolver;
+  }
+
+  private TypeResolver getInvariantTypeResolver() {
+    TypeResolver resolver = invariantTypeResolver;
+    if (resolver == null) {
+      resolver = (invariantTypeResolver = TypeResolver.invariantly(runtimeType));
+    }
+    return resolver;
   }
 
   private TypeToken<? super T> getSupertypeFromUpperBounds(

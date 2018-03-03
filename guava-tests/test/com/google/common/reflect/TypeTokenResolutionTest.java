@@ -123,7 +123,7 @@ public class TypeTokenResolutionTest extends TestCase {
     @SuppressWarnings("rawtypes") // trying to test raw type
     Parameterized<?, ?, ?> parameterized =
         new Parameterized<TypeTokenResolutionTest, Bar, String>() {};
-    TypeResolver typeResolver = TypeResolver.accordingTo(parameterized.getClass());
+    TypeResolver typeResolver = TypeResolver.covariantly(parameterized.getClass());
     ParameterizedType resolved =
         (ParameterizedType) typeResolver.resolveType(parameterized.parameterizedType());
     assertEquals(TypeTokenResolutionTest.class, resolved.getOwnerType());
