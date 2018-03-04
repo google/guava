@@ -422,6 +422,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     Type resolvedTypeArgs = resolveTypeArgsForSubclass(subclass);
     @SuppressWarnings("unchecked") // guarded by the isAssignableFrom() statement above
     TypeToken<? extends T> subtype = (TypeToken<? extends T>) of(resolvedTypeArgs);
+    checkArgument(
+        subtype.isSubtypeOf(this), "%s does not appear to be a subtype of %s", subtype, this);
     return subtype;
   }
 

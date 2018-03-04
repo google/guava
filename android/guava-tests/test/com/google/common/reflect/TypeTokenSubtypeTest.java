@@ -87,6 +87,15 @@ public class TypeTokenSubtypeTest extends TestCase {
             .isSubtypeOf(superclass));
   }
 
+  public void testGetSubtypeOf_impossibleWildcard() {
+    TypeToken<List<? extends Number>> numberList = new TypeToken<List<? extends Number>>() {};
+    abstract class StringList implements List<String> {}
+    try {
+      numberList.getSubtype(StringList.class);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
   private static class OwnerTypeSubtypingTests extends SubtypeTester {
     @TestSubtype
     public Mall<Outdoor>.Shop<Electronics> innerTypeIsSubtype(
