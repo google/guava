@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":9,"i4":9};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":9,"i7":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -114,9 +114,31 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public abstract class <a href="../../../../src-html/com/google/common/graph/Traverser.html#line.42">Traverser</a>&lt;N&gt;
+public abstract class <a href="../../../../src-html/com/google/common/graph/Traverser.html#line.66">Traverser</a>&lt;N&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">Provides methods for traversing a graph.</div>
+<div class="block">An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
+ using a specified <a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph"><code>SuccessorsFunction</code></a>.
+
+ <p>There are two entry points for creating a <code>Traverser</code>: <a href="../../../../com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>forTree(SuccessorsFunction)</code></a> and <a href="../../../../com/google/common/graph/Traverser.html#forGraph-com.google.common.graph.SuccessorsFunction-"><code>forGraph(SuccessorsFunction)</code></a>. You should choose one
+ based on your answers to the following questions:
+
+ <ol>
+   <li>Is there only one path to any node that's reachable from any start node? (If so, the
+       graph to be traversed is a tree or forest even if it is a subgraph of a graph which is
+       neither.)
+   <li>Are the node objects' implementations of <code>equals()</code>/<code>hashCode()</code> <a
+       href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursive</a>?
+ </ol>
+
+ <p>If your answers are:
+
+ <ul>
+   <li>(1) "no" and (2) "no", use <a href="../../../../com/google/common/graph/Traverser.html#forGraph-com.google.common.graph.SuccessorsFunction-"><code>forGraph(SuccessorsFunction)</code></a>.
+   <li>(1) "yes" and (2) "yes", use <a href="../../../../com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>forTree(SuccessorsFunction)</code></a>.
+   <li>(1) "yes" and (2) "no", you can use either, but <code>forTree()</code> will be more efficient.
+   <li>(1) "no" and (2) "yes", <b><i>neither will work</i></b>, but if you transform your node
+       objects into a non-recursive form, you can use <code>forGraph()</code>.
+ </ul></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.1</dd>
@@ -143,36 +165,55 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#breadthFirst-java.lang.Iterable-">breadthFirst</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</code>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a breadth-first traversal.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#breadthFirst-N-">breadthFirst</a></span>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</code>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a breadth-first traversal.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPostOrder-java.lang.Iterable-">depthFirstPostOrder</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</code>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a depth-first post-order traversal.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPostOrder-N-">depthFirstPostOrder</a></span>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</code>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a depth-first post-order traversal.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPreOrder-java.lang.Iterable-">depthFirstPreOrder</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</code>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a depth-first pre-order traversal.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPreOrder-N-">depthFirstPreOrder</a></span>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</code>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a depth-first pre-order traversal.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#forGraph-com.google.common.graph.SuccessorsFunction-">forGraph</a></span>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;graph)</code>
 <div class="block">Creates a new traverser for the given general <code>graph</code>.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static &lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-">forTree</a></span>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;tree)</code>
 <div class="block">Creates a new traverser for a directed acyclic graph that has at most one path from the start
- node to any node reachable from the start node, such as a tree.</div>
+ node(s) to any node reachable from the start node(s), and has no paths from any start node to
+ any other start node, such as a tree or forest.</div>
 </td>
 </tr>
 </table>
@@ -203,17 +244,23 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forGraph</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.63">forGraph</a>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.92">forGraph</a>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Creates a new traverser for the given general <code>graph</code>.
 
- <p>If <code>graph</code> is known to be tree-shaped, consider using <a href="../../../../com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>forTree(SuccessorsFunction)</code></a> instead.
+ <p>Traversers created using this method are guaranteed to visit each node reachable from the
+ start node(s) at most once.
+
+ <p>If you know that no node in <code>graph</code> is reachable by more than one path from the start
+ node(s), consider using <a href="../../../../com/google/common/graph/Traverser.html#forTree-com.google.common.graph.SuccessorsFunction-"><code>forTree(SuccessorsFunction)</code></a> instead.
 
  <p><b>Performance notes</b>
 
  <ul>
    <li>Traversals require <i>O(n)</i> time (where <i>n</i> is the number of nodes reachable from
        the start node), assuming that the node objects have <i>O(1)</i> <code>equals()</code> and
-       <code>hashCode()</code> implementations.
+       <code>hashCode()</code> implementations. (See the <a
+       href="https://github.com/google/guava/wiki/GraphsExplained#elements-must-be-useable-as-map-keys">
+       notes on element objects</a> for more information.)
    <li>While traversing, the traverser will use <i>O(n)</i> space (where <i>n</i> is the number
        of nodes that have thus far been visited), plus <i>O(H)</i> space (where <i>H</i> is the
        number of nodes that have been seen but not yet visited, that is, the "horizon").
@@ -230,19 +277,26 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forTree</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.132">forTree</a>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;tree)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.170">forTree</a>(<a href="../../../../com/google/common/graph/SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;&nbsp;tree)</pre>
 <div class="block">Creates a new traverser for a directed acyclic graph that has at most one path from the start
- node to any node reachable from the start node, such as a tree.
+ node(s) to any node reachable from the start node(s), and has no paths from any start node to
+ any other start node, such as a tree or forest.
 
- <p>Providing graphs that don't conform to the above description may lead to:
+ <p><code>forTree()</code> is especially useful (versus <code>forGraph()</code>) in cases where the data
+ structure being traversed is, in addition to being a tree/forest, also defined <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursively</a>.
+ This is because the <code>forTree()</code>-based implementations don't keep track of visited nodes,
+ and therefore don't need to call `equals()` or `hashCode()` on the node objects; this saves
+ both time and space versus traversing the same graph using <code>forGraph()</code>.
+
+ <p>Providing a graph to be traversed for which there is more than one path from the start
+ node(s) to any node may lead to:
 
  <ul>
    <li>Traversal not terminating (if the graph has cycles)
-   <li>Nodes being visited multiple times (if multiple paths exist from the start node to any
-       node reachable from it)
+   <li>Nodes being visited multiple times (if multiple paths exist from any start node to any
+       node reachable from any start node)
  </ul>
-
- In these cases, use <a href="../../../../com/google/common/graph/Traverser.html#forGraph-com.google.common.graph.SuccessorsFunction-"><code>forGraph(SuccessorsFunction)</code></a> instead.
 
  <p><b>Performance notes</b>
 
@@ -253,9 +307,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
        of nodes that have been seen but not yet visited, that is, the "horizon").
  </ul>
 
- <p><b>Examples</b>
+ <p><b>Examples</b> (all edges are directed facing downwards)
 
- <p>This is a valid input graph (all edges are directed facing downwards):
+ <p>The graph below would be valid input with start nodes of <code>a, f, c</code>. However, if <code>b</code> were <i>also</i> a start node, then there would be multiple paths to reach <code>e</code> and
+ <code>h</code>.
 
  <pre><code>
     a     b      c
@@ -267,7 +322,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
        h
  </code></pre>
 
- <p>This is <b>not</b> a valid input graph (all edges are directed facing downwards):
+ <p>.
+
+ <p>The graph below would be a valid input with start nodes of <code>a, f</code>. However, if <code>b</code> were a start node, there would be multiple paths to <code>f</code>.
 
  <pre><code>
     a     b
@@ -278,8 +335,6 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
          \ /
           f
  </code></pre>
-
- <p>because there are two paths from <code>b</code> to <code>f</code> (<code>b-&gt;d-&gt;f</code> and <code>b-&gt;e-&gt;f</code>).
 
  <p><b>Note on binary trees</b>
 
@@ -303,7 +358,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>breadthFirst</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.174">breadthFirst</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.212">breadthFirst</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a breadth-first traversal. That is, all the nodes of depth 0 are returned, then
  depth 1, then 2, and so on.
@@ -337,6 +392,23 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </dl>
 </li>
 </ul>
+<a name="breadthFirst-java.lang.Iterable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>breadthFirst</h4>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.223">breadthFirst</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</pre>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a breadth-first traversal. This is equivalent to a breadth-first
+ traversal of a graph with an additional root node whose successors are the listed <code>startNodes</code>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any of <code>startNodes</code> is not an element of the graph</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../com/google/common/graph/Traverser.html#breadthFirst-N-"><code>breadthFirst(Object)</code></a></dd>
+</dl>
+</li>
+</ul>
 <a name="depthFirstPreOrder-java.lang.Object-">
 <!--   -->
 </a><a name="depthFirstPreOrder-N-">
@@ -345,7 +417,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>depthFirstPreOrder</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.207">depthFirstPreOrder</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.256">depthFirstPreOrder</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a depth-first pre-order traversal. "Pre-order" implies that nodes appear in the
  <code>Iterable</code> in the order in which they are first visited.
@@ -379,15 +451,33 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </dl>
 </li>
 </ul>
+<a name="depthFirstPreOrder-java.lang.Iterable-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>depthFirstPreOrder</h4>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.267">depthFirstPreOrder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</pre>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a depth-first pre-order traversal. This is equivalent to a
+ depth-first pre-order traversal of a graph with an additional root node whose successors are
+ the listed <code>startNodes</code>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any of <code>startNodes</code> is not an element of the graph</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPreOrder-N-"><code>depthFirstPreOrder(Object)</code></a></dd>
+</dl>
+</li>
+</ul>
 <a name="depthFirstPostOrder-java.lang.Object-">
 <!--   -->
 </a><a name="depthFirstPostOrder-N-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>depthFirstPostOrder</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.240">depthFirstPostOrder</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.300">depthFirstPostOrder</a>(<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&nbsp;startNode)</pre>
 <div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from <code>startNode</code>, in
  the order of a depth-first post-order traversal. "Post-order" implies that nodes appear in the
  <code>Iterable</code> in the order in which they are visited for the last time.
@@ -418,6 +508,24 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>startNode</code> is not an element of the graph</dd>
+</dl>
+</li>
+</ul>
+<a name="depthFirstPostOrder-java.lang.Iterable-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>depthFirstPostOrder</h4>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Traverser.html#line.311">depthFirstPostOrder</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/graph/Traverser.html" title="type parameter in Traverser">N</a>&gt;&nbsp;startNodes)</pre>
+<div class="block">Returns an unmodifiable <code>Iterable</code> over the nodes reachable from any of the <code>startNodes</code>, in the order of a depth-first post-order traversal. This is equivalent to a
+ depth-first post-order traversal of a graph with an additional root node whose successors are
+ the listed <code>startNodes</code>.</div>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if any of <code>startNodes</code> is not an element of the graph</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../com/google/common/graph/Traverser.html#depthFirstPostOrder-N-"><code>depthFirstPostOrder(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
