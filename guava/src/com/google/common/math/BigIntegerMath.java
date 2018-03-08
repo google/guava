@@ -322,7 +322,8 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns the least common multiple of {@code a} and {@code b}
+   * Returns the least common multiple of {@code a} and {@code b} using gcd method
+   * @return BigInteger
    */
   @GwtIncompatible
   public static BigInteger lcm(BigInteger a, BigInteger b){
