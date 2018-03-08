@@ -22,6 +22,7 @@ import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.HALF_EVEN;
+import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -320,6 +321,17 @@ public final class BigIntegerMath {
     return pDec.divide(qDec, 0, mode).toBigIntegerExact();
   }
 
+  /**
+   * Returns the least common multiple of {@code a} and {@code b} using gcd method
+   * @return BigInteger
+   */
+  @GwtIncompatible
+  public static BigInteger lcm(BigInteger a, BigInteger b){
+	  if (a == BigInteger.ZERO || b == BigInteger.ZERO)
+		  return BigInteger.ZERO;
+	  return divide(a.abs().multiply(b.abs()), a.gcd(b), UNNECESSARY);
+  }
+   
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive integers, or {@code 1}
    * if {@code n == 0}.
