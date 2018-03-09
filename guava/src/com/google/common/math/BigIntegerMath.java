@@ -22,7 +22,6 @@ import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -329,9 +328,11 @@ public final class BigIntegerMath {
    */
   @GwtIncompatible
   public static BigInteger lcm(BigInteger a, BigInteger b){
-	  if (a == BigInteger.ZERO || b == BigInteger.ZERO)
+	  if (a.equals(BigInteger.ZERO) || b.equals(BigInteger.ZERO)) {
 		  return BigInteger.ZERO;
-	  return divide(a.abs().multiply(b.abs()), a.gcd(b), UNNECESSARY);
+	  }
+	  BigInteger gcd = a.gcd(b);
+	  return a.divide(gcd).multiply(b).abs();
   }
   
   /**
