@@ -357,30 +357,41 @@
 <span class="sourceLineNo">349</span>  public static final String X_REQUESTED_WITH = "X-Requested-With";<a name="line.349"></a>
 <span class="sourceLineNo">350</span>  /** The HTTP {@code X-User-IP} header field name. */<a name="line.350"></a>
 <span class="sourceLineNo">351</span>  public static final String X_USER_IP = "X-User-IP";<a name="line.351"></a>
-<span class="sourceLineNo">352</span>  /** The HTTP {@code X-XSS-Protection} header field name. */<a name="line.352"></a>
-<span class="sourceLineNo">353</span>  public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.353"></a>
-<span class="sourceLineNo">354</span>  /**<a name="line.354"></a>
-<span class="sourceLineNo">355</span>   * The HTTP &lt;a<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control"&gt;{@code<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   * X-DNS-Prefetch-Control}&lt;/a&gt; header controls DNS prefetch behavior. Value can be "on" or "off".<a name="line.357"></a>
-<span class="sourceLineNo">358</span>   * By default, DNS prefetching is "on" for HTTP pages and "off" for HTTPS pages.<a name="line.358"></a>
-<span class="sourceLineNo">359</span>   */<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  public static final String X_DNS_PREFETCH_CONTROL = "X-DNS-Prefetch-Control";<a name="line.360"></a>
-<span class="sourceLineNo">361</span>  /**<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.362"></a>
-<span class="sourceLineNo">363</span>   * {@code Ping-From}&lt;/a&gt; header field name.<a name="line.363"></a>
-<span class="sourceLineNo">364</span>   *<a name="line.364"></a>
-<span class="sourceLineNo">365</span>   * @since 19.0<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   */<a name="line.366"></a>
-<span class="sourceLineNo">367</span>  public static final String PING_FROM = "Ping-From";<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  /**<a name="line.368"></a>
-<span class="sourceLineNo">369</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.369"></a>
-<span class="sourceLineNo">370</span>   * {@code Ping-To}&lt;/a&gt; header field name.<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   * @since 19.0<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  public static final String PING_TO = "Ping-To";<a name="line.374"></a>
-<span class="sourceLineNo">375</span>}<a name="line.375"></a>
+<span class="sourceLineNo">352</span>  /**<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * The HTTP &lt;a href="https://goo.gl/VKpXxa"&gt;{@code X-Download-Options}&lt;/a&gt; header field name.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * &lt;p&gt;When the new X-Download-Options header is present with the value {@code noopen}, the user is<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   * prevented from opening a file download directly; instead, they must first save the file<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   * locally.<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   *<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   * @since NEXT<a name="line.359"></a>
+<span class="sourceLineNo">360</span>   */<a name="line.360"></a>
+<span class="sourceLineNo">361</span>  @Beta<a name="line.361"></a>
+<span class="sourceLineNo">362</span>  public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  /** The HTTP {@code X-XSS-Protection} header field name. */<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.364"></a>
+<span class="sourceLineNo">365</span>  /**<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * The HTTP &lt;a<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control"&gt;{@code<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * X-DNS-Prefetch-Control}&lt;/a&gt; header controls DNS prefetch behavior. Value can be "on" or "off".<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * By default, DNS prefetching is "on" for HTTP pages and "off" for HTTPS pages.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   */<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  public static final String X_DNS_PREFETCH_CONTROL = "X-DNS-Prefetch-Control";<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  /**<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * {@code Ping-From}&lt;/a&gt; header field name.<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * @since 19.0<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   */<a name="line.377"></a>
+<span class="sourceLineNo">378</span>  public static final String PING_FROM = "Ping-From";<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  /**<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   * {@code Ping-To}&lt;/a&gt; header field name.<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   *<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * @since 19.0<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   */<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  public static final String PING_TO = "Ping-To";<a name="line.385"></a>
+<span class="sourceLineNo">386</span>}<a name="line.386"></a>
 
 
 
