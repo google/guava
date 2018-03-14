@@ -356,7 +356,7 @@ public final class HttpHeaders {
    * prevented from opening a file download directly; instead, they must first save the file
    * locally.
    *
-   * @since NEXT
+   * @since 24.1
    */
   @Beta
   public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";

@@ -228,7 +228,7 @@ public final class MediaType {
    * Media type for L16 audio, as defined by <a href="https://tools.ietf.org/html/rfc2586">RFC
    * 2586</a>.
    *
-   * @since NEXT
+   * @since 24.1
    */
   public static final MediaType L16_AUDIO = createConstant(AUDIO_TYPE, "l16");
 
