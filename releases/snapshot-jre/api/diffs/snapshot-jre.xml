@@ -39727,7 +39727,8 @@
  startNodes}.
 
  @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
- @see #breadthFirst(Object)]]>
+ @see #breadthFirst(Object)
+ @since 24.1]]>
       </doc>
     </method>
     <method name="depthFirstPreOrder" return="java.lang.Iterable&lt;N&gt;"
@@ -39779,7 +39780,8 @@
  the listed {@code startNodes}.
 
  @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
- @see #depthFirstPreOrder(Object)]]>
+ @see #depthFirstPreOrder(Object)
+ @since 24.1]]>
       </doc>
     </method>
     <method name="depthFirstPostOrder" return="java.lang.Iterable&lt;N&gt;"
@@ -39831,7 +39833,8 @@
  the listed {@code startNodes}.
 
  @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
- @see #depthFirstPostOrder(Object)]]>
+ @see #depthFirstPostOrder(Object)
+ @since 24.1]]>
       </doc>
     </method>
     <doc>
@@ -50214,7 +50217,7 @@
  prevented from opening a file download directly; instead, they must first save the file
  locally.
 
- @since NEXT]]>
+ @since 24.1]]>
       </doc>
     </field>
     <field name="X_XSS_PROTECTION" type="java.lang.String"
@@ -51656,7 +51659,7 @@
       <![CDATA[Media type for L16 audio, as defined by <a href="https://tools.ietf.org/html/rfc2586">RFC
  2586</a>.
 
- @since NEXT]]>
+ @since 24.1]]>
       </doc>
     </field>
     <field name="L24_AUDIO" type="com.google.common.net.MediaType"
