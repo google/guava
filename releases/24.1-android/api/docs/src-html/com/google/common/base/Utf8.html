@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2013 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkPositionIndexes;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static java.lang.Character.MAX_SURROGATE;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static java.lang.Character.MIN_SURROGATE;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>/**<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * character encoding. UTF-8 is defined in section D92 of &lt;a<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * href="http://www.unicode.org/versions/Unicode6.2.0/ch03.pdf"&gt;The Unicode Standard Core<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * Specification, Chapter 3&lt;/a&gt;.<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;p&gt;The variant of UTF-8 implemented by this class is the restricted definition of UTF-8<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * introduced in Unicode 3.1. One implication of this is that it rejects &lt;a<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * href="http://www.unicode.org/versions/corrigendum1.html"&gt;"non-shortest form"&lt;/a&gt; byte sequences,<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * even though the JDK decoder may accept them.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @author Martin Buchholz<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @author Clément Roux<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @since 16.0<a name="line.37"></a>
+<span class="sourceLineNo">038</span> */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@Beta<a name="line.39"></a>
+<span class="sourceLineNo">040</span>@GwtCompatible(emulated = true)<a name="line.40"></a>
+<span class="sourceLineNo">041</span>public final class Utf8 {<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  /**<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * method is equivalent to {@code string.getBytes(UTF_8).length}, but is more efficient in both<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * time and space.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   *<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * @throws IllegalArgumentException if {@code sequence} contains ill-formed UTF-16 (unpaired<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   *     surrogates)<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   */<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  public static int encodedLength(CharSequence sequence) {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    // Warning to maintainers: this implementation is highly optimized.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    int utf16Length = sequence.length();<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    int utf8Length = utf16Length;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    int i = 0;<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>    // This loop optimizes for pure ASCII.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    while (i &lt; utf16Length &amp;&amp; sequence.charAt(i) &lt; 0x80) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      i++;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    }<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>    // This loop optimizes for chars less than 0x800.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    for (; i &lt; utf16Length; i++) {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      char c = sequence.charAt(i);<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      if (c &lt; 0x800) {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        utf8Length += ((0x7f - c) &gt;&gt;&gt; 31); // branch free!<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      } else {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        utf8Length += encodedLengthGeneral(sequence, i);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        break;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      }<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    }<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>    if (utf8Length &lt; utf16Length) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      // Necessary and sufficient condition for overflow because of maximum 3x expansion<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      throw new IllegalArgumentException(<a name="line.74"></a>
+<span class="sourceLineNo">075</span>          "UTF-8 length does not fit in int: " + (utf8Length + (1L &lt;&lt; 32)));<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    }<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    return utf8Length;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private static int encodedLengthGeneral(CharSequence sequence, int start) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    int utf16Length = sequence.length();<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    int utf8Length = 0;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    for (int i = start; i &lt; utf16Length; i++) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>      char c = sequence.charAt(i);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      if (c &lt; 0x800) {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        utf8Length += (0x7f - c) &gt;&gt;&gt; 31; // branch free!<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      } else {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>        utf8Length += 2;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>        // jdk7+: if (Character.isSurrogate(c)) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        if (MIN_SURROGATE &lt;= c &amp;&amp; c &lt;= MAX_SURROGATE) {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>          // Check that we have a well-formed surrogate pair.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>          if (Character.codePointAt(sequence, i) == c) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>            throw new IllegalArgumentException(unpairedSurrogateMsg(i));<a name="line.93"></a>
+<span class="sourceLineNo">094</span>          }<a name="line.94"></a>
+<span class="sourceLineNo">095</span>          i++;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>        }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      }<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    }<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    return utf8Length;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * Returns {@code true} if {@code bytes} is a &lt;i&gt;well-formed&lt;/i&gt; UTF-8 byte sequence according to<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * Unicode 6.0. Note that this is a stronger criterion than simply whether the bytes can be<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * decoded. For example, some versions of the JDK decoder will accept "non-shortest form" byte<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * sequences, but encoding never reproduces these. Such byte sequences are &lt;i&gt;not&lt;/i&gt; considered<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * well-formed.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * &lt;p&gt;This method returns {@code true} if and only if {@code Arrays.equals(bytes, new<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * String(bytes, UTF_8).getBytes(UTF_8))} does, but is more efficient in both time and space.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  public static boolean isWellFormed(byte[] bytes) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return isWellFormed(bytes, 0, bytes.length);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Returns whether the given byte array slice is a well-formed UTF-8 byte sequence, as defined by<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * {@link #isWellFormed(byte[])}. Note that this can be false even when {@code<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * isWellFormed(bytes)} is true.<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * @param bytes the input buffer<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * @param off the offset in the buffer of the first byte to read<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * @param len the number of bytes to read from the buffer<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public static boolean isWellFormed(byte[] bytes, int off, int len) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    int end = off + len;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    checkPositionIndexes(off, end, bytes.length);<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    // Look for the first non-ASCII character.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    for (int i = off; i &lt; end; i++) {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      if (bytes[i] &lt; 0) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        return isWellFormedSlowPath(bytes, i, end);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      }<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    }<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    return true;<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  private static boolean isWellFormedSlowPath(byte[] bytes, int off, int end) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    int index = off;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    while (true) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      int byte1;<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>      // Optimize for interior runs of ASCII bytes.<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      do {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        if (index &gt;= end) {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>          return true;<a name="line.145"></a>
+<span class="sourceLineNo">146</span>        }<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      } while ((byte1 = bytes[index++]) &gt;= 0);<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>      if (byte1 &lt; (byte) 0xE0) {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>        // Two-byte form.<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        if (index == end) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>          return false;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>        }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>        // Simultaneously check for illegal trailing-byte in leading position<a name="line.154"></a>
+<span class="sourceLineNo">155</span>        // and overlong 2-byte form.<a name="line.155"></a>
+<span class="sourceLineNo">156</span>        if (byte1 &lt; (byte) 0xC2 || bytes[index++] &gt; (byte) 0xBF) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>          return false;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        }<a name="line.158"></a>
+<span class="sourceLineNo">159</span>      } else if (byte1 &lt; (byte) 0xF0) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>        // Three-byte form.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        if (index + 1 &gt;= end) {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>          return false;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>        }<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        int byte2 = bytes[index++];<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        if (byte2 &gt; (byte) 0xBF<a name="line.165"></a>
+<span class="sourceLineNo">166</span>            // Overlong? 5 most significant bits must not all be zero.<a name="line.166"></a>
+<span class="sourceLineNo">167</span>            || (byte1 == (byte) 0xE0 &amp;&amp; byte2 &lt; (byte) 0xA0)<a name="line.167"></a>
+<span class="sourceLineNo">168</span>            // Check for illegal surrogate codepoints.<a name="line.168"></a>
+<span class="sourceLineNo">169</span>            || (byte1 == (byte) 0xED &amp;&amp; (byte) 0xA0 &lt;= byte2)<a name="line.169"></a>
+<span class="sourceLineNo">170</span>            // Third byte trailing-byte test.<a name="line.170"></a>
+<span class="sourceLineNo">171</span>            || bytes[index++] &gt; (byte) 0xBF) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>          return false;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>        }<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      } else {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>        // Four-byte form.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        if (index + 2 &gt;= end) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>          return false;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        }<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        int byte2 = bytes[index++];<a name="line.179"></a>
+<span class="sourceLineNo">180</span>        if (byte2 &gt; (byte) 0xBF<a name="line.180"></a>
+<span class="sourceLineNo">181</span>            // Check that 1 &lt;= plane &lt;= 16. Tricky optimized form of:<a name="line.181"></a>
+<span class="sourceLineNo">182</span>            // if (byte1 &gt; (byte) 0xF4<a name="line.182"></a>
+<span class="sourceLineNo">183</span>            //     || byte1 == (byte) 0xF0 &amp;&amp; byte2 &lt; (byte) 0x90<a name="line.183"></a>
+<span class="sourceLineNo">184</span>            //     || byte1 == (byte) 0xF4 &amp;&amp; byte2 &gt; (byte) 0x8F)<a name="line.184"></a>
+<span class="sourceLineNo">185</span>            || (((byte1 &lt;&lt; 28) + (byte2 - (byte) 0x90)) &gt;&gt; 30) != 0<a name="line.185"></a>
+<span class="sourceLineNo">186</span>            // Third byte trailing-byte test<a name="line.186"></a>
+<span class="sourceLineNo">187</span>            || bytes[index++] &gt; (byte) 0xBF<a name="line.187"></a>
+<span class="sourceLineNo">188</span>            // Fourth byte trailing-byte test<a name="line.188"></a>
+<span class="sourceLineNo">189</span>            || bytes[index++] &gt; (byte) 0xBF) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>          return false;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        }<a name="line.191"></a>
+<span class="sourceLineNo">192</span>      }<a name="line.192"></a>
+<span class="sourceLineNo">193</span>    }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
+<span class="sourceLineNo">195</span><a name="line.195"></a>
+<span class="sourceLineNo">196</span>  private static String unpairedSurrogateMsg(int i) {<a name="line.196"></a>
+<span class="sourceLineNo">197</span>    return "Unpaired surrogate at index " + i;<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  }<a name="line.198"></a>
+<span class="sourceLineNo">199</span><a name="line.199"></a>
+<span class="sourceLineNo">200</span>  private Utf8() {}<a name="line.200"></a>
+<span class="sourceLineNo">201</span>}<a name="line.201"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
