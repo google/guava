@@ -219,6 +219,7 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
    * @see #breadthFirst(Object)
+   * @since NEXT
    */
   public abstract Iterable<N> breadthFirst(Iterable<? extends N> startNodes);
 
@@ -263,6 +264,7 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
    * @see #depthFirstPreOrder(Object)
+   * @since NEXT
    */
   public abstract Iterable<N> depthFirstPreOrder(Iterable<? extends N> startNodes);
 
@@ -307,6 +309,7 @@ public abstract class Traverser<N> {
    *
    * @throws IllegalArgumentException if any of {@code startNodes} is not an element of the graph
    * @see #depthFirstPostOrder(Object)
+   * @since NEXT
    */
   public abstract Iterable<N> depthFirstPostOrder(Iterable<? extends N> startNodes);
 
