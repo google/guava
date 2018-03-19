@@ -49,9 +49,11 @@ import java.util.Arrays;
 @GwtIncompatible
 public final class ByteStreams {
 
+  private static final int BUFFER_SIZE = 8192;
+
   /** Creates a new byte array for buffering reads or writes. */
   static byte[] createBuffer() {
-    return new byte[8192];
+    return new byte[BUFFER_SIZE];
   }
 
   /**
@@ -157,10 +159,7 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    // Presize the ByteArrayOutputStream since we know how large it will need
-    // to be, unless that value is less than the default ByteArrayOutputStream
-    // size (32).
-    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
+    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(BUFFER_SIZE, in.available()));
     copy(in, out);
     return out.toByteArray();
   }
@@ -170,12 +169,17 @@ public final class ByteStreams {
    * create an initial byte array, but if the actual number of bytes read from the stream differs,
    * the correct result will be returned anyway.
    */
-  static byte[] toByteArray(InputStream in, int expectedSize) throws IOException {
-    byte[] bytes = new byte[expectedSize];
-    int remaining = expectedSize;
+  static byte[] toByteArray(InputStream in, long expectedSize) throws IOException {
+    checkArgument(expectedSize >= 0, "expectedSize (%s) must be non-negative", expectedSize);
+    if (expectedSize > Integer.MAX_VALUE) {
+      throw new OutOfMemoryError(expectedSize + " bytes is too large to fit in a byte array");
+    }
+
+    byte[] bytes = new byte[(int) expectedSize];
+    int remaining = (int) expectedSize;
 
     while (remaining > 0) {
-      int off = expectedSize - remaining;
+      int off = (int) expectedSize - remaining;
       int read = in.read(bytes, off, remaining);
       if (read == -1) {
         // end of stream before reading expectedSize bytes
@@ -192,18 +196,21 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    FastByteArrayOutputStream out = new FastByteArrayOutputStream();
-    out.write(b); // write the byte we read when testing for end of stream
+    FastByteArrayOutputStream out = new FastByteArrayOutputStream(BUFFER_SIZE);
     copy(in, out);
 
-    byte[] result = new byte[bytes.length + out.size()];
-    System.arraycopy(bytes, 0, result, 0, bytes.length);
-    out.writeTo(result, bytes.length);
+    byte[] result = Arrays.copyOf(bytes, bytes.length + 1 + out.size());
+    result[bytes.length] = (byte) b;
+    out.writeTo(result, bytes.length + 1);
     return result;
   }
 
   /** BAOS that provides limited access to its internal byte array. */
   private static final class FastByteArrayOutputStream extends ByteArrayOutputStream {
+    FastByteArrayOutputStream(int initialSize) {
+      super(initialSize);
+    }
+
     /**
      * Writes the contents of the internal buffer to the given array starting at the given offset.
      * Assumes the array has space to hold count bytes.
