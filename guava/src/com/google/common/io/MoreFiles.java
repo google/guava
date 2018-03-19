@@ -159,8 +159,7 @@ public final class MoreFiles {
     @Override
     public byte[] read() throws IOException {
       try (SeekableByteChannel channel = Files.newByteChannel(path, options)) {
-        return com.google.common.io.Files.readFile(
-            Channels.newInputStream(channel), channel.size());
+        return ByteStreams.toByteArray(Channels.newInputStream(channel), channel.size());
       }
     }
 
