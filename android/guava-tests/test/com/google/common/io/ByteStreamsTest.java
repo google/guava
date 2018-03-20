@@ -430,28 +430,55 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(new byte[] {0x12, 0x34, 0x56, 0x78}, baos.toByteArray());
   }
 
+  private static final byte[] PRE_FILLED_100 = newPreFilledByteArray(100);
+
+  public void testToByteArray() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertEquals(b, PRE_FILLED_100);
+  }
+
+  public void testToByteArray_emptyStream() throws IOException {
+    InputStream in = newTestStream(0);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertEquals(b, new byte[0]);
+  }
+
   public void testToByteArray_withSize_givenCorrectSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 100);
-    assertEquals(100, b.length);
+    assertEquals(b, PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenSmallerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 80);
-    assertEquals(100, b.length);
+    assertEquals(b, PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenLargerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 120);
-    assertEquals(100, b.length);
+    assertEquals(b, PRE_FILLED_100);
   }
 
   public void testToByteArray_withSize_givenSizeZero() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 0);
-    assertEquals(100, b.length);
+    assertEquals(b, PRE_FILLED_100);
+  }
+
+  public void testToByteArray_withSize_givenSizeOneSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    // this results in toByteArrayInternal being called when the stream is actually exhausted
+    byte[] b = ByteStreams.toByteArray(in, 99);
+    assertEquals(b, PRE_FILLED_100);
+  }
+
+  public void testToByteArray_withSize_givenSizeTwoSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in, 98);
+    assertEquals(b, PRE_FILLED_100);
   }
 
   public void testExhaust() throws IOException {
