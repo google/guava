@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,7 +37,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.Iterator;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -151,6 +155,79 @@ public final class ByteStreams {
     return total;
   }
 
+  /** Max array length on JVM */
+  private static final int MAX_ARRAY_LEN = Integer.MAX_VALUE - 8;
+
+  /**
+   * Returns a byte array containing the bytes from the buffers already in {@code bufs} (which have
+   * a total combined length of {@code totalLen} bytes) followed by all bytes remaining in the given
+   * input stream.
+   */
+  private static byte[] toByteArrayInternal(InputStream in, Deque<byte[]> bufs, int totalLen)
+      throws IOException {
+    // ByteArrayOutputStream uses a single byte array as a buffer and copies it to a new, larger
+    // buffer each time it needs more space. By contrast, this method just allocates a new buffer
+    // each time it needs more space and then copies all the buffers to a single array at the end.
+    // Like ByteArrayOutputStream, the size of each successive buffer is larger than the previous
+    // one (doubling each time, in this case), to reduce the number of allocations and potentially
+    // the number of calls to read() needed.
+    if (totalLen == MAX_ARRAY_LEN) {
+      // true iff called from toByteArray(in, MAX_ARRAY_LEN - 1)
+      return toByteArrayAtMaxLength(in, bufs);
+    }
+    byte[] buf = new byte[Math.min(BUFFER_SIZE, MAX_ARRAY_LEN - totalLen)];
+    bufs.add(buf);
+    int off = 0;
+    int r;
+    // always OK to completely fill buf; its size plus the rest of bufs is never more than
+    // MAX_ARRAY_LEN
+    while ((r = in.read(buf, off, buf.length - off)) != -1) {
+      if ((totalLen += r) == MAX_ARRAY_LEN) {
+        return toByteArrayAtMaxLength(in, bufs);
+      }
+      if ((off += r) == buf.length) {
+        // need a new buffer if we're going to read any more
+        int nextBufLen = IntMath.saturatedMultiply(buf.length, 2);
+        buf = new byte[Math.min(nextBufLen, MAX_ARRAY_LEN - totalLen)];
+        bufs.add(buf);
+        off = 0;
+      }
+    }
+
+    return combineBuffers(bufs, totalLen);
+  }
+
+  private static byte[] combineBuffers(Iterable<byte[]> bufs, int totalLen) {
+    byte[] result = new byte[totalLen];
+    Iterator<byte[]> iter = bufs.iterator();
+    int remaining = totalLen;
+    while (remaining > 0) {
+      byte[] buf = iter.next(); // since uncopied bytes remain, it's guaranteed there is a next
+      int bytesToCopy = Math.min(remaining, buf.length);
+      int resultOffset = totalLen - remaining;
+      System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);
+      remaining -= bytesToCopy;
+    }
+    return result;
+  }
+
+  /**
+   * Called when toByteArray has not finished reading and cannot read anymore bytes into a single
+   * array. Typically throws OOME but may, if the stream was somehow exactly the right length,
+   * return an array of max length.
+   */
+  private static byte[] toByteArrayAtMaxLength(InputStream in, Iterable<byte[]> bufs)
+      throws IOException {
+    if (in.read() == -1) {
+      return combineBuffers(bufs, MAX_ARRAY_LEN);
+    } else {
+      throw new OutOfMemoryError("input is too large to fit in a byte array");
+    }
+  }
+
+  /** Large enough to never need to expand, given the geometric progression of buffer sizes. */
+  private static final int TO_BYTE_ARRAY_DEQUE_SIZE = 22;
+
   /**
    * Reads all bytes from an input stream into a byte array. Does not close the stream.
    *
@@ -159,9 +236,8 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(BUFFER_SIZE, in.available()));
-    copy(in, out);
-    return out.toByteArray();
+    checkNotNull(in);
+    return toByteArrayInternal(in, new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE), 0);
   }
 
   /**
@@ -171,7 +247,7 @@ public final class ByteStreams {
    */
   static byte[] toByteArray(InputStream in, long expectedSize) throws IOException {
     checkArgument(expectedSize >= 0, "expectedSize (%s) must be non-negative", expectedSize);
-    if (expectedSize > Integer.MAX_VALUE) {
+    if (expectedSize > MAX_ARRAY_LEN) {
       throw new OutOfMemoryError(expectedSize + " bytes is too large to fit in a byte array");
     }
 
@@ -196,28 +272,10 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    FastByteArrayOutputStream out = new FastByteArrayOutputStream(BUFFER_SIZE);
-    copy(in, out);
-
-    byte[] result = Arrays.copyOf(bytes, bytes.length + 1 + out.size());
-    result[bytes.length] = (byte) b;
-    out.writeTo(result, bytes.length + 1);
-    return result;
-  }
-
-  /** BAOS that provides limited access to its internal byte array. */
-  private static final class FastByteArrayOutputStream extends ByteArrayOutputStream {
-    FastByteArrayOutputStream(int initialSize) {
-      super(initialSize);
-    }
-
-    /**
-     * Writes the contents of the internal buffer to the given array starting at the given offset.
-     * Assumes the array has space to hold count bytes.
-     */
-    void writeTo(byte[] b, int off) {
-      System.arraycopy(buf, 0, b, off, count);
-    }
+    Deque<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE);
+    bufs.add(bytes);
+    bufs.add(new byte[] { (byte) b });
+    return toByteArrayInternal(in, bufs, bytes.length + 1);
   }
 
   /**
