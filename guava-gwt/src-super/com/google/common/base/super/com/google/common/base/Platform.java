@@ -56,6 +56,16 @@ final class Platform {
     return !string;
   }-*/;
 
+  @JsMethod
+  static native String nullToEmpty(@NullableDecl String string) /*-{
+    return string || "";
+  }-*/;
+
+  @JsMethod
+  static native String emptyToNull(@NullableDecl String string) /*-{
+    return string || null;
+  }-*/;
+
   @JsType(isNative = true, name = "Number", namespace = GLOBAL)
   private interface Number {
     double toPrecision(int precision);
