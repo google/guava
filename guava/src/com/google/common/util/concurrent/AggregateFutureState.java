@@ -14,17 +14,18 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.collect.Sets.newConcurrentHashSet;
 import static java.util.concurrent.atomic.AtomicIntegerFieldUpdater.newUpdater;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.j2objc.annotations.ReflectionSupport;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.j2objc.annotations.ReflectionSupport;
 
 /**
  * A helper which does some thread-safe operations for aggregate futures, which must be implemented
@@ -35,7 +36,6 @@ import java.util.logging.Logger;
  *   <li>Decrements a counter atomically
  * </ul>
  */
-@GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 abstract class AggregateFutureState {
   // Lazily initialized the first time we see an exception; not released until all the input futures
@@ -95,7 +95,7 @@ abstract class AggregateFutureState {
      */
     Set<Throwable> seenExceptionsLocal = seenExceptions;
     if (seenExceptionsLocal == null) {
-      seenExceptionsLocal = newConcurrentHashSet();
+            seenExceptionsLocal = Collections.newSetFromMap(new ConcurrentHashMap<Throwable, Boolean>());
       /*
        * Other handleException() callers may see this as soon as we publish it. We need to populate
        * it with the initial failure before we do, or else they may think that the initial failure

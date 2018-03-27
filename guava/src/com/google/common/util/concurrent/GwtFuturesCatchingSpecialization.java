@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
@@ -22,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
  * java.util.concurrent.Executor) Futures.catching} family of methods. Those versions have slightly
  * different signatures.
  */
-@GwtCompatible(emulated = true)
 abstract class GwtFuturesCatchingSpecialization {
   /*
    * This server copy of the class is empty. The corresponding GWT copy contains alternative

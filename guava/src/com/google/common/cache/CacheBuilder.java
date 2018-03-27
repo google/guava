@@ -18,8 +18,18 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.util.ConcurrentModificationException;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.MoreObjects;
@@ -30,16 +40,6 @@ import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.errorprone.annotations.CheckReturnValue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.ConcurrentModificationException;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
@@ -152,7 +152,6 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -261,7 +260,7 @@ public final class CacheBuilder<K, V> {
    *
    * @since 12.0
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   public static CacheBuilder<Object, Object> from(CacheBuilderSpec spec) {
     return spec.toCacheBuilder().lenientParsing();
   }
@@ -273,7 +272,7 @@ public final class CacheBuilder<K, V> {
    * @param spec a String in the format specified by {@link CacheBuilderSpec}
    * @since 12.0
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   public static CacheBuilder<Object, Object> from(String spec) {
     return from(CacheBuilderSpec.parse(spec));
   }
@@ -283,7 +282,7 @@ public final class CacheBuilder<K, V> {
    *
    * @return this {@code CacheBuilder} instance (for chaining)
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   CacheBuilder<K, V> lenientParsing() {
     strictParsing = false;
     return this;
@@ -297,7 +296,7 @@ public final class CacheBuilder<K, V> {
    *
    * @return this {@code CacheBuilder} instance (for chaining)
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -317,7 +316,7 @@ public final class CacheBuilder<K, V> {
    *
    * @return this {@code CacheBuilder} instance (for chaining)
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
     checkState(
         valueEquivalence == null, "value equivalence was already set to %s", valueEquivalence);
@@ -460,7 +459,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   public CacheBuilder<K, V> maximumWeight(long maximumWeight) {
     checkState(
         this.maximumWeight == UNSET_INT,
@@ -502,7 +501,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum size was already set
    * @since 11.0
    */
-  @GwtIncompatible // To be supported
+    // To be supported
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
       Weigher<? super K1, ? super V1> weigher) {
     checkState(this.weigher == null);
@@ -549,7 +548,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the key strength was already set
    */
-  @GwtIncompatible // java.lang.ref.WeakReference
+    // java.lang.ref.WeakReference
   public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
@@ -581,7 +580,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the value strength was already set
    */
-  @GwtIncompatible // java.lang.ref.WeakReference
+    // java.lang.ref.WeakReference
   public CacheBuilder<K, V> weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -606,7 +605,7 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalStateException if the value strength was already set
    */
-  @GwtIncompatible // java.lang.ref.SoftReference
+    // java.lang.ref.SoftReference
   public CacheBuilder<K, V> softValues() {
     return setValueStrength(Strength.SOFT);
   }
@@ -718,7 +717,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the refresh interval was already set
    * @since 11.0
    */
-  @GwtIncompatible // To be supported (synchronously).
+    // To be supported (synchronously).
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);

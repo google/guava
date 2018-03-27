@@ -14,8 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
 
 /**
@@ -27,9 +25,7 @@ import java.util.concurrent.Future;
  *
  * @since 20.0
  */
-@Beta
 @FunctionalInterface
-@GwtCompatible
 public interface AsyncCallable<V> {
   /**
    * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain

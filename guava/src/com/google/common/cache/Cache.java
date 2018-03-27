@@ -14,16 +14,16 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
-import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CompatibleWith;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -36,7 +36,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible
 public interface Cache<K, V> {
 
   /**
@@ -102,7 +101,7 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  ImmutableMap<K, V> getAllPresent(Iterable<?> keys);
+    Map<K, V> getAllPresent(Iterable<?> keys);
 
   /**
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a

@@ -14,8 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -25,7 +26,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Chris Povirk
  * @since 11.0
  */
-@GwtCompatible
 @FunctionalInterface
 public interface AsyncFunction<I, O> {
   /**

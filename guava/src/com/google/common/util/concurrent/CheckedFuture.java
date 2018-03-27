@@ -14,14 +14,13 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A {@code CheckedFuture} is a {@link ListenableFuture} that includes versions of the {@code get}
@@ -60,10 +59,10 @@ import java.util.concurrent.TimeoutException;
  *     most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
  *     class is scheduled for removal from Guava in February 2018.
  */
-@Beta
+
 @CanIgnoreReturnValue
 @Deprecated
-@GwtCompatible
+
 public interface CheckedFuture<V, X extends Exception> extends ListenableFuture<V> {
 
   /**

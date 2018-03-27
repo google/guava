@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -32,7 +31,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible
 public class UncheckedExecutionException extends RuntimeException {
   /** Creates a new instance with {@code null} as its detail message. */
   protected UncheckedExecutionException() {}

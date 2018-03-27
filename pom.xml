@@ -9,9 +9,9 @@
     <artifactId>oss-parent</artifactId>
     <version>9</version>
   </parent>
-  <groupId>com.google.guava</groupId>
+  <groupId>com.github.lafa.cache</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-jre-SNAPSHOT</version>
+  <version>24.1-jre</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>

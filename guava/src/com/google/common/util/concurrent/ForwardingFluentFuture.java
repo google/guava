@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +31,6 @@ import java.util.concurrent.TimeoutException;
  * existing {@code ListenableFuture}, implemented atop a {@link ForwardingListenableFuture} that
  * forwards to that future and adds the desired methods.
  */
-@GwtCompatible
 final class ForwardingFluentFuture<V> extends FluentFuture<V> {
   private final ListenableFuture<V> delegate;
 

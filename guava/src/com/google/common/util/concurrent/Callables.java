@@ -16,12 +16,11 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Supplier;
 import java.util.concurrent.Callable;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.common.base.Supplier;
 
 /**
  * Static utility methods pertaining to the {@link Callable} interface.
@@ -29,7 +28,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Isaac Shum
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
 public final class Callables {
   private Callables() {}
 
@@ -51,8 +49,6 @@ public final class Callables {
    *
    * @since 20.0
    */
-  @Beta
-  @GwtIncompatible
   public static <T> AsyncCallable<T> asAsyncCallable(
       final Callable<T> callable, final ListeningExecutorService listeningExecutorService) {
     checkNotNull(callable);
@@ -74,7 +70,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
-  @GwtIncompatible // threads
+    // threads
   static <T> Callable<T> threadRenaming(
       final Callable<T> callable, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
@@ -105,7 +101,7 @@ public final class Callables {
    * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once
    *     for each invocation of the wrapped callable.
    */
-  @GwtIncompatible // threads
+    // threads
   static Runnable threadRenaming(final Runnable task, final Supplier<String> nameSupplier) {
     checkNotNull(nameSupplier);
     checkNotNull(task);
@@ -127,7 +123,7 @@ public final class Callables {
   }
 
   /** Tries to set name of the given {@link Thread}, returns true if successful. */
-  @GwtIncompatible // threads
+    // threads
   private static boolean trySetName(final String threadName, Thread currentThread) {
     // In AppEngine, this will always fail. Should we test for that explicitly using
     // MoreExecutors.isAppEngine? More generally, is there a way to see if we have the modifyThread

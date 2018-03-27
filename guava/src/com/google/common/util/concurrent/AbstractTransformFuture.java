@@ -18,17 +18,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.errorprone.annotations.ForOverride;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import com.google.common.base.Function;
+import com.google.errorprone.annotations.ForOverride;
+
 /** Implementations of {@code Futures.transform*}. */
-@GwtCompatible
 abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.TrustedFuture<O>
     implements Runnable {
   static <I, O> ListenableFuture<O> create(

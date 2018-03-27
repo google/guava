@@ -14,8 +14,8 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -28,8 +28,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Laurence Gonsalves
  * @since 2.0
  */
-@GwtCompatible
-public final class Objects extends ExtraObjectsMethodsForWeb {
+public final class Objects {
   private Objects() {}
 
   /**

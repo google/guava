@@ -16,19 +16,20 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.GwtIncompatible;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.cache.LocalCache.Strength;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -77,7 +78,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Adam Winer
  * @since 12.0
  */
-@GwtIncompatible
 public final class CacheBuilderSpec {
   /** Parses a single value. */
   private interface ValueParser {
@@ -91,21 +91,21 @@ public final class CacheBuilderSpec {
   private static final Splitter KEY_VALUE_SPLITTER = Splitter.on('=').trimResults();
 
   /** Map of names to ValueParser. */
-  private static final ImmutableMap<String, ValueParser> VALUE_PARSERS =
-      ImmutableMap.<String, ValueParser>builder()
-          .put("initialCapacity", new InitialCapacityParser())
-          .put("maximumSize", new MaximumSizeParser())
-          .put("maximumWeight", new MaximumWeightParser())
-          .put("concurrencyLevel", new ConcurrencyLevelParser())
-          .put("weakKeys", new KeyStrengthParser(Strength.WEAK))
-          .put("softValues", new ValueStrengthParser(Strength.SOFT))
-          .put("weakValues", new ValueStrengthParser(Strength.WEAK))
-          .put("recordStats", new RecordStatsParser())
-          .put("expireAfterAccess", new AccessDurationParser())
-          .put("expireAfterWrite", new WriteDurationParser())
-          .put("refreshAfterWrite", new RefreshDurationParser())
-          .put("refreshInterval", new RefreshDurationParser())
-          .build();
+    private static final Map<String, ValueParser> VALUE_PARSERS = new HashMap<>();
+    static {
+        VALUE_PARSERS.put("initialCapacity", new InitialCapacityParser());
+        VALUE_PARSERS.put("maximumSize", new MaximumSizeParser());
+        VALUE_PARSERS.put("maximumWeight", new MaximumWeightParser());
+        VALUE_PARSERS.put("concurrencyLevel", new ConcurrencyLevelParser());
+        VALUE_PARSERS.put("weakKeys", new KeyStrengthParser(Strength.WEAK));
+        VALUE_PARSERS.put("softValues", new ValueStrengthParser(Strength.SOFT));
+        VALUE_PARSERS.put("weakValues", new ValueStrengthParser(Strength.WEAK));
+        VALUE_PARSERS.put("recordStats", new RecordStatsParser());
+        VALUE_PARSERS.put("expireAfterAccess", new AccessDurationParser());
+        VALUE_PARSERS.put("expireAfterWrite", new WriteDurationParser());
+        VALUE_PARSERS.put("refreshAfterWrite", new RefreshDurationParser());
+        VALUE_PARSERS.put("refreshInterval", new RefreshDurationParser());
+    }
 
   @MonotonicNonNullDecl @VisibleForTesting Integer initialCapacity;
   @MonotonicNonNullDecl @VisibleForTesting Long maximumSize;
@@ -136,19 +136,15 @@ public final class CacheBuilderSpec {
     CacheBuilderSpec spec = new CacheBuilderSpec(cacheBuilderSpecification);
     if (!cacheBuilderSpecification.isEmpty()) {
       for (String keyValuePair : KEYS_SPLITTER.split(cacheBuilderSpecification)) {
-        List<String> keyAndValue = ImmutableList.copyOf(KEY_VALUE_SPLITTER.split(keyValuePair));
-        checkArgument(!keyAndValue.isEmpty(), "blank key-value pair");
-        checkArgument(
-            keyAndValue.size() <= 2,
-            "key-value pair %s with more than one equals sign",
-            keyValuePair);
+                Iterator<String> keyAndValue = KEY_VALUE_SPLITTER.split(keyValuePair).iterator();
+                checkArgument(keyAndValue.hasNext(), "blank key-value pair");
 
         // Find the ValueParser for the current key.
-        String key = keyAndValue.get(0);
+                String key = keyAndValue.next();
         ValueParser valueParser = VALUE_PARSERS.get(key);
         checkArgument(valueParser != null, "unknown key %s", key);
 
-        String value = keyAndValue.size() == 1 ? null : keyAndValue.get(1);
+                String value = keyAndValue.hasNext() ? keyAndValue.next() : null;
         valueParser.parse(spec, key, value);
       }
     }

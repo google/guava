@@ -20,7 +20,6 @@ import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunning
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.QUEUING;
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.RUNNING;
 
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
@@ -45,7 +44,6 @@ import java.util.logging.Logger;
  * If an {@code Error} is thrown, the error will propagate and execution will stop until it is
  * restarted by a call to {@link #execute}.
  */
-@GwtIncompatible
 final class SequentialExecutor implements Executor {
   private static final Logger log = Logger.getLogger(SequentialExecutor.class.getName());
 

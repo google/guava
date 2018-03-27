@@ -16,14 +16,15 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Preconditions;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Implementation of {@code Futures#withTimeout}.
@@ -32,7 +33,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * in an {@link ExecutionException}) if the specified duration expires. The delegate future is
  * interrupted and cancelled if it times out.
  */
-@GwtIncompatible
 final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
   static <V> ListenableFuture<V> create(
       ListenableFuture<V> delegate,

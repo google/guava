@@ -14,14 +14,12 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 
 /**
  * Hidden superclass of {@link FluentFuture} that provides us a place to declare special GWT
  * versions of the {@link FluentFuture#catching(Class, com.google.common.base.Function)
  * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
  */
-@GwtCompatible(emulated = true)
 abstract class GwtFluentFutureCatchingSpecialization<V> implements ListenableFuture<V> {
   /*
    * This server copy of the class is empty. The corresponding GWT copy contains alternative

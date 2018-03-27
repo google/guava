@@ -17,21 +17,21 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableCollection;
-import com.google.j2objc.annotations.WeakOuter;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import com.google.j2objc.annotations.WeakOuter;
+
 /** Aggregate future that computes its value by calling a callable. */
-@GwtCompatible
 final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<?>> futures,
+            Collection<? extends ListenableFuture<?>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       AsyncCallable<V> callable) {
@@ -43,7 +43,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   }
 
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<?>> futures,
+            Collection<? extends ListenableFuture<?>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       Callable<V> callable) {
@@ -56,7 +56,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     private CombinedFutureInterruptibleTask task;
 
     CombinedFutureRunningState(
-        ImmutableCollection<? extends ListenableFuture<?>> futures,
+                Collection<? extends ListenableFuture<?>> futures,
         boolean allMustSucceed,
         CombinedFutureInterruptibleTask task) {
       super(futures, allMustSucceed, false);

@@ -14,11 +14,12 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Useful suppliers.
@@ -29,7 +30,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
 
@@ -228,7 +228,7 @@ public final class Suppliers {
       // the extra memory consumption and indirection are more
       // expensive than the extra volatile reads.
       long nanos = expirationNanos;
-      long now = Platform.systemNanoTime();
+            long now = System.nanoTime();
       if (nanos == 0 || now - nanos >= 0) {
         synchronized (this) {
           if (nanos == expirationNanos) { // recheck for lost race

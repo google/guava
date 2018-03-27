@@ -16,12 +16,13 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An
@@ -39,7 +40,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Sven Mawson
  * @since 1.0
  */
-@GwtIncompatible
 public final class ExecutionList {
   /** Logger to log exceptions caught when running runnables. */
   private static final Logger log = Logger.getLogger(ExecutionList.class.getName());

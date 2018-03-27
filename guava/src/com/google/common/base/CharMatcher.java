@@ -18,11 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import java.util.BitSet;
+
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Determines a true or false value for any Java {@code char} value, just as {@link Predicate} does
@@ -60,7 +59,6 @@ import java.util.BitSet;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
 public abstract class CharMatcher implements Predicate<Character> {
   /*
    *           N777777777NO
@@ -305,7 +303,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #whitespace()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher WHITESPACE = whitespace();
 
@@ -318,7 +316,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #breakingWhitespace()} instead. This constant is scheduled
    *     to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher BREAKING_WHITESPACE = breakingWhitespace();
 
@@ -329,7 +327,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #ascii()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher ASCII = ascii();
 
@@ -343,7 +341,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #digit()} instead. This
    * .   constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher DIGIT = digit();
 
@@ -356,7 +354,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #javaDigit()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_DIGIT = javaDigit();
 
@@ -370,7 +368,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #javaLetter()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_LETTER = javaLetter();
 
@@ -382,7 +380,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #javaLetterOrDigit()}
    *     instead. This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_LETTER_OR_DIGIT = javaLetterOrDigit();
 
@@ -394,7 +392,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #javaUpperCase()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_UPPER_CASE = javaUpperCase();
 
@@ -406,7 +404,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #javaLowerCase()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_LOWER_CASE = javaLowerCase();
 
@@ -417,7 +415,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #javaIsoControl()} instead. This constant is scheduled to
    *     be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher JAVA_ISO_CONTROL = javaIsoControl();
 
@@ -430,7 +428,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #invisible()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher INVISIBLE = invisible();
 
@@ -446,7 +444,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *     documentation. If you need to use this, use {@link #singleWidth()} instead.
    *     This constant is scheduled to be removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher SINGLE_WIDTH = singleWidth();
 
@@ -456,7 +454,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #any()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher ANY = any();
 
@@ -466,7 +464,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @deprecated Use {@link #none()} instead. This constant is scheduled to be
    *     removed in June 2018.
    */
-  @com.google.common.annotations.Beta
+
   @Deprecated
   public static final CharMatcher NONE = none();
 
@@ -549,7 +547,8 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /** Returns a matcher that matches any character not matched by this matcher. */
   // @Override under Java 8 but not under Java 7
-  public CharMatcher negate() {
+  @Override
+public CharMatcher negate() {
     return new Negated(this);
   }
 
@@ -577,7 +576,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * worthwhile tradeoff in a browser.
    */
   public CharMatcher precomputed() {
-    return Platform.precomputeCharMatcher(this);
+        return this.precomputedInternal();
   }
 
   private static final int DISTINCT_CHARS = Character.MAX_VALUE - Character.MIN_VALUE + 1;
@@ -592,7 +591,6 @@ public abstract class CharMatcher implements Predicate<Character> {
    * constructs an eight-kilobyte bit array and queries that. In many situations this produces a
    * matcher which is faster to query than the original.
    */
-  @GwtIncompatible // SmallCharMatcher
   CharMatcher precomputedInternal() {
     final BitSet table = new BitSet();
     setBits(table);
@@ -622,7 +620,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Helper method for {@link #precomputedInternal} that doesn't test if the negation is cheaper.
    */
-  @GwtIncompatible // SmallCharMatcher
   private static CharMatcher precomputedPositive(
       int totalCharacters, BitSet table, String description) {
     switch (totalCharacters) {
@@ -641,7 +638,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   }
 
-  @GwtIncompatible // SmallCharMatcher
   private static boolean isSmall(int totalCharacters, int tableLength) {
     return totalCharacters <= SmallCharMatcher.MAX_SIZE
         && tableLength > (totalCharacters * 4 * Character.SIZE);
@@ -649,7 +645,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Sets bits in {@code table} matched by this matcher. */
-  @GwtIncompatible // used only from other GwtIncompatible code
   void setBits(BitSet table) {
     for (int c = Character.MAX_VALUE; c >= Character.MIN_VALUE; c--) {
       if (matches((char) c)) {
@@ -1159,7 +1154,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /** Fast matcher using a {@link BitSet} table of matching characters. */
-  @GwtIncompatible // used only from other GwtIncompatible code
   private static final class BitSetMatcher extends NamedFastMatcher {
 
     private final BitSet table;
@@ -1409,7 +1403,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return TABLE.charAt((MULTIPLIER * c) >>> SHIFT) == c;
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       for (int i = 0; i < TABLE.length(); i++) {
@@ -1695,7 +1688,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return sequence.length() - original.countIn(sequence);
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       BitSet tmp = new BitSet();
@@ -1731,7 +1723,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return first.matches(c) && second.matches(c);
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       BitSet tmp1 = new BitSet();
@@ -1759,7 +1750,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       second = checkNotNull(b);
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       first.setBits(table);
@@ -1813,7 +1803,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return isNot(match);
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       table.set(match);
@@ -1849,7 +1838,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return other.matches(match) ? any() : this;
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       table.set(0, match);
@@ -1887,7 +1875,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return c == match1 || c == match2;
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       table.set(match1);
@@ -1916,7 +1903,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     @Override
-    @GwtIncompatible // used only from other GwtIncompatible code
     void setBits(BitSet table) {
       for (char c : chars) {
         table.set(c);
@@ -1951,7 +1937,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return startInclusive <= c && c <= endInclusive;
     }
 
-    @GwtIncompatible // used only from other GwtIncompatible code
     @Override
     void setBits(BitSet table) {
       table.set(startInclusive, endInclusive + 1);
@@ -1967,29 +1952,29 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   }
 
-  /** Implementation of {@link #forPredicate(Predicate)}. */
-  private static final class ForPredicate extends CharMatcher {
+    /** Implementation of {@link #forPredicate(Predicate)}. */
+    private static final class ForPredicate extends CharMatcher {
 
-    private final Predicate<? super Character> predicate;
+        private final Predicate<? super Character> predicate;
 
-    ForPredicate(Predicate<? super Character> predicate) {
-      this.predicate = checkNotNull(predicate);
+        ForPredicate(Predicate<? super Character> predicate) {
+            this.predicate = checkNotNull(predicate);
+        }
+
+        @Override
+        public boolean matches(char c) {
+            return predicate.apply(c);
+        }
+
+        @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily
+        @Override
+        public boolean apply(Character character) {
+            return predicate.apply(checkNotNull(character));
+        }
+
+        @Override
+        public String toString() {
+            return "CharMatcher.forPredicate(" + predicate + ")";
+        }
     }
-
-    @Override
-    public boolean matches(char c) {
-      return predicate.apply(c);
-    }
-
-    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily
-    @Override
-    public boolean apply(Character character) {
-      return predicate.apply(checkNotNull(character));
-    }
-
-    @Override
-    public String toString() {
-      return "CharMatcher.forPredicate(" + predicate + ")";
-    }
-  }
 }

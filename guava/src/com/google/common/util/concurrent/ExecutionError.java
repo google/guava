@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -27,7 +26,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Chris Povirk
  * @since 10.0
  */
-@GwtCompatible
 public class ExecutionError extends Error {
   /** Creates a new instance with {@code null} as its detail message. */
   protected ExecutionError() {}

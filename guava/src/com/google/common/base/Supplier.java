@@ -14,7 +14,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
@@ -35,7 +34,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible
 @FunctionalInterface
 public interface Supplier<T> extends java.util.function.Supplier<T> {
   /**

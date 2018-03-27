@@ -19,16 +19,17 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableCollection;
-import com.google.errorprone.annotations.ForOverride;
-import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 
 /**
  * A future made up of a collection of sub-futures.
@@ -36,7 +37,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @param <InputT> the type of the individual inputs
  * @param <OutputT> the type of the output (i.e. this) future
  */
-@GwtCompatible
 abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFuture<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 
@@ -53,7 +53,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     if (localRunningState != null) {
       // Let go of the memory held by the running state
       this.runningState = null;
-      ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures =
+            Collection<? extends ListenableFuture<? extends InputT>> futures =
           localRunningState.futures;
       boolean wasInterrupted = wasInterrupted();
 
@@ -75,7 +75,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     if (localRunningState == null) {
       return null;
     }
-    ImmutableCollection<? extends ListenableFuture<? extends InputT>> localFutures =
+        Collection<? extends ListenableFuture<? extends InputT>> localFutures =
         localRunningState.futures;
     if (localFutures != null) {
       return "futures=[" + localFutures + "]";
@@ -90,12 +90,12 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   }
 
   abstract class RunningState extends AggregateFutureState implements Runnable {
-    private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
+        private Collection<? extends ListenableFuture<? extends InputT>> futures;
     private final boolean allMustSucceed;
     private final boolean collectsValues;
 
     RunningState(
-        ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures,
+                Collection<? extends ListenableFuture<? extends InputT>> futures,
         boolean allMustSucceed,
         boolean collectsValues) {
       super(futures.size());

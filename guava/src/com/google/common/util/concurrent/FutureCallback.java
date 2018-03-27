@@ -14,9 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -28,7 +28,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Anthony Zana
  * @since 10.0
  */
-@GwtCompatible
 public interface FutureCallback<V> {
   /** Invoked with the result of the {@code Future} computation when it is successful. */
   void onSuccess(@NullableDecl V result);

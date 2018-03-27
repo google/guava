@@ -20,6 +20,5 @@ package com.google.common.annotations;
  *
  * @author Johannes Henkel
  */
-@GwtCompatible
 public @interface VisibleForTesting {
 }
