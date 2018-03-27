@@ -16,8 +16,8 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractMap.SimpleImmutableEntry;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -31,7 +31,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible
 public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> {
   private final RemovalCause cause;
 

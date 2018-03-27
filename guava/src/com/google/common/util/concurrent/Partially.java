@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -31,7 +30,6 @@ import java.lang.annotation.Target;
  * compiler to autostrip the normal server method in order to expose the special, inherited GWT
  * version.
  */
-@GwtCompatible
 final class Partially {
   /**
    * The presence of this annotation on an API indicates that the method <i>may</i> be used with the

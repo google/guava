@@ -14,13 +14,13 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and
@@ -36,7 +36,6 @@ import java.util.concurrent.ExecutionException;
  * @author Charles Fry
  * @since 11.0
  */
-@GwtCompatible
 public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 
   /**
@@ -116,7 +115,7 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * @throws ExecutionError if an error was thrown while loading the values
    * @since 11.0
    */
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
+    Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
 
   /**
    * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or {@link

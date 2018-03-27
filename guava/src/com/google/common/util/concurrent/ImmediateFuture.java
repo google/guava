@@ -16,18 +16,17 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
+
 /** Implementations of {@code Futures.immediate*}. */
-@GwtCompatible(emulated = true)
 abstract class ImmediateFuture<V> extends FluentFuture<V> {
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
@@ -92,7 +91,7 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
     }
   }
 
-  @GwtIncompatible // TODO
+    // TODO
   static class ImmediateSuccessfulCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
       implements CheckedFuture<V, X> {
     @NullableDecl private final V value;
@@ -136,7 +135,7 @@ abstract class ImmediateFuture<V> extends FluentFuture<V> {
     }
   }
 
-  @GwtIncompatible // TODO
+    // TODO
   static class ImmediateFailedCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
       implements CheckedFuture<V, X> {
     private final X thrown;

@@ -14,16 +14,14 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
-import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import com.google.common.base.Function;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * A {@link ListenableFuture} that supports fluent chains of operations. For example:
@@ -66,9 +64,9 @@ import java.util.concurrent.TimeoutException;
  *
  * @since 23.0
  */
-@Beta
+
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
-@GwtCompatible(emulated = true)
+
 public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
   FluentFuture() {}
 
@@ -203,7 +201,6 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param unit the time unit of the time parameter
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
-  @GwtIncompatible // ScheduledExecutorService
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);

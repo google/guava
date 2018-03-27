@@ -23,8 +23,6 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Stopwatch;
@@ -37,12 +35,7 @@ import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
 import com.google.common.cache.LocalCache.AbstractCacheSet;
 import com.google.common.collect.AbstractSequentialIterator;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.primitives.Ints;
+import com.google.common.collect.ImmutableEntry;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -65,7 +58,10 @@ import java.util.AbstractQueue;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
@@ -98,7 +94,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Bob Lee ({@code com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-@GwtCompatible(emulated = true)
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
@@ -917,7 +912,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
         @Override
         public Iterator<Object> iterator() {
-          return ImmutableSet.of().iterator();
+                    return Collections.EMPTY_SET.iterator();
         }
       };
 
@@ -3925,8 +3920,25 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   @Override
   public int size() {
-    return Ints.saturatedCast(longSize());
+        return saturatedCast(longSize());
   }
+
+    /**
+     * Returns the {@code int} nearest in value to {@code value}.
+     *
+     * @param value any {@code long} value
+     * @return the same value cast to {@code int} if it is in the range of the {@code int} type, {@link Integer#MAX_VALUE} if it is too large, or
+     *         {@link Integer#MIN_VALUE} if it is too small
+     */
+    private static int saturatedCast(long value) {
+        if (value > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        if (value < Integer.MIN_VALUE) {
+            return Integer.MIN_VALUE;
+        }
+        return (int) value;
+    }
 
   @Override
   @NullableDecl
@@ -3957,7 +3969,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   // Only becomes available in Java 8 when it's on the interface.
   // @Override
-  @NullableDecl
+  @Override
+@NullableDecl
   public V getOrDefault(@NullableDecl Object key, @NullableDecl V defaultValue) {
     V result = get(key);
     return (result != null) ? result : defaultValue;
@@ -3967,11 +3980,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return get(key, defaultLoader);
   }
 
-  ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+    Map<K, V> getAllPresent(Iterable<?> keys) {
     int hits = 0;
     int misses = 0;
 
-    Map<K, V> result = Maps.newLinkedHashMap();
+        Map<K, V> result = new LinkedHashMap();
     for (Object key : keys) {
       V value = get(key);
       if (value == null) {
@@ -3986,15 +3999,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
     globalStatsCounter.recordHits(hits);
     globalStatsCounter.recordMisses(misses);
-    return ImmutableMap.copyOf(result);
+        return result;
   }
 
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
     int hits = 0;
     int misses = 0;
 
-    Map<K, V> result = Maps.newLinkedHashMap();
-    Set<K> keysToLoad = Sets.newLinkedHashSet();
+        Map<K, V> result = new LinkedHashMap();
+        Set<K> keysToLoad = new LinkedHashSet();
     for (K key : keys) {
       V value = get(key);
       if (!result.containsKey(key)) {
@@ -4027,7 +4040,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           }
         }
       }
-      return ImmutableMap.copyOf(result);
+            return result;
     } finally {
       globalStatsCounter.recordHits(hits);
       globalStatsCounter.recordMisses(misses);
@@ -4292,7 +4305,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   @MonotonicNonNullDecl Set<Entry<K, V>> entrySet;
 
   @Override
-  @GwtIncompatible // Not supported.
+    // Not supported.
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
@@ -4525,7 +4538,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   private static <E> ArrayList<E> toArrayList(Collection<E> c) {
     // Avoid calling ArrayList(Collection), which may call back into toArray.
     ArrayList<E> result = new ArrayList<E>(c.size());
-    Iterators.addAll(result, c.iterator());
+        Iterator<E> iterator = c.iterator();
+        while (iterator.hasNext()) {
+            result.add(iterator.next());
+        }
     return result;
   }
 
@@ -4637,7 +4653,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public boolean removeIf(Predicate<? super Entry<K, V>> filter) {
       checkNotNull(filter);
-      return LocalCache.this.removeIf((k, v) -> filter.test(Maps.immutableEntry(k, v)));
+            return LocalCache.this.removeIf((k, v) -> filter.test(new ImmutableEntry<K, V>(k, v)));
     }
 
     @Override
@@ -4668,179 +4684,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   // Serialization Support
 
-  /**
-   * Serializes the configuration of a LocalCache, reconstituting it as a Cache using CacheBuilder
-   * upon deserialization. An instance of this class is fit for use by the writeReplace of
-   * LocalManualCache.
-   *
-   * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
-   * the proxy must be able to behave as the cache itself.
-   */
-  static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
-      implements Serializable {
-    private static final long serialVersionUID = 1;
-
-    final Strength keyStrength;
-    final Strength valueStrength;
-    final Equivalence<Object> keyEquivalence;
-    final Equivalence<Object> valueEquivalence;
-    final long expireAfterWriteNanos;
-    final long expireAfterAccessNanos;
-    final long maxWeight;
-    final Weigher<K, V> weigher;
-    final int concurrencyLevel;
-    final RemovalListener<? super K, ? super V> removalListener;
-    @NullableDecl final Ticker ticker;
-    final CacheLoader<? super K, V> loader;
-
-    @MonotonicNonNullDecl transient Cache<K, V> delegate;
-
-    ManualSerializationProxy(LocalCache<K, V> cache) {
-      this(
-          cache.keyStrength,
-          cache.valueStrength,
-          cache.keyEquivalence,
-          cache.valueEquivalence,
-          cache.expireAfterWriteNanos,
-          cache.expireAfterAccessNanos,
-          cache.maxWeight,
-          cache.weigher,
-          cache.concurrencyLevel,
-          cache.removalListener,
-          cache.ticker,
-          cache.defaultLoader);
-    }
-
-    private ManualSerializationProxy(
-        Strength keyStrength,
-        Strength valueStrength,
-        Equivalence<Object> keyEquivalence,
-        Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos,
-        long expireAfterAccessNanos,
-        long maxWeight,
-        Weigher<K, V> weigher,
-        int concurrencyLevel,
-        RemovalListener<? super K, ? super V> removalListener,
-        Ticker ticker,
-        CacheLoader<? super K, V> loader) {
-      this.keyStrength = keyStrength;
-      this.valueStrength = valueStrength;
-      this.keyEquivalence = keyEquivalence;
-      this.valueEquivalence = valueEquivalence;
-      this.expireAfterWriteNanos = expireAfterWriteNanos;
-      this.expireAfterAccessNanos = expireAfterAccessNanos;
-      this.maxWeight = maxWeight;
-      this.weigher = weigher;
-      this.concurrencyLevel = concurrencyLevel;
-      this.removalListener = removalListener;
-      this.ticker = (ticker == Ticker.systemTicker() || ticker == NULL_TICKER) ? null : ticker;
-      this.loader = loader;
-    }
-
-    CacheBuilder<K, V> recreateCacheBuilder() {
-      CacheBuilder<K, V> builder =
-          CacheBuilder.newBuilder()
-              .setKeyStrength(keyStrength)
-              .setValueStrength(valueStrength)
-              .keyEquivalence(keyEquivalence)
-              .valueEquivalence(valueEquivalence)
-              .concurrencyLevel(concurrencyLevel)
-              .removalListener(removalListener);
-      builder.strictParsing = false;
-      if (expireAfterWriteNanos > 0) {
-        builder.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
-      }
-      if (expireAfterAccessNanos > 0) {
-        builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
-      }
-      if (weigher != OneWeigher.INSTANCE) {
-        builder.weigher(weigher);
-        if (maxWeight != UNSET_INT) {
-          builder.maximumWeight(maxWeight);
-        }
-      } else {
-        if (maxWeight != UNSET_INT) {
-          builder.maximumSize(maxWeight);
-        }
-      }
-      if (ticker != null) {
-        builder.ticker(ticker);
-      }
-      return builder;
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      in.defaultReadObject();
-      CacheBuilder<K, V> builder = recreateCacheBuilder();
-      this.delegate = builder.build();
-    }
-
-    private Object readResolve() {
-      return delegate;
-    }
-
-    @Override
-    protected Cache<K, V> delegate() {
-      return delegate;
-    }
-  }
-
-  /**
-   * Serializes the configuration of a LocalCache, reconstituting it as an LoadingCache using
-   * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
-   * of LocalLoadingCache.
-   *
-   * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
-   * the proxy must be able to behave as the cache itself.
-   */
-  static final class LoadingSerializationProxy<K, V> extends ManualSerializationProxy<K, V>
-      implements LoadingCache<K, V>, Serializable {
-    private static final long serialVersionUID = 1;
-
-    @MonotonicNonNullDecl transient LoadingCache<K, V> autoDelegate;
-
-    LoadingSerializationProxy(LocalCache<K, V> cache) {
-      super(cache);
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      in.defaultReadObject();
-      CacheBuilder<K, V> builder = recreateCacheBuilder();
-      this.autoDelegate = builder.build(loader);
-    }
-
-    @Override
-    public V get(K key) throws ExecutionException {
-      return autoDelegate.get(key);
-    }
-
-    @Override
-    public V getUnchecked(K key) {
-      return autoDelegate.getUnchecked(key);
-    }
-
-    @Override
-    public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-      return autoDelegate.getAll(keys);
-    }
-
-    @Override
-    public final V apply(K key) {
-      return autoDelegate.apply(key);
-    }
-
-    @Override
-    public void refresh(K key) {
-      autoDelegate.refresh(key);
-    }
-
-    private Object readResolve() {
-      return autoDelegate;
-    }
-  }
-
-  static class LocalManualCache<K, V> implements Cache<K, V>, Serializable {
+    static class LocalManualCache<K, V> implements Cache<K, V> {
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
@@ -4873,7 +4717,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+        public Map<K, V> getAllPresent(Iterable<?> keys) {
       return localCache.getAllPresent(keys);
     }
 
@@ -4928,13 +4772,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       localCache.cleanUp();
     }
 
-    // Serialization Support
-
-    private static final long serialVersionUID = 1;
-
-    Object writeReplace() {
-      return new ManualSerializationProxy<>(localCache);
-    }
   }
 
   static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
@@ -4962,7 +4799,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+        public Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
       return localCache.getAll(keys);
     }
 
@@ -4976,13 +4813,5 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return getUnchecked(key);
     }
 
-    // Serialization Support
-
-    private static final long serialVersionUID = 1;
-
-    @Override
-    Object writeReplace() {
-      return new LoadingSerializationProxy<>(localCache);
-    }
   }
 }

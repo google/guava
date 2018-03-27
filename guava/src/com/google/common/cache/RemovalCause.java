@@ -14,7 +14,6 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -25,7 +24,6 @@ import java.util.concurrent.ConcurrentMap;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible
 public enum RemovalCause {
   /**
    * The entry was manually removed by the user. This can result from the user invoking {@link

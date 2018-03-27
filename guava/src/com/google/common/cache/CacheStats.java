@@ -16,11 +16,12 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.GwtCompatible;
+import java.util.concurrent.Callable;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import java.util.concurrent.Callable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Statistics about the performance of a {@link Cache}. Instances of this class are immutable.
@@ -54,7 +55,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible
 public final class CacheStats {
   private final long hitCount;
   private final long missCount;

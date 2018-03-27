@@ -14,10 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * A {@link ListenableFuture} whose result can be set by a {@link #set(Object)}, {@link
@@ -33,7 +32,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Sven Mawson
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
-@GwtCompatible
 public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
   /**
    * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.
@@ -54,7 +52,6 @@ public final class SettableFuture<V> extends AbstractFuture.TrustedFuture<V> {
     return super.setException(throwable);
   }
 
-  @Beta
   @CanIgnoreReturnValue
   @Override
   public boolean setFuture(ListenableFuture<? extends V> future) {

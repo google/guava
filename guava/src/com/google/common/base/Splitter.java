@@ -17,16 +17,13 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
+
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -96,7 +93,6 @@ import java.util.regex.Pattern;
  * @author Louis Wasserman
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
@@ -200,63 +196,7 @@ public final class Splitter {
         });
   }
 
-  /**
-   * Returns a splitter that considers any subsequence matching {@code pattern} to be a separator.
-   * For example, {@code Splitter.on(Pattern.compile("\r?\n")).split(entireFile)} splits a string
-   * into lines whether it uses DOS-style or UNIX-style line terminators.
-   *
-   * @param separatorPattern the pattern that determines whether a subsequence is a separator. This
-   *     pattern may not match the empty string.
-   * @return a splitter, with default settings, that uses this pattern
-   * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string
-   */
-  @GwtIncompatible // java.util.regex
-  public static Splitter on(Pattern separatorPattern) {
-    return on(new JdkPattern(separatorPattern));
-  }
 
-  private static Splitter on(final CommonPattern separatorPattern) {
-    checkArgument(
-        !separatorPattern.matcher("").matches(),
-        "The pattern may not match the empty string: %s",
-        separatorPattern);
-
-    return new Splitter(
-        new Strategy() {
-          @Override
-          public SplittingIterator iterator(final Splitter splitter, CharSequence toSplit) {
-            final CommonMatcher matcher = separatorPattern.matcher(toSplit);
-            return new SplittingIterator(splitter, toSplit) {
-              @Override
-              public int separatorStart(int start) {
-                return matcher.find(start) ? matcher.start() : -1;
-              }
-
-              @Override
-              public int separatorEnd(int separatorPosition) {
-                return matcher.end();
-              }
-            };
-          }
-        });
-  }
-
-  /**
-   * Returns a splitter that considers any subsequence matching a given pattern (regular expression)
-   * to be a separator. For example, {@code Splitter.onPattern("\r?\n").split(entireFile)} splits a
-   * string into lines whether it uses DOS-style or UNIX-style line terminators. This is equivalent
-   * to {@code Splitter.on(Pattern.compile(pattern))}.
-   *
-   * @param separatorPattern the pattern that determines whether a subsequence is a separator. This
-   *     pattern may not match the empty string.
-   * @return a splitter, with default settings, that uses this pattern
-   * @throws IllegalArgumentException if {@code separatorPattern} matches the empty string or is a
-   *     malformed expression
-   */
-  @GwtIncompatible // java.util.regex
-  public static Splitter onPattern(String separatorPattern) {
-    return on(Platform.compilePattern(separatorPattern));
-  }
 
   /**
    * Returns a splitter that divides strings into pieces of the given length. For example, {@code
@@ -404,7 +344,7 @@ public final class Splitter {
    * @return an immutable list of the segments split from the parameter
    * @since 15.0
    */
-  @Beta
+
   public List<String> splitToList(CharSequence sequence) {
     checkNotNull(sequence);
 
@@ -424,7 +364,7 @@ public final class Splitter {
    *
    * @since 10.0
    */
-  @Beta
+
   public MapSplitter withKeyValueSeparator(String separator) {
     return withKeyValueSeparator(on(separator));
   }
@@ -435,7 +375,7 @@ public final class Splitter {
    *
    * @since 14.0
    */
-  @Beta
+
   public MapSplitter withKeyValueSeparator(char separator) {
     return withKeyValueSeparator(on(separator));
   }
@@ -446,7 +386,7 @@ public final class Splitter {
    *
    * @since 10.0
    */
-  @Beta
+
   public MapSplitter withKeyValueSeparator(Splitter keyValueSplitter) {
     return new MapSplitter(this, keyValueSplitter);
   }
@@ -459,7 +399,7 @@ public final class Splitter {
    *
    * @since 10.0
    */
-  @Beta
+
   public static final class MapSplitter {
     private static final String INVALID_ENTRY_MESSAGE = "Chunk [%s] is not a valid entry";
     private final Splitter outerSplitter;

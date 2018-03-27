@@ -16,11 +16,6 @@ package com.google.common.util.concurrent;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -31,6 +26,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
 
+import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /**
  * Utilities for treating interruptible operations as uninterruptible. In all cases, if a thread is
  * interrupted during such a call, the call continues to block until the result is available or the
@@ -39,15 +37,13 @@ import java.util.concurrent.locks.Condition;
  * @author Anthony Zana
  * @since 10.0
  */
-@Beta
-@GwtCompatible(emulated = true)
 public final class Uninterruptibles {
 
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
   // methods is identical, save for method being invoked.
 
   /** Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly. */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static void awaitUninterruptibly(CountDownLatch latch) {
     boolean interrupted = false;
     try {
@@ -71,7 +67,7 @@ public final class Uninterruptibles {
    * uninterruptibly.
    */
   @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
-  @GwtIncompatible // concurrency
+    // concurrency
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -100,7 +96,7 @@ public final class Uninterruptibles {
    *
    * @since 23.6
    */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -123,7 +119,7 @@ public final class Uninterruptibles {
   }
 
   /** Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly. */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static void joinUninterruptibly(Thread toJoin) {
     boolean interrupted = false;
     try {
@@ -146,7 +142,7 @@ public final class Uninterruptibles {
    * Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
    * uninterruptibly.
    */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static void joinUninterruptibly(Thread toJoin, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(toJoin);
     boolean interrupted = false;
@@ -224,7 +220,7 @@ public final class Uninterruptibles {
    * @throws TimeoutException if the wait timed out
    */
   @CanIgnoreReturnValue
-  @GwtIncompatible // TODO
+    // TODO
   public static <V> V getUninterruptibly(Future<V> future, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
     boolean interrupted = false;
@@ -249,7 +245,7 @@ public final class Uninterruptibles {
   }
 
   /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
     boolean interrupted = false;
     try {
@@ -275,7 +271,7 @@ public final class Uninterruptibles {
    * @throws IllegalArgumentException if some property of the specified element prevents it from
    *     being added to the given queue
    */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
     boolean interrupted = false;
     try {
@@ -296,7 +292,7 @@ public final class Uninterruptibles {
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -325,7 +321,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, long timeout, TimeUnit unit) {
     return tryAcquireUninterruptibly(semaphore, 1, timeout, unit);
@@ -337,7 +333,7 @@ public final class Uninterruptibles {
    *
    * @since 18.0
    */
-  @GwtIncompatible // concurrency
+    // concurrency
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
     boolean interrupted = false;

@@ -20,7 +20,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 
-import com.google.common.base.Charsets;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
@@ -38,21 +50,10 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
-import com.google.common.io.BaseEncoding;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Test suites for wrappers in {@code Maps}.
@@ -631,14 +632,16 @@ public class MapsCollectionTest extends TestCase {
   }
 
   private static String encode(String str) {
-    return BaseEncoding.base64().encode(str.getBytes(Charsets.UTF_8));
+        // return Base64Encoder.base64().encode(str.getBytes(Charsets.UTF_8));
+        return null;
   }
 
   private static final Function<String, String> DECODE_FUNCTION =
       new Function<String, String>() {
         @Override
         public String apply(String input) {
-          return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8);
+                    // return new String(BaseEncoding.base64().decode(input), Charsets.UTF_8);
+                    return null;
         }
       };
 

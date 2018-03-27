@@ -19,15 +19,15 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import com.google.common.base.Function;
+import com.google.errorprone.annotations.ForOverride;
+
 /** Implementations of {@code Futures.catching*}. */
-@GwtCompatible
 abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     extends AbstractFuture.TrustedFuture<V> implements Runnable {
   static <V, X extends Throwable> ListenableFuture<V> create(

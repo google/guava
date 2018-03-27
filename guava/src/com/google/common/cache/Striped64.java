@@ -11,8 +11,8 @@
 
 package com.google.common.cache;
 
-import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -20,7 +20,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * striping on 64bit values. The class extends Number so that concrete subclasses must publicly do
  * so.
  */
-@GwtIncompatible
 abstract class Striped64 extends Number {
   /*
    * This class maintains a lazily-initialized table of atomically
@@ -293,6 +292,7 @@ abstract class Striped64 extends Number {
     try {
       return java.security.AccessController.doPrivileged(
           new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+            @Override
             public sun.misc.Unsafe run() throws Exception {
               Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
               for (java.lang.reflect.Field f : k.getDeclaredFields()) {

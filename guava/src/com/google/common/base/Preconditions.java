@@ -14,9 +14,9 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked
@@ -106,7 +106,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-@GwtCompatible
 public final class Preconditions {
   private Preconditions() {}
 

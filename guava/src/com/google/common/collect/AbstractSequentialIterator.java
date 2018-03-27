@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.NoSuchElementException;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -39,7 +39,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Chris Povirk
  * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)
  */
-@GwtCompatible
 public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator<T> {
   @NullableDecl private T nextOrNull;
 

@@ -15,19 +15,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Ascii;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.DoNotMock;
-import com.google.errorprone.annotations.ForOverride;
-import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -42,7 +34,14 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import com.google.common.base.Ascii;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
+import com.google.errorprone.annotations.ForOverride;
+import com.google.j2objc.annotations.ReflectionSupport;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -65,7 +64,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
 @DoNotMock("Use Futures.immediate*Future or SettableFuture")
-@GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> extends FluentFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
@@ -742,7 +740,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *     cancelled or set.
    * @since 19.0
    */
-  @Beta
+
   @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);
@@ -883,7 +881,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *
    * @since 20.0
    */
-  @Beta
+
   @ForOverride
   protected void afterDone() {}
 
@@ -963,7 +961,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       }
       // The future may complete during or before the call to getPendingToString, so we use null
       // as a signal that we should try checking if the future is done again.
-      if (!isNullOrEmpty(pendingDescription)) {
+            if (pendingDescription != null && !pendingDescription.isEmpty()) {
         builder.append("PENDING, info=[").append(pendingDescription).append("]");
       } else if (isDone()) {
         addDoneString(builder);

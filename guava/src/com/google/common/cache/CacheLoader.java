@@ -16,17 +16,16 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import java.io.Serializable;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
@@ -55,7 +54,6 @@ import java.util.concurrent.Executor;
  * @author Charles Fry
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
 public abstract class CacheLoader<K, V> {
   /** Constructor for use by subclasses. */
   protected CacheLoader() {}
@@ -93,11 +91,11 @@ public abstract class CacheLoader<K, V> {
    *     the thread's interrupt status is set
    * @since 11.0
    */
-  @GwtIncompatible // Futures
-  public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
+    // Futures
+    public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
     checkNotNull(key);
     checkNotNull(oldValue);
-    return Futures.immediateFuture(load(key));
+        return Futures.immediateFuture(load(key));
   }
 
   /**
@@ -168,46 +166,43 @@ public abstract class CacheLoader<K, V> {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to {@link
-   * CacheLoader#reload} using {@code executor}.
-   *
-   * <p>This method is useful only when {@code loader.reload} has a synchronous implementation, such
-   * as {@linkplain #reload the default implementation}.
-   *
-   * @since 17.0
-   */
-  @GwtIncompatible // Executor + Futures
-  public static <K, V> CacheLoader<K, V> asyncReloading(
-      final CacheLoader<K, V> loader, final Executor executor) {
-    checkNotNull(loader);
-    checkNotNull(executor);
-    return new CacheLoader<K, V>() {
-      @Override
-      public V load(K key) throws Exception {
-        return loader.load(key);
-      }
+    /**
+     * Returns a {@code CacheLoader} which wraps {@code loader}, executing calls to {@link CacheLoader#reload} using {@code executor}.
+     *
+     * <p>
+     * This method is useful only when {@code loader.reload} has a synchronous implementation, such as {@linkplain #reload the default
+     * implementation}.
+     *
+     * @since 17.0
+     */
+    // Executor + Futures
+    public static <K, V> CacheLoader<K, V> asyncReloading(final CacheLoader<K, V> loader, final Executor executor) {
+        checkNotNull(loader);
+        checkNotNull(executor);
+        return new CacheLoader<K, V>() {
+            @Override
+            public V load(K key) throws Exception {
+                return loader.load(key);
+            }
 
-      @Override
-      public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
-        ListenableFutureTask<V> task =
-            ListenableFutureTask.create(
-                new Callable<V>() {
-                  @Override
-                  public V call() throws Exception {
-                    return loader.reload(key, oldValue).get();
-                  }
+            @Override
+            public ListenableFuture<V> reload(final K key, final V oldValue) throws Exception {
+                ListenableFutureTask<V> task = ListenableFutureTask.create(new Callable<V>() {
+                    @Override
+                    public V call() throws Exception {
+                        return loader.reload(key, oldValue).get();
+                    }
                 });
-        executor.execute(task);
-        return task;
-      }
+                executor.execute(task);
+                return task;
+            }
 
-      @Override
-      public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
-        return loader.loadAll(keys);
-      }
-    };
-  }
+            @Override
+            public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
+                return loader.loadAll(keys);
+            }
+        };
+    }
 
   private static final class SupplierToCacheLoader<V> extends CacheLoader<Object, V>
       implements Serializable {

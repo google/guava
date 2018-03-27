@@ -1,1 +1,0 @@
-This is a resource file for testing purpose.

@@ -17,9 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -29,6 +27,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * An abstract {@code ExecutorService} that allows subclasses to {@linkplain #wrapTask(Callable)
@@ -41,7 +41,6 @@ import java.util.concurrent.TimeoutException;
  * @author Chris Nokleberg
  */
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
-@GwtIncompatible
 abstract class WrappingExecutorService implements ExecutorService {
   private final ExecutorService delegate;
 
@@ -79,12 +78,12 @@ abstract class WrappingExecutorService implements ExecutorService {
    *
    * @throws NullPointerException if any element of {@code tasks} is null
    */
-  private <T> ImmutableList<Callable<T>> wrapTasks(Collection<? extends Callable<T>> tasks) {
-    ImmutableList.Builder<Callable<T>> builder = ImmutableList.builder();
+    private <T> List<Callable<T>> wrapTasks(Collection<? extends Callable<T>> tasks) {
+        List<Callable<T>> lists = new ArrayList<Callable<T>>();
     for (Callable<T> task : tasks) {
-      builder.add(wrapTask(task));
+            lists.add(wrapTask(task));
     }
-    return builder.build();
+        return lists;
   }
 
   // These methods wrap before delegating.

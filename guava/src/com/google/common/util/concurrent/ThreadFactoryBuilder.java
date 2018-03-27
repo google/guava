@@ -17,14 +17,14 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.GwtIncompatible;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.CheckReturnValue;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -44,7 +44,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 4.0
  */
 @CanIgnoreReturnValue
-@GwtIncompatible
 public final class ThreadFactoryBuilder {
   private String nameFormat = null;
   private Boolean daemon = null;
