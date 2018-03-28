@@ -21,12 +21,12 @@
     <truth.version>0.35</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+    <jdk.version>1.8</jdk.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/lafaspot/ConcurrentHashMap/issues</url>
   </issueManagement>
-  <inceptionYear>2010</inceptionYear>
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -39,7 +39,6 @@
   </prerequisites>
   <modules>
     <module>cache</module>
-    <module>cache-tests</module>
   </modules>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
@@ -73,8 +72,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
           </configuration>
         </plugin>
         <plugin>
