@@ -1,42 +1,36 @@
 sudo: false
-
 language: java
-
 jdk:
-  - oraclejdk8
-
-# https://github.com/travis-ci/travis-ci/issues/3259#issuecomment-130860338
+- oraclejdk8
 addons:
   apt:
     packages:
-      - oracle-java8-installer
-
-install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
-
-# https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
-script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
-
+    - oracle-java8-installer
+install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+  install -U -DskipTests=true -f $ROOT_POM
+script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+  verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 after_success:
-  - util/deploy_snapshot.sh
-  - util/update_snapshot_docs.sh
-
+- util/deploy_snapshot.sh
+- util/update_snapshot_docs.sh
 after_failure:
-  - util/print_surefire_reports.sh
-
+- util/print_surefire_reports.sh
 cache:
   directories:
-  - $HOME/.m2
-
+  - "$HOME/.m2"
 env:
   global:
-    - secure: "IPvqFwnLx/GXyImJuwM2MIvzDlBLqEXaQXFGJgAP1nbuenaLAloOOlqQ+iy2FDLBD/j+zjSbR3WWF9DIT4YxAS03Z6iMwxh7GCfk+tyhVtLQnwt7w1rquyhbrrGFsY5U0hr5q80Ww6J+zfp2yZ8aP9FHSy5ahNjqys4FtubOWLk="
-    - secure: "G77Wt2h2fceQ867i1uwOjUygrNeBpLRS8sxgfUZsO66dvlrx1wYFpZLLRIiPcy01peUTE2SvXIXLHKe9v3AlMonPibsQtvvfQSVfx+jgKwLZx9cuf/M5VQlD3etRUh4K/rBezlxWRroeeKcM2DQqiEVLsTDSyNZV9kVAjwfLTvM="
-    - secure: "wieIClPLTXS3QjDzqyp0TqIrVP/Q6iWNPOtcUQYfdDZJGwufE61laTFtzVKXZRb7uJ4GXDObcVU3AcpAwkTX/5sEksBxgv3TZ5Qi0mVx2GRmbE06ULLxi7sPnTCZ/VFtselDWcWArWGAcdCjW9gcCrgj5K/+sYpVKz9a8V+SDM4="
+  - secure: IPvqFwnLx/GXyImJuwM2MIvzDlBLqEXaQXFGJgAP1nbuenaLAloOOlqQ+iy2FDLBD/j+zjSbR3WWF9DIT4YxAS03Z6iMwxh7GCfk+tyhVtLQnwt7w1rquyhbrrGFsY5U0hr5q80Ww6J+zfp2yZ8aP9FHSy5ahNjqys4FtubOWLk=
+  - secure: G77Wt2h2fceQ867i1uwOjUygrNeBpLRS8sxgfUZsO66dvlrx1wYFpZLLRIiPcy01peUTE2SvXIXLHKe9v3AlMonPibsQtvvfQSVfx+jgKwLZx9cuf/M5VQlD3etRUh4K/rBezlxWRroeeKcM2DQqiEVLsTDSyNZV9kVAjwfLTvM=
+  - secure: wieIClPLTXS3QjDzqyp0TqIrVP/Q6iWNPOtcUQYfdDZJGwufE61laTFtzVKXZRb7uJ4GXDObcVU3AcpAwkTX/5sEksBxgv3TZ5Qi0mVx2GRmbE06ULLxi7sPnTCZ/VFtselDWcWArWGAcdCjW9gcCrgj5K/+sYpVKz9a8V+SDM4=
+  - secure: HfLZ7TJNhLtatNh8P8tJYNoGes8ixzJxZyuYWOfRlNcLv6ESmXD3XlyC7WIUSnO4GPI1TETvV7go5kq+7t0MA1VXSTUcYFp4eEvUet0TELFYxqKeUL9qilAI+3AhceCihlWia822OnFSWO04iHHa+qYvmsjP+LhTW7PCf17iiuRIg7GxNBqvvjweBafoMOGnCImkHEO/JIK63/ageepfv1y6+LZEPduZeGiHdlRYEi/oKhjO16xTxezdWnTh5NnbtyN6u3PYhVZOQQw/zjs+6RFK4jSy/kLxWqSr+IyH++HABUUpTFpuCL7ddM2Wb6wFpaa53bvjkHAeOY1b0m85ikeTIQ3TVVFVMtelmlHz6XiyDX4raR5W8COh1vwkcZPdVSa4GTQkK3C/UzWh8wiQXEjWI6Ko8bW0zziF2mj/9euWmmt92NjxIZDRqo11OzM8eRB3NChM51wVDC/n3TiW0aU2i/Cde34KkuUc4xYnrDNB5VtMfUj74l1B1PK+5IpKxvya3L32qkPtSfAuYAQ9hvy+lRyqBpt7LlQSNBXoA2wW9x6QGQxO4wmJPJy+wtWt52HtzZWvImmEnj1lh/SLZ1Ib8vUnomY+u7+axScyZVCslvzwjdePjrUHtWimZw4MGbe4zaO4b85d2eHSiDW8CYgKjliHXb/e7pBZis1/NWk=
+  - secure: FesgMV75lldHXWx8oOhIZ7mQNo7M6ud3eNYZ/pUosAQDyzkwdXtcTo2Rb6R3XT21ZR76urnw6NzGBl7sggkarQk6cDAKeMjkE+w8XHSvXCLrNBn+GoAmpkTrMpBYuPVF3N8lbFgANjaUEe0ZDcsWasjXzsf0n09zGcrvQzVTpFXVjyp/L+EFLTgwBceJF6sHsCkoWZjHnHI3OmfdL3pmfd03dKcc51A+4Dxg5qJ/dUbpdcrr6mr10e7zCf/Qib5BsNxw2maRc+pxXZbk5UBh2xoJ1+jWl2/Nc49l353QtRJCM8hdjKlp7DAXXLFPog7dPW48o1SzcLM8WZh7c8+SpFmwvha+ZgyP187+XSMtexmGyU+Ks54YBcor2L7P6f8WViS3CEEcfqNnWXzY+3rFs1wOlfoi0+yABtsk3qdyFMVh34a3Eh6gQoSvR3EV5hxHU5vrxkQEewkOof5No+weHv55Y8WpSdCQiUV11ZG9N83Ka9eUJhcKmA2GicMSMC4P82vTPL7n7C6C0+Wy3LyzW0hurAW4cj0JXu3SbxYZT36Bbk3DLPJrXoxoybh2BAk8QlW+3eqBREl2AjMHaQud3iHfUPEqlpfLsm3rTSti0NQ/TCqFtKyAuU1J7tNd7U+K1WQPxFtGKDBJ6h0o/4HV4Ov/Sq5w8qJpcuCV8LJb/Fc=
+  - secure: eYecEMs3S3V6f4B7HA0eaGHj1KUrPdY7/Gy4WBPiAqeUuC7O8HzwT4N/t95iFhW7P3dJ/tefAKH+HzVJH5qGYf7vSo8BfejWfXQWOUST2IA63nGc9iR8oiZ+uGRQ+JhDsGmKo/Y6TfKTPcg/T9YFLp5LVHDsynMsZqwTyIJ2pTaCwRhZuKLhR0PoGTdfmNTK3Ej/nRLbW25GR1isnQZNtXU/HVasjAMfEJdDLmYeb6KZSKEv+gzemtNuttF5+rabz1+M/R+RMWDAbpZvT70sIwegcgkJ0WIbaxgIAZDQ/MhBVerqBCG5diCUV8o6CyEU/EKF79I8Db3S4f/c+0k/VI3XmgO1DP3boYjbUu/xJRFkowLKZ/JXGmsF+y7vwGJc3L5myTwWXO4oXeufetZg4I/TIgR5yLIh+PLk0s0Dd+vlMqg8A4pZGKHL1RnXyFVILpFwoY7tRMmrVVmJoIwlVsjq2x4rT467RGrNCYP2qecXcdicDbVHmslCiaqxb/LKNyjpTob6Sp5giRvHPDIZLcBDINktcLUgmqbbWLvuU/u0mst87K2h6uHYSRlkIIwhwoefSHmwa/z5mDgtNRi/GfUzsVXOhNdcOG8Jua5dz33KorEKlsw5KrUf7DIw11t8+rrPjvpHLVVGoVQAxC3razwxxd9lJO8vnCreAqXxOOA=
+  - secure: aoSNzcSXo+qEGTlLDQsexF0pyuw8ziy/NqQ2AdTSkeoAN/Ch0p86Z2IyHz++YReoqUxm4Y8jgTgX9LI44msbzVa9jPZaOr2mx3ewm0rSIIgR0GWnS2lcCkVpf20gy9zMnr6ej8+0+WofvFHxDVXTEnZbZATkJjaPLqkUWEOhf5hCIqdQiC3kCpOSXjAWSzvWv8hMtp2jeSt4iUP/DbyoKmCfRhhBx9gxBNvs8Ll4P6EVRqMxdsOY2oSo+Z0pp6LznE5dOh3ydvim2tut8SBTOQT7FZ5KBP6na87BNvkKTXlrPtioDs4b7cGr0KMZzLNbIWsY1xWYwsRrcRBN8Sp2oohCYWxpG1TpBc5HE9XOO3tNZODyF8FZiKMDU9B1H0gP2ya+/DBFtCwDTb5JPls/X0uUw9bZtOdjPSS2fbqGdVCyoQjrdBVZ4ue1/5YjZj5XHb8yGab0cuX0jtIU/ldhrPHCqileoNb4zZn1CgLYBGcjt2vlMe65FO+gONY29UoRQyZpqyc4VCf7cA0TvwL5cy0gOYRJX3y03vfVjHg9bhu+DQnuZ3mUQk17an5gc0mp2MCpHyOBNTPHmtci+EHmJK7H4SqDkgJMrmvTuiPSt5H4xL7/Urli6on7M7vOqGYHuv7HBVYuS7p8ppJ2P7QF63F97k/rYOlYPdRYfmVoXtg=
   matrix:
-    - ROOT_POM="pom.xml"
-    - ROOT_POM="android/pom.xml"
-
+  - ROOT_POM="pom.xml"
+  - ROOT_POM="android/pom.xml"
 branches:
   only:
-    - master
-    - /^release.*$/
+  - master
+  - "/^release.*$/"

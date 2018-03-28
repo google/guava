@@ -37,6 +37,20 @@
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
+ 
+      <developers>
+        <developer>
+            <id>lafa</id>
+            <name>Lafa</name>
+            <email>luis.alves@lafaspot.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <developerConnection>scm:git:https://github.com/lafaspot/ConcurrentHashMap.git</developerConnection>
+        <connection>scm:git:https://github.com/lafaspot/ConcurrentHashMap.git</connection>
+        <url>https://github.com/lafaspot/ConcurrentHashMap.git</url>
+    </scm>
+    
   <modules>
     <module>cache</module>
   </modules>
@@ -179,13 +193,18 @@
       </plugins>
     </pluginManagement>
   </build>
-  <distributionManagement>
-    <site>
-      <id>guava-site</id>
-      <name>Guava Documentation Site</name>
-      <url>scp://dummy.server/dontinstall/usestaging</url>
-    </site>
-  </distributionManagement>
+  
+      <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+    
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -273,4 +292,28 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  
+  <profiles>
+    <profile>
+        <id>sign</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>  
+  </profiles>
 </project>
