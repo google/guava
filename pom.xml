@@ -37,32 +37,8 @@
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
-  <scm>
-    <connection>scm:git:https://github.com/google/guava.git</connection>
-    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
-    <url>https://github.com/google/guava</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>kevinb9n</id>
-      <name>Kevin Bourrillion</name>
-      <email>kevinb@google.com</email>
-      <organization>Google</organization>
-      <organizationUrl>http://www.google.com</organizationUrl>
-      <roles>
-        <role>owner</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
-    </developer>
-  </developers>
-  <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/google/guava</url>
-  </ciManagement>
   <modules>
     <module>guava</module>
-    <module>guava-gwt</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>
