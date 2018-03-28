@@ -10,11 +10,11 @@
     <version>9</version>
   </parent>
   <groupId>com.github.lafa.cache</groupId>
-  <artifactId>guava-parent</artifactId>
-  <version>24.1-jre</version>
+  <artifactId>cache-parent</artifactId>
+  <version>1.0</version>
   <packaging>pom</packaging>
-  <name>Guava Maven Parent</name>
-  <url>https://github.com/google/guava</url>
+  <name>Cache Maven Parent</name>
+  <url>https://github.com/lafaspot/ConcurrentHashMap</url>
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
@@ -24,7 +24,7 @@
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/google/guava/issues</url>
+    <url>https://github.com/lafaspot/ConcurrentHashMap/issues</url>
   </issueManagement>
   <inceptionYear>2010</inceptionYear>
   <licenses>
@@ -38,9 +38,8 @@
     <maven>3.0.3</maven>
   </prerequisites>
   <modules>
-    <module>guava</module>
-    <module>guava-testlib</module>
-    <module>guava-tests</module>
+    <module>cache</module>
+    <module>cache-tests</module>
   </modules>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
@@ -268,8 +267,8 @@
         <exclusions>
           <exclusion>
             <!-- use the guava we're building. -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <groupId>com.github.lafa.cache</groupId>
+            <artifactId>cache</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
