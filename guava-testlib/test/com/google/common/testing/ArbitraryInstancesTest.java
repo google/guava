@@ -18,48 +18,6 @@ package com.google.common.testing;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Charsets;
-import com.google.common.base.Equivalence;
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
-import com.google.common.base.Splitter;
-import com.google.common.base.Stopwatch;
-import com.google.common.base.Ticker;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.ImmutableClassToInstanceMap;
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MapDifference;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.PeekingIterator;
-import com.google.common.collect.Range;
-import com.google.common.collect.RowSortedTable;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.SortedMapDifference;
-import com.google.common.collect.SortedMultiset;
-import com.google.common.collect.SortedSetMultimap;
-import com.google.common.collect.Table;
-import com.google.common.io.ByteSink;
-import com.google.common.io.ByteSource;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
-import com.google.common.primitives.UnsignedInteger;
-import com.google.common.primitives.UnsignedLong;
-import com.google.common.util.concurrent.AtomicDouble;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -129,6 +87,46 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Charsets;
+import com.google.common.base.Equivalence;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Ticker;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.PeekingIterator;
+import com.google.common.collect.Range;
+import com.google.common.collect.RowSortedTable;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.SortedMapDifference;
+import com.google.common.collect.SortedMultiset;
+import com.google.common.collect.SortedSetMultimap;
+import com.google.common.collect.Table;
+import com.google.common.primitives.UnsignedInteger;
+import com.google.common.primitives.UnsignedLong;
+import com.google.common.util.concurrent.AtomicDouble;
+
 import junit.framework.TestCase;
 
 /**
@@ -229,20 +227,20 @@ public class ArbitraryInstancesTest extends TestCase {
         TreeMap.class);
   }
 
-  public void testGet_misc() {
-    assertNotNull(ArbitraryInstances.get(CharMatcher.class));
-    assertNotNull(ArbitraryInstances.get(Currency.class).getCurrencyCode());
-    assertNotNull(ArbitraryInstances.get(Locale.class));
-    assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
-    assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
-    assertThat(ArbitraryInstances.get(com.google.common.base.Optional.class)).isAbsent();
-    ArbitraryInstances.get(Stopwatch.class).start();
-    assertNotNull(ArbitraryInstances.get(Ticker.class));
-    assertFreshInstanceReturned(Random.class);
-    assertEquals(
-        ArbitraryInstances.get(Random.class).nextInt(),
-        ArbitraryInstances.get(Random.class).nextInt());
-  }
+//  public void testGet_misc() {
+//    assertNotNull(ArbitraryInstances.get(CharMatcher.class));
+//    assertNotNull(ArbitraryInstances.get(Currency.class).getCurrencyCode());
+//    assertNotNull(ArbitraryInstances.get(Locale.class));
+//    assertNotNull(ArbitraryInstances.get(Joiner.class).join(ImmutableList.of("a")));
+//    assertNotNull(ArbitraryInstances.get(Splitter.class).split("a,b"));
+//    assertThat(ArbitraryInstances.get(com.google.common.base.Optional.class)).isAbsent();
+//    ArbitraryInstances.get(Stopwatch.class).start();
+//    assertNotNull(ArbitraryInstances.get(Ticker.class));
+//    assertFreshInstanceReturned(Random.class);
+//    assertEquals(
+//        ArbitraryInstances.get(Random.class).nextInt(),
+//        ArbitraryInstances.get(Random.class).nextInt());
+//  }
 
   public void testGet_concurrent() {
     assertTrue(ArbitraryInstances.get(BlockingDeque.class).isEmpty());
@@ -276,8 +274,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertTrue(ArbitraryInstances.get(Equivalence.class).equivalent(1, 1));
     assertFalse(ArbitraryInstances.get(Equivalence.class).equivalent(1, 2));
   }
-
-  @SuppressWarnings("SelfComparison")
+  
   public void testGet_comparable() {
     @SuppressWarnings("unchecked") // The null value can compare with any Object
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
@@ -357,10 +354,6 @@ public class ArbitraryInstancesTest extends TestCase {
         ByteArrayOutputStream.class, OutputStream.class,
         Writer.class, StringWriter.class,
         PrintStream.class, PrintWriter.class);
-    assertEquals(ByteSource.empty(), ArbitraryInstances.get(ByteSource.class));
-    assertEquals(CharSource.empty(), ArbitraryInstances.get(CharSource.class));
-    assertNotNull(ArbitraryInstances.get(ByteSink.class));
-    assertNotNull(ArbitraryInstances.get(CharSink.class));
   }
 
   public void testGet_reflect() {

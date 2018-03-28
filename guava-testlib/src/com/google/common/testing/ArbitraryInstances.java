@@ -18,6 +18,76 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
+import java.nio.ShortBuffer;
+import java.nio.charset.Charset;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+import java.util.Queue;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.CharMatcher;
@@ -66,87 +136,9 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.collect.TreeMultimap;
-import com.google.common.io.ByteSink;
-import com.google.common.io.ByteSource;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.LongBuffer;
-import java.nio.ShortBuffer;
-import java.nio.charset.Charset;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Currency;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Supplies an arbitrary "default" instance for a wide range of types, often useful in testing
@@ -238,10 +230,6 @@ public final class ArbitraryInstances {
           .put(FloatBuffer.class, FloatBuffer.allocate(0))
           .put(DoubleBuffer.class, DoubleBuffer.allocate(0))
           .put(File.class, new File(""))
-          .put(ByteSource.class, ByteSource.empty())
-          .put(CharSource.class, CharSource.empty())
-          .put(ByteSink.class, NullByteSink.INSTANCE)
-          .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(Charsets.UTF_8))
           // All collections are immutable empty. So safe for any type parameter.
           .put(Iterator.class, ImmutableSet.of().iterator())
           .put(PeekingIterator.class, Iterators.peekingIterator(ImmutableSet.of().iterator()))
@@ -281,9 +269,6 @@ public final class ArbitraryInstances {
           .put(RowSortedTable.class, Tables.unmodifiableRowSortedTable(TreeBasedTable.create()))
           .put(ClassToInstanceMap.class, ImmutableClassToInstanceMap.builder().build())
           .put(ImmutableClassToInstanceMap.class, ImmutableClassToInstanceMap.builder().build())
-          .put(Comparable.class, ByToString.INSTANCE)
-          .put(Comparator.class, AlwaysEqual.INSTANCE)
-          .put(Ordering.class, AlwaysEqual.INSTANCE)
           .put(Range.class, Range.all())
           .put(MapDifference.class, Maps.difference(ImmutableMap.of(), ImmutableMap.of()))
           .put(
@@ -323,14 +308,10 @@ public final class ArbitraryInstances {
     setImplementation(PrintStream.class, Dummies.InMemoryPrintStream.class);
     setImplementation(PrintWriter.class, Dummies.InMemoryPrintWriter.class);
     setImplementation(Queue.class, ArrayDeque.class);
-    setImplementation(Random.class, Dummies.DeterministicRandom.class);
     setImplementation(
         ScheduledThreadPoolExecutor.class, Dummies.DummyScheduledThreadPoolExecutor.class);
     setImplementation(ThreadPoolExecutor.class, Dummies.DummyScheduledThreadPoolExecutor.class);
     setImplementation(Writer.class, StringWriter.class);
-    setImplementation(Runnable.class, Dummies.DummyRunnable.class);
-    setImplementation(ThreadFactory.class, Dummies.DummyThreadFactory.class);
-    setImplementation(Executor.class, Dummies.DummyExecutor.class);
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
@@ -432,12 +413,6 @@ public final class ArbitraryInstances {
       }
     }
 
-    public static final class DeterministicRandom extends Random {
-      public DeterministicRandom() {
-        super(0);
-      }
-    }
-
     public static final class DummyScheduledThreadPoolExecutor extends ScheduledThreadPoolExecutor {
       public DummyScheduledThreadPoolExecutor() {
         super(1);
@@ -449,73 +424,5 @@ public final class ArbitraryInstances {
         super(0);
       }
     }
-
-    public static final class DummyRunnable implements Runnable, Serializable {
-      @Override
-      public void run() {}
-    }
-
-    public static final class DummyThreadFactory implements ThreadFactory, Serializable {
-      @Override
-      public Thread newThread(Runnable r) {
-        return new Thread(r);
-      }
-    }
-
-    public static final class DummyExecutor implements Executor, Serializable {
-      @Override
-      public void execute(Runnable command) {}
-    }
   }
-
-  private static final class NullByteSink extends ByteSink implements Serializable {
-    private static final NullByteSink INSTANCE = new NullByteSink();
-
-    @Override
-    public OutputStream openStream() {
-      return ByteStreams.nullOutputStream();
-    }
-  }
-
-  // Compare by toString() to satisfy 2 properties:
-  // 1. compareTo(null) should throw NullPointerException
-  // 2. the order is deterministic and easy to understand, for debugging purpose.
-  private static final class ByToString implements Comparable<Object>, Serializable {
-    private static final ByToString INSTANCE = new ByToString();
-
-    @Override
-    public int compareTo(Object o) {
-      return toString().compareTo(o.toString());
-    }
-
-    @Override
-    public String toString() {
-      return "BY_TO_STRING";
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-  }
-
-  // Always equal is a valid total ordering. And it works for any Object.
-  private static final class AlwaysEqual extends Ordering<Object> implements Serializable {
-    private static final AlwaysEqual INSTANCE = new AlwaysEqual();
-
-    @Override
-    public int compare(Object o1, Object o2) {
-      return 0;
-    }
-
-    @Override
-    public String toString() {
-      return "ALWAYS_EQUAL";
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-  }
-
-  private ArbitraryInstances() {}
 }
