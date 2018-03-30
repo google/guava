@@ -23,6 +23,7 @@ import static com.google.common.cache.TestingRemovalListeners.nullRemovalListene
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -41,7 +42,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -580,7 +580,7 @@ public class CacheBuilderTest extends TestCase {
         CacheBuilder.newBuilder()
             .recordStats()
             .concurrencyLevel(2)
-            .expireAfterWrite(100, TimeUnit.MILLISECONDS)
+            .expireAfterWrite(100, MILLISECONDS)
             .removalListener(removalListener)
             .maximumSize(5000)
             .build(countingIdentityLoader);
@@ -604,7 +604,7 @@ public class CacheBuilderTest extends TestCase {
     }
 
     threadPool.shutdown();
-    threadPool.awaitTermination(300, TimeUnit.SECONDS);
+    threadPool.awaitTermination(300, SECONDS);
 
     // Since we're not doing any more cache operations, and the cache only expires/evicts when doing
     // other operations, the cache and the removal queue won't change from this point on.
