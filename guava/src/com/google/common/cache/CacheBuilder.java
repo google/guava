@@ -660,6 +660,9 @@ public final class CacheBuilder<K, V> {
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
    *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #expireAfterWrite(Duration)} instead.
+   *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
@@ -724,6 +727,9 @@ public final class CacheBuilder<K, V> {
    * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
+   *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #expireAfterAccess(Duration)} instead.
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
@@ -797,6 +803,9 @@ public final class CacheBuilder<K, V> {
    * otherwise.
    *
    * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
+   *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #refreshAfterWrite(Duration)} instead.
    *
    * @param duration the length of time after an entry is created that it should be considered
    *     stale, and thus eligible for refresh
