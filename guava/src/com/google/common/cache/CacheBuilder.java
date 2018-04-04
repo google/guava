@@ -33,6 +33,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+import java.time.Duration;
 import java.util.ConcurrentModificationException;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -677,6 +678,35 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
+  /**
+   * Specifies that each entry should be automatically removed from the cache once a fixed duration
+   * has elapsed after the entry's creation, or the most recent replacement of its value.
+   *
+   * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
+   * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
+   * useful in testing, or to disable caching temporarily without a code change.
+   *
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
+   *
+   * @param duration the length of time after an entry is created that it should be automatically
+   *                 removed
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException is the time to live or time to idle was already set
+   */
+  public CacheBuilder<K, V> expireAfterWrite(Duration duration) {
+    checkState(
+            expireAfterWriteNanos == UNSET_INT,
+            "expireAfterWrite was already set to %s ns",
+            expireAfterWriteNanos);
+    checkArgument(!duration.isNegative(), "duration cannot be negative: %s nanosecond" +
+            ((duration.toNanos() > 1) ? "s":""), duration.toNanos());
+    this.expireAfterWriteNanos = duration.toNanos();
+    return this;
+  }
+
   long getExpireAfterWriteNanos() {
     return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
   }
@@ -739,6 +769,38 @@ public final class CacheBuilder<K, V> {
         expireAfterAccessNanos);
     checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
+    return this;
+  }
+
+  /**
+   * Specifies that each entry should be automatically removed from the cache once a fixed duration
+   * has elapsed after the entry's creation, the most recent replacement of its value, or its last
+   * access. Access time is reset by all cache read and write operations (including {@code
+   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
+   * collection-views of {@link Cache#asMap}.
+   *
+   * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
+   * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
+   * useful in testing, or to disable caching temporarily without a code change.
+   *
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
+   *
+   * @param duration the length of time after an entry is last accessed that it should be
+   *     automatically removed
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the time to idle or time to live was already set
+   */
+  public CacheBuilder<K, V> expireAfterAccess(Duration duration) {
+    checkState(
+            expireAfterAccessNanos == UNSET_INT,
+            "expireAfterAccess was already set to %s ns",
+            expireAfterAccessNanos);
+    checkArgument(!duration.isNegative(), "duration cannot be negative: %s nanosecond" +
+            ((duration.toNanos() > 1) ? "s":""), duration.toNanos());
+    this.expireAfterAccessNanos = duration.toNanos();
     return this;
   }
 
@@ -812,6 +874,40 @@ public final class CacheBuilder<K, V> {
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
     checkArgument(duration > 0, "duration must be positive: %s %s", duration, unit);
     this.refreshNanos = unit.toNanos(duration);
+    return this;
+  }
+
+  /**
+   * Specifies that active entries are eligible for automatic refresh once a fixed duration has
+   * elapsed after the entry's creation, or the most recent replacement of its value. The semantics
+   * of refreshes are specified in {@link LoadingCache#refresh}, and are performed by calling {@link
+   * CacheLoader#reload}.
+   *
+   * <p>As the default implementation of {@link CacheLoader#reload} is synchronous, it is
+   * recommended that users of this method override {@link CacheLoader#reload} with an asynchronous
+   * implementation; otherwise refreshes will be performed during unrelated cache read and write
+   * operations.
+   *
+   * <p>Currently automatic refreshes are performed when the first stale request for an entry
+   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
+   * and immediately return the new value if the returned future is complete, and the old value
+   * otherwise.
+   *
+   * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
+   *
+   * @param duration the length of time after an entry is created that it should be considered
+   *     stale, and thus eligible for refresh
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the refresh interval was already set
+   */
+  @GwtIncompatible // To be supported (synchronously).
+  public CacheBuilder<K, V> refreshAfterWrite(Duration duration) {
+    checkNotNull(duration);
+    checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
+    checkArgument(duration.toNanos() > 0, "duration must be positive: %s nanosecond" +
+            ((duration.toNanos() > 1) ? "s":""), duration.toNanos());
+    this.refreshNanos = duration.toNanos();
     return this;
   }
 
