@@ -175,7 +175,7 @@ public final class Suppliers {
 
     @Override
     public String toString() {
-      return "Suppliers.memoize(" + delegate + ")";
+      return "Suppliers.memoize(" + (delegate == null ? "() -> " + value : delegate) + ")";
     }
   }
 
