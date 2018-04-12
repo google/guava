@@ -617,36 +617,36 @@
 <span class="sourceLineNo">609</span>  }<a name="line.609"></a>
 <span class="sourceLineNo">610</span><a name="line.610"></a>
 <span class="sourceLineNo">611</span>  private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {<a name="line.611"></a>
-<span class="sourceLineNo">612</span>    private final int bits;<a name="line.612"></a>
-<span class="sourceLineNo">613</span><a name="line.613"></a>
-<span class="sourceLineNo">614</span>    private ConcatenatedHashFunction(HashFunction... functions) {<a name="line.614"></a>
-<span class="sourceLineNo">615</span>      super(functions);<a name="line.615"></a>
-<span class="sourceLineNo">616</span>      int bitSum = 0;<a name="line.616"></a>
-<span class="sourceLineNo">617</span>      for (HashFunction function : functions) {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>        bitSum += function.bits();<a name="line.618"></a>
-<span class="sourceLineNo">619</span>        checkArgument(<a name="line.619"></a>
-<span class="sourceLineNo">620</span>            function.bits() % 8 == 0,<a name="line.620"></a>
-<span class="sourceLineNo">621</span>            "the number of bits (%s) in hashFunction (%s) must be divisible by 8",<a name="line.621"></a>
-<span class="sourceLineNo">622</span>            function.bits(),<a name="line.622"></a>
-<span class="sourceLineNo">623</span>            function);<a name="line.623"></a>
-<span class="sourceLineNo">624</span>      }<a name="line.624"></a>
-<span class="sourceLineNo">625</span>      this.bits = bitSum;<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    }<a name="line.626"></a>
-<span class="sourceLineNo">627</span><a name="line.627"></a>
-<span class="sourceLineNo">628</span>    @Override<a name="line.628"></a>
-<span class="sourceLineNo">629</span>    HashCode makeHash(Hasher[] hashers) {<a name="line.629"></a>
-<span class="sourceLineNo">630</span>      byte[] bytes = new byte[bits / 8];<a name="line.630"></a>
-<span class="sourceLineNo">631</span>      int i = 0;<a name="line.631"></a>
-<span class="sourceLineNo">632</span>      for (Hasher hasher : hashers) {<a name="line.632"></a>
-<span class="sourceLineNo">633</span>        HashCode newHash = hasher.hash();<a name="line.633"></a>
-<span class="sourceLineNo">634</span>        i += newHash.writeBytesTo(bytes, i, newHash.bits() / 8);<a name="line.634"></a>
-<span class="sourceLineNo">635</span>      }<a name="line.635"></a>
-<span class="sourceLineNo">636</span>      return HashCode.fromBytesNoCopy(bytes);<a name="line.636"></a>
-<span class="sourceLineNo">637</span>    }<a name="line.637"></a>
-<span class="sourceLineNo">638</span><a name="line.638"></a>
-<span class="sourceLineNo">639</span>    @Override<a name="line.639"></a>
-<span class="sourceLineNo">640</span>    public int bits() {<a name="line.640"></a>
-<span class="sourceLineNo">641</span>      return bits;<a name="line.641"></a>
+<span class="sourceLineNo">612</span><a name="line.612"></a>
+<span class="sourceLineNo">613</span>    private ConcatenatedHashFunction(HashFunction... functions) {<a name="line.613"></a>
+<span class="sourceLineNo">614</span>      super(functions);<a name="line.614"></a>
+<span class="sourceLineNo">615</span>      for (HashFunction function : functions) {<a name="line.615"></a>
+<span class="sourceLineNo">616</span>        checkArgument(<a name="line.616"></a>
+<span class="sourceLineNo">617</span>            function.bits() % 8 == 0,<a name="line.617"></a>
+<span class="sourceLineNo">618</span>            "the number of bits (%s) in hashFunction (%s) must be divisible by 8",<a name="line.618"></a>
+<span class="sourceLineNo">619</span>            function.bits(),<a name="line.619"></a>
+<span class="sourceLineNo">620</span>            function);<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      }<a name="line.621"></a>
+<span class="sourceLineNo">622</span>    }<a name="line.622"></a>
+<span class="sourceLineNo">623</span><a name="line.623"></a>
+<span class="sourceLineNo">624</span>    @Override<a name="line.624"></a>
+<span class="sourceLineNo">625</span>    HashCode makeHash(Hasher[] hashers) {<a name="line.625"></a>
+<span class="sourceLineNo">626</span>      byte[] bytes = new byte[bits() / 8];<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      int i = 0;<a name="line.627"></a>
+<span class="sourceLineNo">628</span>      for (Hasher hasher : hashers) {<a name="line.628"></a>
+<span class="sourceLineNo">629</span>        HashCode newHash = hasher.hash();<a name="line.629"></a>
+<span class="sourceLineNo">630</span>        i += newHash.writeBytesTo(bytes, i, newHash.bits() / 8);<a name="line.630"></a>
+<span class="sourceLineNo">631</span>      }<a name="line.631"></a>
+<span class="sourceLineNo">632</span>      return HashCode.fromBytesNoCopy(bytes);<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    }<a name="line.633"></a>
+<span class="sourceLineNo">634</span><a name="line.634"></a>
+<span class="sourceLineNo">635</span>    @Override<a name="line.635"></a>
+<span class="sourceLineNo">636</span>    public int bits() {<a name="line.636"></a>
+<span class="sourceLineNo">637</span>      int bitSum = 0;<a name="line.637"></a>
+<span class="sourceLineNo">638</span>      for (HashFunction function : functions) {<a name="line.638"></a>
+<span class="sourceLineNo">639</span>        bitSum += function.bits();<a name="line.639"></a>
+<span class="sourceLineNo">640</span>      }<a name="line.640"></a>
+<span class="sourceLineNo">641</span>      return bitSum;<a name="line.641"></a>
 <span class="sourceLineNo">642</span>    }<a name="line.642"></a>
 <span class="sourceLineNo">643</span><a name="line.643"></a>
 <span class="sourceLineNo">644</span>    @Override<a name="line.644"></a>
@@ -660,7 +660,7 @@
 <span class="sourceLineNo">652</span><a name="line.652"></a>
 <span class="sourceLineNo">653</span>    @Override<a name="line.653"></a>
 <span class="sourceLineNo">654</span>    public int hashCode() {<a name="line.654"></a>
-<span class="sourceLineNo">655</span>      return Arrays.hashCode(functions) * 31 + bits;<a name="line.655"></a>
+<span class="sourceLineNo">655</span>      return Arrays.hashCode(functions);<a name="line.655"></a>
 <span class="sourceLineNo">656</span>    }<a name="line.656"></a>
 <span class="sourceLineNo">657</span>  }<a name="line.657"></a>
 <span class="sourceLineNo">658</span><a name="line.658"></a>
