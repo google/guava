@@ -86,8 +86,6 @@ public final class InternetDomainName {
    */
   private static final int NO_SUFFIX_FOUND = -1;
 
-  private static final String DOT_REGEX = "\\.";
-
   /**
    * Maximum parts (labels) in a domain name. This value arises from the 255-octet limit described
    * in <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11 with the fact that the
@@ -592,10 +590,10 @@ public final class InternetDomainName {
    */
   private static boolean matchesWildcardSuffixType(
       Optional<PublicSuffixType> desiredType, String domain) {
-    final String[] pieces = domain.split(DOT_REGEX, 2);
-    return pieces.length == 2
+    List<String> pieces = DOT_SPLITTER.limit(2).splitToList(domain);
+    return pieces.size() == 2
         && matchesType(
-            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces[1])));
+            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces.get(1))));
   }
 
   /**
