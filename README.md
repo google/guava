@@ -99,8 +99,8 @@ correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
 [current release]: https://github.com/google/guava/releases/tag/v24.1
-[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
-[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
+[guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
 [Guava Beta Checker]: https://github.com/google/guava-beta-checker
 
