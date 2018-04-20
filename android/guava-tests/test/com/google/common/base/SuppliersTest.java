@@ -112,7 +112,8 @@ public class SuppliersTest extends TestCase {
     memoizeExceptionThrownTest(new SerializableThrowingSupplier());
   }
 
-  private void memoizeExceptionThrownTest(ThrowingSupplier memoizedSupplier) {
+  private void memoizeExceptionThrownTest(ThrowingSupplier throwingSupplier) {
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(throwingSupplier);
     // call get() twice to make sure that memoization doesn't interfere
     // with throwing the exception
     for (int i = 0; i < 2; i++) {
