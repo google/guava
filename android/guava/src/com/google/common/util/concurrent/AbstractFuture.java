@@ -25,7 +25,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
@@ -64,7 +63,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
-@DoNotMock("Use Futures.immediate*Future or SettableFuture")
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V> extends FluentFuture<V> {
