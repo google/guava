@@ -2243,6 +2243,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
         newValue = loadingValueReference.compute(key, function);
         if (newValue != null) {
+          if (valueReference != null && newValue == valueReference.get()) {
+            loadingValueReference.set(newValue);
+            setValue(e, key, newValue, now);
+            return newValue;
+          }
           try {
             return getAndRecordStats(
                 key, hash, loadingValueReference, Futures.immediateFuture(newValue));
