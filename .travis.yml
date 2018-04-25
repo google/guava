@@ -11,12 +11,13 @@ addons:
     packages:
       - oracle-java8-installer
 
-# install: mvn -B install -U -DskipTests=true -f $ROOT_POM
+# Upstream version:
+# install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
 install: true
 
 # https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
-# script: travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
-# script: travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Danimal.sniffer.skip=true -f $ROOT_POM
+# Upstream version:
+# script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 script: cd guava && mvn package -Dmaven.test.skip=true -Danimal.sniffer.skip=true
 
 after_success:

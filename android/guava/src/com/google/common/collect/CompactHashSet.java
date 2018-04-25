@@ -56,6 +56,11 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>If there are no removals, then {@link #iterator iteration} order is the same as insertion
  * order. Any removal invalidates any ordering guarantees.
  *
+ * <p>This class should not be assumed to be universally superior to {@code java.util.HashSet}.
+ * Generally speaking, this class reduces object allocation and memory consumption at the price of
+ * moderately increased constant factors of CPU.  Only use this class when there is a specific
+ * reason to prioritize memory over CPU.
+ *
  * @author Dimitris Andreou
  */
 @GwtIncompatible // not worth using in GWT for now

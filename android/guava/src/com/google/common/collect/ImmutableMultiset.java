@@ -350,9 +350,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       return ImmutableMultiset.this.hashCode();
     }
 
-    // We can't label this with @Override, because it doesn't override anything
-    // in the GWT emulated version.
-    // TODO(cpovirk): try making all copies of this method @GwtIncompatible instead
+    @GwtIncompatible
+    @Override
     Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
@@ -360,6 +359,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     private static final long serialVersionUID = 0;
   }
 
+  @GwtIncompatible
   static class EntrySetSerializedForm<E> implements Serializable {
     final ImmutableMultiset<E> multiset;
 
@@ -372,8 +372,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
   }
 
-  // We can't label this with @Override, because it doesn't override anything
-  // in the GWT emulated version.
+  @GwtIncompatible
+  @Override
   abstract Object writeReplace();
 
   /**
