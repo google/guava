@@ -32,7 +32,7 @@ git fetch https://github.com/google/guava
 git pull https://github.com/google/guava <commitid>
 ```
 
-Also change a number of pom.xml files that have the most recent release hard-coded.
+Also change pom.xml files that have the most recent release hard-coded.
 
 ```
 preplace '23\.5' 24.1 `findfile pom.xml` guava/cfMavenCentral.xml
@@ -42,7 +42,7 @@ preplace '23\.5' 24.1 `findfile pom.xml` guava/cfMavenCentral.xml
 To upload to Maven Central
 --------------------------
 
-# Set a new Maven Central version number in file guava/cfMavenCentral.xml.
+# Ensure the version number is set properly in file guava/cfMavenCentral.xml.
 # Then, set this variable to the same version.
 PACKAGE=guava-24.1-jre
 
@@ -53,6 +53,8 @@ cd guava
 mvn package -Dmaven.test.skip=true -Danimal.sniffer.skip=true && \
 mvn source:jar && \
 mvn javadoc:javadoc && (cd target/site/apidocs && jar -cf ${PACKAGE}-javadoc.jar com)
+# To get this to work for 24.1, I had to fix syntax errors with periods in serialVersionUID.
+# Search for: long serialVersionUID.*\.
 
 ## This does not seem to work for me:
 # -Dhomedir=/projects/swlab1/checker-framework/hosting-info
