@@ -144,9 +144,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in April 2018.
+   *     themselves. This method is scheduled for removal from Guava in July 2018.
    */
-  // TODO(b/72241575): Remove by 2018-04
+  // TODO(b/72241575): Remove by 2018-07
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
@@ -183,9 +183,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in April 2018.
+   *     themselves. This method is scheduled for removal from Guava in July 2018.
    */
-  // TODO(b/72241893): Remove by 2018-04
+  // TODO(b/72241893): Remove by 2018-07
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
@@ -230,9 +230,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in April 2018.
+   *     themselves. This method is scheduled for removal from Guava in July 2018.
    */
-  // TODO(b/72241500): Remove by 2018-04
+  // TODO(b/72241500): Remove by 2018-07
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
@@ -319,7 +319,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     that requires an executor}. For identical behavior, pass {@link
    *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
    *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in April 2018.
+   *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
@@ -438,7 +438,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     the overload that requires an executor}. For identical behavior, pass {@link
    *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
    *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in April 2018.
+   *     documentation. This method is scheduled to be removed in July 2018.
    */
   @CanIgnoreReturnValue // TODO(kak): @CheckReturnValue
   @Deprecated
@@ -579,7 +579,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     overload that requires an executor}. For identical behavior, pass {@link
    *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
    *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in April 2018.
+   *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
   public static <I, O> ListenableFuture<O> transformAsync(
@@ -663,7 +663,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
    *     but consider whether another executor would be safer, as discussed in the {@link
    *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-   *     scheduled to be removed in April 2018.
+   *     scheduled to be removed in July 2018.
    */
   @Deprecated
   public static <I, O> ListenableFuture<O> transform(
@@ -920,7 +920,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      *     consider whether another executor would be safer, as discussed in the {@link
      *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     *     scheduled to be removed in April 2018.
+     *     scheduled to be removed in July 2018.
      */
     @Deprecated
     public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner) {
@@ -954,7 +954,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      *     consider whether another executor would be safer, as discussed in the {@link
      *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     *     scheduled to be removed in April 2018.
+     *     scheduled to be removed in July 2018.
      */
     @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     @Deprecated
@@ -1268,7 +1268,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     overload that requires an executor}. For identical behavior, pass {@link
    *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
    *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in April 2018.
+   *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
   public static <V> void addCallback(

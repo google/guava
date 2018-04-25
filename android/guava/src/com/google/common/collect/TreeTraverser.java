@@ -67,7 +67,7 @@ import java.util.Queue;
  *     their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
  *     implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
  *     the same lambda function as passed into {@link #using(Function)}.
- *     <p>This class is scheduled to be removed in April 2018.
+ *     <p>This class is scheduled to be removed in July 2018.
  */
 @Deprecated
 @Beta
