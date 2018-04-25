@@ -1,0 +1,3 @@
+OK: com.google.common.cache.CacheBuilder Method expireAfterAccess(java.time.Duration)
+OK: com.google.common.cache.CacheBuilder Method expireAfterWrite(java.time.Duration)
+OK: com.google.common.cache.CacheBuilder Method refreshAfterWrite(java.time.Duration)
