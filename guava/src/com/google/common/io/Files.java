@@ -802,11 +802,10 @@ public final class Files {
    *
    * @since 15.0
    * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
-   *     scheduled to be removed in April 2018.
+   *     {@link #fileTraverser()} instead with the same semantics as this method.
    */
   @Deprecated
-  public static TreeTraverser<File> fileTreeTraverser() {
+  static TreeTraverser<File> fileTreeTraverser() {
     return FILE_TREE_TRAVERSER;
   }
 
