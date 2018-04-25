@@ -34572,7 +34572,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     lEsS_tHaNp>This class is scheduled to be removed in April 2018.">
+     lEsS_tHaNp>This class is scheduled to be removed in July 2018.">
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -34695,7 +34695,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     <p>This class is scheduled to be removed in April 2018.]]>
+     <p>This class is scheduled to be removed in July 2018.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.TreeTraverser -->
@@ -43598,26 +43598,6 @@
      qualified file name (including a path) or just a file name.
  @return The file name without its path or extension.
  @since 14.0]]>
-      </doc>
-    </method>
-    <method name="fileTreeTraverser" return="com.google.common.collect.TreeTraverser&lt;java.io.File&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-     {@link #fileTraverser()} instead with the same semantics as this method. This method is
-     scheduled to be removed in April 2018.">
-      <doc>
-      <![CDATA[Returns a {@link TreeTraverser} instance for {@link File} trees.
-
- <p><b>Warning:</b> {@code File} provides no support for symbolic links, and as such there is no
- way to ensure that a symbolic link to a directory is not followed when traversing the tree. In
- this case, iterables created by this traverser could contain files that are outside of the
- given directory or even be infinite if there is a symbolic link loop.
-
- @since 15.0
- @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-     {@link #fileTraverser()} instead with the same semantics as this method. This method is
-     scheduled to be removed in April 2018.]]>
       </doc>
     </method>
     <method name="fileTraverser" return="com.google.common.graph.Traverser&lt;java.io.File&gt;"
@@ -61407,7 +61387,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.">
+     themselves. This method is scheduled for removal from Guava in July 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="mapper" type="com.google.common.base.Function&lt;? super java.lang.Exception, X&gt;"/>
       <doc>
@@ -61433,7 +61413,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.]]>
+     themselves. This method is scheduled for removal from Guava in July 2018.]]>
       </doc>
     </method>
     <method name="immediateFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61457,7 +61437,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.">
+     themselves. This method is scheduled for removal from Guava in July 2018.">
       <param name="value" type="V"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has its value set immediately upon construction.
@@ -61473,7 +61453,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.]]>
+     themselves. This method is scheduled for removal from Guava in July 2018.]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61510,7 +61490,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.">
+     themselves. This method is scheduled for removal from Guava in July 2018.">
       <param name="exception" type="X extends java.lang.Exception"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has an exception set immediately upon construction.
@@ -61527,7 +61507,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in April 2018.]]>
+     themselves. This method is scheduled for removal from Guava in July 2018.]]>
       </doc>
     </method>
     <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -61565,7 +61545,7 @@
      that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.">
+     documentation. This method is scheduled to be removed in July 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
       <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
       <param name="fallback" type="com.google.common.base.Function&lt;? super X, ? extends V&gt;"/>
@@ -61609,7 +61589,7 @@
      that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.]]>
+     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61666,7 +61646,7 @@
      the overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.">
+     documentation. This method is scheduled to be removed in July 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
       <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
       <param name="fallback" type="com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;"/>
@@ -61731,7 +61711,7 @@
      the overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.]]>
+     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="catchingAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61830,7 +61810,7 @@
      overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.">
+     documentation. This method is scheduled to be removed in July 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
       <param name="function" type="com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;"/>
       <doc>
@@ -61872,7 +61852,7 @@
      overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.]]>
+     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="transformAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -61926,7 +61906,7 @@
      requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
      but consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.">
+     scheduled to be removed in July 2018.">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
       <param name="function" type="com.google.common.base.Function&lt;? super I, ? extends O&gt;"/>
       <doc>
@@ -61962,7 +61942,7 @@
      requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
      but consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.]]>
+     scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="transform" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -62204,7 +62184,7 @@
      overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.">
+     documentation. This method is scheduled to be removed in July 2018.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="callback" type="com.google.common.util.concurrent.FutureCallback&lt;? super V&gt;"/>
       <doc>
@@ -62245,7 +62225,7 @@
      overload that requires an executor}. For identical behavior, pass {@link
      MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
      discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in April 2018.]]>
+     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="addCallback"
@@ -62522,7 +62502,7 @@
      executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.">
+     scheduled to be removed in July 2018.">
       <param name="combiner" type="com.google.common.util.concurrent.AsyncCallable&lt;C&gt;"/>
       <doc>
       <![CDATA[Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
@@ -62532,7 +62512,7 @@
      executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.]]>
+     scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
@@ -62563,7 +62543,7 @@
      executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.">
+     scheduled to be removed in July 2018.">
       <param name="combiner" type="java.util.concurrent.Callable&lt;C&gt;"/>
       <doc>
       <![CDATA[Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
@@ -62573,7 +62553,7 @@
      executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
      consider whether another executor would be safer, as discussed in the {@link
      ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in April 2018.]]>
+     scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="run" return="com.google.common.util.concurrent.ListenableFuture&lt;?&gt;"
