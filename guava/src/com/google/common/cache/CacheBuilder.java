@@ -640,7 +640,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT
+   * @since 25.0
    */
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
@@ -705,7 +705,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT
+   * @since 25.0
    */
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
@@ -778,7 +778,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the refresh interval was already set
    * @throws ArithmeticException for durations greater than +/- approximately 292 years
-   * @since NEXT
+   * @since 25.0
    */
   @J2ObjCIncompatible
   @GwtIncompatible // java.time.Duration
