@@ -35,11 +35,13 @@ git fetch https://github.com/google/guava
 git pull https://github.com/google/guava <commitid>
 ```
 
-Also change pom.xml files that have the most recent release hard-coded:
+Change pom.xml files that have the most recent Guava release hard-coded:
 
 ```
 preplace '24\.1' 25.0 `findfile pom.xml` guava/cfMavenCentral.xml
 ```
+
+Use latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.
 
 
 To upload to Maven Central
