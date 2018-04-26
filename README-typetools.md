@@ -18,6 +18,8 @@ Create file `guava/target/guava-HEAD-jre-SNAPSHOT.jar`:
 To update to a newer version of the upstream library
 ----------------------------------------------------
 
+This must be done on a CSE machine, which has access to the necessary passwords.
+
 In the upstream repository, find the commit corresponding to a public release.
 
 Date of release: https://github.com/google/guava/releases
