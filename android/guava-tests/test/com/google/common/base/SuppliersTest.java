@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.testing.SerializableTester.reserialize;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -48,6 +49,11 @@ public class SuppliersTest extends TestCase {
     public Integer get() {
       calls++;
       return calls * 10;
+    }
+
+    @Override
+    public String toString() {
+      return "CountingSupplier";
     }
   }
 
@@ -106,7 +112,8 @@ public class SuppliersTest extends TestCase {
     memoizeExceptionThrownTest(new SerializableThrowingSupplier());
   }
 
-  private void memoizeExceptionThrownTest(ThrowingSupplier memoizedSupplier) {
+  private void memoizeExceptionThrownTest(ThrowingSupplier throwingSupplier) {
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(throwingSupplier);
     // call get() twice to make sure that memoization doesn't interfere
     // with throwing the exception
     for (int i = 0; i < 2; i++) {
@@ -123,9 +130,13 @@ public class SuppliersTest extends TestCase {
   public void testMemoizeNonSerializable() throws Exception {
     CountingSupplier countingSupplier = new CountingSupplier();
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
     memoizedSupplier.get();
+    assertThat(memoizedSupplier.toString())
+        .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
+
     // Should get an exception when we try to serialize.
     try {
       reserialize(memoizedSupplier);
@@ -138,11 +149,13 @@ public class SuppliersTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testMemoizeSerializable() throws Exception {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
-
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
     checkMemoize(countingSupplier, memoizedSupplier);
     // Calls to the original memoized supplier shouldn't affect its copy.
     memoizedSupplier.get();
+    assertThat(memoizedSupplier.toString())
+        .isEqualTo("Suppliers.memoize(<supplier that returned 10>)");
 
     Supplier<Integer> copy = reserialize(memoizedSupplier);
     memoizedSupplier.get();

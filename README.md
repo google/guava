@@ -1,7 +1,7 @@
 # Guava: Google Core Libraries for Java
 
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.google.guava/guava)
+[![Maven Central](https://img.shields.io/maven-central/v/com.google.guava/guava.svg)](https://mvnrepository.com/artifact/com.google.guava/guava/latest)
 
 Guava is a set of core libraries that includes new collection types (such as
 multimap and multiset), immutable collections, a graph library, functional
@@ -18,10 +18,10 @@ Guava comes in two flavors.
 
 ## Latest release
 
-The most recent release is [Guava 24.1][current release], released 2018-03-14.
+The most recent release is [Guava 25.0][current release], released 2018-04-25.
 
 The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `24.1-jre` for the JRE flavor, or `24.1-android` for the Android flavor.
+version `25.0-jre` for the JRE flavor, or `25.0-android` for the Android flavor.
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -29,9 +29,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>24.1-jre</version>
+  <version>25.0-jre</version>
   <!-- or, for Android: -->
-  <version>24.1-android</version>
+  <version>25.0-android</version>
 </dependency>
 ```
 
@@ -39,9 +39,9 @@ To add a dependency using Gradle:
 
 ```
 dependencies {
-  compile 'com.google.guava:guava:24.1-jre'
+  compile 'com.google.guava:guava:25.0-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:24.1-android'
+  compile 'com.google.guava:guava:25.0-android'
 }
 ```
 
@@ -98,9 +98,9 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[current release]: https://github.com/google/guava/releases/tag/v24.1
-[guava-snapshot-api-docs]: http://google.github.io/guava/releases/snapshot-jre/api/docs/
-[guava-snapshot-api-diffs]: http://google.github.io/guava/releases/snapshot-jre/api/diffs/
+[current release]: https://github.com/google/guava/releases/tag/v25.0
+[guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
 [Guava Beta Checker]: https://github.com/google/guava-beta-checker
 

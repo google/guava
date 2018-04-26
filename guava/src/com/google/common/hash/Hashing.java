@@ -609,25 +609,21 @@ public final class Hashing {
   }
 
   private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
-    private final int bits;
 
     private ConcatenatedHashFunction(HashFunction... functions) {
       super(functions);
-      int bitSum = 0;
       for (HashFunction function : functions) {
-        bitSum += function.bits();
         checkArgument(
             function.bits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
             function.bits(),
             function);
       }
-      this.bits = bitSum;
     }
 
     @Override
     HashCode makeHash(Hasher[] hashers) {
-      byte[] bytes = new byte[bits / 8];
+      byte[] bytes = new byte[bits() / 8];
       int i = 0;
       for (Hasher hasher : hashers) {
         HashCode newHash = hasher.hash();
@@ -638,7 +634,11 @@ public final class Hashing {
 
     @Override
     public int bits() {
-      return bits;
+      int bitSum = 0;
+      for (HashFunction function : functions) {
+        bitSum += function.bits();
+      }
+      return bitSum;
     }
 
     @Override
@@ -652,7 +652,7 @@ public final class Hashing {
 
     @Override
     public int hashCode() {
-      return Arrays.hashCode(functions) * 31 + bits;
+      return Arrays.hashCode(functions);
     }
   }
 

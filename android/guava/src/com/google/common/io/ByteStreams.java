@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,7 +37,9 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -49,9 +52,11 @@ import java.util.Arrays;
 @GwtIncompatible
 public final class ByteStreams {
 
+  private static final int BUFFER_SIZE = 8192;
+
   /** Creates a new byte array for buffering reads or writes. */
   static byte[] createBuffer() {
-    return new byte[8192];
+    return new byte[BUFFER_SIZE];
   }
 
   /**
@@ -149,6 +154,61 @@ public final class ByteStreams {
     return total;
   }
 
+  /** Max array length on JVM. */
+  private static final int MAX_ARRAY_LEN = Integer.MAX_VALUE - 8;
+
+  /** Large enough to never need to expand, given the geometric progression of buffer sizes. */
+  private static final int TO_BYTE_ARRAY_DEQUE_SIZE = 20;
+
+  /**
+   * Returns a byte array containing the bytes from the buffers already in {@code bufs} (which have
+   * a total combined length of {@code totalLen} bytes) followed by all bytes remaining in the given
+   * input stream.
+   */
+  private static byte[] toByteArrayInternal(InputStream in, Deque<byte[]> bufs, int totalLen)
+      throws IOException {
+    // Starting with an 8k buffer, double the size of each sucessive buffer. Buffers are retained
+    // in a deque so that there's no copying between buffers while reading and so all of the bytes
+    // in each new allocated buffer are available for reading from the stream.
+    for (int bufSize = BUFFER_SIZE;
+         totalLen < MAX_ARRAY_LEN;
+         bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
+      byte[] buf = new byte[Math.min(bufSize, MAX_ARRAY_LEN - totalLen)];
+      bufs.add(buf);
+      int off = 0;
+      while (off < buf.length) {
+        // always OK to fill buf; its size plus the rest of bufs is never more than MAX_ARRAY_LEN
+        int r = in.read(buf, off, buf.length - off);
+        if (r == -1) {
+          return combineBuffers(bufs, totalLen);
+        }
+        off += r;
+        totalLen += r;
+      }
+    }
+
+    // read MAX_ARRAY_LEN bytes without seeing end of stream
+    if (in.read() == -1) {
+      // oh, there's the end of the stream
+      return combineBuffers(bufs, MAX_ARRAY_LEN);
+    } else {
+      throw new OutOfMemoryError("input is too large to fit in a byte array");
+    }
+  }
+
+  private static byte[] combineBuffers(Deque<byte[]> bufs, int totalLen) {
+    byte[] result = new byte[totalLen];
+    int remaining = totalLen;
+    while (remaining > 0) {
+      byte[] buf = bufs.removeFirst();
+      int bytesToCopy = Math.min(remaining, buf.length);
+      int resultOffset = totalLen - remaining;
+      System.arraycopy(buf, 0, result, resultOffset, bytesToCopy);
+      remaining -= bytesToCopy;
+    }
+    return result;
+  }
+
   /**
    * Reads all bytes from an input stream into a byte array. Does not close the stream.
    *
@@ -157,12 +217,8 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(InputStream in) throws IOException {
-    // Presize the ByteArrayOutputStream since we know how large it will need
-    // to be, unless that value is less than the default ByteArrayOutputStream
-    // size (32).
-    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
-    copy(in, out);
-    return out.toByteArray();
+    checkNotNull(in);
+    return toByteArrayInternal(in, new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE), 0);
   }
 
   /**
@@ -170,12 +226,17 @@ public final class ByteStreams {
    * create an initial byte array, but if the actual number of bytes read from the stream differs,
    * the correct result will be returned anyway.
    */
-  static byte[] toByteArray(InputStream in, int expectedSize) throws IOException {
-    byte[] bytes = new byte[expectedSize];
-    int remaining = expectedSize;
+  static byte[] toByteArray(InputStream in, long expectedSize) throws IOException {
+    checkArgument(expectedSize >= 0, "expectedSize (%s) must be non-negative", expectedSize);
+    if (expectedSize > MAX_ARRAY_LEN) {
+      throw new OutOfMemoryError(expectedSize + " bytes is too large to fit in a byte array");
+    }
+
+    byte[] bytes = new byte[(int) expectedSize];
+    int remaining = (int) expectedSize;
 
     while (remaining > 0) {
-      int off = expectedSize - remaining;
+      int off = (int) expectedSize - remaining;
       int read = in.read(bytes, off, remaining);
       if (read == -1) {
         // end of stream before reading expectedSize bytes
@@ -192,25 +253,10 @@ public final class ByteStreams {
     }
 
     // the stream was longer, so read the rest normally
-    FastByteArrayOutputStream out = new FastByteArrayOutputStream();
-    out.write(b); // write the byte we read when testing for end of stream
-    copy(in, out);
-
-    byte[] result = new byte[bytes.length + out.size()];
-    System.arraycopy(bytes, 0, result, 0, bytes.length);
-    out.writeTo(result, bytes.length);
-    return result;
-  }
-
-  /** BAOS that provides limited access to its internal byte array. */
-  private static final class FastByteArrayOutputStream extends ByteArrayOutputStream {
-    /**
-     * Writes the contents of the internal buffer to the given array starting at the given offset.
-     * Assumes the array has space to hold count bytes.
-     */
-    void writeTo(byte[] b, int off) {
-      System.arraycopy(buf, 0, b, off, count);
-    }
+    Deque<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
+    bufs.add(bytes);
+    bufs.add(new byte[] { (byte) b });
+    return toByteArrayInternal(in, bufs, bytes.length + 1);
   }
 
   /**

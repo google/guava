@@ -293,7 +293,6 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
       insert(newEntry, oldEntryForKey);
       oldEntryForKey.prevInKeyInsertionOrder = null;
       oldEntryForKey.nextInKeyInsertionOrder = null;
-      rehashIfNecessary();
       return oldEntryForKey.value;
     } else {
       insert(newEntry, null);

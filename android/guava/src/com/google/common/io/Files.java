@@ -39,7 +39,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -152,7 +151,7 @@ public final class Files {
       Closer closer = Closer.create();
       try {
         FileInputStream in = closer.register(openStream());
-        return readFile(in, in.getChannel().size());
+        return ByteStreams.toByteArray(in, in.getChannel().size());
       } catch (Throwable e) {
         throw closer.rethrow(e);
       } finally {
@@ -164,29 +163,6 @@ public final class Files {
     public String toString() {
       return "Files.asByteSource(" + file + ")";
     }
-  }
-
-  /**
-   * Reads a file of the given expected size from the given input stream, if it will fit into a byte
-   * array. This method handles the case where the file size changes between when the size is read
-   * and when the contents are read from the stream.
-   */
-  static byte[] readFile(InputStream in, long expectedSize) throws IOException {
-    if (expectedSize > Integer.MAX_VALUE) {
-      throw new OutOfMemoryError(
-          "file is too large to fit in a byte array: " + expectedSize + " bytes");
-    }
-
-    // some special files may return size 0 but have content, so read
-    // the file normally in that case guessing at the buffer size to use.  Note, there is no point
-    // in calling the 'toByteArray' overload that doesn't take a size because that calls
-    // InputStream.available(), but our caller has already done that.  So instead just guess that
-    // the file is 4K bytes long and rely on the fallback in toByteArray to expand the buffer if
-    // needed.
-    // This also works around an app-engine bug where FileInputStream.available() consistently
-    // throws an IOException for certain files, even though FileInputStream.getChannel().size() does
-    // not!
-    return ByteStreams.toByteArray(in, expectedSize == 0 ? 4096 : (int) expectedSize);
   }
 
   /**
@@ -826,11 +802,10 @@ public final class Files {
    *
    * @since 15.0
    * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
-   *     scheduled to be removed in April 2018.
+   *     {@link #fileTraverser()} instead with the same semantics as this method.
    */
   @Deprecated
-  public static TreeTraverser<File> fileTreeTraverser() {
+  static TreeTraverser<File> fileTreeTraverser() {
     return FILE_TREE_TRAVERSER;
   }
 

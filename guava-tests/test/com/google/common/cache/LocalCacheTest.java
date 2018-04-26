@@ -61,6 +61,7 @@ import com.google.common.testing.TestLogHandler;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -694,6 +695,22 @@ public class LocalCacheTest extends TestCase {
     assertFalse(map.values() instanceof Set);
     assertTrue(map.values().removeAll(ImmutableSet.of("bar")));
     assertEquals(1, map.size());
+  }
+
+  public void testComputeIfAbsent_RemovalListener() {
+    List<RemovalNotification<Object, Object>> notifications = new ArrayList<>();
+    RemovalListener<Object, Object> removalListener =
+        new RemovalListener<Object, Object>() {
+          @Override
+          public void onRemoval(RemovalNotification<Object, Object> notification) {
+            notifications.add(notification);
+          }
+        };
+    Cache<Object, Object> cache =
+        CacheBuilder.newBuilder().removalListener(removalListener).build();
+    cache.put("a", "b");
+    cache.asMap().computeIfAbsent("a", k -> "c");
+    assertTrue(notifications.toString(), notifications.isEmpty());
   }
 
   public void testCopyEntry_computing() {

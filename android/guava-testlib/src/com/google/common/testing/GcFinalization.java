@@ -66,7 +66,7 @@ import java.util.concurrent.TimeoutException;
  * <p>Here's an example that uses a user-defined finalization predicate:
  *
  * <pre>{@code
- * final WeakHashMap<Object, Object> map = new WeakHashMap<Object, Object>();
+ * final WeakHashMap<Object, Object> map = new WeakHashMap<>();
  * map.put(new Object(), Boolean.TRUE);
  * GcFinalization.awaitDone(new FinalizationPredicate() {
  *   public boolean isDone() {
@@ -82,7 +82,7 @@ import java.util.concurrent.TimeoutException;
  * // Helper function keeps victim stack-unreachable.
  * private WeakReference<Foo> fooWeakRef() {
  *   Foo x = ....;
- *   WeakReference<Foo> weakRef = new WeakReference<Foo>(x);
+ *   WeakReference<Foo> weakRef = new WeakReference<>(x);
  *   // ... use x ...
  *   x = null;  // Hint to the JIT that x is stack-unreachable
  *   return weakRef;

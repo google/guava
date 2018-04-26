@@ -30,6 +30,7 @@ import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
@@ -65,7 +66,7 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
  * <pre>{@code
  * LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
  *     .maximumSize(10000)
- *     .expireAfterWrite(10, TimeUnit.MINUTES)
+ *     .expireAfterWrite(Duration.ofMinutes(10))
  *     .removalListener(MY_LISTENER)
  *     .build(
  *         new CacheLoader<Key, Graph>() {
@@ -635,6 +636,35 @@ public final class CacheBuilder<K, V> {
    *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the time to live or time to idle was already set
+   * @throws ArithmeticException for durations greater than +/- approximately 292 years
+   * @since 25.0
+   */
+  @J2ObjCIncompatible
+  @GwtIncompatible // java.time.Duration
+  public CacheBuilder<K, V> expireAfterWrite(java.time.Duration duration) {
+    return expireAfterWrite(duration.toNanos(), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Specifies that each entry should be automatically removed from the cache once a fixed duration
+   * has elapsed after the entry's creation, or the most recent replacement of its value.
+   *
+   * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
+   * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
+   * useful in testing, or to disable caching temporarily without a code change.
+   *
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
+   *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #expireAfterWrite(Duration)} instead.
+   *
+   * @param duration the length of time after an entry is created that it should be automatically
+   *     removed
    * @param unit the unit that {@code duration} is expressed in
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
@@ -668,6 +698,38 @@ public final class CacheBuilder<K, V> {
    * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
+   *
+   * @param duration the length of time after an entry is last accessed that it should be
+   *     automatically removed
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the time to idle or time to live was already set
+   * @throws ArithmeticException for durations greater than +/- approximately 292 years
+   * @since 25.0
+   */
+  @J2ObjCIncompatible
+  @GwtIncompatible // java.time.Duration
+  public CacheBuilder<K, V> expireAfterAccess(java.time.Duration duration) {
+    return expireAfterAccess(duration.toNanos(), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Specifies that each entry should be automatically removed from the cache once a fixed duration
+   * has elapsed after the entry's creation, the most recent replacement of its value, or its last
+   * access. Access time is reset by all cache read and write operations (including {@code
+   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
+   * collection-views of {@link Cache#asMap}.
+   *
+   * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
+   * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
+   * useful in testing, or to disable caching temporarily without a code change.
+   *
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
+   *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #expireAfterAccess(Duration)} instead.
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
@@ -709,6 +771,41 @@ public final class CacheBuilder<K, V> {
    * otherwise.
    *
    * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
+   *
+   * @param duration the length of time after an entry is created that it should be considered
+   *     stale, and thus eligible for refresh
+   * @return this {@code CacheBuilder} instance (for chaining)
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the refresh interval was already set
+   * @throws ArithmeticException for durations greater than +/- approximately 292 years
+   * @since 25.0
+   */
+  @J2ObjCIncompatible
+  @GwtIncompatible // java.time.Duration
+  public CacheBuilder<K, V> refreshAfterWrite(java.time.Duration duration) {
+    return refreshAfterWrite(duration.toNanos(), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Specifies that active entries are eligible for automatic refresh once a fixed duration has
+   * elapsed after the entry's creation, or the most recent replacement of its value. The semantics
+   * of refreshes are specified in {@link LoadingCache#refresh}, and are performed by calling {@link
+   * CacheLoader#reload}.
+   *
+   * <p>As the default implementation of {@link CacheLoader#reload} is synchronous, it is
+   * recommended that users of this method override {@link CacheLoader#reload} with an asynchronous
+   * implementation; otherwise refreshes will be performed during unrelated cache read and write
+   * operations.
+   *
+   * <p>Currently automatic refreshes are performed when the first stale request for an entry
+   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
+   * and immediately return the new value if the returned future is complete, and the old value
+   * otherwise.
+   *
+   * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
+   *
+   * <p>If you can represent the duration as a {@link java.time.Duration} (which should be preferred
+   * when feasible), use {@link #refreshAfterWrite(Duration)} instead.
    *
    * @param duration the length of time after an entry is created that it should be considered
    *     stale, and thus eligible for refresh

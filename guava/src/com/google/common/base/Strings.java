@@ -40,7 +40,7 @@ public final class Strings {
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
   public static String nullToEmpty(@NullableDecl String string) {
-    return (string == null) ? "" : string;
+    return Platform.nullToEmpty(string);
   }
 
   /**
@@ -51,7 +51,7 @@ public final class Strings {
    */
   @NullableDecl
   public static String emptyToNull(@NullableDecl String string) {
-    return isNullOrEmpty(string) ? null : string;
+    return Platform.emptyToNull(string);
   }
 
   /**

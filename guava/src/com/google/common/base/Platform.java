@@ -62,6 +62,14 @@ final class Platform {
     return string == null || string.isEmpty();
   }
 
+  static String nullToEmpty(@NullableDecl String string) {
+    return (string == null) ? "" : string;
+  }
+
+  static String emptyToNull(@NullableDecl String string) {
+    return stringIsNullOrEmpty(string) ? null : string;
+  }
+
   static CommonPattern compilePattern(String pattern) {
     Preconditions.checkNotNull(pattern);
     return patternCompiler.compile(pattern);

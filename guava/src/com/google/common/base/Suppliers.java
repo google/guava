@@ -140,7 +140,9 @@ public final class Suppliers {
 
     @Override
     public String toString() {
-      return "Suppliers.memoize(" + delegate + ")";
+      return "Suppliers.memoize("
+          + (initialized ? "<supplier that returned " + value + ">" : delegate)
+          + ")";
     }
 
     private static final long serialVersionUID = 0;
@@ -178,7 +180,10 @@ public final class Suppliers {
 
     @Override
     public String toString() {
-      return "Suppliers.memoize(" + delegate + ")";
+      Supplier<T> delegate = this.delegate;
+      return "Suppliers.memoize("
+          + (delegate == null ? "<supplier that returned " + value + ">" : delegate)
+          + ")";
     }
   }
 
