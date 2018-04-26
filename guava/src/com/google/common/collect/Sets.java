@@ -1380,6 +1380,7 @@ public final class Sets {
    *     provided set is null
    * @since 2.0
    */
+  @SafeVarargs
   public static <B> Set<List<B>> cartesianProduct(Set<? extends B>... sets) {
     return cartesianProduct(Arrays.asList(sets));
   }
