@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.VisibleForTesting;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Preconditions;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.io.IOException;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.io.ObjectInputStream;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.io.ObjectOutputStream;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Collection;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.Map;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Set;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>/**<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * Implementation of {@link Multimap} using hash tables.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;p&gt;The multimap does not store duplicate key-value pairs. Adding a new key-value pair equal to an<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * existing key-value pair has no effect.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * &lt;p&gt;Keys and values may be null. All optional multimap methods are supported, and all returned<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * views are modifiable.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * &lt;p&gt;This class is not threadsafe when any concurrent operations update the multimap. Concurrent<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * read operations will work correctly. To allow concurrent update operations, wrap your multimap<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * with a call to {@link Multimaps#synchronizedSetMultimap}.<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * @author Jared Levy<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * @since 2.0<a name="line.44"></a>
+<span class="sourceLineNo">045</span> */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>@GwtCompatible(serializable = true, emulated = true)<a name="line.46"></a>
+<span class="sourceLineNo">047</span>public final class HashMultimap&lt;K, V&gt; extends HashMultimapGwtSerializationDependencies&lt;K, V&gt; {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private static final int DEFAULT_VALUES_PER_KEY = 2;<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  /**<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * Creates a new, empty {@code HashMultimap} with the default initial capacities.<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   *<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * &lt;p&gt;This method will soon be deprecated in favor of {@code<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * MultimapBuilder.hashKeys().hashSetValues().build()}.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public static &lt;K, V&gt; HashMultimap&lt;K, V&gt; create() {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    return new HashMultimap&lt;&gt;();<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * Constructs an empty {@code HashMultimap} with enough capacity to hold the specified numbers of<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * keys and values without rehashing.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * &lt;p&gt;This method will soon be deprecated in favor of {@code<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * MultimapBuilder.hashKeys(expectedKeys).hashSetValues(expectedValuesPerKey).build()}.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   *<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * @param expectedKeys the expected number of distinct keys<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * @param expectedValuesPerKey the expected average number of values per key<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * @throws IllegalArgumentException if {@code expectedKeys} or {@code expectedValuesPerKey} is<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *     negative<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  public static &lt;K, V&gt; HashMultimap&lt;K, V&gt; create(int expectedKeys, int expectedValuesPerKey) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    return new HashMultimap&lt;&gt;(expectedKeys, expectedValuesPerKey);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Constructs a {@code HashMultimap} with the same mappings as the specified multimap. If a<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * key-value mapping appears multiple times in the input multimap, it only appears once in the<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * constructed multimap.<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   *<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * &lt;p&gt;This method will soon be deprecated in favor of {@code<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * MultimapBuilder.hashKeys().hashSetValues().build(multimap)}.<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * @param multimap the multimap whose contents are copied to this multimap<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  public static &lt;K, V&gt; HashMultimap&lt;K, V&gt; create(Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    return new HashMultimap&lt;&gt;(multimap);<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  private HashMultimap() {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    this(12, DEFAULT_VALUES_PER_KEY);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  private HashMultimap(int expectedKeys, int expectedValuesPerKey) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    super(Platform.&lt;K, Collection&lt;V&gt;&gt;newHashMapWithExpectedSize(expectedKeys));<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    Preconditions.checkArgument(expectedValuesPerKey &gt;= 0);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    this.expectedValuesPerKey = expectedValuesPerKey;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  private HashMultimap(Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    super(Platform.&lt;K, Collection&lt;V&gt;&gt;newHashMapWithExpectedSize(multimap.keySet().size()));<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    putAll(multimap);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * {@inheritDoc}<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   *<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * &lt;p&gt;Creates an empty {@code HashSet} for a collection of values for one key.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * @return a new {@code HashSet} containing a collection of values for one key<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  @Override<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  Set&lt;V&gt; createCollection() {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return Platform.&lt;V&gt;newHashSetWithExpectedSize(expectedValuesPerKey);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * @serialData expectedValuesPerKey, number of distinct keys, and then for each distinct key: the<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   *     key, number of values for that key, and the key's values<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   */<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    stream.defaultWriteObject();<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    Serialization.writeMultimap(this, stream);<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    stream.defaultReadObject();<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    int distinctKeys = Serialization.readCount(stream);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    Map&lt;K, Collection&lt;V&gt;&gt; map = Platform.newHashMapWithExpectedSize(12);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    setMap(map);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    Serialization.populateMultimap(this, stream, distinctKeys);<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  @GwtIncompatible // Not needed in emulated source<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  private static final long serialVersionUID = 0;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>}<a name="line.141"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
