@@ -1327,4 +1327,9 @@ public class SetsTest extends TestCase {
     assertEquals(ImmutableSortedSet.of(8, 10), Sets.subSet(set, Range.atMost(8)));
     assertEquals(ImmutableSortedSet.of(2, 4, 6, 8, 10), Sets.subSet(set, Range.<Integer>all()));
   }
+
+ public void testNewSingleElementSet() {
+   Set<Integer> set = Sets.newSingleElementSet(1);
+   verifySetContents(set, Arrays.asList(1));
+ }
 }

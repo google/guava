@@ -494,6 +494,13 @@ public final class Sets {
   }
 
   /**
+   * Creates an <i>immutable</i> {@code Set} containg only a single element.
+   */
+  public static <E> Set<E> newSingleElementSet(E element) {
+    return new SingleElementSet<>(checkNotNull(element));
+  }
+
+  /**
    * Creates an {@code EnumSet} consisting of all enum values that are not in the specified
    * collection. If the collection is an {@link EnumSet}, this method has the same behavior as
    * {@link EnumSet#complementOf}. Otherwise, the specified collection must contain at least one
@@ -2124,5 +2131,40 @@ public final class Sets {
       return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(set);
+  }
+
+  private static final class SingleElementSet<E> extends AbstractSet<E> {
+
+    private final E element;
+
+    public SingleElementSet(E element) {
+      this.element = element;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return new Iterator<E>() {
+        private boolean eod;
+
+        @Override
+        public boolean hasNext() {
+          return !eod;
+        }
+
+        @Override
+        public E next() {
+          if (hasNext()) {
+            eod = true;
+            return element;
+          }
+          throw new NoSuchElementException();
+        }
+      };
+    }
+
+    @Override
+    public int size() {
+      return 1;
+    }
   }
 }
