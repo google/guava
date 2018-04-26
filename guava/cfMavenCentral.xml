@@ -19,7 +19,7 @@
         </license>
     </licenses>
 
-    <version>24.1-jre</version>
+    <version>25.0-jre</version>
 
     <scm>
         <url>https://github.com/typetools/guaval.git</url>
