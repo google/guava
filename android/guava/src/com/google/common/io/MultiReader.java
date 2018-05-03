@@ -46,7 +46,7 @@ class MultiReader extends Reader {
   }
 
   @Override
-  public int read(@NullableDecl char cbuf[], int off, int len) throws IOException {
+  public int read(@NullableDecl char[] cbuf, int off, int len) throws IOException {
     if (current == null) {
       return -1;
     }
