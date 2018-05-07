@@ -34,7 +34,6 @@ import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -477,8 +476,9 @@ public final class NullPointerTester {
   private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
       ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
 
-  static boolean isNullable(AnnotatedElement e) {
-    return isNullable(e.getAnnotations());
+  static boolean isNullable(Invokable<?, ?> invokable) {
+    return isNullable(invokable.getAnnotatedReturnType().getAnnotations())
+        || isNullable(invokable.getAnnotations());
   }
 
   static boolean isNullable(Parameter param) {

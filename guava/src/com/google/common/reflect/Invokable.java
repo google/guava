@@ -191,6 +191,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   abstract Type getGenericReturnType();
 
+  public abstract AnnotatedType getAnnotatedReturnType();
+
   static class MethodInvokable<T> extends Invokable<T, Object> {
 
     final Method method;
@@ -219,6 +221,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     @Override
     AnnotatedType[] getAnnotatedParameterTypes() {
       return method.getAnnotatedParameterTypes();
+    }
+
+    @Override
+    public AnnotatedType getAnnotatedReturnType() {
+      return method.getAnnotatedReturnType();
     }
 
     @Override
@@ -301,6 +308,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     @Override
     AnnotatedType[] getAnnotatedParameterTypes() {
       return constructor.getAnnotatedParameterTypes();
+    }
+
+    @Override
+    public AnnotatedType getAnnotatedReturnType() {
+      return constructor.getAnnotatedReturnType();
     }
 
     @Override
