@@ -474,15 +474,12 @@ public final class NullPointerTester {
     return param.getType().getRawType().isPrimitive() || isNullable(param);
   }
 
-  private static final ImmutableSet<String> NULLABLE_ANNOTATIONS =
-      ImmutableSet.of(
-          "javax.annotation.CheckForNull",
-          "javax.annotation.Nullable",
-          "org.checkerframework.checker.nullness.compatqual.NullableDecl");
+  private static final ImmutableSet<String> NULLABLE_ANNOTATION_SIMPLE_NAMES =
+      ImmutableSet.of("CheckForNull", "Nullable", "NullableDecl", "NullableType");
 
   static boolean isNullable(AnnotatedElement e) {
     for (Annotation annotation : e.getAnnotations()) {
-      if (NULLABLE_ANNOTATIONS.contains(annotation.annotationType().getName())) {
+      if (NULLABLE_ANNOTATION_SIMPLE_NAMES.contains(annotation.annotationType().getSimpleName())) {
         return true;
       }
     }
