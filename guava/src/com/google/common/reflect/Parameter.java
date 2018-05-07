@@ -21,6 +21,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedType;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -36,13 +37,19 @@ public final class Parameter implements AnnotatedElement {
   private final int position;
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
+  private final AnnotatedType annotatedType;
 
   Parameter(
-      Invokable<?, ?> declaration, int position, TypeToken<?> type, Annotation[] annotations) {
+      Invokable<?, ?> declaration,
+      int position,
+      TypeToken<?> type,
+      Annotation[] annotations,
+      AnnotatedType annotatedType) {
     this.declaration = declaration;
     this.position = position;
     this.type = type;
     this.annotations = ImmutableList.copyOf(annotations);
+    this.annotatedType = annotatedType;
   }
 
   /** Returns the type of the parameter. */
@@ -102,6 +109,12 @@ public final class Parameter implements AnnotatedElement {
   // @Override on JDK8
   public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
     return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
+  }
+
+  /** @since NEXT */
+  // @Override on JDK8
+  public AnnotatedType getAnnotatedType() {
+    return annotatedType;
   }
 
   @Override

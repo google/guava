@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.InvocationTargetException;
@@ -116,9 +117,12 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
+    AnnotatedType[] annotatedTypes = getAnnotatedParameterTypes();
     ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
-      builder.add(new Parameter(this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
+      builder.add(
+          new Parameter(
+              this, i, TypeToken.of(parameterTypes[i]), annotations[i], annotatedTypes[i]));
     }
     return builder.build();
   }
@@ -178,6 +182,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   abstract Type[] getGenericParameterTypes();
 
+  abstract AnnotatedType[] getAnnotatedParameterTypes();
+
   /** This should never return a type that's not a subtype of Throwable. */
   abstract Type[] getGenericExceptionTypes();
 
@@ -208,6 +214,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     @Override
     Type[] getGenericParameterTypes() {
       return method.getGenericParameterTypes();
+    }
+
+    @Override
+    AnnotatedType[] getAnnotatedParameterTypes() {
+      return method.getAnnotatedParameterTypes();
     }
 
     @Override
@@ -285,6 +296,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
         }
       }
       return types;
+    }
+
+    @Override
+    AnnotatedType[] getAnnotatedParameterTypes() {
+      return constructor.getAnnotatedParameterTypes();
     }
 
     @Override
