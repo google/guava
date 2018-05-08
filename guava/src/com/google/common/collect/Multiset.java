@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate
@@ -107,7 +107,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly zero but never
    *     negative
    */
-  int count(@NullableDecl @CompatibleWith("E") Object element);
+  int count(@Nullable @CompatibleWith("E") Object element);
 
   // Bulk Operations
 
@@ -130,7 +130,7 @@ public interface Multiset<E> extends Collection<E> {
    *     return normally.
    */
   @CanIgnoreReturnValue
-  int add(@NullableDecl E element, int occurrences);
+  int add(@Nullable E element, int occurrences);
 
   /**
    * Adds a single occurrence of the specified element to this multiset.
@@ -168,7 +168,7 @@ public interface Multiset<E> extends Collection<E> {
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  int remove(@NullableDecl @CompatibleWith("E") Object element, int occurrences);
+  int remove(@Nullable @CompatibleWith("E") Object element, int occurrences);
 
   /**
    * Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
@@ -184,7 +184,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean remove(@NullableDecl Object element);
+  boolean remove(@Nullable Object element);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the element attains the
@@ -348,7 +348,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -394,7 +394,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return {@code true} if this multiset contains at least one occurrence of the element
    */
   @Override
-  boolean contains(@NullableDecl Object element);
+  boolean contains(@Nullable Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of each element in the

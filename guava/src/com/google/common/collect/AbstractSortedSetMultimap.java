@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link
@@ -83,7 +83,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    * Multimap} interface.
    */
   @Override
-  public SortedSet<V> get(@NullableDecl K key) {
+  public SortedSet<V> get(@Nullable K key) {
     return (SortedSet<V>) super.get(key);
   }
 
@@ -96,7 +96,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(@NullableDecl Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 
@@ -112,7 +112,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
+  public SortedSet<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

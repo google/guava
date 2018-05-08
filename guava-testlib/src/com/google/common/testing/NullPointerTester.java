@@ -46,14 +46,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
- * parameter that isn't annotated with {@link javax.annotation.Nullable}, {@link
- * javax.annotation.CheckForNull}, or {@link
- * org.checkerframework.checker.nullness.compatqual.NullableDecl}.
+ * parameter whose declaration or type isn't annotated with an annotation with the simple name
+ * {@code Nullable}, {@lcode CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code
@@ -176,7 +175,7 @@ public final class NullPointerTester {
    *
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
-  public void testMethod(@NullableDecl Object instance, Method method) {
+  public void testMethod(@Nullable Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testMethodParameter(instance, method, nullIndex);
@@ -208,7 +207,7 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if {@code method} is static
    */
   public void testMethodParameter(
-      @NullableDecl final Object instance, final Method method, int paramIndex) {
+      @Nullable final Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
     testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
@@ -461,7 +460,7 @@ public final class NullPointerTester {
     }.newProxy(type);
   }
 
-  private static Invokable<?, ?> invokable(@NullableDecl Object instance, Method method) {
+  private static Invokable<?, ?> invokable(@Nullable Object instance, Method method) {
     if (instance == null) {
       return Invokable.from(method);
     } else {
@@ -503,7 +502,7 @@ public final class NullPointerTester {
    * Returns true if the the given member is a method that overrides {@link Object#equals(Object)}.
    *
    * <p>The documentation for {@link Object#equals} says it should accept null, so don't require an
-   * explicit {@code @NullableDecl} annotation (see <a
+   * explicit {@code @Nullable} annotation (see <a
    * href="https://github.com/google/guava/issues/1819">#1819</a>).
    *
    * <p>It is not necessary to consider visibility, return type, or type parameter declarations. The

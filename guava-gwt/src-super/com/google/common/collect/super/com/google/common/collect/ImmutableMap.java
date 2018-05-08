@@ -37,7 +37,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulation of {@link com.google.common.collect.ImmutableMap}. For non sorted maps, it is a
@@ -283,12 +283,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
 
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
@@ -368,12 +368,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public boolean containsKey(@NullableDecl Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return ImmutableMap.this.containsKey(key);
     }
 
     @Override
-    public ImmutableSet<V> get(@NullableDecl Object key) {
+    public ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
@@ -422,7 +422,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 

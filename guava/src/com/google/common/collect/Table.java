@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CompatibleWith;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that associates an ordered pair of keys, called a row key and a column key, with a
@@ -65,29 +65,29 @@ public interface Table<R, C, V> {
    * @param columnKey key of column to search for
    */
   boolean contains(
-      @NullableDecl @CompatibleWith("R") Object rowKey,
-      @NullableDecl @CompatibleWith("C") Object columnKey);
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified row key.
    *
    * @param rowKey key of row to search for
    */
-  boolean containsRow(@NullableDecl @CompatibleWith("R") Object rowKey);
+  boolean containsRow(@Nullable @CompatibleWith("R") Object rowKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified column.
    *
    * @param columnKey key of column to search for
    */
-  boolean containsColumn(@NullableDecl @CompatibleWith("C") Object columnKey);
+  boolean containsColumn(@Nullable @CompatibleWith("C") Object columnKey);
 
   /**
    * Returns {@code true} if the table contains a mapping with the specified value.
    *
    * @param value value to search for
    */
-  boolean containsValue(@NullableDecl @CompatibleWith("V") Object value);
+  boolean containsValue(@Nullable @CompatibleWith("V") Object value);
 
   /**
    * Returns the value corresponding to the given row and column keys, or {@code null} if no such
@@ -97,8 +97,8 @@ public interface Table<R, C, V> {
    * @param columnKey key of column to search for
    */
   V get(
-      @NullableDecl @CompatibleWith("R") Object rowKey,
-      @NullableDecl @CompatibleWith("C") Object columnKey);
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   /** Returns {@code true} if the table contains no mappings. */
   boolean isEmpty();
@@ -111,7 +111,7 @@ public interface Table<R, C, V> {
    * cell views, as returned by {@link #cellSet}, are equal.
    */
   @Override
-  boolean equals(@NullableDecl Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this table. The hash code of a table is defined as the hash code of
@@ -136,7 +136,7 @@ public interface Table<R, C, V> {
    *     for the keys
    */
   @CanIgnoreReturnValue
-  @NullableDecl
+  @Nullable
   V put(R rowKey, C columnKey, V value);
 
   /**
@@ -155,10 +155,10 @@ public interface Table<R, C, V> {
    * @return the value previously associated with the keys, or {@code null} if no such value existed
    */
   @CanIgnoreReturnValue
-  @NullableDecl
+  @Nullable
   V remove(
-      @NullableDecl @CompatibleWith("R") Object rowKey,
-      @NullableDecl @CompatibleWith("C") Object columnKey);
+      @Nullable @CompatibleWith("R") Object rowKey,
+      @Nullable @CompatibleWith("C") Object columnKey);
 
   // Views
 
@@ -252,15 +252,15 @@ public interface Table<R, C, V> {
    */
   interface Cell<R, C, V> {
     /** Returns the row key of this cell. */
-    @NullableDecl
+    @Nullable
     R getRowKey();
 
     /** Returns the column key of this cell. */
-    @NullableDecl
+    @Nullable
     C getColumnKey();
 
     /** Returns the value of this cell. */
-    @NullableDecl
+    @Nullable
     V getValue();
 
     /**
@@ -268,7 +268,7 @@ public interface Table<R, C, V> {
      * equal row keys, column keys, and values.
      */
     @Override
-    boolean equals(@NullableDecl Object obj);
+    boolean equals(@Nullable Object obj);
 
     /**
      * Returns the hash code of this cell.

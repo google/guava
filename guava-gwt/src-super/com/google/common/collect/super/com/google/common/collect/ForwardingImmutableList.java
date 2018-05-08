@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import java.util.Collection;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableList}. TODO(cpovirk): more doc
@@ -31,11 +31,11 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   abstract List<E> delegateList();
 
-  public int indexOf(@NullableDecl Object object) {
+  public int indexOf(@Nullable Object object) {
     return delegateList().indexOf(object);
   }
 
-  public int lastIndexOf(@NullableDecl Object object) {
+  public int lastIndexOf(@Nullable Object object) {
     return delegateList().lastIndexOf(object);
   }
 
@@ -70,7 +70,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     return object != null && delegateList().contains(object);
   }
 

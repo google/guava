@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that maps keys to values, similar to {@link Map}, but in which each key may be
@@ -181,21 +181,20 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key}.
    */
-  boolean containsKey(@CompatibleWith("K") @NullableDecl Object key);
+  boolean containsKey(@CompatibleWith("K") @Nullable Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the value
    * {@code value}.
    */
-  boolean containsValue(@CompatibleWith("V") @NullableDecl Object value);
+  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key} and the value {@code value}.
    */
   boolean containsEntry(
-      @CompatibleWith("K") @NullableDecl Object key,
-      @CompatibleWith("V") @NullableDecl Object value);
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Modification Operations
 
@@ -210,7 +209,7 @@ public interface Multimap<K, V> {
    *     multimap already contained the key-value pair and doesn't allow duplicates
    */
   @CanIgnoreReturnValue
-  boolean put(@NullableDecl K key, @NullableDecl V value);
+  boolean put(@Nullable K key, @Nullable V value);
 
   /**
    * Removes a single key-value pair with the key {@code key} and the value {@code value} from this
@@ -221,8 +220,7 @@ public interface Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   boolean remove(
-      @CompatibleWith("K") @NullableDecl Object key,
-      @CompatibleWith("V") @NullableDecl Object value);
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Bulk Operations
 
@@ -241,7 +239,7 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean putAll(@NullableDecl K key, Iterable<? extends V> values);
+  boolean putAll(@Nullable K key, Iterable<? extends V> values);
 
   /**
    * Stores all key-value pairs of {@code multimap} in this multimap, in the order returned by
@@ -262,7 +260,7 @@ public interface Multimap<K, V> {
    *     no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values);
+  Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values);
 
   /**
    * Removes all values associated with the key {@code key}.
@@ -274,7 +272,7 @@ public interface Multimap<K, V> {
    *     modifiable, but updating it will have no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> removeAll(@CompatibleWith("K") @NullableDecl Object key);
+  Collection<V> removeAll(@CompatibleWith("K") @Nullable Object key);
 
   /** Removes all key-value pairs from the multimap, leaving it {@linkplain #isEmpty empty}. */
   void clear();
@@ -288,7 +286,7 @@ public interface Multimap<K, V> {
    *
    * <p>Changes to the returned collection will update the underlying multimap, and vice versa.
    */
-  Collection<V> get(@NullableDecl K key);
+  Collection<V> get(@Nullable K key);
 
   /**
    * Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the
@@ -370,7 +368,7 @@ public interface Multimap<K, V> {
    * multimaps are equal, because they both have empty {@link #asMap} views.
    */
   @Override
-  boolean equals(@NullableDecl Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this multimap.

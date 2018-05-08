@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableCollection}.
@@ -43,7 +43,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   public abstract UnmodifiableIterator<E> iterator();
 
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     return object != null && super.contains(object);
   }
 

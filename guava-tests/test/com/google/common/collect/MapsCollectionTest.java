@@ -52,7 +52,7 @@ import java.util.SortedSet;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Test suites for wrappers in {@code Maps}.
@@ -561,7 +561,7 @@ public class MapsCollectionTest extends TestCase {
   static final Predicate<String> FILTER_KEYS =
       new Predicate<String>() {
         @Override
-        public boolean apply(@NullableDecl String string) {
+        public boolean apply(@Nullable String string) {
           return !"banana".equals(string) && !"eggplant".equals(string);
         }
       };
@@ -569,7 +569,7 @@ public class MapsCollectionTest extends TestCase {
   static final Predicate<String> FILTER_VALUES =
       new Predicate<String>() {
         @Override
-        public boolean apply(@NullableDecl String string) {
+        public boolean apply(@Nullable String string) {
           return !"toast".equals(string) && !"spam".equals(string);
         }
       };

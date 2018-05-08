@@ -67,7 +67,7 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMap}.
@@ -871,7 +871,7 @@ public class ImmutableMapTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object other) {
+    public boolean equals(@Nullable Object other) {
       onEquals.run();
       return other instanceof CountsHashCodeAndEquals
           && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);

@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -48,7 +48,7 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@NullableDecl Object target) {
+  public boolean contains(@Nullable Object target) {
     Object[] table = this.table;
     if (target == null || table == null) {
       return false;

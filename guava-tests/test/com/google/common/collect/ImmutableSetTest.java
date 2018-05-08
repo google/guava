@@ -48,7 +48,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link ImmutableSet}.
@@ -404,7 +404,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object other) {
+    public boolean equals(@Nullable Object other) {
       onEquals.run();
       return other instanceof CountsHashCodeAndEquals
           && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);

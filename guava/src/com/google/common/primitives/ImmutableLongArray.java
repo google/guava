@@ -33,7 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -509,7 +509,7 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -549,7 +549,7 @@ public final class ImmutableLongArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

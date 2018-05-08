@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * List returned by {@code ImmutableSortedSet.asList()} when the set isn't empty.
@@ -49,7 +49,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   @GwtIncompatible // ImmutableSortedSet.indexOf
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
   @Override
-  public int indexOf(@NullableDecl Object target) {
+  public int indexOf(@Nullable Object target) {
     int index = delegateCollection().indexOf(target);
 
     // TODO(kevinb): reconsider if it's really worth making feeble attempts at
@@ -62,7 +62,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   @GwtIncompatible // ImmutableSortedSet.indexOf
   @Override
-  public int lastIndexOf(@NullableDecl Object target) {
+  public int lastIndexOf(@Nullable Object target) {
     return indexOf(target);
   }
 

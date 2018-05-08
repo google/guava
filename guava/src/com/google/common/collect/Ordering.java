@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -524,10 +524,10 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   // Regular instance methods
 
-  // Override to add @NullableDecl
+  // Override to add @Nullable
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
   @Override
-  public abstract int compare(@NullableDecl T left, @NullableDecl T right);
+  public abstract int compare(@Nullable T left, @Nullable T right);
 
   /**
    * Returns the least of the specified values according to this ordering. If there are multiple
@@ -592,7 +592,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
-  public <E extends T> E min(@NullableDecl E a, @NullableDecl E b) {
+  public <E extends T> E min(@Nullable E a, @Nullable E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
 
@@ -611,7 +611,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
-  public <E extends T> E min(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
+  public <E extends T> E min(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
     for (E r : rest) {
@@ -684,7 +684,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
-  public <E extends T> E max(@NullableDecl E a, @NullableDecl E b) {
+  public <E extends T> E max(@Nullable E a, @Nullable E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
 
@@ -703,7 +703,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this
-  public <E extends T> E max(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
+  public <E extends T> E max(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
     for (E r : rest) {
@@ -931,7 +931,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @deprecated Use {@link Collections#binarySearch(List, Object, Comparator)} directly.
    */
   @Deprecated
-  public int binarySearch(List<? extends T> sortedList, @NullableDecl T key) {
+  public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 

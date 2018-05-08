@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An interface for <a
@@ -311,7 +311,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     network
    * @since 23.0
    */
-  @NullableDecl
+  @Nullable
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
@@ -350,7 +350,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * <p>A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this network. The hash code of a network is defined as the hash code

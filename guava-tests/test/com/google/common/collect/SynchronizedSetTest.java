@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@code Synchronized#set}.
@@ -80,7 +80,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.equals(o);
     }
@@ -92,7 +92,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean add(@NullableDecl E o) {
+    public boolean add(@Nullable E o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.add(o);
     }
@@ -110,7 +110,7 @@ public class SynchronizedSetTest extends TestCase {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object o) {
+    public boolean contains(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.contains(o);
     }
@@ -130,7 +130,7 @@ public class SynchronizedSetTest extends TestCase {
     /* Don't test iterator(); it may or may not hold the mutex. */
 
     @Override
-    public boolean remove(@NullableDecl Object o) {
+    public boolean remove(@Nullable Object o) {
       assertTrue(Thread.holdsLock(mutex));
       return super.remove(o);
     }

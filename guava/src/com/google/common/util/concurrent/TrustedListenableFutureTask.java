@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.
@@ -50,7 +50,7 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
    *     result, consider using constructions of the form: {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
    */
-  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, @NullableDecl V result) {
+  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, @Nullable V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 

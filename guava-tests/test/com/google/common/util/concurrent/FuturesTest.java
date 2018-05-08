@@ -90,7 +90,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link Futures}.
@@ -3508,7 +3508,7 @@ public class FuturesTest extends TestCase {
   @GwtIncompatible // used only in GwtIncompatible tests
   private static class TestException extends Exception {
 
-    TestException(@NullableDecl Throwable cause) {
+    TestException(@Nullable Throwable cause) {
       super(cause);
     }
   }
