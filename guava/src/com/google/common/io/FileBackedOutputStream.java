@@ -40,12 +40,16 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @GwtIncompatible
 public final class FileBackedOutputStream extends OutputStream {
 
+  public static final String FILENAME = "FileBackedOutputStream";
+
   private final int fileThreshold;
+  private final String filename;
   private final boolean resetOnFinalize;
   private final ByteSource source;
 
   private OutputStream out;
   private MemoryOutput memory;
+
   @NullableDecl private File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
@@ -72,7 +76,18 @@ public final class FileBackedOutputStream extends OutputStream {
    * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
    */
   public FileBackedOutputStream(int fileThreshold) {
-    this(fileThreshold, false);
+    this(fileThreshold, FILENAME, false);
+  }
+
+  /**
+   * Creates a new instance that uses the given file threshold, the given filename and does
+   * not reset the data when the {@link ByteSource} returned by {@link #asByteSource} is finalized.
+   *
+   * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
+   * @param filename the temporary file name
+   */
+  public FileBackedOutputStream(int fileThreshold, String filename) {
+    this(fileThreshold, filename, false);
   }
 
   /**
@@ -84,8 +99,22 @@ public final class FileBackedOutputStream extends OutputStream {
    *     ByteSource} returned by {@link #asByteSource} is finalized
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
+    this(fileThreshold, FILENAME, resetOnFinalize);
+  }
+
+    /**
+     * Creates a new instance that uses the given file threshold, the given filename, and optionally resets
+     * the data when the {@link ByteSource} returned by {@link #asByteSource} is finalized.
+     *
+     * @param fileThreshold the number of bytes before the stream should switch to buffering to a file
+     * @param filename the temporary file name
+     * @param resetOnFinalize if true, the {@link #reset} method will be called when the {@link
+     *     ByteSource} returned by {@link #asByteSource} is finalized
+     */
+  public FileBackedOutputStream(int fileThreshold, String filename, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;
     this.resetOnFinalize = resetOnFinalize;
+    this.filename = filename;
     memory = new MemoryOutput();
     out = memory;
 
@@ -193,7 +222,7 @@ public final class FileBackedOutputStream extends OutputStream {
    */
   private void update(int len) throws IOException {
     if (file == null && (memory.getCount() + len > fileThreshold)) {
-      File temp = File.createTempFile("FileBackedOutputStream", null);
+      File temp = File.createTempFile(filename, null);
       if (resetOnFinalize) {
         // Finalizers are not guaranteed to be called on system shutdown;
         // this is insurance.

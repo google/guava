@@ -160,4 +160,17 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
     out.close();
   }
+
+  public void testFilename() throws Exception {
+      byte[] data = newPreFilledByteArray(100);
+      FileBackedOutputStream out = new FileBackedOutputStream(0, "testFilename", true);
+
+      out.write(data);
+
+      final File file = out.getFile();
+      assertTrue(file.exists());
+      assertTrue(file.getName().startsWith("testFilename"));
+
+      out.reset();
+  }
 }
