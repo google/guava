@@ -16,9 +16,8 @@
 
 package com.google.common.io;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.common.base.Charsets;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -33,6 +32,8 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit test for {@link ByteStreams}.

@@ -14,18 +14,20 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.io.CharStreams.createBuffer;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.CharStreams.createBuffer;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link

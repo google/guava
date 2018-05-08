@@ -14,20 +14,24 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.buffer.Buffers;
+import com.google.common.buffer.Lease;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Provides utility methods for working with character streams.
@@ -78,17 +82,21 @@ public final class CharStreams {
         return copyReaderToWriter((Reader) from, asWriter(to));
       }
     } else {
-      checkNotNull(from);
-      checkNotNull(to);
-      long total = 0;
-      CharBuffer buf = createBuffer();
-      while (from.read(buf) != -1) {
-        buf.flip();
-        to.append(buf);
-        total += buf.remaining();
-        buf.clear();
-      }
-      return total;
+        final Lease<byte[]> lease = Buffers.lease(byte[].class);
+
+        try {
+            final CharBuffer buf = ByteBuffer.wrap(lease.getBuffer()).asCharBuffer();
+            long total = 0;
+            while (from.read(buf) != -1) {
+                buf.flip();
+                to.append(buf);
+                total += buf.remaining();
+                buf.clear();
+            }
+            return total;
+        } finally {
+            lease.returnLease();
+        }
     }
   }
 
@@ -114,14 +122,20 @@ public final class CharStreams {
   static long copyReaderToBuilder(Reader from, StringBuilder to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    char[] buf = new char[DEFAULT_BUF_SIZE];
-    int nRead;
-    long total = 0;
-    while ((nRead = from.read(buf)) != -1) {
-      to.append(buf, 0, nRead);
-      total += nRead;
+    Lease<char[]> lease = Buffers.lease(char[].class, DEFAULT_BUF_SIZE);
+
+    try{
+        final char[] buf = lease.getBuffer();
+        int nRead;
+        long total = 0;
+        while ((nRead = from.read(buf)) != -1) {
+          to.append(buf, 0, nRead);
+          total += nRead;
+        }
+        return total;
+    } finally {
+        lease.returnLease();
     }
-    return total;
   }
 
   /**
@@ -142,14 +156,21 @@ public final class CharStreams {
   static long copyReaderToWriter(Reader from, Writer to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    char[] buf = new char[DEFAULT_BUF_SIZE];
-    int nRead;
-    long total = 0;
-    while ((nRead = from.read(buf)) != -1) {
-      to.write(buf, 0, nRead);
-      total += nRead;
+
+    Lease<char[]> lease = Buffers.lease(char[].class, DEFAULT_BUF_SIZE);
+
+    try{
+        final char[] buf = lease.getBuffer();
+        int nRead;
+        long total = 0;
+        while ((nRead = from.read(buf)) != -1) {
+            to.write(buf, 0, nRead);
+            total += nRead;
+            }
+        return total;
+    } finally {
+        lease.returnLease();
     }
-    return total;
   }
 
   /**
@@ -237,12 +258,19 @@ public final class CharStreams {
   public static long exhaust(Readable readable) throws IOException {
     long total = 0;
     long read;
-    CharBuffer buf = createBuffer();
-    while ((read = readable.read(buf)) != -1) {
-      total += read;
-      buf.clear();
+
+    Lease<CharBuffer> lease = Buffers.lease(CharBuffer.class);
+
+    try {
+        CharBuffer buf = lease.getBuffer();
+        while ((read = readable.read(buf)) != -1) {
+          total += read;
+          buf.clear();
+        }
+        return total;
+    } finally {
+        lease.returnLease();
     }
-    return total;
   }
 
   /**
