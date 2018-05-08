@@ -675,7 +675,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final @NullableDecl K key) {
+  public List<V> get(@NullableDecl final K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {

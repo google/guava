@@ -52,9 +52,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 /**
  * A test utility that verifies that your methods and constructors throw {@link
  * NullPointerException} or {@link UnsupportedOperationException} whenever null is passed to a
- * parameter that isn't annotated with {@link javax.annotation.Nullable}, {@link
- * javax.annotation.CheckForNull}, or {@link
- * org.checkerframework.checker.nullness.compatqual.NullableDecl}.
+ * parameter that isn't annotated with an annotation with the simple name {@code Nullable}, {@lcode
+ * CheckForNull}, {@link NullableType}, or {@link NullableDecl}.
  *
  * <p>The tested methods and constructors are invoked -- each time with one parameter being null and
  * the rest not null -- and the test fails if no expected exception is thrown. {@code

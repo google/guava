@@ -767,7 +767,7 @@ public final class ClassSanityTester {
     T returnValue = factory.invoke(null, args.toArray());
     if (returnValue == null) {
       Assert.assertTrue(
-          factory + " returns null but it's not annotated with @NullableDecl", isNullable(factory));
+          factory + " returns null but it's not annotated with @Nullable", isNullable(factory));
     }
     return returnValue;
   }

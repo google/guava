@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks with parallel edges.
@@ -115,8 +115,8 @@ final class UndirectedMultiNetworkConnections<N, E>
     }
   }
 
-  @NullableDecl
-  private static <T> T getReference(@NullableDecl Reference<T> reference) {
+  @Nullable
+  private static <T> T getReference(@Nullable Reference<T> reference) {
     return (reference == null) ? null : reference.get();
   }
 }

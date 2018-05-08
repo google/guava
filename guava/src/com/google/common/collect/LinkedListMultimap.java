@@ -41,7 +41,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@code ListMultimap} that supports deterministic iteration order for both
@@ -106,14 +106,14 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
 
   private static final class Node<K, V> extends AbstractMapEntry<K, V> {
-    @NullableDecl final K key;
-    @NullableDecl V value;
-    @NullableDecl Node<K, V> next; // the next node (with any key)
-    @NullableDecl Node<K, V> previous; // the previous node (with any key)
-    @NullableDecl Node<K, V> nextSibling; // the next node with the same key
-    @NullableDecl Node<K, V> previousSibling; // the previous node with the same key
+    @Nullable final K key;
+    @Nullable V value;
+    @Nullable Node<K, V> next; // the next node (with any key)
+    @Nullable Node<K, V> previous; // the previous node (with any key)
+    @Nullable Node<K, V> nextSibling; // the next node with the same key
+    @Nullable Node<K, V> previousSibling; // the previous node with the same key
 
-    Node(@NullableDecl K key, @NullableDecl V value) {
+    Node(@Nullable K key, @Nullable V value) {
       this.key = key;
       this.value = value;
     }
@@ -129,7 +129,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override
-    public V setValue(@NullableDecl V newValue) {
+    public V setValue(@Nullable V newValue) {
       V result = value;
       this.value = newValue;
       return result;
@@ -150,8 +150,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @NullableDecl private transient Node<K, V> head; // the head for all keys
-  @NullableDecl private transient Node<K, V> tail; // the tail for all keys
+  @Nullable private transient Node<K, V> head; // the head for all keys
+  @Nullable private transient Node<K, V> tail; // the tail for all keys
   private transient Map<K, KeyList<K, V>> keyToKeyList;
   private transient int size;
 
@@ -209,8 +209,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * is specified, it MUST be for an node for the same {@code key}!
    */
   @CanIgnoreReturnValue
-  private Node<K, V> addNode(
-      @NullableDecl K key, @NullableDecl V value, @NullableDecl Node<K, V> nextSibling) {
+  private Node<K, V> addNode(@Nullable K key, @Nullable V value, @Nullable Node<K, V> nextSibling) {
     Node<K, V> node = new Node<>(key, value);
     if (head == null) { // empty list
       head = tail = node;
@@ -294,12 +293,12 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   /** Removes all nodes for the specified key. */
-  private void removeAllNodes(@NullableDecl Object key) {
+  private void removeAllNodes(@Nullable Object key) {
     Iterators.clear(new ValueForKeyIterator(key));
   }
 
   /** Helper method for verifying that an iterator element is present. */
-  private static void checkElement(@NullableDecl Object node) {
+  private static void checkElement(@Nullable Object node) {
     if (node == null) {
       throw new NoSuchElementException();
     }
@@ -308,9 +307,9 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   /** An {@code Iterator} over all nodes. */
   private class NodeIterator implements ListIterator<Entry<K, V>> {
     int nextIndex;
-    @NullableDecl Node<K, V> next;
-    @NullableDecl Node<K, V> current;
-    @NullableDecl Node<K, V> previous;
+    @Nullable Node<K, V> next;
+    @Nullable Node<K, V> current;
+    @Nullable Node<K, V> previous;
     int expectedModCount = modCount;
 
     NodeIterator(int index) {
@@ -416,7 +415,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   private class DistinctKeyIterator implements Iterator<K> {
     final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
     Node<K, V> next = head;
-    @NullableDecl Node<K, V> current;
+    @Nullable Node<K, V> current;
     int expectedModCount = modCount;
 
     private void checkForConcurrentModification() {
@@ -455,14 +454,14 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-    @NullableDecl final Object key;
+    @Nullable final Object key;
     int nextIndex;
-    @NullableDecl Node<K, V> next;
-    @NullableDecl Node<K, V> current;
-    @NullableDecl Node<K, V> previous;
+    @Nullable Node<K, V> next;
+    @Nullable Node<K, V> current;
+    @Nullable Node<K, V> previous;
 
     /** Constructs a new iterator over all values for the specified key. */
-    ValueForKeyIterator(@NullableDecl Object key) {
+    ValueForKeyIterator(@Nullable Object key) {
       this.key = key;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       next = (keyList == null) ? null : keyList.head;
@@ -476,7 +475,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(@NullableDecl Object key, int index) {
+    public ValueForKeyIterator(@Nullable Object key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);
@@ -577,12 +576,12 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return keyToKeyList.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
@@ -597,7 +596,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@NullableDecl K key, @NullableDecl V value) {
+  public boolean put(@Nullable K key, @Nullable V value) {
     addNode(key, value, null);
     return true;
   }
@@ -614,7 +613,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@NullableDecl K key, Iterable<? extends V> values) {
+  public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
     Iterator<? extends V> newValues = values.iterator();
@@ -639,7 +638,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     return oldValues;
   }
 
-  private List<V> getCopy(@NullableDecl Object key) {
+  private List<V> getCopy(@Nullable Object key) {
     return unmodifiableList(Lists.newArrayList(new ValueForKeyIterator(key)));
   }
 
@@ -650,7 +649,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@NullableDecl Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     List<V> oldValues = getCopy(key);
     removeAllNodes(key);
     return oldValues;
@@ -677,7 +676,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final @NullableDecl K key) {
+  public List<V> get(final @Nullable K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {

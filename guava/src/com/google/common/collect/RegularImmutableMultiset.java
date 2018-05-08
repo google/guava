@@ -24,7 +24,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Arrays;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -116,7 +116,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 9;
 
   private final transient Multisets.ImmutableEntry<E>[] entries;
-  @NullableDecl private final transient Multisets.ImmutableEntry<E>[] hashTable;
+  private final transient Multisets.ImmutableEntry<E> @Nullable [] hashTable;
   private final transient int size;
   private final transient int hashCode;
 
@@ -155,7 +155,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@NullableDecl Object element) {
+  public int count(@Nullable Object element) {
     Multisets.ImmutableEntry<E>[] hashTable = this.hashTable;
     if (element == null || hashTable == null) {
       return 0;

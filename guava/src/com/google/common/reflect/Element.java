@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents either a {@link Field}, a {@link Method} or a {@link Constructor}. Provides
@@ -158,7 +158,7 @@ class Element extends AccessibleObject implements Member {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Element) {
       Element that = (Element) obj;
       return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);

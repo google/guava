@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@link FluentIterable}.
@@ -854,7 +854,7 @@ public class FluentIterableTest extends TestCase {
               .uniqueIndex(
                   new Function<Integer, Object>() {
                     @Override
-                    public Object apply(@NullableDecl Integer input) {
+                    public Object apply(@Nullable Integer input) {
                       return String.valueOf(input);
                     }
                   });
