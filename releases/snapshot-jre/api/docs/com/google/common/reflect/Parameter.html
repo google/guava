@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -114,7 +114,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.33">Parameter</a>
+public final class <a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.34">Parameter</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedElement</a></pre>
 <div class="block">Represents a method or constructor parameter.</div>
@@ -144,43 +144,47 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#equals-java.lang.Object-">equals</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#equals-java.lang.Object-">equals</a></span>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</code>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedType</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getAnnotatedType--">getAnnotatedType</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;<br>A</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getAnnotation-java.lang.Class-">getAnnotation</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</code>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>present</em>, else null.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getAnnotations--">getAnnotations</a></span>()</code>
 <div class="block">Returns annotations that are <em>present</em> on this element.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;<br>A[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getAnnotationsByType-java.lang.Class-">getAnnotationsByType</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</code>
 <div class="block">Returns annotations that are <em>associated</em> with this element.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;<br>A</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getDeclaredAnnotation-java.lang.Class-">getDeclaredAnnotation</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</code>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>directly present</em>, else null.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getDeclaredAnnotations--">getDeclaredAnnotations</a></span>()</code>
 <div class="block">Returns annotations that are <em>directly present</em> on this element.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;<br>A[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getDeclaredAnnotationsByType-java.lang.Class-">getDeclaredAnnotationsByType</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</code>
 <div class="block">Returns this element's annotation(s) for the specified type if
@@ -188,32 +192,32 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
  <em>indirectly present</em>.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,?&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getDeclaringInvokable--">getDeclaringInvokable</a></span>()</code>
 <div class="block">Returns the <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> that declares this parameter.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#getType--">getType</a></span>()</code>
 <div class="block">Returns the type of the parameter.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#hashCode--">hashCode</a></span>()</code>
 <div class="block">Returns a hash code value for the object.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#isAnnotationPresent-java.lang.Class-">isAnnotationPresent</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;annotationType)</code>
 <div class="block">Returns true if an annotation for the specified type
  is <em>present</em> on this element, else false.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/Parameter.html#toString--">toString</a></span>()</code>
 <div class="block">Returns a string representation of the object.</div>
@@ -247,7 +251,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>getType</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.49">getType</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.56">getType</a>()</pre>
 <div class="block">Returns the type of the parameter.</div>
 </li>
 </ul>
@@ -257,7 +261,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaringInvokable</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.54">getDeclaringInvokable</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,?&gt;&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.61">getDeclaringInvokable</a>()</pre>
 <div class="block">Returns the <a href="../../../../com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> that declares this parameter.</div>
 </li>
 </ul>
@@ -267,7 +271,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>isAnnotationPresent</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.59">isAnnotationPresent</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;annotationType)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.66">isAnnotationPresent</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#isAnnotationPresent-java.lang.Class-" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns true if an annotation for the specified type
  is <em>present</em> on this element, else false.  This method
@@ -296,8 +300,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotation</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.65">getAnnotation</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.72">getAnnotation</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotation-java.lang.Class-" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>present</em>, else null.</div>
@@ -321,7 +324,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotations</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.76">getAnnotations</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.83">getAnnotations</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotations--" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>present</em> on this element.
 
@@ -344,7 +347,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getAnnotationsByType</h4>
-<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.82">getAnnotationsByType</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.89">getAnnotationsByType</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getAnnotationsByType-java.lang.Class-" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>associated</em> with this element.
 
@@ -381,7 +384,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotations</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.89">getDeclaredAnnotations</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.96">getDeclaredAnnotations</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotations--" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns annotations that are <em>directly present</em> on this element.
  This method ignores inherited annotations.
@@ -407,8 +410,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotation</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.96">getDeclaredAnnotation</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.103">getDeclaredAnnotation</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotation-java.lang.Class-" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation for the specified type if
  such an annotation is <em>directly present</em>, else null.
@@ -437,7 +439,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>getDeclaredAnnotationsByType</h4>
-<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.103">getDeclaredAnnotationsByType</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
+<pre>public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Annotation.html?is-external=true" title="class or interface in java.lang.annotation">Annotation</a>&gt;&nbsp;A[]&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.110">getDeclaredAnnotationsByType</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;A&gt;&nbsp;annotationType)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedElement.html?is-external=true#getDeclaredAnnotationsByType-java.lang.Class-" title="class or interface in java.lang.reflect">java.lang.reflect.AnnotatedElement</a></code></span></div>
 <div class="block">Returns this element's annotation(s) for the specified type if
  such annotations are either <em>directly present</em> or
@@ -472,14 +474,26 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 </dl>
 </li>
 </ul>
+<a name="getAnnotatedType--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAnnotatedType</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/AnnotatedType.html?is-external=true" title="class or interface in java.lang.reflect">AnnotatedType</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.116">getAnnotatedType</a>()</pre>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a name="equals-java.lang.Object-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.108">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.121">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
  <p>
@@ -539,7 +553,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.117">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.130">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -587,7 +601,7 @@ public&nbsp;&lt;A extends <a href="https://docs.oracle.com/javase/9/docs/api/jav
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.122">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/reflect/Parameter.html#line.135">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that

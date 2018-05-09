@@ -41,7 +41,7 @@
 <span class="sourceLineNo">033</span>import java.util.Spliterators;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.function.IntConsumer;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.stream.IntStream;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.36"></a>
+<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.36"></a>
 <span class="sourceLineNo">037</span><a name="line.37"></a>
 <span class="sourceLineNo">038</span>/**<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * An immutable array of {@code int} values, with an API resembling {@link List}.<a name="line.39"></a>
@@ -515,7 +515,7 @@
 <span class="sourceLineNo">507</span>    }<a name="line.507"></a>
 <span class="sourceLineNo">508</span><a name="line.508"></a>
 <span class="sourceLineNo">509</span>    @Override<a name="line.509"></a>
-<span class="sourceLineNo">510</span>    public boolean equals(@NullableDecl Object object) {<a name="line.510"></a>
+<span class="sourceLineNo">510</span>    public boolean equals(@Nullable Object object) {<a name="line.510"></a>
 <span class="sourceLineNo">511</span>      if (object instanceof AsList) {<a name="line.511"></a>
 <span class="sourceLineNo">512</span>        AsList that = (AsList) object;<a name="line.512"></a>
 <span class="sourceLineNo">513</span>        return this.parent.equals(that.parent);<a name="line.513"></a>
@@ -555,7 +555,7 @@
 <span class="sourceLineNo">547</span>   * values as this one, in the same order.<a name="line.547"></a>
 <span class="sourceLineNo">548</span>   */<a name="line.548"></a>
 <span class="sourceLineNo">549</span>  @Override<a name="line.549"></a>
-<span class="sourceLineNo">550</span>  public boolean equals(@NullableDecl Object object) {<a name="line.550"></a>
+<span class="sourceLineNo">550</span>  public boolean equals(@Nullable Object object) {<a name="line.550"></a>
 <span class="sourceLineNo">551</span>    if (object == this) {<a name="line.551"></a>
 <span class="sourceLineNo">552</span>      return true;<a name="line.552"></a>
 <span class="sourceLineNo">553</span>    }<a name="line.553"></a>

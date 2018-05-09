@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.Comparator;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.List;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.RandomAccess;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * Static utility methods pertaining to {@code short} primitives, that are not already found in<a name="line.37"></a>
@@ -596,13 +596,13 @@
 <span class="sourceLineNo">588</span>    }<a name="line.588"></a>
 <span class="sourceLineNo">589</span><a name="line.589"></a>
 <span class="sourceLineNo">590</span>    @Override<a name="line.590"></a>
-<span class="sourceLineNo">591</span>    public boolean contains(@NullableDecl Object target) {<a name="line.591"></a>
+<span class="sourceLineNo">591</span>    public boolean contains(@Nullable Object target) {<a name="line.591"></a>
 <span class="sourceLineNo">592</span>      // Overridden to prevent a ton of boxing<a name="line.592"></a>
 <span class="sourceLineNo">593</span>      return (target instanceof Short) &amp;&amp; Shorts.indexOf(array, (Short) target, start, end) != -1;<a name="line.593"></a>
 <span class="sourceLineNo">594</span>    }<a name="line.594"></a>
 <span class="sourceLineNo">595</span><a name="line.595"></a>
 <span class="sourceLineNo">596</span>    @Override<a name="line.596"></a>
-<span class="sourceLineNo">597</span>    public int indexOf(@NullableDecl Object target) {<a name="line.597"></a>
+<span class="sourceLineNo">597</span>    public int indexOf(@Nullable Object target) {<a name="line.597"></a>
 <span class="sourceLineNo">598</span>      // Overridden to prevent a ton of boxing<a name="line.598"></a>
 <span class="sourceLineNo">599</span>      if (target instanceof Short) {<a name="line.599"></a>
 <span class="sourceLineNo">600</span>        int i = Shorts.indexOf(array, (Short) target, start, end);<a name="line.600"></a>
@@ -614,7 +614,7 @@
 <span class="sourceLineNo">606</span>    }<a name="line.606"></a>
 <span class="sourceLineNo">607</span><a name="line.607"></a>
 <span class="sourceLineNo">608</span>    @Override<a name="line.608"></a>
-<span class="sourceLineNo">609</span>    public int lastIndexOf(@NullableDecl Object target) {<a name="line.609"></a>
+<span class="sourceLineNo">609</span>    public int lastIndexOf(@Nullable Object target) {<a name="line.609"></a>
 <span class="sourceLineNo">610</span>      // Overridden to prevent a ton of boxing<a name="line.610"></a>
 <span class="sourceLineNo">611</span>      if (target instanceof Short) {<a name="line.611"></a>
 <span class="sourceLineNo">612</span>        int i = Shorts.lastIndexOf(array, (Short) target, start, end);<a name="line.612"></a>
@@ -645,7 +645,7 @@
 <span class="sourceLineNo">637</span>    }<a name="line.637"></a>
 <span class="sourceLineNo">638</span><a name="line.638"></a>
 <span class="sourceLineNo">639</span>    @Override<a name="line.639"></a>
-<span class="sourceLineNo">640</span>    public boolean equals(@NullableDecl Object object) {<a name="line.640"></a>
+<span class="sourceLineNo">640</span>    public boolean equals(@Nullable Object object) {<a name="line.640"></a>
 <span class="sourceLineNo">641</span>      if (object == this) {<a name="line.641"></a>
 <span class="sourceLineNo">642</span>        return true;<a name="line.642"></a>
 <span class="sourceLineNo">643</span>      }<a name="line.643"></a>

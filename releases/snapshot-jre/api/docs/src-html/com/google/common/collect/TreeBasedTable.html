@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.SortedMap;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.SortedSet;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.TreeMap;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * Implementation of {@code Table} whose row keys and column keys are ordered by their natural<a name="line.37"></a>
@@ -177,14 +177,14 @@
 <span class="sourceLineNo">169</span>  }<a name="line.169"></a>
 <span class="sourceLineNo">170</span><a name="line.170"></a>
 <span class="sourceLineNo">171</span>  private class TreeRow extends Row implements SortedMap&lt;C, V&gt; {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    @NullableDecl final C lowerBound;<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    @NullableDecl final C upperBound;<a name="line.173"></a>
+<span class="sourceLineNo">172</span>    @Nullable final C lowerBound;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    @Nullable final C upperBound;<a name="line.173"></a>
 <span class="sourceLineNo">174</span><a name="line.174"></a>
 <span class="sourceLineNo">175</span>    TreeRow(R rowKey) {<a name="line.175"></a>
 <span class="sourceLineNo">176</span>      this(rowKey, null, null);<a name="line.176"></a>
 <span class="sourceLineNo">177</span>    }<a name="line.177"></a>
 <span class="sourceLineNo">178</span><a name="line.178"></a>
-<span class="sourceLineNo">179</span>    TreeRow(R rowKey, @NullableDecl C lowerBound, @NullableDecl C upperBound) {<a name="line.179"></a>
+<span class="sourceLineNo">179</span>    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {<a name="line.179"></a>
 <span class="sourceLineNo">180</span>      super(rowKey);<a name="line.180"></a>
 <span class="sourceLineNo">181</span>      this.lowerBound = lowerBound;<a name="line.181"></a>
 <span class="sourceLineNo">182</span>      this.upperBound = upperBound;<a name="line.182"></a>
@@ -209,7 +209,7 @@
 <span class="sourceLineNo">201</span>      return cmp.compare(a, b);<a name="line.201"></a>
 <span class="sourceLineNo">202</span>    }<a name="line.202"></a>
 <span class="sourceLineNo">203</span><a name="line.203"></a>
-<span class="sourceLineNo">204</span>    boolean rangeContains(@NullableDecl Object o) {<a name="line.204"></a>
+<span class="sourceLineNo">204</span>    boolean rangeContains(@Nullable Object o) {<a name="line.204"></a>
 <span class="sourceLineNo">205</span>      return o != null<a name="line.205"></a>
 <span class="sourceLineNo">206</span>          &amp;&amp; (lowerBound == null || compare(lowerBound, o) &lt;= 0)<a name="line.206"></a>
 <span class="sourceLineNo">207</span>          &amp;&amp; (upperBound == null || compare(upperBound, o) &gt; 0);<a name="line.207"></a>
@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>      return backingRowMap().lastKey();<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    }<a name="line.244"></a>
 <span class="sourceLineNo">245</span><a name="line.245"></a>
-<span class="sourceLineNo">246</span>    @NullableDecl transient SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
+<span class="sourceLineNo">246</span>    @Nullable transient SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
 <span class="sourceLineNo">247</span><a name="line.247"></a>
 <span class="sourceLineNo">248</span>    /*<a name="line.248"></a>
 <span class="sourceLineNo">249</span>     * If the row was previously empty, we check if there's a new row here every<a name="line.249"></a>
@@ -335,7 +335,7 @@
 <span class="sourceLineNo">327</span>            comparator);<a name="line.327"></a>
 <span class="sourceLineNo">328</span><a name="line.328"></a>
 <span class="sourceLineNo">329</span>    return new AbstractIterator&lt;C&gt;() {<a name="line.329"></a>
-<span class="sourceLineNo">330</span>      @NullableDecl C lastValue;<a name="line.330"></a>
+<span class="sourceLineNo">330</span>      @Nullable C lastValue;<a name="line.330"></a>
 <span class="sourceLineNo">331</span><a name="line.331"></a>
 <span class="sourceLineNo">332</span>      @Override<a name="line.332"></a>
 <span class="sourceLineNo">333</span>      protected C computeNext() {<a name="line.333"></a>

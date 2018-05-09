@@ -28,7 +28,7 @@
 <span class="sourceLineNo">020</span>import com.google.errorprone.annotations.ForOverride;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.io.Serializable;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.util.function.BiPredicate;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.23"></a>
+<span class="sourceLineNo">023</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>/**<a name="line.25"></a>
 <span class="sourceLineNo">026</span> * A strategy for determining whether two instances are considered equivalent, and for computing<a name="line.26"></a>
@@ -63,7 +63,7 @@
 <span class="sourceLineNo">055</span>   * &lt;p&gt;Note that all calls to {@code equivalent(x, y)} are expected to return the same result as<a name="line.55"></a>
 <span class="sourceLineNo">056</span>   * long as neither {@code x} nor {@code y} is modified.<a name="line.56"></a>
 <span class="sourceLineNo">057</span>   */<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  public final boolean equivalent(@NullableDecl T a, @NullableDecl T b) {<a name="line.58"></a>
+<span class="sourceLineNo">058</span>  public final boolean equivalent(@Nullable T a, @Nullable T b) {<a name="line.58"></a>
 <span class="sourceLineNo">059</span>    if (a == b) {<a name="line.59"></a>
 <span class="sourceLineNo">060</span>      return true;<a name="line.60"></a>
 <span class="sourceLineNo">061</span>    }<a name="line.61"></a>
@@ -80,7 +80,7 @@
 <span class="sourceLineNo">072</span>   */<a name="line.72"></a>
 <span class="sourceLineNo">073</span>  @Deprecated<a name="line.73"></a>
 <span class="sourceLineNo">074</span>  @Override<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public final boolean test(@NullableDecl T t, @NullableDecl T u) {<a name="line.75"></a>
+<span class="sourceLineNo">075</span>  public final boolean test(@Nullable T t, @Nullable T u) {<a name="line.75"></a>
 <span class="sourceLineNo">076</span>    return equivalent(t, u);<a name="line.76"></a>
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>
 <span class="sourceLineNo">078</span><a name="line.78"></a>
@@ -113,7 +113,7 @@
 <span class="sourceLineNo">105</span>   *   &lt;li&gt;{@code hash(null)} is {@code 0}.<a name="line.105"></a>
 <span class="sourceLineNo">106</span>   * &lt;/ul&gt;<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public final int hash(@NullableDecl T t) {<a name="line.108"></a>
+<span class="sourceLineNo">108</span>  public final int hash(@Nullable T t) {<a name="line.108"></a>
 <span class="sourceLineNo">109</span>    if (t == null) {<a name="line.109"></a>
 <span class="sourceLineNo">110</span>      return 0;<a name="line.110"></a>
 <span class="sourceLineNo">111</span>    }<a name="line.111"></a>
@@ -166,7 +166,7 @@
 <span class="sourceLineNo">158</span>   *<a name="line.158"></a>
 <span class="sourceLineNo">159</span>   * @since 10.0<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   */<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  public final &lt;S extends T&gt; Wrapper&lt;S&gt; wrap(@NullableDecl S reference) {<a name="line.161"></a>
+<span class="sourceLineNo">161</span>  public final &lt;S extends T&gt; Wrapper&lt;S&gt; wrap(@Nullable S reference) {<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    return new Wrapper&lt;S&gt;(this, reference);<a name="line.162"></a>
 <span class="sourceLineNo">163</span>  }<a name="line.163"></a>
 <span class="sourceLineNo">164</span><a name="line.164"></a>
@@ -192,15 +192,15 @@
 <span class="sourceLineNo">184</span>   */<a name="line.184"></a>
 <span class="sourceLineNo">185</span>  public static final class Wrapper&lt;T&gt; implements Serializable {<a name="line.185"></a>
 <span class="sourceLineNo">186</span>    private final Equivalence&lt;? super T&gt; equivalence;<a name="line.186"></a>
-<span class="sourceLineNo">187</span>    @NullableDecl private final T reference;<a name="line.187"></a>
+<span class="sourceLineNo">187</span>    @Nullable private final T reference;<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>    private Wrapper(Equivalence&lt;? super T&gt; equivalence, @NullableDecl T reference) {<a name="line.189"></a>
+<span class="sourceLineNo">189</span>    private Wrapper(Equivalence&lt;? super T&gt; equivalence, @Nullable T reference) {<a name="line.189"></a>
 <span class="sourceLineNo">190</span>      this.equivalence = checkNotNull(equivalence);<a name="line.190"></a>
 <span class="sourceLineNo">191</span>      this.reference = reference;<a name="line.191"></a>
 <span class="sourceLineNo">192</span>    }<a name="line.192"></a>
 <span class="sourceLineNo">193</span><a name="line.193"></a>
 <span class="sourceLineNo">194</span>    /** Returns the (possibly null) reference wrapped by this instance. */<a name="line.194"></a>
-<span class="sourceLineNo">195</span>    @NullableDecl<a name="line.195"></a>
+<span class="sourceLineNo">195</span>    @Nullable<a name="line.195"></a>
 <span class="sourceLineNo">196</span>    public T get() {<a name="line.196"></a>
 <span class="sourceLineNo">197</span>      return reference;<a name="line.197"></a>
 <span class="sourceLineNo">198</span>    }<a name="line.198"></a>
@@ -211,7 +211,7 @@
 <span class="sourceLineNo">203</span>     * equivalence.<a name="line.203"></a>
 <span class="sourceLineNo">204</span>     */<a name="line.204"></a>
 <span class="sourceLineNo">205</span>    @Override<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.206"></a>
+<span class="sourceLineNo">206</span>    public boolean equals(@Nullable Object obj) {<a name="line.206"></a>
 <span class="sourceLineNo">207</span>      if (obj == this) {<a name="line.207"></a>
 <span class="sourceLineNo">208</span>        return true;<a name="line.208"></a>
 <span class="sourceLineNo">209</span>      }<a name="line.209"></a>
@@ -273,27 +273,27 @@
 <span class="sourceLineNo">265</span>   *<a name="line.265"></a>
 <span class="sourceLineNo">266</span>   * @since 10.0<a name="line.266"></a>
 <span class="sourceLineNo">267</span>   */<a name="line.267"></a>
-<span class="sourceLineNo">268</span>  public final Predicate&lt;T&gt; equivalentTo(@NullableDecl T target) {<a name="line.268"></a>
+<span class="sourceLineNo">268</span>  public final Predicate&lt;T&gt; equivalentTo(@Nullable T target) {<a name="line.268"></a>
 <span class="sourceLineNo">269</span>    return new EquivalentToPredicate&lt;T&gt;(this, target);<a name="line.269"></a>
 <span class="sourceLineNo">270</span>  }<a name="line.270"></a>
 <span class="sourceLineNo">271</span><a name="line.271"></a>
 <span class="sourceLineNo">272</span>  private static final class EquivalentToPredicate&lt;T&gt; implements Predicate&lt;T&gt;, Serializable {<a name="line.272"></a>
 <span class="sourceLineNo">273</span><a name="line.273"></a>
 <span class="sourceLineNo">274</span>    private final Equivalence&lt;T&gt; equivalence;<a name="line.274"></a>
-<span class="sourceLineNo">275</span>    @NullableDecl private final T target;<a name="line.275"></a>
+<span class="sourceLineNo">275</span>    @Nullable private final T target;<a name="line.275"></a>
 <span class="sourceLineNo">276</span><a name="line.276"></a>
-<span class="sourceLineNo">277</span>    EquivalentToPredicate(Equivalence&lt;T&gt; equivalence, @NullableDecl T target) {<a name="line.277"></a>
+<span class="sourceLineNo">277</span>    EquivalentToPredicate(Equivalence&lt;T&gt; equivalence, @Nullable T target) {<a name="line.277"></a>
 <span class="sourceLineNo">278</span>      this.equivalence = checkNotNull(equivalence);<a name="line.278"></a>
 <span class="sourceLineNo">279</span>      this.target = target;<a name="line.279"></a>
 <span class="sourceLineNo">280</span>    }<a name="line.280"></a>
 <span class="sourceLineNo">281</span><a name="line.281"></a>
 <span class="sourceLineNo">282</span>    @Override<a name="line.282"></a>
-<span class="sourceLineNo">283</span>    public boolean apply(@NullableDecl T input) {<a name="line.283"></a>
+<span class="sourceLineNo">283</span>    public boolean apply(@Nullable T input) {<a name="line.283"></a>
 <span class="sourceLineNo">284</span>      return equivalence.equivalent(input, target);<a name="line.284"></a>
 <span class="sourceLineNo">285</span>    }<a name="line.285"></a>
 <span class="sourceLineNo">286</span><a name="line.286"></a>
 <span class="sourceLineNo">287</span>    @Override<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.288"></a>
+<span class="sourceLineNo">288</span>    public boolean equals(@Nullable Object obj) {<a name="line.288"></a>
 <span class="sourceLineNo">289</span>      if (this == obj) {<a name="line.289"></a>
 <span class="sourceLineNo">290</span>        return true;<a name="line.290"></a>
 <span class="sourceLineNo">291</span>      }<a name="line.291"></a>

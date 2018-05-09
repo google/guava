@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span>import java.util.Iterator;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.NoSuchElementException;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.function.ObjIntConsumer;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.39"></a>
+<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * A multiset which maintains the ordering of its elements, according to either their natural order<a name="line.42"></a>
@@ -95,7 +95,7 @@
 <span class="sourceLineNo">087</span>   *     indicates that the elements' &lt;i&gt;natural ordering&lt;/i&gt; should be used.<a name="line.87"></a>
 <span class="sourceLineNo">088</span>   */<a name="line.88"></a>
 <span class="sourceLineNo">089</span>  @SuppressWarnings("unchecked")<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  public static &lt;E&gt; TreeMultiset&lt;E&gt; create(@NullableDecl Comparator&lt;? super E&gt; comparator) {<a name="line.90"></a>
+<span class="sourceLineNo">090</span>  public static &lt;E&gt; TreeMultiset&lt;E&gt; create(@Nullable Comparator&lt;? super E&gt; comparator) {<a name="line.90"></a>
 <span class="sourceLineNo">091</span>    return (comparator == null)<a name="line.91"></a>
 <span class="sourceLineNo">092</span>        ? new TreeMultiset&lt;E&gt;((Comparator) Ordering.natural())<a name="line.92"></a>
 <span class="sourceLineNo">093</span>        : new TreeMultiset&lt;E&gt;(comparator);<a name="line.93"></a>
@@ -144,7 +144,7 @@
 <span class="sourceLineNo">136</span>      }<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
 <span class="sourceLineNo">138</span>      @Override<a name="line.138"></a>
-<span class="sourceLineNo">139</span>      long treeAggregate(@NullableDecl AvlNode&lt;?&gt; root) {<a name="line.139"></a>
+<span class="sourceLineNo">139</span>      long treeAggregate(@Nullable AvlNode&lt;?&gt; root) {<a name="line.139"></a>
 <span class="sourceLineNo">140</span>        return (root == null) ? 0 : root.totalCount;<a name="line.140"></a>
 <span class="sourceLineNo">141</span>      }<a name="line.141"></a>
 <span class="sourceLineNo">142</span>    },<a name="line.142"></a>
@@ -155,14 +155,14 @@
 <span class="sourceLineNo">147</span>      }<a name="line.147"></a>
 <span class="sourceLineNo">148</span><a name="line.148"></a>
 <span class="sourceLineNo">149</span>      @Override<a name="line.149"></a>
-<span class="sourceLineNo">150</span>      long treeAggregate(@NullableDecl AvlNode&lt;?&gt; root) {<a name="line.150"></a>
+<span class="sourceLineNo">150</span>      long treeAggregate(@Nullable AvlNode&lt;?&gt; root) {<a name="line.150"></a>
 <span class="sourceLineNo">151</span>        return (root == null) ? 0 : root.distinctElements;<a name="line.151"></a>
 <span class="sourceLineNo">152</span>      }<a name="line.152"></a>
 <span class="sourceLineNo">153</span>    };<a name="line.153"></a>
 <span class="sourceLineNo">154</span><a name="line.154"></a>
 <span class="sourceLineNo">155</span>    abstract int nodeAggregate(AvlNode&lt;?&gt; node);<a name="line.155"></a>
 <span class="sourceLineNo">156</span><a name="line.156"></a>
-<span class="sourceLineNo">157</span>    abstract long treeAggregate(@NullableDecl AvlNode&lt;?&gt; root);<a name="line.157"></a>
+<span class="sourceLineNo">157</span>    abstract long treeAggregate(@Nullable AvlNode&lt;?&gt; root);<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  }<a name="line.158"></a>
 <span class="sourceLineNo">159</span><a name="line.159"></a>
 <span class="sourceLineNo">160</span>  private long aggregateForEntries(Aggregate aggr) {<a name="line.160"></a>
@@ -177,7 +177,7 @@
 <span class="sourceLineNo">169</span>    return total;<a name="line.169"></a>
 <span class="sourceLineNo">170</span>  }<a name="line.170"></a>
 <span class="sourceLineNo">171</span><a name="line.171"></a>
-<span class="sourceLineNo">172</span>  private long aggregateBelowRange(Aggregate aggr, @NullableDecl AvlNode&lt;E&gt; node) {<a name="line.172"></a>
+<span class="sourceLineNo">172</span>  private long aggregateBelowRange(Aggregate aggr, @Nullable AvlNode&lt;E&gt; node) {<a name="line.172"></a>
 <span class="sourceLineNo">173</span>    if (node == null) {<a name="line.173"></a>
 <span class="sourceLineNo">174</span>      return 0;<a name="line.174"></a>
 <span class="sourceLineNo">175</span>    }<a name="line.175"></a>
@@ -200,7 +200,7 @@
 <span class="sourceLineNo">192</span>    }<a name="line.192"></a>
 <span class="sourceLineNo">193</span>  }<a name="line.193"></a>
 <span class="sourceLineNo">194</span><a name="line.194"></a>
-<span class="sourceLineNo">195</span>  private long aggregateAboveRange(Aggregate aggr, @NullableDecl AvlNode&lt;E&gt; node) {<a name="line.195"></a>
+<span class="sourceLineNo">195</span>  private long aggregateAboveRange(Aggregate aggr, @Nullable AvlNode&lt;E&gt; node) {<a name="line.195"></a>
 <span class="sourceLineNo">196</span>    if (node == null) {<a name="line.196"></a>
 <span class="sourceLineNo">197</span>      return 0;<a name="line.197"></a>
 <span class="sourceLineNo">198</span>    }<a name="line.198"></a>
@@ -233,12 +233,12 @@
 <span class="sourceLineNo">225</span>    return Ints.saturatedCast(aggregateForEntries(Aggregate.DISTINCT));<a name="line.225"></a>
 <span class="sourceLineNo">226</span>  }<a name="line.226"></a>
 <span class="sourceLineNo">227</span><a name="line.227"></a>
-<span class="sourceLineNo">228</span>  static int distinctElements(@NullableDecl AvlNode&lt;?&gt; node) {<a name="line.228"></a>
+<span class="sourceLineNo">228</span>  static int distinctElements(@Nullable AvlNode&lt;?&gt; node) {<a name="line.228"></a>
 <span class="sourceLineNo">229</span>    return (node == null) ? 0 : node.distinctElements;<a name="line.229"></a>
 <span class="sourceLineNo">230</span>  }<a name="line.230"></a>
 <span class="sourceLineNo">231</span><a name="line.231"></a>
 <span class="sourceLineNo">232</span>  @Override<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  public int count(@NullableDecl Object element) {<a name="line.233"></a>
+<span class="sourceLineNo">233</span>  public int count(@Nullable Object element) {<a name="line.233"></a>
 <span class="sourceLineNo">234</span>    try {<a name="line.234"></a>
 <span class="sourceLineNo">235</span>      @SuppressWarnings("unchecked")<a name="line.235"></a>
 <span class="sourceLineNo">236</span>      E e = (E) element;<a name="line.236"></a>
@@ -254,7 +254,7 @@
 <span class="sourceLineNo">246</span><a name="line.246"></a>
 <span class="sourceLineNo">247</span>  @CanIgnoreReturnValue<a name="line.247"></a>
 <span class="sourceLineNo">248</span>  @Override<a name="line.248"></a>
-<span class="sourceLineNo">249</span>  public int add(@NullableDecl E element, int occurrences) {<a name="line.249"></a>
+<span class="sourceLineNo">249</span>  public int add(@Nullable E element, int occurrences) {<a name="line.249"></a>
 <span class="sourceLineNo">250</span>    checkNonnegative(occurrences, "occurrences");<a name="line.250"></a>
 <span class="sourceLineNo">251</span>    if (occurrences == 0) {<a name="line.251"></a>
 <span class="sourceLineNo">252</span>      return count(element);<a name="line.252"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span><a name="line.268"></a>
 <span class="sourceLineNo">269</span>  @CanIgnoreReturnValue<a name="line.269"></a>
 <span class="sourceLineNo">270</span>  @Override<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  public int remove(@NullableDecl Object element, int occurrences) {<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  public int remove(@Nullable Object element, int occurrences) {<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    checkNonnegative(occurrences, "occurrences");<a name="line.272"></a>
 <span class="sourceLineNo">273</span>    if (occurrences == 0) {<a name="line.273"></a>
 <span class="sourceLineNo">274</span>      return count(element);<a name="line.274"></a>
@@ -300,7 +300,7 @@
 <span class="sourceLineNo">292</span><a name="line.292"></a>
 <span class="sourceLineNo">293</span>  @CanIgnoreReturnValue<a name="line.293"></a>
 <span class="sourceLineNo">294</span>  @Override<a name="line.294"></a>
-<span class="sourceLineNo">295</span>  public int setCount(@NullableDecl E element, int count) {<a name="line.295"></a>
+<span class="sourceLineNo">295</span>  public int setCount(@Nullable E element, int count) {<a name="line.295"></a>
 <span class="sourceLineNo">296</span>    checkNonnegative(count, "count");<a name="line.296"></a>
 <span class="sourceLineNo">297</span>    if (!range.contains(element)) {<a name="line.297"></a>
 <span class="sourceLineNo">298</span>      checkArgument(count == 0);<a name="line.298"></a>
@@ -322,7 +322,7 @@
 <span class="sourceLineNo">314</span><a name="line.314"></a>
 <span class="sourceLineNo">315</span>  @CanIgnoreReturnValue<a name="line.315"></a>
 <span class="sourceLineNo">316</span>  @Override<a name="line.316"></a>
-<span class="sourceLineNo">317</span>  public boolean setCount(@NullableDecl E element, int oldCount, int newCount) {<a name="line.317"></a>
+<span class="sourceLineNo">317</span>  public boolean setCount(@Nullable E element, int oldCount, int newCount) {<a name="line.317"></a>
 <span class="sourceLineNo">318</span>    checkNonnegative(newCount, "newCount");<a name="line.318"></a>
 <span class="sourceLineNo">319</span>    checkNonnegative(oldCount, "oldCount");<a name="line.319"></a>
 <span class="sourceLineNo">320</span>    checkArgument(range.contains(element));<a name="line.320"></a>
@@ -388,7 +388,7 @@
 <span class="sourceLineNo">380</span>  }<a name="line.380"></a>
 <span class="sourceLineNo">381</span><a name="line.381"></a>
 <span class="sourceLineNo">382</span>  /** Returns the first node in the tree that is in range. */<a name="line.382"></a>
-<span class="sourceLineNo">383</span>  @NullableDecl<a name="line.383"></a>
+<span class="sourceLineNo">383</span>  @Nullable<a name="line.383"></a>
 <span class="sourceLineNo">384</span>  private AvlNode&lt;E&gt; firstNode() {<a name="line.384"></a>
 <span class="sourceLineNo">385</span>    AvlNode&lt;E&gt; root = rootReference.get();<a name="line.385"></a>
 <span class="sourceLineNo">386</span>    if (root == null) {<a name="line.386"></a>
@@ -411,7 +411,7 @@
 <span class="sourceLineNo">403</span>    return (node == header || !range.contains(node.getElement())) ? null : node;<a name="line.403"></a>
 <span class="sourceLineNo">404</span>  }<a name="line.404"></a>
 <span class="sourceLineNo">405</span><a name="line.405"></a>
-<span class="sourceLineNo">406</span>  @NullableDecl<a name="line.406"></a>
+<span class="sourceLineNo">406</span>  @Nullable<a name="line.406"></a>
 <span class="sourceLineNo">407</span>  private AvlNode&lt;E&gt; lastNode() {<a name="line.407"></a>
 <span class="sourceLineNo">408</span>    AvlNode&lt;E&gt; root = rootReference.get();<a name="line.408"></a>
 <span class="sourceLineNo">409</span>    if (root == null) {<a name="line.409"></a>
@@ -443,7 +443,7 @@
 <span class="sourceLineNo">435</span>  Iterator&lt;Entry&lt;E&gt;&gt; entryIterator() {<a name="line.435"></a>
 <span class="sourceLineNo">436</span>    return new Iterator&lt;Entry&lt;E&gt;&gt;() {<a name="line.436"></a>
 <span class="sourceLineNo">437</span>      AvlNode&lt;E&gt; current = firstNode();<a name="line.437"></a>
-<span class="sourceLineNo">438</span>      @NullableDecl Entry&lt;E&gt; prevEntry;<a name="line.438"></a>
+<span class="sourceLineNo">438</span>      @Nullable Entry&lt;E&gt; prevEntry;<a name="line.438"></a>
 <span class="sourceLineNo">439</span><a name="line.439"></a>
 <span class="sourceLineNo">440</span>      @Override<a name="line.440"></a>
 <span class="sourceLineNo">441</span>      public boolean hasNext() {<a name="line.441"></a>
@@ -539,7 +539,7 @@
 <span class="sourceLineNo">531</span>  }<a name="line.531"></a>
 <span class="sourceLineNo">532</span><a name="line.532"></a>
 <span class="sourceLineNo">533</span>  @Override<a name="line.533"></a>
-<span class="sourceLineNo">534</span>  public SortedMultiset&lt;E&gt; headMultiset(@NullableDecl E upperBound, BoundType boundType) {<a name="line.534"></a>
+<span class="sourceLineNo">534</span>  public SortedMultiset&lt;E&gt; headMultiset(@Nullable E upperBound, BoundType boundType) {<a name="line.534"></a>
 <span class="sourceLineNo">535</span>    return new TreeMultiset&lt;E&gt;(<a name="line.535"></a>
 <span class="sourceLineNo">536</span>        rootReference,<a name="line.536"></a>
 <span class="sourceLineNo">537</span>        range.intersect(GeneralRange.upTo(comparator(), upperBound, boundType)),<a name="line.537"></a>
@@ -547,7 +547,7 @@
 <span class="sourceLineNo">539</span>  }<a name="line.539"></a>
 <span class="sourceLineNo">540</span><a name="line.540"></a>
 <span class="sourceLineNo">541</span>  @Override<a name="line.541"></a>
-<span class="sourceLineNo">542</span>  public SortedMultiset&lt;E&gt; tailMultiset(@NullableDecl E lowerBound, BoundType boundType) {<a name="line.542"></a>
+<span class="sourceLineNo">542</span>  public SortedMultiset&lt;E&gt; tailMultiset(@Nullable E lowerBound, BoundType boundType) {<a name="line.542"></a>
 <span class="sourceLineNo">543</span>    return new TreeMultiset&lt;E&gt;(<a name="line.543"></a>
 <span class="sourceLineNo">544</span>        rootReference,<a name="line.544"></a>
 <span class="sourceLineNo">545</span>        range.intersect(GeneralRange.downTo(comparator(), lowerBound, boundType)),<a name="line.545"></a>
@@ -555,14 +555,14 @@
 <span class="sourceLineNo">547</span>  }<a name="line.547"></a>
 <span class="sourceLineNo">548</span><a name="line.548"></a>
 <span class="sourceLineNo">549</span>  private static final class Reference&lt;T&gt; {<a name="line.549"></a>
-<span class="sourceLineNo">550</span>    @NullableDecl private T value;<a name="line.550"></a>
+<span class="sourceLineNo">550</span>    @Nullable private T value;<a name="line.550"></a>
 <span class="sourceLineNo">551</span><a name="line.551"></a>
-<span class="sourceLineNo">552</span>    @NullableDecl<a name="line.552"></a>
+<span class="sourceLineNo">552</span>    @Nullable<a name="line.552"></a>
 <span class="sourceLineNo">553</span>    public T get() {<a name="line.553"></a>
 <span class="sourceLineNo">554</span>      return value;<a name="line.554"></a>
 <span class="sourceLineNo">555</span>    }<a name="line.555"></a>
 <span class="sourceLineNo">556</span><a name="line.556"></a>
-<span class="sourceLineNo">557</span>    public void checkAndSet(@NullableDecl T expected, T newValue) {<a name="line.557"></a>
+<span class="sourceLineNo">557</span>    public void checkAndSet(@Nullable T expected, T newValue) {<a name="line.557"></a>
 <span class="sourceLineNo">558</span>      if (value != expected) {<a name="line.558"></a>
 <span class="sourceLineNo">559</span>        throw new ConcurrentModificationException();<a name="line.559"></a>
 <span class="sourceLineNo">560</span>      }<a name="line.560"></a>
@@ -575,7 +575,7 @@
 <span class="sourceLineNo">567</span>  }<a name="line.567"></a>
 <span class="sourceLineNo">568</span><a name="line.568"></a>
 <span class="sourceLineNo">569</span>  private static final class AvlNode&lt;E&gt; {<a name="line.569"></a>
-<span class="sourceLineNo">570</span>    @NullableDecl private final E elem;<a name="line.570"></a>
+<span class="sourceLineNo">570</span>    @Nullable private final E elem;<a name="line.570"></a>
 <span class="sourceLineNo">571</span><a name="line.571"></a>
 <span class="sourceLineNo">572</span>    // elemCount is 0 iff this node has been deleted.<a name="line.572"></a>
 <span class="sourceLineNo">573</span>    private int elemCount;<a name="line.573"></a>
@@ -583,12 +583,12 @@
 <span class="sourceLineNo">575</span>    private int distinctElements;<a name="line.575"></a>
 <span class="sourceLineNo">576</span>    private long totalCount;<a name="line.576"></a>
 <span class="sourceLineNo">577</span>    private int height;<a name="line.577"></a>
-<span class="sourceLineNo">578</span>    @NullableDecl private AvlNode&lt;E&gt; left;<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    @NullableDecl private AvlNode&lt;E&gt; right;<a name="line.579"></a>
-<span class="sourceLineNo">580</span>    @NullableDecl private AvlNode&lt;E&gt; pred;<a name="line.580"></a>
-<span class="sourceLineNo">581</span>    @NullableDecl private AvlNode&lt;E&gt; succ;<a name="line.581"></a>
+<span class="sourceLineNo">578</span>    @Nullable private AvlNode&lt;E&gt; left;<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    @Nullable private AvlNode&lt;E&gt; right;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    @Nullable private AvlNode&lt;E&gt; pred;<a name="line.580"></a>
+<span class="sourceLineNo">581</span>    @Nullable private AvlNode&lt;E&gt; succ;<a name="line.581"></a>
 <span class="sourceLineNo">582</span><a name="line.582"></a>
-<span class="sourceLineNo">583</span>    AvlNode(@NullableDecl E elem, int elemCount) {<a name="line.583"></a>
+<span class="sourceLineNo">583</span>    AvlNode(@Nullable E elem, int elemCount) {<a name="line.583"></a>
 <span class="sourceLineNo">584</span>      checkArgument(elemCount &gt; 0);<a name="line.584"></a>
 <span class="sourceLineNo">585</span>      this.elem = elem;<a name="line.585"></a>
 <span class="sourceLineNo">586</span>      this.elemCount = elemCount;<a name="line.586"></a>
@@ -628,7 +628,7 @@
 <span class="sourceLineNo">620</span>      return this;<a name="line.620"></a>
 <span class="sourceLineNo">621</span>    }<a name="line.621"></a>
 <span class="sourceLineNo">622</span><a name="line.622"></a>
-<span class="sourceLineNo">623</span>    AvlNode&lt;E&gt; add(Comparator&lt;? super E&gt; comparator, @NullableDecl E e, int count, int[] result) {<a name="line.623"></a>
+<span class="sourceLineNo">623</span>    AvlNode&lt;E&gt; add(Comparator&lt;? super E&gt; comparator, @Nullable E e, int count, int[] result) {<a name="line.623"></a>
 <span class="sourceLineNo">624</span>      /*<a name="line.624"></a>
 <span class="sourceLineNo">625</span>       * It speeds things up considerably to unconditionally add count to totalCount here,<a name="line.625"></a>
 <span class="sourceLineNo">626</span>       * but that destroys failure atomicity in the case of count overflow. =(<a name="line.626"></a>
@@ -673,374 +673,372 @@
 <span class="sourceLineNo">665</span>      return this;<a name="line.665"></a>
 <span class="sourceLineNo">666</span>    }<a name="line.666"></a>
 <span class="sourceLineNo">667</span><a name="line.667"></a>
-<span class="sourceLineNo">668</span>    AvlNode&lt;E&gt; remove(<a name="line.668"></a>
-<span class="sourceLineNo">669</span>        Comparator&lt;? super E&gt; comparator, @NullableDecl E e, int count, int[] result) {<a name="line.669"></a>
-<span class="sourceLineNo">670</span>      int cmp = comparator.compare(e, elem);<a name="line.670"></a>
-<span class="sourceLineNo">671</span>      if (cmp &lt; 0) {<a name="line.671"></a>
-<span class="sourceLineNo">672</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.672"></a>
-<span class="sourceLineNo">673</span>        if (initLeft == null) {<a name="line.673"></a>
-<span class="sourceLineNo">674</span>          result[0] = 0;<a name="line.674"></a>
-<span class="sourceLineNo">675</span>          return this;<a name="line.675"></a>
-<span class="sourceLineNo">676</span>        }<a name="line.676"></a>
-<span class="sourceLineNo">677</span><a name="line.677"></a>
-<span class="sourceLineNo">678</span>        left = initLeft.remove(comparator, e, count, result);<a name="line.678"></a>
-<span class="sourceLineNo">679</span><a name="line.679"></a>
-<span class="sourceLineNo">680</span>        if (result[0] &gt; 0) {<a name="line.680"></a>
-<span class="sourceLineNo">681</span>          if (count &gt;= result[0]) {<a name="line.681"></a>
-<span class="sourceLineNo">682</span>            this.distinctElements--;<a name="line.682"></a>
-<span class="sourceLineNo">683</span>            this.totalCount -= result[0];<a name="line.683"></a>
-<span class="sourceLineNo">684</span>          } else {<a name="line.684"></a>
-<span class="sourceLineNo">685</span>            this.totalCount -= count;<a name="line.685"></a>
-<span class="sourceLineNo">686</span>          }<a name="line.686"></a>
-<span class="sourceLineNo">687</span>        }<a name="line.687"></a>
-<span class="sourceLineNo">688</span>        return (result[0] == 0) ? this : rebalance();<a name="line.688"></a>
-<span class="sourceLineNo">689</span>      } else if (cmp &gt; 0) {<a name="line.689"></a>
-<span class="sourceLineNo">690</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.690"></a>
-<span class="sourceLineNo">691</span>        if (initRight == null) {<a name="line.691"></a>
-<span class="sourceLineNo">692</span>          result[0] = 0;<a name="line.692"></a>
-<span class="sourceLineNo">693</span>          return this;<a name="line.693"></a>
-<span class="sourceLineNo">694</span>        }<a name="line.694"></a>
-<span class="sourceLineNo">695</span><a name="line.695"></a>
-<span class="sourceLineNo">696</span>        right = initRight.remove(comparator, e, count, result);<a name="line.696"></a>
-<span class="sourceLineNo">697</span><a name="line.697"></a>
-<span class="sourceLineNo">698</span>        if (result[0] &gt; 0) {<a name="line.698"></a>
-<span class="sourceLineNo">699</span>          if (count &gt;= result[0]) {<a name="line.699"></a>
-<span class="sourceLineNo">700</span>            this.distinctElements--;<a name="line.700"></a>
-<span class="sourceLineNo">701</span>            this.totalCount -= result[0];<a name="line.701"></a>
-<span class="sourceLineNo">702</span>          } else {<a name="line.702"></a>
-<span class="sourceLineNo">703</span>            this.totalCount -= count;<a name="line.703"></a>
-<span class="sourceLineNo">704</span>          }<a name="line.704"></a>
-<span class="sourceLineNo">705</span>        }<a name="line.705"></a>
-<span class="sourceLineNo">706</span>        return rebalance();<a name="line.706"></a>
-<span class="sourceLineNo">707</span>      }<a name="line.707"></a>
-<span class="sourceLineNo">708</span><a name="line.708"></a>
-<span class="sourceLineNo">709</span>      // removing count from me!<a name="line.709"></a>
-<span class="sourceLineNo">710</span>      result[0] = elemCount;<a name="line.710"></a>
-<span class="sourceLineNo">711</span>      if (count &gt;= elemCount) {<a name="line.711"></a>
-<span class="sourceLineNo">712</span>        return deleteMe();<a name="line.712"></a>
-<span class="sourceLineNo">713</span>      } else {<a name="line.713"></a>
-<span class="sourceLineNo">714</span>        this.elemCount -= count;<a name="line.714"></a>
-<span class="sourceLineNo">715</span>        this.totalCount -= count;<a name="line.715"></a>
-<span class="sourceLineNo">716</span>        return this;<a name="line.716"></a>
-<span class="sourceLineNo">717</span>      }<a name="line.717"></a>
-<span class="sourceLineNo">718</span>    }<a name="line.718"></a>
-<span class="sourceLineNo">719</span><a name="line.719"></a>
-<span class="sourceLineNo">720</span>    AvlNode&lt;E&gt; setCount(<a name="line.720"></a>
-<span class="sourceLineNo">721</span>        Comparator&lt;? super E&gt; comparator, @NullableDecl E e, int count, int[] result) {<a name="line.721"></a>
-<span class="sourceLineNo">722</span>      int cmp = comparator.compare(e, elem);<a name="line.722"></a>
-<span class="sourceLineNo">723</span>      if (cmp &lt; 0) {<a name="line.723"></a>
-<span class="sourceLineNo">724</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.724"></a>
-<span class="sourceLineNo">725</span>        if (initLeft == null) {<a name="line.725"></a>
-<span class="sourceLineNo">726</span>          result[0] = 0;<a name="line.726"></a>
-<span class="sourceLineNo">727</span>          return (count &gt; 0) ? addLeftChild(e, count) : this;<a name="line.727"></a>
-<span class="sourceLineNo">728</span>        }<a name="line.728"></a>
+<span class="sourceLineNo">668</span>    AvlNode&lt;E&gt; remove(Comparator&lt;? super E&gt; comparator, @Nullable E e, int count, int[] result) {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>      int cmp = comparator.compare(e, elem);<a name="line.669"></a>
+<span class="sourceLineNo">670</span>      if (cmp &lt; 0) {<a name="line.670"></a>
+<span class="sourceLineNo">671</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.671"></a>
+<span class="sourceLineNo">672</span>        if (initLeft == null) {<a name="line.672"></a>
+<span class="sourceLineNo">673</span>          result[0] = 0;<a name="line.673"></a>
+<span class="sourceLineNo">674</span>          return this;<a name="line.674"></a>
+<span class="sourceLineNo">675</span>        }<a name="line.675"></a>
+<span class="sourceLineNo">676</span><a name="line.676"></a>
+<span class="sourceLineNo">677</span>        left = initLeft.remove(comparator, e, count, result);<a name="line.677"></a>
+<span class="sourceLineNo">678</span><a name="line.678"></a>
+<span class="sourceLineNo">679</span>        if (result[0] &gt; 0) {<a name="line.679"></a>
+<span class="sourceLineNo">680</span>          if (count &gt;= result[0]) {<a name="line.680"></a>
+<span class="sourceLineNo">681</span>            this.distinctElements--;<a name="line.681"></a>
+<span class="sourceLineNo">682</span>            this.totalCount -= result[0];<a name="line.682"></a>
+<span class="sourceLineNo">683</span>          } else {<a name="line.683"></a>
+<span class="sourceLineNo">684</span>            this.totalCount -= count;<a name="line.684"></a>
+<span class="sourceLineNo">685</span>          }<a name="line.685"></a>
+<span class="sourceLineNo">686</span>        }<a name="line.686"></a>
+<span class="sourceLineNo">687</span>        return (result[0] == 0) ? this : rebalance();<a name="line.687"></a>
+<span class="sourceLineNo">688</span>      } else if (cmp &gt; 0) {<a name="line.688"></a>
+<span class="sourceLineNo">689</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.689"></a>
+<span class="sourceLineNo">690</span>        if (initRight == null) {<a name="line.690"></a>
+<span class="sourceLineNo">691</span>          result[0] = 0;<a name="line.691"></a>
+<span class="sourceLineNo">692</span>          return this;<a name="line.692"></a>
+<span class="sourceLineNo">693</span>        }<a name="line.693"></a>
+<span class="sourceLineNo">694</span><a name="line.694"></a>
+<span class="sourceLineNo">695</span>        right = initRight.remove(comparator, e, count, result);<a name="line.695"></a>
+<span class="sourceLineNo">696</span><a name="line.696"></a>
+<span class="sourceLineNo">697</span>        if (result[0] &gt; 0) {<a name="line.697"></a>
+<span class="sourceLineNo">698</span>          if (count &gt;= result[0]) {<a name="line.698"></a>
+<span class="sourceLineNo">699</span>            this.distinctElements--;<a name="line.699"></a>
+<span class="sourceLineNo">700</span>            this.totalCount -= result[0];<a name="line.700"></a>
+<span class="sourceLineNo">701</span>          } else {<a name="line.701"></a>
+<span class="sourceLineNo">702</span>            this.totalCount -= count;<a name="line.702"></a>
+<span class="sourceLineNo">703</span>          }<a name="line.703"></a>
+<span class="sourceLineNo">704</span>        }<a name="line.704"></a>
+<span class="sourceLineNo">705</span>        return rebalance();<a name="line.705"></a>
+<span class="sourceLineNo">706</span>      }<a name="line.706"></a>
+<span class="sourceLineNo">707</span><a name="line.707"></a>
+<span class="sourceLineNo">708</span>      // removing count from me!<a name="line.708"></a>
+<span class="sourceLineNo">709</span>      result[0] = elemCount;<a name="line.709"></a>
+<span class="sourceLineNo">710</span>      if (count &gt;= elemCount) {<a name="line.710"></a>
+<span class="sourceLineNo">711</span>        return deleteMe();<a name="line.711"></a>
+<span class="sourceLineNo">712</span>      } else {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>        this.elemCount -= count;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>        this.totalCount -= count;<a name="line.714"></a>
+<span class="sourceLineNo">715</span>        return this;<a name="line.715"></a>
+<span class="sourceLineNo">716</span>      }<a name="line.716"></a>
+<span class="sourceLineNo">717</span>    }<a name="line.717"></a>
+<span class="sourceLineNo">718</span><a name="line.718"></a>
+<span class="sourceLineNo">719</span>    AvlNode&lt;E&gt; setCount(Comparator&lt;? super E&gt; comparator, @Nullable E e, int count, int[] result) {<a name="line.719"></a>
+<span class="sourceLineNo">720</span>      int cmp = comparator.compare(e, elem);<a name="line.720"></a>
+<span class="sourceLineNo">721</span>      if (cmp &lt; 0) {<a name="line.721"></a>
+<span class="sourceLineNo">722</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.722"></a>
+<span class="sourceLineNo">723</span>        if (initLeft == null) {<a name="line.723"></a>
+<span class="sourceLineNo">724</span>          result[0] = 0;<a name="line.724"></a>
+<span class="sourceLineNo">725</span>          return (count &gt; 0) ? addLeftChild(e, count) : this;<a name="line.725"></a>
+<span class="sourceLineNo">726</span>        }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>        left = initLeft.setCount(comparator, e, count, result);<a name="line.728"></a>
 <span class="sourceLineNo">729</span><a name="line.729"></a>
-<span class="sourceLineNo">730</span>        left = initLeft.setCount(comparator, e, count, result);<a name="line.730"></a>
-<span class="sourceLineNo">731</span><a name="line.731"></a>
-<span class="sourceLineNo">732</span>        if (count == 0 &amp;&amp; result[0] != 0) {<a name="line.732"></a>
-<span class="sourceLineNo">733</span>          this.distinctElements--;<a name="line.733"></a>
-<span class="sourceLineNo">734</span>        } else if (count &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.734"></a>
-<span class="sourceLineNo">735</span>          this.distinctElements++;<a name="line.735"></a>
-<span class="sourceLineNo">736</span>        }<a name="line.736"></a>
-<span class="sourceLineNo">737</span><a name="line.737"></a>
-<span class="sourceLineNo">738</span>        this.totalCount += count - result[0];<a name="line.738"></a>
-<span class="sourceLineNo">739</span>        return rebalance();<a name="line.739"></a>
-<span class="sourceLineNo">740</span>      } else if (cmp &gt; 0) {<a name="line.740"></a>
-<span class="sourceLineNo">741</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.741"></a>
-<span class="sourceLineNo">742</span>        if (initRight == null) {<a name="line.742"></a>
-<span class="sourceLineNo">743</span>          result[0] = 0;<a name="line.743"></a>
-<span class="sourceLineNo">744</span>          return (count &gt; 0) ? addRightChild(e, count) : this;<a name="line.744"></a>
-<span class="sourceLineNo">745</span>        }<a name="line.745"></a>
+<span class="sourceLineNo">730</span>        if (count == 0 &amp;&amp; result[0] != 0) {<a name="line.730"></a>
+<span class="sourceLineNo">731</span>          this.distinctElements--;<a name="line.731"></a>
+<span class="sourceLineNo">732</span>        } else if (count &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>          this.distinctElements++;<a name="line.733"></a>
+<span class="sourceLineNo">734</span>        }<a name="line.734"></a>
+<span class="sourceLineNo">735</span><a name="line.735"></a>
+<span class="sourceLineNo">736</span>        this.totalCount += count - result[0];<a name="line.736"></a>
+<span class="sourceLineNo">737</span>        return rebalance();<a name="line.737"></a>
+<span class="sourceLineNo">738</span>      } else if (cmp &gt; 0) {<a name="line.738"></a>
+<span class="sourceLineNo">739</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.739"></a>
+<span class="sourceLineNo">740</span>        if (initRight == null) {<a name="line.740"></a>
+<span class="sourceLineNo">741</span>          result[0] = 0;<a name="line.741"></a>
+<span class="sourceLineNo">742</span>          return (count &gt; 0) ? addRightChild(e, count) : this;<a name="line.742"></a>
+<span class="sourceLineNo">743</span>        }<a name="line.743"></a>
+<span class="sourceLineNo">744</span><a name="line.744"></a>
+<span class="sourceLineNo">745</span>        right = initRight.setCount(comparator, e, count, result);<a name="line.745"></a>
 <span class="sourceLineNo">746</span><a name="line.746"></a>
-<span class="sourceLineNo">747</span>        right = initRight.setCount(comparator, e, count, result);<a name="line.747"></a>
-<span class="sourceLineNo">748</span><a name="line.748"></a>
-<span class="sourceLineNo">749</span>        if (count == 0 &amp;&amp; result[0] != 0) {<a name="line.749"></a>
-<span class="sourceLineNo">750</span>          this.distinctElements--;<a name="line.750"></a>
-<span class="sourceLineNo">751</span>        } else if (count &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.751"></a>
-<span class="sourceLineNo">752</span>          this.distinctElements++;<a name="line.752"></a>
-<span class="sourceLineNo">753</span>        }<a name="line.753"></a>
-<span class="sourceLineNo">754</span><a name="line.754"></a>
-<span class="sourceLineNo">755</span>        this.totalCount += count - result[0];<a name="line.755"></a>
-<span class="sourceLineNo">756</span>        return rebalance();<a name="line.756"></a>
-<span class="sourceLineNo">757</span>      }<a name="line.757"></a>
-<span class="sourceLineNo">758</span><a name="line.758"></a>
-<span class="sourceLineNo">759</span>      // setting my count<a name="line.759"></a>
-<span class="sourceLineNo">760</span>      result[0] = elemCount;<a name="line.760"></a>
-<span class="sourceLineNo">761</span>      if (count == 0) {<a name="line.761"></a>
-<span class="sourceLineNo">762</span>        return deleteMe();<a name="line.762"></a>
-<span class="sourceLineNo">763</span>      }<a name="line.763"></a>
-<span class="sourceLineNo">764</span>      this.totalCount += count - elemCount;<a name="line.764"></a>
-<span class="sourceLineNo">765</span>      this.elemCount = count;<a name="line.765"></a>
-<span class="sourceLineNo">766</span>      return this;<a name="line.766"></a>
-<span class="sourceLineNo">767</span>    }<a name="line.767"></a>
-<span class="sourceLineNo">768</span><a name="line.768"></a>
-<span class="sourceLineNo">769</span>    AvlNode&lt;E&gt; setCount(<a name="line.769"></a>
-<span class="sourceLineNo">770</span>        Comparator&lt;? super E&gt; comparator,<a name="line.770"></a>
-<span class="sourceLineNo">771</span>        @NullableDecl E e,<a name="line.771"></a>
-<span class="sourceLineNo">772</span>        int expectedCount,<a name="line.772"></a>
-<span class="sourceLineNo">773</span>        int newCount,<a name="line.773"></a>
-<span class="sourceLineNo">774</span>        int[] result) {<a name="line.774"></a>
-<span class="sourceLineNo">775</span>      int cmp = comparator.compare(e, elem);<a name="line.775"></a>
-<span class="sourceLineNo">776</span>      if (cmp &lt; 0) {<a name="line.776"></a>
-<span class="sourceLineNo">777</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.777"></a>
-<span class="sourceLineNo">778</span>        if (initLeft == null) {<a name="line.778"></a>
-<span class="sourceLineNo">779</span>          result[0] = 0;<a name="line.779"></a>
-<span class="sourceLineNo">780</span>          if (expectedCount == 0 &amp;&amp; newCount &gt; 0) {<a name="line.780"></a>
-<span class="sourceLineNo">781</span>            return addLeftChild(e, newCount);<a name="line.781"></a>
-<span class="sourceLineNo">782</span>          }<a name="line.782"></a>
-<span class="sourceLineNo">783</span>          return this;<a name="line.783"></a>
-<span class="sourceLineNo">784</span>        }<a name="line.784"></a>
+<span class="sourceLineNo">747</span>        if (count == 0 &amp;&amp; result[0] != 0) {<a name="line.747"></a>
+<span class="sourceLineNo">748</span>          this.distinctElements--;<a name="line.748"></a>
+<span class="sourceLineNo">749</span>        } else if (count &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.749"></a>
+<span class="sourceLineNo">750</span>          this.distinctElements++;<a name="line.750"></a>
+<span class="sourceLineNo">751</span>        }<a name="line.751"></a>
+<span class="sourceLineNo">752</span><a name="line.752"></a>
+<span class="sourceLineNo">753</span>        this.totalCount += count - result[0];<a name="line.753"></a>
+<span class="sourceLineNo">754</span>        return rebalance();<a name="line.754"></a>
+<span class="sourceLineNo">755</span>      }<a name="line.755"></a>
+<span class="sourceLineNo">756</span><a name="line.756"></a>
+<span class="sourceLineNo">757</span>      // setting my count<a name="line.757"></a>
+<span class="sourceLineNo">758</span>      result[0] = elemCount;<a name="line.758"></a>
+<span class="sourceLineNo">759</span>      if (count == 0) {<a name="line.759"></a>
+<span class="sourceLineNo">760</span>        return deleteMe();<a name="line.760"></a>
+<span class="sourceLineNo">761</span>      }<a name="line.761"></a>
+<span class="sourceLineNo">762</span>      this.totalCount += count - elemCount;<a name="line.762"></a>
+<span class="sourceLineNo">763</span>      this.elemCount = count;<a name="line.763"></a>
+<span class="sourceLineNo">764</span>      return this;<a name="line.764"></a>
+<span class="sourceLineNo">765</span>    }<a name="line.765"></a>
+<span class="sourceLineNo">766</span><a name="line.766"></a>
+<span class="sourceLineNo">767</span>    AvlNode&lt;E&gt; setCount(<a name="line.767"></a>
+<span class="sourceLineNo">768</span>        Comparator&lt;? super E&gt; comparator,<a name="line.768"></a>
+<span class="sourceLineNo">769</span>        @Nullable E e,<a name="line.769"></a>
+<span class="sourceLineNo">770</span>        int expectedCount,<a name="line.770"></a>
+<span class="sourceLineNo">771</span>        int newCount,<a name="line.771"></a>
+<span class="sourceLineNo">772</span>        int[] result) {<a name="line.772"></a>
+<span class="sourceLineNo">773</span>      int cmp = comparator.compare(e, elem);<a name="line.773"></a>
+<span class="sourceLineNo">774</span>      if (cmp &lt; 0) {<a name="line.774"></a>
+<span class="sourceLineNo">775</span>        AvlNode&lt;E&gt; initLeft = left;<a name="line.775"></a>
+<span class="sourceLineNo">776</span>        if (initLeft == null) {<a name="line.776"></a>
+<span class="sourceLineNo">777</span>          result[0] = 0;<a name="line.777"></a>
+<span class="sourceLineNo">778</span>          if (expectedCount == 0 &amp;&amp; newCount &gt; 0) {<a name="line.778"></a>
+<span class="sourceLineNo">779</span>            return addLeftChild(e, newCount);<a name="line.779"></a>
+<span class="sourceLineNo">780</span>          }<a name="line.780"></a>
+<span class="sourceLineNo">781</span>          return this;<a name="line.781"></a>
+<span class="sourceLineNo">782</span>        }<a name="line.782"></a>
+<span class="sourceLineNo">783</span><a name="line.783"></a>
+<span class="sourceLineNo">784</span>        left = initLeft.setCount(comparator, e, expectedCount, newCount, result);<a name="line.784"></a>
 <span class="sourceLineNo">785</span><a name="line.785"></a>
-<span class="sourceLineNo">786</span>        left = initLeft.setCount(comparator, e, expectedCount, newCount, result);<a name="line.786"></a>
-<span class="sourceLineNo">787</span><a name="line.787"></a>
-<span class="sourceLineNo">788</span>        if (result[0] == expectedCount) {<a name="line.788"></a>
-<span class="sourceLineNo">789</span>          if (newCount == 0 &amp;&amp; result[0] != 0) {<a name="line.789"></a>
-<span class="sourceLineNo">790</span>            this.distinctElements--;<a name="line.790"></a>
-<span class="sourceLineNo">791</span>          } else if (newCount &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.791"></a>
-<span class="sourceLineNo">792</span>            this.distinctElements++;<a name="line.792"></a>
-<span class="sourceLineNo">793</span>          }<a name="line.793"></a>
-<span class="sourceLineNo">794</span>          this.totalCount += newCount - result[0];<a name="line.794"></a>
-<span class="sourceLineNo">795</span>        }<a name="line.795"></a>
-<span class="sourceLineNo">796</span>        return rebalance();<a name="line.796"></a>
-<span class="sourceLineNo">797</span>      } else if (cmp &gt; 0) {<a name="line.797"></a>
-<span class="sourceLineNo">798</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.798"></a>
-<span class="sourceLineNo">799</span>        if (initRight == null) {<a name="line.799"></a>
-<span class="sourceLineNo">800</span>          result[0] = 0;<a name="line.800"></a>
-<span class="sourceLineNo">801</span>          if (expectedCount == 0 &amp;&amp; newCount &gt; 0) {<a name="line.801"></a>
-<span class="sourceLineNo">802</span>            return addRightChild(e, newCount);<a name="line.802"></a>
-<span class="sourceLineNo">803</span>          }<a name="line.803"></a>
-<span class="sourceLineNo">804</span>          return this;<a name="line.804"></a>
-<span class="sourceLineNo">805</span>        }<a name="line.805"></a>
+<span class="sourceLineNo">786</span>        if (result[0] == expectedCount) {<a name="line.786"></a>
+<span class="sourceLineNo">787</span>          if (newCount == 0 &amp;&amp; result[0] != 0) {<a name="line.787"></a>
+<span class="sourceLineNo">788</span>            this.distinctElements--;<a name="line.788"></a>
+<span class="sourceLineNo">789</span>          } else if (newCount &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.789"></a>
+<span class="sourceLineNo">790</span>            this.distinctElements++;<a name="line.790"></a>
+<span class="sourceLineNo">791</span>          }<a name="line.791"></a>
+<span class="sourceLineNo">792</span>          this.totalCount += newCount - result[0];<a name="line.792"></a>
+<span class="sourceLineNo">793</span>        }<a name="line.793"></a>
+<span class="sourceLineNo">794</span>        return rebalance();<a name="line.794"></a>
+<span class="sourceLineNo">795</span>      } else if (cmp &gt; 0) {<a name="line.795"></a>
+<span class="sourceLineNo">796</span>        AvlNode&lt;E&gt; initRight = right;<a name="line.796"></a>
+<span class="sourceLineNo">797</span>        if (initRight == null) {<a name="line.797"></a>
+<span class="sourceLineNo">798</span>          result[0] = 0;<a name="line.798"></a>
+<span class="sourceLineNo">799</span>          if (expectedCount == 0 &amp;&amp; newCount &gt; 0) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>            return addRightChild(e, newCount);<a name="line.800"></a>
+<span class="sourceLineNo">801</span>          }<a name="line.801"></a>
+<span class="sourceLineNo">802</span>          return this;<a name="line.802"></a>
+<span class="sourceLineNo">803</span>        }<a name="line.803"></a>
+<span class="sourceLineNo">804</span><a name="line.804"></a>
+<span class="sourceLineNo">805</span>        right = initRight.setCount(comparator, e, expectedCount, newCount, result);<a name="line.805"></a>
 <span class="sourceLineNo">806</span><a name="line.806"></a>
-<span class="sourceLineNo">807</span>        right = initRight.setCount(comparator, e, expectedCount, newCount, result);<a name="line.807"></a>
-<span class="sourceLineNo">808</span><a name="line.808"></a>
-<span class="sourceLineNo">809</span>        if (result[0] == expectedCount) {<a name="line.809"></a>
-<span class="sourceLineNo">810</span>          if (newCount == 0 &amp;&amp; result[0] != 0) {<a name="line.810"></a>
-<span class="sourceLineNo">811</span>            this.distinctElements--;<a name="line.811"></a>
-<span class="sourceLineNo">812</span>          } else if (newCount &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.812"></a>
-<span class="sourceLineNo">813</span>            this.distinctElements++;<a name="line.813"></a>
-<span class="sourceLineNo">814</span>          }<a name="line.814"></a>
-<span class="sourceLineNo">815</span>          this.totalCount += newCount - result[0];<a name="line.815"></a>
-<span class="sourceLineNo">816</span>        }<a name="line.816"></a>
-<span class="sourceLineNo">817</span>        return rebalance();<a name="line.817"></a>
-<span class="sourceLineNo">818</span>      }<a name="line.818"></a>
-<span class="sourceLineNo">819</span><a name="line.819"></a>
-<span class="sourceLineNo">820</span>      // setting my count<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      result[0] = elemCount;<a name="line.821"></a>
-<span class="sourceLineNo">822</span>      if (expectedCount == elemCount) {<a name="line.822"></a>
-<span class="sourceLineNo">823</span>        if (newCount == 0) {<a name="line.823"></a>
-<span class="sourceLineNo">824</span>          return deleteMe();<a name="line.824"></a>
-<span class="sourceLineNo">825</span>        }<a name="line.825"></a>
-<span class="sourceLineNo">826</span>        this.totalCount += newCount - elemCount;<a name="line.826"></a>
-<span class="sourceLineNo">827</span>        this.elemCount = newCount;<a name="line.827"></a>
-<span class="sourceLineNo">828</span>      }<a name="line.828"></a>
-<span class="sourceLineNo">829</span>      return this;<a name="line.829"></a>
-<span class="sourceLineNo">830</span>    }<a name="line.830"></a>
-<span class="sourceLineNo">831</span><a name="line.831"></a>
-<span class="sourceLineNo">832</span>    private AvlNode&lt;E&gt; deleteMe() {<a name="line.832"></a>
-<span class="sourceLineNo">833</span>      int oldElemCount = this.elemCount;<a name="line.833"></a>
-<span class="sourceLineNo">834</span>      this.elemCount = 0;<a name="line.834"></a>
-<span class="sourceLineNo">835</span>      successor(pred, succ);<a name="line.835"></a>
-<span class="sourceLineNo">836</span>      if (left == null) {<a name="line.836"></a>
-<span class="sourceLineNo">837</span>        return right;<a name="line.837"></a>
-<span class="sourceLineNo">838</span>      } else if (right == null) {<a name="line.838"></a>
-<span class="sourceLineNo">839</span>        return left;<a name="line.839"></a>
-<span class="sourceLineNo">840</span>      } else if (left.height &gt;= right.height) {<a name="line.840"></a>
-<span class="sourceLineNo">841</span>        AvlNode&lt;E&gt; newTop = pred;<a name="line.841"></a>
-<span class="sourceLineNo">842</span>        // newTop is the maximum node in my left subtree<a name="line.842"></a>
-<span class="sourceLineNo">843</span>        newTop.left = left.removeMax(newTop);<a name="line.843"></a>
-<span class="sourceLineNo">844</span>        newTop.right = right;<a name="line.844"></a>
-<span class="sourceLineNo">845</span>        newTop.distinctElements = distinctElements - 1;<a name="line.845"></a>
-<span class="sourceLineNo">846</span>        newTop.totalCount = totalCount - oldElemCount;<a name="line.846"></a>
-<span class="sourceLineNo">847</span>        return newTop.rebalance();<a name="line.847"></a>
-<span class="sourceLineNo">848</span>      } else {<a name="line.848"></a>
-<span class="sourceLineNo">849</span>        AvlNode&lt;E&gt; newTop = succ;<a name="line.849"></a>
-<span class="sourceLineNo">850</span>        newTop.right = right.removeMin(newTop);<a name="line.850"></a>
-<span class="sourceLineNo">851</span>        newTop.left = left;<a name="line.851"></a>
-<span class="sourceLineNo">852</span>        newTop.distinctElements = distinctElements - 1;<a name="line.852"></a>
-<span class="sourceLineNo">853</span>        newTop.totalCount = totalCount - oldElemCount;<a name="line.853"></a>
-<span class="sourceLineNo">854</span>        return newTop.rebalance();<a name="line.854"></a>
-<span class="sourceLineNo">855</span>      }<a name="line.855"></a>
-<span class="sourceLineNo">856</span>    }<a name="line.856"></a>
-<span class="sourceLineNo">857</span><a name="line.857"></a>
-<span class="sourceLineNo">858</span>    // Removes the minimum node from this subtree to be reused elsewhere<a name="line.858"></a>
-<span class="sourceLineNo">859</span>    private AvlNode&lt;E&gt; removeMin(AvlNode&lt;E&gt; node) {<a name="line.859"></a>
-<span class="sourceLineNo">860</span>      if (left == null) {<a name="line.860"></a>
-<span class="sourceLineNo">861</span>        return right;<a name="line.861"></a>
-<span class="sourceLineNo">862</span>      } else {<a name="line.862"></a>
-<span class="sourceLineNo">863</span>        left = left.removeMin(node);<a name="line.863"></a>
-<span class="sourceLineNo">864</span>        distinctElements--;<a name="line.864"></a>
-<span class="sourceLineNo">865</span>        totalCount -= node.elemCount;<a name="line.865"></a>
-<span class="sourceLineNo">866</span>        return rebalance();<a name="line.866"></a>
-<span class="sourceLineNo">867</span>      }<a name="line.867"></a>
-<span class="sourceLineNo">868</span>    }<a name="line.868"></a>
-<span class="sourceLineNo">869</span><a name="line.869"></a>
-<span class="sourceLineNo">870</span>    // Removes the maximum node from this subtree to be reused elsewhere<a name="line.870"></a>
-<span class="sourceLineNo">871</span>    private AvlNode&lt;E&gt; removeMax(AvlNode&lt;E&gt; node) {<a name="line.871"></a>
-<span class="sourceLineNo">872</span>      if (right == null) {<a name="line.872"></a>
-<span class="sourceLineNo">873</span>        return left;<a name="line.873"></a>
-<span class="sourceLineNo">874</span>      } else {<a name="line.874"></a>
-<span class="sourceLineNo">875</span>        right = right.removeMax(node);<a name="line.875"></a>
-<span class="sourceLineNo">876</span>        distinctElements--;<a name="line.876"></a>
-<span class="sourceLineNo">877</span>        totalCount -= node.elemCount;<a name="line.877"></a>
-<span class="sourceLineNo">878</span>        return rebalance();<a name="line.878"></a>
-<span class="sourceLineNo">879</span>      }<a name="line.879"></a>
-<span class="sourceLineNo">880</span>    }<a name="line.880"></a>
-<span class="sourceLineNo">881</span><a name="line.881"></a>
-<span class="sourceLineNo">882</span>    private void recomputeMultiset() {<a name="line.882"></a>
-<span class="sourceLineNo">883</span>      this.distinctElements =<a name="line.883"></a>
-<span class="sourceLineNo">884</span>          1 + TreeMultiset.distinctElements(left) + TreeMultiset.distinctElements(right);<a name="line.884"></a>
-<span class="sourceLineNo">885</span>      this.totalCount = elemCount + totalCount(left) + totalCount(right);<a name="line.885"></a>
-<span class="sourceLineNo">886</span>    }<a name="line.886"></a>
-<span class="sourceLineNo">887</span><a name="line.887"></a>
-<span class="sourceLineNo">888</span>    private void recomputeHeight() {<a name="line.888"></a>
-<span class="sourceLineNo">889</span>      this.height = 1 + Math.max(height(left), height(right));<a name="line.889"></a>
-<span class="sourceLineNo">890</span>    }<a name="line.890"></a>
-<span class="sourceLineNo">891</span><a name="line.891"></a>
-<span class="sourceLineNo">892</span>    private void recompute() {<a name="line.892"></a>
-<span class="sourceLineNo">893</span>      recomputeMultiset();<a name="line.893"></a>
-<span class="sourceLineNo">894</span>      recomputeHeight();<a name="line.894"></a>
-<span class="sourceLineNo">895</span>    }<a name="line.895"></a>
-<span class="sourceLineNo">896</span><a name="line.896"></a>
-<span class="sourceLineNo">897</span>    private AvlNode&lt;E&gt; rebalance() {<a name="line.897"></a>
-<span class="sourceLineNo">898</span>      switch (balanceFactor()) {<a name="line.898"></a>
-<span class="sourceLineNo">899</span>        case -2:<a name="line.899"></a>
-<span class="sourceLineNo">900</span>          if (right.balanceFactor() &gt; 0) {<a name="line.900"></a>
-<span class="sourceLineNo">901</span>            right = right.rotateRight();<a name="line.901"></a>
-<span class="sourceLineNo">902</span>          }<a name="line.902"></a>
-<span class="sourceLineNo">903</span>          return rotateLeft();<a name="line.903"></a>
-<span class="sourceLineNo">904</span>        case 2:<a name="line.904"></a>
-<span class="sourceLineNo">905</span>          if (left.balanceFactor() &lt; 0) {<a name="line.905"></a>
-<span class="sourceLineNo">906</span>            left = left.rotateLeft();<a name="line.906"></a>
-<span class="sourceLineNo">907</span>          }<a name="line.907"></a>
-<span class="sourceLineNo">908</span>          return rotateRight();<a name="line.908"></a>
-<span class="sourceLineNo">909</span>        default:<a name="line.909"></a>
-<span class="sourceLineNo">910</span>          recomputeHeight();<a name="line.910"></a>
-<span class="sourceLineNo">911</span>          return this;<a name="line.911"></a>
-<span class="sourceLineNo">912</span>      }<a name="line.912"></a>
-<span class="sourceLineNo">913</span>    }<a name="line.913"></a>
-<span class="sourceLineNo">914</span><a name="line.914"></a>
-<span class="sourceLineNo">915</span>    private int balanceFactor() {<a name="line.915"></a>
-<span class="sourceLineNo">916</span>      return height(left) - height(right);<a name="line.916"></a>
-<span class="sourceLineNo">917</span>    }<a name="line.917"></a>
-<span class="sourceLineNo">918</span><a name="line.918"></a>
-<span class="sourceLineNo">919</span>    private AvlNode&lt;E&gt; rotateLeft() {<a name="line.919"></a>
-<span class="sourceLineNo">920</span>      checkState(right != null);<a name="line.920"></a>
-<span class="sourceLineNo">921</span>      AvlNode&lt;E&gt; newTop = right;<a name="line.921"></a>
-<span class="sourceLineNo">922</span>      this.right = newTop.left;<a name="line.922"></a>
-<span class="sourceLineNo">923</span>      newTop.left = this;<a name="line.923"></a>
-<span class="sourceLineNo">924</span>      newTop.totalCount = this.totalCount;<a name="line.924"></a>
-<span class="sourceLineNo">925</span>      newTop.distinctElements = this.distinctElements;<a name="line.925"></a>
-<span class="sourceLineNo">926</span>      this.recompute();<a name="line.926"></a>
-<span class="sourceLineNo">927</span>      newTop.recomputeHeight();<a name="line.927"></a>
-<span class="sourceLineNo">928</span>      return newTop;<a name="line.928"></a>
-<span class="sourceLineNo">929</span>    }<a name="line.929"></a>
-<span class="sourceLineNo">930</span><a name="line.930"></a>
-<span class="sourceLineNo">931</span>    private AvlNode&lt;E&gt; rotateRight() {<a name="line.931"></a>
-<span class="sourceLineNo">932</span>      checkState(left != null);<a name="line.932"></a>
-<span class="sourceLineNo">933</span>      AvlNode&lt;E&gt; newTop = left;<a name="line.933"></a>
-<span class="sourceLineNo">934</span>      this.left = newTop.right;<a name="line.934"></a>
-<span class="sourceLineNo">935</span>      newTop.right = this;<a name="line.935"></a>
-<span class="sourceLineNo">936</span>      newTop.totalCount = this.totalCount;<a name="line.936"></a>
-<span class="sourceLineNo">937</span>      newTop.distinctElements = this.distinctElements;<a name="line.937"></a>
-<span class="sourceLineNo">938</span>      this.recompute();<a name="line.938"></a>
-<span class="sourceLineNo">939</span>      newTop.recomputeHeight();<a name="line.939"></a>
-<span class="sourceLineNo">940</span>      return newTop;<a name="line.940"></a>
-<span class="sourceLineNo">941</span>    }<a name="line.941"></a>
-<span class="sourceLineNo">942</span><a name="line.942"></a>
-<span class="sourceLineNo">943</span>    private static long totalCount(@NullableDecl AvlNode&lt;?&gt; node) {<a name="line.943"></a>
-<span class="sourceLineNo">944</span>      return (node == null) ? 0 : node.totalCount;<a name="line.944"></a>
-<span class="sourceLineNo">945</span>    }<a name="line.945"></a>
-<span class="sourceLineNo">946</span><a name="line.946"></a>
-<span class="sourceLineNo">947</span>    private static int height(@NullableDecl AvlNode&lt;?&gt; node) {<a name="line.947"></a>
-<span class="sourceLineNo">948</span>      return (node == null) ? 0 : node.height;<a name="line.948"></a>
-<span class="sourceLineNo">949</span>    }<a name="line.949"></a>
-<span class="sourceLineNo">950</span><a name="line.950"></a>
-<span class="sourceLineNo">951</span>    @NullableDecl<a name="line.951"></a>
-<span class="sourceLineNo">952</span>    private AvlNode&lt;E&gt; ceiling(Comparator&lt;? super E&gt; comparator, E e) {<a name="line.952"></a>
-<span class="sourceLineNo">953</span>      int cmp = comparator.compare(e, elem);<a name="line.953"></a>
-<span class="sourceLineNo">954</span>      if (cmp &lt; 0) {<a name="line.954"></a>
-<span class="sourceLineNo">955</span>        return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);<a name="line.955"></a>
-<span class="sourceLineNo">956</span>      } else if (cmp == 0) {<a name="line.956"></a>
-<span class="sourceLineNo">957</span>        return this;<a name="line.957"></a>
-<span class="sourceLineNo">958</span>      } else {<a name="line.958"></a>
-<span class="sourceLineNo">959</span>        return (right == null) ? null : right.ceiling(comparator, e);<a name="line.959"></a>
-<span class="sourceLineNo">960</span>      }<a name="line.960"></a>
-<span class="sourceLineNo">961</span>    }<a name="line.961"></a>
-<span class="sourceLineNo">962</span><a name="line.962"></a>
-<span class="sourceLineNo">963</span>    @NullableDecl<a name="line.963"></a>
-<span class="sourceLineNo">964</span>    private AvlNode&lt;E&gt; floor(Comparator&lt;? super E&gt; comparator, E e) {<a name="line.964"></a>
-<span class="sourceLineNo">965</span>      int cmp = comparator.compare(e, elem);<a name="line.965"></a>
-<span class="sourceLineNo">966</span>      if (cmp &gt; 0) {<a name="line.966"></a>
-<span class="sourceLineNo">967</span>        return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);<a name="line.967"></a>
-<span class="sourceLineNo">968</span>      } else if (cmp == 0) {<a name="line.968"></a>
-<span class="sourceLineNo">969</span>        return this;<a name="line.969"></a>
-<span class="sourceLineNo">970</span>      } else {<a name="line.970"></a>
-<span class="sourceLineNo">971</span>        return (left == null) ? null : left.floor(comparator, e);<a name="line.971"></a>
-<span class="sourceLineNo">972</span>      }<a name="line.972"></a>
-<span class="sourceLineNo">973</span>    }<a name="line.973"></a>
-<span class="sourceLineNo">974</span><a name="line.974"></a>
-<span class="sourceLineNo">975</span>    E getElement() {<a name="line.975"></a>
-<span class="sourceLineNo">976</span>      return elem;<a name="line.976"></a>
-<span class="sourceLineNo">977</span>    }<a name="line.977"></a>
-<span class="sourceLineNo">978</span><a name="line.978"></a>
-<span class="sourceLineNo">979</span>    int getCount() {<a name="line.979"></a>
-<span class="sourceLineNo">980</span>      return elemCount;<a name="line.980"></a>
-<span class="sourceLineNo">981</span>    }<a name="line.981"></a>
-<span class="sourceLineNo">982</span><a name="line.982"></a>
-<span class="sourceLineNo">983</span>    @Override<a name="line.983"></a>
-<span class="sourceLineNo">984</span>    public String toString() {<a name="line.984"></a>
-<span class="sourceLineNo">985</span>      return Multisets.immutableEntry(getElement(), getCount()).toString();<a name="line.985"></a>
-<span class="sourceLineNo">986</span>    }<a name="line.986"></a>
-<span class="sourceLineNo">987</span>  }<a name="line.987"></a>
-<span class="sourceLineNo">988</span><a name="line.988"></a>
-<span class="sourceLineNo">989</span>  private static &lt;T&gt; void successor(AvlNode&lt;T&gt; a, AvlNode&lt;T&gt; b) {<a name="line.989"></a>
-<span class="sourceLineNo">990</span>    a.succ = b;<a name="line.990"></a>
-<span class="sourceLineNo">991</span>    b.pred = a;<a name="line.991"></a>
-<span class="sourceLineNo">992</span>  }<a name="line.992"></a>
-<span class="sourceLineNo">993</span><a name="line.993"></a>
-<span class="sourceLineNo">994</span>  private static &lt;T&gt; void successor(AvlNode&lt;T&gt; a, AvlNode&lt;T&gt; b, AvlNode&lt;T&gt; c) {<a name="line.994"></a>
-<span class="sourceLineNo">995</span>    successor(a, b);<a name="line.995"></a>
-<span class="sourceLineNo">996</span>    successor(b, c);<a name="line.996"></a>
-<span class="sourceLineNo">997</span>  }<a name="line.997"></a>
-<span class="sourceLineNo">998</span><a name="line.998"></a>
-<span class="sourceLineNo">999</span>  /*<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>   * TODO(jlevy): Decide whether entrySet() should return entries with an equals() method that<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>   * calls the comparator to compare the two keys. If that change is made,<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>   * AbstractMultiset.equals() can simply check whether two multisets have equal entry sets.<a name="line.1002"></a>
-<span class="sourceLineNo">1003</span>   */<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span><a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>  /**<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>   * @serialData the comparator, the number of distinct elements, the first element, its count, the<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>   *     second element, its count, and so on<a name="line.1007"></a>
-<span class="sourceLineNo">1008</span>   */<a name="line.1008"></a>
-<span class="sourceLineNo">1009</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.1009"></a>
-<span class="sourceLineNo">1010</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.1010"></a>
-<span class="sourceLineNo">1011</span>    stream.defaultWriteObject();<a name="line.1011"></a>
-<span class="sourceLineNo">1012</span>    stream.writeObject(elementSet().comparator());<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span>    Serialization.writeMultiset(this, stream);<a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>  }<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span><a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>    stream.defaultReadObject();<a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>    @SuppressWarnings("unchecked")<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>    // reading data stored by writeObject<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>    Comparator&lt;? super E&gt; comparator = (Comparator&lt;? super E&gt;) stream.readObject();<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span>    Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);<a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>    Serialization.getFieldSetter(TreeMultiset.class, "range")<a name="line.1023"></a>
-<span class="sourceLineNo">1024</span>        .set(this, GeneralRange.all(comparator));<a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>    Serialization.getFieldSetter(TreeMultiset.class, "rootReference")<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span>        .set(this, new Reference&lt;AvlNode&lt;E&gt;&gt;());<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>    AvlNode&lt;E&gt; header = new AvlNode&lt;E&gt;(null, 1);<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span>    Serialization.getFieldSetter(TreeMultiset.class, "header").set(this, header);<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>    successor(header, header);<a name="line.1029"></a>
-<span class="sourceLineNo">1030</span>    Serialization.populateMultiset(this, stream);<a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>  }<a name="line.1031"></a>
-<span class="sourceLineNo">1032</span><a name="line.1032"></a>
-<span class="sourceLineNo">1033</span>  @GwtIncompatible // not needed in emulated source<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>  private static final long serialVersionUID = 1;<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>}<a name="line.1035"></a>
+<span class="sourceLineNo">807</span>        if (result[0] == expectedCount) {<a name="line.807"></a>
+<span class="sourceLineNo">808</span>          if (newCount == 0 &amp;&amp; result[0] != 0) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>            this.distinctElements--;<a name="line.809"></a>
+<span class="sourceLineNo">810</span>          } else if (newCount &gt; 0 &amp;&amp; result[0] == 0) {<a name="line.810"></a>
+<span class="sourceLineNo">811</span>            this.distinctElements++;<a name="line.811"></a>
+<span class="sourceLineNo">812</span>          }<a name="line.812"></a>
+<span class="sourceLineNo">813</span>          this.totalCount += newCount - result[0];<a name="line.813"></a>
+<span class="sourceLineNo">814</span>        }<a name="line.814"></a>
+<span class="sourceLineNo">815</span>        return rebalance();<a name="line.815"></a>
+<span class="sourceLineNo">816</span>      }<a name="line.816"></a>
+<span class="sourceLineNo">817</span><a name="line.817"></a>
+<span class="sourceLineNo">818</span>      // setting my count<a name="line.818"></a>
+<span class="sourceLineNo">819</span>      result[0] = elemCount;<a name="line.819"></a>
+<span class="sourceLineNo">820</span>      if (expectedCount == elemCount) {<a name="line.820"></a>
+<span class="sourceLineNo">821</span>        if (newCount == 0) {<a name="line.821"></a>
+<span class="sourceLineNo">822</span>          return deleteMe();<a name="line.822"></a>
+<span class="sourceLineNo">823</span>        }<a name="line.823"></a>
+<span class="sourceLineNo">824</span>        this.totalCount += newCount - elemCount;<a name="line.824"></a>
+<span class="sourceLineNo">825</span>        this.elemCount = newCount;<a name="line.825"></a>
+<span class="sourceLineNo">826</span>      }<a name="line.826"></a>
+<span class="sourceLineNo">827</span>      return this;<a name="line.827"></a>
+<span class="sourceLineNo">828</span>    }<a name="line.828"></a>
+<span class="sourceLineNo">829</span><a name="line.829"></a>
+<span class="sourceLineNo">830</span>    private AvlNode&lt;E&gt; deleteMe() {<a name="line.830"></a>
+<span class="sourceLineNo">831</span>      int oldElemCount = this.elemCount;<a name="line.831"></a>
+<span class="sourceLineNo">832</span>      this.elemCount = 0;<a name="line.832"></a>
+<span class="sourceLineNo">833</span>      successor(pred, succ);<a name="line.833"></a>
+<span class="sourceLineNo">834</span>      if (left == null) {<a name="line.834"></a>
+<span class="sourceLineNo">835</span>        return right;<a name="line.835"></a>
+<span class="sourceLineNo">836</span>      } else if (right == null) {<a name="line.836"></a>
+<span class="sourceLineNo">837</span>        return left;<a name="line.837"></a>
+<span class="sourceLineNo">838</span>      } else if (left.height &gt;= right.height) {<a name="line.838"></a>
+<span class="sourceLineNo">839</span>        AvlNode&lt;E&gt; newTop = pred;<a name="line.839"></a>
+<span class="sourceLineNo">840</span>        // newTop is the maximum node in my left subtree<a name="line.840"></a>
+<span class="sourceLineNo">841</span>        newTop.left = left.removeMax(newTop);<a name="line.841"></a>
+<span class="sourceLineNo">842</span>        newTop.right = right;<a name="line.842"></a>
+<span class="sourceLineNo">843</span>        newTop.distinctElements = distinctElements - 1;<a name="line.843"></a>
+<span class="sourceLineNo">844</span>        newTop.totalCount = totalCount - oldElemCount;<a name="line.844"></a>
+<span class="sourceLineNo">845</span>        return newTop.rebalance();<a name="line.845"></a>
+<span class="sourceLineNo">846</span>      } else {<a name="line.846"></a>
+<span class="sourceLineNo">847</span>        AvlNode&lt;E&gt; newTop = succ;<a name="line.847"></a>
+<span class="sourceLineNo">848</span>        newTop.right = right.removeMin(newTop);<a name="line.848"></a>
+<span class="sourceLineNo">849</span>        newTop.left = left;<a name="line.849"></a>
+<span class="sourceLineNo">850</span>        newTop.distinctElements = distinctElements - 1;<a name="line.850"></a>
+<span class="sourceLineNo">851</span>        newTop.totalCount = totalCount - oldElemCount;<a name="line.851"></a>
+<span class="sourceLineNo">852</span>        return newTop.rebalance();<a name="line.852"></a>
+<span class="sourceLineNo">853</span>      }<a name="line.853"></a>
+<span class="sourceLineNo">854</span>    }<a name="line.854"></a>
+<span class="sourceLineNo">855</span><a name="line.855"></a>
+<span class="sourceLineNo">856</span>    // Removes the minimum node from this subtree to be reused elsewhere<a name="line.856"></a>
+<span class="sourceLineNo">857</span>    private AvlNode&lt;E&gt; removeMin(AvlNode&lt;E&gt; node) {<a name="line.857"></a>
+<span class="sourceLineNo">858</span>      if (left == null) {<a name="line.858"></a>
+<span class="sourceLineNo">859</span>        return right;<a name="line.859"></a>
+<span class="sourceLineNo">860</span>      } else {<a name="line.860"></a>
+<span class="sourceLineNo">861</span>        left = left.removeMin(node);<a name="line.861"></a>
+<span class="sourceLineNo">862</span>        distinctElements--;<a name="line.862"></a>
+<span class="sourceLineNo">863</span>        totalCount -= node.elemCount;<a name="line.863"></a>
+<span class="sourceLineNo">864</span>        return rebalance();<a name="line.864"></a>
+<span class="sourceLineNo">865</span>      }<a name="line.865"></a>
+<span class="sourceLineNo">866</span>    }<a name="line.866"></a>
+<span class="sourceLineNo">867</span><a name="line.867"></a>
+<span class="sourceLineNo">868</span>    // Removes the maximum node from this subtree to be reused elsewhere<a name="line.868"></a>
+<span class="sourceLineNo">869</span>    private AvlNode&lt;E&gt; removeMax(AvlNode&lt;E&gt; node) {<a name="line.869"></a>
+<span class="sourceLineNo">870</span>      if (right == null) {<a name="line.870"></a>
+<span class="sourceLineNo">871</span>        return left;<a name="line.871"></a>
+<span class="sourceLineNo">872</span>      } else {<a name="line.872"></a>
+<span class="sourceLineNo">873</span>        right = right.removeMax(node);<a name="line.873"></a>
+<span class="sourceLineNo">874</span>        distinctElements--;<a name="line.874"></a>
+<span class="sourceLineNo">875</span>        totalCount -= node.elemCount;<a name="line.875"></a>
+<span class="sourceLineNo">876</span>        return rebalance();<a name="line.876"></a>
+<span class="sourceLineNo">877</span>      }<a name="line.877"></a>
+<span class="sourceLineNo">878</span>    }<a name="line.878"></a>
+<span class="sourceLineNo">879</span><a name="line.879"></a>
+<span class="sourceLineNo">880</span>    private void recomputeMultiset() {<a name="line.880"></a>
+<span class="sourceLineNo">881</span>      this.distinctElements =<a name="line.881"></a>
+<span class="sourceLineNo">882</span>          1 + TreeMultiset.distinctElements(left) + TreeMultiset.distinctElements(right);<a name="line.882"></a>
+<span class="sourceLineNo">883</span>      this.totalCount = elemCount + totalCount(left) + totalCount(right);<a name="line.883"></a>
+<span class="sourceLineNo">884</span>    }<a name="line.884"></a>
+<span class="sourceLineNo">885</span><a name="line.885"></a>
+<span class="sourceLineNo">886</span>    private void recomputeHeight() {<a name="line.886"></a>
+<span class="sourceLineNo">887</span>      this.height = 1 + Math.max(height(left), height(right));<a name="line.887"></a>
+<span class="sourceLineNo">888</span>    }<a name="line.888"></a>
+<span class="sourceLineNo">889</span><a name="line.889"></a>
+<span class="sourceLineNo">890</span>    private void recompute() {<a name="line.890"></a>
+<span class="sourceLineNo">891</span>      recomputeMultiset();<a name="line.891"></a>
+<span class="sourceLineNo">892</span>      recomputeHeight();<a name="line.892"></a>
+<span class="sourceLineNo">893</span>    }<a name="line.893"></a>
+<span class="sourceLineNo">894</span><a name="line.894"></a>
+<span class="sourceLineNo">895</span>    private AvlNode&lt;E&gt; rebalance() {<a name="line.895"></a>
+<span class="sourceLineNo">896</span>      switch (balanceFactor()) {<a name="line.896"></a>
+<span class="sourceLineNo">897</span>        case -2:<a name="line.897"></a>
+<span class="sourceLineNo">898</span>          if (right.balanceFactor() &gt; 0) {<a name="line.898"></a>
+<span class="sourceLineNo">899</span>            right = right.rotateRight();<a name="line.899"></a>
+<span class="sourceLineNo">900</span>          }<a name="line.900"></a>
+<span class="sourceLineNo">901</span>          return rotateLeft();<a name="line.901"></a>
+<span class="sourceLineNo">902</span>        case 2:<a name="line.902"></a>
+<span class="sourceLineNo">903</span>          if (left.balanceFactor() &lt; 0) {<a name="line.903"></a>
+<span class="sourceLineNo">904</span>            left = left.rotateLeft();<a name="line.904"></a>
+<span class="sourceLineNo">905</span>          }<a name="line.905"></a>
+<span class="sourceLineNo">906</span>          return rotateRight();<a name="line.906"></a>
+<span class="sourceLineNo">907</span>        default:<a name="line.907"></a>
+<span class="sourceLineNo">908</span>          recomputeHeight();<a name="line.908"></a>
+<span class="sourceLineNo">909</span>          return this;<a name="line.909"></a>
+<span class="sourceLineNo">910</span>      }<a name="line.910"></a>
+<span class="sourceLineNo">911</span>    }<a name="line.911"></a>
+<span class="sourceLineNo">912</span><a name="line.912"></a>
+<span class="sourceLineNo">913</span>    private int balanceFactor() {<a name="line.913"></a>
+<span class="sourceLineNo">914</span>      return height(left) - height(right);<a name="line.914"></a>
+<span class="sourceLineNo">915</span>    }<a name="line.915"></a>
+<span class="sourceLineNo">916</span><a name="line.916"></a>
+<span class="sourceLineNo">917</span>    private AvlNode&lt;E&gt; rotateLeft() {<a name="line.917"></a>
+<span class="sourceLineNo">918</span>      checkState(right != null);<a name="line.918"></a>
+<span class="sourceLineNo">919</span>      AvlNode&lt;E&gt; newTop = right;<a name="line.919"></a>
+<span class="sourceLineNo">920</span>      this.right = newTop.left;<a name="line.920"></a>
+<span class="sourceLineNo">921</span>      newTop.left = this;<a name="line.921"></a>
+<span class="sourceLineNo">922</span>      newTop.totalCount = this.totalCount;<a name="line.922"></a>
+<span class="sourceLineNo">923</span>      newTop.distinctElements = this.distinctElements;<a name="line.923"></a>
+<span class="sourceLineNo">924</span>      this.recompute();<a name="line.924"></a>
+<span class="sourceLineNo">925</span>      newTop.recomputeHeight();<a name="line.925"></a>
+<span class="sourceLineNo">926</span>      return newTop;<a name="line.926"></a>
+<span class="sourceLineNo">927</span>    }<a name="line.927"></a>
+<span class="sourceLineNo">928</span><a name="line.928"></a>
+<span class="sourceLineNo">929</span>    private AvlNode&lt;E&gt; rotateRight() {<a name="line.929"></a>
+<span class="sourceLineNo">930</span>      checkState(left != null);<a name="line.930"></a>
+<span class="sourceLineNo">931</span>      AvlNode&lt;E&gt; newTop = left;<a name="line.931"></a>
+<span class="sourceLineNo">932</span>      this.left = newTop.right;<a name="line.932"></a>
+<span class="sourceLineNo">933</span>      newTop.right = this;<a name="line.933"></a>
+<span class="sourceLineNo">934</span>      newTop.totalCount = this.totalCount;<a name="line.934"></a>
+<span class="sourceLineNo">935</span>      newTop.distinctElements = this.distinctElements;<a name="line.935"></a>
+<span class="sourceLineNo">936</span>      this.recompute();<a name="line.936"></a>
+<span class="sourceLineNo">937</span>      newTop.recomputeHeight();<a name="line.937"></a>
+<span class="sourceLineNo">938</span>      return newTop;<a name="line.938"></a>
+<span class="sourceLineNo">939</span>    }<a name="line.939"></a>
+<span class="sourceLineNo">940</span><a name="line.940"></a>
+<span class="sourceLineNo">941</span>    private static long totalCount(@Nullable AvlNode&lt;?&gt; node) {<a name="line.941"></a>
+<span class="sourceLineNo">942</span>      return (node == null) ? 0 : node.totalCount;<a name="line.942"></a>
+<span class="sourceLineNo">943</span>    }<a name="line.943"></a>
+<span class="sourceLineNo">944</span><a name="line.944"></a>
+<span class="sourceLineNo">945</span>    private static int height(@Nullable AvlNode&lt;?&gt; node) {<a name="line.945"></a>
+<span class="sourceLineNo">946</span>      return (node == null) ? 0 : node.height;<a name="line.946"></a>
+<span class="sourceLineNo">947</span>    }<a name="line.947"></a>
+<span class="sourceLineNo">948</span><a name="line.948"></a>
+<span class="sourceLineNo">949</span>    @Nullable<a name="line.949"></a>
+<span class="sourceLineNo">950</span>    private AvlNode&lt;E&gt; ceiling(Comparator&lt;? super E&gt; comparator, E e) {<a name="line.950"></a>
+<span class="sourceLineNo">951</span>      int cmp = comparator.compare(e, elem);<a name="line.951"></a>
+<span class="sourceLineNo">952</span>      if (cmp &lt; 0) {<a name="line.952"></a>
+<span class="sourceLineNo">953</span>        return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);<a name="line.953"></a>
+<span class="sourceLineNo">954</span>      } else if (cmp == 0) {<a name="line.954"></a>
+<span class="sourceLineNo">955</span>        return this;<a name="line.955"></a>
+<span class="sourceLineNo">956</span>      } else {<a name="line.956"></a>
+<span class="sourceLineNo">957</span>        return (right == null) ? null : right.ceiling(comparator, e);<a name="line.957"></a>
+<span class="sourceLineNo">958</span>      }<a name="line.958"></a>
+<span class="sourceLineNo">959</span>    }<a name="line.959"></a>
+<span class="sourceLineNo">960</span><a name="line.960"></a>
+<span class="sourceLineNo">961</span>    @Nullable<a name="line.961"></a>
+<span class="sourceLineNo">962</span>    private AvlNode&lt;E&gt; floor(Comparator&lt;? super E&gt; comparator, E e) {<a name="line.962"></a>
+<span class="sourceLineNo">963</span>      int cmp = comparator.compare(e, elem);<a name="line.963"></a>
+<span class="sourceLineNo">964</span>      if (cmp &gt; 0) {<a name="line.964"></a>
+<span class="sourceLineNo">965</span>        return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);<a name="line.965"></a>
+<span class="sourceLineNo">966</span>      } else if (cmp == 0) {<a name="line.966"></a>
+<span class="sourceLineNo">967</span>        return this;<a name="line.967"></a>
+<span class="sourceLineNo">968</span>      } else {<a name="line.968"></a>
+<span class="sourceLineNo">969</span>        return (left == null) ? null : left.floor(comparator, e);<a name="line.969"></a>
+<span class="sourceLineNo">970</span>      }<a name="line.970"></a>
+<span class="sourceLineNo">971</span>    }<a name="line.971"></a>
+<span class="sourceLineNo">972</span><a name="line.972"></a>
+<span class="sourceLineNo">973</span>    E getElement() {<a name="line.973"></a>
+<span class="sourceLineNo">974</span>      return elem;<a name="line.974"></a>
+<span class="sourceLineNo">975</span>    }<a name="line.975"></a>
+<span class="sourceLineNo">976</span><a name="line.976"></a>
+<span class="sourceLineNo">977</span>    int getCount() {<a name="line.977"></a>
+<span class="sourceLineNo">978</span>      return elemCount;<a name="line.978"></a>
+<span class="sourceLineNo">979</span>    }<a name="line.979"></a>
+<span class="sourceLineNo">980</span><a name="line.980"></a>
+<span class="sourceLineNo">981</span>    @Override<a name="line.981"></a>
+<span class="sourceLineNo">982</span>    public String toString() {<a name="line.982"></a>
+<span class="sourceLineNo">983</span>      return Multisets.immutableEntry(getElement(), getCount()).toString();<a name="line.983"></a>
+<span class="sourceLineNo">984</span>    }<a name="line.984"></a>
+<span class="sourceLineNo">985</span>  }<a name="line.985"></a>
+<span class="sourceLineNo">986</span><a name="line.986"></a>
+<span class="sourceLineNo">987</span>  private static &lt;T&gt; void successor(AvlNode&lt;T&gt; a, AvlNode&lt;T&gt; b) {<a name="line.987"></a>
+<span class="sourceLineNo">988</span>    a.succ = b;<a name="line.988"></a>
+<span class="sourceLineNo">989</span>    b.pred = a;<a name="line.989"></a>
+<span class="sourceLineNo">990</span>  }<a name="line.990"></a>
+<span class="sourceLineNo">991</span><a name="line.991"></a>
+<span class="sourceLineNo">992</span>  private static &lt;T&gt; void successor(AvlNode&lt;T&gt; a, AvlNode&lt;T&gt; b, AvlNode&lt;T&gt; c) {<a name="line.992"></a>
+<span class="sourceLineNo">993</span>    successor(a, b);<a name="line.993"></a>
+<span class="sourceLineNo">994</span>    successor(b, c);<a name="line.994"></a>
+<span class="sourceLineNo">995</span>  }<a name="line.995"></a>
+<span class="sourceLineNo">996</span><a name="line.996"></a>
+<span class="sourceLineNo">997</span>  /*<a name="line.997"></a>
+<span class="sourceLineNo">998</span>   * TODO(jlevy): Decide whether entrySet() should return entries with an equals() method that<a name="line.998"></a>
+<span class="sourceLineNo">999</span>   * calls the comparator to compare the two keys. If that change is made,<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>   * AbstractMultiset.equals() can simply check whether two multisets have equal entry sets.<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>   */<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span><a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>  /**<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>   * @serialData the comparator, the number of distinct elements, the first element, its count, the<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>   *     second element, its count, and so on<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>   */<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>    stream.defaultWriteObject();<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>    stream.writeObject(elementSet().comparator());<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>    Serialization.writeMultiset(this, stream);<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>  }<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span><a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>    stream.defaultReadObject();<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>    @SuppressWarnings("unchecked")<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>    // reading data stored by writeObject<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>    Comparator&lt;? super E&gt; comparator = (Comparator&lt;? super E&gt;) stream.readObject();<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>    Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>    Serialization.getFieldSetter(TreeMultiset.class, "range")<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>        .set(this, GeneralRange.all(comparator));<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>    Serialization.getFieldSetter(TreeMultiset.class, "rootReference")<a name="line.1023"></a>
+<span class="sourceLineNo">1024</span>        .set(this, new Reference&lt;AvlNode&lt;E&gt;&gt;());<a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>    AvlNode&lt;E&gt; header = new AvlNode&lt;E&gt;(null, 1);<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>    Serialization.getFieldSetter(TreeMultiset.class, "header").set(this, header);<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>    successor(header, header);<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>    Serialization.populateMultiset(this, stream);<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>  }<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span><a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>  @GwtIncompatible // not needed in emulated source<a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>  private static final long serialVersionUID = 1;<a name="line.1032"></a>
+<span class="sourceLineNo">1033</span>}<a name="line.1033"></a>
 
 
 

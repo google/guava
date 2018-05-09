@@ -1887,7 +1887,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Indicates whether another object is equal to this converter.
 
@@ -2331,7 +2331,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@link Equivalence#equivalent(Object, Object)} applied to the wrapped
  references is {@code true} and both wrappers use the {@link Object#equals(Object) same}
@@ -2574,7 +2574,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[<i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
  to this function.
@@ -2825,8 +2825,8 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="appendable" type="A extends java.lang.Appendable"/>
-      <param name="first" type="java.lang.Object"/>
-      <param name="second" type="java.lang.Object"/>
+      <param name="first" type="Object"/>
+      <param name="second" type="Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
@@ -2876,8 +2876,8 @@
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="builder" type="java.lang.StringBuilder"/>
-      <param name="first" type="java.lang.Object"/>
-      <param name="second" type="java.lang.Object"/>
+      <param name="first" type="Object"/>
+      <param name="second" type="Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Appends to {@code builder} the string representation of each of the remaining arguments.
@@ -2921,8 +2921,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="first" type="java.lang.Object"/>
-      <param name="second" type="java.lang.Object"/>
+      <param name="first" type="Object"/>
+      <param name="second" type="Object"/>
       <param name="rest" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Returns a string containing the string representation of each argument, using the previously
@@ -3296,7 +3296,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="name" type="java.lang.String"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format. If {@code value}
  is {@code null}, the string {@code "null"} is used, unless {@link #omitNullValues()} is
@@ -3379,7 +3379,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Adds an unnamed value to the formatted output.
 
@@ -3501,8 +3501,8 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="a" type="java.lang.Object"/>
-      <param name="b" type="java.lang.Object"/>
+      <param name="a" type="Object"/>
+      <param name="b" type="Object"/>
       <doc>
       <![CDATA[Determines whether two possibly-null objects are equal. Returns:
 
@@ -3603,7 +3603,7 @@
  {@code Optional.ofNullable}.]]>
       </doc>
     </method>
-    <method name="fromJavaUtil" return="com.google.common.base.Optional&lt;T&gt;"
+    <method name="fromJavaUtil" return="Optional"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -3619,7 +3619,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="googleOptional" type="com.google.common.base.Optional&lt;T&gt;"/>
+      <param name="googleOptional" type="Optional"/>
       <doc>
       <![CDATA[Returns the equivalent {@code java.util.Optional} value to the given {@code
  com.google.common.base.Optional}, or {@code null} if the argument is null.
@@ -3805,7 +3805,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code Optional} instance, and either the
  contained references are {@linkplain Object#equals equal} to each other or both are absent.
@@ -3933,7 +3933,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessage" type="java.lang.Object"/>
+      <param name="errorMessage" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -3948,7 +3948,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3969,7 +3969,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3984,7 +3984,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -3999,7 +3999,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4014,8 +4014,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4029,7 +4029,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4045,7 +4045,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4061,7 +4061,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4077,9 +4077,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4093,7 +4093,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4109,7 +4109,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4125,7 +4125,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4141,9 +4141,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4157,7 +4157,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4173,7 +4173,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4189,7 +4189,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4205,9 +4205,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4221,8 +4221,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4237,8 +4237,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4253,8 +4253,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
@@ -4269,9 +4269,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4285,10 +4285,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4302,11 +4302,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
-      <param name="p4" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
+      <param name="p4" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving one or more parameters to the calling method.
 
@@ -4334,7 +4334,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessage" type="java.lang.Object"/>
+      <param name="errorMessage" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4351,7 +4351,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4374,7 +4374,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4390,7 +4390,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4406,7 +4406,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4422,8 +4422,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4438,7 +4438,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4455,7 +4455,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4472,7 +4472,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4489,9 +4489,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4506,7 +4506,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4523,7 +4523,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4540,7 +4540,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4557,9 +4557,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4574,7 +4574,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4591,7 +4591,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4608,7 +4608,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4625,9 +4625,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4642,8 +4642,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4659,8 +4659,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4676,8 +4676,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
@@ -4693,9 +4693,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4710,10 +4710,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4728,11 +4728,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="b" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
-      <param name="p4" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
+      <param name="p4" type="Object"/>
       <doc>
       <![CDATA[Ensures the truth of an expression involving the state of the calling instance, but not
  involving any parameters to the calling method.
@@ -4761,7 +4761,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="reference" type="T"/>
-      <param name="errorMessage" type="java.lang.Object"/>
+      <param name="errorMessage" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4778,7 +4778,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="reference" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4801,7 +4801,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4816,7 +4816,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4831,7 +4831,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -4846,8 +4846,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4861,7 +4861,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4877,7 +4877,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4893,7 +4893,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4909,9 +4909,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4925,7 +4925,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -4941,7 +4941,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -4957,7 +4957,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -4973,9 +4973,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -4989,7 +4989,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -5005,7 +5005,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -5021,7 +5021,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -5037,9 +5037,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -5053,8 +5053,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -5069,8 +5069,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -5085,8 +5085,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
@@ -5101,9 +5101,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -5117,10 +5117,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -5134,11 +5134,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
-      <param name="p4" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
+      <param name="p4" type="Object"/>
       <doc>
       <![CDATA[Ensures that an object reference passed as a parameter to the calling method is not null.
 
@@ -5170,7 +5170,7 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
       <param name="size" type="int"/>
-      <param name="desc" type="java.lang.String"/>
+      <param name="desc" type="String"/>
       <doc>
       <![CDATA[Ensures that {@code index} specifies a valid <i>element</i> in an array, list or string of size
  {@code size}. An element index may range from zero, inclusive, to {@code size}, exclusive.
@@ -5206,7 +5206,7 @@
       deprecated="not deprecated">
       <param name="index" type="int"/>
       <param name="size" type="int"/>
-      <param name="desc" type="java.lang.String"/>
+      <param name="desc" type="String"/>
       <doc>
       <![CDATA[Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
  size {@code size}. A position index may range from zero to {@code size}, inclusive.
@@ -5359,7 +5359,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Indicates whether another object is equal to this predicate.
 
@@ -6010,7 +6010,7 @@
       <![CDATA[Returns the key used to lookup this system property.]]>
       </doc>
     </method>
-    <method name="value" return="java.lang.String"
+    <method name="value" return="String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -6221,7 +6221,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="java.lang.String"/>
+      <param name="string" type="String"/>
       <doc>
       <![CDATA[Returns the given string if it is non-null; the empty string otherwise.
 
@@ -6229,11 +6229,11 @@
  @return {@code string} itself if it is non-null; {@code ""} if it is null]]>
       </doc>
     </method>
-    <method name="emptyToNull" return="java.lang.String"
+    <method name="emptyToNull" return="String"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="java.lang.String"/>
+      <param name="string" type="String"/>
       <doc>
       <![CDATA[Returns the given string if it is nonempty; {@code null} otherwise.
 
@@ -6245,7 +6245,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="string" type="java.lang.String"/>
+      <param name="string" type="String"/>
       <doc>
       <![CDATA[Returns {@code true} if the given string is null or is the empty string.
 
@@ -6549,7 +6549,7 @@
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
      null}.">
-      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="throwable" type="Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
@@ -6602,7 +6602,7 @@
       static="true" final="false" visibility="public"
       deprecated="Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
      null}.">
-      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="throwable" type="Throwable"/>
       <doc>
       <![CDATA[Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
  RuntimeException} or {@link Error}. Example usage:
@@ -6626,7 +6626,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="throwable" type="Throwable"/>
       <param name="declaredType" type="java.lang.Class&lt;X&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
       <doc>
@@ -6652,7 +6652,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="throwable" type="java.lang.Throwable"/>
+      <param name="throwable" type="Throwable"/>
       <param name="declaredType1" type="java.lang.Class&lt;X1&gt;"/>
       <param name="declaredType2" type="java.lang.Class&lt;X2&gt;"/>
       <exception name="Throwable" type="java.lang.Throwable"/>
@@ -6967,7 +6967,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -6990,7 +6990,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7006,7 +7006,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7022,7 +7022,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7038,8 +7038,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7054,7 +7054,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="char"/>
       <doc>
@@ -7071,7 +7071,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="char"/>
       <doc>
@@ -7088,7 +7088,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="char"/>
       <doc>
@@ -7105,8 +7105,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="char"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7122,7 +7122,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7139,7 +7139,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7156,7 +7156,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="int"/>
       <doc>
@@ -7173,8 +7173,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="int"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7190,7 +7190,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7207,7 +7207,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7224,7 +7224,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
       <param name="p2" type="long"/>
       <doc>
@@ -7241,8 +7241,8 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
       <param name="p2" type="long"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
@@ -7258,9 +7258,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="char"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7275,9 +7275,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="int"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7292,9 +7292,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="p1" type="long"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7309,9 +7309,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7326,10 +7326,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7344,11 +7344,11 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="expression" type="boolean"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
-      <param name="p1" type="java.lang.Object"/>
-      <param name="p2" type="java.lang.Object"/>
-      <param name="p3" type="java.lang.Object"/>
-      <param name="p4" type="java.lang.Object"/>
+      <param name="errorMessageTemplate" type="String"/>
+      <param name="p1" type="Object"/>
+      <param name="p2" type="Object"/>
+      <param name="p3" type="Object"/>
+      <param name="p4" type="Object"/>
       <doc>
       <![CDATA[Ensures that {@code expression} is {@code true}, throwing a {@code VerifyException} with a
  custom message otherwise.
@@ -7377,7 +7377,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="reference" type="T"/>
-      <param name="errorMessageTemplate" type="java.lang.String"/>
+      <param name="errorMessageTemplate" type="String"/>
       <param name="errorMessageArgs" type="java.lang.Object[]"/>
       <doc>
       <![CDATA[Ensures that {@code reference} is non-null, throwing a {@code VerifyException} with a custom
@@ -7474,14 +7474,14 @@
       <![CDATA[Constructs a {@code VerifyException} with no message.]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="java.lang.String"
+    <constructor name="VerifyException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructs a {@code VerifyException} with the message {@code message}.]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="java.lang.Throwable"
+    <constructor name="VerifyException" type="Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -7491,7 +7491,7 @@
  @since 19.0]]>
       </doc>
     </constructor>
-    <constructor name="VerifyException" type="java.lang.String, java.lang.Throwable"
+    <constructor name="VerifyException" type="String, Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -8744,7 +8744,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <doc>
     <![CDATA[A specification of a {@link CacheBuilder} configuration.
@@ -9160,7 +9160,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -10151,8 +10151,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided keys are among the keys provided when the table was
  constructed.]]>
@@ -10162,7 +10162,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided column key is among the column keys provided when the
  table was constructed.]]>
@@ -10172,7 +10172,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the provided row key is among the row keys provided when the table was
  constructed.]]>
@@ -10182,14 +10182,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -10246,8 +10246,8 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Associates the value {@code null} with the specified keys, assuming both keys are valid. If
  either key is null or isn't among the keys provided during construction, this method has no
@@ -11071,7 +11071,7 @@
     abstract="false"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ComputationException" type="java.lang.Throwable"
+    <constructor name="ComputationException" type="Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -11139,7 +11139,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns the number of occurrences of {@code element} in this multiset.
 
@@ -11189,7 +11189,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -11205,7 +11205,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes exactly the specified number of occurrences of {@code element}, or makes no change if
@@ -11823,7 +11823,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
@@ -11836,7 +11836,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="setCount" return="int"
@@ -12182,7 +12182,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="target" type="java.lang.Object"/>
+      <param name="target" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this fluent iterable contains any object for which {@code
  equals(target)} is true.
@@ -12996,7 +12996,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of {@link #iterator}. If you override
  {@link #iterator}, you may wish to override {@link #contains} to forward to this
@@ -13034,7 +13034,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #remove} in terms of {@link #iterator}, using the iterator's
  {@code remove} method. If you override {@link #iterator}, you may wish to override {@link
@@ -13482,7 +13482,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -13520,7 +13520,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #indexOf}, in terms of {@link #listIterator()}. If
  you override {@link #listIterator()}, you may wish to override {@link #indexOf} to forward to
@@ -13533,7 +13533,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[A sensible default implementation of {@link #lastIndexOf}, in terms of {@link
  #listIterator(int)}. If you override {@link #listIterator(int)}, you may wish to override
@@ -13597,7 +13597,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals(Object)} in terms of {@link #size} and {@link
  #iterator}. If you override either of those methods, you may wish to override {@link
@@ -13740,7 +13740,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="replaceValues" return="java.util.List&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -13806,19 +13806,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="put" return="V"
       abstract="false" native="false" synchronized="false"
@@ -13852,7 +13852,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -13876,7 +13876,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #remove} in terms of the {@code iterator}
  method of {@link #entrySet}. If you override {@link #entrySet}, you may wish to override {@link
@@ -13904,7 +13904,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #containsKey} in terms of the {@code
  iterator} method of {@link #entrySet}. If you override {@link #entrySet}, you may wish to
@@ -13917,7 +13917,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #containsValue} in terms of the {@code iterator} method of
  {@link #entrySet}. If you override {@link #entrySet}, you may wish to override {@link
@@ -13942,7 +13942,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals} in terms of the {@code equals} method of {@link
  #entrySet}. If you override {@link #entrySet}, you may wish to override {@link #equals} to
@@ -14112,7 +14112,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -14123,7 +14123,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals(Object)} in terms of {@link #getKey()} and {@link
  #getValue()}. If you override either of these methods, you may wish to override {@link
@@ -14213,20 +14213,20 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="containsKey" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="entries" return="java.util.Collection&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
@@ -14278,14 +14278,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="removeAll" return="java.util.Collection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="replaceValues" return="java.util.Collection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -14308,7 +14308,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -14381,7 +14381,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -14407,7 +14407,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of {@link #count}. If you override {@link
  #count}, you may wish to override {@link #contains} to forward to this implementation.
@@ -14431,7 +14431,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #count} in terms of {@link #entrySet}. If
  you override {@link #entrySet}, you may wish to override {@link #count} to forward to this
@@ -14563,7 +14563,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible, albeit inefficient, definition of {@link #equals} in terms of {@code
  entrySet().size()} and {@link #count}. If you override either of these methods, you may wish to
@@ -15493,7 +15493,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -15517,7 +15517,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #equals} in terms of {@link #size} and {@link #containsAll}. If
  you override either of those methods, you may wish to override {@link #equals} to forward to
@@ -15591,7 +15591,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="replaceValues" return="java.util.Set&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -15670,7 +15670,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #containsKey} in terms of the {@code firstKey()} method of
  {@link #tailMap}. If you override {@link #tailMap}, you may wish to override {@link
@@ -16013,7 +16013,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link
  #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to
@@ -16026,7 +16026,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link
  #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to
@@ -16106,7 +16106,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="replaceValues" return="java.util.SortedSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -16328,46 +16328,46 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <method name="containsColumn" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <method name="containsRow" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="remove" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <doc>
     <![CDATA[Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration
@@ -16434,19 +16434,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="put" return="V"
       abstract="false" native="false" synchronized="false"
@@ -16466,7 +16466,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
@@ -17157,7 +17157,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="add" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -17830,19 +17830,19 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="lastIndexOf" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="contains" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="subList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
@@ -17962,7 +17962,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -18844,25 +18844,25 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="get" return="V"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="getOrDefault" return="V"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <param name="defaultValue" type="V"/>
       <doc>
       <![CDATA[@since 21.0 (but only since 23.5 in the Android <a
@@ -18911,7 +18911,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -19295,13 +19295,13 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="size" return="int"
       abstract="false" native="false" synchronized="false"
@@ -19710,7 +19710,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
@@ -19769,7 +19769,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -20008,7 +20008,7 @@
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Comparable&lt;?&gt;"/>
     </method>
-    <method name="getEntry" return="java.util.Map.Entry&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
+    <method name="getEntry" return="Map.Entry"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -20105,7 +20105,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="java.lang.Object"/>
+      <param name="o" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -20692,7 +20692,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -21474,7 +21474,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
@@ -23125,14 +23125,14 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="clear"
       abstract="false" native="false" synchronized="false"
@@ -23471,7 +23471,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which {@code
  Objects.equals(o, element)} would return {@code true}. Otherwise returns {@code false}, even in
@@ -23624,7 +23624,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns the number of elements in the specified iterable that equal the specified object. This
  implementation avoids a full iteration when the iterable is a {@link Multiset} or {@link Set}.
@@ -24244,7 +24244,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;?&gt;"/>
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code iterator} contains {@code element}.]]>
       </doc>
@@ -24382,7 +24382,7 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="iterator" type="java.util.Iterator&lt;?&gt;"/>
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns the number of elements in the specified iterator that equal the specified object. The
  iterator will be left exhausted: its {@code hasNext()} method will return {@code false}.
@@ -25201,13 +25201,13 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
     </method>
     <method name="put" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -25242,7 +25242,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -25379,7 +25379,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -25418,7 +25418,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object to this multimap for equality.
 
@@ -25965,7 +25965,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object with this instance for equality. Returns {@code true} if the
  given object is also a {@code MapDifference} and the values returned by the {@link
@@ -26018,7 +26018,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="java.lang.Object"/>
+      <param name="other" type="Object"/>
       <doc>
       <![CDATA[Two instances are considered equal if their {@link #leftValue()} values are equal and their
  {@link #rightValue()} values are also equal.]]>
@@ -26434,7 +26434,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;C&gt;"/>
+      <param name="comparator" type="Comparator"/>
       <doc>
       <![CDATA[Creates a <i>mutable</i>, empty {@code TreeMap} instance using the given comparator.
 
@@ -28077,7 +28077,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
  key}.]]>
@@ -28087,7 +28087,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the value
  {@code value}.]]>
@@ -28097,8 +28097,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
  key} and the value {@code value}.]]>
@@ -28125,8 +28125,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
-      <param name="value" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Removes a single key-value pair with the key {@code key} and the value {@code value} from this
  multimap, if such exists. If multiple key-value pairs in the multimap fit this description,
@@ -28188,7 +28188,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[Removes all values associated with the key {@code key}.
 
@@ -28304,7 +28304,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object with this multimap for equality. Two multimaps are equal when
  their map views, as returned by {@link #asMap}, are also equal.
@@ -29877,7 +29877,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an {@link Object#equals}-based multiset, this gives the same result as
@@ -29946,7 +29946,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <param name="occurrences" type="int"/>
       <doc>
       <![CDATA[Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -29965,7 +29965,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
@@ -30081,7 +30081,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object with this multiset for equality. Returns {@code true} if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
@@ -30130,7 +30130,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <doc>
       <![CDATA[Determines whether this multiset contains the specified element.
 
@@ -32375,7 +32375,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is a range having the same endpoints and bound types as
  this range. Note that discrete ranges such as {@code (1..4)} and {@code [2..3]} are <b>not</b>
@@ -32504,7 +32504,7 @@
  associated with that range is returned.]]>
       </doc>
     </method>
-    <method name="getEntry" return="java.util.Map.Entry&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
+    <method name="getEntry" return="Map.Entry"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -32649,7 +32649,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="java.lang.Object"/>
+      <param name="o" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code obj} is another {@code RangeMap} that has an equivalent {@link
  #asMapOfRanges()}.]]>
@@ -32944,7 +32944,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code obj} is another {@code RangeSet} that contains the same ranges
  according to {@link Range#equals(Object)}.]]>
@@ -33059,7 +33059,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -33112,7 +33112,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object to this multimap for equality.
 
@@ -34398,7 +34398,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="key" type="java.lang.Object"/>
+      <param name="key" type="Object"/>
       <doc>
       <![CDATA[Removes all values associated with a given key.
 
@@ -34997,8 +34997,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified row and column keys.
 
@@ -35010,7 +35010,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified row key.
 
@@ -35021,7 +35021,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified column.
 
@@ -35032,7 +35032,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="value" type="java.lang.Object"/>
+      <param name="value" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if the table contains a mapping with the specified value.
 
@@ -35043,8 +35043,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Returns the value corresponding to the given row and column keys, or {@code null} if no such
  mapping exists.
@@ -35073,7 +35073,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object with this table for equality. Two tables are equal when their
  cell views, as returned by {@link #cellSet}, are equal.]]>
@@ -35130,8 +35130,8 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="rowKey" type="java.lang.Object"/>
-      <param name="columnKey" type="java.lang.Object"/>
+      <param name="rowKey" type="Object"/>
+      <param name="columnKey" type="Object"/>
       <doc>
       <![CDATA[Removes the mapping, if any, associated with the given keys.
 
@@ -35310,7 +35310,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Compares the specified object with this cell for equality. Two cells are equal when they have
  equal row keys, column keys, and values.]]>
@@ -35858,7 +35858,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="comparator" type="java.util.Comparator&lt;? super E&gt;"/>
+      <param name="comparator" type="Comparator"/>
       <doc>
       <![CDATA[Creates a new, empty multiset, sorted according to the specified comparator. All elements
  inserted into the multiset must be <i>mutually comparable</i> by the specified comparator:
@@ -35895,7 +35895,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
     </method>
     <method name="add" return="int"
       abstract="false" native="false" synchronized="false"
@@ -35908,7 +35908,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="element" type="java.lang.Object"/>
+      <param name="element" type="Object"/>
       <param name="occurrences" type="int"/>
     </method>
     <method name="setCount" return="int"
@@ -35993,7 +35993,7 @@
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Comparable"/>
     </method>
-    <method name="getEntry" return="java.util.Map.Entry&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
+    <method name="getEntry" return="Map.Entry"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36055,7 +36055,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="java.lang.Object"/>
+      <param name="o" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -36126,7 +36126,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="rangeContaining" return="com.google.common.collect.Range&lt;C&gt;"
+    <method name="rangeContaining" return="Range"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -37576,7 +37576,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -37672,7 +37672,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -37727,7 +37727,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -37817,7 +37817,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -37968,7 +37968,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Two ordered {@link EndpointPair}s are equal if their {@link #source()} and {@link #target()}
  are equal. Two unordered {@link EndpointPair}s are equal if they contain the same nodes. An
@@ -38167,7 +38167,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the
  same structural relationships as those in this graph.
@@ -39229,7 +39229,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the
  same structural relationships as those in this network.
@@ -40178,7 +40178,7 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and
  the same structural relationships as those in this graph.
@@ -40526,7 +40526,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -41029,7 +41029,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is a {@link HashCode} instance with the identical byte
  representation to this hash code.
@@ -43996,7 +43996,7 @@
  @throws IOException if an I/O error occurs while reading from this source]]>
       </doc>
     </method>
-    <method name="readFirstLine" return="java.lang.String"
+    <method name="readFirstLine" return="String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -44350,7 +44350,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="closeable" type="java.io.Closeable"/>
+      <param name="closeable" type="Closeable"/>
       <param name="swallowIOException" type="boolean"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
@@ -44389,7 +44389,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="inputStream" type="java.io.InputStream"/>
+      <param name="inputStream" type="InputStream"/>
       <doc>
       <![CDATA[Closes the given {@link InputStream}, logging any {@code IOException} that's thrown rather than
  propagating it.
@@ -44409,7 +44409,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="reader" type="java.io.Reader"/>
+      <param name="reader" type="Reader"/>
       <doc>
       <![CDATA[Closes the given {@link Reader}, logging any {@code IOException} that's thrown rather than
  propagating it.
@@ -45539,7 +45539,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
-    <constructor name="InsecureRecursiveDeleteException" type="java.lang.String"
+    <constructor name="InsecureRecursiveDeleteException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
@@ -46299,7 +46299,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="dir" type="java.io.File"/>
+      <param name="dir" type="File"/>
       <param name="fileName" type="java.lang.String"/>
     </method>
     <doc>
@@ -47908,7 +47908,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -48738,7 +48738,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[{@inheritDoc}
 
@@ -50309,6 +50309,39 @@
  {@code Ping-To}</a> header field name.
 
  @since 19.0]]>
+      </doc>
+    </field>
+    <field name="SEC_TOKEN_BINDING" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
+ Sec-Token-Binding}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_PROVIDED_TOKEN_BINDING_ID" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+ Sec-Provided-Token-Binding-ID}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_REFERRED_TOKEN_BINDING_ID" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+ Sec-Referred-Token-Binding-ID}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <doc>
@@ -53701,7 +53734,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Double"
+    <method name="tryParse" return="Double"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -54102,7 +54135,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Float"
+    <method name="tryParse" return="Float"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -54427,7 +54460,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableDoubleArray} containing the same
  values as this one, in the same order. Values are compared as if by {@link Double#equals}.]]>
@@ -54874,7 +54907,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableIntArray} containing the same
  values as this one, in the same order.]]>
@@ -55321,7 +55354,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code object} is an {@code ImmutableLongArray} containing the same
  values as this one, in the same order.]]>
@@ -55892,7 +55925,7 @@
  @return a list view of the array]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Integer"
+    <method name="tryParse" return="Integer"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -55914,7 +55947,7 @@
  @since 11.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Integer"
+    <method name="tryParse" return="Integer"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -56190,7 +56223,7 @@
  @since 7.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Long"
+    <method name="tryParse" return="Long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -56212,7 +56245,7 @@
  @since 14.0]]>
       </doc>
     </method>
-    <method name="tryParse" return="java.lang.Long"
+    <method name="tryParse" return="Long"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -57580,7 +57613,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -58144,7 +58177,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -59099,6 +59132,11 @@
       <![CDATA[Returns the type of {@code T}.]]>
       </doc>
     </method>
+    <method name="getAnnotatedReturnType" return="java.lang.reflect.AnnotatedType"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <doc>
     <![CDATA[Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
  make common reflective operation easier to deal with, such as {@link #isPublic}, {@link
@@ -59276,11 +59314,19 @@
       <![CDATA[@since 18.0]]>
       </doc>
     </method>
+    <method name="getAnnotatedType" return="java.lang.reflect.AnnotatedType"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[@since NEXT]]>
+      </doc>
+    </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -59385,7 +59431,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="java.lang.Object"/>
+      <param name="o" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
@@ -59841,7 +59887,7 @@
  @since 15.0]]>
       </doc>
     </method>
-    <method name="getComponentType" return="com.google.common.reflect.TypeToken&lt;?&gt;"
+    <method name="getComponentType" return="TypeToken"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
@@ -59876,7 +59922,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="o" type="java.lang.Object"/>
+      <param name="o" type="Object"/>
       <doc>
       <![CDATA[Returns true if {@code o} is another {@code TypeToken} that represents the same {@link Type}.]]>
       </doc>
@@ -60483,7 +60529,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="pendingToString" return="java.lang.String"
+    <method name="pendingToString" return="String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
@@ -62545,21 +62591,21 @@
       <![CDATA[Creates a new instance with {@code null} as its detail message.]]>
       </doc>
     </constructor>
-    <constructor name="ExecutionError" type="java.lang.String"
+    <constructor name="ExecutionError" type="String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Creates a new instance with the given detail message.]]>
       </doc>
     </constructor>
-    <constructor name="ExecutionError" type="java.lang.String, java.lang.Error"
+    <constructor name="ExecutionError" type="String, Error"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Creates a new instance with the given detail message and cause.]]>
       </doc>
     </constructor>
-    <constructor name="ExecutionError" type="java.lang.Error"
+    <constructor name="ExecutionError" type="Error"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -67757,21 +67803,21 @@
       <![CDATA[Creates a new instance with {@code null} as its detail message.]]>
       </doc>
     </constructor>
-    <constructor name="UncheckedExecutionException" type="java.lang.String"
+    <constructor name="UncheckedExecutionException" type="String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Creates a new instance with the given detail message.]]>
       </doc>
     </constructor>
-    <constructor name="UncheckedExecutionException" type="java.lang.String, java.lang.Throwable"
+    <constructor name="UncheckedExecutionException" type="String, Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Creates a new instance with the given detail message and cause.]]>
       </doc>
     </constructor>
-    <constructor name="UncheckedExecutionException" type="java.lang.Throwable"
+    <constructor name="UncheckedExecutionException" type="Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -67804,15 +67850,15 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
-    <constructor name="UncheckedTimeoutException" type="java.lang.String"
+    <constructor name="UncheckedTimeoutException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
-    <constructor name="UncheckedTimeoutException" type="java.lang.Throwable"
+    <constructor name="UncheckedTimeoutException" type="Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>
-    <constructor name="UncheckedTimeoutException" type="java.lang.String, java.lang.Throwable"
+    <constructor name="UncheckedTimeoutException" type="String, Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </constructor>

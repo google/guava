@@ -27,7 +27,7 @@
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.util.Optional;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.util.Set;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.22"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * An interface for &lt;a<a name="line.25"></a>
@@ -275,8 +275,8 @@
 <span class="sourceLineNo">267</span>   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this<a name="line.267"></a>
 <span class="sourceLineNo">268</span>   *     graph<a name="line.268"></a>
 <span class="sourceLineNo">269</span>   */<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  @NullableDecl<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue);<a name="line.271"></a>
+<span class="sourceLineNo">270</span>  @Nullable<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);<a name="line.271"></a>
 <span class="sourceLineNo">272</span><a name="line.272"></a>
 <span class="sourceLineNo">273</span>  //<a name="line.273"></a>
 <span class="sourceLineNo">274</span>  // ValueGraph identity<a name="line.274"></a>
@@ -303,7 +303,7 @@
 <span class="sourceLineNo">295</span>   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.<a name="line.295"></a>
 <span class="sourceLineNo">296</span>   */<a name="line.296"></a>
 <span class="sourceLineNo">297</span>  @Override<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  boolean equals(@NullableDecl Object object);<a name="line.298"></a>
+<span class="sourceLineNo">298</span>  boolean equals(@Nullable Object object);<a name="line.298"></a>
 <span class="sourceLineNo">299</span><a name="line.299"></a>
 <span class="sourceLineNo">300</span>  /**<a name="line.300"></a>
 <span class="sourceLineNo">301</span>   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a<a name="line.301"></a>

@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import java.io.Serializable;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.Iterator;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A function from {@code A} to {@code B} with an associated &lt;i&gt;reverse&lt;/i&gt; function from {@code B}<a name="line.29"></a>
@@ -172,14 +172,14 @@
 <span class="sourceLineNo">164</span>   *<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   * @return the converted value; is null &lt;i&gt;if and only if&lt;/i&gt; {@code a} is null<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   */<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  @NullableDecl<a name="line.167"></a>
+<span class="sourceLineNo">167</span>  @Nullable<a name="line.167"></a>
 <span class="sourceLineNo">168</span>  @CanIgnoreReturnValue<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  public final B convert(@NullableDecl A a) {<a name="line.169"></a>
+<span class="sourceLineNo">169</span>  public final B convert(@Nullable A a) {<a name="line.169"></a>
 <span class="sourceLineNo">170</span>    return correctedDoForward(a);<a name="line.170"></a>
 <span class="sourceLineNo">171</span>  }<a name="line.171"></a>
 <span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>  @NullableDecl<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  B correctedDoForward(@NullableDecl A a) {<a name="line.174"></a>
+<span class="sourceLineNo">173</span>  @Nullable<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  B correctedDoForward(@Nullable A a) {<a name="line.174"></a>
 <span class="sourceLineNo">175</span>    if (handleNullAutomatically) {<a name="line.175"></a>
 <span class="sourceLineNo">176</span>      // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?<a name="line.176"></a>
 <span class="sourceLineNo">177</span>      return a == null ? null : checkNotNull(doForward(a));<a name="line.177"></a>
@@ -188,8 +188,8 @@
 <span class="sourceLineNo">180</span>    }<a name="line.180"></a>
 <span class="sourceLineNo">181</span>  }<a name="line.181"></a>
 <span class="sourceLineNo">182</span><a name="line.182"></a>
-<span class="sourceLineNo">183</span>  @NullableDecl<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  A correctedDoBackward(@NullableDecl B b) {<a name="line.184"></a>
+<span class="sourceLineNo">183</span>  @Nullable<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  A correctedDoBackward(@Nullable B b) {<a name="line.184"></a>
 <span class="sourceLineNo">185</span>    if (handleNullAutomatically) {<a name="line.185"></a>
 <span class="sourceLineNo">186</span>      // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?<a name="line.186"></a>
 <span class="sourceLineNo">187</span>      return b == null ? null : checkNotNull(doBackward(b));<a name="line.187"></a>
@@ -274,14 +274,14 @@
 <span class="sourceLineNo">266</span>    }<a name="line.266"></a>
 <span class="sourceLineNo">267</span><a name="line.267"></a>
 <span class="sourceLineNo">268</span>    @Override<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    @NullableDecl<a name="line.269"></a>
-<span class="sourceLineNo">270</span>    A correctedDoForward(@NullableDecl B b) {<a name="line.270"></a>
+<span class="sourceLineNo">269</span>    @Nullable<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    A correctedDoForward(@Nullable B b) {<a name="line.270"></a>
 <span class="sourceLineNo">271</span>      return original.correctedDoBackward(b);<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    }<a name="line.272"></a>
 <span class="sourceLineNo">273</span><a name="line.273"></a>
 <span class="sourceLineNo">274</span>    @Override<a name="line.274"></a>
-<span class="sourceLineNo">275</span>    @NullableDecl<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    B correctedDoBackward(@NullableDecl A a) {<a name="line.276"></a>
+<span class="sourceLineNo">275</span>    @Nullable<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    B correctedDoBackward(@Nullable A a) {<a name="line.276"></a>
 <span class="sourceLineNo">277</span>      return original.correctedDoForward(a);<a name="line.277"></a>
 <span class="sourceLineNo">278</span>    }<a name="line.278"></a>
 <span class="sourceLineNo">279</span><a name="line.279"></a>
@@ -291,7 +291,7 @@
 <span class="sourceLineNo">283</span>    }<a name="line.283"></a>
 <span class="sourceLineNo">284</span><a name="line.284"></a>
 <span class="sourceLineNo">285</span>    @Override<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    public boolean equals(@NullableDecl Object object) {<a name="line.286"></a>
+<span class="sourceLineNo">286</span>    public boolean equals(@Nullable Object object) {<a name="line.286"></a>
 <span class="sourceLineNo">287</span>      if (object instanceof ReverseConverter) {<a name="line.287"></a>
 <span class="sourceLineNo">288</span>        ReverseConverter&lt;?, ?&gt; that = (ReverseConverter&lt;?, ?&gt;) object;<a name="line.288"></a>
 <span class="sourceLineNo">289</span>        return this.original.equals(that.original);<a name="line.289"></a>
@@ -356,19 +356,19 @@
 <span class="sourceLineNo">348</span>    }<a name="line.348"></a>
 <span class="sourceLineNo">349</span><a name="line.349"></a>
 <span class="sourceLineNo">350</span>    @Override<a name="line.350"></a>
-<span class="sourceLineNo">351</span>    @NullableDecl<a name="line.351"></a>
-<span class="sourceLineNo">352</span>    C correctedDoForward(@NullableDecl A a) {<a name="line.352"></a>
+<span class="sourceLineNo">351</span>    @Nullable<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    C correctedDoForward(@Nullable A a) {<a name="line.352"></a>
 <span class="sourceLineNo">353</span>      return second.correctedDoForward(first.correctedDoForward(a));<a name="line.353"></a>
 <span class="sourceLineNo">354</span>    }<a name="line.354"></a>
 <span class="sourceLineNo">355</span><a name="line.355"></a>
 <span class="sourceLineNo">356</span>    @Override<a name="line.356"></a>
-<span class="sourceLineNo">357</span>    @NullableDecl<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    A correctedDoBackward(@NullableDecl C c) {<a name="line.358"></a>
+<span class="sourceLineNo">357</span>    @Nullable<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    A correctedDoBackward(@Nullable C c) {<a name="line.358"></a>
 <span class="sourceLineNo">359</span>      return first.correctedDoBackward(second.correctedDoBackward(c));<a name="line.359"></a>
 <span class="sourceLineNo">360</span>    }<a name="line.360"></a>
 <span class="sourceLineNo">361</span><a name="line.361"></a>
 <span class="sourceLineNo">362</span>    @Override<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    public boolean equals(@NullableDecl Object object) {<a name="line.363"></a>
+<span class="sourceLineNo">363</span>    public boolean equals(@Nullable Object object) {<a name="line.363"></a>
 <span class="sourceLineNo">364</span>      if (object instanceof ConverterComposition) {<a name="line.364"></a>
 <span class="sourceLineNo">365</span>        ConverterComposition&lt;?, ?, ?&gt; that = (ConverterComposition&lt;?, ?, ?&gt;) object;<a name="line.365"></a>
 <span class="sourceLineNo">366</span>        return this.first.equals(that.first) &amp;&amp; this.second.equals(that.second);<a name="line.366"></a>
@@ -394,9 +394,9 @@
 <span class="sourceLineNo">386</span>   */<a name="line.386"></a>
 <span class="sourceLineNo">387</span>  @Deprecated<a name="line.387"></a>
 <span class="sourceLineNo">388</span>  @Override<a name="line.388"></a>
-<span class="sourceLineNo">389</span>  @NullableDecl<a name="line.389"></a>
+<span class="sourceLineNo">389</span>  @Nullable<a name="line.389"></a>
 <span class="sourceLineNo">390</span>  @CanIgnoreReturnValue<a name="line.390"></a>
-<span class="sourceLineNo">391</span>  public final B apply(@NullableDecl A a) {<a name="line.391"></a>
+<span class="sourceLineNo">391</span>  public final B apply(@Nullable A a) {<a name="line.391"></a>
 <span class="sourceLineNo">392</span>    return convert(a);<a name="line.392"></a>
 <span class="sourceLineNo">393</span>  }<a name="line.393"></a>
 <span class="sourceLineNo">394</span><a name="line.394"></a>
@@ -412,7 +412,7 @@
 <span class="sourceLineNo">404</span>   * interchangeable.<a name="line.404"></a>
 <span class="sourceLineNo">405</span>   */<a name="line.405"></a>
 <span class="sourceLineNo">406</span>  @Override<a name="line.406"></a>
-<span class="sourceLineNo">407</span>  public boolean equals(@NullableDecl Object object) {<a name="line.407"></a>
+<span class="sourceLineNo">407</span>  public boolean equals(@Nullable Object object) {<a name="line.407"></a>
 <span class="sourceLineNo">408</span>    return super.equals(object);<a name="line.408"></a>
 <span class="sourceLineNo">409</span>  }<a name="line.409"></a>
 <span class="sourceLineNo">410</span><a name="line.410"></a>
@@ -461,7 +461,7 @@
 <span class="sourceLineNo">453</span>    }<a name="line.453"></a>
 <span class="sourceLineNo">454</span><a name="line.454"></a>
 <span class="sourceLineNo">455</span>    @Override<a name="line.455"></a>
-<span class="sourceLineNo">456</span>    public boolean equals(@NullableDecl Object object) {<a name="line.456"></a>
+<span class="sourceLineNo">456</span>    public boolean equals(@Nullable Object object) {<a name="line.456"></a>
 <span class="sourceLineNo">457</span>      if (object instanceof FunctionBasedConverter) {<a name="line.457"></a>
 <span class="sourceLineNo">458</span>        FunctionBasedConverter&lt;?, ?&gt; that = (FunctionBasedConverter&lt;?, ?&gt;) object;<a name="line.458"></a>
 <span class="sourceLineNo">459</span>        return this.forwardFunction.equals(that.forwardFunction)<a name="line.459"></a>

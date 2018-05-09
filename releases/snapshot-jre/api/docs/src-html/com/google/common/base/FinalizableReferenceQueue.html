@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.net.URLClassLoader;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.logging.Level;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.logging.Logger;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>/**<a name="line.32"></a>
 <span class="sourceLineNo">033</span> * A reference queue with an associated background thread that dequeues references and invokes<a name="line.33"></a>
@@ -236,7 +236,7 @@
 <span class="sourceLineNo">228</span>     *<a name="line.228"></a>
 <span class="sourceLineNo">229</span>     * @throws SecurityException if we don't have the appropriate privileges<a name="line.229"></a>
 <span class="sourceLineNo">230</span>     */<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    @NullableDecl<a name="line.231"></a>
+<span class="sourceLineNo">231</span>    @Nullable<a name="line.231"></a>
 <span class="sourceLineNo">232</span>    Class&lt;?&gt; loadFinalizer();<a name="line.232"></a>
 <span class="sourceLineNo">233</span>  }<a name="line.233"></a>
 <span class="sourceLineNo">234</span><a name="line.234"></a>
@@ -249,7 +249,7 @@
 <span class="sourceLineNo">241</span>    // finding Finalizer on the system class path even if it is there.<a name="line.241"></a>
 <span class="sourceLineNo">242</span>    @VisibleForTesting static boolean disabled;<a name="line.242"></a>
 <span class="sourceLineNo">243</span><a name="line.243"></a>
-<span class="sourceLineNo">244</span>    @NullableDecl<a name="line.244"></a>
+<span class="sourceLineNo">244</span>    @Nullable<a name="line.244"></a>
 <span class="sourceLineNo">245</span>    @Override<a name="line.245"></a>
 <span class="sourceLineNo">246</span>    public Class&lt;?&gt; loadFinalizer() {<a name="line.246"></a>
 <span class="sourceLineNo">247</span>      if (disabled) {<a name="line.247"></a>
@@ -287,7 +287,7 @@
 <span class="sourceLineNo">279</span>            + "loader. To support reclaiming this class loader, either resolve the underlying "<a name="line.279"></a>
 <span class="sourceLineNo">280</span>            + "issue, or move Guava to your system class path.";<a name="line.280"></a>
 <span class="sourceLineNo">281</span><a name="line.281"></a>
-<span class="sourceLineNo">282</span>    @NullableDecl<a name="line.282"></a>
+<span class="sourceLineNo">282</span>    @Nullable<a name="line.282"></a>
 <span class="sourceLineNo">283</span>    @Override<a name="line.283"></a>
 <span class="sourceLineNo">284</span>    public Class&lt;?&gt; loadFinalizer() {<a name="line.284"></a>
 <span class="sourceLineNo">285</span>      try {<a name="line.285"></a>

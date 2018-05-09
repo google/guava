@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.io.Serializable;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.Map;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A {@link ClassToInstanceMap} whose contents will never change, with many other important<a name="line.29"></a>
@@ -177,7 +177,7 @@
 <span class="sourceLineNo">169</span><a name="line.169"></a>
 <span class="sourceLineNo">170</span>  @Override<a name="line.170"></a>
 <span class="sourceLineNo">171</span>  @SuppressWarnings("unchecked") // value could not get in if not a T<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  @NullableDecl<a name="line.172"></a>
+<span class="sourceLineNo">172</span>  @Nullable<a name="line.172"></a>
 <span class="sourceLineNo">173</span>  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {<a name="line.173"></a>
 <span class="sourceLineNo">174</span>    return (T) delegate.get(checkNotNull(type));<a name="line.174"></a>
 <span class="sourceLineNo">175</span>  }<a name="line.175"></a>

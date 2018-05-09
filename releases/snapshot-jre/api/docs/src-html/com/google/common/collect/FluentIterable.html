@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.List;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.SortedSet;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.stream.Stream;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * A discouraged (but not deprecated) precursor to Java's superior {@link Stream} library.<a name="line.37"></a>
@@ -329,7 +329,7 @@
 <span class="sourceLineNo">321</span>   * @since 20.0<a name="line.321"></a>
 <span class="sourceLineNo">322</span>   */<a name="line.322"></a>
 <span class="sourceLineNo">323</span>  @Beta<a name="line.323"></a>
-<span class="sourceLineNo">324</span>  public static &lt;E&gt; FluentIterable&lt;E&gt; of(@NullableDecl E element, E... elements) {<a name="line.324"></a>
+<span class="sourceLineNo">324</span>  public static &lt;E&gt; FluentIterable&lt;E&gt; of(@Nullable E element, E... elements) {<a name="line.324"></a>
 <span class="sourceLineNo">325</span>    return from(Lists.asList(element, elements));<a name="line.325"></a>
 <span class="sourceLineNo">326</span>  }<a name="line.326"></a>
 <span class="sourceLineNo">327</span><a name="line.327"></a>
@@ -360,7 +360,7 @@
 <span class="sourceLineNo">352</span>   *<a name="line.352"></a>
 <span class="sourceLineNo">353</span>   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@code stream.anyMatch(Predicate.isEqual(target))}.<a name="line.353"></a>
 <span class="sourceLineNo">354</span>   */<a name="line.354"></a>
-<span class="sourceLineNo">355</span>  public final boolean contains(@NullableDecl Object target) {<a name="line.355"></a>
+<span class="sourceLineNo">355</span>  public final boolean contains(@Nullable Object target) {<a name="line.355"></a>
 <span class="sourceLineNo">356</span>    return Iterables.contains(getDelegate(), target);<a name="line.356"></a>
 <span class="sourceLineNo">357</span>  }<a name="line.357"></a>
 <span class="sourceLineNo">358</span><a name="line.358"></a>
@@ -830,7 +830,7 @@
 <span class="sourceLineNo">822</span>   * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to<a name="line.822"></a>
 <span class="sourceLineNo">823</span>   *     the size of this fluent iterable<a name="line.823"></a>
 <span class="sourceLineNo">824</span>   */<a name="line.824"></a>
-<span class="sourceLineNo">825</span>  // TODO(kevinb): add @NullableDecl?<a name="line.825"></a>
+<span class="sourceLineNo">825</span>  // TODO(kevinb): add @Nullable?<a name="line.825"></a>
 <span class="sourceLineNo">826</span>  public final E get(int position) {<a name="line.826"></a>
 <span class="sourceLineNo">827</span>    return Iterables.get(getDelegate(), position);<a name="line.827"></a>
 <span class="sourceLineNo">828</span>  }<a name="line.828"></a>

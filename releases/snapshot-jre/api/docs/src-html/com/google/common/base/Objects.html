@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import com.google.common.annotations.GwtCompatible;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import java.util.Arrays;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
 <span class="sourceLineNo">021</span>/**<a name="line.21"></a>
 <span class="sourceLineNo">022</span> * Helper functions that can operate on any {@code Object}.<a name="line.22"></a>
@@ -56,7 +56,7 @@
 <span class="sourceLineNo">048</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; This method should be treated as deprecated; use {@link<a name="line.48"></a>
 <span class="sourceLineNo">049</span>   * java.util.Objects#equals} instead.<a name="line.49"></a>
 <span class="sourceLineNo">050</span>   */<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  public static boolean equal(@NullableDecl Object a, @NullableDecl Object b) {<a name="line.51"></a>
+<span class="sourceLineNo">051</span>  public static boolean equal(@Nullable Object a, @Nullable Object b) {<a name="line.51"></a>
 <span class="sourceLineNo">052</span>    return a == b || (a != null &amp;&amp; a.equals(b));<a name="line.52"></a>
 <span class="sourceLineNo">053</span>  }<a name="line.53"></a>
 <span class="sourceLineNo">054</span><a name="line.54"></a>
@@ -81,7 +81,7 @@
 <span class="sourceLineNo">073</span>   * &lt;p&gt;&lt;b&gt;Note for Java 7 and later:&lt;/b&gt; This method should be treated as deprecated; use {@link<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   * java.util.Objects#hash} instead.<a name="line.74"></a>
 <span class="sourceLineNo">075</span>   */<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  public static int hashCode(@NullableDecl Object... objects) {<a name="line.76"></a>
+<span class="sourceLineNo">076</span>  public static int hashCode(Object @Nullable... objects) {<a name="line.76"></a>
 <span class="sourceLineNo">077</span>    return Arrays.hashCode(objects);<a name="line.77"></a>
 <span class="sourceLineNo">078</span>  }<a name="line.78"></a>
 <span class="sourceLineNo">079</span>}<a name="line.79"></a>

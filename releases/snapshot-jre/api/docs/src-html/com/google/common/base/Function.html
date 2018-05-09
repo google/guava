@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import com.google.common.annotations.GwtCompatible;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
 <span class="sourceLineNo">021</span>/**<a name="line.21"></a>
 <span class="sourceLineNo">022</span> * Legacy version of {@link java.util.function.Function java.util.function.Function}.<a name="line.22"></a>
@@ -51,9 +51,9 @@
 <span class="sourceLineNo">043</span>@FunctionalInterface<a name="line.43"></a>
 <span class="sourceLineNo">044</span>public interface Function&lt;F, T&gt; extends java.util.function.Function&lt;F, T&gt; {<a name="line.44"></a>
 <span class="sourceLineNo">045</span>  @Override<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  @NullableDecl<a name="line.46"></a>
+<span class="sourceLineNo">046</span>  @Nullable<a name="line.46"></a>
 <span class="sourceLineNo">047</span>  @CanIgnoreReturnValue // TODO(kevinb): remove this<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  T apply(@NullableDecl F input);<a name="line.48"></a>
+<span class="sourceLineNo">048</span>  T apply(@Nullable F input);<a name="line.48"></a>
 <span class="sourceLineNo">049</span><a name="line.49"></a>
 <span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
 <span class="sourceLineNo">051</span>   * &lt;i&gt;May&lt;/i&gt; return {@code true} if {@code object} is a {@code Function} that behaves identically<a name="line.51"></a>
@@ -67,7 +67,7 @@
 <span class="sourceLineNo">059</span>   * disappear. It is best not to depend on it.<a name="line.59"></a>
 <span class="sourceLineNo">060</span>   */<a name="line.60"></a>
 <span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  boolean equals(@NullableDecl Object object);<a name="line.62"></a>
+<span class="sourceLineNo">062</span>  boolean equals(@Nullable Object object);<a name="line.62"></a>
 <span class="sourceLineNo">063</span>}<a name="line.63"></a>
 
 

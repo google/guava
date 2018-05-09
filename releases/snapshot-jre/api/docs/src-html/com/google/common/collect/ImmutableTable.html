@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.util.function.Function;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.stream.Collector;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
 <span class="sourceLineNo">039</span>/**<a name="line.39"></a>
 <span class="sourceLineNo">040</span> * A {@link Table} whose contents will never change, with many other important properties detailed<a name="line.40"></a>
@@ -450,12 +450,12 @@
 <span class="sourceLineNo">442</span>  public abstract ImmutableMap&lt;R, Map&lt;C, V&gt;&gt; rowMap();<a name="line.442"></a>
 <span class="sourceLineNo">443</span><a name="line.443"></a>
 <span class="sourceLineNo">444</span>  @Override<a name="line.444"></a>
-<span class="sourceLineNo">445</span>  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.445"></a>
+<span class="sourceLineNo">445</span>  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.445"></a>
 <span class="sourceLineNo">446</span>    return get(rowKey, columnKey) != null;<a name="line.446"></a>
 <span class="sourceLineNo">447</span>  }<a name="line.447"></a>
 <span class="sourceLineNo">448</span><a name="line.448"></a>
 <span class="sourceLineNo">449</span>  @Override<a name="line.449"></a>
-<span class="sourceLineNo">450</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.450"></a>
+<span class="sourceLineNo">450</span>  public boolean containsValue(@Nullable Object value) {<a name="line.450"></a>
 <span class="sourceLineNo">451</span>    return values().contains(value);<a name="line.451"></a>
 <span class="sourceLineNo">452</span>  }<a name="line.452"></a>
 <span class="sourceLineNo">453</span><a name="line.453"></a>

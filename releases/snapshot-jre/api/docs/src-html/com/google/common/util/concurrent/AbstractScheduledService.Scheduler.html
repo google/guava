@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span>import java.util.logging.Level;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.logging.Logger;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.39"></a>
+<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in<a name="line.42"></a>
@@ -474,7 +474,7 @@
 <span class="sourceLineNo">466</span><a name="line.466"></a>
 <span class="sourceLineNo">467</span>      /** The future that represents the next execution of this task. */<a name="line.467"></a>
 <span class="sourceLineNo">468</span>      @GuardedBy("lock")<a name="line.468"></a>
-<span class="sourceLineNo">469</span>      @NullableDecl<a name="line.469"></a>
+<span class="sourceLineNo">469</span>      @Nullable<a name="line.469"></a>
 <span class="sourceLineNo">470</span>      private Future&lt;Void&gt; currentFuture;<a name="line.470"></a>
 <span class="sourceLineNo">471</span><a name="line.471"></a>
 <span class="sourceLineNo">472</span>      ReschedulableCallable(<a name="line.472"></a>

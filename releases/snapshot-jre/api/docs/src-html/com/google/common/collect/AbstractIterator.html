@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.NoSuchElementException;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>/**<a name="line.26"></a>
 <span class="sourceLineNo">027</span> * This class provides a skeletal implementation of the {@code Iterator} interface, to make this<a name="line.27"></a>
@@ -89,7 +89,7 @@
 <span class="sourceLineNo">081</span>    FAILED,<a name="line.81"></a>
 <span class="sourceLineNo">082</span>  }<a name="line.82"></a>
 <span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  @NullableDecl private T next;<a name="line.84"></a>
+<span class="sourceLineNo">084</span>  @Nullable private T next;<a name="line.84"></a>
 <span class="sourceLineNo">085</span><a name="line.85"></a>
 <span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
 <span class="sourceLineNo">087</span>   * Returns the next element. &lt;b&gt;Note:&lt;/b&gt; the implementation must call {@link #endOfData()} when<a name="line.87"></a>

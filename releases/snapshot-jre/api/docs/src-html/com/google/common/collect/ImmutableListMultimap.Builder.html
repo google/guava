@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span>import java.util.stream.Collector;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.stream.Collectors;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import java.util.stream.Stream;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.40"></a>
+<span class="sourceLineNo">040</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.40"></a>
 <span class="sourceLineNo">041</span><a name="line.41"></a>
 <span class="sourceLineNo">042</span>/**<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * A {@link ListMultimap} whose contents will never change, with many other important properties<a name="line.43"></a>
@@ -373,7 +373,7 @@
 <span class="sourceLineNo">365</span>  /** Creates an ImmutableListMultimap from an asMap.entrySet. */<a name="line.365"></a>
 <span class="sourceLineNo">366</span>  static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; fromMapEntries(<a name="line.366"></a>
 <span class="sourceLineNo">367</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.367"></a>
-<span class="sourceLineNo">368</span>      @NullableDecl Comparator&lt;? super V&gt; valueComparator) {<a name="line.368"></a>
+<span class="sourceLineNo">368</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.368"></a>
 <span class="sourceLineNo">369</span>    if (mapEntries.isEmpty()) {<a name="line.369"></a>
 <span class="sourceLineNo">370</span>      return of();<a name="line.370"></a>
 <span class="sourceLineNo">371</span>    }<a name="line.371"></a>
@@ -409,7 +409,7 @@
 <span class="sourceLineNo">401</span>   * parameters used to build this multimap.<a name="line.401"></a>
 <span class="sourceLineNo">402</span>   */<a name="line.402"></a>
 <span class="sourceLineNo">403</span>  @Override<a name="line.403"></a>
-<span class="sourceLineNo">404</span>  public ImmutableList&lt;V&gt; get(@NullableDecl K key) {<a name="line.404"></a>
+<span class="sourceLineNo">404</span>  public ImmutableList&lt;V&gt; get(@Nullable K key) {<a name="line.404"></a>
 <span class="sourceLineNo">405</span>    // This cast is safe as its type is known in constructor.<a name="line.405"></a>
 <span class="sourceLineNo">406</span>    ImmutableList&lt;V&gt; list = (ImmutableList&lt;V&gt;) map.get(key);<a name="line.406"></a>
 <span class="sourceLineNo">407</span>    return (list == null) ? ImmutableList.&lt;V&gt;of() : list;<a name="line.407"></a>

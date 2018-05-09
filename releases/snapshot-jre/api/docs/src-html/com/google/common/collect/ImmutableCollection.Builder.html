@@ -37,7 +37,7 @@
 <span class="sourceLineNo">029</span>import java.util.Spliterator;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.Spliterators;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.function.Predicate;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.32"></a>
+<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>/**<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * A {@link Collection} whose contents will never change, and which offers a few additional<a name="line.35"></a>
@@ -215,7 +215,7 @@
 <span class="sourceLineNo">207</span>  }<a name="line.207"></a>
 <span class="sourceLineNo">208</span><a name="line.208"></a>
 <span class="sourceLineNo">209</span>  @Override<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  public abstract boolean contains(@NullableDecl Object object);<a name="line.210"></a>
+<span class="sourceLineNo">210</span>  public abstract boolean contains(@Nullable Object object);<a name="line.210"></a>
 <span class="sourceLineNo">211</span><a name="line.211"></a>
 <span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
 <span class="sourceLineNo">213</span>   * Guaranteed to throw an exception and leave the collection unmodified.<a name="line.213"></a>

@@ -32,7 +32,7 @@
 <span class="sourceLineNo">024</span>import com.google.common.collect.Iterators;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import com.google.common.collect.UnmodifiableIterator;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import com.google.errorprone.annotations.Immutable;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.27"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
 <span class="sourceLineNo">029</span>/**<a name="line.29"></a>
 <span class="sourceLineNo">030</span> * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}<a name="line.30"></a>
@@ -140,7 +140,7 @@
 <span class="sourceLineNo">132</span>   * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.<a name="line.132"></a>
 <span class="sourceLineNo">133</span>   */<a name="line.133"></a>
 <span class="sourceLineNo">134</span>  @Override<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public abstract boolean equals(@NullableDecl Object obj);<a name="line.135"></a>
+<span class="sourceLineNo">135</span>  public abstract boolean equals(@Nullable Object obj);<a name="line.135"></a>
 <span class="sourceLineNo">136</span><a name="line.136"></a>
 <span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
 <span class="sourceLineNo">138</span>   * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),<a name="line.138"></a>
@@ -171,7 +171,7 @@
 <span class="sourceLineNo">163</span>    }<a name="line.163"></a>
 <span class="sourceLineNo">164</span><a name="line.164"></a>
 <span class="sourceLineNo">165</span>    @Override<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.166"></a>
+<span class="sourceLineNo">166</span>    public boolean equals(@Nullable Object obj) {<a name="line.166"></a>
 <span class="sourceLineNo">167</span>      if (obj == this) {<a name="line.167"></a>
 <span class="sourceLineNo">168</span>        return true;<a name="line.168"></a>
 <span class="sourceLineNo">169</span>      }<a name="line.169"></a>
@@ -219,7 +219,7 @@
 <span class="sourceLineNo">211</span>    }<a name="line.211"></a>
 <span class="sourceLineNo">212</span><a name="line.212"></a>
 <span class="sourceLineNo">213</span>    @Override<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.214"></a>
+<span class="sourceLineNo">214</span>    public boolean equals(@Nullable Object obj) {<a name="line.214"></a>
 <span class="sourceLineNo">215</span>      if (obj == this) {<a name="line.215"></a>
 <span class="sourceLineNo">216</span>        return true;<a name="line.216"></a>
 <span class="sourceLineNo">217</span>      }<a name="line.217"></a>

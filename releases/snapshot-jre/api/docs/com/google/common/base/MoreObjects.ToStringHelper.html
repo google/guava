@@ -185,7 +185,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html#add-java.lang.String-java.lang.Object-">add</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
-   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 </td>
 </tr>
@@ -227,7 +227,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html#addValue-java.lang.Object-">addValue</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html#addValue-java.lang.Object-">addValue</a></span>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
 <div class="block">Adds an unnamed value to the formatted output.</div>
 </td>
 </tr>
@@ -291,8 +291,7 @@ public&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelp
 <h4>add</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line.170">add</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
-                                                            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-                                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+                                                            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format. If <code>value</code>
  is <code>null</code>, the string <code>"null"</code> is used, unless <a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html#omitNullValues--"><code>omitNullValues()</code></a> is
  called, in which case this name/value pair will not be added.</div>
@@ -401,8 +400,7 @@ public&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelp
 <li class="blockList">
 <h4>addValue</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line.241">addValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-                                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a>&nbsp;<a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line.241">addValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="../../../../com/google/common/base/MoreObjects.ToStringHelper.html#add-java.lang.String-java.lang.Object-"><code>add(String, Object)</code></a> instead and give value a

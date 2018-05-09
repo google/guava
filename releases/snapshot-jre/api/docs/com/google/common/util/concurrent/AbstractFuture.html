@@ -233,7 +233,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/FluentFuture.h
 </td>
 </tr>
 <tr id="i8" class="altColor">
-<td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colFirst"><code>protected <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#pendingToString--">pendingToString</a></span>()</code>
 <div class="block">Provide a human-readable explanation of why this future has not yet completed.</div>
 </td>
@@ -544,8 +544,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>set</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.686">set</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-                                            <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</pre>
+protected&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.686">set</a>(<a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</pre>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">set asynchronously</a>). When a call to this method returns,
  the <code>Future</code> is guaranteed to be <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#isDone--">done</a> <b>only if</b> the call was
@@ -682,8 +681,7 @@ protected&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>pendingToString</h4>
-<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
-protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.982">pendingToString</a>()</pre>
+<pre>protected&nbsp;<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line.982">pendingToString</a>()</pre>
 <div class="block">Provide a human-readable explanation of why this future has not yet completed.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>

@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span>import java.util.Spliterator;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.function.BinaryOperator;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.stream.Collector;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.39"></a>
+<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * Provides static methods that involve a {@code Table}.<a name="line.42"></a>
@@ -154,16 +154,16 @@
 <span class="sourceLineNo">146</span>   * @param value the value to be associated with the returned cell<a name="line.146"></a>
 <span class="sourceLineNo">147</span>   */<a name="line.147"></a>
 <span class="sourceLineNo">148</span>  public static &lt;R, C, V&gt; Cell&lt;R, C, V&gt; immutableCell(<a name="line.148"></a>
-<span class="sourceLineNo">149</span>      @NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {<a name="line.149"></a>
+<span class="sourceLineNo">149</span>      @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.149"></a>
 <span class="sourceLineNo">150</span>    return new ImmutableCell&lt;&gt;(rowKey, columnKey, value);<a name="line.150"></a>
 <span class="sourceLineNo">151</span>  }<a name="line.151"></a>
 <span class="sourceLineNo">152</span><a name="line.152"></a>
 <span class="sourceLineNo">153</span>  static final class ImmutableCell&lt;R, C, V&gt; extends AbstractCell&lt;R, C, V&gt; implements Serializable {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    @NullableDecl private final R rowKey;<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    @NullableDecl private final C columnKey;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    @NullableDecl private final V value;<a name="line.156"></a>
+<span class="sourceLineNo">154</span>    @Nullable private final R rowKey;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    @Nullable private final C columnKey;<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    @Nullable private final V value;<a name="line.156"></a>
 <span class="sourceLineNo">157</span><a name="line.157"></a>
-<span class="sourceLineNo">158</span>    ImmutableCell(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {<a name="line.158"></a>
+<span class="sourceLineNo">158</span>    ImmutableCell(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.158"></a>
 <span class="sourceLineNo">159</span>      this.rowKey = rowKey;<a name="line.159"></a>
 <span class="sourceLineNo">160</span>      this.columnKey = columnKey;<a name="line.160"></a>
 <span class="sourceLineNo">161</span>      this.value = value;<a name="line.161"></a>
@@ -262,27 +262,27 @@
 <span class="sourceLineNo">254</span>    }<a name="line.254"></a>
 <span class="sourceLineNo">255</span><a name="line.255"></a>
 <span class="sourceLineNo">256</span>    @Override<a name="line.256"></a>
-<span class="sourceLineNo">257</span>    public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.257"></a>
+<span class="sourceLineNo">257</span>    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.257"></a>
 <span class="sourceLineNo">258</span>      return original.contains(columnKey, rowKey);<a name="line.258"></a>
 <span class="sourceLineNo">259</span>    }<a name="line.259"></a>
 <span class="sourceLineNo">260</span><a name="line.260"></a>
 <span class="sourceLineNo">261</span>    @Override<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    public boolean containsColumn(@NullableDecl Object columnKey) {<a name="line.262"></a>
+<span class="sourceLineNo">262</span>    public boolean containsColumn(@Nullable Object columnKey) {<a name="line.262"></a>
 <span class="sourceLineNo">263</span>      return original.containsRow(columnKey);<a name="line.263"></a>
 <span class="sourceLineNo">264</span>    }<a name="line.264"></a>
 <span class="sourceLineNo">265</span><a name="line.265"></a>
 <span class="sourceLineNo">266</span>    @Override<a name="line.266"></a>
-<span class="sourceLineNo">267</span>    public boolean containsRow(@NullableDecl Object rowKey) {<a name="line.267"></a>
+<span class="sourceLineNo">267</span>    public boolean containsRow(@Nullable Object rowKey) {<a name="line.267"></a>
 <span class="sourceLineNo">268</span>      return original.containsColumn(rowKey);<a name="line.268"></a>
 <span class="sourceLineNo">269</span>    }<a name="line.269"></a>
 <span class="sourceLineNo">270</span><a name="line.270"></a>
 <span class="sourceLineNo">271</span>    @Override<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    public boolean containsValue(@NullableDecl Object value) {<a name="line.272"></a>
+<span class="sourceLineNo">272</span>    public boolean containsValue(@Nullable Object value) {<a name="line.272"></a>
 <span class="sourceLineNo">273</span>      return original.containsValue(value);<a name="line.273"></a>
 <span class="sourceLineNo">274</span>    }<a name="line.274"></a>
 <span class="sourceLineNo">275</span><a name="line.275"></a>
 <span class="sourceLineNo">276</span>    @Override<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.277"></a>
+<span class="sourceLineNo">277</span>    public V get(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.277"></a>
 <span class="sourceLineNo">278</span>      return original.get(columnKey, rowKey);<a name="line.278"></a>
 <span class="sourceLineNo">279</span>    }<a name="line.279"></a>
 <span class="sourceLineNo">280</span><a name="line.280"></a>
@@ -297,7 +297,7 @@
 <span class="sourceLineNo">289</span>    }<a name="line.289"></a>
 <span class="sourceLineNo">290</span><a name="line.290"></a>
 <span class="sourceLineNo">291</span>    @Override<a name="line.291"></a>
-<span class="sourceLineNo">292</span>    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.292"></a>
+<span class="sourceLineNo">292</span>    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.292"></a>
 <span class="sourceLineNo">293</span>      return original.remove(columnKey, rowKey);<a name="line.293"></a>
 <span class="sourceLineNo">294</span>    }<a name="line.294"></a>
 <span class="sourceLineNo">295</span><a name="line.295"></a>
@@ -582,7 +582,7 @@
 <span class="sourceLineNo">574</span>    }<a name="line.574"></a>
 <span class="sourceLineNo">575</span><a name="line.575"></a>
 <span class="sourceLineNo">576</span>    @Override<a name="line.576"></a>
-<span class="sourceLineNo">577</span>    public Map&lt;R, V&gt; column(@NullableDecl C columnKey) {<a name="line.577"></a>
+<span class="sourceLineNo">577</span>    public Map&lt;R, V&gt; column(@Nullable C columnKey) {<a name="line.577"></a>
 <span class="sourceLineNo">578</span>      return Collections.unmodifiableMap(super.column(columnKey));<a name="line.578"></a>
 <span class="sourceLineNo">579</span>    }<a name="line.579"></a>
 <span class="sourceLineNo">580</span><a name="line.580"></a>
@@ -598,7 +598,7 @@
 <span class="sourceLineNo">590</span>    }<a name="line.590"></a>
 <span class="sourceLineNo">591</span><a name="line.591"></a>
 <span class="sourceLineNo">592</span>    @Override<a name="line.592"></a>
-<span class="sourceLineNo">593</span>    public V put(@NullableDecl R rowKey, @NullableDecl C columnKey, @NullableDecl V value) {<a name="line.593"></a>
+<span class="sourceLineNo">593</span>    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {<a name="line.593"></a>
 <span class="sourceLineNo">594</span>      throw new UnsupportedOperationException();<a name="line.594"></a>
 <span class="sourceLineNo">595</span>    }<a name="line.595"></a>
 <span class="sourceLineNo">596</span><a name="line.596"></a>
@@ -608,12 +608,12 @@
 <span class="sourceLineNo">600</span>    }<a name="line.600"></a>
 <span class="sourceLineNo">601</span><a name="line.601"></a>
 <span class="sourceLineNo">602</span>    @Override<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {<a name="line.603"></a>
+<span class="sourceLineNo">603</span>    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.603"></a>
 <span class="sourceLineNo">604</span>      throw new UnsupportedOperationException();<a name="line.604"></a>
 <span class="sourceLineNo">605</span>    }<a name="line.605"></a>
 <span class="sourceLineNo">606</span><a name="line.606"></a>
 <span class="sourceLineNo">607</span>    @Override<a name="line.607"></a>
-<span class="sourceLineNo">608</span>    public Map&lt;C, V&gt; row(@NullableDecl R rowKey) {<a name="line.608"></a>
+<span class="sourceLineNo">608</span>    public Map&lt;C, V&gt; row(@Nullable R rowKey) {<a name="line.608"></a>
 <span class="sourceLineNo">609</span>      return Collections.unmodifiableMap(super.row(rowKey));<a name="line.609"></a>
 <span class="sourceLineNo">610</span>    }<a name="line.610"></a>
 <span class="sourceLineNo">611</span><a name="line.611"></a>
@@ -731,7 +731,7 @@
 <span class="sourceLineNo">723</span>    return Synchronized.table(table, null);<a name="line.723"></a>
 <span class="sourceLineNo">724</span>  }<a name="line.724"></a>
 <span class="sourceLineNo">725</span><a name="line.725"></a>
-<span class="sourceLineNo">726</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @NullableDecl Object obj) {<a name="line.726"></a>
+<span class="sourceLineNo">726</span>  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {<a name="line.726"></a>
 <span class="sourceLineNo">727</span>    if (obj == table) {<a name="line.727"></a>
 <span class="sourceLineNo">728</span>      return true;<a name="line.728"></a>
 <span class="sourceLineNo">729</span>    } else if (obj instanceof Table) {<a name="line.729"></a>

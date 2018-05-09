@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import java.util.Collection;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.Iterator;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.Set;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A multiset which forwards all its method calls to another multiset. Subclasses should override<a name="line.29"></a>
@@ -92,7 +92,7 @@
 <span class="sourceLineNo">084</span>  }<a name="line.84"></a>
 <span class="sourceLineNo">085</span><a name="line.85"></a>
 <span class="sourceLineNo">086</span>  @Override<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  public boolean equals(@NullableDecl Object object) {<a name="line.87"></a>
+<span class="sourceLineNo">087</span>  public boolean equals(@Nullable Object object) {<a name="line.87"></a>
 <span class="sourceLineNo">088</span>    return object == this || delegate().equals(object);<a name="line.88"></a>
 <span class="sourceLineNo">089</span>  }<a name="line.89"></a>
 <span class="sourceLineNo">090</span><a name="line.90"></a>
@@ -120,7 +120,7 @@
 <span class="sourceLineNo">112</span>   * @since 7.0<a name="line.112"></a>
 <span class="sourceLineNo">113</span>   */<a name="line.113"></a>
 <span class="sourceLineNo">114</span>  @Override<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  protected boolean standardContains(@NullableDecl Object object) {<a name="line.115"></a>
+<span class="sourceLineNo">115</span>  protected boolean standardContains(@Nullable Object object) {<a name="line.115"></a>
 <span class="sourceLineNo">116</span>    return count(object) &gt; 0;<a name="line.116"></a>
 <span class="sourceLineNo">117</span>  }<a name="line.117"></a>
 <span class="sourceLineNo">118</span><a name="line.118"></a>
@@ -144,7 +144,7 @@
 <span class="sourceLineNo">136</span>   * @since 7.0<a name="line.136"></a>
 <span class="sourceLineNo">137</span>   */<a name="line.137"></a>
 <span class="sourceLineNo">138</span>  @Beta<a name="line.138"></a>
-<span class="sourceLineNo">139</span>  protected int standardCount(@NullableDecl Object object) {<a name="line.139"></a>
+<span class="sourceLineNo">139</span>  protected int standardCount(@Nullable Object object) {<a name="line.139"></a>
 <span class="sourceLineNo">140</span>    for (Entry&lt;?&gt; entry : this.entrySet()) {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>      if (Objects.equal(entry.getElement(), object)) {<a name="line.141"></a>
 <span class="sourceLineNo">142</span>        return entry.getCount();<a name="line.142"></a>
@@ -293,7 +293,7 @@
 <span class="sourceLineNo">285</span>   *<a name="line.285"></a>
 <span class="sourceLineNo">286</span>   * @since 7.0<a name="line.286"></a>
 <span class="sourceLineNo">287</span>   */<a name="line.287"></a>
-<span class="sourceLineNo">288</span>  protected boolean standardEquals(@NullableDecl Object object) {<a name="line.288"></a>
+<span class="sourceLineNo">288</span>  protected boolean standardEquals(@Nullable Object object) {<a name="line.288"></a>
 <span class="sourceLineNo">289</span>    return Multisets.equalsImpl(this, object);<a name="line.289"></a>
 <span class="sourceLineNo">290</span>  }<a name="line.290"></a>
 <span class="sourceLineNo">291</span><a name="line.291"></a>

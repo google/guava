@@ -36,7 +36,7 @@
 <span class="sourceLineNo">028</span>import java.util.Locale;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.concurrent.TimeUnit;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.31"></a>
+<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
 <span class="sourceLineNo">034</span> * A specification of a {@link CacheBuilder} configuration.<a name="line.34"></a>
@@ -89,7 +89,7 @@
 <span class="sourceLineNo">081</span>public final class CacheBuilderSpec {<a name="line.81"></a>
 <span class="sourceLineNo">082</span>  /** Parses a single value. */<a name="line.82"></a>
 <span class="sourceLineNo">083</span>  private interface ValueParser {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    void parse(CacheBuilderSpec spec, String key, @NullableDecl String value);<a name="line.84"></a>
+<span class="sourceLineNo">084</span>    void parse(CacheBuilderSpec spec, String key, @Nullable String value);<a name="line.84"></a>
 <span class="sourceLineNo">085</span>  }<a name="line.85"></a>
 <span class="sourceLineNo">086</span><a name="line.86"></a>
 <span class="sourceLineNo">087</span>  /** Splits each key-value pair. */<a name="line.87"></a>
@@ -256,7 +256,7 @@
 <span class="sourceLineNo">248</span>  }<a name="line.248"></a>
 <span class="sourceLineNo">249</span><a name="line.249"></a>
 <span class="sourceLineNo">250</span>  @Override<a name="line.250"></a>
-<span class="sourceLineNo">251</span>  public boolean equals(@NullableDecl Object obj) {<a name="line.251"></a>
+<span class="sourceLineNo">251</span>  public boolean equals(@Nullable Object obj) {<a name="line.251"></a>
 <span class="sourceLineNo">252</span>    if (this == obj) {<a name="line.252"></a>
 <span class="sourceLineNo">253</span>      return true;<a name="line.253"></a>
 <span class="sourceLineNo">254</span>    }<a name="line.254"></a>
@@ -286,8 +286,8 @@
 <span class="sourceLineNo">278</span>   * Converts an expiration duration/unit pair into a single Long for hashing and equality. Uses<a name="line.278"></a>
 <span class="sourceLineNo">279</span>   * nanos to match CacheBuilder implementation.<a name="line.279"></a>
 <span class="sourceLineNo">280</span>   */<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  @NullableDecl<a name="line.281"></a>
-<span class="sourceLineNo">282</span>  private static Long durationInNanos(long duration, @NullableDecl TimeUnit unit) {<a name="line.282"></a>
+<span class="sourceLineNo">281</span>  @Nullable<a name="line.281"></a>
+<span class="sourceLineNo">282</span>  private static Long durationInNanos(long duration, @Nullable TimeUnit unit) {<a name="line.282"></a>
 <span class="sourceLineNo">283</span>    return (unit == null) ? null : unit.toNanos(duration);<a name="line.283"></a>
 <span class="sourceLineNo">284</span>  }<a name="line.284"></a>
 <span class="sourceLineNo">285</span><a name="line.285"></a>
@@ -378,7 +378,7 @@
 <span class="sourceLineNo">370</span>    }<a name="line.370"></a>
 <span class="sourceLineNo">371</span><a name="line.371"></a>
 <span class="sourceLineNo">372</span>    @Override<a name="line.372"></a>
-<span class="sourceLineNo">373</span>    public void parse(CacheBuilderSpec spec, String key, @NullableDecl String value) {<a name="line.373"></a>
+<span class="sourceLineNo">373</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.373"></a>
 <span class="sourceLineNo">374</span>      checkArgument(value == null, "key %s does not take values", key);<a name="line.374"></a>
 <span class="sourceLineNo">375</span>      checkArgument(spec.keyStrength == null, "%s was already set to %s", key, spec.keyStrength);<a name="line.375"></a>
 <span class="sourceLineNo">376</span>      spec.keyStrength = strength;<a name="line.376"></a>
@@ -394,7 +394,7 @@
 <span class="sourceLineNo">386</span>    }<a name="line.386"></a>
 <span class="sourceLineNo">387</span><a name="line.387"></a>
 <span class="sourceLineNo">388</span>    @Override<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    public void parse(CacheBuilderSpec spec, String key, @NullableDecl String value) {<a name="line.389"></a>
+<span class="sourceLineNo">389</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.389"></a>
 <span class="sourceLineNo">390</span>      checkArgument(value == null, "key %s does not take values", key);<a name="line.390"></a>
 <span class="sourceLineNo">391</span>      checkArgument(<a name="line.391"></a>
 <span class="sourceLineNo">392</span>          spec.valueStrength == null, "%s was already set to %s", key, spec.valueStrength);<a name="line.392"></a>
@@ -407,7 +407,7 @@
 <span class="sourceLineNo">399</span>  static class RecordStatsParser implements ValueParser {<a name="line.399"></a>
 <span class="sourceLineNo">400</span><a name="line.400"></a>
 <span class="sourceLineNo">401</span>    @Override<a name="line.401"></a>
-<span class="sourceLineNo">402</span>    public void parse(CacheBuilderSpec spec, String key, @NullableDecl String value) {<a name="line.402"></a>
+<span class="sourceLineNo">402</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.402"></a>
 <span class="sourceLineNo">403</span>      checkArgument(value == null, "recordStats does not take values");<a name="line.403"></a>
 <span class="sourceLineNo">404</span>      checkArgument(spec.recordStats == null, "recordStats already set");<a name="line.404"></a>
 <span class="sourceLineNo">405</span>      spec.recordStats = true;<a name="line.405"></a>

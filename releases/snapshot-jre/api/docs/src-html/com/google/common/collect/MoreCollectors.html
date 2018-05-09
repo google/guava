@@ -33,7 +33,7 @@
 <span class="sourceLineNo">025</span>import java.util.NoSuchElementException;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import java.util.Optional;<a name="line.26"></a>
 <span class="sourceLineNo">027</span>import java.util.stream.Collector;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.28"></a>
+<span class="sourceLineNo">028</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.28"></a>
 <span class="sourceLineNo">029</span><a name="line.29"></a>
 <span class="sourceLineNo">030</span>/**<a name="line.30"></a>
 <span class="sourceLineNo">031</span> * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated<a name="line.31"></a>
@@ -99,8 +99,8 @@
 <span class="sourceLineNo">091</span>  private static final class ToOptionalState {<a name="line.91"></a>
 <span class="sourceLineNo">092</span>    static final int MAX_EXTRAS = 4;<a name="line.92"></a>
 <span class="sourceLineNo">093</span><a name="line.93"></a>
-<span class="sourceLineNo">094</span>    @NullableDecl Object element;<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    @NullableDecl List&lt;Object&gt; extras;<a name="line.95"></a>
+<span class="sourceLineNo">094</span>    @Nullable Object element;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    @Nullable List&lt;Object&gt; extras;<a name="line.95"></a>
 <span class="sourceLineNo">096</span><a name="line.96"></a>
 <span class="sourceLineNo">097</span>    ToOptionalState() {<a name="line.97"></a>
 <span class="sourceLineNo">098</span>      element = null;<a name="line.98"></a>

@@ -683,7 +683,7 @@
 <span class="sourceLineNo">675</span>   * &lt;p&gt;The returned list is not serializable and does not have random access.<a name="line.675"></a>
 <span class="sourceLineNo">676</span>   */<a name="line.676"></a>
 <span class="sourceLineNo">677</span>  @Override<a name="line.677"></a>
-<span class="sourceLineNo">678</span>  public List&lt;V&gt; get(final @NullableDecl K key) {<a name="line.678"></a>
+<span class="sourceLineNo">678</span>  public List&lt;V&gt; get(@NullableDecl final K key) {<a name="line.678"></a>
 <span class="sourceLineNo">679</span>    return new AbstractSequentialList&lt;V&gt;() {<a name="line.679"></a>
 <span class="sourceLineNo">680</span>      @Override<a name="line.680"></a>
 <span class="sourceLineNo">681</span>      public int size() {<a name="line.681"></a>

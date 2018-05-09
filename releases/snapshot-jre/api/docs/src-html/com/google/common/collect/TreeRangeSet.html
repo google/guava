@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.Set;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.TreeMap;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * An implementation of {@link RangeSet} backed by a {@link TreeMap}.<a name="line.37"></a>
@@ -121,13 +121,13 @@
 <span class="sourceLineNo">113</span>    }<a name="line.113"></a>
 <span class="sourceLineNo">114</span><a name="line.114"></a>
 <span class="sourceLineNo">115</span>    @Override<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    public boolean equals(@NullableDecl Object o) {<a name="line.116"></a>
+<span class="sourceLineNo">116</span>    public boolean equals(@Nullable Object o) {<a name="line.116"></a>
 <span class="sourceLineNo">117</span>      return Sets.equalsImpl(this, o);<a name="line.117"></a>
 <span class="sourceLineNo">118</span>    }<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  }<a name="line.119"></a>
 <span class="sourceLineNo">120</span><a name="line.120"></a>
 <span class="sourceLineNo">121</span>  @Override<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  @NullableDecl<a name="line.122"></a>
+<span class="sourceLineNo">122</span>  @Nullable<a name="line.122"></a>
 <span class="sourceLineNo">123</span>  public Range&lt;C&gt; rangeContaining(C value) {<a name="line.123"></a>
 <span class="sourceLineNo">124</span>    checkNotNull(value);<a name="line.124"></a>
 <span class="sourceLineNo">125</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; floorEntry = rangesByLowerBound.floorEntry(Cut.belowValue(value));<a name="line.125"></a>
@@ -161,7 +161,7 @@
 <span class="sourceLineNo">153</span>    return floorEntry != null &amp;&amp; floorEntry.getValue().encloses(range);<a name="line.153"></a>
 <span class="sourceLineNo">154</span>  }<a name="line.154"></a>
 <span class="sourceLineNo">155</span><a name="line.155"></a>
-<span class="sourceLineNo">156</span>  @NullableDecl<a name="line.156"></a>
+<span class="sourceLineNo">156</span>  @Nullable<a name="line.156"></a>
 <span class="sourceLineNo">157</span>  private Range&lt;C&gt; rangeEnclosing(Range&lt;C&gt; range) {<a name="line.157"></a>
 <span class="sourceLineNo">158</span>    checkNotNull(range);<a name="line.158"></a>
 <span class="sourceLineNo">159</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);<a name="line.159"></a>
@@ -341,12 +341,12 @@
 <span class="sourceLineNo">333</span>    }<a name="line.333"></a>
 <span class="sourceLineNo">334</span><a name="line.334"></a>
 <span class="sourceLineNo">335</span>    @Override<a name="line.335"></a>
-<span class="sourceLineNo">336</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.336"></a>
+<span class="sourceLineNo">336</span>    public boolean containsKey(@Nullable Object key) {<a name="line.336"></a>
 <span class="sourceLineNo">337</span>      return get(key) != null;<a name="line.337"></a>
 <span class="sourceLineNo">338</span>    }<a name="line.338"></a>
 <span class="sourceLineNo">339</span><a name="line.339"></a>
 <span class="sourceLineNo">340</span>    @Override<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    public Range&lt;C&gt; get(@NullableDecl Object key) {<a name="line.341"></a>
+<span class="sourceLineNo">341</span>    public Range&lt;C&gt; get(@Nullable Object key) {<a name="line.341"></a>
 <span class="sourceLineNo">342</span>      if (key instanceof Cut) {<a name="line.342"></a>
 <span class="sourceLineNo">343</span>        try {<a name="line.343"></a>
 <span class="sourceLineNo">344</span>          @SuppressWarnings("unchecked") // we catch CCEs<a name="line.344"></a>
@@ -633,7 +633,7 @@
 <span class="sourceLineNo">625</span>    }<a name="line.625"></a>
 <span class="sourceLineNo">626</span><a name="line.626"></a>
 <span class="sourceLineNo">627</span>    @Override<a name="line.627"></a>
-<span class="sourceLineNo">628</span>    @NullableDecl<a name="line.628"></a>
+<span class="sourceLineNo">628</span>    @Nullable<a name="line.628"></a>
 <span class="sourceLineNo">629</span>    public Range&lt;C&gt; get(Object key) {<a name="line.629"></a>
 <span class="sourceLineNo">630</span>      if (key instanceof Cut) {<a name="line.630"></a>
 <span class="sourceLineNo">631</span>        try {<a name="line.631"></a>
@@ -746,13 +746,13 @@
 <span class="sourceLineNo">738</span>    }<a name="line.738"></a>
 <span class="sourceLineNo">739</span><a name="line.739"></a>
 <span class="sourceLineNo">740</span>    @Override<a name="line.740"></a>
-<span class="sourceLineNo">741</span>    public boolean containsKey(@NullableDecl Object key) {<a name="line.741"></a>
+<span class="sourceLineNo">741</span>    public boolean containsKey(@Nullable Object key) {<a name="line.741"></a>
 <span class="sourceLineNo">742</span>      return get(key) != null;<a name="line.742"></a>
 <span class="sourceLineNo">743</span>    }<a name="line.743"></a>
 <span class="sourceLineNo">744</span><a name="line.744"></a>
 <span class="sourceLineNo">745</span>    @Override<a name="line.745"></a>
-<span class="sourceLineNo">746</span>    @NullableDecl<a name="line.746"></a>
-<span class="sourceLineNo">747</span>    public Range&lt;C&gt; get(@NullableDecl Object key) {<a name="line.747"></a>
+<span class="sourceLineNo">746</span>    @Nullable<a name="line.746"></a>
+<span class="sourceLineNo">747</span>    public Range&lt;C&gt; get(@Nullable Object key) {<a name="line.747"></a>
 <span class="sourceLineNo">748</span>      if (key instanceof Cut) {<a name="line.748"></a>
 <span class="sourceLineNo">749</span>        try {<a name="line.749"></a>
 <span class="sourceLineNo">750</span>          @SuppressWarnings("unchecked") // we catch CCE's<a name="line.750"></a>
@@ -889,7 +889,7 @@
 <span class="sourceLineNo">881</span>    }<a name="line.881"></a>
 <span class="sourceLineNo">882</span><a name="line.882"></a>
 <span class="sourceLineNo">883</span>    @Override<a name="line.883"></a>
-<span class="sourceLineNo">884</span>    @NullableDecl<a name="line.884"></a>
+<span class="sourceLineNo">884</span>    @Nullable<a name="line.884"></a>
 <span class="sourceLineNo">885</span>    public Range&lt;C&gt; rangeContaining(C value) {<a name="line.885"></a>
 <span class="sourceLineNo">886</span>      if (!restriction.contains(value)) {<a name="line.886"></a>
 <span class="sourceLineNo">887</span>        return null;<a name="line.887"></a>

@@ -48165,6 +48165,39 @@
  @since 19.0]]>
       </doc>
     </field>
+    <field name="SEC_TOKEN_BINDING" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
+ Sec-Token-Binding}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_PROVIDED_TOKEN_BINDING_ID" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+ Sec-Provided-Token-Binding-ID}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_REFERRED_TOKEN_BINDING_ID" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
+ Sec-Referred-Token-Binding-ID}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <doc>
     <![CDATA[Contains constant definitions for the HTTP header field names. See:
 

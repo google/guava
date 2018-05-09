@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span>import java.util.Spliterator;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.Spliterators;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.regex.Pattern;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.39"></a>
+<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * Static utility methods pertaining to {@code double} primitives, that are not already found in<a name="line.42"></a>
@@ -609,7 +609,7 @@
 <span class="sourceLineNo">601</span>    }<a name="line.601"></a>
 <span class="sourceLineNo">602</span><a name="line.602"></a>
 <span class="sourceLineNo">603</span>    @Override<a name="line.603"></a>
-<span class="sourceLineNo">604</span>    public boolean equals(@NullableDecl Object object) {<a name="line.604"></a>
+<span class="sourceLineNo">604</span>    public boolean equals(@Nullable Object object) {<a name="line.604"></a>
 <span class="sourceLineNo">605</span>      if (object == this) {<a name="line.605"></a>
 <span class="sourceLineNo">606</span>        return true;<a name="line.606"></a>
 <span class="sourceLineNo">607</span>      }<a name="line.607"></a>
@@ -690,7 +690,7 @@
 <span class="sourceLineNo">682</span>   * @since 14.0<a name="line.682"></a>
 <span class="sourceLineNo">683</span>   */<a name="line.683"></a>
 <span class="sourceLineNo">684</span>  @Beta<a name="line.684"></a>
-<span class="sourceLineNo">685</span>  @NullableDecl<a name="line.685"></a>
+<span class="sourceLineNo">685</span>  @Nullable<a name="line.685"></a>
 <span class="sourceLineNo">686</span>  @GwtIncompatible // regular expressions<a name="line.686"></a>
 <span class="sourceLineNo">687</span>  public static Double tryParse(String string) {<a name="line.687"></a>
 <span class="sourceLineNo">688</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.688"></a>

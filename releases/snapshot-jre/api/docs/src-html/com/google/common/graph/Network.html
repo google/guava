@@ -27,7 +27,7 @@
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.util.Optional;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.util.Set;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.22"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.22"></a>
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>/**<a name="line.24"></a>
 <span class="sourceLineNo">025</span> * An interface for &lt;a<a name="line.25"></a>
@@ -319,7 +319,7 @@
 <span class="sourceLineNo">311</span>   *     network<a name="line.311"></a>
 <span class="sourceLineNo">312</span>   * @since 23.0<a name="line.312"></a>
 <span class="sourceLineNo">313</span>   */<a name="line.313"></a>
-<span class="sourceLineNo">314</span>  @NullableDecl<a name="line.314"></a>
+<span class="sourceLineNo">314</span>  @Nullable<a name="line.314"></a>
 <span class="sourceLineNo">315</span>  E edgeConnectingOrNull(N nodeU, N nodeV);<a name="line.315"></a>
 <span class="sourceLineNo">316</span><a name="line.316"></a>
 <span class="sourceLineNo">317</span>  /**<a name="line.317"></a>
@@ -358,7 +358,7 @@
 <span class="sourceLineNo">350</span>   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractNetwork#equals(Object)}.<a name="line.350"></a>
 <span class="sourceLineNo">351</span>   */<a name="line.351"></a>
 <span class="sourceLineNo">352</span>  @Override<a name="line.352"></a>
-<span class="sourceLineNo">353</span>  boolean equals(@NullableDecl Object object);<a name="line.353"></a>
+<span class="sourceLineNo">353</span>  boolean equals(@Nullable Object object);<a name="line.353"></a>
 <span class="sourceLineNo">354</span><a name="line.354"></a>
 <span class="sourceLineNo">355</span>  /**<a name="line.355"></a>
 <span class="sourceLineNo">356</span>   * Returns the hash code for this network. The hash code of a network is defined as the hash code<a name="line.356"></a>

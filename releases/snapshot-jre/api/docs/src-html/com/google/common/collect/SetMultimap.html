@@ -30,7 +30,7 @@
 <span class="sourceLineNo">022</span>import java.util.Map;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Map.Entry;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.Set;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.25"></a>
+<span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
 <span class="sourceLineNo">027</span>/**<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * A {@code Multimap} that cannot hold duplicate key-value pairs. Adding a key-value pair that's<a name="line.28"></a>
@@ -66,7 +66,7 @@
 <span class="sourceLineNo">058</span>   * interface.<a name="line.58"></a>
 <span class="sourceLineNo">059</span>   */<a name="line.59"></a>
 <span class="sourceLineNo">060</span>  @Override<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  Set&lt;V&gt; get(@NullableDecl K key);<a name="line.61"></a>
+<span class="sourceLineNo">061</span>  Set&lt;V&gt; get(@Nullable K key);<a name="line.61"></a>
 <span class="sourceLineNo">062</span><a name="line.62"></a>
 <span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
 <span class="sourceLineNo">064</span>   * {@inheritDoc}<a name="line.64"></a>
@@ -77,7 +77,7 @@
 <span class="sourceLineNo">069</span>   */<a name="line.69"></a>
 <span class="sourceLineNo">070</span>  @CanIgnoreReturnValue<a name="line.70"></a>
 <span class="sourceLineNo">071</span>  @Override<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  Set&lt;V&gt; removeAll(@NullableDecl Object key);<a name="line.72"></a>
+<span class="sourceLineNo">072</span>  Set&lt;V&gt; removeAll(@Nullable Object key);<a name="line.72"></a>
 <span class="sourceLineNo">073</span><a name="line.73"></a>
 <span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
 <span class="sourceLineNo">075</span>   * {@inheritDoc}<a name="line.75"></a>
@@ -122,7 +122,7 @@
 <span class="sourceLineNo">114</span>   * empty {@code ListMultimap}.<a name="line.114"></a>
 <span class="sourceLineNo">115</span>   */<a name="line.115"></a>
 <span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  boolean equals(@NullableDecl Object obj);<a name="line.117"></a>
+<span class="sourceLineNo">117</span>  boolean equals(@Nullable Object obj);<a name="line.117"></a>
 <span class="sourceLineNo">118</span>}<a name="line.118"></a>
 
 

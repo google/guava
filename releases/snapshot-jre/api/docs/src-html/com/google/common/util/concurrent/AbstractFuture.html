@@ -49,7 +49,7 @@
 <span class="sourceLineNo">041</span>import java.util.concurrent.locks.LockSupport;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.logging.Level;<a name="line.42"></a>
 <span class="sourceLineNo">043</span>import java.util.logging.Logger;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.44"></a>
+<span class="sourceLineNo">044</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.44"></a>
 <span class="sourceLineNo">045</span><a name="line.45"></a>
 <span class="sourceLineNo">046</span>/**<a name="line.46"></a>
 <span class="sourceLineNo">047</span> * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More<a name="line.47"></a>
@@ -178,8 +178,8 @@
 <span class="sourceLineNo">170</span>  private static final class Waiter {<a name="line.170"></a>
 <span class="sourceLineNo">171</span>    static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);<a name="line.171"></a>
 <span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>    @NullableDecl volatile Thread thread;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    @NullableDecl volatile Waiter next;<a name="line.174"></a>
+<span class="sourceLineNo">173</span>    @Nullable volatile Thread thread;<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    @Nullable volatile Waiter next;<a name="line.174"></a>
 <span class="sourceLineNo">175</span><a name="line.175"></a>
 <span class="sourceLineNo">176</span>    /**<a name="line.176"></a>
 <span class="sourceLineNo">177</span>     * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded<a name="line.177"></a>
@@ -256,7 +256,7 @@
 <span class="sourceLineNo">248</span>    final Executor executor;<a name="line.248"></a>
 <span class="sourceLineNo">249</span><a name="line.249"></a>
 <span class="sourceLineNo">250</span>    // writes to next are made visible by subsequent CAS's on the listeners field<a name="line.250"></a>
-<span class="sourceLineNo">251</span>    @NullableDecl Listener next;<a name="line.251"></a>
+<span class="sourceLineNo">251</span>    @Nullable Listener next;<a name="line.251"></a>
 <span class="sourceLineNo">252</span><a name="line.252"></a>
 <span class="sourceLineNo">253</span>    Listener(Runnable task, Executor executor) {<a name="line.253"></a>
 <span class="sourceLineNo">254</span>      this.task = task;<a name="line.254"></a>
@@ -301,9 +301,9 @@
 <span class="sourceLineNo">293</span>    }<a name="line.293"></a>
 <span class="sourceLineNo">294</span><a name="line.294"></a>
 <span class="sourceLineNo">295</span>    final boolean wasInterrupted;<a name="line.295"></a>
-<span class="sourceLineNo">296</span>    @NullableDecl final Throwable cause;<a name="line.296"></a>
+<span class="sourceLineNo">296</span>    @Nullable final Throwable cause;<a name="line.296"></a>
 <span class="sourceLineNo">297</span><a name="line.297"></a>
-<span class="sourceLineNo">298</span>    Cancellation(boolean wasInterrupted, @NullableDecl Throwable cause) {<a name="line.298"></a>
+<span class="sourceLineNo">298</span>    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {<a name="line.298"></a>
 <span class="sourceLineNo">299</span>      this.wasInterrupted = wasInterrupted;<a name="line.299"></a>
 <span class="sourceLineNo">300</span>      this.cause = cause;<a name="line.300"></a>
 <span class="sourceLineNo">301</span>    }<a name="line.301"></a>
@@ -349,13 +349,13 @@
 <span class="sourceLineNo">341</span>   *       argument.<a name="line.341"></a>
 <span class="sourceLineNo">342</span>   * &lt;/ul&gt;<a name="line.342"></a>
 <span class="sourceLineNo">343</span>   */<a name="line.343"></a>
-<span class="sourceLineNo">344</span>  @NullableDecl private volatile Object value;<a name="line.344"></a>
+<span class="sourceLineNo">344</span>  @Nullable private volatile Object value;<a name="line.344"></a>
 <span class="sourceLineNo">345</span><a name="line.345"></a>
 <span class="sourceLineNo">346</span>  /** All listeners. */<a name="line.346"></a>
-<span class="sourceLineNo">347</span>  @NullableDecl private volatile Listener listeners;<a name="line.347"></a>
+<span class="sourceLineNo">347</span>  @Nullable private volatile Listener listeners;<a name="line.347"></a>
 <span class="sourceLineNo">348</span><a name="line.348"></a>
 <span class="sourceLineNo">349</span>  /** All waiting threads. */<a name="line.349"></a>
-<span class="sourceLineNo">350</span>  @NullableDecl private volatile Waiter waiters;<a name="line.350"></a>
+<span class="sourceLineNo">350</span>  @Nullable private volatile Waiter waiters;<a name="line.350"></a>
 <span class="sourceLineNo">351</span><a name="line.351"></a>
 <span class="sourceLineNo">352</span>  /** Constructor for use by subclasses. */<a name="line.352"></a>
 <span class="sourceLineNo">353</span>  protected AbstractFuture() {}<a name="line.353"></a>
@@ -691,7 +691,7 @@
 <span class="sourceLineNo">683</span>   * @return true if the attempt was accepted, completing the {@code Future}<a name="line.683"></a>
 <span class="sourceLineNo">684</span>   */<a name="line.684"></a>
 <span class="sourceLineNo">685</span>  @CanIgnoreReturnValue<a name="line.685"></a>
-<span class="sourceLineNo">686</span>  protected boolean set(@NullableDecl V value) {<a name="line.686"></a>
+<span class="sourceLineNo">686</span>  protected boolean set(@Nullable V value) {<a name="line.686"></a>
 <span class="sourceLineNo">687</span>    Object valueToSet = value == null ? NULL : value;<a name="line.687"></a>
 <span class="sourceLineNo">688</span>    if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {<a name="line.688"></a>
 <span class="sourceLineNo">689</span>      complete(this);<a name="line.689"></a>
@@ -908,7 +908,7 @@
 <span class="sourceLineNo">900</span>   * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)<a name="line.900"></a>
 <span class="sourceLineNo">901</span>   * the given future (if available).<a name="line.901"></a>
 <span class="sourceLineNo">902</span>   */<a name="line.902"></a>
-<span class="sourceLineNo">903</span>  final void maybePropagateCancellationTo(@NullableDecl Future&lt;?&gt; related) {<a name="line.903"></a>
+<span class="sourceLineNo">903</span>  final void maybePropagateCancellationTo(@Nullable Future&lt;?&gt; related) {<a name="line.903"></a>
 <span class="sourceLineNo">904</span>    if (related != null &amp; isCancelled()) {<a name="line.904"></a>
 <span class="sourceLineNo">905</span>      related.cancel(wasInterrupted());<a name="line.905"></a>
 <span class="sourceLineNo">906</span>    }<a name="line.906"></a>
@@ -986,7 +986,7 @@
 <span class="sourceLineNo">978</span>   * @return null if an explanation cannot be provided because the future is done.<a name="line.978"></a>
 <span class="sourceLineNo">979</span>   * @since 23.0<a name="line.979"></a>
 <span class="sourceLineNo">980</span>   */<a name="line.980"></a>
-<span class="sourceLineNo">981</span>  @NullableDecl<a name="line.981"></a>
+<span class="sourceLineNo">981</span>  @Nullable<a name="line.981"></a>
 <span class="sourceLineNo">982</span>  protected String pendingToString() {<a name="line.982"></a>
 <span class="sourceLineNo">983</span>    Object localValue = value;<a name="line.983"></a>
 <span class="sourceLineNo">984</span>    if (localValue instanceof SetFuture) {<a name="line.984"></a>
@@ -1241,7 +1241,7 @@
 <span class="sourceLineNo">1233</span>  }<a name="line.1233"></a>
 <span class="sourceLineNo">1234</span><a name="line.1234"></a>
 <span class="sourceLineNo">1235</span>  private static CancellationException cancellationExceptionWithCause(<a name="line.1235"></a>
-<span class="sourceLineNo">1236</span>      @NullableDecl String message, @NullableDecl Throwable cause) {<a name="line.1236"></a>
+<span class="sourceLineNo">1236</span>      @Nullable String message, @Nullable Throwable cause) {<a name="line.1236"></a>
 <span class="sourceLineNo">1237</span>    CancellationException exception = new CancellationException(message);<a name="line.1237"></a>
 <span class="sourceLineNo">1238</span>    exception.initCause(cause);<a name="line.1238"></a>
 <span class="sourceLineNo">1239</span>    return exception;<a name="line.1239"></a>

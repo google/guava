@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span>import java.util.List;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import java.util.Spliterator;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import java.util.function.Consumer;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.40"></a>
+<span class="sourceLineNo">040</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.40"></a>
 <span class="sourceLineNo">041</span><a name="line.41"></a>
 <span class="sourceLineNo">042</span>/**<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * Provides static methods for working with {@code Collection} instances.<a name="line.43"></a>
@@ -105,7 +105,7 @@
 <span class="sourceLineNo">097</span>   * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method<a name="line.97"></a>
 <span class="sourceLineNo">098</span>   * throws a {@code ClassCastException} or {@code NullPointerException}.<a name="line.98"></a>
 <span class="sourceLineNo">099</span>   */<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  static boolean safeContains(Collection&lt;?&gt; collection, @NullableDecl Object object) {<a name="line.100"></a>
+<span class="sourceLineNo">100</span>  static boolean safeContains(Collection&lt;?&gt; collection, @Nullable Object object) {<a name="line.100"></a>
 <span class="sourceLineNo">101</span>    checkNotNull(collection);<a name="line.101"></a>
 <span class="sourceLineNo">102</span>    try {<a name="line.102"></a>
 <span class="sourceLineNo">103</span>      return collection.contains(object);<a name="line.103"></a>
@@ -118,7 +118,7 @@
 <span class="sourceLineNo">110</span>   * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method<a name="line.110"></a>
 <span class="sourceLineNo">111</span>   * throws a {@code ClassCastException} or {@code NullPointerException}.<a name="line.111"></a>
 <span class="sourceLineNo">112</span>   */<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  static boolean safeRemove(Collection&lt;?&gt; collection, @NullableDecl Object object) {<a name="line.113"></a>
+<span class="sourceLineNo">113</span>  static boolean safeRemove(Collection&lt;?&gt; collection, @Nullable Object object) {<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    checkNotNull(collection);<a name="line.114"></a>
 <span class="sourceLineNo">115</span>    try {<a name="line.115"></a>
 <span class="sourceLineNo">116</span>      return collection.remove(object);<a name="line.116"></a>
@@ -161,7 +161,7 @@
 <span class="sourceLineNo">153</span>    }<a name="line.153"></a>
 <span class="sourceLineNo">154</span><a name="line.154"></a>
 <span class="sourceLineNo">155</span>    @Override<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    public boolean contains(@NullableDecl Object element) {<a name="line.156"></a>
+<span class="sourceLineNo">156</span>    public boolean contains(@Nullable Object element) {<a name="line.156"></a>
 <span class="sourceLineNo">157</span>      if (safeContains(unfiltered, element)) {<a name="line.157"></a>
 <span class="sourceLineNo">158</span>        @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E<a name="line.158"></a>
 <span class="sourceLineNo">159</span>        E e = (E) element;<a name="line.159"></a>
@@ -502,7 +502,7 @@
 <span class="sourceLineNo">494</span>    }<a name="line.494"></a>
 <span class="sourceLineNo">495</span><a name="line.495"></a>
 <span class="sourceLineNo">496</span>    @Override<a name="line.496"></a>
-<span class="sourceLineNo">497</span>    public boolean contains(@NullableDecl Object obj) {<a name="line.497"></a>
+<span class="sourceLineNo">497</span>    public boolean contains(@Nullable Object obj) {<a name="line.497"></a>
 <span class="sourceLineNo">498</span>      if (obj instanceof List) {<a name="line.498"></a>
 <span class="sourceLineNo">499</span>        List&lt;?&gt; list = (List&lt;?&gt;) obj;<a name="line.499"></a>
 <span class="sourceLineNo">500</span>        return isPermutation(inputList, list);<a name="line.500"></a>
@@ -517,7 +517,7 @@
 <span class="sourceLineNo">509</span>  }<a name="line.509"></a>
 <span class="sourceLineNo">510</span><a name="line.510"></a>
 <span class="sourceLineNo">511</span>  private static final class OrderedPermutationIterator&lt;E&gt; extends AbstractIterator&lt;List&lt;E&gt;&gt; {<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    @NullableDecl List&lt;E&gt; nextPermutation;<a name="line.512"></a>
+<span class="sourceLineNo">512</span>    @Nullable List&lt;E&gt; nextPermutation;<a name="line.512"></a>
 <span class="sourceLineNo">513</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.513"></a>
 <span class="sourceLineNo">514</span><a name="line.514"></a>
 <span class="sourceLineNo">515</span>    OrderedPermutationIterator(List&lt;E&gt; list, Comparator&lt;? super E&gt; comparator) {<a name="line.515"></a>
@@ -613,7 +613,7 @@
 <span class="sourceLineNo">605</span>    }<a name="line.605"></a>
 <span class="sourceLineNo">606</span><a name="line.606"></a>
 <span class="sourceLineNo">607</span>    @Override<a name="line.607"></a>
-<span class="sourceLineNo">608</span>    public boolean contains(@NullableDecl Object obj) {<a name="line.608"></a>
+<span class="sourceLineNo">608</span>    public boolean contains(@Nullable Object obj) {<a name="line.608"></a>
 <span class="sourceLineNo">609</span>      if (obj instanceof List) {<a name="line.609"></a>
 <span class="sourceLineNo">610</span>        List&lt;?&gt; list = (List&lt;?&gt;) obj;<a name="line.610"></a>
 <span class="sourceLineNo">611</span>        return isPermutation(inputList, list);<a name="line.611"></a>

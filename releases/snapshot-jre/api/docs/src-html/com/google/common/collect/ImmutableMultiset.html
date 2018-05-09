@@ -43,7 +43,7 @@
 <span class="sourceLineNo">035</span>import java.util.function.ToIntFunction;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.stream.Collector;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.38"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * A {@link Multiset} whose contents will never change, with many other important properties<a name="line.41"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>  }<a name="line.268"></a>
 <span class="sourceLineNo">269</span><a name="line.269"></a>
 <span class="sourceLineNo">270</span>  @Override<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  public boolean contains(@NullableDecl Object object) {<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  public boolean contains(@Nullable Object object) {<a name="line.271"></a>
 <span class="sourceLineNo">272</span>    return count(object) &gt; 0;<a name="line.272"></a>
 <span class="sourceLineNo">273</span>  }<a name="line.273"></a>
 <span class="sourceLineNo">274</span><a name="line.274"></a>
@@ -343,7 +343,7 @@
 <span class="sourceLineNo">335</span>  }<a name="line.335"></a>
 <span class="sourceLineNo">336</span><a name="line.336"></a>
 <span class="sourceLineNo">337</span>  @Override<a name="line.337"></a>
-<span class="sourceLineNo">338</span>  public boolean equals(@NullableDecl Object object) {<a name="line.338"></a>
+<span class="sourceLineNo">338</span>  public boolean equals(@Nullable Object object) {<a name="line.338"></a>
 <span class="sourceLineNo">339</span>    return Multisets.equalsImpl(this, object);<a name="line.339"></a>
 <span class="sourceLineNo">340</span>  }<a name="line.340"></a>
 <span class="sourceLineNo">341</span><a name="line.341"></a>
@@ -608,7 +608,7 @@
 <span class="sourceLineNo">600</span>    }<a name="line.600"></a>
 <span class="sourceLineNo">601</span><a name="line.601"></a>
 <span class="sourceLineNo">602</span>    @Override<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    public boolean contains(@NullableDecl Object object) {<a name="line.603"></a>
+<span class="sourceLineNo">603</span>    public boolean contains(@Nullable Object object) {<a name="line.603"></a>
 <span class="sourceLineNo">604</span>      return delegate.contains(object);<a name="line.604"></a>
 <span class="sourceLineNo">605</span>    }<a name="line.605"></a>
 <span class="sourceLineNo">606</span><a name="line.606"></a>

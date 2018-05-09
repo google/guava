@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>import java.util.SortedSet;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.TreeMap;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.TreeSet;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.34"></a>
+<span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * Implementation of {@code Multimap} whose keys and values are ordered by their natural ordering or<a name="line.37"></a>
@@ -146,7 +146,7 @@
 <span class="sourceLineNo">138</span>  }<a name="line.138"></a>
 <span class="sourceLineNo">139</span><a name="line.139"></a>
 <span class="sourceLineNo">140</span>  @Override<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  Collection&lt;V&gt; createCollection(@NullableDecl K key) {<a name="line.141"></a>
+<span class="sourceLineNo">141</span>  Collection&lt;V&gt; createCollection(@Nullable K key) {<a name="line.141"></a>
 <span class="sourceLineNo">142</span>    if (key == null) {<a name="line.142"></a>
 <span class="sourceLineNo">143</span>      keyComparator().compare(key, key);<a name="line.143"></a>
 <span class="sourceLineNo">144</span>    }<a name="line.144"></a>
@@ -171,7 +171,7 @@
 <span class="sourceLineNo">163</span>  /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */<a name="line.163"></a>
 <span class="sourceLineNo">164</span>  @Override<a name="line.164"></a>
 <span class="sourceLineNo">165</span>  @GwtIncompatible // NavigableSet<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  public NavigableSet&lt;V&gt; get(@NullableDecl K key) {<a name="line.166"></a>
+<span class="sourceLineNo">166</span>  public NavigableSet&lt;V&gt; get(@Nullable K key) {<a name="line.166"></a>
 <span class="sourceLineNo">167</span>    return (NavigableSet&lt;V&gt;) super.get(key);<a name="line.167"></a>
 <span class="sourceLineNo">168</span>  }<a name="line.168"></a>
 <span class="sourceLineNo">169</span><a name="line.169"></a>

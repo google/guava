@@ -40,7 +40,7 @@
 <span class="sourceLineNo">032</span>import java.util.RandomAccess;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>import java.util.Spliterator;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import java.util.Spliterators;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.35"></a>
+<span class="sourceLineNo">035</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.35"></a>
 <span class="sourceLineNo">036</span><a name="line.36"></a>
 <span class="sourceLineNo">037</span>/**<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * Static utility methods pertaining to {@code int} primitives, that are not already found in either<a name="line.38"></a>
@@ -652,7 +652,7 @@
 <span class="sourceLineNo">644</span>    }<a name="line.644"></a>
 <span class="sourceLineNo">645</span><a name="line.645"></a>
 <span class="sourceLineNo">646</span>    @Override<a name="line.646"></a>
-<span class="sourceLineNo">647</span>    public boolean equals(@NullableDecl Object object) {<a name="line.647"></a>
+<span class="sourceLineNo">647</span>    public boolean equals(@Nullable Object object) {<a name="line.647"></a>
 <span class="sourceLineNo">648</span>      if (object == this) {<a name="line.648"></a>
 <span class="sourceLineNo">649</span>        return true;<a name="line.649"></a>
 <span class="sourceLineNo">650</span>      }<a name="line.650"></a>
@@ -715,7 +715,7 @@
 <span class="sourceLineNo">707</span>   * @since 11.0<a name="line.707"></a>
 <span class="sourceLineNo">708</span>   */<a name="line.708"></a>
 <span class="sourceLineNo">709</span>  @Beta<a name="line.709"></a>
-<span class="sourceLineNo">710</span>  @NullableDecl<a name="line.710"></a>
+<span class="sourceLineNo">710</span>  @Nullable<a name="line.710"></a>
 <span class="sourceLineNo">711</span>  public static Integer tryParse(String string) {<a name="line.711"></a>
 <span class="sourceLineNo">712</span>    return tryParse(string, 10);<a name="line.712"></a>
 <span class="sourceLineNo">713</span>  }<a name="line.713"></a>
@@ -740,7 +740,7 @@
 <span class="sourceLineNo">732</span>   * @since 19.0<a name="line.732"></a>
 <span class="sourceLineNo">733</span>   */<a name="line.733"></a>
 <span class="sourceLineNo">734</span>  @Beta<a name="line.734"></a>
-<span class="sourceLineNo">735</span>  @NullableDecl<a name="line.735"></a>
+<span class="sourceLineNo">735</span>  @Nullable<a name="line.735"></a>
 <span class="sourceLineNo">736</span>  public static Integer tryParse(String string, int radix) {<a name="line.736"></a>
 <span class="sourceLineNo">737</span>    Long result = Longs.tryParse(string, radix);<a name="line.737"></a>
 <span class="sourceLineNo">738</span>    if (result == null || result.longValue() != result.intValue()) {<a name="line.738"></a>

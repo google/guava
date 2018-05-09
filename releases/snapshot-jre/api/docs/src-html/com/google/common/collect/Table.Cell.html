@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>import java.util.Collection;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.Map;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.Set;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * A collection that associates an ordered pair of keys, called a row key and a column key, with a<a name="line.29"></a>
@@ -73,29 +73,29 @@
 <span class="sourceLineNo">065</span>   * @param columnKey key of column to search for<a name="line.65"></a>
 <span class="sourceLineNo">066</span>   */<a name="line.66"></a>
 <span class="sourceLineNo">067</span>  boolean contains(<a name="line.67"></a>
-<span class="sourceLineNo">068</span>      @NullableDecl @CompatibleWith("R") Object rowKey,<a name="line.68"></a>
-<span class="sourceLineNo">069</span>      @NullableDecl @CompatibleWith("C") Object columnKey);<a name="line.69"></a>
+<span class="sourceLineNo">068</span>      @Nullable @CompatibleWith("R") Object rowKey,<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      @Nullable @CompatibleWith("C") Object columnKey);<a name="line.69"></a>
 <span class="sourceLineNo">070</span><a name="line.70"></a>
 <span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
 <span class="sourceLineNo">072</span>   * Returns {@code true} if the table contains a mapping with the specified row key.<a name="line.72"></a>
 <span class="sourceLineNo">073</span>   *<a name="line.73"></a>
 <span class="sourceLineNo">074</span>   * @param rowKey key of row to search for<a name="line.74"></a>
 <span class="sourceLineNo">075</span>   */<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  boolean containsRow(@NullableDecl @CompatibleWith("R") Object rowKey);<a name="line.76"></a>
+<span class="sourceLineNo">076</span>  boolean containsRow(@Nullable @CompatibleWith("R") Object rowKey);<a name="line.76"></a>
 <span class="sourceLineNo">077</span><a name="line.77"></a>
 <span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
 <span class="sourceLineNo">079</span>   * Returns {@code true} if the table contains a mapping with the specified column.<a name="line.79"></a>
 <span class="sourceLineNo">080</span>   *<a name="line.80"></a>
 <span class="sourceLineNo">081</span>   * @param columnKey key of column to search for<a name="line.81"></a>
 <span class="sourceLineNo">082</span>   */<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  boolean containsColumn(@NullableDecl @CompatibleWith("C") Object columnKey);<a name="line.83"></a>
+<span class="sourceLineNo">083</span>  boolean containsColumn(@Nullable @CompatibleWith("C") Object columnKey);<a name="line.83"></a>
 <span class="sourceLineNo">084</span><a name="line.84"></a>
 <span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
 <span class="sourceLineNo">086</span>   * Returns {@code true} if the table contains a mapping with the specified value.<a name="line.86"></a>
 <span class="sourceLineNo">087</span>   *<a name="line.87"></a>
 <span class="sourceLineNo">088</span>   * @param value value to search for<a name="line.88"></a>
 <span class="sourceLineNo">089</span>   */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  boolean containsValue(@NullableDecl @CompatibleWith("V") Object value);<a name="line.90"></a>
+<span class="sourceLineNo">090</span>  boolean containsValue(@Nullable @CompatibleWith("V") Object value);<a name="line.90"></a>
 <span class="sourceLineNo">091</span><a name="line.91"></a>
 <span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   * Returns the value corresponding to the given row and column keys, or {@code null} if no such<a name="line.93"></a>
@@ -105,8 +105,8 @@
 <span class="sourceLineNo">097</span>   * @param columnKey key of column to search for<a name="line.97"></a>
 <span class="sourceLineNo">098</span>   */<a name="line.98"></a>
 <span class="sourceLineNo">099</span>  V get(<a name="line.99"></a>
-<span class="sourceLineNo">100</span>      @NullableDecl @CompatibleWith("R") Object rowKey,<a name="line.100"></a>
-<span class="sourceLineNo">101</span>      @NullableDecl @CompatibleWith("C") Object columnKey);<a name="line.101"></a>
+<span class="sourceLineNo">100</span>      @Nullable @CompatibleWith("R") Object rowKey,<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      @Nullable @CompatibleWith("C") Object columnKey);<a name="line.101"></a>
 <span class="sourceLineNo">102</span><a name="line.102"></a>
 <span class="sourceLineNo">103</span>  /** Returns {@code true} if the table contains no mappings. */<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  boolean isEmpty();<a name="line.104"></a>
@@ -119,7 +119,7 @@
 <span class="sourceLineNo">111</span>   * cell views, as returned by {@link #cellSet}, are equal.<a name="line.111"></a>
 <span class="sourceLineNo">112</span>   */<a name="line.112"></a>
 <span class="sourceLineNo">113</span>  @Override<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  boolean equals(@NullableDecl Object obj);<a name="line.114"></a>
+<span class="sourceLineNo">114</span>  boolean equals(@Nullable Object obj);<a name="line.114"></a>
 <span class="sourceLineNo">115</span><a name="line.115"></a>
 <span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
 <span class="sourceLineNo">117</span>   * Returns the hash code for this table. The hash code of a table is defined as the hash code of<a name="line.117"></a>
@@ -144,7 +144,7 @@
 <span class="sourceLineNo">136</span>   *     for the keys<a name="line.136"></a>
 <span class="sourceLineNo">137</span>   */<a name="line.137"></a>
 <span class="sourceLineNo">138</span>  @CanIgnoreReturnValue<a name="line.138"></a>
-<span class="sourceLineNo">139</span>  @NullableDecl<a name="line.139"></a>
+<span class="sourceLineNo">139</span>  @Nullable<a name="line.139"></a>
 <span class="sourceLineNo">140</span>  V put(R rowKey, C columnKey, V value);<a name="line.140"></a>
 <span class="sourceLineNo">141</span><a name="line.141"></a>
 <span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
@@ -163,10 +163,10 @@
 <span class="sourceLineNo">155</span>   * @return the value previously associated with the keys, or {@code null} if no such value existed<a name="line.155"></a>
 <span class="sourceLineNo">156</span>   */<a name="line.156"></a>
 <span class="sourceLineNo">157</span>  @CanIgnoreReturnValue<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  @NullableDecl<a name="line.158"></a>
+<span class="sourceLineNo">158</span>  @Nullable<a name="line.158"></a>
 <span class="sourceLineNo">159</span>  V remove(<a name="line.159"></a>
-<span class="sourceLineNo">160</span>      @NullableDecl @CompatibleWith("R") Object rowKey,<a name="line.160"></a>
-<span class="sourceLineNo">161</span>      @NullableDecl @CompatibleWith("C") Object columnKey);<a name="line.161"></a>
+<span class="sourceLineNo">160</span>      @Nullable @CompatibleWith("R") Object rowKey,<a name="line.160"></a>
+<span class="sourceLineNo">161</span>      @Nullable @CompatibleWith("C") Object columnKey);<a name="line.161"></a>
 <span class="sourceLineNo">162</span><a name="line.162"></a>
 <span class="sourceLineNo">163</span>  // Views<a name="line.163"></a>
 <span class="sourceLineNo">164</span><a name="line.164"></a>
@@ -260,15 +260,15 @@
 <span class="sourceLineNo">252</span>   */<a name="line.252"></a>
 <span class="sourceLineNo">253</span>  interface Cell&lt;R, C, V&gt; {<a name="line.253"></a>
 <span class="sourceLineNo">254</span>    /** Returns the row key of this cell. */<a name="line.254"></a>
-<span class="sourceLineNo">255</span>    @NullableDecl<a name="line.255"></a>
+<span class="sourceLineNo">255</span>    @Nullable<a name="line.255"></a>
 <span class="sourceLineNo">256</span>    R getRowKey();<a name="line.256"></a>
 <span class="sourceLineNo">257</span><a name="line.257"></a>
 <span class="sourceLineNo">258</span>    /** Returns the column key of this cell. */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>    @NullableDecl<a name="line.259"></a>
+<span class="sourceLineNo">259</span>    @Nullable<a name="line.259"></a>
 <span class="sourceLineNo">260</span>    C getColumnKey();<a name="line.260"></a>
 <span class="sourceLineNo">261</span><a name="line.261"></a>
 <span class="sourceLineNo">262</span>    /** Returns the value of this cell. */<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    @NullableDecl<a name="line.263"></a>
+<span class="sourceLineNo">263</span>    @Nullable<a name="line.263"></a>
 <span class="sourceLineNo">264</span>    V getValue();<a name="line.264"></a>
 <span class="sourceLineNo">265</span><a name="line.265"></a>
 <span class="sourceLineNo">266</span>    /**<a name="line.266"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>     * equal row keys, column keys, and values.<a name="line.268"></a>
 <span class="sourceLineNo">269</span>     */<a name="line.269"></a>
 <span class="sourceLineNo">270</span>    @Override<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    boolean equals(@NullableDecl Object obj);<a name="line.271"></a>
+<span class="sourceLineNo">271</span>    boolean equals(@Nullable Object obj);<a name="line.271"></a>
 <span class="sourceLineNo">272</span><a name="line.272"></a>
 <span class="sourceLineNo">273</span>    /**<a name="line.273"></a>
 <span class="sourceLineNo">274</span>     * Returns the hash code of this cell.<a name="line.274"></a>

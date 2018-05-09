@@ -32,7 +32,7 @@
 <span class="sourceLineNo">024</span>import java.util.Iterator;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.util.Map;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import java.util.Set;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.27"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
 <span class="sourceLineNo">029</span>/**<a name="line.29"></a>
 <span class="sourceLineNo">030</span> * A map which forwards all its method calls to another map. Subclasses should override one or more<a name="line.30"></a>
@@ -94,17 +94,17 @@
 <span class="sourceLineNo">086</span>  }<a name="line.86"></a>
 <span class="sourceLineNo">087</span><a name="line.87"></a>
 <span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  public boolean containsKey(@NullableDecl Object key) {<a name="line.89"></a>
+<span class="sourceLineNo">089</span>  public boolean containsKey(@Nullable Object key) {<a name="line.89"></a>
 <span class="sourceLineNo">090</span>    return delegate().containsKey(key);<a name="line.90"></a>
 <span class="sourceLineNo">091</span>  }<a name="line.91"></a>
 <span class="sourceLineNo">092</span><a name="line.92"></a>
 <span class="sourceLineNo">093</span>  @Override<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  public boolean containsValue(@NullableDecl Object value) {<a name="line.94"></a>
+<span class="sourceLineNo">094</span>  public boolean containsValue(@Nullable Object value) {<a name="line.94"></a>
 <span class="sourceLineNo">095</span>    return delegate().containsValue(value);<a name="line.95"></a>
 <span class="sourceLineNo">096</span>  }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
 <span class="sourceLineNo">098</span>  @Override<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public V get(@NullableDecl Object key) {<a name="line.99"></a>
+<span class="sourceLineNo">099</span>  public V get(@Nullable Object key) {<a name="line.99"></a>
 <span class="sourceLineNo">100</span>    return delegate().get(key);<a name="line.100"></a>
 <span class="sourceLineNo">101</span>  }<a name="line.101"></a>
 <span class="sourceLineNo">102</span><a name="line.102"></a>
@@ -135,7 +135,7 @@
 <span class="sourceLineNo">127</span>  }<a name="line.127"></a>
 <span class="sourceLineNo">128</span><a name="line.128"></a>
 <span class="sourceLineNo">129</span>  @Override<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  public boolean equals(@NullableDecl Object object) {<a name="line.130"></a>
+<span class="sourceLineNo">130</span>  public boolean equals(@Nullable Object object) {<a name="line.130"></a>
 <span class="sourceLineNo">131</span>    return object == this || delegate().equals(object);<a name="line.131"></a>
 <span class="sourceLineNo">132</span>  }<a name="line.132"></a>
 <span class="sourceLineNo">133</span><a name="line.133"></a>
@@ -166,7 +166,7 @@
 <span class="sourceLineNo">158</span>   * @since 7.0<a name="line.158"></a>
 <span class="sourceLineNo">159</span>   */<a name="line.159"></a>
 <span class="sourceLineNo">160</span>  @Beta<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  protected V standardRemove(@NullableDecl Object key) {<a name="line.161"></a>
+<span class="sourceLineNo">161</span>  protected V standardRemove(@Nullable Object key) {<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    Iterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();<a name="line.162"></a>
 <span class="sourceLineNo">163</span>    while (entryIterator.hasNext()) {<a name="line.163"></a>
 <span class="sourceLineNo">164</span>      Entry&lt;K, V&gt; entry = entryIterator.next();<a name="line.164"></a>
@@ -215,7 +215,7 @@
 <span class="sourceLineNo">207</span>   * @since 7.0<a name="line.207"></a>
 <span class="sourceLineNo">208</span>   */<a name="line.208"></a>
 <span class="sourceLineNo">209</span>  @Beta<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  protected boolean standardContainsKey(@NullableDecl Object key) {<a name="line.210"></a>
+<span class="sourceLineNo">210</span>  protected boolean standardContainsKey(@Nullable Object key) {<a name="line.210"></a>
 <span class="sourceLineNo">211</span>    return Maps.containsKeyImpl(this, key);<a name="line.211"></a>
 <span class="sourceLineNo">212</span>  }<a name="line.212"></a>
 <span class="sourceLineNo">213</span><a name="line.213"></a>
@@ -243,7 +243,7 @@
 <span class="sourceLineNo">235</span>   *<a name="line.235"></a>
 <span class="sourceLineNo">236</span>   * @since 7.0<a name="line.236"></a>
 <span class="sourceLineNo">237</span>   */<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  protected boolean standardContainsValue(@NullableDecl Object value) {<a name="line.238"></a>
+<span class="sourceLineNo">238</span>  protected boolean standardContainsValue(@Nullable Object value) {<a name="line.238"></a>
 <span class="sourceLineNo">239</span>    return Maps.containsValueImpl(this, value);<a name="line.239"></a>
 <span class="sourceLineNo">240</span>  }<a name="line.240"></a>
 <span class="sourceLineNo">241</span><a name="line.241"></a>
@@ -285,7 +285,7 @@
 <span class="sourceLineNo">277</span>   *<a name="line.277"></a>
 <span class="sourceLineNo">278</span>   * @since 7.0<a name="line.278"></a>
 <span class="sourceLineNo">279</span>   */<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  protected boolean standardEquals(@NullableDecl Object object) {<a name="line.280"></a>
+<span class="sourceLineNo">280</span>  protected boolean standardEquals(@Nullable Object object) {<a name="line.280"></a>
 <span class="sourceLineNo">281</span>    return Maps.equalsImpl(this, object);<a name="line.281"></a>
 <span class="sourceLineNo">282</span>  }<a name="line.282"></a>
 <span class="sourceLineNo">283</span><a name="line.283"></a>

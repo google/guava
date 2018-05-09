@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.stream.Collector;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.39"></a>
+<span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * A {@link RangeSet} whose contents will never change, with many other important properties<a name="line.42"></a>
@@ -637,7 +637,7 @@
 <span class="sourceLineNo">629</span>    }<a name="line.629"></a>
 <span class="sourceLineNo">630</span><a name="line.630"></a>
 <span class="sourceLineNo">631</span>    @Override<a name="line.631"></a>
-<span class="sourceLineNo">632</span>    public boolean contains(@NullableDecl Object o) {<a name="line.632"></a>
+<span class="sourceLineNo">632</span>    public boolean contains(@Nullable Object o) {<a name="line.632"></a>
 <span class="sourceLineNo">633</span>      if (o == null) {<a name="line.633"></a>
 <span class="sourceLineNo">634</span>        return false;<a name="line.634"></a>
 <span class="sourceLineNo">635</span>      }<a name="line.635"></a>

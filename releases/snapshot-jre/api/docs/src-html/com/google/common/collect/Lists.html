@@ -58,7 +58,7 @@
 <span class="sourceLineNo">050</span>import java.util.RandomAccess;<a name="line.50"></a>
 <span class="sourceLineNo">051</span>import java.util.concurrent.CopyOnWriteArrayList;<a name="line.51"></a>
 <span class="sourceLineNo">052</span>import java.util.function.Predicate;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.53"></a>
+<span class="sourceLineNo">053</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.53"></a>
 <span class="sourceLineNo">054</span><a name="line.54"></a>
 <span class="sourceLineNo">055</span>/**<a name="line.55"></a>
 <span class="sourceLineNo">056</span> * Static utility methods pertaining to {@link List} instances. Also see this class's counterparts<a name="line.56"></a>
@@ -295,7 +295,7 @@
 <span class="sourceLineNo">287</span>   * @param rest an array of additional elements, possibly empty<a name="line.287"></a>
 <span class="sourceLineNo">288</span>   * @return an unmodifiable list containing the specified elements<a name="line.288"></a>
 <span class="sourceLineNo">289</span>   */<a name="line.289"></a>
-<span class="sourceLineNo">290</span>  public static &lt;E&gt; List&lt;E&gt; asList(@NullableDecl E first, E[] rest) {<a name="line.290"></a>
+<span class="sourceLineNo">290</span>  public static &lt;E&gt; List&lt;E&gt; asList(@Nullable E first, E[] rest) {<a name="line.290"></a>
 <span class="sourceLineNo">291</span>    return new OnePlusArrayList&lt;&gt;(first, rest);<a name="line.291"></a>
 <span class="sourceLineNo">292</span>  }<a name="line.292"></a>
 <span class="sourceLineNo">293</span><a name="line.293"></a>
@@ -315,17 +315,17 @@
 <span class="sourceLineNo">307</span>   * @param rest an array of additional elements, possibly empty<a name="line.307"></a>
 <span class="sourceLineNo">308</span>   * @return an unmodifiable list containing the specified elements<a name="line.308"></a>
 <span class="sourceLineNo">309</span>   */<a name="line.309"></a>
-<span class="sourceLineNo">310</span>  public static &lt;E&gt; List&lt;E&gt; asList(@NullableDecl E first, @NullableDecl E second, E[] rest) {<a name="line.310"></a>
+<span class="sourceLineNo">310</span>  public static &lt;E&gt; List&lt;E&gt; asList(@Nullable E first, @Nullable E second, E[] rest) {<a name="line.310"></a>
 <span class="sourceLineNo">311</span>    return new TwoPlusArrayList&lt;&gt;(first, second, rest);<a name="line.311"></a>
 <span class="sourceLineNo">312</span>  }<a name="line.312"></a>
 <span class="sourceLineNo">313</span><a name="line.313"></a>
 <span class="sourceLineNo">314</span>  /** @see Lists#asList(Object, Object[]) */<a name="line.314"></a>
 <span class="sourceLineNo">315</span>  private static class OnePlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.315"></a>
 <span class="sourceLineNo">316</span>      implements Serializable, RandomAccess {<a name="line.316"></a>
-<span class="sourceLineNo">317</span>    @NullableDecl final E first;<a name="line.317"></a>
+<span class="sourceLineNo">317</span>    @Nullable final E first;<a name="line.317"></a>
 <span class="sourceLineNo">318</span>    final E[] rest;<a name="line.318"></a>
 <span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>    OnePlusArrayList(@NullableDecl E first, E[] rest) {<a name="line.320"></a>
+<span class="sourceLineNo">320</span>    OnePlusArrayList(@Nullable E first, E[] rest) {<a name="line.320"></a>
 <span class="sourceLineNo">321</span>      this.first = first;<a name="line.321"></a>
 <span class="sourceLineNo">322</span>      this.rest = checkNotNull(rest);<a name="line.322"></a>
 <span class="sourceLineNo">323</span>    }<a name="line.323"></a>
@@ -348,11 +348,11 @@
 <span class="sourceLineNo">340</span>  /** @see Lists#asList(Object, Object, Object[]) */<a name="line.340"></a>
 <span class="sourceLineNo">341</span>  private static class TwoPlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.341"></a>
 <span class="sourceLineNo">342</span>      implements Serializable, RandomAccess {<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    @NullableDecl final E first;<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    @NullableDecl final E second;<a name="line.344"></a>
+<span class="sourceLineNo">343</span>    @Nullable final E first;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    @Nullable final E second;<a name="line.344"></a>
 <span class="sourceLineNo">345</span>    final E[] rest;<a name="line.345"></a>
 <span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>    TwoPlusArrayList(@NullableDecl E first, @NullableDecl E second, E[] rest) {<a name="line.347"></a>
+<span class="sourceLineNo">347</span>    TwoPlusArrayList(@Nullable E first, @Nullable E second, E[] rest) {<a name="line.347"></a>
 <span class="sourceLineNo">348</span>      this.first = first;<a name="line.348"></a>
 <span class="sourceLineNo">349</span>      this.second = second;<a name="line.349"></a>
 <span class="sourceLineNo">350</span>      this.rest = checkNotNull(rest);<a name="line.350"></a>
@@ -740,12 +740,12 @@
 <span class="sourceLineNo">732</span>    }<a name="line.732"></a>
 <span class="sourceLineNo">733</span><a name="line.733"></a>
 <span class="sourceLineNo">734</span>    @Override<a name="line.734"></a>
-<span class="sourceLineNo">735</span>    public int indexOf(@NullableDecl Object object) {<a name="line.735"></a>
+<span class="sourceLineNo">735</span>    public int indexOf(@Nullable Object object) {<a name="line.735"></a>
 <span class="sourceLineNo">736</span>      return (object instanceof Character) ? string.indexOf((Character) object) : -1;<a name="line.736"></a>
 <span class="sourceLineNo">737</span>    }<a name="line.737"></a>
 <span class="sourceLineNo">738</span><a name="line.738"></a>
 <span class="sourceLineNo">739</span>    @Override<a name="line.739"></a>
-<span class="sourceLineNo">740</span>    public int lastIndexOf(@NullableDecl Object object) {<a name="line.740"></a>
+<span class="sourceLineNo">740</span>    public int lastIndexOf(@Nullable Object object) {<a name="line.740"></a>
 <span class="sourceLineNo">741</span>      return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;<a name="line.741"></a>
 <span class="sourceLineNo">742</span>    }<a name="line.742"></a>
 <span class="sourceLineNo">743</span><a name="line.743"></a>
@@ -838,7 +838,7 @@
 <span class="sourceLineNo">830</span>    }<a name="line.830"></a>
 <span class="sourceLineNo">831</span><a name="line.831"></a>
 <span class="sourceLineNo">832</span>    @Override<a name="line.832"></a>
-<span class="sourceLineNo">833</span>    public void add(int index, @NullableDecl T element) {<a name="line.833"></a>
+<span class="sourceLineNo">833</span>    public void add(int index, @Nullable T element) {<a name="line.833"></a>
 <span class="sourceLineNo">834</span>      forwardList.add(reversePosition(index), element);<a name="line.834"></a>
 <span class="sourceLineNo">835</span>    }<a name="line.835"></a>
 <span class="sourceLineNo">836</span><a name="line.836"></a>
@@ -858,7 +858,7 @@
 <span class="sourceLineNo">850</span>    }<a name="line.850"></a>
 <span class="sourceLineNo">851</span><a name="line.851"></a>
 <span class="sourceLineNo">852</span>    @Override<a name="line.852"></a>
-<span class="sourceLineNo">853</span>    public T set(int index, @NullableDecl T element) {<a name="line.853"></a>
+<span class="sourceLineNo">853</span>    public T set(int index, @Nullable T element) {<a name="line.853"></a>
 <span class="sourceLineNo">854</span>      return forwardList.set(reverseIndex(index), element);<a name="line.854"></a>
 <span class="sourceLineNo">855</span>    }<a name="line.855"></a>
 <span class="sourceLineNo">856</span><a name="line.856"></a>
@@ -972,7 +972,7 @@
 <span class="sourceLineNo">964</span>  }<a name="line.964"></a>
 <span class="sourceLineNo">965</span><a name="line.965"></a>
 <span class="sourceLineNo">966</span>  /** An implementation of {@link List#equals(Object)}. */<a name="line.966"></a>
-<span class="sourceLineNo">967</span>  static boolean equalsImpl(List&lt;?&gt; thisList, @NullableDecl Object other) {<a name="line.967"></a>
+<span class="sourceLineNo">967</span>  static boolean equalsImpl(List&lt;?&gt; thisList, @Nullable Object other) {<a name="line.967"></a>
 <span class="sourceLineNo">968</span>    if (other == checkNotNull(thisList)) {<a name="line.968"></a>
 <span class="sourceLineNo">969</span>      return true;<a name="line.969"></a>
 <span class="sourceLineNo">970</span>    }<a name="line.970"></a>
@@ -1009,7 +1009,7 @@
 <span class="sourceLineNo">1001</span>  }<a name="line.1001"></a>
 <span class="sourceLineNo">1002</span><a name="line.1002"></a>
 <span class="sourceLineNo">1003</span>  /** An implementation of {@link List#indexOf(Object)}. */<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>  static int indexOfImpl(List&lt;?&gt; list, @NullableDecl Object element) {<a name="line.1004"></a>
+<span class="sourceLineNo">1004</span>  static int indexOfImpl(List&lt;?&gt; list, @Nullable Object element) {<a name="line.1004"></a>
 <span class="sourceLineNo">1005</span>    if (list instanceof RandomAccess) {<a name="line.1005"></a>
 <span class="sourceLineNo">1006</span>      return indexOfRandomAccess(list, element);<a name="line.1006"></a>
 <span class="sourceLineNo">1007</span>    } else {<a name="line.1007"></a>
@@ -1023,7 +1023,7 @@
 <span class="sourceLineNo">1015</span>    }<a name="line.1015"></a>
 <span class="sourceLineNo">1016</span>  }<a name="line.1016"></a>
 <span class="sourceLineNo">1017</span><a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>  private static int indexOfRandomAccess(List&lt;?&gt; list, @NullableDecl Object element) {<a name="line.1018"></a>
+<span class="sourceLineNo">1018</span>  private static int indexOfRandomAccess(List&lt;?&gt; list, @Nullable Object element) {<a name="line.1018"></a>
 <span class="sourceLineNo">1019</span>    int size = list.size();<a name="line.1019"></a>
 <span class="sourceLineNo">1020</span>    if (element == null) {<a name="line.1020"></a>
 <span class="sourceLineNo">1021</span>      for (int i = 0; i &lt; size; i++) {<a name="line.1021"></a>
@@ -1042,7 +1042,7 @@
 <span class="sourceLineNo">1034</span>  }<a name="line.1034"></a>
 <span class="sourceLineNo">1035</span><a name="line.1035"></a>
 <span class="sourceLineNo">1036</span>  /** An implementation of {@link List#lastIndexOf(Object)}. */<a name="line.1036"></a>
-<span class="sourceLineNo">1037</span>  static int lastIndexOfImpl(List&lt;?&gt; list, @NullableDecl Object element) {<a name="line.1037"></a>
+<span class="sourceLineNo">1037</span>  static int lastIndexOfImpl(List&lt;?&gt; list, @Nullable Object element) {<a name="line.1037"></a>
 <span class="sourceLineNo">1038</span>    if (list instanceof RandomAccess) {<a name="line.1038"></a>
 <span class="sourceLineNo">1039</span>      return lastIndexOfRandomAccess(list, element);<a name="line.1039"></a>
 <span class="sourceLineNo">1040</span>    } else {<a name="line.1040"></a>
@@ -1056,7 +1056,7 @@
 <span class="sourceLineNo">1048</span>    }<a name="line.1048"></a>
 <span class="sourceLineNo">1049</span>  }<a name="line.1049"></a>
 <span class="sourceLineNo">1050</span><a name="line.1050"></a>
-<span class="sourceLineNo">1051</span>  private static int lastIndexOfRandomAccess(List&lt;?&gt; list, @NullableDecl Object element) {<a name="line.1051"></a>
+<span class="sourceLineNo">1051</span>  private static int lastIndexOfRandomAccess(List&lt;?&gt; list, @Nullable Object element) {<a name="line.1051"></a>
 <span class="sourceLineNo">1052</span>    if (element == null) {<a name="line.1052"></a>
 <span class="sourceLineNo">1053</span>      for (int i = list.size() - 1; i &gt;= 0; i--) {<a name="line.1053"></a>
 <span class="sourceLineNo">1054</span>        if (list.get(i) == null) {<a name="line.1054"></a>

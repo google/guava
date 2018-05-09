@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import com.google.common.base.Objects;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.util.Map;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Map.Entry;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>/**<a name="line.26"></a>
 <span class="sourceLineNo">027</span> * A map entry which forwards all its method calls to another map entry. Subclasses should override<a name="line.27"></a>
@@ -80,7 +80,7 @@
 <span class="sourceLineNo">072</span>  }<a name="line.72"></a>
 <span class="sourceLineNo">073</span><a name="line.73"></a>
 <span class="sourceLineNo">074</span>  @Override<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public boolean equals(@NullableDecl Object object) {<a name="line.75"></a>
+<span class="sourceLineNo">075</span>  public boolean equals(@Nullable Object object) {<a name="line.75"></a>
 <span class="sourceLineNo">076</span>    return delegate().equals(object);<a name="line.76"></a>
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>
 <span class="sourceLineNo">078</span><a name="line.78"></a>
@@ -96,7 +96,7 @@
 <span class="sourceLineNo">088</span>   *<a name="line.88"></a>
 <span class="sourceLineNo">089</span>   * @since 7.0<a name="line.89"></a>
 <span class="sourceLineNo">090</span>   */<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  protected boolean standardEquals(@NullableDecl Object object) {<a name="line.91"></a>
+<span class="sourceLineNo">091</span>  protected boolean standardEquals(@Nullable Object object) {<a name="line.91"></a>
 <span class="sourceLineNo">092</span>    if (object instanceof Entry) {<a name="line.92"></a>
 <span class="sourceLineNo">093</span>      Entry&lt;?, ?&gt; that = (Entry&lt;?, ?&gt;) object;<a name="line.93"></a>
 <span class="sourceLineNo">094</span>      return Objects.equal(this.getKey(), that.getKey())<a name="line.94"></a>

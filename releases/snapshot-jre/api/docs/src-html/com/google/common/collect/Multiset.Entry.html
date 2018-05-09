@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.util.Spliterator;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.function.Consumer;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.function.ObjIntConsumer;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * A collection that supports order-independent equality, like {@link Set}, but may have duplicate<a name="line.36"></a>
@@ -115,7 +115,7 @@
 <span class="sourceLineNo">107</span>   * @return the number of occurrences of the element in this multiset; possibly zero but never<a name="line.107"></a>
 <span class="sourceLineNo">108</span>   *     negative<a name="line.108"></a>
 <span class="sourceLineNo">109</span>   */<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  int count(@NullableDecl @CompatibleWith("E") Object element);<a name="line.110"></a>
+<span class="sourceLineNo">110</span>  int count(@Nullable @CompatibleWith("E") Object element);<a name="line.110"></a>
 <span class="sourceLineNo">111</span><a name="line.111"></a>
 <span class="sourceLineNo">112</span>  // Bulk Operations<a name="line.112"></a>
 <span class="sourceLineNo">113</span><a name="line.113"></a>
@@ -138,7 +138,7 @@
 <span class="sourceLineNo">130</span>   *     return normally.<a name="line.130"></a>
 <span class="sourceLineNo">131</span>   */<a name="line.131"></a>
 <span class="sourceLineNo">132</span>  @CanIgnoreReturnValue<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  int add(@NullableDecl E element, int occurrences);<a name="line.133"></a>
+<span class="sourceLineNo">133</span>  int add(@Nullable E element, int occurrences);<a name="line.133"></a>
 <span class="sourceLineNo">134</span><a name="line.134"></a>
 <span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   * Adds a single occurrence of the specified element to this multiset.<a name="line.136"></a>
@@ -176,7 +176,7 @@
 <span class="sourceLineNo">168</span>   * @throws IllegalArgumentException if {@code occurrences} is negative<a name="line.168"></a>
 <span class="sourceLineNo">169</span>   */<a name="line.169"></a>
 <span class="sourceLineNo">170</span>  @CanIgnoreReturnValue<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  int remove(@NullableDecl @CompatibleWith("E") Object element, int occurrences);<a name="line.171"></a>
+<span class="sourceLineNo">171</span>  int remove(@Nullable @CompatibleWith("E") Object element, int occurrences);<a name="line.171"></a>
 <span class="sourceLineNo">172</span><a name="line.172"></a>
 <span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
 <span class="sourceLineNo">174</span>   * Removes a &lt;i&gt;single&lt;/i&gt; occurrence of the specified element from this multiset, if present.<a name="line.174"></a>
@@ -192,7 +192,7 @@
 <span class="sourceLineNo">184</span>   */<a name="line.184"></a>
 <span class="sourceLineNo">185</span>  @CanIgnoreReturnValue<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  @Override<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  boolean remove(@NullableDecl Object element);<a name="line.187"></a>
+<span class="sourceLineNo">187</span>  boolean remove(@Nullable Object element);<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
 <span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
 <span class="sourceLineNo">190</span>   * Adds or removes the necessary occurrences of an element such that the element attains the<a name="line.190"></a>
@@ -356,7 +356,7 @@
 <span class="sourceLineNo">348</span>   */<a name="line.348"></a>
 <span class="sourceLineNo">349</span>  @Override<a name="line.349"></a>
 <span class="sourceLineNo">350</span>  // TODO(kevinb): caveats about equivalence-relation?<a name="line.350"></a>
-<span class="sourceLineNo">351</span>  boolean equals(@NullableDecl Object object);<a name="line.351"></a>
+<span class="sourceLineNo">351</span>  boolean equals(@Nullable Object object);<a name="line.351"></a>
 <span class="sourceLineNo">352</span><a name="line.352"></a>
 <span class="sourceLineNo">353</span>  /**<a name="line.353"></a>
 <span class="sourceLineNo">354</span>   * Returns the hash code for this multiset. This is defined as the sum of<a name="line.354"></a>
@@ -402,7 +402,7 @@
 <span class="sourceLineNo">394</span>   * @return {@code true} if this multiset contains at least one occurrence of the element<a name="line.394"></a>
 <span class="sourceLineNo">395</span>   */<a name="line.395"></a>
 <span class="sourceLineNo">396</span>  @Override<a name="line.396"></a>
-<span class="sourceLineNo">397</span>  boolean contains(@NullableDecl Object element);<a name="line.397"></a>
+<span class="sourceLineNo">397</span>  boolean contains(@Nullable Object element);<a name="line.397"></a>
 <span class="sourceLineNo">398</span><a name="line.398"></a>
 <span class="sourceLineNo">399</span>  /**<a name="line.399"></a>
 <span class="sourceLineNo">400</span>   * Returns {@code true} if this multiset contains at least one occurrence of each element in the<a name="line.400"></a>

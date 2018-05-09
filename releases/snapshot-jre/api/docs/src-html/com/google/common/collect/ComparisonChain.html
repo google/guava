@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import com.google.common.primitives.Ints;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import com.google.common.primitives.Longs;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Comparator;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>/**<a name="line.26"></a>
 <span class="sourceLineNo">027</span> * A utility for performing a chained comparison statement. For example:<a name="line.27"></a>
@@ -83,7 +83,7 @@
 <span class="sourceLineNo">075</span><a name="line.75"></a>
 <span class="sourceLineNo">076</span>        @Override<a name="line.76"></a>
 <span class="sourceLineNo">077</span>        public &lt;T&gt; ComparisonChain compare(<a name="line.77"></a>
-<span class="sourceLineNo">078</span>            @NullableDecl T left, @NullableDecl T right, Comparator&lt;T&gt; comparator) {<a name="line.78"></a>
+<span class="sourceLineNo">078</span>            @Nullable T left, @Nullable T right, Comparator&lt;T&gt; comparator) {<a name="line.78"></a>
 <span class="sourceLineNo">079</span>          return classify(comparator.compare(left, right));<a name="line.79"></a>
 <span class="sourceLineNo">080</span>        }<a name="line.80"></a>
 <span class="sourceLineNo">081</span><a name="line.81"></a>
@@ -139,13 +139,13 @@
 <span class="sourceLineNo">131</span>    }<a name="line.131"></a>
 <span class="sourceLineNo">132</span><a name="line.132"></a>
 <span class="sourceLineNo">133</span>    @Override<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    public ComparisonChain compare(@NullableDecl Comparable left, @NullableDecl Comparable right) {<a name="line.134"></a>
+<span class="sourceLineNo">134</span>    public ComparisonChain compare(@Nullable Comparable left, @Nullable Comparable right) {<a name="line.134"></a>
 <span class="sourceLineNo">135</span>      return this;<a name="line.135"></a>
 <span class="sourceLineNo">136</span>    }<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
 <span class="sourceLineNo">138</span>    @Override<a name="line.138"></a>
 <span class="sourceLineNo">139</span>    public &lt;T&gt; ComparisonChain compare(<a name="line.139"></a>
-<span class="sourceLineNo">140</span>        @NullableDecl T left, @NullableDecl T right, @NullableDecl Comparator&lt;T&gt; comparator) {<a name="line.140"></a>
+<span class="sourceLineNo">140</span>        @Nullable T left, @Nullable T right, @Nullable Comparator&lt;T&gt; comparator) {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>      return this;<a name="line.141"></a>
 <span class="sourceLineNo">142</span>    }<a name="line.142"></a>
 <span class="sourceLineNo">143</span><a name="line.143"></a>
@@ -196,7 +196,7 @@
 <span class="sourceLineNo">188</span>   * already been determined.<a name="line.188"></a>
 <span class="sourceLineNo">189</span>   */<a name="line.189"></a>
 <span class="sourceLineNo">190</span>  public abstract &lt;T&gt; ComparisonChain compare(<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      @NullableDecl T left, @NullableDecl T right, Comparator&lt;T&gt; comparator);<a name="line.191"></a>
+<span class="sourceLineNo">191</span>      @Nullable T left, @Nullable T right, Comparator&lt;T&gt; comparator);<a name="line.191"></a>
 <span class="sourceLineNo">192</span><a name="line.192"></a>
 <span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
 <span class="sourceLineNo">194</span>   * Compares two {@code int} values as specified by {@link Ints#compare}, &lt;i&gt;if&lt;/i&gt; the result of<a name="line.194"></a>
