@@ -62844,7 +62844,6 @@
  // TimeoutException.
  ListenableFuture<Integer> faultTolerantFuture =
      fetchCounters().catchingAsync(
-         fetchCounterFuture,
          FetchException.class,
          e -> {
            if (omitDataOnFetchFailure) {
