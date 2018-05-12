@@ -96,8 +96,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   static <R, C, V> RegularImmutableTable<R, C, V> forCells(
       List<Cell<R, C, V>> cells,
-      @Nullable final Comparator<? super R> rowComparator,
-      @Nullable final Comparator<? super C> columnComparator) {
+      final @Nullable Comparator<? super R> rowComparator,
+      final @Nullable Comparator<? super C> columnComparator) {
     checkNotNull(cells);
     if (rowComparator != null || columnComparator != null) {
       /*

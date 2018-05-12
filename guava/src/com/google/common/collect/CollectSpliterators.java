@@ -65,8 +65,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      @Nullable
-      public Spliterator<T> trySplit() {
+      public @Nullable Spliterator<T> trySplit() {
         Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
       }

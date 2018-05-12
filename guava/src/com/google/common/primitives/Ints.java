@@ -707,8 +707,7 @@ public final class Ints {
    * @since 11.0
    */
   @Beta
-  @Nullable
-  public static Integer tryParse(String string) {
+  public static @Nullable Integer tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -732,8 +731,7 @@ public final class Ints {
    * @since 19.0
    */
   @Beta
-  @Nullable
-  public static Integer tryParse(String string, int radix) {
+  public static @Nullable Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {
       return null;

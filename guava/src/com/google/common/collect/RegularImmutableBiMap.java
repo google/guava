@@ -135,8 +135,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  @Nullable
-  public V get(@Nullable Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return (keyTable == null) ? null : RegularImmutableMap.get(key, keyTable, mask);
   }
 

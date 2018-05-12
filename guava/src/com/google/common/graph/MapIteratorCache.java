@@ -47,7 +47,7 @@ class MapIteratorCache<K, V> {
   // Per JDK: "the behavior of a map entry is undefined if the backing map has been modified after
   // the entry was returned by the iterator, except through the setValue operation on the map entry"
   // As such, this field must be cleared before every map mutation.
-  @Nullable private transient Entry<K, V> entrySetCache;
+  private transient @Nullable Entry<K, V> entrySetCache;
 
   MapIteratorCache(Map<K, V> backingMap) {
     this.backingMap = checkNotNull(backingMap);

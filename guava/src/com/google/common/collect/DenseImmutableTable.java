@@ -101,8 +101,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       return keyToIndex().keySet().asList().get(index);
     }
 
-    @Nullable
-    abstract V getValue(int keyIndex);
+    abstract @Nullable V getValue(int keyIndex);
 
     @Override
     ImmutableSet<K> createKeySet() {

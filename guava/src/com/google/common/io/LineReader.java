@@ -39,7 +39,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtIncompatible
 public final class LineReader {
   private final Readable readable;
-  @Nullable private final Reader reader;
+  private final @Nullable Reader reader;
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 

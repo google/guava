@@ -80,8 +80,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     }
 
     @Override
-    @Nullable
-    final ImmutableMapEntry<K, V> getNextInKeyBucket() {
+    final @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {
       return nextInKeyBucket;
     }
 

@@ -105,8 +105,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
-  @Nullable private transient BiEntry<K, V> firstInKeyInsertionOrder;
-  @Nullable private transient BiEntry<K, V> lastInKeyInsertionOrder;
+  private transient @Nullable BiEntry<K, V> firstInKeyInsertionOrder;
+  private transient @Nullable BiEntry<K, V> lastInKeyInsertionOrder;
   private transient int size;
   private transient int mask;
   private transient int modCount;
@@ -249,9 +249,8 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return seekByValue(value, smearedHash(value)) != null;
   }
 
-  @Nullable
   @Override
-  public V get(@Nullable Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
@@ -301,8 +300,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return put(key, value, true);
   }
 
-  @Nullable
-  private K putInverse(@Nullable V value, @Nullable K key, boolean force) {
+  private @Nullable K putInverse(@Nullable V value, @Nullable K key, boolean force) {
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 

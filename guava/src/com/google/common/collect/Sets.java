@@ -1208,14 +1208,12 @@ public final class Sets {
     }
 
     @Override
-    @Nullable
-    public E lower(E e) {
+    public @Nullable E lower(E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
-    @Nullable
-    public E floor(E e) {
+    public @Nullable E floor(E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 

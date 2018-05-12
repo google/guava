@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 final class MultiInputStream extends InputStream {
 
   private Iterator<? extends ByteSource> it;
-  @Nullable private InputStream in;
+  private @Nullable InputStream in;
 
   /**
    * Creates a new instance.

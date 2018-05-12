@@ -169,8 +169,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
-  public V get(K key) {
+  public @Nullable V get(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -187,8 +186,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
-  public Entry<Range<K>, V> getEntry(K key) {
+  public @Nullable Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,

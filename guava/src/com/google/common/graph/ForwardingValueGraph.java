@@ -101,8 +101,7 @@ abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  @Nullable
-  public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     return delegate().edgeValueOrDefault(nodeU, nodeV, defaultValue);
   }
 }

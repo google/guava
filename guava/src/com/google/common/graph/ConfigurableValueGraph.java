@@ -123,8 +123,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  @Nullable
-  public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
