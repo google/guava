@@ -192,8 +192,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   @Override
-  @Nullable
-  public E edgeConnectingOrNull(N nodeU, N nodeV) {
+  public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {
     return edgeConnecting(nodeU, nodeV).orElse(null);
   }
 

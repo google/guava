@@ -246,7 +246,7 @@ public final class Multisets {
   }
 
   static class ImmutableEntry<E> extends AbstractEntry<E> implements Serializable {
-    @Nullable private final E element;
+    private final @Nullable E element;
     private final int count;
 
     ImmutableEntry(@Nullable E element, int count) {
@@ -256,8 +256,7 @@ public final class Multisets {
     }
 
     @Override
-    @Nullable
-    public final E getElement() {
+    public final @Nullable E getElement() {
       return element;
     }
 

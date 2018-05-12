@@ -141,8 +141,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
 
   /** Template method for subtypes to actually run the fallback. */
   @ForOverride
-  @Nullable
-  abstract T doFallback(F fallback, X throwable) throws Exception;
+  abstract @Nullable T doFallback(F fallback, X throwable) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride

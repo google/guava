@@ -106,7 +106,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    */
 
   private static final class Node<K, V> extends AbstractMapEntry<K, V> {
-    @Nullable final K key;
+    final @Nullable K key;
     @Nullable V value;
     @Nullable Node<K, V> next; // the next node (with any key)
     @Nullable Node<K, V> previous; // the previous node (with any key)
@@ -150,8 +150,8 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
     }
   }
 
-  @Nullable private transient Node<K, V> head; // the head for all keys
-  @Nullable private transient Node<K, V> tail; // the tail for all keys
+  private transient @Nullable Node<K, V> head; // the head for all keys
+  private transient @Nullable Node<K, V> tail; // the tail for all keys
   private transient Map<K, KeyList<K, V>> keyToKeyList;
   private transient int size;
 
@@ -454,7 +454,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
 
   /** A {@code ListIterator} over values for a specified key. */
   private class ValueForKeyIterator implements ListIterator<V> {
-    @Nullable final Object key;
+    final @Nullable Object key;
     int nextIndex;
     @Nullable Node<K, V> next;
     @Nullable Node<K, V> current;

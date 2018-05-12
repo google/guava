@@ -88,8 +88,7 @@ public final class Functions {
     INSTANCE;
 
     @Override
-    @Nullable
-    public Object apply(@Nullable Object o) {
+    public @Nullable Object apply(@Nullable Object o) {
       return o;
     }
 
@@ -171,7 +170,7 @@ public final class Functions {
 
   private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    @Nullable final V defaultValue;
+    final @Nullable V defaultValue;
 
     ForMapWithDefault(Map<K, ? extends V> map, @Nullable V defaultValue) {
       this.map = checkNotNull(map);
@@ -320,7 +319,7 @@ public final class Functions {
   }
 
   private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
-    @Nullable private final E value;
+    private final @Nullable E value;
 
     public ConstantFunction(@Nullable E value) {
       this.value = value;

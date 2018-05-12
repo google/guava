@@ -50,8 +50,7 @@ public final class ElementOrder<T> {
   private final Type type;
 
   @SuppressWarnings("Immutable") // Hopefully the comparator provided is immutable!
-  @Nullable
-  private final Comparator<T> comparator;
+  private final @Nullable Comparator<T> comparator;
 
   /**
    * The type of ordering that this object specifies.

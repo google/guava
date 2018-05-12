@@ -340,7 +340,7 @@ class MapMakerInternalMap<
       implements InternalEntry<K, V, E> {
     final K key;
     final int hash;
-    @Nullable final E next;
+    final @Nullable E next;
 
     AbstractStrongKeyEntry(K key, int hash, @Nullable E next) {
       this.key = key;
@@ -390,15 +390,14 @@ class MapMakerInternalMap<
   static final class StrongKeyStrongValueEntry<K, V>
       extends AbstractStrongKeyEntry<K, V, StrongKeyStrongValueEntry<K, V>>
       implements StrongValueEntry<K, V, StrongKeyStrongValueEntry<K, V>> {
-    @Nullable private volatile V value = null;
+    private volatile @Nullable V value = null;
 
     StrongKeyStrongValueEntry(K key, int hash, @Nullable StrongKeyStrongValueEntry<K, V> next) {
       super(key, hash, next);
     }
 
     @Override
-    @Nullable
-    public V getValue() {
+    public @Nullable V getValue() {
       return value;
     }
 
@@ -647,7 +646,7 @@ class MapMakerInternalMap<
   abstract static class AbstractWeakKeyEntry<K, V, E extends InternalEntry<K, V, E>>
       extends WeakReference<K> implements InternalEntry<K, V, E> {
     final int hash;
-    @Nullable final E next;
+    final @Nullable E next;
 
     AbstractWeakKeyEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable E next) {
       super(key, queue);
@@ -755,7 +754,7 @@ class MapMakerInternalMap<
   static final class WeakKeyStrongValueEntry<K, V>
       extends AbstractWeakKeyEntry<K, V, WeakKeyStrongValueEntry<K, V>>
       implements StrongValueEntry<K, V, WeakKeyStrongValueEntry<K, V>> {
-    @Nullable private volatile V value = null;
+    private volatile @Nullable V value = null;
 
     WeakKeyStrongValueEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable WeakKeyStrongValueEntry<K, V> next) {
@@ -763,8 +762,7 @@ class MapMakerInternalMap<
     }
 
     @Override
-    @Nullable
-    public V getValue() {
+    public @Nullable V getValue() {
       return value;
     }
 

@@ -314,7 +314,7 @@ public final class Lists {
   /** @see Lists#asList(Object, Object[]) */
   private static class OnePlusArrayList<E> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @Nullable final E first;
+    final @Nullable E first;
     final E[] rest;
 
     OnePlusArrayList(@Nullable E first, E[] rest) {
@@ -340,8 +340,8 @@ public final class Lists {
   /** @see Lists#asList(Object, Object, Object[]) */
   private static class TwoPlusArrayList<E> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @Nullable final E first;
-    @Nullable final E second;
+    final @Nullable E first;
+    final @Nullable E second;
     final E[] rest;
 
     TwoPlusArrayList(@Nullable E first, @Nullable E second, E[] rest) {

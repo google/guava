@@ -41,29 +41,25 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
 
   private final Map<TypeToken<? extends B>, B> backingMap = Maps.newHashMap();
 
-  @Nullable
   @Override
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
-  @Nullable
   @Override
-  public <T extends B> T getInstance(TypeToken<T> type) {
+  public <T extends B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
-  @Nullable
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(Class<T> type, @Nullable T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value) {
     return trustedPut(TypeToken.of(type), value);
   }
 
-  @Nullable
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(TypeToken<T> type, @Nullable T value) {
+  public <T extends B> @Nullable T putInstance(TypeToken<T> type, @Nullable T value) {
     return trustedPut(type.rejectTypeVariables(), value);
   }
 
@@ -103,14 +99,12 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @Nullable
-  private <T extends B> T trustedPut(TypeToken<T> type, @Nullable T value) {
+  private <T extends B> @Nullable T trustedPut(TypeToken<T> type, @Nullable T value) {
     return (T) backingMap.put(type, value);
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @Nullable
-  private <T extends B> T trustedGet(TypeToken<T> type) {
+  private <T extends B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
   }
 

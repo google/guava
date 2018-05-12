@@ -110,7 +110,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
    * The largest of the lowest k elements we've seen so far relative to this comparator. If
    * bufferSize ≥ k, then we can ignore any elements greater than this value.
    */
-  @Nullable private T threshold;
+  private @Nullable T threshold;
 
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");

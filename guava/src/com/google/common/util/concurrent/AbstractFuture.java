@@ -170,8 +170,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
   private static final class Waiter {
     static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
-    @Nullable volatile Thread thread;
-    @Nullable volatile Waiter next;
+    volatile @Nullable Thread thread;
+    volatile @Nullable Waiter next;
 
     /**
      * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
@@ -293,7 +293,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     final boolean wasInterrupted;
-    @Nullable final Throwable cause;
+    final @Nullable Throwable cause;
 
     Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
       this.wasInterrupted = wasInterrupted;
@@ -341,13 +341,13 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    *       argument.
    * </ul>
    */
-  @Nullable private volatile Object value;
+  private volatile @Nullable Object value;
 
   /** All listeners. */
-  @Nullable private volatile Listener listeners;
+  private volatile @Nullable Listener listeners;
 
   /** All waiting threads. */
-  @Nullable private volatile Waiter waiters;
+  private volatile @Nullable Waiter waiters;
 
   /** Constructor for use by subclasses. */
   protected AbstractFuture() {}
@@ -978,8 +978,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * @return null if an explanation cannot be provided because the future is done.
    * @since 23.0
    */
-  @Nullable
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
       return "setFuture=[" + userObjectToString(((SetFuture) localValue).future) + "]";

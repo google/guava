@@ -151,9 +151,9 @@ public final class Tables {
   }
 
   static final class ImmutableCell<R, C, V> extends AbstractCell<R, C, V> implements Serializable {
-    @Nullable private final R rowKey;
-    @Nullable private final C columnKey;
-    @Nullable private final V value;
+    private final @Nullable R rowKey;
+    private final @Nullable C columnKey;
+    private final @Nullable V value;
 
     ImmutableCell(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
       this.rowKey = rowKey;

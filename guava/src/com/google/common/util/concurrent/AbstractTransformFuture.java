@@ -162,8 +162,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  @Nullable
-  abstract T doTransform(F function, @Nullable I result) throws Exception;
+  abstract @Nullable T doTransform(F function, @Nullable I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
