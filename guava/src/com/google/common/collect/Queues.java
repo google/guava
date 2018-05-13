@@ -428,7 +428,7 @@ public final class Queues {
    * @param deque the deque to be wrapped in a reversed view
    * @return a reversed view of the specified deque
    */
-  public static <E> Iterable<E> reversedDeque(Deque<E> deque) {
+  public static <E> Deque<E> reversedDeque(Deque<E> deque) {
     if (deque instanceof ReversedDeque) {
       return ((ReversedDeque<E>)deque).deque;
     }
