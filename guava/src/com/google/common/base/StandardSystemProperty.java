@@ -125,8 +125,7 @@ public enum StandardSystemProperty {
    * Returns the current value for this system property by delegating to {@link
    * System#getProperty(String)}.
    */
-  @Nullable
-  public String value() {
+  public @Nullable String value() {
     return System.getProperty(key);
   }
 

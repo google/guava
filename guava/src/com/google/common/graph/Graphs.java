@@ -344,8 +344,7 @@ public final class Graphs {
     }
 
     @Override
-    @Nullable
-    public V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
   }

@@ -31,14 +31,14 @@ class ImmutableEntry<K, V> extends AbstractMapEntry<K, V> implements Serializabl
     this.value = value;
   }
 
-  @NullableDecl
   @Override
+  @NullableDecl
   public final K getKey() {
     return key;
   }
 
-  @NullableDecl
   @Override
+  @NullableDecl
   public final V getValue() {
     return value;
   }

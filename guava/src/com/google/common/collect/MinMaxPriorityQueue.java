@@ -754,7 +754,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     // either of them, up to the same multiplicity as the queue.
     @MonotonicNonNullDecl private Queue<E> forgetMeNot;
     @MonotonicNonNullDecl private List<E> skipMe;
-    @Nullable private E lastFromForgetMeNot;
+    private @Nullable E lastFromForgetMeNot;
     private boolean canRemove;
 
     @Override

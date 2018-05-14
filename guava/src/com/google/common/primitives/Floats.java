@@ -649,9 +649,8 @@ public final class Floats {
    * @since 14.0
    */
   @Beta
-  @Nullable
   @GwtIncompatible // regular expressions
-  public static Float tryParse(String string) {
+  public static @Nullable Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing

@@ -92,10 +92,10 @@ final class GeneralRange<T> implements Serializable {
 
   private final Comparator<? super T> comparator;
   private final boolean hasLowerBound;
-  @Nullable private final T lowerEndpoint;
+  private final @Nullable T lowerEndpoint;
   private final BoundType lowerBoundType;
   private final boolean hasUpperBound;
-  @Nullable private final T upperEndpoint;
+  private final @Nullable T upperEndpoint;
   private final BoundType upperBoundType;
 
   private GeneralRange(

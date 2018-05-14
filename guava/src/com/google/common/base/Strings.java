@@ -47,8 +47,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
-  @Nullable
-  public static String emptyToNull(@Nullable String string) {
+  public static @Nullable String emptyToNull(@Nullable String string) {
     return Platform.emptyToNull(string);
   }
 

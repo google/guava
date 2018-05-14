@@ -34,7 +34,7 @@ public final class Callables {
   private Callables() {}
 
   /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */
-  public static <T> Callable<T> returning(@Nullable final T value) {
+  public static <T> Callable<T> returning(final @Nullable T value) {
     return new Callable<T>() {
       @Override
       public T call() {
