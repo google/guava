@@ -38,6 +38,11 @@ public void testIsNullOrEmpty() throws Exception {
   testCase.testIsNullOrEmpty();
 }
 
+public void testLenientFormat() throws Exception {
+  com.google.common.base.StringsTest testCase = new com.google.common.base.StringsTest();
+  testCase.testLenientFormat();
+}
+
 public void testNullToEmpty() throws Exception {
   com.google.common.base.StringsTest testCase = new com.google.common.base.StringsTest();
   testCase.testNullToEmpty();
