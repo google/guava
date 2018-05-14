@@ -256,7 +256,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.115">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.114">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,V&gt;&nbsp;map)</pre>
 <div class="block">Returns a function which performs a map lookup. The returned function throws an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a> if given a key that does not exist in the map. See also <a href="../../../../com/google/common/base/Functions.html#forMap-java.util.Map-V-"><code>forMap(Map, Object)</code></a>, which returns a default value in this case.
 
  <p>Note: if <code>map</code> is a <a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> (or can be one), you
@@ -276,7 +276,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forMap</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.132">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map,
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.131">forMap</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;K,? extends V&gt;&nbsp;map,
                                          V&nbsp;defaultValue)</pre>
 <div class="block">Returns a function which performs a map lookup with a default value. The function created by
  this method returns <code>defaultValue</code> for all inputs that do not belong to the map's key
@@ -299,7 +299,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compose</h4>
-<pre>public static&nbsp;&lt;A,B,C&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.222">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;B,C&gt;&nbsp;g,
+<pre>public static&nbsp;&lt;A,B,C&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,C&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.221">compose</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;B,C&gt;&nbsp;g,
                                             <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;A,? extends B&gt;&nbsp;f)</pre>
 <div class="block">Returns the composition of two functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition
  is defined as the function h such that <code>h(a) == g(f(a))</code> for each <code>a</code>.
@@ -323,7 +323,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>forPredicate</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.271">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;predicate)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Boolean.html?is-external=true" title="class or interface in java.lang">Boolean</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.270">forPredicate</a>(<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;predicate)</pre>
 <div class="block">Creates a function that returns the same boolean output as the given predicate for all inputs.
 
  <p>The returned function is <i>consistent with equals</i> (as documented at <a href="../../../../com/google/common/base/Function.html#apply-F-"><code>Function.apply(F)</code></a>) if and only if <code>predicate</code> is itself consistent with equals.
@@ -339,7 +339,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>constant</h4>
-<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.318">constant</a>(E&nbsp;value)</pre>
+<pre>public static&nbsp;&lt;E&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,E&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.317">constant</a>(E&nbsp;value)</pre>
 <div class="block">Returns a function that ignores its input and always returns <code>value</code>.
 
  <p><b>Java 8 users:</b> use the lambda expression <code>o -&gt; value</code> instead.</div>
@@ -357,7 +357,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>forSupplier</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.363">forSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>,T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Functions.html#line.362">forSupplier</a>(<a href="../../../../com/google/common/base/Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</pre>
 <div class="block">Returns a function that ignores its input and returns the result of <code>supplier.get()</code>.
 
  <p><b>Java 8 users:</b> use the lambda expression <code>o -&gt; supplier.get()</code> instead.</div>

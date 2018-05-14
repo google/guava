@@ -479,7 +479,7 @@
 <span class="sourceLineNo">471</span><a name="line.471"></a>
 <span class="sourceLineNo">472</span>      /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */<a name="line.472"></a>
 <span class="sourceLineNo">473</span>      private final class NodeAndSuccessors {<a name="line.473"></a>
-<span class="sourceLineNo">474</span>        @Nullable final N node;<a name="line.474"></a>
+<span class="sourceLineNo">474</span>        final @Nullable N node;<a name="line.474"></a>
 <span class="sourceLineNo">475</span>        final Iterator&lt;? extends N&gt; successorIterator;<a name="line.475"></a>
 <span class="sourceLineNo">476</span><a name="line.476"></a>
 <span class="sourceLineNo">477</span>        NodeAndSuccessors(@Nullable N node, Iterable&lt;? extends N&gt; successors) {<a name="line.477"></a>
@@ -652,7 +652,7 @@
 <span class="sourceLineNo">644</span><a name="line.644"></a>
 <span class="sourceLineNo">645</span>      /** A simple tuple of a node and a partially iterated {@link Iterator} of its children. */<a name="line.645"></a>
 <span class="sourceLineNo">646</span>      private final class NodeAndChildren {<a name="line.646"></a>
-<span class="sourceLineNo">647</span>        @Nullable final N node;<a name="line.647"></a>
+<span class="sourceLineNo">647</span>        final @Nullable N node;<a name="line.647"></a>
 <span class="sourceLineNo">648</span>        final Iterator&lt;? extends N&gt; childIterator;<a name="line.648"></a>
 <span class="sourceLineNo">649</span><a name="line.649"></a>
 <span class="sourceLineNo">650</span>        NodeAndChildren(@Nullable N node, Iterable&lt;? extends N&gt; children) {<a name="line.650"></a>

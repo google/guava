@@ -559,7 +559,7 @@
 <span class="sourceLineNo">551</span>     * The exception that caused this service to fail. This will be {@code null} unless the service<a name="line.551"></a>
 <span class="sourceLineNo">552</span>     * has failed.<a name="line.552"></a>
 <span class="sourceLineNo">553</span>     */<a name="line.553"></a>
-<span class="sourceLineNo">554</span>    @Nullable final Throwable failure;<a name="line.554"></a>
+<span class="sourceLineNo">554</span>    final @Nullable Throwable failure;<a name="line.554"></a>
 <span class="sourceLineNo">555</span><a name="line.555"></a>
 <span class="sourceLineNo">556</span>    StateSnapshot(State internalState) {<a name="line.556"></a>
 <span class="sourceLineNo">557</span>      this(internalState, false, null);<a name="line.557"></a>

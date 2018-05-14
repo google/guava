@@ -657,22 +657,21 @@
 <span class="sourceLineNo">649</span>   * @since 14.0<a name="line.649"></a>
 <span class="sourceLineNo">650</span>   */<a name="line.650"></a>
 <span class="sourceLineNo">651</span>  @Beta<a name="line.651"></a>
-<span class="sourceLineNo">652</span>  @Nullable<a name="line.652"></a>
-<span class="sourceLineNo">653</span>  @GwtIncompatible // regular expressions<a name="line.653"></a>
-<span class="sourceLineNo">654</span>  public static Float tryParse(String string) {<a name="line.654"></a>
-<span class="sourceLineNo">655</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.655"></a>
-<span class="sourceLineNo">656</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.656"></a>
-<span class="sourceLineNo">657</span>      // extensive testing<a name="line.657"></a>
-<span class="sourceLineNo">658</span>      try {<a name="line.658"></a>
-<span class="sourceLineNo">659</span>        return Float.parseFloat(string);<a name="line.659"></a>
-<span class="sourceLineNo">660</span>      } catch (NumberFormatException e) {<a name="line.660"></a>
-<span class="sourceLineNo">661</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.661"></a>
-<span class="sourceLineNo">662</span>        // gracefully<a name="line.662"></a>
-<span class="sourceLineNo">663</span>      }<a name="line.663"></a>
-<span class="sourceLineNo">664</span>    }<a name="line.664"></a>
-<span class="sourceLineNo">665</span>    return null;<a name="line.665"></a>
-<span class="sourceLineNo">666</span>  }<a name="line.666"></a>
-<span class="sourceLineNo">667</span>}<a name="line.667"></a>
+<span class="sourceLineNo">652</span>  @GwtIncompatible // regular expressions<a name="line.652"></a>
+<span class="sourceLineNo">653</span>  public static @Nullable Float tryParse(String string) {<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.654"></a>
+<span class="sourceLineNo">655</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.655"></a>
+<span class="sourceLineNo">656</span>      // extensive testing<a name="line.656"></a>
+<span class="sourceLineNo">657</span>      try {<a name="line.657"></a>
+<span class="sourceLineNo">658</span>        return Float.parseFloat(string);<a name="line.658"></a>
+<span class="sourceLineNo">659</span>      } catch (NumberFormatException e) {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>        // Float.parseFloat has changed specs several times, so fall through<a name="line.660"></a>
+<span class="sourceLineNo">661</span>        // gracefully<a name="line.661"></a>
+<span class="sourceLineNo">662</span>      }<a name="line.662"></a>
+<span class="sourceLineNo">663</span>    }<a name="line.663"></a>
+<span class="sourceLineNo">664</span>    return null;<a name="line.664"></a>
+<span class="sourceLineNo">665</span>  }<a name="line.665"></a>
+<span class="sourceLineNo">666</span>}<a name="line.666"></a>
 
 
 

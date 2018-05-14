@@ -172,8 +172,8 @@
 <span class="sourceLineNo">164</span>   *<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   * @return the converted value; is null &lt;i&gt;if and only if&lt;/i&gt; {@code a} is null<a name="line.165"></a>
 <span class="sourceLineNo">166</span>   */<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  @NullableDecl<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  @CanIgnoreReturnValue<a name="line.168"></a>
+<span class="sourceLineNo">167</span>  @CanIgnoreReturnValue<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @NullableDecl<a name="line.168"></a>
 <span class="sourceLineNo">169</span>  public final B convert(@NullableDecl A a) {<a name="line.169"></a>
 <span class="sourceLineNo">170</span>    return correctedDoForward(a);<a name="line.170"></a>
 <span class="sourceLineNo">171</span>  }<a name="line.171"></a>
@@ -394,8 +394,8 @@
 <span class="sourceLineNo">386</span>   */<a name="line.386"></a>
 <span class="sourceLineNo">387</span>  @Deprecated<a name="line.387"></a>
 <span class="sourceLineNo">388</span>  @Override<a name="line.388"></a>
-<span class="sourceLineNo">389</span>  @NullableDecl<a name="line.389"></a>
-<span class="sourceLineNo">390</span>  @CanIgnoreReturnValue<a name="line.390"></a>
+<span class="sourceLineNo">389</span>  @CanIgnoreReturnValue<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  @NullableDecl<a name="line.390"></a>
 <span class="sourceLineNo">391</span>  public final B apply(@NullableDecl A a) {<a name="line.391"></a>
 <span class="sourceLineNo">392</span>    return convert(a);<a name="line.392"></a>
 <span class="sourceLineNo">393</span>  }<a name="line.393"></a>

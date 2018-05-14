@@ -310,7 +310,7 @@
 <span class="sourceLineNo">302</span>  @Override<a name="line.302"></a>
 <span class="sourceLineNo">303</span>  public abstract UnmodifiableIterator&lt;E&gt; iterator();<a name="line.303"></a>
 <span class="sourceLineNo">304</span><a name="line.304"></a>
-<span class="sourceLineNo">305</span>  @LazyInit @Nullable @RetainedWith private transient ImmutableList&lt;E&gt; asList;<a name="line.305"></a>
+<span class="sourceLineNo">305</span>  @LazyInit @RetainedWith private transient @Nullable ImmutableList&lt;E&gt; asList;<a name="line.305"></a>
 <span class="sourceLineNo">306</span><a name="line.306"></a>
 <span class="sourceLineNo">307</span>  @Override<a name="line.307"></a>
 <span class="sourceLineNo">308</span>  public ImmutableList&lt;E&gt; asList() {<a name="line.308"></a>

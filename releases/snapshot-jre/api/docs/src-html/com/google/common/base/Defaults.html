@@ -45,31 +45,30 @@
 <span class="sourceLineNo">037</span>   * false} for {@code boolean} and {@code '\0'} for {@code char}. For non-primitive types and<a name="line.37"></a>
 <span class="sourceLineNo">038</span>   * {@code void}, {@code null} is returned.<a name="line.38"></a>
 <span class="sourceLineNo">039</span>   */<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  @Nullable<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  @SuppressWarnings("unchecked")<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  public static &lt;T&gt; T defaultValue(Class&lt;T&gt; type) {<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    checkNotNull(type);<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    if (type == boolean.class) {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>      return (T) Boolean.FALSE;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    } else if (type == char.class) {<a name="line.46"></a>
-<span class="sourceLineNo">047</span>      return (T) Character.valueOf('\0');<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    } else if (type == byte.class) {<a name="line.48"></a>
-<span class="sourceLineNo">049</span>      return (T) Byte.valueOf((byte) 0);<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    } else if (type == short.class) {<a name="line.50"></a>
-<span class="sourceLineNo">051</span>      return (T) Short.valueOf((short) 0);<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    } else if (type == int.class) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>      return (T) Integer.valueOf(0);<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    } else if (type == long.class) {<a name="line.54"></a>
-<span class="sourceLineNo">055</span>      return (T) Long.valueOf(0L);<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    } else if (type == float.class) {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>      return (T) FLOAT_DEFAULT;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    } else if (type == double.class) {<a name="line.58"></a>
-<span class="sourceLineNo">059</span>      return (T) DOUBLE_DEFAULT;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    } else {<a name="line.60"></a>
-<span class="sourceLineNo">061</span>      return null;<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    }<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  }<a name="line.63"></a>
-<span class="sourceLineNo">064</span>}<a name="line.64"></a>
+<span class="sourceLineNo">040</span>  @SuppressWarnings("unchecked")<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  public static &lt;T&gt; @Nullable T defaultValue(Class&lt;T&gt; type) {<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    checkNotNull(type);<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    if (type == boolean.class) {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>      return (T) Boolean.FALSE;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    } else if (type == char.class) {<a name="line.45"></a>
+<span class="sourceLineNo">046</span>      return (T) Character.valueOf('\0');<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    } else if (type == byte.class) {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>      return (T) Byte.valueOf((byte) 0);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    } else if (type == short.class) {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>      return (T) Short.valueOf((short) 0);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    } else if (type == int.class) {<a name="line.51"></a>
+<span class="sourceLineNo">052</span>      return (T) Integer.valueOf(0);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    } else if (type == long.class) {<a name="line.53"></a>
+<span class="sourceLineNo">054</span>      return (T) Long.valueOf(0L);<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    } else if (type == float.class) {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      return (T) FLOAT_DEFAULT;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    } else if (type == double.class) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      return (T) DOUBLE_DEFAULT;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    } else {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      return null;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    }<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  }<a name="line.62"></a>
+<span class="sourceLineNo">063</span>}<a name="line.63"></a>
 
 
 

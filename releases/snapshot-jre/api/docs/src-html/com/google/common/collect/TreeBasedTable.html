@@ -177,8 +177,8 @@
 <span class="sourceLineNo">169</span>  }<a name="line.169"></a>
 <span class="sourceLineNo">170</span><a name="line.170"></a>
 <span class="sourceLineNo">171</span>  private class TreeRow extends Row implements SortedMap&lt;C, V&gt; {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    @Nullable final C lowerBound;<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    @Nullable final C upperBound;<a name="line.173"></a>
+<span class="sourceLineNo">172</span>    final @Nullable C lowerBound;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    final @Nullable C upperBound;<a name="line.173"></a>
 <span class="sourceLineNo">174</span><a name="line.174"></a>
 <span class="sourceLineNo">175</span>    TreeRow(R rowKey) {<a name="line.175"></a>
 <span class="sourceLineNo">176</span>      this(rowKey, null, null);<a name="line.176"></a>
@@ -251,7 +251,7 @@
 <span class="sourceLineNo">243</span>      return backingRowMap().lastKey();<a name="line.243"></a>
 <span class="sourceLineNo">244</span>    }<a name="line.244"></a>
 <span class="sourceLineNo">245</span><a name="line.245"></a>
-<span class="sourceLineNo">246</span>    @Nullable transient SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
+<span class="sourceLineNo">246</span>    transient @Nullable SortedMap&lt;C, V&gt; wholeRow;<a name="line.246"></a>
 <span class="sourceLineNo">247</span><a name="line.247"></a>
 <span class="sourceLineNo">248</span>    /*<a name="line.248"></a>
 <span class="sourceLineNo">249</span>     * If the row was previously empty, we check if there's a new row here every<a name="line.249"></a>

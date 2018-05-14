@@ -530,7 +530,7 @@
 <span class="sourceLineNo">522</span>        };<a name="line.522"></a>
 <span class="sourceLineNo">523</span><a name="line.523"></a>
 <span class="sourceLineNo">524</span>    return new ForwardingIterator&lt;Entry&lt;E&gt;&gt;() {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>      @Nullable private Entry&lt;E&gt; last;<a name="line.525"></a>
+<span class="sourceLineNo">525</span>      private @Nullable Entry&lt;E&gt; last;<a name="line.525"></a>
 <span class="sourceLineNo">526</span><a name="line.526"></a>
 <span class="sourceLineNo">527</span>      @Override<a name="line.527"></a>
 <span class="sourceLineNo">528</span>      protected Iterator&lt;Entry&lt;E&gt;&gt; delegate() {<a name="line.528"></a>

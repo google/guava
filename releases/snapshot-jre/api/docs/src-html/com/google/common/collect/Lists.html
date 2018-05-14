@@ -322,7 +322,7 @@
 <span class="sourceLineNo">314</span>  /** @see Lists#asList(Object, Object[]) */<a name="line.314"></a>
 <span class="sourceLineNo">315</span>  private static class OnePlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.315"></a>
 <span class="sourceLineNo">316</span>      implements Serializable, RandomAccess {<a name="line.316"></a>
-<span class="sourceLineNo">317</span>    @Nullable final E first;<a name="line.317"></a>
+<span class="sourceLineNo">317</span>    final @Nullable E first;<a name="line.317"></a>
 <span class="sourceLineNo">318</span>    final E[] rest;<a name="line.318"></a>
 <span class="sourceLineNo">319</span><a name="line.319"></a>
 <span class="sourceLineNo">320</span>    OnePlusArrayList(@Nullable E first, E[] rest) {<a name="line.320"></a>
@@ -348,8 +348,8 @@
 <span class="sourceLineNo">340</span>  /** @see Lists#asList(Object, Object, Object[]) */<a name="line.340"></a>
 <span class="sourceLineNo">341</span>  private static class TwoPlusArrayList&lt;E&gt; extends AbstractList&lt;E&gt;<a name="line.341"></a>
 <span class="sourceLineNo">342</span>      implements Serializable, RandomAccess {<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    @Nullable final E first;<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    @Nullable final E second;<a name="line.344"></a>
+<span class="sourceLineNo">343</span>    final @Nullable E first;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    final @Nullable E second;<a name="line.344"></a>
 <span class="sourceLineNo">345</span>    final E[] rest;<a name="line.345"></a>
 <span class="sourceLineNo">346</span><a name="line.346"></a>
 <span class="sourceLineNo">347</span>    TwoPlusArrayList(@Nullable E first, @Nullable E second, E[] rest) {<a name="line.347"></a>

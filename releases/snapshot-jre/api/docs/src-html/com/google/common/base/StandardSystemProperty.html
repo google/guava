@@ -133,17 +133,16 @@
 <span class="sourceLineNo">125</span>   * Returns the current value for this system property by delegating to {@link<a name="line.125"></a>
 <span class="sourceLineNo">126</span>   * System#getProperty(String)}.<a name="line.126"></a>
 <span class="sourceLineNo">127</span>   */<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  @Nullable<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  public String value() {<a name="line.129"></a>
-<span class="sourceLineNo">130</span>    return System.getProperty(key);<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  }<a name="line.131"></a>
-<span class="sourceLineNo">132</span><a name="line.132"></a>
-<span class="sourceLineNo">133</span>  /** Returns a string representation of this system property. */<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  @Override<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public String toString() {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    return key() + "=" + value();<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
-<span class="sourceLineNo">138</span>}<a name="line.138"></a>
+<span class="sourceLineNo">128</span>  public @Nullable String value() {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    return System.getProperty(key);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>  /** Returns a string representation of this system property. */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  @Override<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  public String toString() {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    return key() + "=" + value();<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span>}<a name="line.137"></a>
 
 
 
