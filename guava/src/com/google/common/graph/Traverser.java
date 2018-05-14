@@ -471,7 +471,7 @@ public abstract class Traverser<N> {
 
       /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */
       private final class NodeAndSuccessors {
-        @Nullable final N node;
+        final @Nullable N node;
         final Iterator<? extends N> successorIterator;
 
         NodeAndSuccessors(@Nullable N node, Iterable<? extends N> successors) {
@@ -644,7 +644,7 @@ public abstract class Traverser<N> {
 
       /** A simple tuple of a node and a partially iterated {@link Iterator} of its children. */
       private final class NodeAndChildren {
-        @Nullable final N node;
+        final @Nullable N node;
         final Iterator<? extends N> childIterator;
 
         NodeAndChildren(@Nullable N node, Iterable<? extends N> children) {

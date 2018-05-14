@@ -92,15 +92,13 @@ public final class Maps {
   private enum EntryFunction implements Function<Entry<?, ?>, Object> {
     KEY {
       @Override
-      @Nullable
-      public Object apply(Entry<?, ?> entry) {
+      public @Nullable Object apply(Entry<?, ?> entry) {
         return entry.getKey();
       }
     },
     VALUE {
       @Override
-      @Nullable
-      public Object apply(Entry<?, ?> entry) {
+      public @Nullable Object apply(Entry<?, ?> entry) {
         return entry.getValue();
       }
     };
@@ -695,8 +693,8 @@ public final class Maps {
   }
 
   static class ValueDifferenceImpl<V> implements MapDifference.ValueDifference<V> {
-    @Nullable private final V left;
-    @Nullable private final V right;
+    private final @Nullable V left;
+    private final @Nullable V right;
 
     static <V> ValueDifference<V> create(@Nullable V left, @Nullable V right) {
       return new ValueDifferenceImpl<V>(left, right);
@@ -1051,14 +1049,12 @@ public final class Maps {
     }
 
     @Override
-    @Nullable
-    public V get(@Nullable Object key) {
+    public @Nullable V get(@Nullable Object key) {
       return getOrDefault(key, null);
     }
 
     @Override
-    @Nullable
-    public V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    public @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
       if (Collections2.safeContains(set, key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -2030,16 +2026,14 @@ public final class Maps {
     }
 
     @Override
-    @Nullable
-    public V2 get(@Nullable Object key) {
+    public @Nullable V2 get(@Nullable Object key) {
       return getOrDefault(key, null);
     }
 
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    @Nullable
-    public V2 getOrDefault(@Nullable Object key, @Nullable V2 defaultValue) {
+    public @Nullable V2 getOrDefault(@Nullable Object key, @Nullable V2 defaultValue) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
           ? transformer.transformEntry((K) key, value)
@@ -2249,8 +2243,7 @@ public final class Maps {
       return transformEntries(fromMap().tailMap(fromKey, inclusive), transformer);
     }
 
-    @Nullable
-    private Entry<K, V2> transformEntry(@Nullable Entry<K, V1> entry) {
+    private @Nullable Entry<K, V2> transformEntry(@Nullable Entry<K, V1> entry) {
       return (entry == null) ? null : Maps.transformEntry(transformer, entry);
     }
 
@@ -3128,8 +3121,7 @@ public final class Maps {
     }
 
     @Override
-    @Nullable
-    public V get(@Nullable Object key) {
+    public @Nullable V get(@Nullable Object key) {
       return filteredDelegate.get(key);
     }
 
@@ -3284,8 +3276,8 @@ public final class Maps {
     }
   }
 
-  @Nullable
-  private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
+  private static <K, V> @Nullable Entry<K, V> unmodifiableOrNull(
+      @Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
@@ -3744,13 +3736,11 @@ public final class Maps {
     }
   }
 
-  @Nullable
-  static <K> K keyOrNull(@Nullable Entry<K, ?> entry) {
+  static <K> @Nullable K keyOrNull(@Nullable Entry<K, ?> entry) {
     return (entry == null) ? null : entry.getKey();
   }
 
-  @Nullable
-  static <V> V valueOrNull(@Nullable Entry<?, V> entry) {
+  static <V> @Nullable V valueOrNull(@Nullable Entry<?, V> entry) {
     return (entry == null) ? null : entry.getValue();
   }
 

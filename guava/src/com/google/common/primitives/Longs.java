@@ -362,8 +362,7 @@ public final class Longs {
    * @since 14.0
    */
   @Beta
-  @Nullable
-  public static Long tryParse(String string) {
+  public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -387,8 +386,7 @@ public final class Longs {
    * @since 19.0
    */
   @Beta
-  @Nullable
-  public static Long tryParse(String string, int radix) {
+  public static @Nullable Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }

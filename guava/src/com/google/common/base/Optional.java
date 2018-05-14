@@ -120,8 +120,8 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 21.0
    */
-  @Nullable
-  public static <T> Optional<T> fromJavaUtil(java.util.@Nullable Optional<T> javaUtilOptional) {
+  public static <T> @Nullable Optional<T> fromJavaUtil(
+      java.util.@Nullable Optional<T> javaUtilOptional) {
     return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
   }
 
@@ -246,8 +246,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.orElse(null)}.
    */
-  @Nullable
-  public abstract T orNull();
+  public abstract @Nullable T orNull();
 
   /**
    * Returns an immutable singleton {@link Set} whose only element is the contained instance if it

@@ -155,8 +155,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return get(key, table, mask);
   }
 
-  @Nullable
-  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
+  static <V> @Nullable V get(
+      @Nullable Object key, ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
     if (key == null || keyTable == null) {
       return null;
     }

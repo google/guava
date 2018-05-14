@@ -61,8 +61,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  @Nullable
-  public T orNull() {
+  public @Nullable T orNull() {
     return null;
   }
 

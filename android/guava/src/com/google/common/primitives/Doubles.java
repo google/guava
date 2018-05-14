@@ -675,8 +675,8 @@ public final class Doubles {
    * @since 14.0
    */
   @Beta
-  @NullableDecl
   @GwtIncompatible // regular expressions
+  @NullableDecl
   public static Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with

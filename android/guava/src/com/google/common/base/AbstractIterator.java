@@ -43,8 +43,8 @@ abstract class AbstractIterator<T> implements Iterator<T> {
 
   protected abstract T computeNext();
 
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   protected final T endOfData() {
     state = State.DONE;
     return null;

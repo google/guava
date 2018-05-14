@@ -43,8 +43,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /** @since 11.0 */
   @Override
-  @Nullable
-  public V getIfPresent(Object key) {
+  public @Nullable V getIfPresent(Object key) {
     return delegate().getIfPresent(key);
   }
 

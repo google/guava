@@ -338,7 +338,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @NullableDecl @RetainedWith private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith @NullableDecl private transient ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {

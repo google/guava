@@ -190,11 +190,9 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
 
     abstract String getKeyRole();
 
-    @Nullable
-    abstract V getValue(int index);
+    abstract @Nullable V getValue(int index);
 
-    @Nullable
-    abstract V setValue(int index, V newValue);
+    abstract @Nullable V setValue(int index, V newValue);
 
     @Override
     public int size() {

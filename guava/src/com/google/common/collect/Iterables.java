@@ -199,8 +199,8 @@ public final class Iterables {
   }
 
   /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  @Nullable
-  static <T> T removeFirstMatching(Iterable<T> removeFrom, Predicate<? super T> predicate) {
+  static <T> @Nullable T removeFirstMatching(
+      Iterable<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     Iterator<T> iterator = removeFrom.iterator();
     while (iterator.hasNext()) {
@@ -263,8 +263,8 @@ public final class Iterables {
    *
    * @throws IllegalArgumentException if the iterator contains multiple elements
    */
-  @Nullable
-  public static <T> T getOnlyElement(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T> @Nullable T getOnlyElement(
+      Iterable<? extends T> iterable, @Nullable T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -641,8 +641,7 @@ public final class Iterables {
    *
    * @since 7.0
    */
-  @Nullable
-  public static <T> T find(
+  public static <T> @Nullable T find(
       Iterable<? extends T> iterable, Predicate<? super T> predicate, @Nullable T defaultValue) {
     return Iterators.find(iterable.iterator(), predicate, defaultValue);
   }
@@ -745,8 +744,8 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  @Nullable
-  public static <T> T get(Iterable<? extends T> iterable, int position, @Nullable T defaultValue) {
+  public static <T> @Nullable T get(
+      Iterable<? extends T> iterable, int position, @Nullable T defaultValue) {
     checkNotNull(iterable);
     Iterators.checkNonnegative(position);
     if (iterable instanceof List) {
@@ -776,8 +775,7 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
    */
-  @Nullable
-  public static <T> T getFirst(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T> @Nullable T getFirst(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }
 
@@ -814,8 +812,7 @@ public final class Iterables {
    * @return the last element of {@code iterable} or the default value
    * @since 3.0
    */
-  @Nullable
-  public static <T> T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T> @Nullable T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     if (iterable instanceof Collection) {
       Collection<? extends T> c = Collections2.cast(iterable);
       if (c.isEmpty()) {

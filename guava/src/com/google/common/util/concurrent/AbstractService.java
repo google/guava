@@ -551,7 +551,7 @@ public abstract class AbstractService implements Service {
      * The exception that caused this service to fail. This will be {@code null} unless the service
      * has failed.
      */
-    @Nullable final Throwable failure;
+    final @Nullable Throwable failure;
 
     StateSnapshot(State internalState) {
       this(internalState, false, null);

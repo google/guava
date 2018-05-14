@@ -81,7 +81,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     FAILED,
   }
 
-  @Nullable private T next;
+  private @Nullable T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when

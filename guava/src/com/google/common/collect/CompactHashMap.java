@@ -236,8 +236,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  public V put(@Nullable K key, @Nullable V value) {
+  public @Nullable V put(@Nullable K key, @Nullable V value) {
     long[] entries = this.entries;
     Object[] keys = this.keys;
     Object[] values = this.values;
@@ -373,13 +372,11 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  public V remove(@Nullable Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     return remove(key, smearedHash(key));
   }
 
-  @Nullable
-  private V remove(@Nullable Object key, int hash) {
+  private @Nullable V remove(@Nullable Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket
@@ -664,7 +661,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-    @Nullable private final K key;
+    private final @Nullable K key;
 
     private int lastKnownIndex;
 

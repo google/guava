@@ -380,8 +380,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   /** Returns the first node in the tree that is in range. */
-  @Nullable
-  private AvlNode<E> firstNode() {
+  private @Nullable AvlNode<E> firstNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
@@ -403,8 +402,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return (node == header || !range.contains(node.getElement())) ? null : node;
   }
 
-  @Nullable
-  private AvlNode<E> lastNode() {
+  private @Nullable AvlNode<E> lastNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
@@ -547,10 +545,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   private static final class Reference<T> {
-    @Nullable private T value;
+    private @Nullable T value;
 
-    @Nullable
-    public T get() {
+    public @Nullable T get() {
       return value;
     }
 
@@ -567,7 +564,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   private static final class AvlNode<E> {
-    @Nullable private final E elem;
+    private final @Nullable E elem;
 
     // elemCount is 0 iff this node has been deleted.
     private int elemCount;
@@ -575,10 +572,10 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private int distinctElements;
     private long totalCount;
     private int height;
-    @Nullable private AvlNode<E> left;
-    @Nullable private AvlNode<E> right;
-    @Nullable private AvlNode<E> pred;
-    @Nullable private AvlNode<E> succ;
+    private @Nullable AvlNode<E> left;
+    private @Nullable AvlNode<E> right;
+    private @Nullable AvlNode<E> pred;
+    private @Nullable AvlNode<E> succ;
 
     AvlNode(@Nullable E elem, int elemCount) {
       checkArgument(elemCount > 0);
@@ -946,8 +943,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return (node == null) ? 0 : node.height;
     }
 
-    @Nullable
-    private AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
+    private @Nullable AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
@@ -958,8 +954,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
-    @Nullable
-    private AvlNode<E> floor(Comparator<? super E> comparator, E e) {
+    private @Nullable AvlNode<E> floor(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp > 0) {
         return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);

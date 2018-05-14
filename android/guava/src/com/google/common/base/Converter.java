@@ -164,8 +164,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   public final B convert(@NullableDecl A a) {
     return correctedDoForward(a);
   }
@@ -386,8 +386,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   public final B apply(@NullableDecl A a) {
     return convert(a);
   }

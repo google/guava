@@ -70,8 +70,8 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
    * @return the value previously associated with this class (possibly {@code null}), or {@code
    *     null} if there was no previous entry.
    */
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   <T extends B> T putInstance(Class<T> type, @NullableDecl T value);
 
   /**
@@ -81,7 +81,7 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
    * @return the value previously associated with this type (possibly {@code null}), or {@code null}
    *     if there was no previous entry.
    */
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   <T extends B> T putInstance(TypeToken<T> type, @NullableDecl T value);
 }

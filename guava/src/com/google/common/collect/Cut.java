@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
-  @Nullable final C endpoint;
+  final @Nullable C endpoint;
 
   Cut(@Nullable C endpoint) {
     this.endpoint = endpoint;
