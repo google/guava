@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable representation of a host and port.
@@ -277,7 +277,7 @@ public final class HostAndPort implements Serializable {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object other) {
+  public boolean equals(@Nullable Object other) {
     if (this == other) {
       return true;
     }
