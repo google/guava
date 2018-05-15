@@ -232,9 +232,4 @@ public void testCheckState_simple_success() throws Exception {
   com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
   testCase.testCheckState_simple_success();
 }
-
-public void testFormat() throws Exception {
-  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
-  testCase.testFormat();
-}
 }
