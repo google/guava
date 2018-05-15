@@ -5275,8 +5275,12 @@
 
  <h3>Only {@code %s} is supported</h3>
 
- <p>In {@code Preconditions} error message template strings, only the {@code "%s"} specifier is
- supported, not the full range of {@link java.util.Formatter} specifiers.
+ <p>{@code Preconditions} uses {@link Strings#lenientFormat} to format error message template
+ strings. This only supports the {@code "%s"} specifier, not the full range of {@link
+ java.util.Formatter} specifiers. However, note that if the number of arguments does not match the
+ number of occurrences of {@code "%s"} in the format string, {@code Preconditions} will still
+ behave as expected, and will still include all argument values in the error message; the message
+ will simply not be formatted exactly as intended.
 
  <h3>More information</h3>
 
@@ -6295,6 +6299,43 @@
  {@code b} have no common suffix, returns the empty string.
 
  @since 11.0]]>
+      </doc>
+    </method>
+    <method name="lenientFormat" return="java.lang.String"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="template" type="java.lang.String"/>
+      <param name="args" type="java.lang.Object[]"/>
+      <doc>
+      <![CDATA[Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
+ the corresponding argument value from {@code args}; or, if the placeholder and argument counts
+ do not match, returns a best-effort form of that string. Will not throw an exception under any
+ circumstances (as long as all arguments' {@code toString} methods successfully return).
+
+ <p><b>Note:</b> For most string-formatting needs, use {@link String#format}, {@link
+ PrintWriter#format}, and related methods. These support the full range of {@linkplain
+ Formatter#syntax format specifiers}, and alert you to usage errors by throwing {@link
+ InvalidFormatException}.
+
+ <p>In certain cases, such as outputting debugging information or constructing a message to be
+ used for another unchecked exception, an exception during string formatting would serve little
+ purpose except to supplant the real information you were trying to provide. These are the cases
+ this method is made for; it instead generates a best-effort string with all supplied argument
+ values present. This method is also useful in environments such as GWT where {@code
+ String.format} is not available. As an example, method implementations of the {@link
+ Preconditions} class use this formatter, for both of the reasons just discussed.
+
+ <p><b>Warning:</b> Only the exact two-character placeholder sequence {@code "%s"} is
+ recognized.
+
+ @param template a string containing zero or more {@code "%s"} placeholder sequences. {@code
+     null} is treated as the four-character string {@code "null"}.
+ @param args the arguments to be substituted into the message template. The first argument
+     specified is substituted for the first occurrence of {@code "%s"} in the template, and so
+     forth. A {@code null} argument is converted to the four-character string {@code "null"};
+     non-null values are converted to strings using {@link Object#toString()}.
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
@@ -7347,7 +7388,7 @@
     </method>
     <doc>
     <![CDATA[Static convenience methods that serve the same purpose as Java language <a
- href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/assert.html">assertions</a>,
+ href="https://docs.oracle.com/javase/8/docs/technotes/guides/language/assert.html">assertions</a>,
  except that they are always enabled. These methods should be used instead of Java assertions
  whenever there is a chance the check may fail "in real life". Example:
 
@@ -7397,11 +7438,12 @@
 
  <h3>Only {@code %s} is supported</h3>
 
- <p>As with {@link Preconditions} error message template strings, only the {@code "%s"} specifier
- is supported, not the full range of {@link java.util.Formatter} specifiers. However, note that if
- the number of arguments does not match the number of occurrences of {@code "%s"} in the format
- string, {@code Verify} will still behave as expected, and will still include all argument values
- in the error message; the message will simply not be formatted exactly as intended.
+ <p>As with {@link Preconditions}, {@code Verify} uses {@link Strings#lenientFormat} to format
+ error message template strings. This only supports the {@code "%s"} specifier, not the full range
+ of {@link java.util.Formatter} specifiers. However, note that if the number of arguments does not
+ match the number of occurrences of {@code "%s"} in the format string, {@code Verify} will still
+ behave as expected, and will still include all argument values in the error message; the message
+ will simply not be formatted exactly as intended.
 
  <h3>More information</h3>
 
