@@ -36572,7 +36572,7 @@
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <constructor name="ArrayBasedUnicodeEscaper" type="java.util.Map&lt;java.lang.Character, java.lang.String&gt;, int, int, java.lang.String"
+    <constructor name="ArrayBasedUnicodeEscaper" type="java.util.Map&lt;java.lang.Character, java.lang.String&gt;, int, int, String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
@@ -36589,7 +36589,7 @@
      replacement is required]]>
       </doc>
     </constructor>
-    <constructor name="ArrayBasedUnicodeEscaper" type="com.google.common.escape.ArrayBasedEscaperMap, int, int, java.lang.String"
+    <constructor name="ArrayBasedUnicodeEscaper" type="com.google.common.escape.ArrayBasedEscaperMap, int, int, String"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
@@ -37010,7 +37010,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="unsafeReplacement" type="java.lang.String"/>
+      <param name="unsafeReplacement" type="String"/>
       <doc>
       <![CDATA[Sets the replacement string for any characters outside the 'safe' range that have no explicit
  replacement. If {@code unsafeReplacement} is {@code null} then no replacement will occur, if
@@ -49355,7 +49355,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="java.lang.Object"/>
+      <param name="other" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -49460,7 +49460,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="other" type="java.lang.Object"/>
+      <param name="other" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -50945,7 +50945,7 @@
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <constructor name="TeredoInfo" type="java.net.Inet4Address, java.net.Inet4Address, int, int"
+    <constructor name="TeredoInfo" type="Inet4Address, Inet4Address, int, int"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -51321,7 +51321,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="java.lang.Object"/>
+      <param name="object" type="Object"/>
       <doc>
       <![CDATA[Equality testing is based on the text supplied by the caller, after normalization as described
  in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
@@ -51552,7 +51552,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="obj" type="java.lang.Object"/>
+      <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"

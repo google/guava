@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import com.google.thirdparty.publicsuffix.PublicSuffixType;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.List;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only<a name="line.36"></a>
@@ -625,7 +625,7 @@
 <span class="sourceLineNo">617</span>   * version of the same domain name would not be considered equal.<a name="line.617"></a>
 <span class="sourceLineNo">618</span>   */<a name="line.618"></a>
 <span class="sourceLineNo">619</span>  @Override<a name="line.619"></a>
-<span class="sourceLineNo">620</span>  public boolean equals(@NullableDecl Object object) {<a name="line.620"></a>
+<span class="sourceLineNo">620</span>  public boolean equals(@Nullable Object object) {<a name="line.620"></a>
 <span class="sourceLineNo">621</span>    if (object == this) {<a name="line.621"></a>
 <span class="sourceLineNo">622</span>      return true;<a name="line.622"></a>
 <span class="sourceLineNo">623</span>    }<a name="line.623"></a>

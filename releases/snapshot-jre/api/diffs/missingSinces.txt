@@ -1,3 +1,5 @@
+MISSING @SINCE TAG: com.google.common.escape.ArrayBasedUnicodeEscaper Constructor (com.google.common.escape.ArrayBasedEscaperMap, int, int, String)
+MISSING @SINCE TAG: com.google.common.escape.ArrayBasedUnicodeEscaper Constructor (java.util.Map<java.lang.Character, java.lang.String>, int, int, String)
 MISSING @SINCE TAG: com.google.common.util.concurrent.ExecutionError Constructor (Error)
 MISSING @SINCE TAG: com.google.common.util.concurrent.ExecutionError Constructor (String)
 MISSING @SINCE TAG: com.google.common.util.concurrent.ExecutionError Constructor (String, Error)
