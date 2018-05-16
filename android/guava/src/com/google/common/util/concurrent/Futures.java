@@ -33,6 +33,7 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulCheckedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -322,6 +323,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
+  @DoNotCall
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
@@ -442,6 +444,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CanIgnoreReturnValue // TODO(kak): @CheckReturnValue
   @Deprecated
+  @DoNotCall
   @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
   public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
@@ -582,6 +585,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
+  @DoNotCall
   public static <I, O> ListenableFuture<O> transformAsync(
       ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
     return AbstractTransformFuture.create(input, function, directExecutor());
@@ -666,6 +670,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     scheduled to be removed in July 2018.
    */
   @Deprecated
+  @DoNotCall
   public static <I, O> ListenableFuture<O> transform(
       ListenableFuture<I> input, Function<? super I, ? extends O> function) {
     return AbstractTransformFuture.create(input, function, directExecutor());
@@ -923,6 +928,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      *     scheduled to be removed in July 2018.
      */
     @Deprecated
+    @DoNotCall
     public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner) {
       return callAsync(combiner, directExecutor());
     }
@@ -958,6 +964,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      */
     @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     @Deprecated
+    @DoNotCall
     public <C> ListenableFuture<C> call(Callable<C> combiner) {
       return call(combiner, directExecutor());
     }
@@ -1271,6 +1278,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     documentation. This method is scheduled to be removed in July 2018.
    */
   @Deprecated
+  @DoNotCall
   public static <V> void addCallback(
       ListenableFuture<V> future, FutureCallback<? super V> callback) {
     addCallback(future, callback, directExecutor());
