@@ -102,4 +102,16 @@ public class ComparatorsTest extends TestCase {
     // No explicit type parameter required:
     comparator = Comparators.emptiesFirst(naturalOrder());
   }
+
+  public void testEmptiesLast() {
+    Optional<String> empty = Optional.empty();
+    Optional<String> abc = Optional.of("abc");
+    Optional<String> z = Optional.of("z");
+
+    Comparator<Optional<String>> comparator = Comparators.emptiesLast(comparing(String::length));
+    Helpers.testComparator(comparator, z, abc, empty);
+
+    // No explicit type parameter required:
+    comparator = Comparators.emptiesLast(naturalOrder());
+  }
 }
