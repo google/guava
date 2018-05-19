@@ -25,7 +25,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -124,7 +124,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   // Views
 
-  @MonotonicNonNullDecl private transient Set<E> elementSet;
+  private transient @MonotonicNonNull Set<E> elementSet;
 
   @Override
   public Set<E> elementSet() {
@@ -158,7 +158,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   abstract Iterator<E> elementIterator();
 
-  @MonotonicNonNullDecl private transient Set<Entry<E>> entrySet;
+  private transient @MonotonicNonNull Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {

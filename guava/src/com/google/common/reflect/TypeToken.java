@@ -46,7 +46,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -104,10 +104,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final Type runtimeType;
 
   /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */
-  @MonotonicNonNullDecl private transient TypeResolver invariantTypeResolver;
+  private transient @MonotonicNonNull TypeResolver invariantTypeResolver;
 
   /** Resolver for resolving covariant types with {@link #runtimeType} as context. */
-  @MonotonicNonNullDecl private transient TypeResolver covariantTypeResolver;
+  private transient @MonotonicNonNull TypeResolver covariantTypeResolver;
 
   /**
    * Constructs a new type token of {@code T}.
@@ -653,7 +653,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   public class TypeSet extends ForwardingSet<TypeToken<? super T>> implements Serializable {
 
-    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> types;
+    private transient @MonotonicNonNull ImmutableSet<TypeToken<? super T>> types;
 
     TypeSet() {}
 
@@ -699,7 +699,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private final class InterfaceSet extends TypeSet {
 
     private final transient TypeSet allTypes;
-    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> interfaces;
+    private transient @MonotonicNonNull ImmutableSet<TypeToken<? super T>> interfaces;
 
     InterfaceSet(TypeSet allTypes) {
       this.allTypes = allTypes;
@@ -752,7 +752,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private final class ClassSet extends TypeSet {
 
-    @MonotonicNonNullDecl private transient ImmutableSet<TypeToken<? super T>> classes;
+    private transient @MonotonicNonNull ImmutableSet<TypeToken<? super T>> classes;
 
     @Override
     protected Set<TypeToken<? super T>> delegate() {

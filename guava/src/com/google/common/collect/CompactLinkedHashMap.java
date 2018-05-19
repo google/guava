@@ -27,7 +27,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -81,10 +81,10 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * (pointing to the next entry in the linked list). The pointers in [size(), entries.length) are
    * all "null" (UNSET).
    *
-   * A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
+   * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient long[] links;
+  @VisibleForTesting transient long @MonotonicNonNull [] links;
 
   /**
    * Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries.

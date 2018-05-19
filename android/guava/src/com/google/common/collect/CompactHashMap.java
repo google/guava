@@ -128,19 +128,19 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * next entry in the bucket chain). The pointers in [size(), entries.length) are all "null"
    * (UNSET).
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient long[] entries;
+  @VisibleForTesting @MonotonicNonNullDecl transient long[] entries;
 
   /**
    * The keys of the entries in the map, in the range of [0, size()). The keys in [size(),
    * keys.length) are all {@code null}.
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient Object[] keys;
+  @VisibleForTesting @MonotonicNonNullDecl transient Object[] keys;
 
   /**
    * The values of the entries in the map, in the range of [0, size()). The values in [size(),
    * values.length) are all {@code null}.
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient Object[] values;
+  @VisibleForTesting @MonotonicNonNullDecl transient Object[] values;
 
   /** The load factor. */
   transient float loadFactor;

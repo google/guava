@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -116,7 +116,7 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
     return Multisets.iteratorImpl(descendingMultiset());
   }
 
-  @MonotonicNonNullDecl private transient SortedMultiset<E> descendingMultiset;
+  private transient @MonotonicNonNull SortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {

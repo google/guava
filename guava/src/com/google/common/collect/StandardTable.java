@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -619,7 +619,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return rowMap().keySet();
   }
 
-  @MonotonicNonNullDecl private transient Set<C> columnKeySet;
+  private transient @MonotonicNonNull Set<C> columnKeySet;
 
   /**
    * {@inheritDoc}
@@ -749,7 +749,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return super.values();
   }
 
-  @MonotonicNonNullDecl private transient Map<R, Map<C, V>> rowMap;
+  private transient @MonotonicNonNull Map<R, Map<C, V>> rowMap;
 
   @Override
   public Map<R, Map<C, V>> rowMap() {
@@ -828,7 +828,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
   }
 
-  @MonotonicNonNullDecl private transient ColumnMap columnMap;
+  private transient @MonotonicNonNull ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, V>> columnMap() {

@@ -43,7 +43,7 @@ import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -125,7 +125,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    *
    * <p>Its size must be a power of two.
    */
-  @MonotonicNonNullDecl private transient int[] table;
+  private transient int @MonotonicNonNull [] table;
 
   /**
    * Contains the logical entries, in the range of [0, size()). The high 32 bits of each long is the
@@ -133,19 +133,19 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * next entry in the bucket chain). The pointers in [size(), entries.length) are all "null"
    * (UNSET).
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient long[] entries;
+  @VisibleForTesting transient long @MonotonicNonNull [] entries;
 
   /**
    * The keys of the entries in the map, in the range of [0, size()). The keys in [size(),
    * keys.length) are all {@code null}.
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient Object[] keys;
+  @VisibleForTesting transient Object @MonotonicNonNull[] keys;
 
   /**
    * The values of the entries in the map, in the range of [0, size()). The values in [size(),
    * values.length) are all {@code null}.
    */
-  @MonotonicNonNullDecl @VisibleForTesting transient Object[] values;
+  @VisibleForTesting transient Object @MonotonicNonNull[] values;
 
   /** The load factor. */
   transient float loadFactor;
@@ -523,7 +523,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  @MonotonicNonNullDecl private transient Set<K> keySetView;
+  private transient @MonotonicNonNull Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -598,7 +598,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  @MonotonicNonNullDecl private transient Set<Entry<K, V>> entrySetView;
+  private transient @MonotonicNonNull Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -726,7 +726,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return false;
   }
 
-  @MonotonicNonNullDecl private transient Collection<V> valuesView;
+  private transient @MonotonicNonNull Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {
