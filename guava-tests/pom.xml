@@ -27,10 +27,6 @@
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
-      <artifactId>checker-compat-qual</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
