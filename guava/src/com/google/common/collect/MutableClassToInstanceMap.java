@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -158,7 +159,7 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   }
 
   @CanIgnoreReturnValue
-  private static <B, T extends B> T cast(Class<T> type, @org.checkerframework.checker.nullness.qual.Nullable B value) {
+  private static <B, T extends B> T cast(Class<T> type, @Nullable B value) {
     return Primitives.wrap(type).cast(value);
   }
 

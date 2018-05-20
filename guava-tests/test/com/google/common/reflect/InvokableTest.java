@@ -30,7 +30,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@link Invokable}.
@@ -343,7 +343,7 @@ public class InvokableTest extends TestCase {
 
   private class InnerWithAnnotatedConstructorParameter {
     @SuppressWarnings("unused") // called by reflection
-    InnerWithAnnotatedConstructorParameter(@NullableDecl String s) {}
+    InnerWithAnnotatedConstructorParameter(@Nullable String s) {}
   }
 
   public void testInnerClassWithAnnotatedConstructorParameter() {
@@ -506,7 +506,7 @@ public class InvokableTest extends TestCase {
   public void testLocalClassWithAnnotatedConstructorParameter() throws Exception {
     class LocalWithAnnotatedConstructorParameter {
       @SuppressWarnings("unused") // called by reflection
-      LocalWithAnnotatedConstructorParameter(@NullableDecl String s) {}
+      LocalWithAnnotatedConstructorParameter(@Nullable String s) {}
     }
     Constructor<?> constructor =
         LocalWithAnnotatedConstructorParameter.class.getDeclaredConstructors()[0];

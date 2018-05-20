@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility methods for working with {@link Closeable} objects.
@@ -69,7 +69,7 @@ public final class Closeables {
    * @throws IOException if {@code swallowIOException} is false and {@code close} throws an {@code
    *     IOException}.
    */
-  public static void close(@NullableDecl Closeable closeable, boolean swallowIOException)
+  public static void close(@Nullable Closeable closeable, boolean swallowIOException)
       throws IOException {
     if (closeable == null) {
       return;
@@ -99,7 +99,7 @@ public final class Closeables {
    *     does nothing
    * @since 17.0
    */
-  public static void closeQuietly(@NullableDecl InputStream inputStream) {
+  public static void closeQuietly(@Nullable InputStream inputStream) {
     try {
       close(inputStream, true);
     } catch (IOException impossible) {
@@ -120,7 +120,7 @@ public final class Closeables {
    * @param reader the reader to be closed, or {@code null} in which case this method does nothing
    * @since 17.0
    */
-  public static void closeQuietly(@NullableDecl Reader reader) {
+  public static void closeQuietly(@Nullable Reader reader) {
     try {
       close(reader, true);
     } catch (IOException impossible) {

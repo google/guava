@@ -93,7 +93,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
 public boolean contains(@Nullable Object arg0) { return super.contains(arg0); }
 
 @Pure
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
 @Pure
 public int indexOf(@Nullable Object arg0) { return super.indexOf(arg0); }

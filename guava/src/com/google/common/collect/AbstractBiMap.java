@@ -39,7 +39,7 @@ import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.checkerframework.framework.qual.AnnotatedFor;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -76,13 +76,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   /** Returns its input, or throws an exception if this is not a valid key. */
   @CanIgnoreReturnValue
-  K checkKey(@NullableDecl K key) {
+  K checkKey(@Nullable K key) {
     return key;
   }
 
   /** Returns its input, or throws an exception if this is not a valid value. */
   @CanIgnoreReturnValue
-  V checkValue(@NullableDecl V value) {
+  V checkValue(@Nullable V value) {
     return value;
   }
 
@@ -112,7 +112,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @Pure
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return inverse.containsKey(value);
   }
 
@@ -120,17 +120,17 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V put(@NullableDecl K key, @NullableDecl V value) {
+  public V put(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
+  public V forcePut(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private V putInBothMaps(@NullableDecl K key, @NullableDecl V value, boolean force) {
+  private V putInBothMaps(@Nullable K key, @Nullable V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -156,18 +156,18 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public @org.checkerframework.checker.nullness.qual.Nullable V remove(@NullableDecl Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 
   @CanIgnoreReturnValue
-  private V removeFromBothMaps(@NullableDecl Object key) {
+  private V removeFromBothMaps(@Nullable Object key) {
     V oldValue = delegate.remove(key);
     removeFromInverseMap(oldValue);
     return oldValue;
   }
 
-  private void removeFromInverseMap(@org.checkerframework.checker.nullness.qual.Nullable V oldValue) {
+  private void removeFromInverseMap(@Nullable V oldValue) {
     inverse.delegate.remove(oldValue);
   }
 
@@ -238,7 +238,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public boolean remove(@Nullable Object key) {
       if (!contains(key)) {
         return false;
       }
@@ -347,7 +347,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   Iterator<Entry<K, V>> entrySetIterator() {
     final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
-      @NullableDecl Entry<K, V> entry;
+      @Nullable Entry<K, V> entry;
 
       @Override
       public boolean hasNext() {
@@ -386,7 +386,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+    public boolean remove(@Nullable Object object) {
       if (!esDelegate.contains(object)) {
         return false;
       }
@@ -422,7 +422,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
     @Pure
     @Override
-    public boolean contains(@org.checkerframework.checker.nullness.qual.Nullable Object o) {
+    public boolean contains(@Nullable Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
 

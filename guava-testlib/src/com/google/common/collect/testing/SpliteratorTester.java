@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Tester for {@code Spliterator} implementations. */
 @GwtCompatible
@@ -104,7 +104,7 @@ public final class SpliteratorTester<E> {
     abstract <E> void forEach(Spliterator<E> spliterator, Consumer<? super E> consumer);
   }
 
-  @NullableDecl
+  @Nullable
   private static <E> Spliterator<E> trySplitTestingSize(Spliterator<E> spliterator) {
     boolean subsized = spliterator.hasCharacteristics(Spliterator.SUBSIZED);
     long originalSize = spliterator.estimateSize();

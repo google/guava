@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -43,14 +43,14 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @NullableDecl
+  @Nullable
   V get(K key);
 
   /**
    * Returns the range containing this key and its associated value, if such a range is present in
    * the range map, or {@code null} otherwise.
    */
-  @NullableDecl
+  @Nullable
   Entry<Range<K>, V> getEntry(K key);
 
   /**
@@ -151,7 +151,7 @@ public interface RangeMap<K extends Comparable, V> {
    * #asMapOfRanges()}.
    */
   @Override
-  boolean equals(@NullableDecl Object o);
+  boolean equals(@Nullable Object o);
 
   /** Returns {@code asMapOfRanges().hashCode()}. */
   @Override

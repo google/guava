@@ -21,7 +21,8 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import java.lang.reflect.AnnotatedType;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a method or constructor parameter.
@@ -36,13 +37,19 @@ public final class Parameter implements AnnotatedElement {
   private final int position;
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
+  private final AnnotatedType annotatedType;
 
   Parameter(
-      Invokable<?, ?> declaration, int position, TypeToken<?> type, Annotation[] annotations) {
+      Invokable<?, ?> declaration,
+      int position,
+      TypeToken<?> type,
+      Annotation[] annotations,
+      AnnotatedType annotatedType) {
     this.declaration = declaration;
     this.position = position;
     this.type = type;
     this.annotations = ImmutableList.copyOf(annotations);
+    this.annotatedType = annotatedType;
   }
 
   /** Returns the type of the parameter. */
@@ -61,8 +68,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   @Override
-  @NullableDecl
-  public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+  public <A extends Annotation> @Nullable A getAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     for (Annotation annotation : annotations) {
       if (annotationType.isInstance(annotation)) {
@@ -92,8 +98,7 @@ public final class Parameter implements AnnotatedElement {
 
   /** @since 18.0 */
   // @Override on JDK8
-  @NullableDecl
-  public <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationType) {
+  public <A extends Annotation> @Nullable A getDeclaredAnnotation(Class<A> annotationType) {
     checkNotNull(annotationType);
     return FluentIterable.from(annotations).filter(annotationType).first().orNull();
   }
@@ -104,8 +109,14 @@ public final class Parameter implements AnnotatedElement {
     return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
   }
 
+  /** @since NEXT */
+  // @Override on JDK8
+  public AnnotatedType getAnnotatedType() {
+    return annotatedType;
+  }
+
   @Override
-  public boolean equals(@NullableDecl Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Parameter) {
       Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);

@@ -35,7 +35,7 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by their natural ordering or
@@ -78,8 +78,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true, emulated = true)
 public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V> {
-  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator;
-  private transient @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator;
+  private transient @Nullable Comparator<? super K> keyComparator;
+  private transient @Nullable Comparator<? super V> valueComparator;
 
   /**
    * Creates an empty {@code TreeMultimap} ordered by the natural ordering of its keys and values.
@@ -111,16 +111,16 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
     return new TreeMultimap<>(Ordering.natural(), Ordering.natural(), multimap);
   }
 
-  TreeMultimap(@org.checkerframework.checker.nullness.qual.Nullable Comparator<? super K> keyComparator, @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator) {
+  TreeMultimap(@Nullable Comparator<? super K> keyComparator, @Nullable Comparator<? super V> valueComparator) {
     super(new TreeMap<K, Collection<V>>(keyComparator));
     this.keyComparator = keyComparator;
     this.valueComparator = valueComparator;
   }
 
   private TreeMultimap(
-      @org.checkerframework.checker.nullness.qual.Nullable
+      @Nullable
       Comparator<? super K> keyComparator,
-      @org.checkerframework.checker.nullness.qual.Nullable
+      @Nullable
       Comparator<? super V> valueComparator,
       Multimap<? extends K, ? extends V> multimap) {
     this(keyComparator, valueComparator);
@@ -145,7 +145,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   }
 
   @Override
-  Collection<V> createCollection(@NullableDecl K key) {
+  Collection<V> createCollection(@Nullable K key) {
     if (key == null) {
       keyComparator().compare(key, key);
     }
@@ -158,19 +158,19 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
    * @deprecated Use {@code ((NavigableSet<K>) multimap.keySet()).comparator()} instead.
    */
   @Deprecated
-  public @NullableDecl Comparator<? super K> keyComparator() {
+  public @Nullable Comparator<? super K> keyComparator() {
     return keyComparator;
   }
 
   @Override
-  public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator() {
+  public @Nullable Comparator<? super V> valueComparator() {
     return valueComparator;
   }
 
   /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */
   @Override
   @GwtIncompatible // NavigableSet
-  public NavigableSet<V> get(@NullableDecl K key) {
+  public NavigableSet<V> get(@Nullable K key) {
     return (NavigableSet<V>) super.get(key);
   }
 
@@ -229,7 +229,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   private static final long serialVersionUID = 0;
 
 @Pure
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
-public SortedSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
+public SortedSet<V> removeAll(@Nullable Object arg0) { return super.removeAll(arg0); }
 }

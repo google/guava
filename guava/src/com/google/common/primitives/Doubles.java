@@ -36,7 +36,7 @@ import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not already found in
@@ -601,7 +601,7 @@ public final class Doubles {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -682,9 +682,8 @@ public final class Doubles {
    * @since 14.0
    */
   @Beta
-  @NullableDecl
   @GwtIncompatible // regular expressions
-  public static Double tryParse(String string) {
+  public static @Nullable Double tryParse(String string) {
     if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing

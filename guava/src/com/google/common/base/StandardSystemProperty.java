@@ -15,7 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a {@linkplain System#getProperties() standard system property}.
@@ -125,8 +125,7 @@ public enum StandardSystemProperty {
    * Returns the current value for this system property by delegating to {@link
    * System#getProperty(String)}.
    */
-  @NullableDecl
-  public String value() {
+  public @Nullable String value() {
     return System.getProperty(key);
   }
 

@@ -40,7 +40,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@link SourceSinkFactory} implementations.
@@ -340,7 +340,7 @@ public class SourceSinkFactories {
 
     private final byte[] initialBytes;
 
-    private FileByteSinkFactory(@NullableDecl byte[] initialBytes) {
+    private FileByteSinkFactory(byte @Nullable [] initialBytes) {
       this.initialBytes = initialBytes;
     }
 
@@ -410,7 +410,7 @@ public class SourceSinkFactories {
 
     private final String initialString;
 
-    private FileCharSinkFactory(@NullableDecl String initialString) {
+    private FileCharSinkFactory(@Nullable String initialString) {
       this.initialString = initialString;
     }
 
@@ -520,7 +520,7 @@ public class SourceSinkFactories {
 
     private final byte[] initialBytes;
 
-    private PathByteSinkFactory(@NullableDecl byte[] initialBytes) {
+    private PathByteSinkFactory(byte @Nullable [] initialBytes) {
       this.initialBytes = initialBytes;
     }
 
@@ -577,7 +577,7 @@ public class SourceSinkFactories {
 
     private final String initialString;
 
-    private PathCharSinkFactory(@NullableDecl String initialString) {
+    private PathCharSinkFactory(@Nullable String initialString) {
       this.initialString = initialString;
     }
 

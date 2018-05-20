@@ -19,7 +19,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Helper functions that can operate on any {@code Object}.
@@ -52,7 +52,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * <p><b>Note for Java 7 and later:</b> This method should be treated as deprecated; use {@link
    * java.util.Objects#equals} instead.
    */
-  public static boolean equal(@NullableDecl Object a, @NullableDecl Object b) {
+  public static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
 
@@ -78,7 +78,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * java.util.Objects#hash} instead.
    */
   @Pure
-  public static int hashCode(@NullableDecl Object... objects) {
+  public static int hashCode(Object @Nullable... objects) {
     return Arrays.hashCode(objects);
   }
 }

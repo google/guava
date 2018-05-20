@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.nio.file.FileSystemException;
 import java.nio.file.SecureDirectoryStream;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Exception indicating that a recursive delete can't be performed because the file system does not
@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @J2ObjCIncompatible // java.nio.file
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 
-  public InsecureRecursiveDeleteException(@NullableDecl String file) {
+  public InsecureRecursiveDeleteException(@Nullable String file) {
     super(file, null, "unable to guarantee security of recursive delete");
   }
 }

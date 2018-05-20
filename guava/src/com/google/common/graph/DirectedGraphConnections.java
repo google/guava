@@ -33,7 +33,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for directed graphs.
@@ -126,7 +126,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       }
 
       @Override
-      public boolean contains(@NullableDecl Object obj) {
+      public boolean contains(@Nullable Object obj) {
         return isPredecessor(adjacentNodeValues.get(obj));
       }
     };
@@ -158,7 +158,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       }
 
       @Override
-      public boolean contains(@NullableDecl Object obj) {
+      public boolean contains(@Nullable Object obj) {
         return isSuccessor(adjacentNodeValues.get(obj));
       }
     };
@@ -241,11 +241,11 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     }
   }
 
-  private static boolean isPredecessor(@NullableDecl Object value) {
+  private static boolean isPredecessor(@Nullable Object value) {
     return (value == PRED) || (value instanceof PredAndSucc);
   }
 
-  private static boolean isSuccessor(@NullableDecl Object value) {
+  private static boolean isSuccessor(@Nullable Object value) {
     return (value != PRED) && (value != null);
   }
 }

@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -169,14 +169,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    @NullableDecl final C lowerBound;
-    @NullableDecl final C upperBound;
+    final @Nullable C lowerBound;
+    final @Nullable C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, @NullableDecl C lowerBound, @NullableDecl C upperBound) {
+    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -201,7 +201,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(@NullableDecl Object o) {
+    boolean rangeContains(@Nullable Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);
@@ -243,7 +243,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return backingRowMap().lastKey();
     }
 
-    @NullableDecl transient SortedMap<C, V> wholeRow;
+    transient @Nullable SortedMap<C, V> wholeRow;
 
     /*
      * If the row was previously empty, we check if there's a new row here every
@@ -327,7 +327,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
             comparator);
 
     return new AbstractIterator<C>() {
-      @NullableDecl C lastValue;
+      @Nullable C lastValue;
 
       @Override
       protected C computeNext() {

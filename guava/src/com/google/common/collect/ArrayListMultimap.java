@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
@@ -174,29 +175,29 @@ public final class ArrayListMultimap<K, V>
   private static final long serialVersionUID = 0;
 
 @Override
-public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
+public boolean containsEntry(@Nullable Object arg0, @Nullable Object arg1) { return super.containsEntry(arg0, arg1); }
 
 @Override
-public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsKey(arg0); }
+public boolean containsKey(@Nullable Object arg0) { return super.containsKey(arg0); }
 
 @Override
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@Nullable Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
 @Pure
 @Override
 public boolean isEmpty() { return super.isEmpty(); }
 
 @Override
-public List<V> get(@org.checkerframework.checker.nullness.qual.Nullable K arg0) { return super.get(arg0); }
+public List<V> get(@Nullable K arg0) { return super.get(arg0); }
 
 @Override
-public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0, @org.checkerframework.checker.nullness.qual.Nullable Object arg1) { return super.remove(arg0, arg1); }
+public boolean remove(@Nullable Object arg0, @Nullable Object arg1) { return super.remove(arg0, arg1); }
 
 @Override
-public List<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
+public List<V> removeAll(@Nullable Object arg0) { return super.removeAll(arg0); }
 
 @Pure
 @Override

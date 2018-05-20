@@ -19,7 +19,7 @@ package com.google.common.eventbus;
 import com.google.common.collect.Lists;
 import java.util.List;
 import junit.framework.Assert;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A simple EventSubscriber mock that records Strings.
@@ -33,11 +33,11 @@ public class StringCatcher {
   private List<String> events = Lists.newArrayList();
 
   @Subscribe
-  public void hereHaveAString(@NullableDecl String string) {
+  public void hereHaveAString(@Nullable String string) {
     events.add(string);
   }
 
-  public void methodWithoutAnnotation(@NullableDecl String string) {
+  public void methodWithoutAnnotation(@Nullable String string) {
     Assert.fail("Event bus must not call methods without @Subscribe!");
   }
 

@@ -477,7 +477,7 @@ public class ClassSanityTesterTest extends TestCase {
     try {
       tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
     } catch (AssertionFailedError expected) {
-      assertThat(expected.getMessage()).contains("@NullableDecl");
+      assertThat(expected.getMessage()).contains("@Nullable");
       return;
     }
     fail("should have failed");

@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Used to test listenable future implementations.
@@ -67,7 +67,7 @@ public class ListenableFutureTester {
     exec.shutdown();
   }
 
-  public void testCompletedFuture(@NullableDecl Object expectedValue)
+  public void testCompletedFuture(@Nullable Object expectedValue)
       throws InterruptedException, ExecutionException {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -94,7 +94,7 @@ public class ListenableFutureTester {
     }
   }
 
-  public void testFailedFuture(@NullableDecl String message) throws InterruptedException {
+  public void testFailedFuture(@Nullable String message) throws InterruptedException {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
 

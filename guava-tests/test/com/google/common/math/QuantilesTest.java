@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Quantiles}.
@@ -90,7 +90,7 @@ public class QuantilesTest extends TestCase {
       new Correspondence<Double, Double>() {
 
         @Override
-        public boolean compare(@NullableDecl Double actual, @NullableDecl Double expected) {
+        public boolean compare(@Nullable Double actual, @Nullable Double expected) {
           // Test for equality to allow non-finite values to match; otherwise, use the finite test.
           return actual.equals(expected)
               || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);

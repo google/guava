@@ -38,7 +38,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
@@ -422,7 +422,7 @@ public class BloomFilterTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       return (object instanceof CustomFunnel);
     }
 

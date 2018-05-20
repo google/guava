@@ -30,6 +30,10 @@
       <artifactId>checker-compat-qual</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
@@ -188,7 +192,7 @@
             </offlineLink>
           </offlineLinks>
           <links>
-            <link>http://errorprone.info/api/latest/</link>
+            <link>https://errorprone.info/api/latest/</link>
           </links>
         </configuration>
         <executions>

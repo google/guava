@@ -1310,8 +1310,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             return type.getGenericInterfaces();
           }
 
-          @NullableDecl
           @Override
+          @NullableDecl
           TypeToken<?> getSuperclass(TypeToken<?> type) {
             return type.getGenericSuperclass();
           }
@@ -1329,8 +1329,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             return Arrays.asList(type.getInterfaces());
           }
 
-          @NullableDecl
           @Override
+          @NullableDecl
           Class<?> getSuperclass(Class<?> type) {
             return type.getSuperclass();
           }

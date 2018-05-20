@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -43,8 +43,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /** @since 11.0 */
   @Override
-  @NullableDecl
-  public V getIfPresent(Object key) {
+  public @Nullable V getIfPresent(Object key) {
     return delegate().getIfPresent(key);
   }
 

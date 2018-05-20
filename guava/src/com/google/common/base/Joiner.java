@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object which joins pieces of text (specified as an array, {@link Iterable}, varargs or even a
@@ -121,14 +121,14 @@ public class Joiner {
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public final <A extends Appendable> A appendTo(A appendable, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) throws IOException {
+  public final <A extends Appendable> A appendTo(A appendable, @Nullable Object[] parts) throws IOException {
     return appendTo(appendable, Arrays.asList(parts));
   }
 
   /** Appends to {@code appendable} the string representation of each of the remaining arguments. */
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(
-      A appendable, @NullableDecl Object first, @NullableDecl Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest)
+      A appendable, @Nullable Object first, @Nullable Object second, @Nullable Object... rest)
       throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
@@ -166,7 +166,7 @@ public class Joiner {
    * Iterable)}, except that it does not throw {@link IOException}.
    */
   @CanIgnoreReturnValue
-  public final StringBuilder appendTo(StringBuilder builder, @org.checkerframework.checker.nullness.qual.Nullable Object[] parts) {
+  public final StringBuilder appendTo(StringBuilder builder, @Nullable Object[] parts) {
     return appendTo(builder, Arrays.asList(parts));
   }
 
@@ -177,10 +177,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
-      StringBuilder builder,
-      @NullableDecl Object first,
-      @NullableDecl Object second,
-      @org.checkerframework.checker.nullness.qual.Nullable Object... rest) {
+      StringBuilder builder, @Nullable Object first, @Nullable Object second, @Nullable Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
 
@@ -214,8 +211,7 @@ public class Joiner {
    * Returns a string containing the string representation of each argument, using the previously
    * configured separator between each.
    */
-  public final String join(
-      @NullableDecl Object first, @NullableDecl Object second, @org.checkerframework.checker.nullness.qual.Nullable Object... rest) {
+  public final String join(@Nullable Object first, @Nullable Object second, @Nullable Object... rest) {
     return join(iterable(first, second, rest));
   }
 
@@ -227,7 +223,7 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(@NullableDecl Object part) {
+      CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
@@ -461,10 +457,10 @@ public class Joiner {
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
-  private static Iterable<@org.checkerframework.checker.nullness.qual.Nullable Object> iterable(
-      final @org.checkerframework.checker.nullness.qual.Nullable Object first, final @org.checkerframework.checker.nullness.qual.Nullable Object second, final @org.checkerframework.checker.nullness.qual.Nullable Object[] rest) {
+  private static Iterable<@Nullable Object> iterable(
+      final @Nullable Object first, final @Nullable Object second, final @Nullable Object[] rest) {
     checkNotNull(rest);
-    return new AbstractList<@org.checkerframework.checker.nullness.qual.Nullable Object>() {
+    return new AbstractList<@Nullable Object>() {
       @Pure
       @Override
       public int size() {
@@ -472,7 +468,7 @@ public class Joiner {
       }
 
       @Override
-      public @org.checkerframework.checker.nullness.qual.Nullable Object get(int index) {
+      public @Nullable Object get(int index) {
         switch (index) {
           case 0:
             return first;

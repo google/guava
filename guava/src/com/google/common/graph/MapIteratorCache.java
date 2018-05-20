@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
@@ -47,20 +47,20 @@ class MapIteratorCache<K, V> {
   // Per JDK: "the behavior of a map entry is undefined if the backing map has been modified after
   // the entry was returned by the iterator, except through the setValue operation on the map entry"
   // As such, this field must be cleared before every map mutation.
-  @NullableDecl private transient Entry<K, V> entrySetCache;
+  private transient @Nullable Entry<K, V> entrySetCache;
 
   MapIteratorCache(Map<K, V> backingMap) {
     this.backingMap = checkNotNull(backingMap);
   }
 
   @CanIgnoreReturnValue
-  public V put(@NullableDecl K key, @NullableDecl V value) {
+  public V put(@Nullable K key, @Nullable V value) {
     clearCache();
     return backingMap.put(key, value);
   }
 
   @CanIgnoreReturnValue
-  public V remove(@NullableDecl Object key) {
+  public V remove(@Nullable Object key) {
     clearCache();
     return backingMap.remove(key);
   }
@@ -70,16 +70,16 @@ class MapIteratorCache<K, V> {
     backingMap.clear();
   }
 
-  public V get(@NullableDecl Object key) {
+  public V get(@Nullable Object key) {
     V value = getIfCached(key);
     return (value != null) ? value : getWithoutCaching(key);
   }
 
-  public final V getWithoutCaching(@NullableDecl Object key) {
+  public final V getWithoutCaching(@Nullable Object key) {
     return backingMap.get(key);
   }
 
-  public final boolean containsKey(@NullableDecl Object key) {
+  public final boolean containsKey(@Nullable Object key) {
     return getIfCached(key) != null || backingMap.containsKey(key);
   }
 
@@ -110,7 +110,7 @@ class MapIteratorCache<K, V> {
       }
 
       @Override
-      public boolean contains(@NullableDecl Object key) {
+      public boolean contains(@Nullable Object key) {
         return containsKey(key);
       }
     };
@@ -118,7 +118,7 @@ class MapIteratorCache<K, V> {
 
   // Internal methods ('protected' is still package-visible, but treat as only subclass-visible)
 
-  protected V getIfCached(@NullableDecl Object key) {
+  protected V getIfCached(@Nullable Object key) {
     Entry<K, V> entry = entrySetCache; // store local reference for thread-safety
 
     // Check cache. We use == on purpose because it's cheaper and a cache miss is ok.

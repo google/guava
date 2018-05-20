@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static methods pertaining to sorted {@link List} instances.
@@ -196,7 +196,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
   public static <E, K extends Comparable> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      @NullableDecl K key,
+      @Nullable K key,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
     return binarySearch(
@@ -213,7 +213,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
   public static <E, K> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      @NullableDecl K key,
+      @Nullable K key,
       Comparator<? super K> keyComparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
@@ -246,7 +246,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
    */
   public static <E> int binarySearch(
       List<? extends E> list,
-      @NullableDecl E key,
+      @Nullable E key,
       Comparator<? super E> comparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
@@ -362,8 +362,7 @@ public final class Longs {
    * @since 14.0
    */
   @Beta
-  @NullableDecl
-  public static Long tryParse(String string) {
+  public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -387,8 +386,7 @@ public final class Longs {
    * @since 19.0
    */
   @Beta
-  @NullableDecl
-  public static Long tryParse(String string, int radix) {
+  public static @Nullable Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }
@@ -743,7 +741,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }

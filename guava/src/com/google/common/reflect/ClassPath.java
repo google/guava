@@ -54,7 +54,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -414,8 +414,7 @@ public final class ClassPath {
      * and an empty set will be returned.
      */
     @VisibleForTesting
-    static ImmutableSet<File> getClassPathFromManifest(
-        File jarFile, @NullableDecl Manifest manifest) {
+    static ImmutableSet<File> getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {
       if (manifest == null) {
         return ImmutableSet.of();
       }

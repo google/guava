@@ -21,7 +21,7 @@ import static jsinterop.annotations.JsPackage.GLOBAL;
 import java.util.concurrent.TimeUnit;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** @author Jesse Wilson */
 final class Platform {
@@ -52,17 +52,17 @@ final class Platform {
   }
 
   @JsMethod
-  static native boolean stringIsNullOrEmpty(@NullableDecl String string) /*-{
+  static native boolean stringIsNullOrEmpty(@Nullable String string) /*-{
     return !string;
   }-*/;
 
   @JsMethod
-  static native String nullToEmpty(@NullableDecl String string) /*-{
+  static native String nullToEmpty(@Nullable String string) /*-{
     return string || "";
   }-*/;
 
   @JsMethod
-  static native String emptyToNull(@NullableDecl String string) /*-{
+  static native String emptyToNull(@Nullable String string) /*-{
     return string || null;
   }-*/;
 

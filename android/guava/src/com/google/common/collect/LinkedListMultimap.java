@@ -32,7 +32,6 @@ import java.io.Serializable;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -676,7 +675,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
    * <p>The returned list is not serializable and does not have random access.
    */
   @Override
-  public List<V> get(final @NullableDecl K key) {
+  public List<V> get(@NullableDecl final K key) {
     return new AbstractSequentialList<V>() {
       @Override
       public int size() {
