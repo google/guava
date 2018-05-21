@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.Strings.lenientFormat;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -23,7 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked
- * correctly (that is, whether its <i>preconditions</i> were met) .
+ * correctly (that is, whether its <i>preconditions</i> were met).
  *
  * <p>If the precondition is not met, the {@code Preconditions} method throws an unchecked exception
  * of a specified type, which helps the method in which the exception was thrown communicate that
@@ -113,6 +114,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 public final class Preconditions {
   private Preconditions() {}
