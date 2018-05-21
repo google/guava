@@ -24,7 +24,7 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
@@ -69,7 +69,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate.containsKey(key);
   }
 

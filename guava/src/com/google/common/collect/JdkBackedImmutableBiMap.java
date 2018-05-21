@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
@@ -100,7 +100,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(@NullableDecl Object key) {
+  public V get(@Nullable Object key) {
     return forwardDelegate.get(key);
   }
 

@@ -43,7 +43,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@link Table} implementation backed by a map that associates row keys with column key / value
@@ -77,12 +77,12 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   // Accessors
 
   @Override
-  public boolean contains(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     return rowKey != null && columnKey != null && super.contains(rowKey, columnKey);
   }
 
   @Override
-  public boolean containsColumn(@NullableDecl Object columnKey) {
+  public boolean containsColumn(@Nullable Object columnKey) {
     if (columnKey == null) {
       return false;
     }
@@ -95,17 +95,17 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @Override
-  public boolean containsRow(@NullableDecl Object rowKey) {
+  public boolean containsRow(@Nullable Object rowKey) {
     return rowKey != null && safeContainsKey(backingMap, rowKey);
   }
 
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return value != null && super.containsValue(value);
   }
 
   @Override
-  public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
+  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     return (rowKey == null || columnKey == null) ? null : super.get(rowKey, columnKey);
   }
 
@@ -150,7 +150,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
+  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return null;
     }
@@ -235,7 +235,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   private class CellIterator implements Iterator<Cell<R, C, V>> {
     final Iterator<Entry<R, Map<C, V>>> rowIterator = backingMap.entrySet().iterator();
-    @NullableDecl Entry<R, Map<C, V>> rowEntry;
+    @Nullable Entry<R, Map<C, V>> rowEntry;
     Iterator<Entry<C, V>> columnIterator = Iterators.emptyModifiableIterator();
 
     @Override
@@ -289,7 +289,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       this.rowKey = checkNotNull(rowKey);
     }
 
-    @NullableDecl Map<C, V> backingRowMap;
+    @Nullable Map<C, V> backingRowMap;
 
     Map<C, V> backingRowMap() {
       return (backingRowMap == null || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey)))

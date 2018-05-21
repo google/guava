@@ -20,14 +20,11 @@ import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,7 +32,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Collection} whose contents will never change, and which offers a few additional
@@ -189,7 +186,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
-  public final @org.checkerframework.checker.nullness.qual.Nullable Object[] toArray() {
+  public final @Nullable Object[] toArray() {
     int size = size();
     if (size == 0) {
       return EMPTY_ARRAY;
@@ -201,7 +198,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @CanIgnoreReturnValue
   @Override
-  public final <T> @org.checkerframework.checker.nullness.qual.Nullable T[] toArray(T[] other) {
+  public final <T> @Nullable T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
     if (other.length < size) {
@@ -215,7 +212,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @Pure
   @Override
-  public abstract boolean contains(@NullableDecl Object object);
+  public abstract boolean contains(@Nullable Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.
@@ -239,7 +236,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object object) {
+  public final boolean remove(@Nullable Object object) {
     throw new UnsupportedOperationException();
   }
 

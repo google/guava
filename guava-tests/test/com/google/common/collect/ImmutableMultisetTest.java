@@ -50,7 +50,7 @@ import java.util.stream.Collector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link ImmutableMultiset}.
@@ -694,7 +694,7 @@ public class ImmutableMultisetTest extends TestCase {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object other) {
+    public boolean equals(@Nullable Object other) {
       onEquals.run();
       return other instanceof CountsHashCodeAndEquals
           && delegateString.equals(((CountsHashCodeAndEquals) other).delegateString);

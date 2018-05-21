@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
@@ -57,7 +58,7 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
     return delegate().remove(key, value);
   }
 

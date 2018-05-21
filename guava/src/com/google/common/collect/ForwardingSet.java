@@ -24,7 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A set which forwards all its method calls to another set. Subclasses should override one or more
@@ -61,7 +61,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E> implement
 
   @Pure
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -90,7 +90,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E> implement
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@NullableDecl Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Sets.equalsImpl(this, object);
   }
 

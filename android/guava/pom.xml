@@ -141,7 +141,7 @@
             </offlineLink>
           </offlineLinks>
           <links>
-            <link>http://errorprone.info/api/latest/</link>
+            <link>https://errorprone.info/api/latest/</link>
           </links>
         </configuration>
         <executions>

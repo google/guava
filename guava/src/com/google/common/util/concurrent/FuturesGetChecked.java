@@ -35,7 +35,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
@@ -226,7 +226,7 @@ final class FuturesGetChecked {
     @SuppressWarnings({"unchecked", "rawtypes"})
     List<Constructor<X>> constructors = (List) Arrays.asList(exceptionClass.getConstructors());
     for (Constructor<X> constructor : preferringStrings(constructors)) {
-      @NullableDecl X instance = newFromConstructor(constructor, cause);
+      @Nullable X instance = newFromConstructor(constructor, cause);
       if (instance != null) {
         if (instance.getCause() == null) {
           instance.initCause(cause);
@@ -257,8 +257,7 @@ final class FuturesGetChecked {
               })
           .reverse();
 
-  @NullableDecl
-  private static <X> X newFromConstructor(Constructor<X> constructor, Throwable cause) {
+  private static <X> @Nullable X newFromConstructor(Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
     Object[] params = new Object[paramTypes.length];
     for (int i = 0; i < paramTypes.length; i++) {

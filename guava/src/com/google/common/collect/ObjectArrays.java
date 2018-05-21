@@ -26,7 +26,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to object arrays.
@@ -85,7 +85,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
-  public static <T> T[] concat(@NullableDecl T element, T[] array) {
+  public static <T> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -100,7 +100,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with the same contents as {@code
    *     array}, plus {@code element} occupying the last position.
    */
-  public static <T> T[] concat(T[] array, @NullableDecl T element) {
+  public static <T> T[] concat(T[] array, @Nullable T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
@@ -128,7 +128,7 @@ public final class ObjectArrays {
    *     the runtime type of every element in the specified collection
    */
   // Annotation here is not technically correct; see note on toArray
-  static <T> T[] toArrayImpl(Collection<?> c, @org.checkerframework.checker.nullness.qual.Nullable T[] array) {
+  static <T> T[] toArrayImpl(Collection<?> c, @Nullable T[] array) {
     int size = c.size();
     if (array.length < size) {
       array = newArray(array, size);
@@ -174,7 +174,7 @@ public final class ObjectArrays {
    *
    * @param c the collection for which to return an array of elements
    */
-  static @org.checkerframework.checker.nullness.qual.Nullable Object[] toArrayImpl(Collection<?> c) {
+  static @Nullable Object[] toArrayImpl(Collection<?> c) {
     return fillArray(c, new Object[c.size()]);
   }
 
@@ -193,7 +193,7 @@ public final class ObjectArrays {
   }
 
   @CanIgnoreReturnValue
-  private static @org.checkerframework.checker.nullness.qual.Nullable Object[] fillArray(Iterable<?> elements, @org.checkerframework.checker.nullness.qual.Nullable Object[] array) {
+  private static @Nullable Object[] fillArray(Iterable<?> elements, @Nullable Object[] array) {
     int i = 0;
     for (Object element : elements) {
       array[i++] = element;

@@ -62,7 +62,7 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Multimaps}.
@@ -324,8 +324,8 @@ public class MultimapsTest extends TestCase {
   private static void checkUnmodifiableMultimap(
       Multimap<String, Integer> multimap,
       boolean permitsDuplicates,
-      @NullableDecl String nullKey,
-      @NullableDecl Integer nullValue) {
+      @Nullable String nullKey,
+      @Nullable Integer nullValue) {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(multimap, permitsDuplicates, nullKey, nullValue);
 
@@ -354,8 +354,8 @@ public class MultimapsTest extends TestCase {
   private static Multimap<String, Integer> prepareUnmodifiableTests(
       Multimap<String, Integer> multimap,
       boolean permitsDuplicates,
-      @NullableDecl String nullKey,
-      @NullableDecl Integer nullValue) {
+      @Nullable String nullKey,
+      @Nullable Integer nullValue) {
     multimap.clear();
     multimap.put("foo", 1);
     multimap.put("foo", 2);

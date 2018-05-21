@@ -24,7 +24,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -36,30 +36,25 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
     implements NavigableMap<K, V> {
 
   @Override
-  @NullableDecl
-  public abstract V get(@NullableDecl Object key);
+  public abstract @Nullable V get(@Nullable Object key);
 
   @Override
-  @NullableDecl
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return Iterators.getNext(entryIterator(), null);
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return Iterators.getNext(descendingEntryIterator(), null);
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return Iterators.pollNext(entryIterator());
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return Iterators.pollNext(descendingEntryIterator());
   }
 
@@ -84,26 +79,22 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  @NullableDecl
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 

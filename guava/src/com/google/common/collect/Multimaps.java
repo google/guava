@@ -57,7 +57,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods acting on or generating a {@code Multimap}.
@@ -705,7 +705,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Collection<V> get(@org.checkerframework.checker.nullness.qual.Nullable K key) {
+    public Collection<V> get(@Nullable K key) {
       return unmodifiableValueCollection(delegate.get(key));
     }
 
@@ -744,12 +744,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+    public boolean remove(@Nullable Object key, @Nullable Object value) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public Collection<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public Collection<V> removeAll(@Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -788,7 +788,7 @@ public final class Multimaps {
     }
 
     @Override
-    public List<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public List<V> removeAll(@Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -812,7 +812,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> get(@org.checkerframework.checker.nullness.qual.Nullable K key) {
+    public Set<V> get(@Nullable K key) {
       /*
        * Note that this doesn't return a SortedSet when delegate is a
        * SortedSetMultiset, unlike (SortedSet<V>) super.get().
@@ -827,7 +827,7 @@ public final class Multimaps {
     }
 
     @Override
-    public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public Set<V> removeAll(@Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -856,7 +856,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SortedSet<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public SortedSet<V> removeAll(@Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
@@ -866,7 +866,7 @@ public final class Multimaps {
     }
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.Nullable Comparator<? super V> valueComparator() {
+    public @Nullable Comparator<? super V> valueComparator() {
       return delegate().valueComparator();
     }
 
@@ -1124,19 +1124,19 @@ public final class Multimaps {
 
     @Pure
     @Override
-    public boolean containsKey(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return map.containsKey(key);
     }
 
     @Pure
     @Override
-    public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return map.containsValue(value);
     }
 
     @Pure
     @Override
-    public boolean containsEntry(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+    public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
       return map.entrySet().contains(Maps.immutableEntry(key, value));
     }
 
@@ -1200,12 +1200,12 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(@org.checkerframework.checker.nullness.qual.Nullable Object key, @org.checkerframework.checker.nullness.qual.Nullable Object value) {
+    public boolean remove(@Nullable Object key, @Nullable Object value) {
       return map.entrySet().remove(Maps.immutableEntry(key, value));
     }
 
     @Override
-    public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object key) {
+    public Set<V> removeAll(@Nullable Object key) {
       Set<V> values = new HashSet<V>(2);
       if (!map.containsKey(key)) {
         return values;
@@ -1755,7 +1755,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object element) {
+    public boolean contains(@Nullable Object element) {
       return multimap.containsKey(element);
     }
 
@@ -1765,13 +1765,13 @@ public final class Multimaps {
     }
 
     @Override
-    public int count(@NullableDecl Object element) {
+    public int count(@Nullable Object element) {
       Collection<V> values = Maps.safeGet(multimap.asMap(), element);
       return (values == null) ? 0 : values.size();
     }
 
     @Override
-    public int remove(@NullableDecl Object element, int occurrences) {
+    public int remove(@Nullable Object element, int occurrences) {
       checkNonnegative(occurrences, "occurrences");
       if (occurrences == 0) {
         return count(element);
@@ -1822,7 +1822,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
@@ -1831,7 +1831,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(@NullableDecl Object o) {
+    public boolean remove(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
@@ -2212,7 +2212,7 @@ public final class Multimaps {
     return new FilteredEntrySetMultimap<>(multimap.unfiltered(), predicate);
   }
 
-  static boolean equalsImpl(Multimap<?, ?> multimap, @NullableDecl Object object) {
+  static boolean equalsImpl(Multimap<?, ?> multimap, @Nullable Object object) {
     if (object == multimap) {
       return true;
     }

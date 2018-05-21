@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link InputStream} that concatenates multiple substreams. At most one stream will be open at
@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 final class MultiInputStream extends InputStream {
 
   private Iterator<? extends ByteSource> it;
-  @NullableDecl private InputStream in;
+  private @Nullable InputStream in;
 
   /**
    * Creates a new instance.
@@ -90,7 +90,7 @@ final class MultiInputStream extends InputStream {
   }
 
   @Override
-  public int read(@NullableDecl byte[] b, int off, int len) throws IOException {
+  public int read(byte @Nullable [] b, int off, int len) throws IOException {
     while (in != null) {
       int result = in.read(b, off, len);
       if (result != -1) {

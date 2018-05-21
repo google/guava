@@ -30,7 +30,7 @@ import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code BiMap} backed by an {@code EnumMap} instance for keys-to-values, and a {@code HashMap}
@@ -89,13 +89,13 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
 
   @CanIgnoreReturnValue
   @Override
-  public V put(K key, @NullableDecl V value) {
+  public V put(K key, @Nullable V value) {
     return super.put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(K key, @NullableDecl V value) {
+  public V forcePut(K key, @Nullable V value) {
     return super.forcePut(key, value);
   }
 
@@ -131,5 +131,5 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
 
 @Pure
 @Override
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@Nullable Object arg0) { return super.containsValue(arg0); }
 }

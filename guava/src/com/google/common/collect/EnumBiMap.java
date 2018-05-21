@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
@@ -148,8 +149,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
 
 @Pure
 @Override
-public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.containsValue(arg0); }
+public boolean containsValue(@Nullable Object arg0) { return super.containsValue(arg0); }
 
 @Override
-public @org.checkerframework.checker.nullness.qual.Nullable V remove(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.remove(arg0); }
+public @Nullable V remove(@Nullable Object arg0) { return super.remove(arg0); }
 }

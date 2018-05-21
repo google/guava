@@ -31,7 +31,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * See MurmurHash3_x64_128 in <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">the
@@ -70,7 +70,7 @@ final class Murmur3_128HashFunction extends AbstractHashFunction implements Seri
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Murmur3_128HashFunction) {
       Murmur3_128HashFunction other = (Murmur3_128HashFunction) object;
       return seed == other.seed;

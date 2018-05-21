@@ -44,7 +44,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods related to {@code Stream} instances.
@@ -373,14 +373,14 @@ public final class Streams {
           .onClose(stream::close);
     }
     class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
-      @NullableDecl T holder;
+      @Nullable T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
         super(splitr, index);
       }
 
       @Override
-      public void accept(@NullableDecl T t) {
+      public void accept(@Nullable T t) {
         this.holder = t;
       }
 
@@ -753,7 +753,7 @@ public final class Streams {
       boolean set = false;
       T value = null;
 
-      void set(@NullableDecl T value) {
+      void set(@Nullable T value) {
         this.set = true;
         this.value = value;
       }

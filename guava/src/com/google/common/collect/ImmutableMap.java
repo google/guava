@@ -50,7 +50,7 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Map} whose contents will never change, with many other important properties detailed at
@@ -653,7 +653,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V remove(@NullableDecl Object o) {
+  public final V remove(@Nullable Object o) {
     throw new UnsupportedOperationException();
   }
 
@@ -689,19 +689,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Pure
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
 
   @Pure
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
   // Overriding to mark it Nullable
   @Override
-  public abstract @org.checkerframework.checker.nullness.qual.Nullable V get(@NullableDecl Object key);
+  public abstract @Nullable V get(@Nullable Object key);
 
   /**
    * @since 21.0 (but only since 23.5 in the Android <a
@@ -709,7 +709,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *     Note, however, that Java 8 users can call this method with any version and flavor of Guava.
    */
   @Override
-  public final V getOrDefault(@NullableDecl Object key, @NullableDecl V defaultValue) {
+  public final V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
     V result = get(key);
     return (result != null) ? result : defaultValue;
   }
@@ -822,12 +822,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public boolean containsKey(@NullableDecl Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return ImmutableMap.this.containsKey(key);
     }
 
     @Override
-    public ImmutableSet<V> get(@NullableDecl Object key) {
+    public ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
@@ -878,7 +878,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Pure
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 

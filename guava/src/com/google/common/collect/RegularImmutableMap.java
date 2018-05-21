@@ -34,7 +34,7 @@ import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
@@ -105,7 +105,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @NullableDecl ImmutableMapEntry<K, V> existing = table[tableIndex];
+      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       ImmutableMapEntry<K, V> newEntry =
           (existing == null)
@@ -147,7 +147,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    */
   @CanIgnoreReturnValue
   static int checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @NullableDecl ImmutableMapEntry<?, ?> keyBucketHead) {
+      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
     int bucketSize = 0;
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
@@ -157,13 +157,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  public @org.checkerframework.checker.nullness.qual.Nullable V get(@NullableDecl Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return get(key, table, mask);
   }
 
-  @NullableDecl
-  static <V> V get(
-      @NullableDecl Object key, @NullableDecl ImmutableMapEntry<?, V>[] keyTable, int mask) {
+  static <V> @Nullable V get(
+      @Nullable Object key, ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
     if (key == null || keyTable == null) {
       return null;
     }
@@ -321,7 +320,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Pure
   @Override
-  public boolean containsValue(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) {
+  public boolean containsValue(@Nullable Object arg0) {
     return super.containsValue(arg0);
   }
 

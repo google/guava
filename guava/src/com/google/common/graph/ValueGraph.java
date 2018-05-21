@@ -19,7 +19,7 @@ package com.google.common.graph;
 import com.google.common.annotations.Beta;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An interface for <a
@@ -267,8 +267,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
    */
-  @NullableDecl
-  V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue);
+  @Nullable
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
 
   //
   // ValueGraph identity
@@ -295,7 +295,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a

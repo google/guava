@@ -36,7 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collector;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RangeSet} whose contents will never change, with many other important properties
@@ -629,7 +629,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
-    public boolean contains(@NullableDecl Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o == null) {
         return false;
       }

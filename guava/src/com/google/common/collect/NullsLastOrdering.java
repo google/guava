@@ -21,7 +21,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that treats {@code null} as greater than all other values. */
 @AnnotatedFor({"nullness"})
@@ -35,7 +35,7 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public int compare(@NullableDecl T left, @NullableDecl T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -67,7 +67,7 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

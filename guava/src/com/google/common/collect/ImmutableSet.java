@@ -43,7 +43,7 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Set} whose contents will never change, with many other important properties detailed at
@@ -286,7 +286,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
   @Pure
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof ImmutableSet
@@ -309,7 +309,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @NullableDecl @RetainedWith private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {

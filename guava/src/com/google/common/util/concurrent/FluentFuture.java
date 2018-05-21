@@ -150,7 +150,6 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * // TimeoutException.
    * ListenableFuture<Integer> faultTolerantFuture =
    *     fetchCounters().catchingAsync(
-   *         fetchCounterFuture,
    *         FetchException.class,
    *         e -> {
    *           if (omitDataOnFetchFailure) {

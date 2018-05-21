@@ -122,7 +122,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generates fresh instances of types that are different from each other (if possible).
@@ -179,7 +179,7 @@ class FreshValueGenerator {
    *   <li>null if no value can be generated.
    * </ul>
    */
-  @NullableDecl
+  @Nullable
   final Object generateFresh(TypeToken<?> type) {
     Object generated = generate(type);
     if (generated != null) {
@@ -188,7 +188,7 @@ class FreshValueGenerator {
     return generated;
   }
 
-  @NullableDecl
+  @Nullable
   final <T> T generateFresh(Class<T> type) {
     return Primitives.wrap(type).cast(generateFresh(TypeToken.of(type)));
   }
@@ -303,7 +303,7 @@ class FreshValueGenerator {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof FreshInvocationHandler) {
         FreshInvocationHandler that = (FreshInvocationHandler) obj;
         return identity == that.identity;

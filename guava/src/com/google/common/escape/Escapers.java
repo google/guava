@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Escaper} instances.
@@ -125,7 +125,7 @@ public final class Escapers {
      * @return the builder instance
      */
     @CanIgnoreReturnValue
-    public Builder setUnsafeReplacement(@NullableDecl String unsafeReplacement) {
+    public Builder setUnsafeReplacement(@Nullable String unsafeReplacement) {
       this.unsafeReplacement = unsafeReplacement;
       return this;
     }

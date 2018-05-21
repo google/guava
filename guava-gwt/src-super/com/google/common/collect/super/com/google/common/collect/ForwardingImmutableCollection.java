@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import java.util.Collection;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A GWT-only class only used by GWT emulations. It is used to consolidate the definitions of method
@@ -40,7 +40,7 @@ class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
   }
 
   @Override
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     return object != null && delegate.contains(object);
   }
 

@@ -17,7 +17,7 @@
 package com.google.common.graph;
 
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by
@@ -26,8 +26,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author James Sexton
  */
 class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
-  @NullableDecl private transient CacheEntry<K, V> cacheEntry1;
-  @NullableDecl private transient CacheEntry<K, V> cacheEntry2;
+  private transient @Nullable CacheEntry<K, V> cacheEntry1;
+  private transient @Nullable CacheEntry<K, V> cacheEntry2;
 
   MapRetrievalCache(Map<K, V> backingMap) {
     super(backingMap);
@@ -35,7 +35,7 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   @SuppressWarnings("unchecked") // Safe because we only cast if key is found in map.
   @Override
-  public V get(@NullableDecl Object key) {
+  public V get(@Nullable Object key) {
     V value = getIfCached(key);
     if (value != null) {
       return value;
@@ -51,7 +51,7 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // Internal methods ('protected' is still package-visible, but treat as only subclass-visible)
 
   @Override
-  protected V getIfCached(@NullableDecl Object key) {
+  protected V getIfCached(@Nullable Object key) {
     V value = super.getIfCached(key);
     if (value != null) {
       return value;

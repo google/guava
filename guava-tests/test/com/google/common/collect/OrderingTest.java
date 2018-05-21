@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import junit.framework.TestCase;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit tests for {@code Ordering}.
@@ -1030,7 +1030,7 @@ public class OrderingTest extends TestCase {
             scenario.ordering.onResultOf(
                 new Function<Integer, T>() {
                   @Override
-                  public T apply(@NullableDecl Integer from) {
+                  public T apply(@Nullable Integer from) {
                     return scenario.strictlyOrderedList.get(from);
                   }
                 });

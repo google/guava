@@ -85,8 +85,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public static void staticOneArgJsr305NullableCorrectlyDoesNotThrowNPE(
-        @javax.annotation.Nullable String s) {
+    public static void staticOneArgJsr305NullableCorrectlyDoesNotThrowNPE(@NullableDecl String s) {
       // null?  no problem
     }
 
@@ -498,7 +497,7 @@ public class NullPointerTesterTest extends TestCase {
       doThrow(i);
     }
 
-    public void twoNullableArgs(@NullableDecl String s, @javax.annotation.Nullable Integer i) {}
+    public void twoNullableArgs(@NullableDecl String s, @NullableDecl Integer i) {}
 
     public void twoNullableArgsThrowsFirstArg(@NullableDecl String s, @NullableDecl Integer i) {
       doThrow(s);

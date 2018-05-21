@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A bounded {@linkplain BlockingQueue blocking queue} backed by an array. This queue orders
@@ -388,7 +388,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue changed as a result of the call
    */
   @Override
-  public boolean remove(@NullableDecl Object o) {
+  public boolean remove(@Nullable Object o) {
     if (o == null) return false;
     final E[] items = this.items;
     final Monitor monitor = this.monitor;
@@ -418,7 +418,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue contains the specified element
    */
   @Override
-  public boolean contains(@NullableDecl Object o) {
+  public boolean contains(@Nullable Object o) {
     if (o == null) return false;
     final E[] items = this.items;
     final Monitor monitor = this.monitor;

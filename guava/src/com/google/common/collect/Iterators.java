@@ -48,7 +48,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class contains static utility methods that operate on or return objects of type {@link
@@ -173,7 +173,7 @@ public final class Iterators {
 
   /** Returns {@code true} if {@code iterator} contains {@code element}. */
   @Pure
-  public static boolean contains(Iterator<?> iterator, @NullableDecl Object element) {
+  public static boolean contains(Iterator<?> iterator, @Nullable Object element) {
     if (element == null) {
       while (iterator.hasNext()) {
         if (iterator.next() == null) {
@@ -330,8 +330,8 @@ public final class Iterators {
    *     iterator is unspecified.
    */
   @CanIgnoreReturnValue // TODO(kak): Consider removing this?
-  @NullableDecl
-  public static <T> T getOnlyElement(Iterator<? extends T> iterator, @NullableDecl T defaultValue) {
+  public static <T> @Nullable T getOnlyElement(
+      Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
 
@@ -372,7 +372,7 @@ public final class Iterators {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterator<?> iterator, @NullableDecl Object element) {
+  public static int frequency(Iterator<?> iterator, @Nullable Object element) {
     int count = 0;
     while (contains(iterator, element)) {
       // Since it lives in the same class, we know contains gets to the element and then stops,
@@ -613,7 +613,7 @@ public final class Iterators {
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
-        @org.checkerframework.checker.nullness.qual.Nullable Object[] array = new Object[size];
+        @Nullable Object[] array = new Object[size];
         int count = 0;
         for (; count < size && iterator.hasNext(); count++) {
           array[count] = iterator.next();
@@ -713,11 +713,8 @@ public final class Iterators {
    *
    * @since 7.0
    */
-  @NullableDecl
-  public static <T> T find(
-      Iterator<? extends T> iterator,
-      Predicate<? super T> predicate,
-      @NullableDecl T defaultValue) {
+  public static <T> @Nullable T find(
+      Iterator<? extends T> iterator, Predicate<? super T> predicate, @Nullable T defaultValue) {
     checkNotNull(iterator);
     checkNotNull(predicate);
     while (iterator.hasNext()) {
@@ -831,9 +828,8 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  @NullableDecl
-  public static <T> T get(
-      Iterator<? extends T> iterator, int position, @NullableDecl T defaultValue) {
+  public static <T> @Nullable T get(
+      Iterator<? extends T> iterator, int position, @Nullable T defaultValue) {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
@@ -853,8 +849,7 @@ public final class Iterators {
    * @return the next element of {@code iterator} or the default value
    * @since 7.0
    */
-  @NullableDecl
-  public static <T> T getNext(Iterator<? extends T> iterator, @NullableDecl T defaultValue) {
+  public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }
 
@@ -881,8 +876,7 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @since 3.0
    */
-  @NullableDecl
-  public static <T> T getLast(Iterator<? extends T> iterator, @NullableDecl T defaultValue) {
+  public static <T> @Nullable T getLast(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
   }
 
@@ -979,8 +973,7 @@ public final class Iterators {
    * Deletes and returns the next value from the iterator, or returns {@code null} if there is no
    * such value.
    */
-  @NullableDecl
-  static <T> T pollNext(Iterator<T> iterator) {
+  static <T> @Nullable T pollNext(Iterator<T> iterator) {
     if (iterator.hasNext()) {
       T result = iterator.next();
       iterator.remove();
@@ -1060,7 +1053,7 @@ public final class Iterators {
    *
    * <p>The {@link Iterable} equivalent of this method is {@link Collections#singleton}.
    */
-  public static <T> UnmodifiableIterator<T> singletonIterator(@NullableDecl final @org.checkerframework.checker.nullness.qual.Nullable T value) {
+  public static <T> UnmodifiableIterator<T> singletonIterator(final @Nullable T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 
@@ -1128,7 +1121,7 @@ public final class Iterators {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    @NullableDecl private E peekedElement;
+    private @Nullable E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);
@@ -1297,7 +1290,7 @@ public final class Iterators {
 
   private static class ConcatenatedIterator<T> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
-   @NullableDecl private Iterator<? extends T> toRemove;
+    private @Nullable Iterator<? extends T> toRemove;
 
     /* The iterator currently returning elements. */
     private Iterator<? extends T> iterator;
@@ -1312,7 +1305,7 @@ public final class Iterators {
     private Iterator<? extends Iterator<? extends T>> topMetaIterator;
 
     // Only becomes nonnull if we encounter nested concatenations.
-    @NullableDecl private Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
+    private @Nullable Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
 
     ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> metaIterator) {
       iterator = emptyIterator();
@@ -1320,8 +1313,7 @@ public final class Iterators {
     }
 
     // Returns a nonempty meta-iterator or, if all meta-iterators are empty, null.
-    @NullableDecl
-    private Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
+    private @Nullable Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
       while (topMetaIterator == null || !topMetaIterator.hasNext()) {
         if (metaIterators != null && !metaIterators.isEmpty()) {
           topMetaIterator = metaIterators.removeFirst();

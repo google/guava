@@ -22,7 +22,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that compares objects according to a given order. */
 @AnnotatedFor({"nullness"})
@@ -54,7 +54,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
 
   @Pure
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof ExplicitOrdering) {
       ExplicitOrdering<?> that = (ExplicitOrdering<?>) object;
       return this.rankMap.equals(that.rankMap);

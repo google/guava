@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
@@ -165,7 +165,7 @@ final class SortedMultisets {
     return entry.getElement();
   }
 
-  private static <E> E getElementOrNull(@NullableDecl Entry<E> entry) {
+  private static <E> E getElementOrNull(@Nullable Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

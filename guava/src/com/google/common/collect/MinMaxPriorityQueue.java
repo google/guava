@@ -42,7 +42,7 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A double-ended priority queue, which provides constant-time access to both its least element and
@@ -754,7 +754,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     // either of them, up to the same multiplicity as the queue.
     @MonotonicNonNullDecl private Queue<E> forgetMeNot;
     @MonotonicNonNullDecl private List<E> skipMe;
-    @NullableDecl private E lastFromForgetMeNot;
+    private @Nullable E lastFromForgetMeNot;
     private boolean canRemove;
 
     @Override

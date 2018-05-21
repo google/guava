@@ -25,7 +25,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
@@ -53,8 +53,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @NullableDecl ListenableFuture<? extends I> inputFuture;
-  @NullableDecl F function;
+  @Nullable ListenableFuture<? extends I> inputFuture;
+  @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -162,12 +162,11 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
   /** Template method for subtypes to actually run the transform. */
   @ForOverride
-  @NullableDecl
-  abstract T doTransform(F function, @NullableDecl I result) throws Exception;
+  abstract @Nullable T doTransform(F function, @Nullable I result) throws Exception;
 
   /** Template method for subtypes to actually set the result. */
   @ForOverride
-  abstract void setResult(@NullableDecl T result);
+  abstract void setResult(@Nullable T result);
 
   @Override
   protected final void afterDone() {
@@ -207,7 +206,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
 
     @Override
     ListenableFuture<? extends O> doTransform(
-        AsyncFunction<? super I, ? extends O> function, @NullableDecl I input) throws Exception {
+        AsyncFunction<? super I, ? extends O> function, @Nullable I input) throws Exception {
       ListenableFuture<? extends O> outputFuture = function.apply(input);
       checkNotNull(
           outputFuture,
@@ -234,14 +233,14 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     }
 
     @Override
-    @NullableDecl
-    O doTransform(Function<? super I, ? extends O> function, @NullableDecl I input) {
+    @Nullable
+    O doTransform(Function<? super I, ? extends O> function, @Nullable I input) {
       return function.apply(input);
       // TODO(lukes): move the UndeclaredThrowable catch block here?
     }
 
     @Override
-    void setResult(@NullableDecl O result) {
+    void setResult(@Nullable O result) {
       set(result);
     }
   }

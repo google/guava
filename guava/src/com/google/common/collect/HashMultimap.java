@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.dataflow.qual.Pure;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
@@ -145,11 +146,11 @@ public final class HashMultimap<K, V> extends HashMultimapGwtSerializationDepend
 
 @Pure
 @Override
-public boolean equals(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.equals(arg0); }
+public boolean equals(@Nullable Object arg0) { return super.equals(arg0); }
 
 @Override
-public Set<V> get(@org.checkerframework.checker.nullness.qual.Nullable K arg0) { return super.get(arg0); }
+public Set<V> get(@Nullable K arg0) { return super.get(arg0); }
 
 @Override
-public Set<V> removeAll(@org.checkerframework.checker.nullness.qual.Nullable Object arg0) { return super.removeAll(arg0); }
+public Set<V> removeAll(@Nullable Object arg0) { return super.removeAll(arg0); }
 }
