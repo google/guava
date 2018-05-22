@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
@@ -228,6 +230,27 @@ public class StringsTest extends TestCase {
     assertEquals("null [5, 6]", Strings.lenientFormat(null, 5, 6));
     assertEquals("null", Strings.lenientFormat("%s", (Object) null));
     assertEquals("(Object[])null", Strings.lenientFormat("%s", (Object[]) null));
+  }
+
+  @GwtIncompatible // GWT reflection includes less data
+  public void testLenientFormat_badArgumentToString() {
+    assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
+        .matches(
+            "boiler <com\\.google\\.common\\.base\\.StringsTest\\$ThrowsOnToString@[0-9a-f]+ "
+                + "threw java\\.lang\\.UnsupportedOperationException> plate");
+  }
+
+  public void testLenientFormat_badArgumentToString_gwtFriendly() {
+    assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
+        .matches(
+            "boiler <.*> plate");
+  }
+
+  private static class ThrowsOnToString {
+    @Override
+    public String toString() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   @GwtIncompatible // NullPointerTester
