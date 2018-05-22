@@ -295,8 +295,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   @Override
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   public V forcePut(@NullableDecl K key, @NullableDecl V value) {
     return put(key, value, true);
   }
@@ -517,8 +517,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   @Override
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   public V remove(@NullableDecl Object key) {
     int keyHash = Hashing.smearedHash(key);
     int entry = findEntryByKey(key, keyHash);
@@ -926,15 +926,15 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K put(@NullableDecl V value, @NullableDecl K key) {
       return forward.putInverse(value, key, false);
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K forcePut(@NullableDecl V value, @NullableDecl K key) {
       return forward.putInverse(value, key, true);
     }
@@ -945,8 +945,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K remove(@NullableDecl Object value) {
       return forward.removeInverse(value);
     }

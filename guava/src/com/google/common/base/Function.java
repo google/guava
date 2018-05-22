@@ -43,8 +43,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @FunctionalInterface
 public interface Function<F, T> extends java.util.function.Function<F, T> {
   @Override
-  @Nullable
   @CanIgnoreReturnValue // TODO(kevinb): remove this
+  @Nullable
   T apply(@Nullable F input);
 
   /**

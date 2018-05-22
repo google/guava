@@ -59,8 +59,8 @@ public interface Function<F, T> {
    * @throws NullPointerException if {@code input} is null and this function does not accept null
    *     arguments
    */
-  @NullableDecl
   @CanIgnoreReturnValue // TODO(kevinb): remove this
+  @NullableDecl
   T apply(@NullableDecl F input);
 
   /**

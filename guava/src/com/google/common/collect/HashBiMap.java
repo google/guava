@@ -296,6 +296,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
+  @Nullable
   public V forcePut(@Nullable K key, @Nullable V value) {
     return put(key, value, true);
   }
@@ -370,6 +371,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
+  @Nullable
   public V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
@@ -583,16 +585,19 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @CanIgnoreReturnValue
     @Override
+    @Nullable
     public K put(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, false);
     }
 
     @Override
+    @Nullable
     public K forcePut(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, true);
     }
 
     @Override
+    @Nullable
     public K remove(@Nullable Object value) {
       BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
       if (entry == null) {
