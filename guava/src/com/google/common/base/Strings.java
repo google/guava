@@ -237,7 +237,7 @@ public final class Strings {
    *     specified is substituted for the first occurrence of {@code "%s"} in the template, and so
    *     forth. A {@code null} argument is converted to the four-character string {@code "null"};
    *     non-null values are converted to strings using {@link Object#toString()}.
-   * @since NEXT
+   * @since 25.1
    */
   // TODO(diamondm) consider using Arrays.toString() for array parameters
   // TODO(diamondm) capture exceptions thrown from arguments' toString methods

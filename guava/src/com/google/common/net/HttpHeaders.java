@@ -388,21 +388,21 @@ public final class HttpHeaders {
    * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
    * Sec-Token-Binding}</a> header field name.
    *
-   * @since NEXT
+   * @since 25.1
    */
   public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
    * Sec-Provided-Token-Binding-ID}</a> header field name.
    *
-   * @since NEXT
+   * @since 25.1
    */
   public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
    * Sec-Referred-Token-Binding-ID}</a> header field name.
    *
-   * @since NEXT
+   * @since 25.1
    */
   public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";
 }
