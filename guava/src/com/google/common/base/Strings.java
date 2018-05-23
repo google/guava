@@ -17,11 +17,13 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
+import org.checkerframework.framework.qual.EnsuresQualifierIf;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.
@@ -141,7 +143,17 @@ public final class Strings {
    *     {@code count} is zero)
    * @throws IllegalArgumentException if {@code count} is negative
    */
-  public static String repeat(String string, int count) {
+  @SuppressWarnings({
+    "upperbound:argument.type.incompatible", "upperbound:assignment.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+    /*
+     * After checking that n < size - n, we know that 2*n < size,
+     * therefore n << 1 < size,
+     * therefore n <<= 1 does not break IndexOrHigh("array").
+     */
+    "upperbound:compound.assignment.type.incompatible", // multiply index by 2 using bit shift
+    "lowerbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/193
+  })
+  public static String repeat(String string, @NonNegative int count) {
     checkNotNull(string); // eager for GWT.
 
     if (count <= 1) {
@@ -159,7 +171,7 @@ public final class Strings {
 
     final char[] array = new char[size];
     string.getChars(0, len, array, 0);
-    int n;
+    @IndexOrHigh("array") int n;
     for (n = len; n < size - n; n <<= 1) {
       System.arraycopy(array, 0, array, n, n);
     }
@@ -174,12 +186,14 @@ public final class Strings {
    *
    * @since 11.0
    */
+  @SuppressWarnings("index:compound.assignment.type.incompatible") // i-1 is @NonNegative means i-- is @NonNegative
   public static String commonPrefix(CharSequence a, CharSequence b) {
     checkNotNull(a);
     checkNotNull(b);
 
+    // Should be inferred as @IndexOrHigh({"a","b"})
     int maxPrefixLength = Math.min(a.length(), b.length());
-    int p = 0;
+    @IndexOrHigh("a") int p = 0;
     while (p < maxPrefixLength && a.charAt(p) == b.charAt(p)) {
       p++;
     }
@@ -196,12 +210,16 @@ public final class Strings {
    *
    * @since 11.0
    */
+  @SuppressWarnings({
+    "lowerbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/193
+    "lowerbound:compound.assignment.type.incompatible" // i-1 is @NonNegative means i-- is @NonNegative
+  })
   public static String commonSuffix(CharSequence a, CharSequence b) {
     checkNotNull(a);
     checkNotNull(b);
 
     int maxSuffixLength = Math.min(a.length(), b.length());
-    int s = 0;
+    @IndexOrHigh({"a", "b"}) int s = 0;
     while (s < maxSuffixLength && a.charAt(a.length() - s - 1) == b.charAt(b.length() - s - 1)) {
       s++;
     }
@@ -252,7 +270,7 @@ public final class Strings {
 
     // start substituting the arguments into the '%s' placeholders
     StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
-    int templateStart = 0;
+    @IndexOrHigh("template") int templateStart = 0;
     int i = 0;
     while (i < args.length) {
       int placeholderStart = template.indexOf("%s", templateStart);
@@ -284,6 +302,7 @@ public final class Strings {
    * Out-of-range indexes return false.
    */
   @VisibleForTesting
+  @EnsuresQualifierIf(result=true, expression="#2", qualifier=NonNegative.class)
   static boolean validSurrogatePairAt(CharSequence string, int index) {
     return index >= 0
         && index <= (string.length() - 2)

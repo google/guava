@@ -16,12 +16,11 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.

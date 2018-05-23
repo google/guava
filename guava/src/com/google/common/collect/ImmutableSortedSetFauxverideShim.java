@@ -16,10 +16,9 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtIncompatible;
 import java.util.stream.Collector;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack {@link ImmutableSortedSet}

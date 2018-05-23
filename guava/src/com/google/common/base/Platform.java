@@ -14,8 +14,6 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
@@ -26,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.

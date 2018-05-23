@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
@@ -35,6 +33,7 @@ import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Bimap with zero or more mappings.

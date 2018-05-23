@@ -16,9 +16,6 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
@@ -43,6 +40,8 @@ import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * A {@link NavigableSet} whose contents will never change, with many other important properties

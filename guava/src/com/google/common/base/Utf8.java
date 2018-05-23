@@ -20,6 +20,9 @@ import static java.lang.Character.MIN_SURROGATE;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * Low-level, high-performance utility methods related to the {@linkplain Charsets#UTF_8 UTF-8}
@@ -47,10 +50,13 @@ public final class Utf8 {
    * @throws IllegalArgumentException if {@code sequence} contains ill-formed UTF-16 (unpaired
    *     surrogates)
    */
-  public static int encodedLength(CharSequence sequence) {
+  @SuppressWarnings({
+    "lowerbound:compound.assignment.type.incompatible", // unsigned right shift on int
+  })
+  public static @NonNegative int encodedLength(CharSequence sequence) {
     // Warning to maintainers: this implementation is highly optimized.
     int utf16Length = sequence.length();
-    int utf8Length = utf16Length;
+    @NonNegative int utf8Length = utf16Length;
     int i = 0;
 
     // This loop optimizes for pure ASCII.
@@ -76,10 +82,12 @@ public final class Utf8 {
     }
     return utf8Length;
   }
-
-  private static int encodedLengthGeneral(CharSequence sequence, int start) {
+  @SuppressWarnings({
+    "lowerbound:compound.assignment.type.incompatible", // unsigned right shift on int
+  })
+  private static @NonNegative int encodedLengthGeneral(CharSequence sequence, @NonNegative/*!IndexFor("#1")*/ int start) {
     int utf16Length = sequence.length();
-    int utf8Length = 0;
+    @NonNegative int utf8Length = 0;
     for (int i = start; i < utf16Length; i++) {
       char c = sequence.charAt(i);
       if (c < 0x800) {
@@ -122,7 +130,7 @@ public final class Utf8 {
    * @param off the offset in the buffer of the first byte to read
    * @param len the number of bytes to read from the buffer
    */
-  public static boolean isWellFormed(byte[] bytes, int off, int len) {
+  public static boolean isWellFormed(byte[] bytes, @IndexOrHigh("#1") int off, @NonNegative @LTLengthOf(value = "#1", offset = "#2 - 1") int len) {
     int end = off + len;
     checkPositionIndexes(off, end, bytes.length);
     // Look for the first non-ASCII character.
@@ -134,8 +142,12 @@ public final class Utf8 {
     return true;
   }
 
-  private static boolean isWellFormedSlowPath(byte[] bytes, int off, int end) {
-    int index = off;
+  @SuppressWarnings({
+    "cast.unsafe", // https://github.com/kelloggm/checker-framework/issues/149
+    "upperbound:compound.assignment.type.incompatible", "upperbound:array.access.unsafe.high" // https://github.com/kelloggm/checker-framework/issues/158
+  })
+  private static boolean isWellFormedSlowPath(byte[] bytes, @IndexOrHigh("#1") int off, @IndexOrHigh("#1") int end) {
+    @IndexOrHigh("bytes") int index = off;
     while (true) {
       int byte1;
 

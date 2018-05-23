@@ -14,10 +14,10 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Phantom reference with a {@code finalizeReferent()} method which a background thread invokes

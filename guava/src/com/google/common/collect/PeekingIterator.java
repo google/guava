@@ -16,12 +16,11 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * An iterator that supports a one-element lookahead while iterating.

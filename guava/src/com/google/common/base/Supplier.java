@@ -14,10 +14,9 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Legacy version of {@link java.util.function.Supplier java.util.function.Supplier}. Semantically,

@@ -30,7 +30,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.SubstringIndexFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code char} primitives, that are not already found in
@@ -77,7 +87,7 @@ public final class Chars {
    * @throws IllegalArgumentException if {@code value} is greater than {@link Character#MAX_VALUE}
    *     or less than {@link Character#MIN_VALUE}
    */
-  public static char checkedCast(long value) {
+  public static char checkedCast(@IntRange(from = Character.MIN_VALUE, to = Character.MAX_VALUE) long value) {
     char result = (char) value;
     checkArgument(result == value, "Out of range: %s", value);
     return result;
@@ -141,12 +151,12 @@ public final class Chars {
    * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int indexOf(char[] array, char target) {
+  public static @IndexOrLow("#1") int indexOf(char[] array, char target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(char[] array, char target, int start, int end) {
+  private static @IndexOrLow("#1") int indexOf(char[] array, char target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -165,7 +175,8 @@ public final class Chars {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(char[] array, char[] target) {
+  @SuppressWarnings("substringindex:return.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/206 https://github.com/kelloggm/checker-framework/issues/207 https://github.com/kelloggm/checker-framework/issues/208
+  public static @LTEqLengthOf("#1") @SubstringIndexFor(value = "#1", offset="#2.length - 1") int indexOf(char[] array, char[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -192,12 +203,12 @@ public final class Chars {
    * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int lastIndexOf(char[] array, char target) {
+  public static @IndexOrLow("#1") int lastIndexOf(char[] array, char target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(char[] array, char target, int start, int end) {
+  private static @IndexOrLow("#1") int lastIndexOf(char[] array, char target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -214,7 +225,7 @@ public final class Chars {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static char min(char... array) {
+  public static char min(char @MinLen(1)... array) {
     checkArgument(array.length > 0);
     char min = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -233,7 +244,7 @@ public final class Chars {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static char max(char... array) {
+  public static char max(char @MinLen(1)... array) {
     checkArgument(array.length > 0);
     char max = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -270,6 +281,13 @@ public final class Chars {
    * @param arrays zero or more {@code char} arrays
    * @return a single array containing all the values from the source arrays, in order
    */
+  /*
+   * New array has size that is sum of array lengths.
+   * length is a sum of lengths of arrays.
+   * pos is increased the same way as length, so pos points to a valid
+   * range of length array.length in result.
+   */
+  @SuppressWarnings("upperbound:argument.type.incompatible") // sum of lengths
   public static char[] concat(char[]... arrays) {
     int length = 0;
     for (char[] array : arrays) {
@@ -309,7 +327,7 @@ public final class Chars {
    * @throws IllegalArgumentException if {@code bytes} has fewer than 2 elements
    */
   @GwtIncompatible // doesn't work
-  public static char fromByteArray(byte[] bytes) {
+  public static char fromByteArray(byte @MinLen(Chars.BYTES)[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1]);
   }
@@ -338,7 +356,7 @@ public final class Chars {
    * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
    *     minLength}
    */
-  public static char[] ensureCapacity(char[] array, int minLength, int padding) {
+  public static char[] ensureCapacity(char[] array, @NonNegative int minLength, @NonNegative int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
@@ -352,6 +370,7 @@ public final class Chars {
    *     (but not at the start or end)
    * @param array an array of {@code char} values, possibly empty
    */
+  @SuppressWarnings("upperbound:array.access.unsafe.high.constant") // https://github.com/kelloggm/checker-framework/issues/188
   public static String join(String separator, char... array) {
     checkNotNull(separator);
     int len = array.length;
@@ -448,7 +467,7 @@ public final class Chars {
    *
    * @since 23.1
    */
-  public static void sortDescending(char[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(char[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     Arrays.sort(array, fromIndex, toIndex);
@@ -476,7 +495,7 @@ public final class Chars {
    *     {@code toIndex > fromIndex}
    * @since 23.1
    */
-  public static void reverse(char[] array, int fromIndex, int toIndex) {
+  public static void reverse(char[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
@@ -508,22 +527,25 @@ public final class Chars {
   @GwtCompatible
   private static class CharArrayAsList extends AbstractList<Character>
       implements RandomAccess, Serializable {
-    final char[] array;
-    final int start;
-    final int end;
+    final char @MinLen(1)[] array;
+    final @IndexFor("array") int start;
+    final @IndexOrHigh("array") int end;
 
-    CharArrayAsList(char[] array) {
+    CharArrayAsList(char @MinLen(1)[] array) {
       this(array, 0, array.length);
     }
 
-    CharArrayAsList(char[] array, int start, int end) {
+    CharArrayAsList(char @MinLen(1)[] array, @IndexFor("#1") int start, @IndexOrHigh("#1") int end) {
       this.array = array;
       this.start = start;
       this.end = end;
     }
 
     @Override
-    public int size() {
+    @SuppressWarnings({
+              "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+              "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+    public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
@@ -533,7 +555,9 @@ public final class Chars {
     }
 
     @Override
-    public Character get(int index) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Character get(@IndexFor("this") int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
@@ -546,7 +570,11 @@ public final class Chars {
     }
 
     @Override
-    public int indexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Character) {
         int i = Chars.indexOf(array, (Character) target, start, end);
@@ -558,7 +586,11 @@ public final class Chars {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Character) {
         int i = Chars.lastIndexOf(array, (Character) target, start, end);
@@ -570,7 +602,9 @@ public final class Chars {
     }
 
     @Override
-    public Character set(int index, Character element) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Character set(@IndexFor("this") int index, Character element) {
       checkElementIndex(index, size());
       char oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -579,7 +613,9 @@ public final class Chars {
     }
 
     @Override
-    public List<Character> subList(int fromIndex, int toIndex) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+    public List<Character> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * Static methods pertaining to ASCII characters (those in the range of values {@code 0x00} through
@@ -547,11 +548,25 @@ public final class Ascii {
    *     truncationIndicator}
    * @since 16.0
    */
-  public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {
+  @SuppressWarnings({
+    /*
+     * The parameter maxLength should be annotated something like @GTEqLengthOf("#3").
+     * However, such annotation does not exist, so this property is not expressed.
+     * Lower bound validity:
+     *   truncationIndicator.length <= maxLength,
+     *   therefore truncationLength >= 0
+     * Upper bound validity:
+     *   truncationLength <= maxLength,
+     *   seq.length > maxLength,
+     *   therefore truncationLength <= seq.length
+     */
+    "lowerbound:assignment.type.incompatible", "upperbound:argument.type.incompatible" // https://github.com/kelloggm/checker-framework/issues/220
+  })
+  public static String truncate(CharSequence seq, @NonNegative int maxLength, String truncationIndicator) {
     checkNotNull(seq);
 
     // length to truncate the sequence to, not including the truncation indicator
-    int truncationLength = maxLength - truncationIndicator.length();
+    @NonNegative int truncationLength = maxLength - truncationIndicator.length();
 
     // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,
     // meaning that a string will be truncated to just the truncation indicator itself

@@ -33,7 +33,17 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
+import org.checkerframework.checker.index.qual.EnsuresLTLengthOf;
+import org.checkerframework.checker.index.qual.EnsuresLTLengthOfIf;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.SameLen;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -135,6 +145,7 @@ public final class ImmutableLongArray implements Serializable {
    */
   // Use (first, rest) so that `of(someLongArray)` won't compile (they should use copyOf), which is
   // okay since we have to copy the just-created array anyway.
+  @SuppressWarnings("upperbound:array.access.unsafe.high.constant") // https://github.com/kelloggm/checker-framework/issues/182
   public static ImmutableLongArray of(long first, long... rest) {
     checkArgument(
         rest.length <= Integer.MAX_VALUE - 1,
@@ -188,7 +199,7 @@ public final class ImmutableLongArray implements Serializable {
    * ImmutableLongArray} that is built will very likely occupy more memory than strictly necessary;
    * to trim memory usage, build using {@code builder.build().trimmed()}.
    */
-  public static Builder builder(int initialCapacity) {
+  public static Builder builder(@NonNegative int initialCapacity) {
     checkArgument(initialCapacity >= 0, "Invalid initialCapacity: %s", initialCapacity);
     return new Builder(initialCapacity);
   }
@@ -212,9 +223,9 @@ public final class ImmutableLongArray implements Serializable {
   @CanIgnoreReturnValue
   public static final class Builder {
     private long[] array;
-    private int count = 0; // <= array.length
+    private @IndexOrHigh("array") int count = 0; // <= array.length
 
-    Builder(int initialCapacity) {
+    Builder(@NonNegative int initialCapacity) {
       array = new long[initialCapacity];
     }
 
@@ -233,6 +244,11 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    /*
+     * Calling ensureRoomFor(values.length) ensures that count is @LTLengthOf(value="array", offset="values.length-1").
+     * That also implies that values.length is @LTLengthOf(value="array", offset="count-1")
+     */
+    @SuppressWarnings("upperbound:argument.type.incompatible") // https://github.com/typetools/checker-framework/issues/1975 or https://github.com/typetools/checker-framework/issues/1976
     public Builder addAll(long[] values) {
       ensureRoomFor(values.length);
       System.arraycopy(values, 0, array, count, values.length);
@@ -258,6 +274,13 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    /*
+     * Iterating through collection elements and incrementing separate index.
+     * Incrementing count in a for-each loop of values means that count is increased by at most values.size()
+     * To typecheck, this code also needs a fix for:
+     *   https://github.com/kelloggm/checker-framework/issues/197
+     */
+    @SuppressWarnings("upperbound") // increment index in for-each for Collection
     public Builder addAll(Collection<Long> values) {
       ensureRoomFor(values.size());
       for (Long value : values) {
@@ -284,6 +307,13 @@ public final class ImmutableLongArray implements Serializable {
      * Appends {@code values}, in order, to the end of the values the built {@link
      * ImmutableLongArray} will contain.
      */
+    @SuppressWarnings(
+        /*
+         * count is @LTLengthOf(value="array",offset="values.length()-1"), which implies
+         * values.length() is @LTLengthOf(value="array",offset="count-1")
+         */
+        "upperbound:argument.type.incompatible" // LTLengthOf inversion
+      )
     public Builder addAll(ImmutableLongArray values) {
       ensureRoomFor(values.length());
       System.arraycopy(values.array, values.start, array, count, values.length());
@@ -291,7 +321,20 @@ public final class ImmutableLongArray implements Serializable {
       return this;
     }
 
-    private void ensureRoomFor(int numberToAdd) {
+    /*
+     * expandedCapacity(array.length, newCount) is at least newCount
+     * newArray is at least as long as array
+     * therefore, count is an index for newArray
+     * Possibly could be solved by combination of:
+     *   https://github.com/kelloggm/checker-framework/issues/202
+     *   https://github.com/kelloggm/checker-framework/issues/158
+     */
+    @SuppressWarnings({
+      "upperbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+      "contracts.postcondition.not.satisfied", // postcondition
+    })
+    @EnsuresLTLengthOf(value = "count", targetValue = "array", offset = "#1 - 1")
+    private void ensureRoomFor(@NonNegative int numberToAdd) {
       int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
         long[] newArray = new long[expandedCapacity(array.length, newCount)];
@@ -301,7 +344,7 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     // Unfortunately this is pasted from ImmutableCollection.Builder.
-    private static int expandedCapacity(int oldCapacity, int minCapacity) {
+    private static @NonNegative int expandedCapacity(@NonNegative int oldCapacity, @NonNegative int minCapacity) {
       if (minCapacity < 0) {
         throw new AssertionError("cannot store more than MAX_VALUE elements");
       }
@@ -343,25 +386,36 @@ public final class ImmutableLongArray implements Serializable {
    * optimizing, because the rest have the option of calling `trimmed`.
    */
 
-  private final transient int start; // it happens that we only serialize instances where this is 0
-  private final int end; // exclusive
+  private final transient @IndexOrHigh("array") int start; // it happens that we only serialize instances where this is 0
+  private final @IndexOrHigh("array") int end; // exclusive
 
   private ImmutableLongArray(long[] array) {
     this(array, 0, array.length);
   }
 
-  private ImmutableLongArray(long[] array, int start, int end) {
+  private ImmutableLongArray(long[] array, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     this.array = array;
     this.start = start;
     this.end = end;
   }
 
   /** Returns the number of values in this array. */
-  public int length() {
+  @SuppressWarnings({
+    "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+    /*
+     * In a fixed-size collection whose length is defined as end-start,
+     * end-start is IndexOrHigh("this")
+     */
+    "upperbound:return.type.incompatible" // custom coll. with size end-start
+  })
+  @Pure
+  public @NonNegative @LTLengthOf(value = {"array", "this"}, offset = {"start-1", "-1"}) int length() { // INDEX: Annotation on a public method refers to private member.
     return end - start;
   }
 
   /** Returns {@code true} if there are no values in this array ({@link #length} is zero). */
+  @SuppressWarnings("contracts.conditional.postcondition.not.satisfied") // postcondition
+  @EnsuresLTLengthOfIf(result = false, expression = "start", targetValue = "array")
   public boolean isEmpty() {
     return end == start;
   }
@@ -372,7 +426,14 @@ public final class ImmutableLongArray implements Serializable {
    * @throws IndexOutOfBoundsException if {@code index} is negative, or greater than or equal to
    *     {@link #length}
    */
-  public long get(int index) {
+  /*
+   * In a fixed-size collection whosle length is defined as end-start,
+   * where i is IndexFor("this")
+   * i+start is IndexFor("array")
+   */
+  @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+  @Pure
+  public long get(@IndexFor("this") int index) {
     Preconditions.checkElementIndex(index, length());
     return array[start + index];
   }
@@ -381,7 +442,17 @@ public final class ImmutableLongArray implements Serializable {
    * Returns the smallest index for which {@link #get} returns {@code target}, or {@code -1} if no
    * such index exists. Equivalent to {@code asList().indexOf(target)}.
    */
-  public int indexOf(long target) {
+  @SuppressWarnings({
+    "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+    /*
+     * In a fixed-size collection whose length is defined as end-start,
+     * where i is less than end,
+     * i-start is IndexFor("this")
+     * Might require: https://github.com/kelloggm/checker-framework/issues/158
+     */
+    "upperbound:return.type.incompatible" // custom coll. with size end-start
+  })
+  public @IndexOrLow("this") int indexOf(long target) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i - start;
@@ -394,7 +465,17 @@ public final class ImmutableLongArray implements Serializable {
    * Returns the largest index for which {@link #get} returns {@code target}, or {@code -1} if no
    * such index exists. Equivalent to {@code asList().lastIndexOf(target)}.
    */
-  public int lastIndexOf(long target) {
+  @SuppressWarnings({
+    "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+    /*
+     * In a fixed-size collection whose length is defined as end-start,
+     * where i is less than end,
+     * i-start is IndexFor("this")
+     * Might require: https://github.com/kelloggm/checker-framework/issues/158
+     */
+    "upperbound:return.type.incompatible" // custom coll. with size end-start
+  })
+  public @IndexOrLow("this") int lastIndexOf(long target) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i - start;
@@ -436,7 +517,9 @@ public final class ImmutableLongArray implements Serializable {
    * does (no actual copying is performed). To reduce memory usage, use {@code subArray(start,
    * end).trimmed()}.
    */
-  public ImmutableLongArray subArray(int startIndex, int endIndex) {
+  // array should be @LongerThanEq(value="this", offset="start")
+  @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+  public ImmutableLongArray subArray(@NonNegative int startIndex, @NonNegative int endIndex) {
     Preconditions.checkPositionIndexes(startIndex, endIndex, length());
     return startIndex == endIndex
         ? EMPTY
@@ -464,8 +547,9 @@ public final class ImmutableLongArray implements Serializable {
   }
 
   static class AsList extends AbstractList<Long> implements RandomAccess, Serializable {
-    private final ImmutableLongArray parent;
+    private final @SameLen("this") ImmutableLongArray parent;
 
+    @SuppressWarnings("samelen:assignment.type.incompatible") // SameLen("this") field
     private AsList(ImmutableLongArray parent) {
       this.parent = parent;
     }
@@ -473,12 +557,12 @@ public final class ImmutableLongArray implements Serializable {
     // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, stream, forEach, mutations
 
     @Override
-    public int size() {
+    public @NonNegative int size() {
       return parent.length();
     }
 
     @Override
-    public Long get(int index) {
+    public Long get(@IndexFor("this") int index) {
       return parent.get(index);
     }
 
@@ -488,17 +572,17 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
-    public int indexOf(Object target) {
+    public @GTENegativeOne int indexOf(Object target) {
       return target instanceof Long ? parent.indexOf((Long) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public @GTENegativeOne int lastIndexOf(Object target) {
       return target instanceof Long ? parent.lastIndexOf((Long) target) : -1;
     }
 
     @Override
-    public List<Long> subList(int fromIndex, int toIndex) {
+    public List<Long> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       return parent.subArray(fromIndex, toIndex).asList();
     }
 
@@ -509,6 +593,12 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
+    /*
+     * Iterating through collection elements and incrementing separate index.
+     * i is incremented in a for-each loop by that, and that has the same size as parent.array
+     * therefore i is an index for parent.array
+     */
+    @SuppressWarnings("upperbound:array.access.unsafe.high.range") // index incremented in for-each over list of same length
     public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;

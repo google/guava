@@ -18,6 +18,9 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher.NamedFastMatcher;
 import java.util.BitSet;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * An immutable version of CharMatcher for smallish sets of characters that uses a hash table with
@@ -28,11 +31,11 @@ import java.util.BitSet;
 @GwtIncompatible // no precomputation is done in GWT
 final class SmallCharMatcher extends NamedFastMatcher {
   static final int MAX_SIZE = 1023;
-  private final char[] table;
+  private final char @MinLen(1)[] table;
   private final boolean containsZero;
   private final long filter;
 
-  private SmallCharMatcher(char[] table, long filter, boolean containsZero, String description) {
+  private SmallCharMatcher(char @MinLen(1)[] table, long filter, boolean containsZero, String description) {
     super(description);
     this.table = table;
     this.filter = filter;
@@ -70,19 +73,24 @@ final class SmallCharMatcher extends NamedFastMatcher {
    * can hold setSize elements with the desired load factor.
    */
   @VisibleForTesting
-  static int chooseTableSize(int setSize) {
+  @SuppressWarnings("lowerbound:assignment.type.incompatible") // bit operations
+  static @Positive int chooseTableSize(@IntRange(from = 0, to = Character.MAX_VALUE) int setSize) {
     if (setSize == 1) {
       return 2;
     }
     // Correct the size for open addressing to match desired load factor.
     // Round up to the next highest power of 2.
-    int tableSize = Integer.highestOneBit(setSize - 1) << 1;
+    @Positive int tableSize = Integer.highestOneBit(setSize - 1) << 1;
     while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
       tableSize <<= 1;
     }
     return tableSize;
   }
 
+  /*
+   * chars should be at most 65536 bits and not all zeroes
+   */
+  @SuppressWarnings("value:argument.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/197
   static CharMatcher from(BitSet chars, String description) {
     // Compute the filter.
     long filter = 0;
@@ -133,6 +141,7 @@ final class SmallCharMatcher extends NamedFastMatcher {
   }
 
   @Override
+  @SuppressWarnings("lowerbound:argument.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/192 char should be @NonNegative
   void setBits(BitSet table) {
     if (containsZero) {
       table.set(0);

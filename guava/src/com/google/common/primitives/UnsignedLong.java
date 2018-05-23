@@ -21,7 +21,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.BigInteger;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
@@ -77,7 +79,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * @since 14.0
    */
   @CanIgnoreReturnValue
-  public static UnsignedLong valueOf(long value) {
+  public static UnsignedLong valueOf(@NonNegative long value) {
     checkArgument(value >= 0, "value (%s) is outside the range for an unsigned long value", value);
     return fromLongBits(value);
   }
@@ -119,7 +121,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *     Character#MAX_RADIX}
    */
   @CanIgnoreReturnValue
-  public static UnsignedLong valueOf(String string, int radix) {
+  public static UnsignedLong valueOf(String string, @IntRange(from = Character.MIN_RADIX, to = Character.MAX_RADIX) int radix) {
     return fromLongBits(UnsignedLongs.parseUnsignedLong(string, radix));
   }
 
@@ -257,7 +259,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix {@code
    * 10} is used.
    */
-  public String toString(int radix) {
+  public String toString(@IntRange(from = Character.MIN_RADIX, to = Character.MAX_RADIX) int radix) {
     return UnsignedLongs.toString(value, radix);
   }
 }

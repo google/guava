@@ -16,11 +16,10 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * An iterator which forwards all its method calls to another iterator. Subclasses should override

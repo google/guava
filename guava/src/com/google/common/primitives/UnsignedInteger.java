@@ -23,7 +23,10 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -71,7 +74,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * Returns an {@code UnsignedInteger} that is equal to {@code value}, if possible. The inverse
    * operation of {@link #longValue()}.
    */
-  public static UnsignedInteger valueOf(long value) {
+  public static UnsignedInteger valueOf(@IntRange(from = 0, to = INT_MASK) long value) {
     checkArgument(
         (value & INT_MASK) == value,
         "value (%s) is outside the range for an unsigned integer value",
@@ -112,7 +115,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
    *     value
    */
-  public static UnsignedInteger valueOf(String string, int radix) {
+  public static UnsignedInteger valueOf(String string, @Positive int radix) {
     return fromIntBits(UnsignedInts.parseUnsignedInt(string, radix));
   }
 
@@ -182,7 +185,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
 
   /** Returns the value of this {@code UnsignedInteger} as a {@code long}. */
   @Override
-  public long longValue() {
+  public @NonNegative long longValue() {
     return toLong(value);
   }
 
@@ -245,7 +248,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * {@code radix < Character.MIN_RADIX} or {@code radix > Character.MAX_RADIX}, the radix {@code
    * 10} is used.
    */
-  public String toString(int radix) {
+  public String toString(@Positive int radix) {
     return UnsignedInts.toString(value, radix);
   }
 }

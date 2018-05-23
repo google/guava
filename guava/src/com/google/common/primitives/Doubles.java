@@ -36,7 +36,16 @@ import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.SubstringIndexFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not already found in
@@ -133,12 +142,12 @@ public final class Doubles {
    * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int indexOf(double[] array, double target) {
+  public static @IndexOrLow("#1") int indexOf(double[] array, double target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(double[] array, double target, int start, int end) {
+  private static @IndexOrLow("#1") int indexOf(double[] array, double target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -159,7 +168,8 @@ public final class Doubles {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(double[] array, double[] target) {
+  @SuppressWarnings("substringindex:return.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/206 https://github.com/kelloggm/checker-framework/issues/207 https://github.com/kelloggm/checker-framework/issues/208
+  public static @LTEqLengthOf("#1") @SubstringIndexFor(value = "#1", offset="#2.length - 1") int indexOf(double[] array, double[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -187,12 +197,12 @@ public final class Doubles {
    * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int lastIndexOf(double[] array, double target) {
+  public static @IndexOrLow("#1") int lastIndexOf(double[] array, double target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(double[] array, double target, int start, int end) {
+  private static @IndexOrLow("#1") int lastIndexOf(double[] array, double target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -210,7 +220,7 @@ public final class Doubles {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static double min(double... array) {
+  public static double min(double @MinLen(1)... array) {
     checkArgument(array.length > 0);
     double min = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -228,7 +238,7 @@ public final class Doubles {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static double max(double... array) {
+  public static double max(double @MinLen(1)... array) {
     checkArgument(array.length > 0);
     double max = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -264,6 +274,13 @@ public final class Doubles {
    * @param arrays zero or more {@code double} arrays
    * @return a single array containing all the values from the source arrays, in order
    */
+  /*
+   * New array has size that is sum of array lengths.
+   * length is a sum of lengths of arrays.
+   * pos is increased the same way as length, so pos points to a valid
+   * range of length array.length in result.
+   */
+  @SuppressWarnings("upperbound:argument.type.incompatible") // sum of lengths
   public static double[] concat(double[]... arrays) {
     int length = 0;
     for (double[] array : arrays) {
@@ -328,7 +345,7 @@ public final class Doubles {
    * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
    *     minLength}
    */
-  public static double[] ensureCapacity(double[] array, int minLength, int padding) {
+  public static double[] ensureCapacity(double[] array, @NonNegative int minLength, @NonNegative int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
@@ -421,7 +438,7 @@ public final class Doubles {
    *
    * @since 23.1
    */
-  public static void sortDescending(double[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(double[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     Arrays.sort(array, fromIndex, toIndex);
@@ -449,7 +466,7 @@ public final class Doubles {
    *     {@code toIndex > fromIndex}
    * @since 23.1
    */
-  public static void reverse(double[] array, int fromIndex, int toIndex) {
+  public static void reverse(double[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
@@ -515,22 +532,25 @@ public final class Doubles {
   @GwtCompatible
   private static class DoubleArrayAsList extends AbstractList<Double>
       implements RandomAccess, Serializable {
-    final double[] array;
-    final int start;
-    final int end;
+    final double @MinLen(1)[] array;
+    final @IndexFor("array") int start;
+    final @IndexOrHigh("array") int end;
 
-    DoubleArrayAsList(double[] array) {
+    DoubleArrayAsList(double @MinLen(1)[] array) {
       this(array, 0, array.length);
     }
 
-    DoubleArrayAsList(double[] array, int start, int end) {
+    DoubleArrayAsList(double @MinLen(1)[] array, @IndexFor("#1") int start, @IndexOrHigh("#1") int end) {
       this.array = array;
       this.start = start;
       this.end = end;
     }
 
-    @Override
-    public int size() {
+     @Override
+     @SuppressWarnings({
+              "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+              "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+      public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
@@ -540,7 +560,9 @@ public final class Doubles {
     }
 
     @Override
-    public Double get(int index) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Double get(@IndexFor("this") int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
@@ -558,7 +580,11 @@ public final class Doubles {
     }
 
     @Override
-    public int indexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Double) {
         int i = Doubles.indexOf(array, (Double) target, start, end);
@@ -570,7 +596,11 @@ public final class Doubles {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this")int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Double) {
         int i = Doubles.lastIndexOf(array, (Double) target, start, end);
@@ -582,7 +612,9 @@ public final class Doubles {
     }
 
     @Override
-    public Double set(int index, Double element) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Double set(@IndexFor("this") int index, Double element) {
       checkElementIndex(index, size());
       double oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -591,7 +623,9 @@ public final class Doubles {
     }
 
     @Override
-    public List<Double> subList(int fromIndex, int toIndex) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+    public List<Double> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

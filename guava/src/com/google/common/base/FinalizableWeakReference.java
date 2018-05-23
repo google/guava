@@ -14,7 +14,6 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.ReferenceQueue;

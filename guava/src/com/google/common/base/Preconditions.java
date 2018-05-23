@@ -15,12 +15,12 @@
 package com.google.common.base;
 
 import static com.google.common.base.Strings.lenientFormat;
-import org.checkerframework.framework.qual.AnnotatedFor;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Static convenience methods that help a method or constructor check whether it was invoked
@@ -1310,7 +1310,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkElementIndex(int index, int size) {
+  public static @NonNegative int checkElementIndex(@NonNegative int index, @NonNegative int size) {
     return checkElementIndex(index, size, "index");
   }
 
@@ -1326,7 +1326,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkElementIndex(int index, int size, @Nullable String desc) {
+  public static @NonNegative int checkElementIndex(@NonNegative int index, @NonNegative int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));
@@ -1355,7 +1355,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkPositionIndex(int index, int size) {
+  public static @NonNegative int checkPositionIndex(@NonNegative int index, @NonNegative int size) {
     return checkPositionIndex(index, size, "index");
   }
 
@@ -1371,7 +1371,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   @CanIgnoreReturnValue
-  public static int checkPositionIndex(int index, int size, @Nullable String desc) {
+  public static @NonNegative int checkPositionIndex(@NonNegative int index, @NonNegative int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {
       throw new IndexOutOfBoundsException(badPositionIndex(index, size, desc));
@@ -1401,7 +1401,7 @@ public final class Preconditions {
    *     or if {@code end} is less than {@code start}
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  public static void checkPositionIndexes(int start, int end, int size) {
+  public static void checkPositionIndexes(@NonNegative int start, @NonNegative int end, @NonNegative int size) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (start < 0 || end < start || end > size) {
       throw new IndexOutOfBoundsException(badPositionIndexes(start, end, size));

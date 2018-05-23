@@ -27,6 +27,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -101,13 +107,13 @@ public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
   private final Strategy strategy;
-  private final int limit;
+  private final @Positive int limit;
 
   private Splitter(Strategy strategy) {
     this(strategy, false, CharMatcher.none(), Integer.MAX_VALUE);
   }
 
-  private Splitter(Strategy strategy, boolean omitEmptyStrings, CharMatcher trimmer, int limit) {
+  private Splitter(Strategy strategy, boolean omitEmptyStrings, CharMatcher trimmer, @Positive int limit) {
     this.strategy = strategy;
     this.omitEmptyStrings = omitEmptyStrings;
     this.trimmer = trimmer;
@@ -144,12 +150,12 @@ public final class Splitter {
           public SplittingIterator iterator(Splitter splitter, final CharSequence toSplit) {
             return new SplittingIterator(splitter, toSplit) {
               @Override
-              int separatorStart(int start) {
+              @GTENegativeOne int separatorStart(@NonNegative int start) {
                 return separatorMatcher.indexIn(toSplit, start);
               }
 
               @Override
-              int separatorEnd(int separatorPosition) {
+              @NonNegative int separatorEnd(@NonNegative int separatorPosition) {
                 return separatorPosition + 1;
               }
             };
@@ -165,7 +171,7 @@ public final class Splitter {
    * @param separator the literal, nonempty string to recognize as a separator
    * @return a splitter, with default settings, that recognizes that separator
    */
-  public static Splitter on(final String separator) {
+  public static Splitter on(final @MinLen(1) String separator) {
     checkArgument(separator.length() != 0, "The separator may not be the empty string.");
     if (separator.length() == 1) {
       return Splitter.on(separator.charAt(0));
@@ -176,7 +182,7 @@ public final class Splitter {
           public SplittingIterator iterator(Splitter splitter, CharSequence toSplit) {
             return new SplittingIterator(splitter, toSplit) {
               @Override
-              public int separatorStart(int start) {
+              public @GTENegativeOne int separatorStart(@NonNegative int start) {
                 int separatorLength = separator.length();
 
                 positions:
@@ -192,7 +198,7 @@ public final class Splitter {
               }
 
               @Override
-              public int separatorEnd(int separatorPosition) {
+              public @NonNegative int separatorEnd(@NonNegative int separatorPosition) {
                 return separatorPosition + separator.length();
               }
             };
@@ -228,12 +234,12 @@ public final class Splitter {
             final CommonMatcher matcher = separatorPattern.matcher(toSplit);
             return new SplittingIterator(splitter, toSplit) {
               @Override
-              public int separatorStart(int start) {
+              public @GTENegativeOne int separatorStart(@NonNegative int start) {
                 return matcher.find(start) ? matcher.start() : -1;
               }
 
               @Override
-              public int separatorEnd(int separatorPosition) {
+              public @NonNegative int separatorEnd(@NonNegative int separatorPosition) {
                 return matcher.end();
               }
             };
@@ -272,7 +278,7 @@ public final class Splitter {
    * @return a splitter, with default settings, that can split into fixed sized pieces
    * @throws IllegalArgumentException if {@code length} is zero or negative
    */
-  public static Splitter fixedLength(final int length) {
+  public static Splitter fixedLength(final @Positive int length) {
     checkArgument(length > 0, "The length may not be less than 1");
 
     return new Splitter(
@@ -281,13 +287,13 @@ public final class Splitter {
           public SplittingIterator iterator(final Splitter splitter, CharSequence toSplit) {
             return new SplittingIterator(splitter, toSplit) {
               @Override
-              public int separatorStart(int start) {
+              public @GTENegativeOne int separatorStart(@NonNegative int start) {
                 int nextChunkStart = start + length;
                 return (nextChunkStart < toSplit.length() ? nextChunkStart : -1);
               }
 
               @Override
-              public int separatorEnd(int separatorPosition) {
+              public @NonNegative int separatorEnd(@NonNegative int separatorPosition) {
                 return separatorPosition;
               }
             };
@@ -331,7 +337,7 @@ public final class Splitter {
    * @return a splitter with the desired configuration
    * @since 9.0
    */
-  public Splitter limit(int limit) {
+  public Splitter limit(@Positive int limit) {
     checkArgument(limit > 0, "must be greater than zero: %s", limit);
     return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
   }
@@ -424,8 +430,9 @@ public final class Splitter {
    *
    * @since 10.0
    */
+  // MinLen requirement not in javadoc
   @Beta
-  public MapSplitter withKeyValueSeparator(String separator) {
+  public MapSplitter withKeyValueSeparator(@MinLen(1) String separator) {
     return withKeyValueSeparator(on(separator));
   }
 
@@ -513,16 +520,16 @@ public final class Splitter {
      * Returns the first index in {@code toSplit} at or after {@code start} that contains the
      * separator.
      */
-    abstract int separatorStart(int start);
+    abstract @GTENegativeOne @LTEqLengthOf("toSplit") int separatorStart(@NonNegative int start);
 
     /**
      * Returns the first index in {@code toSplit} after {@code separatorPosition} that does not
      * contain a separator. This method is only invoked after a call to {@code separatorStart}.
      */
-    abstract int separatorEnd(int separatorPosition);
+    abstract @IndexOrHigh("toSplit") int separatorEnd(@NonNegative int separatorPosition);
 
-    int offset = 0;
-    int limit;
+    @GTENegativeOne int offset = 0;
+    @Positive int limit;
 
     protected SplittingIterator(Splitter splitter, CharSequence toSplit) {
       this.trimmer = splitter.trimmer;
@@ -532,16 +539,35 @@ public final class Splitter {
     }
 
     @Override
+    @SuppressWarnings({
+      /*
+       * limit is always positive.
+       * When limit is not 1, then it can be safely decremented.
+       */
+      "lowerbound:compound.assignment.type.incompatible", // decrement Positive which != 1
+      /*
+       * At the start of the loop, whenever offset!=-1 also nextStart=-1
+       * One of the following holds:
+       * - offset == nextStart
+       * - nextStart was not changed since the last iteration
+       */
+      "lowerbound:assignment.type.incompatible", // variable!=-1 implies another variable !=-1
+      /*
+       * offset is usually @LTEqLengthOf("toSplit")
+       * offset > toSplit.length() can happen, but is immediately corrected to -1
+       */
+      "upperbound:assignment.type.incompatible" // variable temporarily exceeds upper bound
+    })
     protected String computeNext() {
       /*
        * The returned string will be from the end of the last match to the beginning of the next
        * one. nextStart is the start position of the returned substring, while offset is the place
        * to start looking for a separator.
        */
-      int nextStart = offset;
+      @GTENegativeOne @LTEqLengthOf("toSplit") int nextStart = offset;
       while (offset != -1) {
-        int start = nextStart;
-        int end;
+        @IndexOrHigh("toSplit") int start = nextStart;
+        @IndexOrHigh("toSplit") int end;
 
         int separatorPosition = separatorStart(offset);
         if (separatorPosition == -1) {

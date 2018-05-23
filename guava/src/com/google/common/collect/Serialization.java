@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Provides static methods for serializing collection classes.

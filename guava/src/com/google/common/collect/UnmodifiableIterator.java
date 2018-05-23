@@ -16,10 +16,9 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * An iterator that does not support {@link #remove}.

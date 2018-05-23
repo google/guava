@@ -31,7 +31,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.SubstringIndexFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not already found in
@@ -82,7 +92,7 @@ public final class Shorts {
    * @throws IllegalArgumentException if {@code value} is greater than {@link Short#MAX_VALUE} or
    *     less than {@link Short#MIN_VALUE}
    */
-  public static short checkedCast(long value) {
+  public static short checkedCast(@IntRange(from = Short.MIN_VALUE, to = Short.MAX_VALUE) long value) {
     short result = (short) value;
     checkArgument(result == value, "Out of range: %s", value);
     return result;
@@ -145,12 +155,12 @@ public final class Shorts {
    * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int indexOf(short[] array, short target) {
+  public static @IndexOrLow("#1") int indexOf(short[] array, short target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(short[] array, short target, int start, int end) {
+  private static @IndexOrLow("#1") int indexOf(short[] array, short target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -169,7 +179,8 @@ public final class Shorts {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(short[] array, short[] target) {
+  @SuppressWarnings("substringindex:return.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/206 https://github.com/kelloggm/checker-framework/issues/207 https://github.com/kelloggm/checker-framework/issues/208
+  public static @LTEqLengthOf("#1") @SubstringIndexFor(value = "#1", offset="#2.length - 1") int indexOf(short[] array, short[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -196,12 +207,12 @@ public final class Shorts {
    * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int lastIndexOf(short[] array, short target) {
+  public static @IndexOrLow("#1") int lastIndexOf(short[] array, short target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(short[] array, short target, int start, int end) {
+  private static @IndexOrLow("#1") int lastIndexOf(short[] array, short target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -218,7 +229,7 @@ public final class Shorts {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static short min(short... array) {
+  public static short min(short @MinLen(1)... array) {
     checkArgument(array.length > 0);
     short min = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -237,7 +248,7 @@ public final class Shorts {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static short max(short... array) {
+  public static short max(short @MinLen(1)... array) {
     checkArgument(array.length > 0);
     short max = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -275,6 +286,13 @@ public final class Shorts {
    * @param arrays zero or more {@code short} arrays
    * @return a single array containing all the values from the source arrays, in order
    */
+  /*
+   * New array has size that is sum of array lengths.
+   * length is a sum of lengths of arrays.
+   * pos is increased the same way as length, so pos points to a valid
+   * range of length array.length in result.
+   */
+  @SuppressWarnings("upperbound:argument.type.incompatible") // sum of lengths
   public static short[] concat(short[]... arrays) {
     int length = 0;
     for (short[] array : arrays) {
@@ -314,7 +332,7 @@ public final class Shorts {
    * @throws IllegalArgumentException if {@code bytes} has fewer than 2 elements
    */
   @GwtIncompatible // doesn't work
-  public static short fromByteArray(byte[] bytes) {
+  public static short fromByteArray(byte @MinLen(Shorts.BYTES)[] bytes) {
     checkArgument(bytes.length >= BYTES, "array too small: %s < %s", bytes.length, BYTES);
     return fromBytes(bytes[0], bytes[1]);
   }
@@ -385,7 +403,7 @@ public final class Shorts {
    * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
    *     minLength}
    */
-  public static short[] ensureCapacity(short[] array, int minLength, int padding) {
+  public static short[] ensureCapacity(short[] array, @NonNegative int minLength, @NonNegative int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
@@ -469,7 +487,7 @@ public final class Shorts {
    *
    * @since 23.1
    */
-  public static void sortDescending(short[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(short[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     Arrays.sort(array, fromIndex, toIndex);
@@ -497,7 +515,7 @@ public final class Shorts {
    *     {@code toIndex > fromIndex}
    * @since 23.1
    */
-  public static void reverse(short[] array, int fromIndex, int toIndex) {
+  public static void reverse(short[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
@@ -557,22 +575,25 @@ public final class Shorts {
   @GwtCompatible
   private static class ShortArrayAsList extends AbstractList<Short>
       implements RandomAccess, Serializable {
-    final short[] array;
-    final int start;
-    final int end;
+    final short @MinLen(1)[] array;
+    final @IndexFor("array") int start;
+    final @IndexOrHigh("array") int end;
 
-    ShortArrayAsList(short[] array) {
+    ShortArrayAsList(short @MinLen(1)[] array) {
       this(array, 0, array.length);
     }
 
-    ShortArrayAsList(short[] array, int start, int end) {
+    ShortArrayAsList(short @MinLen(1)[] array, @IndexFor("#1") int start, @IndexOrHigh("#1") int end) {
       this.array = array;
       this.start = start;
       this.end = end;
     }
 
-    @Override
-    public int size() {
+      @Override
+      @SuppressWarnings({
+              "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+              "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+      public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
@@ -582,7 +603,9 @@ public final class Shorts {
     }
 
     @Override
-    public Short get(int index) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Short get(@IndexFor("this") int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
@@ -594,7 +617,11 @@ public final class Shorts {
     }
 
     @Override
-    public int indexOf(@Nullable Object target) {
+    @SuppressWarnings({
+        "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+        "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int indexOf(@Nullable Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.indexOf(array, (Short) target, start, end);
@@ -606,7 +633,11 @@ public final class Shorts {
     }
 
     @Override
-    public int lastIndexOf(@Nullable Object target) {
+    @SuppressWarnings({
+        "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+        "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int lastIndexOf(@Nullable Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Short) {
         int i = Shorts.lastIndexOf(array, (Short) target, start, end);
@@ -618,7 +649,9 @@ public final class Shorts {
     }
 
     @Override
-    public Short set(int index, Short element) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Short set(@IndexFor("this") int index, Short element) {
       checkElementIndex(index, size());
       short oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -627,7 +660,9 @@ public final class Shorts {
     }
 
     @Override
-    public List<Short> subList(int fromIndex, int toIndex) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+    public List<Short> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

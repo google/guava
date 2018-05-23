@@ -14,11 +14,10 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtIncompatible;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Soft reference with a {@code finalizeReferent()} method which a background thread invokes after

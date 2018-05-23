@@ -16,18 +16,16 @@
 
 package com.google.common.collect;
 
-import javax.annotation.Nullable;
-
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.dataflow.qual.SideEffectFree;
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.Spliterator;
+import javax.annotation.Nullable;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Implementation of {@link ImmutableList} with exactly one element.

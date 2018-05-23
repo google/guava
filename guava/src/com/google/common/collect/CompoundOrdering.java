@@ -16,14 +16,13 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.dataflow.qual.Pure;
-import org.checkerframework.framework.qual.AnnotatedFor;
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /** An ordering that tries several comparators in order. */
 @AnnotatedFor({"nullness"})

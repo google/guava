@@ -29,7 +29,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.SubstringIndexFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code boolean} primitives, that are not already found in
@@ -158,12 +167,12 @@ public final class Booleans {
    * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int indexOf(boolean[] array, boolean target) {
+  public static @IndexOrLow("#1") int indexOf(boolean[] array, boolean target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(boolean[] array, boolean target, int start, int end) {
+  private static @IndexOrLow("#1") int indexOf(boolean[] array, boolean target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -182,7 +191,8 @@ public final class Booleans {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(boolean[] array, boolean[] target) {
+  @SuppressWarnings("substringindex:return.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/206 https://github.com/kelloggm/checker-framework/issues/207 https://github.com/kelloggm/checker-framework/issues/208
+  public static @LTEqLengthOf("#1") @SubstringIndexFor(value = "#1", offset = "#2.length - 1") int indexOf(boolean[] array, boolean[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -209,12 +219,12 @@ public final class Booleans {
    * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int lastIndexOf(boolean[] array, boolean target) {
+  public static @IndexOrLow("#1") int lastIndexOf(boolean[] array, boolean target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(boolean[] array, boolean target, int start, int end) {
+  private static @IndexOrLow("#1") int lastIndexOf(boolean[] array, boolean target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -231,6 +241,13 @@ public final class Booleans {
    * @param arrays zero or more {@code boolean} arrays
    * @return a single array containing all the values from the source arrays, in order
    */
+  /*
+   * New array has size that is sum of array lengths.
+   * length is a sum of lengths of arrays.
+   * pos is increased the same way as length, so pos points to a valid
+   * range of length array.length in result.
+   */
+  @SuppressWarnings("upperbound:argument.type.incompatible") // sum of lengths
   public static boolean[] concat(boolean[]... arrays) {
     int length = 0;
     for (boolean[] array : arrays) {
@@ -258,7 +275,7 @@ public final class Booleans {
    * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
    *     minLength}
    */
-  public static boolean[] ensureCapacity(boolean[] array, int minLength, int padding) {
+  public static boolean[] ensureCapacity(boolean[] array, @NonNegative int minLength, @NonNegative int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
@@ -377,22 +394,25 @@ public final class Booleans {
   @GwtCompatible
   private static class BooleanArrayAsList extends AbstractList<Boolean>
       implements RandomAccess, Serializable {
-    final boolean[] array;
-    final int start;
-    final int end;
+    final boolean @MinLen(1)[] array;
+    final @IndexFor("array") int start;
+    final @IndexOrHigh("array") int end;
 
-    BooleanArrayAsList(boolean[] array) {
+    BooleanArrayAsList(boolean @MinLen(1)[] array) {
       this(array, 0, array.length);
     }
 
-    BooleanArrayAsList(boolean[] array, int start, int end) {
+    BooleanArrayAsList(boolean @MinLen(1)[] array, @IndexFor("#1") int start, @IndexOrHigh("#1") int end) {
       this.array = array;
       this.start = start;
       this.end = end;
     }
 
     @Override
-    public int size() {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+    public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
@@ -402,7 +422,9 @@ public final class Booleans {
     }
 
     @Override
-    public Boolean get(int index) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Boolean get(@IndexFor("this") int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
@@ -415,7 +437,11 @@ public final class Booleans {
     }
 
     @Override
-    public int indexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Boolean) {
         int i = Booleans.indexOf(array, (Boolean) target, start, end);
@@ -427,7 +453,11 @@ public final class Booleans {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Boolean) {
         int i = Booleans.lastIndexOf(array, (Boolean) target, start, end);
@@ -439,7 +469,9 @@ public final class Booleans {
     }
 
     @Override
-    public Boolean set(int index, Boolean element) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Boolean set(@IndexFor("this") int index, Boolean element) {
       checkElementIndex(index, size());
       boolean oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -448,7 +480,9 @@ public final class Booleans {
     }
 
     @Override
-    public List<Boolean> subList(int fromIndex, int toIndex) {
+    // array should be @LongerThanEq(value="this", offset="start")
+    @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+    public List<Boolean> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -510,7 +544,7 @@ public final class Booleans {
    * @since 16.0
    */
   @Beta
-  public static int countTrue(boolean... values) {
+  public static @NonNegative int countTrue(boolean... values) {
     int count = 0;
     for (boolean value : values) {
       if (value) {
@@ -541,7 +575,7 @@ public final class Booleans {
    *     {@code toIndex > fromIndex}
    * @since 23.1
    */
-  public static void reverse(boolean[] array, int fromIndex, int toIndex) {
+  public static void reverse(boolean[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {

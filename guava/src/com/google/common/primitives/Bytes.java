@@ -27,7 +27,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.IndexOrLow;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.SubstringIndexFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not already found in
@@ -84,12 +93,12 @@ public final class Bytes {
    * @return the least index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int indexOf(byte[] array, byte target) {
+  public static @IndexOrLow("#1") int indexOf(byte[] array, byte target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int indexOf(byte[] array, byte target, int start, int end) {
+  private static @IndexOrLow("#1") int indexOf(byte[] array, byte target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -108,7 +117,8 @@ public final class Bytes {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(byte[] array, byte[] target) {
+  @SuppressWarnings("substringindex:return.type.incompatible") // https://github.com/kelloggm/checker-framework/issues/206 https://github.com/kelloggm/checker-framework/issues/207 https://github.com/kelloggm/checker-framework/issues/208
+  public static @LTEqLengthOf("#1") @SubstringIndexFor(value = "#1", offset = "#2.length - 1") int indexOf(byte[] array, byte[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -135,12 +145,12 @@ public final class Bytes {
    * @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
    *     such index exists.
    */
-  public static int lastIndexOf(byte[] array, byte target) {
+  public static @IndexOrLow("#1") int lastIndexOf(byte[] array, byte target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
-  private static int lastIndexOf(byte[] array, byte target, int start, int end) {
+  private static @IndexOrLow("#1") int lastIndexOf(byte[] array, byte target, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -156,6 +166,13 @@ public final class Bytes {
    * @param arrays zero or more {@code byte} arrays
    * @return a single array containing all the values from the source arrays, in order
    */
+  /*
+   * New array has size that is sum of array lengths.
+   * length is a sum of lengths of arrays.
+   * pos is increased the same way as length, so pos points to a valid
+   * range of length array.length in result.
+   */
+  @SuppressWarnings("upperbound:argument.type.incompatible") // sum of lengths
   public static byte[] concat(byte[]... arrays) {
     int length = 0;
     for (byte[] array : arrays) {
@@ -183,7 +200,7 @@ public final class Bytes {
    * @return an array containing the values of {@code array}, with guaranteed minimum length {@code
    *     minLength}
    */
-  public static byte[] ensureCapacity(byte[] array, int minLength, int padding) {
+  public static byte[] ensureCapacity(byte[] array, @NonNegative int minLength, @NonNegative int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
@@ -239,22 +256,24 @@ public final class Bytes {
   @GwtCompatible
   private static class ByteArrayAsList extends AbstractList<Byte>
       implements RandomAccess, Serializable {
-    final byte[] array;
-    final int start;
-    final int end;
+    final byte @MinLen(1)[] array;
+    final @IndexFor("array") int start;
+    final @IndexOrHigh("array") int end;
 
-    ByteArrayAsList(byte[] array) {
+    ByteArrayAsList(byte @MinLen(1)[] array) {
       this(array, 0, array.length);
     }
 
-    ByteArrayAsList(byte[] array, int start, int end) {
+    ByteArrayAsList(byte @MinLen(1)[] array, @IndexFor("#1") int start, @IndexOrHigh("#1") int end) {
       this.array = array;
       this.start = start;
       this.end = end;
     }
-
     @Override
-    public int size() {
+    @SuppressWarnings({
+              "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+              "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+    public @Positive @LTLengthOf(value = {"this","array"}, offset = {"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
@@ -264,7 +283,9 @@ public final class Bytes {
     }
 
     @Override
-    public Byte get(int index) {
+    // array should be @LongerThanEq(value="this", offset = "start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Byte get(@IndexFor("this") int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
@@ -276,7 +297,11 @@ public final class Bytes {
     }
 
     @Override
-    public int indexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Byte) {
         int i = Bytes.indexOf(array, (Byte) target, start, end);
@@ -288,7 +313,11 @@ public final class Bytes {
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    @SuppressWarnings({
+            "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+            "upperbound:return.type.incompatible" // custom coll. with size end-start
+    })
+    public @IndexOrLow("this") int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
       if (target instanceof Byte) {
         int i = Bytes.lastIndexOf(array, (Byte) target, start, end);
@@ -300,7 +329,9 @@ public final class Bytes {
     }
 
     @Override
-    public Byte set(int index, Byte element) {
+    // array should be @LongerThanEq(value="this", offset = "start")
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // custom coll. with size end-start
+    public Byte set(@IndexFor("this") int index, Byte element) {
       checkElementIndex(index, size());
       byte oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
@@ -309,7 +340,9 @@ public final class Bytes {
     }
 
     @Override
-    public List<Byte> subList(int fromIndex, int toIndex) {
+    // array should be @LongerThanEq(value="this", offset = "start")
+    @SuppressWarnings("upperbound:argument.type.incompatible") // custom coll. with size end-start
+    public List<Byte> subList(@IndexOrHigh("this") int fromIndex, @IndexOrHigh("this") int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
@@ -386,7 +419,7 @@ public final class Bytes {
    *     {@code toIndex > fromIndex}
    * @since 23.1
    */
-  public static void reverse(byte[] array, int fromIndex, int toIndex) {
+  public static void reverse(byte[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {

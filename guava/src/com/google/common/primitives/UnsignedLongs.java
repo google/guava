@@ -24,6 +24,9 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as
@@ -87,7 +90,7 @@ public final class UnsignedLongs {
    *     the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static long min(long... array) {
+  public static long min(long @MinLen(1)... array) {
     checkArgument(array.length > 0);
     long min = flip(array[0]);
     for (int i = 1; i < array.length; i++) {
@@ -107,7 +110,7 @@ public final class UnsignedLongs {
    *     in the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static long max(long... array) {
+  public static long max(long @MinLen(1)... array) {
     checkArgument(array.length > 0);
     long max = flip(array[0]);
     for (int i = 1; i < array.length; i++) {
@@ -193,7 +196,7 @@ public final class UnsignedLongs {
    *
    * @since 23.1
    */
-  public static void sort(long[] array, int fromIndex, int toIndex) {
+  public static void sort(long[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex; i < toIndex; i++) {
@@ -222,7 +225,7 @@ public final class UnsignedLongs {
    *
    * @since 23.1
    */
-  public static void sortDescending(long[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(long[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex; i < toIndex; i++) {
@@ -334,7 +337,7 @@ public final class UnsignedLongs {
    *     Long#parseLong(String)})
    */
   @CanIgnoreReturnValue
-  public static long parseUnsignedLong(String string, int radix) {
+  public static long parseUnsignedLong(String string, @IntRange(from = Character.MIN_RADIX, to = Character.MAX_RADIX) int radix) {
     checkNotNull(string);
     if (string.length() == 0) {
       throw new NumberFormatException("empty string");
@@ -397,9 +400,9 @@ public final class UnsignedLongs {
     private ParseOverflowDetection() {}
 
     // calculated as 0xffffffffffffffff / radix
-    static final long[] maxValueDivs = new long[Character.MAX_RADIX + 1];
-    static final int[] maxValueMods = new int[Character.MAX_RADIX + 1];
-    static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
+    static final long @MinLen(Character.MAX_RADIX + 1)[] maxValueDivs = new long[Character.MAX_RADIX + 1];
+    static final int @MinLen(Character.MAX_RADIX + 1)[] maxValueMods = new int[Character.MAX_RADIX + 1];
+    static final int @MinLen(Character.MAX_RADIX + 1)[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
 
     static {
       BigInteger overflow = new BigInteger("10000000000000000", 16);
@@ -416,7 +419,7 @@ public final class UnsignedLongs {
      * a number. Does not verify whether supplied radix is valid, passing an invalid radix will give
      * undefined results or an ArrayIndexOutOfBoundsException.
      */
-    static boolean overflowInParse(long current, int digit, int radix) {
+    static boolean overflowInParse(long current, int digit, @IntRange(from = Character.MIN_RADIX, to = Character.MAX_RADIX) int radix) {
       if (current >= 0) {
         if (current < maxValueDivs[radix]) {
           return false;
@@ -453,7 +456,16 @@ public final class UnsignedLongs {
    * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
    *     and {@link Character#MAX_RADIX}.
    */
-  public static String toString(long x, int radix) {
+  /*
+   * Unsinged long converted to string always fits into 64 characters.
+   * Loop guarded by variable decreased by right shift or division.
+   * Assuming that Character.MIN_RADIX == 2
+   */
+  @SuppressWarnings({
+    "lowerbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/193
+    "lowerbound:array.access.unsafe.low", "lowerbound:compound.assignment.type.incompatible" // ulong converted to string is at most 64 chars
+  })
+  public static String toString(long x, @IntRange(from = Character.MIN_RADIX,to = Character.MAX_RADIX) int radix) {
     checkArgument(
         radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
         "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
@@ -465,7 +477,7 @@ public final class UnsignedLongs {
       return Long.toString(x, radix);
     } else {
       char[] buf = new char[64];
-      int i = buf.length;
+      @IndexOrHigh("buf") int i = buf.length;
       if ((radix & (radix - 1)) == 0) {
         // Radix is a power of two so we can avoid division.
         int shift = Integer.numberOfTrailingZeros(radix);

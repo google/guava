@@ -25,6 +25,11 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 import sun.misc.Unsafe;
 
 /**
@@ -51,6 +56,7 @@ public final class UnsignedBytes {
    *
    * @since 10.0
    */
+  @SuppressWarnings("cast.unsafe") // https://github.com/kelloggm/checker-framework/issues/149
   public static final byte MAX_POWER_OF_TWO = (byte) 0x80;
 
   /**
@@ -58,6 +64,7 @@ public final class UnsignedBytes {
    *
    * @since 13.0
    */
+  @SuppressWarnings("cast.unsafe") // https://github.com/kelloggm/checker-framework/issues/149
   public static final byte MAX_VALUE = (byte) 0xFF;
 
   private static final int UNSIGNED_MASK = 0xFF;
@@ -70,7 +77,7 @@ public final class UnsignedBytes {
    *
    * @since 6.0
    */
-  public static int toInt(byte value) {
+  public static @NonNegative int toInt(byte value) {
     return value & UNSIGNED_MASK;
   }
 
@@ -83,7 +90,7 @@ public final class UnsignedBytes {
    * @throws IllegalArgumentException if {@code value} is negative or greater than 255
    */
   @CanIgnoreReturnValue
-  public static byte checkedCast(long value) {
+  public static byte checkedCast(@IntRange(from = 0, to = 255) long value) {
     checkArgument(value >> Byte.SIZE == 0, "out of range: %s", value);
     return (byte) value;
   }
@@ -128,7 +135,7 @@ public final class UnsignedBytes {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static byte min(byte... array) {
+  public static byte min(byte @MinLen(1)... array) {
     checkArgument(array.length > 0);
     int min = toInt(array[0]);
     for (int i = 1; i < array.length; i++) {
@@ -148,7 +155,7 @@ public final class UnsignedBytes {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static byte max(byte... array) {
+  public static byte max(byte @MinLen(1)... array) {
     checkArgument(array.length > 0);
     int max = toInt(array[0]);
     for (int i = 1; i < array.length; i++) {
@@ -181,7 +188,7 @@ public final class UnsignedBytes {
    * @since 13.0
    */
   @Beta
-  public static String toString(byte x, int radix) {
+  public static String toString(byte x, @Positive int radix) {
     checkArgument(
         radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
         "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
@@ -219,7 +226,7 @@ public final class UnsignedBytes {
    */
   @Beta
   @CanIgnoreReturnValue
-  public static byte parseUnsignedByte(String string, int radix) {
+  public static byte parseUnsignedByte(String string, @Positive int radix) {
     int parse = Integer.parseInt(checkNotNull(string), radix);
     // We need to throw a NumberFormatException, so we have to duplicate checkedCast. =(
     if (parse >> Byte.SIZE == 0) {
@@ -433,6 +440,11 @@ public final class UnsignedBytes {
      * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable
      * to do so.
      */
+    /*
+     * Code can throw an exception, but the code is safe because the exception is
+     * caught by catch(Throwable).
+     */
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // exception caught
     static Comparator<byte[]> getBestComparator() {
       try {
         Class<?> theClass = Class.forName(UNSAFE_COMPARATOR_NAME);
@@ -467,7 +479,7 @@ public final class UnsignedBytes {
    *
    * @since 23.1
    */
-  public static void sort(byte[] array, int fromIndex, int toIndex) {
+  public static void sort(byte[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex; i < toIndex; i++) {
@@ -496,7 +508,7 @@ public final class UnsignedBytes {
    *
    * @since 23.1
    */
-  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(byte[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     for (int i = fromIndex; i < toIndex; i++) {

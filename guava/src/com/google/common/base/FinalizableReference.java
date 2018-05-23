@@ -14,8 +14,8 @@
 
 package com.google.common.base;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
 import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Implemented by references that have code to run after garbage collection of their referents.

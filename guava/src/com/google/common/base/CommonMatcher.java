@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * The subset of the {@link java.util.regex.Matcher} API which is used by this package, and also
@@ -27,11 +28,11 @@ abstract class CommonMatcher {
 
   abstract boolean find();
 
-  abstract boolean find(int index);
+  abstract boolean find(@NonNegative int index);
 
   abstract String replaceAll(String replacement);
 
-  abstract int end();
+  abstract @NonNegative int end();
 
-  abstract int start();
+  abstract @NonNegative int start();
 }

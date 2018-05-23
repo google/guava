@@ -14,8 +14,6 @@
 
 package com.google.common.base.internal;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -26,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Thread that finalizes referents. All references should implement {@code

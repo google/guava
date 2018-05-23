@@ -17,8 +17,21 @@
   </description>
   <properties>
     <!-- Use -Dcheckerframework.checkers=checker to switch which checkers are run. -->
-    <checkerframework.checkers>org.checkerframework.checker.nullness.NullnessChecker</checkerframework.checkers>
+    <!-- Running the Index Checker takes very long but is needed to put implicit annotations in class files. -->
+    <checkerframework.checkers>org.checkerframework.checker.nullness.NullnessChecker,org.checkerframework.checker.index.IndexChecker</checkerframework.checkers>
+    <!-- Index checker warnings are disabled by default, because not all code is annotated by index checker annotations. -->
+    <checkerframework.suppress>index</checkerframework.suppress>
+    <!-- Packages under com.google.common, that will be additionally checked by the Index Checker -->
+    <checkerframework.index.packages>base|primitives</checkerframework.index.packages>
     <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+    <!-- Additional argument passed to the java compiler. Use to pass additional arguments to the checker framework. Example: -Ashowchecks -->
+    <checkerframework.extraargs></checkerframework.extraargs>
+    <!-- Additional argument passed to the java compiler. Use to pass additional arguments to the checker framework. Example: -Aannotations -->
+    <checkerframework.extraargs2></checkerframework.extraargs2>
+    <!-- The phase when the Index Checker is run. -->
+    <check.index.phase>process-sources</check.index.phase>
+    <!-- Additional argument passed to the Index Checker. Example: -Ashowchecks -->
+    <index.only.arg></index.only.arg>
   </properties>
   <dependencies>
     <dependency>
@@ -121,11 +134,37 @@
             <compilerArgs>
               <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
               <arg>${addtionalargs}</arg>
+              <arg>${checkerframework.extraargs}</arg>
+              <arg>${checkerframework.extraargs2}</arg>
+              <arg>-AsuppressWarnings=${checkerframework.suppress}</arg>
               <arg>-AuseDefaultsForUncheckedCode=source,bytecode</arg>
               <arg>-Awarns</arg>
               <arg>-AprintErrorStack</arg>
             </compilerArgs>
         </configuration>
+        <executions>
+          <!-- Runs the Index Checker on selected packages. -->
+          <!-- Because Index Checker warnings are suppressed during regular compilation (when all
+               files are compiled), this additional phase runs the Index Checker on packages that
+               are already annotated, to ensure they type-check without warnings. -->
+          <execution>
+            <id>check-index</id>
+            <phase>${check.index.phase}</phase>
+            <goals><goal>compile</goal></goals>
+            <configuration>
+              <annotationProcessors>
+                <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
+              </annotationProcessors>
+              <compilerArgs>
+                <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+                <arg>${index.only.arg}</arg>
+                <arg>-AprintErrorStack</arg>
+                <arg>-proc:only</arg>
+                <arg>-AonlyDefs=^com\.google\.common\.(?:${checkerframework.index.packages})\.</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>

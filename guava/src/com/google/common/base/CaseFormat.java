@@ -18,7 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.ArrayLen;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -103,9 +107,9 @@ public enum CaseFormat {
   };
 
   private final CharMatcher wordBoundary;
-  private final String wordSeparator;
+  private final @ArrayLen({0, 1}) String wordSeparator;
 
-  CaseFormat(CharMatcher wordBoundary, String wordSeparator) {
+  CaseFormat(CharMatcher wordBoundary, @ArrayLen({0, 1}) String wordSeparator) {
     this.wordBoundary = wordBoundary;
     this.wordSeparator = wordSeparator;
   }
@@ -122,11 +126,19 @@ public enum CaseFormat {
   }
 
   /** Enum values can override for performance reasons. */
+  /*
+   * j = wordBoundary.indexIn ensures that j is -1 or
+   * j >= 0 && j < s.length()
+   */
+  @SuppressWarnings({
+    "upperbound:assignment.type.incompatible", "upperbound:compound.assignment.type.incompatible", // refinement on multiple assignments in expression
+    "upperbound:argument.type.incompatible", // length of sequence with ArrayLenRange in offset
+  })
   String convert(CaseFormat format, String s) {
     // deal with camel conversion
     StringBuilder out = null;
-    int i = 0;
-    int j = -1;
+    @IndexOrHigh("s") int i = 0;
+    @GTENegativeOne @LTEqLengthOf("s") int j = -1;
     while ((j = wordBoundary.indexIn(s, ++j)) != -1) {
       if (i == 0) {
         // include some extra space for separators

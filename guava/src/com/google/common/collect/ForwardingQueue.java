@@ -16,12 +16,11 @@
 
 package com.google.common.collect;
 
-import org.checkerframework.framework.qual.AnnotatedFor;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * A queue which forwards all its method calls to another queue. Subclasses should override one or

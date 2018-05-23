@@ -21,6 +21,9 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Arrays;
 import java.util.Comparator;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives that interpret values as signed. The
@@ -54,7 +57,7 @@ public final class SignedBytes {
    * @throws IllegalArgumentException if {@code value} is greater than {@link Byte#MAX_VALUE} or
    *     less than {@link Byte#MIN_VALUE}
    */
-  public static byte checkedCast(long value) {
+  public static byte checkedCast(@IntRange(from = Byte.MIN_VALUE, to = Byte.MAX_VALUE) long value) {
     byte result = (byte) value;
     checkArgument(result == value, "Out of range: %s", value);
     return result;
@@ -102,7 +105,7 @@ public final class SignedBytes {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static byte min(byte... array) {
+  public static byte min(byte @MinLen(1)... array) {
     checkArgument(array.length > 0);
     byte min = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -121,7 +124,7 @@ public final class SignedBytes {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static byte max(byte... array) {
+  public static byte max(byte @MinLen(1)... array) {
     checkArgument(array.length > 0);
     byte max = array[0];
     for (int i = 1; i < array.length; i++) {
@@ -210,7 +213,7 @@ public final class SignedBytes {
    *
    * @since 23.1
    */
-  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {
+  public static void sortDescending(byte[] array, @IndexOrHigh("#1") int fromIndex, @IndexOrHigh("#1") int toIndex) {
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
     Arrays.sort(array, fromIndex, toIndex);
