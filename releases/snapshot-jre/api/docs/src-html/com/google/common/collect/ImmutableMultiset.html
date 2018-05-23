@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.util.function.Function;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.util.function.ToIntFunction;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.stream.Collector;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
@@ -247,7 +247,7 @@
 <span class="sourceLineNo">239</span>    final Iterator&lt;Entry&lt;E&gt;&gt; entryIterator = entrySet().iterator();<a name="line.239"></a>
 <span class="sourceLineNo">240</span>    return new UnmodifiableIterator&lt;E&gt;() {<a name="line.240"></a>
 <span class="sourceLineNo">241</span>      int remaining;<a name="line.241"></a>
-<span class="sourceLineNo">242</span>      @MonotonicNonNullDecl E element;<a name="line.242"></a>
+<span class="sourceLineNo">242</span>      @MonotonicNonNull E element;<a name="line.242"></a>
 <span class="sourceLineNo">243</span><a name="line.243"></a>
 <span class="sourceLineNo">244</span>      @Override<a name="line.244"></a>
 <span class="sourceLineNo">245</span>      public boolean hasNext() {<a name="line.245"></a>

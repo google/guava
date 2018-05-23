@@ -76,7 +76,7 @@
 <span class="sourceLineNo">068</span>import java.util.function.BinaryOperator;<a name="line.68"></a>
 <span class="sourceLineNo">069</span>import java.util.function.Consumer;<a name="line.69"></a>
 <span class="sourceLineNo">070</span>import java.util.stream.Collector;<a name="line.70"></a>
-<span class="sourceLineNo">071</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.71"></a>
+<span class="sourceLineNo">071</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.71"></a>
 <span class="sourceLineNo">072</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.72"></a>
 <span class="sourceLineNo">073</span><a name="line.73"></a>
 <span class="sourceLineNo">074</span>/**<a name="line.74"></a>
@@ -1603,8 +1603,8 @@
 <span class="sourceLineNo">1595</span>      implements BiMap&lt;K, V&gt;, Serializable {<a name="line.1595"></a>
 <span class="sourceLineNo">1596</span>    final Map&lt;K, V&gt; unmodifiableMap;<a name="line.1596"></a>
 <span class="sourceLineNo">1597</span>    final BiMap&lt;? extends K, ? extends V&gt; delegate;<a name="line.1597"></a>
-<span class="sourceLineNo">1598</span>    @MonotonicNonNullDecl @RetainedWith BiMap&lt;V, K&gt; inverse;<a name="line.1598"></a>
-<span class="sourceLineNo">1599</span>    @MonotonicNonNullDecl transient Set&lt;V&gt; values;<a name="line.1599"></a>
+<span class="sourceLineNo">1598</span>    @MonotonicNonNull @RetainedWith BiMap&lt;V, K&gt; inverse;<a name="line.1598"></a>
+<span class="sourceLineNo">1599</span>    @MonotonicNonNull transient Set&lt;V&gt; values;<a name="line.1599"></a>
 <span class="sourceLineNo">1600</span><a name="line.1600"></a>
 <span class="sourceLineNo">1601</span>    UnmodifiableBiMap(BiMap&lt;? extends K, ? extends V&gt; delegate, @Nullable BiMap&lt;V, K&gt; inverse) {<a name="line.1601"></a>
 <span class="sourceLineNo">1602</span>      unmodifiableMap = Collections.unmodifiableMap(delegate);<a name="line.1602"></a>
@@ -3369,7 +3369,7 @@
 <span class="sourceLineNo">3361</span>      throw new UnsupportedOperationException();<a name="line.3361"></a>
 <span class="sourceLineNo">3362</span>    }<a name="line.3362"></a>
 <span class="sourceLineNo">3363</span><a name="line.3363"></a>
-<span class="sourceLineNo">3364</span>    @MonotonicNonNullDecl private transient UnmodifiableNavigableMap&lt;K, V&gt; descendingMap;<a name="line.3364"></a>
+<span class="sourceLineNo">3364</span>    private transient @MonotonicNonNull UnmodifiableNavigableMap&lt;K, V&gt; descendingMap;<a name="line.3364"></a>
 <span class="sourceLineNo">3365</span><a name="line.3365"></a>
 <span class="sourceLineNo">3366</span>    @Override<a name="line.3366"></a>
 <span class="sourceLineNo">3367</span>    public NavigableMap&lt;K, V&gt; descendingMap() {<a name="line.3367"></a>
@@ -3494,7 +3494,7 @@
 <span class="sourceLineNo">3486</span>     */<a name="line.3486"></a>
 <span class="sourceLineNo">3487</span>    abstract Set&lt;Entry&lt;K, V&gt;&gt; createEntrySet();<a name="line.3487"></a>
 <span class="sourceLineNo">3488</span><a name="line.3488"></a>
-<span class="sourceLineNo">3489</span>    @MonotonicNonNullDecl private transient Set&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.3489"></a>
+<span class="sourceLineNo">3489</span>    private transient @MonotonicNonNull Set&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.3489"></a>
 <span class="sourceLineNo">3490</span><a name="line.3490"></a>
 <span class="sourceLineNo">3491</span>    @Override<a name="line.3491"></a>
 <span class="sourceLineNo">3492</span>    public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.3492"></a>
@@ -3502,7 +3502,7 @@
 <span class="sourceLineNo">3494</span>      return (result == null) ? entrySet = createEntrySet() : result;<a name="line.3494"></a>
 <span class="sourceLineNo">3495</span>    }<a name="line.3495"></a>
 <span class="sourceLineNo">3496</span><a name="line.3496"></a>
-<span class="sourceLineNo">3497</span>    @MonotonicNonNullDecl private transient Set&lt;K&gt; keySet;<a name="line.3497"></a>
+<span class="sourceLineNo">3497</span>    private transient @MonotonicNonNull Set&lt;K&gt; keySet;<a name="line.3497"></a>
 <span class="sourceLineNo">3498</span><a name="line.3498"></a>
 <span class="sourceLineNo">3499</span>    @Override<a name="line.3499"></a>
 <span class="sourceLineNo">3500</span>    public Set&lt;K&gt; keySet() {<a name="line.3500"></a>
@@ -3514,7 +3514,7 @@
 <span class="sourceLineNo">3506</span>      return new KeySet&lt;&gt;(this);<a name="line.3506"></a>
 <span class="sourceLineNo">3507</span>    }<a name="line.3507"></a>
 <span class="sourceLineNo">3508</span><a name="line.3508"></a>
-<span class="sourceLineNo">3509</span>    @MonotonicNonNullDecl private transient Collection&lt;V&gt; values;<a name="line.3509"></a>
+<span class="sourceLineNo">3509</span>    private transient @MonotonicNonNull Collection&lt;V&gt; values;<a name="line.3509"></a>
 <span class="sourceLineNo">3510</span><a name="line.3510"></a>
 <span class="sourceLineNo">3511</span>    @Override<a name="line.3511"></a>
 <span class="sourceLineNo">3512</span>    public Collection&lt;V&gt; values() {<a name="line.3512"></a>
@@ -4042,7 +4042,7 @@
 <span class="sourceLineNo">4034</span>      return forward();<a name="line.4034"></a>
 <span class="sourceLineNo">4035</span>    }<a name="line.4035"></a>
 <span class="sourceLineNo">4036</span><a name="line.4036"></a>
-<span class="sourceLineNo">4037</span>    @MonotonicNonNullDecl private transient Comparator&lt;? super K&gt; comparator;<a name="line.4037"></a>
+<span class="sourceLineNo">4037</span>    private transient @MonotonicNonNull Comparator&lt;? super K&gt; comparator;<a name="line.4037"></a>
 <span class="sourceLineNo">4038</span><a name="line.4038"></a>
 <span class="sourceLineNo">4039</span>    @SuppressWarnings("unchecked")<a name="line.4039"></a>
 <span class="sourceLineNo">4040</span>    @Override<a name="line.4040"></a>
@@ -4138,7 +4138,7 @@
 <span class="sourceLineNo">4130</span>      return forward();<a name="line.4130"></a>
 <span class="sourceLineNo">4131</span>    }<a name="line.4131"></a>
 <span class="sourceLineNo">4132</span><a name="line.4132"></a>
-<span class="sourceLineNo">4133</span>    @MonotonicNonNullDecl private transient Set&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.4133"></a>
+<span class="sourceLineNo">4133</span>    private transient @MonotonicNonNull Set&lt;Entry&lt;K, V&gt;&gt; entrySet;<a name="line.4133"></a>
 <span class="sourceLineNo">4134</span><a name="line.4134"></a>
 <span class="sourceLineNo">4135</span>    @Override<a name="line.4135"></a>
 <span class="sourceLineNo">4136</span>    public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {<a name="line.4136"></a>
@@ -4169,7 +4169,7 @@
 <span class="sourceLineNo">4161</span>      return navigableKeySet();<a name="line.4161"></a>
 <span class="sourceLineNo">4162</span>    }<a name="line.4162"></a>
 <span class="sourceLineNo">4163</span><a name="line.4163"></a>
-<span class="sourceLineNo">4164</span>    @MonotonicNonNullDecl private transient NavigableSet&lt;K&gt; navigableKeySet;<a name="line.4164"></a>
+<span class="sourceLineNo">4164</span>    private transient @MonotonicNonNull NavigableSet&lt;K&gt; navigableKeySet;<a name="line.4164"></a>
 <span class="sourceLineNo">4165</span><a name="line.4165"></a>
 <span class="sourceLineNo">4166</span>    @Override<a name="line.4166"></a>
 <span class="sourceLineNo">4167</span>    public NavigableSet&lt;K&gt; navigableKeySet() {<a name="line.4167"></a>

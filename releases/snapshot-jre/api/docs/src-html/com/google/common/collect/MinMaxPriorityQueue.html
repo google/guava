@@ -49,7 +49,7 @@
 <span class="sourceLineNo">041</span>import java.util.NoSuchElementException;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.PriorityQueue;<a name="line.42"></a>
 <span class="sourceLineNo">043</span>import java.util.Queue;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.44"></a>
+<span class="sourceLineNo">044</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.44"></a>
 <span class="sourceLineNo">045</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.45"></a>
 <span class="sourceLineNo">046</span><a name="line.46"></a>
 <span class="sourceLineNo">047</span>/**<a name="line.47"></a>
@@ -513,7 +513,7 @@
 <span class="sourceLineNo">505</span>  @WeakOuter<a name="line.505"></a>
 <span class="sourceLineNo">506</span>  private class Heap {<a name="line.506"></a>
 <span class="sourceLineNo">507</span>    final Ordering&lt;E&gt; ordering;<a name="line.507"></a>
-<span class="sourceLineNo">508</span>    @MonotonicNonNullDecl @Weak Heap otherHeap;<a name="line.508"></a>
+<span class="sourceLineNo">508</span>    @MonotonicNonNull @Weak Heap otherHeap;<a name="line.508"></a>
 <span class="sourceLineNo">509</span><a name="line.509"></a>
 <span class="sourceLineNo">510</span>    Heap(Ordering&lt;E&gt; ordering) {<a name="line.510"></a>
 <span class="sourceLineNo">511</span>      this.ordering = ordering;<a name="line.511"></a>
@@ -760,8 +760,8 @@
 <span class="sourceLineNo">752</span>    private int expectedModCount = modCount;<a name="line.752"></a>
 <span class="sourceLineNo">753</span>    // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in<a name="line.753"></a>
 <span class="sourceLineNo">754</span>    // either of them, up to the same multiplicity as the queue.<a name="line.754"></a>
-<span class="sourceLineNo">755</span>    @MonotonicNonNullDecl private Queue&lt;E&gt; forgetMeNot;<a name="line.755"></a>
-<span class="sourceLineNo">756</span>    @MonotonicNonNullDecl private List&lt;E&gt; skipMe;<a name="line.756"></a>
+<span class="sourceLineNo">755</span>    @MonotonicNonNull private Queue&lt;E&gt; forgetMeNot;<a name="line.755"></a>
+<span class="sourceLineNo">756</span>    @MonotonicNonNull private List&lt;E&gt; skipMe;<a name="line.756"></a>
 <span class="sourceLineNo">757</span>    private @Nullable E lastFromForgetMeNot;<a name="line.757"></a>
 <span class="sourceLineNo">758</span>    private boolean canRemove;<a name="line.758"></a>
 <span class="sourceLineNo">759</span><a name="line.759"></a>

@@ -37,7 +37,7 @@
 <span class="sourceLineNo">029</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.Locale;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.concurrent.TimeUnit;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.32"></a>
+<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>/**<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each<a name="line.35"></a>
@@ -191,7 +191,7 @@
 <span class="sourceLineNo">183</span>  private final SleepingStopwatch stopwatch;<a name="line.183"></a>
 <span class="sourceLineNo">184</span><a name="line.184"></a>
 <span class="sourceLineNo">185</span>  // Can't be initialized in the constructor because mocks don't call the constructor.<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  @MonotonicNonNullDecl private volatile Object mutexDoNotUseDirectly;<a name="line.186"></a>
+<span class="sourceLineNo">186</span>  @MonotonicNonNull private volatile Object mutexDoNotUseDirectly;<a name="line.186"></a>
 <span class="sourceLineNo">187</span><a name="line.187"></a>
 <span class="sourceLineNo">188</span>  private Object mutex() {<a name="line.188"></a>
 <span class="sourceLineNo">189</span>    Object mutex = mutexDoNotUseDirectly;<a name="line.189"></a>

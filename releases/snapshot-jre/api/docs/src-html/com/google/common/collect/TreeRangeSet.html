@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.util.NoSuchElementException;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.Set;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.TreeMap;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
 <span class="sourceLineNo">036</span>/**<a name="line.36"></a>
@@ -85,8 +85,8 @@
 <span class="sourceLineNo">077</span>    this.rangesByLowerBound = rangesByLowerCut;<a name="line.77"></a>
 <span class="sourceLineNo">078</span>  }<a name="line.78"></a>
 <span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  @MonotonicNonNullDecl private transient Set&lt;Range&lt;C&gt;&gt; asRanges;<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  @MonotonicNonNullDecl private transient Set&lt;Range&lt;C&gt;&gt; asDescendingSetOfRanges;<a name="line.81"></a>
+<span class="sourceLineNo">080</span>  private transient @MonotonicNonNull Set&lt;Range&lt;C&gt;&gt; asRanges;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  private transient @MonotonicNonNull Set&lt;Range&lt;C&gt;&gt; asDescendingSetOfRanges;<a name="line.81"></a>
 <span class="sourceLineNo">082</span><a name="line.82"></a>
 <span class="sourceLineNo">083</span>  @Override<a name="line.83"></a>
 <span class="sourceLineNo">084</span>  public Set&lt;Range&lt;C&gt;&gt; asRanges() {<a name="line.84"></a>
@@ -276,7 +276,7 @@
 <span class="sourceLineNo">268</span>    }<a name="line.268"></a>
 <span class="sourceLineNo">269</span>  }<a name="line.269"></a>
 <span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>  @MonotonicNonNullDecl private transient RangeSet&lt;C&gt; complement;<a name="line.271"></a>
+<span class="sourceLineNo">271</span>  private transient @MonotonicNonNull RangeSet&lt;C&gt; complement;<a name="line.271"></a>
 <span class="sourceLineNo">272</span><a name="line.272"></a>
 <span class="sourceLineNo">273</span>  @Override<a name="line.273"></a>
 <span class="sourceLineNo">274</span>  public RangeSet&lt;C&gt; complement() {<a name="line.274"></a>

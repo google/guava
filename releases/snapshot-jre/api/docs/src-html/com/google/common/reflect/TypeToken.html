@@ -54,7 +54,7 @@
 <span class="sourceLineNo">046</span>import java.util.List;<a name="line.46"></a>
 <span class="sourceLineNo">047</span>import java.util.Map;<a name="line.47"></a>
 <span class="sourceLineNo">048</span>import java.util.Set;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.49"></a>
+<span class="sourceLineNo">049</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.49"></a>
 <span class="sourceLineNo">050</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.50"></a>
 <span class="sourceLineNo">051</span><a name="line.51"></a>
 <span class="sourceLineNo">052</span>/**<a name="line.52"></a>
@@ -112,10 +112,10 @@
 <span class="sourceLineNo">104</span>  private final Type runtimeType;<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  /** Resolver for resolving parameter and field types with {@link #runtimeType} as context. */<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  @MonotonicNonNullDecl private transient TypeResolver invariantTypeResolver;<a name="line.107"></a>
+<span class="sourceLineNo">107</span>  private transient @MonotonicNonNull TypeResolver invariantTypeResolver;<a name="line.107"></a>
 <span class="sourceLineNo">108</span><a name="line.108"></a>
 <span class="sourceLineNo">109</span>  /** Resolver for resolving covariant types with {@link #runtimeType} as context. */<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  @MonotonicNonNullDecl private transient TypeResolver covariantTypeResolver;<a name="line.110"></a>
+<span class="sourceLineNo">110</span>  private transient @MonotonicNonNull TypeResolver covariantTypeResolver;<a name="line.110"></a>
 <span class="sourceLineNo">111</span><a name="line.111"></a>
 <span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
 <span class="sourceLineNo">113</span>   * Constructs a new type token of {@code T}.<a name="line.113"></a>
@@ -661,7 +661,7 @@
 <span class="sourceLineNo">653</span>   */<a name="line.653"></a>
 <span class="sourceLineNo">654</span>  public class TypeSet extends ForwardingSet&lt;TypeToken&lt;? super T&gt;&gt; implements Serializable {<a name="line.654"></a>
 <span class="sourceLineNo">655</span><a name="line.655"></a>
-<span class="sourceLineNo">656</span>    @MonotonicNonNullDecl private transient ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; types;<a name="line.656"></a>
+<span class="sourceLineNo">656</span>    private transient @MonotonicNonNull ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; types;<a name="line.656"></a>
 <span class="sourceLineNo">657</span><a name="line.657"></a>
 <span class="sourceLineNo">658</span>    TypeSet() {}<a name="line.658"></a>
 <span class="sourceLineNo">659</span><a name="line.659"></a>
@@ -707,7 +707,7 @@
 <span class="sourceLineNo">699</span>  private final class InterfaceSet extends TypeSet {<a name="line.699"></a>
 <span class="sourceLineNo">700</span><a name="line.700"></a>
 <span class="sourceLineNo">701</span>    private final transient TypeSet allTypes;<a name="line.701"></a>
-<span class="sourceLineNo">702</span>    @MonotonicNonNullDecl private transient ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; interfaces;<a name="line.702"></a>
+<span class="sourceLineNo">702</span>    private transient @MonotonicNonNull ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; interfaces;<a name="line.702"></a>
 <span class="sourceLineNo">703</span><a name="line.703"></a>
 <span class="sourceLineNo">704</span>    InterfaceSet(TypeSet allTypes) {<a name="line.704"></a>
 <span class="sourceLineNo">705</span>      this.allTypes = allTypes;<a name="line.705"></a>
@@ -760,7 +760,7 @@
 <span class="sourceLineNo">752</span><a name="line.752"></a>
 <span class="sourceLineNo">753</span>  private final class ClassSet extends TypeSet {<a name="line.753"></a>
 <span class="sourceLineNo">754</span><a name="line.754"></a>
-<span class="sourceLineNo">755</span>    @MonotonicNonNullDecl private transient ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; classes;<a name="line.755"></a>
+<span class="sourceLineNo">755</span>    private transient @MonotonicNonNull ImmutableSet&lt;TypeToken&lt;? super T&gt;&gt; classes;<a name="line.755"></a>
 <span class="sourceLineNo">756</span><a name="line.756"></a>
 <span class="sourceLineNo">757</span>    @Override<a name="line.757"></a>
 <span class="sourceLineNo">758</span>    protected Set&lt;TypeToken&lt;? super T&gt;&gt; delegate() {<a name="line.758"></a>

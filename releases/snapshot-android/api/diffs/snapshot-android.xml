@@ -6335,7 +6335,7 @@
      specified is substituted for the first occurrence of {@code "%s"} in the template, and so
      forth. A {@code null} argument is converted to the four-character string {@code "null"};
      non-null values are converted to strings using {@link Object#toString()}.
- @since NEXT]]>
+ @since 25.1]]>
       </doc>
     </method>
     <doc>
@@ -48215,7 +48215,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
  Sec-Token-Binding}</a> header field name.
 
- @since NEXT]]>
+ @since 25.1]]>
       </doc>
     </field>
     <field name="SEC_PROVIDED_TOKEN_BINDING_ID" type="java.lang.String"
@@ -48226,7 +48226,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
  Sec-Provided-Token-Binding-ID}</a> header field name.
 
- @since NEXT]]>
+ @since 25.1]]>
       </doc>
     </field>
     <field name="SEC_REFERRED_TOKEN_BINDING_ID" type="java.lang.String"
@@ -48237,7 +48237,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp">{@code
  Sec-Referred-Token-Binding-ID}</a> header field name.
 
- @since NEXT]]>
+ @since 25.1]]>
       </doc>
     </field>
     <doc>
@@ -60527,7 +60527,7 @@
       <param name="fallback" type="com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;"/>
       <param name="executor" type="java.util.concurrent.Executor"/>
       <doc>
-      <![CDATA[Returns a {@code Future} whose result is taken from this {@code Future} or, if the this {@code
+      <![CDATA[Returns a {@code Future} whose result is taken from this {@code Future} or, if this {@code
  Future} fails with the given {@code exceptionType}, from the result provided by the {@code
  fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has failed, so if
  the primary input succeeds, it is never invoked. If, during the invocation of {@code fallback},

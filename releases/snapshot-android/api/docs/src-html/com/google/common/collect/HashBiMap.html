@@ -303,8 +303,8 @@
 <span class="sourceLineNo">295</span>  }<a name="line.295"></a>
 <span class="sourceLineNo">296</span><a name="line.296"></a>
 <span class="sourceLineNo">297</span>  @Override<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  @NullableDecl<a name="line.298"></a>
-<span class="sourceLineNo">299</span>  @CanIgnoreReturnValue<a name="line.299"></a>
+<span class="sourceLineNo">298</span>  @CanIgnoreReturnValue<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  @NullableDecl<a name="line.299"></a>
 <span class="sourceLineNo">300</span>  public V forcePut(@NullableDecl K key, @NullableDecl V value) {<a name="line.300"></a>
 <span class="sourceLineNo">301</span>    return put(key, value, true);<a name="line.301"></a>
 <span class="sourceLineNo">302</span>  }<a name="line.302"></a>
@@ -525,8 +525,8 @@
 <span class="sourceLineNo">517</span>  }<a name="line.517"></a>
 <span class="sourceLineNo">518</span><a name="line.518"></a>
 <span class="sourceLineNo">519</span>  @Override<a name="line.519"></a>
-<span class="sourceLineNo">520</span>  @NullableDecl<a name="line.520"></a>
-<span class="sourceLineNo">521</span>  @CanIgnoreReturnValue<a name="line.521"></a>
+<span class="sourceLineNo">520</span>  @CanIgnoreReturnValue<a name="line.520"></a>
+<span class="sourceLineNo">521</span>  @NullableDecl<a name="line.521"></a>
 <span class="sourceLineNo">522</span>  public V remove(@NullableDecl Object key) {<a name="line.522"></a>
 <span class="sourceLineNo">523</span>    int keyHash = Hashing.smearedHash(key);<a name="line.523"></a>
 <span class="sourceLineNo">524</span>    int entry = findEntryByKey(key, keyHash);<a name="line.524"></a>
@@ -934,15 +934,15 @@
 <span class="sourceLineNo">926</span>    }<a name="line.926"></a>
 <span class="sourceLineNo">927</span><a name="line.927"></a>
 <span class="sourceLineNo">928</span>    @Override<a name="line.928"></a>
-<span class="sourceLineNo">929</span>    @NullableDecl<a name="line.929"></a>
-<span class="sourceLineNo">930</span>    @CanIgnoreReturnValue<a name="line.930"></a>
+<span class="sourceLineNo">929</span>    @CanIgnoreReturnValue<a name="line.929"></a>
+<span class="sourceLineNo">930</span>    @NullableDecl<a name="line.930"></a>
 <span class="sourceLineNo">931</span>    public K put(@NullableDecl V value, @NullableDecl K key) {<a name="line.931"></a>
 <span class="sourceLineNo">932</span>      return forward.putInverse(value, key, false);<a name="line.932"></a>
 <span class="sourceLineNo">933</span>    }<a name="line.933"></a>
 <span class="sourceLineNo">934</span><a name="line.934"></a>
 <span class="sourceLineNo">935</span>    @Override<a name="line.935"></a>
-<span class="sourceLineNo">936</span>    @NullableDecl<a name="line.936"></a>
-<span class="sourceLineNo">937</span>    @CanIgnoreReturnValue<a name="line.937"></a>
+<span class="sourceLineNo">936</span>    @CanIgnoreReturnValue<a name="line.936"></a>
+<span class="sourceLineNo">937</span>    @NullableDecl<a name="line.937"></a>
 <span class="sourceLineNo">938</span>    public K forcePut(@NullableDecl V value, @NullableDecl K key) {<a name="line.938"></a>
 <span class="sourceLineNo">939</span>      return forward.putInverse(value, key, true);<a name="line.939"></a>
 <span class="sourceLineNo">940</span>    }<a name="line.940"></a>
@@ -953,8 +953,8 @@
 <span class="sourceLineNo">945</span>    }<a name="line.945"></a>
 <span class="sourceLineNo">946</span><a name="line.946"></a>
 <span class="sourceLineNo">947</span>    @Override<a name="line.947"></a>
-<span class="sourceLineNo">948</span>    @NullableDecl<a name="line.948"></a>
-<span class="sourceLineNo">949</span>    @CanIgnoreReturnValue<a name="line.949"></a>
+<span class="sourceLineNo">948</span>    @CanIgnoreReturnValue<a name="line.948"></a>
+<span class="sourceLineNo">949</span>    @NullableDecl<a name="line.949"></a>
 <span class="sourceLineNo">950</span>    public K remove(@NullableDecl Object value) {<a name="line.950"></a>
 <span class="sourceLineNo">951</span>      return forward.removeInverse(value);<a name="line.951"></a>
 <span class="sourceLineNo">952</span>    }<a name="line.952"></a>

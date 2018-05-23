@@ -60,7 +60,7 @@
 <span class="sourceLineNo">052</span>import java.util.function.Consumer;<a name="line.52"></a>
 <span class="sourceLineNo">053</span>import java.util.stream.Collector;<a name="line.53"></a>
 <span class="sourceLineNo">054</span>import java.util.stream.Stream;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.55"></a>
+<span class="sourceLineNo">055</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.55"></a>
 <span class="sourceLineNo">056</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.56"></a>
 <span class="sourceLineNo">057</span><a name="line.57"></a>
 <span class="sourceLineNo">058</span>/**<a name="line.58"></a>
@@ -658,11 +658,11 @@
 <span class="sourceLineNo">650</span>  private static class UnmodifiableMultimap&lt;K, V&gt; extends ForwardingMultimap&lt;K, V&gt;<a name="line.650"></a>
 <span class="sourceLineNo">651</span>      implements Serializable {<a name="line.651"></a>
 <span class="sourceLineNo">652</span>    final Multimap&lt;K, V&gt; delegate;<a name="line.652"></a>
-<span class="sourceLineNo">653</span>    @MonotonicNonNullDecl transient Collection&lt;Entry&lt;K, V&gt;&gt; entries;<a name="line.653"></a>
-<span class="sourceLineNo">654</span>    @MonotonicNonNullDecl transient Multiset&lt;K&gt; keys;<a name="line.654"></a>
-<span class="sourceLineNo">655</span>    @MonotonicNonNullDecl transient Set&lt;K&gt; keySet;<a name="line.655"></a>
-<span class="sourceLineNo">656</span>    @MonotonicNonNullDecl transient Collection&lt;V&gt; values;<a name="line.656"></a>
-<span class="sourceLineNo">657</span>    @MonotonicNonNullDecl transient Map&lt;K, Collection&lt;V&gt;&gt; map;<a name="line.657"></a>
+<span class="sourceLineNo">653</span>    @MonotonicNonNull transient Collection&lt;Entry&lt;K, V&gt;&gt; entries;<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    @MonotonicNonNull transient Multiset&lt;K&gt; keys;<a name="line.654"></a>
+<span class="sourceLineNo">655</span>    @MonotonicNonNull transient Set&lt;K&gt; keySet;<a name="line.655"></a>
+<span class="sourceLineNo">656</span>    @MonotonicNonNull transient Collection&lt;V&gt; values;<a name="line.656"></a>
+<span class="sourceLineNo">657</span>    @MonotonicNonNull transient Map&lt;K, Collection&lt;V&gt;&gt; map;<a name="line.657"></a>
 <span class="sourceLineNo">658</span><a name="line.658"></a>
 <span class="sourceLineNo">659</span>    UnmodifiableMultimap(final Multimap&lt;K, V&gt; delegate) {<a name="line.659"></a>
 <span class="sourceLineNo">660</span>      this.delegate = checkNotNull(delegate);<a name="line.660"></a>

@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>import java.util.concurrent.TimeUnit;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.logging.Level;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.logging.Logger;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.43"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.43"></a>
 <span class="sourceLineNo">044</span><a name="line.44"></a>
 <span class="sourceLineNo">045</span>/**<a name="line.45"></a>
 <span class="sourceLineNo">046</span> * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the<a name="line.46"></a>
@@ -235,20 +235,20 @@
 <span class="sourceLineNo">227</span>  int concurrencyLevel = UNSET_INT;<a name="line.227"></a>
 <span class="sourceLineNo">228</span>  long maximumSize = UNSET_INT;<a name="line.228"></a>
 <span class="sourceLineNo">229</span>  long maximumWeight = UNSET_INT;<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  @MonotonicNonNullDecl Weigher&lt;? super K, ? super V&gt; weigher;<a name="line.230"></a>
+<span class="sourceLineNo">230</span>  @MonotonicNonNull Weigher&lt;? super K, ? super V&gt; weigher;<a name="line.230"></a>
 <span class="sourceLineNo">231</span><a name="line.231"></a>
-<span class="sourceLineNo">232</span>  @MonotonicNonNullDecl Strength keyStrength;<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  @MonotonicNonNullDecl Strength valueStrength;<a name="line.233"></a>
+<span class="sourceLineNo">232</span>  @MonotonicNonNull Strength keyStrength;<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  @MonotonicNonNull Strength valueStrength;<a name="line.233"></a>
 <span class="sourceLineNo">234</span><a name="line.234"></a>
 <span class="sourceLineNo">235</span>  long expireAfterWriteNanos = UNSET_INT;<a name="line.235"></a>
 <span class="sourceLineNo">236</span>  long expireAfterAccessNanos = UNSET_INT;<a name="line.236"></a>
 <span class="sourceLineNo">237</span>  long refreshNanos = UNSET_INT;<a name="line.237"></a>
 <span class="sourceLineNo">238</span><a name="line.238"></a>
-<span class="sourceLineNo">239</span>  @MonotonicNonNullDecl Equivalence&lt;Object&gt; keyEquivalence;<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  @MonotonicNonNullDecl Equivalence&lt;Object&gt; valueEquivalence;<a name="line.240"></a>
+<span class="sourceLineNo">239</span>  @MonotonicNonNull Equivalence&lt;Object&gt; keyEquivalence;<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  @MonotonicNonNull Equivalence&lt;Object&gt; valueEquivalence;<a name="line.240"></a>
 <span class="sourceLineNo">241</span><a name="line.241"></a>
-<span class="sourceLineNo">242</span>  @MonotonicNonNullDecl RemovalListener&lt;? super K, ? super V&gt; removalListener;<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  @MonotonicNonNullDecl Ticker ticker;<a name="line.243"></a>
+<span class="sourceLineNo">242</span>  @MonotonicNonNull RemovalListener&lt;? super K, ? super V&gt; removalListener;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  @MonotonicNonNull Ticker ticker;<a name="line.243"></a>
 <span class="sourceLineNo">244</span><a name="line.244"></a>
 <span class="sourceLineNo">245</span>  Supplier&lt;? extends StatsCounter&gt; statsCounterSupplier = NULL_STATS_COUNTER;<a name="line.245"></a>
 <span class="sourceLineNo">246</span><a name="line.246"></a>

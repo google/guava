@@ -43,7 +43,7 @@
 <span class="sourceLineNo">035</span>import java.util.NoSuchElementException;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.stream.Collector;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.38"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
@@ -550,7 +550,7 @@
 <span class="sourceLineNo">542</span>      this.domain = domain;<a name="line.542"></a>
 <span class="sourceLineNo">543</span>    }<a name="line.543"></a>
 <span class="sourceLineNo">544</span><a name="line.544"></a>
-<span class="sourceLineNo">545</span>    @MonotonicNonNullDecl private transient Integer size;<a name="line.545"></a>
+<span class="sourceLineNo">545</span>    private transient @MonotonicNonNull Integer size;<a name="line.545"></a>
 <span class="sourceLineNo">546</span><a name="line.546"></a>
 <span class="sourceLineNo">547</span>    @Override<a name="line.547"></a>
 <span class="sourceLineNo">548</span>    public int size() {<a name="line.548"></a>

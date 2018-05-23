@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>import java.io.Reader;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>import java.io.Writer;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Arrays;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
@@ -818,8 +818,8 @@
 <span class="sourceLineNo">810</span>      return new SeparatedBaseEncoding(this, separator, afterEveryChars);<a name="line.810"></a>
 <span class="sourceLineNo">811</span>    }<a name="line.811"></a>
 <span class="sourceLineNo">812</span><a name="line.812"></a>
-<span class="sourceLineNo">813</span>    @MonotonicNonNullDecl private transient BaseEncoding upperCase;<a name="line.813"></a>
-<span class="sourceLineNo">814</span>    @MonotonicNonNullDecl private transient BaseEncoding lowerCase;<a name="line.814"></a>
+<span class="sourceLineNo">813</span>    private transient @MonotonicNonNull BaseEncoding upperCase;<a name="line.813"></a>
+<span class="sourceLineNo">814</span>    private transient @MonotonicNonNull BaseEncoding lowerCase;<a name="line.814"></a>
 <span class="sourceLineNo">815</span><a name="line.815"></a>
 <span class="sourceLineNo">816</span>    @Override<a name="line.816"></a>
 <span class="sourceLineNo">817</span>    public BaseEncoding upperCase() {<a name="line.817"></a>

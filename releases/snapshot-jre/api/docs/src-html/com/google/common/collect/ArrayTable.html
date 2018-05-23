@@ -43,7 +43,7 @@
 <span class="sourceLineNo">035</span>import java.util.Map;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
 <span class="sourceLineNo">037</span>import java.util.Spliterator;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.38"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>/**<a name="line.41"></a>
@@ -629,7 +629,7 @@
 <span class="sourceLineNo">621</span>    return columnKeyToIndex.keySet();<a name="line.621"></a>
 <span class="sourceLineNo">622</span>  }<a name="line.622"></a>
 <span class="sourceLineNo">623</span><a name="line.623"></a>
-<span class="sourceLineNo">624</span>  @MonotonicNonNullDecl private transient ColumnMap columnMap;<a name="line.624"></a>
+<span class="sourceLineNo">624</span>  private transient @MonotonicNonNull ColumnMap columnMap;<a name="line.624"></a>
 <span class="sourceLineNo">625</span><a name="line.625"></a>
 <span class="sourceLineNo">626</span>  @Override<a name="line.626"></a>
 <span class="sourceLineNo">627</span>  public Map&lt;C, Map&lt;R, V&gt;&gt; columnMap() {<a name="line.627"></a>
@@ -717,7 +717,7 @@
 <span class="sourceLineNo">709</span>    return rowKeyToIndex.keySet();<a name="line.709"></a>
 <span class="sourceLineNo">710</span>  }<a name="line.710"></a>
 <span class="sourceLineNo">711</span><a name="line.711"></a>
-<span class="sourceLineNo">712</span>  @MonotonicNonNullDecl private transient RowMap rowMap;<a name="line.712"></a>
+<span class="sourceLineNo">712</span>  private transient @MonotonicNonNull RowMap rowMap;<a name="line.712"></a>
 <span class="sourceLineNo">713</span><a name="line.713"></a>
 <span class="sourceLineNo">714</span>  @Override<a name="line.714"></a>
 <span class="sourceLineNo">715</span>  public Map&lt;R, Map&lt;C, V&gt;&gt; rowMap() {<a name="line.715"></a>

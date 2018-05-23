@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.Locale;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.concurrent.TimeUnit;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
@@ -115,19 +115,19 @@
 <span class="sourceLineNo">107</span>          .put("refreshInterval", new RefreshDurationParser())<a name="line.107"></a>
 <span class="sourceLineNo">108</span>          .build();<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>  @MonotonicNonNullDecl @VisibleForTesting Integer initialCapacity;<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  @MonotonicNonNullDecl @VisibleForTesting Long maximumSize;<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  @MonotonicNonNullDecl @VisibleForTesting Long maximumWeight;<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  @MonotonicNonNullDecl @VisibleForTesting Integer concurrencyLevel;<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  @MonotonicNonNullDecl @VisibleForTesting Strength keyStrength;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  @MonotonicNonNullDecl @VisibleForTesting Strength valueStrength;<a name="line.115"></a>
-<span class="sourceLineNo">116</span>  @MonotonicNonNullDecl @VisibleForTesting Boolean recordStats;<a name="line.116"></a>
+<span class="sourceLineNo">110</span>  @MonotonicNonNull @VisibleForTesting Integer initialCapacity;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  @MonotonicNonNull @VisibleForTesting Long maximumSize;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  @MonotonicNonNull @VisibleForTesting Long maximumWeight;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  @MonotonicNonNull @VisibleForTesting Integer concurrencyLevel;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  @MonotonicNonNull @VisibleForTesting Strength keyStrength;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  @MonotonicNonNull @VisibleForTesting Strength valueStrength;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @MonotonicNonNull @VisibleForTesting Boolean recordStats;<a name="line.116"></a>
 <span class="sourceLineNo">117</span>  @VisibleForTesting long writeExpirationDuration;<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  @MonotonicNonNullDecl @VisibleForTesting TimeUnit writeExpirationTimeUnit;<a name="line.118"></a>
+<span class="sourceLineNo">118</span>  @MonotonicNonNull @VisibleForTesting TimeUnit writeExpirationTimeUnit;<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  @VisibleForTesting long accessExpirationDuration;<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  @MonotonicNonNullDecl @VisibleForTesting TimeUnit accessExpirationTimeUnit;<a name="line.120"></a>
+<span class="sourceLineNo">120</span>  @MonotonicNonNull @VisibleForTesting TimeUnit accessExpirationTimeUnit;<a name="line.120"></a>
 <span class="sourceLineNo">121</span>  @VisibleForTesting long refreshDuration;<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  @MonotonicNonNullDecl @VisibleForTesting TimeUnit refreshTimeUnit;<a name="line.122"></a>
+<span class="sourceLineNo">122</span>  @MonotonicNonNull @VisibleForTesting TimeUnit refreshTimeUnit;<a name="line.122"></a>
 <span class="sourceLineNo">123</span>  /** Specification; used for toParseableString(). */<a name="line.123"></a>
 <span class="sourceLineNo">124</span>  private final String specification;<a name="line.124"></a>
 <span class="sourceLineNo">125</span><a name="line.125"></a>

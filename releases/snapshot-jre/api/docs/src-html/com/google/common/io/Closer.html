@@ -35,7 +35,7 @@
 <span class="sourceLineNo">027</span>import java.util.ArrayDeque;<a name="line.27"></a>
 <span class="sourceLineNo">028</span>import java.util.Deque;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.logging.Level;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.30"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
@@ -114,7 +114,7 @@
 <span class="sourceLineNo">106</span><a name="line.106"></a>
 <span class="sourceLineNo">107</span>  // only need space for 2 elements in most cases, so try to use the smallest array possible<a name="line.107"></a>
 <span class="sourceLineNo">108</span>  private final Deque&lt;Closeable&gt; stack = new ArrayDeque&lt;&gt;(4);<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  @MonotonicNonNullDecl private Throwable thrown;<a name="line.109"></a>
+<span class="sourceLineNo">109</span>  @MonotonicNonNull private Throwable thrown;<a name="line.109"></a>
 <span class="sourceLineNo">110</span><a name="line.110"></a>
 <span class="sourceLineNo">111</span>  @VisibleForTesting<a name="line.111"></a>
 <span class="sourceLineNo">112</span>  Closer(Suppressor suppressor) {<a name="line.112"></a>

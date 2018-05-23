@@ -37,7 +37,7 @@
 <span class="sourceLineNo">029</span>import java.util.concurrent.atomic.AtomicLong;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.function.LongBinaryOperator;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.function.LongUnaryOperator;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.32"></a>
+<span class="sourceLineNo">032</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>/**<a name="line.34"></a>
 <span class="sourceLineNo">035</span> * A map containing {@code long} values that can be atomically updated. While writes to a<a name="line.35"></a>
@@ -270,7 +270,7 @@
 <span class="sourceLineNo">262</span>    return map.values().stream().mapToLong(Long::longValue).sum();<a name="line.262"></a>
 <span class="sourceLineNo">263</span>  }<a name="line.263"></a>
 <span class="sourceLineNo">264</span><a name="line.264"></a>
-<span class="sourceLineNo">265</span>  @MonotonicNonNullDecl private transient Map&lt;K, Long&gt; asMap;<a name="line.265"></a>
+<span class="sourceLineNo">265</span>  private transient @MonotonicNonNull Map&lt;K, Long&gt; asMap;<a name="line.265"></a>
 <span class="sourceLineNo">266</span><a name="line.266"></a>
 <span class="sourceLineNo">267</span>  /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */<a name="line.267"></a>
 <span class="sourceLineNo">268</span>  public Map&lt;K, Long&gt; asMap() {<a name="line.268"></a>

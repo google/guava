@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>import java.util.Set;<a name="line.40"></a>
 <span class="sourceLineNo">041</span>import java.util.Spliterator;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>import java.util.stream.Collector;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.43"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.qual.MonotonicNonNull;<a name="line.43"></a>
 <span class="sourceLineNo">044</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.44"></a>
 <span class="sourceLineNo">045</span><a name="line.45"></a>
 <span class="sourceLineNo">046</span>/**<a name="line.46"></a>
@@ -141,7 +141,7 @@
 <span class="sourceLineNo">133</span>      return (Multiset&lt;E&gt;) delegate;<a name="line.133"></a>
 <span class="sourceLineNo">134</span>    }<a name="line.134"></a>
 <span class="sourceLineNo">135</span><a name="line.135"></a>
-<span class="sourceLineNo">136</span>    @MonotonicNonNullDecl transient Set&lt;E&gt; elementSet;<a name="line.136"></a>
+<span class="sourceLineNo">136</span>    @MonotonicNonNull transient Set&lt;E&gt; elementSet;<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
 <span class="sourceLineNo">138</span>    Set&lt;E&gt; createElementSet() {<a name="line.138"></a>
 <span class="sourceLineNo">139</span>      return Collections.&lt;E&gt;unmodifiableSet(delegate.elementSet());<a name="line.139"></a>
@@ -153,7 +153,7 @@
 <span class="sourceLineNo">145</span>      return (es == null) ? elementSet = createElementSet() : es;<a name="line.145"></a>
 <span class="sourceLineNo">146</span>    }<a name="line.146"></a>
 <span class="sourceLineNo">147</span><a name="line.147"></a>
-<span class="sourceLineNo">148</span>    @MonotonicNonNullDecl transient Set&lt;Multiset.Entry&lt;E&gt;&gt; entrySet;<a name="line.148"></a>
+<span class="sourceLineNo">148</span>    @MonotonicNonNull transient Set&lt;Multiset.Entry&lt;E&gt;&gt; entrySet;<a name="line.148"></a>
 <span class="sourceLineNo">149</span><a name="line.149"></a>
 <span class="sourceLineNo">150</span>    @SuppressWarnings("unchecked")<a name="line.150"></a>
 <span class="sourceLineNo">151</span>    @Override<a name="line.151"></a>
@@ -1064,7 +1064,7 @@
 <span class="sourceLineNo">1056</span>  static final class MultisetIteratorImpl&lt;E&gt; implements Iterator&lt;E&gt; {<a name="line.1056"></a>
 <span class="sourceLineNo">1057</span>    private final Multiset&lt;E&gt; multiset;<a name="line.1057"></a>
 <span class="sourceLineNo">1058</span>    private final Iterator&lt;Entry&lt;E&gt;&gt; entryIterator;<a name="line.1058"></a>
-<span class="sourceLineNo">1059</span>    @MonotonicNonNullDecl private Entry&lt;E&gt; currentEntry;<a name="line.1059"></a>
+<span class="sourceLineNo">1059</span>    @MonotonicNonNull private Entry&lt;E&gt; currentEntry;<a name="line.1059"></a>
 <span class="sourceLineNo">1060</span><a name="line.1060"></a>
 <span class="sourceLineNo">1061</span>    /** Count of subsequent elements equal to current element */<a name="line.1061"></a>
 <span class="sourceLineNo">1062</span>    private int laterCount;<a name="line.1062"></a>
