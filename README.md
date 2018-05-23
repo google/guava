@@ -41,7 +41,7 @@ To add a dependency using Gradle:
 dependencies {
   compile 'com.google.guava:guava:25.1-jre'
   // or, for Android:
-  compile 'com.google.guava:guava:25.1-android'
+  api 'com.google.guava:guava:25.1-android'
 }
 ```
 
