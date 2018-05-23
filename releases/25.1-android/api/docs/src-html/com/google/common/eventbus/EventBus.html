@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.eventbus;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.base.MoreObjects;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.util.concurrent.MoreExecutors;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.lang.reflect.Method;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Iterator;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Locale;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.concurrent.Executor;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.logging.Level;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.logging.Logger;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>/**<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * Dispatches events to listeners, and provides ways for listeners to register themselves.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;The EventBus allows publish-subscribe-style communication between components without requiring<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * the components to explicitly register with one another (and thus be aware of each other). It is<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * designed exclusively to replace traditional Java in-process event distribution using explicit<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * registration. It is &lt;em&gt;not&lt;/em&gt; a general-purpose publish-subscribe system, nor is it intended<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * for interprocess communication.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;h2&gt;Receiving Events&lt;/h2&gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;p&gt;To receive events, an object should:<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;ol&gt;<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *   &lt;li&gt;Expose a public method, known as the &lt;i&gt;event subscriber&lt;/i&gt;, which accepts a single<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *       argument of the type of event desired;<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *   &lt;li&gt;Mark it with a {@link Subscribe} annotation;<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *   &lt;li&gt;Pass itself to an EventBus instance's {@link #register(Object)} method.<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;/ol&gt;<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;h2&gt;Posting Events&lt;/h2&gt;<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * &lt;p&gt;To post an event, simply provide the event object to the {@link #post(Object)} method. The<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * EventBus instance will determine the type of event and route it to all registered listeners.<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * &lt;p&gt;Events are routed based on their type &amp;mdash; an event will be delivered to any subscriber for<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * any type to which the event is &lt;em&gt;assignable.&lt;/em&gt; This includes implemented interfaces, all<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * superclasses, and all interfaces implemented by superclasses.<a name="line.56"></a>
+<span class="sourceLineNo">057</span> *<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * &lt;p&gt;When {@code post} is called, all registered subscribers for an event are run in sequence, so<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * subscribers should be reasonably quick. If an event may trigger an extended process (such as a<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * database load), spawn a thread or queue it for later. (For a convenient way to do this, use an<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * {@link AsyncEventBus}.)<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * &lt;h2&gt;Subscriber Methods&lt;/h2&gt;<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * &lt;p&gt;Event subscriber methods must accept only one argument: the event.<a name="line.65"></a>
+<span class="sourceLineNo">066</span> *<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * &lt;p&gt;Subscribers should not, in general, throw. If they do, the EventBus will catch and log the<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * exception. This is rarely the right solution for error handling and should not be relied upon; it<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * is intended solely to help find problems during development.<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * &lt;p&gt;The EventBus guarantees that it will not call a subscriber method from multiple threads<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * simultaneously, unless the method explicitly allows it by bearing the {@link<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * AllowConcurrentEvents} annotation. If this annotation is not present, subscriber methods need not<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * worry about being reentrant, unless also called from outside the EventBus.<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * &lt;h2&gt;Dead Events&lt;/h2&gt;<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * &lt;p&gt;If an event is posted, but no registered subscribers can accept it, it is considered "dead."<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * To give the system a second chance to handle dead events, they are wrapped in an instance of<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * {@link DeadEvent} and reposted.<a name="line.80"></a>
+<span class="sourceLineNo">081</span> *<a name="line.81"></a>
+<span class="sourceLineNo">082</span> * &lt;p&gt;If a subscriber for a supertype of all events (such as Object) is registered, no event will<a name="line.82"></a>
+<span class="sourceLineNo">083</span> * ever be considered dead, and no DeadEvents will be generated. Accordingly, while DeadEvent<a name="line.83"></a>
+<span class="sourceLineNo">084</span> * extends {@link Object}, a subscriber registered to receive any Object will never receive a<a name="line.84"></a>
+<span class="sourceLineNo">085</span> * DeadEvent.<a name="line.85"></a>
+<span class="sourceLineNo">086</span> *<a name="line.86"></a>
+<span class="sourceLineNo">087</span> * &lt;p&gt;This class is safe for concurrent use.<a name="line.87"></a>
+<span class="sourceLineNo">088</span> *<a name="line.88"></a>
+<span class="sourceLineNo">089</span> * &lt;p&gt;See the Guava User Guide article on &lt;a<a name="line.89"></a>
+<span class="sourceLineNo">090</span> * href="https://github.com/google/guava/wiki/EventBusExplained"&gt;{@code EventBus}&lt;/a&gt;.<a name="line.90"></a>
+<span class="sourceLineNo">091</span> *<a name="line.91"></a>
+<span class="sourceLineNo">092</span> * @author Cliff Biffle<a name="line.92"></a>
+<span class="sourceLineNo">093</span> * @since 10.0<a name="line.93"></a>
+<span class="sourceLineNo">094</span> */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>@Beta<a name="line.95"></a>
+<span class="sourceLineNo">096</span>public class EventBus {<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  private static final Logger logger = Logger.getLogger(EventBus.class.getName());<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  private final String identifier;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  private final Executor executor;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  private final SubscriberExceptionHandler exceptionHandler;<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  private final SubscriberRegistry subscribers = new SubscriberRegistry(this);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  private final Dispatcher dispatcher;<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /** Creates a new EventBus named "default". */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public EventBus() {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    this("default");<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * Creates a new EventBus with the given {@code identifier}.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   *<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * @param identifier a brief name for this bus, for logging purposes. Should be a valid Java<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   *     identifier.<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  public EventBus(String identifier) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    this(<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        identifier,<a name="line.120"></a>
+<span class="sourceLineNo">121</span>        MoreExecutors.directExecutor(),<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        Dispatcher.perThreadDispatchQueue(),<a name="line.122"></a>
+<span class="sourceLineNo">123</span>        LoggingHandler.INSTANCE);<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>  /**<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * Creates a new EventBus with the given {@link SubscriberExceptionHandler}.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * @param exceptionHandler Handler for subscriber exceptions.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * @since 16.0<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   */<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  public EventBus(SubscriberExceptionHandler exceptionHandler) {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    this(<a name="line.133"></a>
+<span class="sourceLineNo">134</span>        "default",<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        MoreExecutors.directExecutor(),<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        Dispatcher.perThreadDispatchQueue(),<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        exceptionHandler);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  }<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>  EventBus(<a name="line.140"></a>
+<span class="sourceLineNo">141</span>      String identifier,<a name="line.141"></a>
+<span class="sourceLineNo">142</span>      Executor executor,<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      Dispatcher dispatcher,<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      SubscriberExceptionHandler exceptionHandler) {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    this.identifier = checkNotNull(identifier);<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    this.executor = checkNotNull(executor);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    this.dispatcher = checkNotNull(dispatcher);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    this.exceptionHandler = checkNotNull(exceptionHandler);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * Returns the identifier for this event bus.<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   *<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @since 19.0<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  public final String identifier() {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    return identifier;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  /** Returns the default executor this event bus uses for dispatching events to subscribers. */<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  final Executor executor() {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return executor;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  /** Handles the given exception thrown by a subscriber with the given context. */<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    checkNotNull(e);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    checkNotNull(context);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    try {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>      exceptionHandler.handleException(e, context);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    } catch (Throwable e2) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      // if the handler threw an exception... well, just log it<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      logger.log(<a name="line.173"></a>
+<span class="sourceLineNo">174</span>          Level.SEVERE,<a name="line.174"></a>
+<span class="sourceLineNo">175</span>          String.format(Locale.ROOT, "Exception %s thrown while handling exception: %s", e2, e),<a name="line.175"></a>
+<span class="sourceLineNo">176</span>          e2);<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    }<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Registers all subscriber methods on {@code object} to receive events.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   *<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * @param object object whose subscriber methods should be registered.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  public void register(Object object) {<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    subscribers.register(object);<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * Unregisters all subscriber methods on a registered {@code object}.<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   *<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * @param object object whose subscriber methods should be unregistered.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * @throws IllegalArgumentException if the object was not previously registered.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   */<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  public void unregister(Object object) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    subscribers.unregister(object);<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
+<span class="sourceLineNo">198</span><a name="line.198"></a>
+<span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * Posts an event to all registered subscribers. This method will return successfully after the<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * event has been posted to all subscribers, and regardless of any exceptions thrown by<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * subscribers.<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   *<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * &lt;p&gt;If no subscribers have been subscribed for {@code event}'s class, and {@code event} is not<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * already a {@link DeadEvent}, it will be wrapped in a DeadEvent and reposted.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @param event event to post.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  public void post(Object event) {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    Iterator&lt;Subscriber&gt; eventSubscribers = subscribers.getSubscribers(event);<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    if (eventSubscribers.hasNext()) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>      dispatcher.dispatch(event, eventSubscribers);<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    } else if (!(event instanceof DeadEvent)) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>      // the event had no subscribers and was not itself a DeadEvent<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      post(new DeadEvent(this, event));<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    }<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  }<a name="line.217"></a>
+<span class="sourceLineNo">218</span><a name="line.218"></a>
+<span class="sourceLineNo">219</span>  @Override<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  public String toString() {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>    return MoreObjects.toStringHelper(this).addValue(identifier).toString();<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  }<a name="line.222"></a>
+<span class="sourceLineNo">223</span><a name="line.223"></a>
+<span class="sourceLineNo">224</span>  /** Simple logging handler for subscriber exceptions. */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  static final class LoggingHandler implements SubscriberExceptionHandler {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    static final LoggingHandler INSTANCE = new LoggingHandler();<a name="line.226"></a>
+<span class="sourceLineNo">227</span><a name="line.227"></a>
+<span class="sourceLineNo">228</span>    @Override<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    public void handleException(Throwable exception, SubscriberExceptionContext context) {<a name="line.229"></a>
+<span class="sourceLineNo">230</span>      Logger logger = logger(context);<a name="line.230"></a>
+<span class="sourceLineNo">231</span>      if (logger.isLoggable(Level.SEVERE)) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>        logger.log(Level.SEVERE, message(context), exception);<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      }<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    }<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>    private static Logger logger(SubscriberExceptionContext context) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      return Logger.getLogger(EventBus.class.getName() + "." + context.getEventBus().identifier());<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    }<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>    private static String message(SubscriberExceptionContext context) {<a name="line.240"></a>
+<span class="sourceLineNo">241</span>      Method method = context.getSubscriberMethod();<a name="line.241"></a>
+<span class="sourceLineNo">242</span>      return "Exception thrown by subscriber method "<a name="line.242"></a>
+<span class="sourceLineNo">243</span>          + method.getName()<a name="line.243"></a>
+<span class="sourceLineNo">244</span>          + '('<a name="line.244"></a>
+<span class="sourceLineNo">245</span>          + method.getParameterTypes()[0].getName()<a name="line.245"></a>
+<span class="sourceLineNo">246</span>          + ')'<a name="line.246"></a>
+<span class="sourceLineNo">247</span>          + " on subscriber "<a name="line.247"></a>
+<span class="sourceLineNo">248</span>          + context.getSubscriber()<a name="line.248"></a>
+<span class="sourceLineNo">249</span>          + " when dispatching event: "<a name="line.249"></a>
+<span class="sourceLineNo">250</span>          + context.getEvent();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>    }<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  }<a name="line.252"></a>
+<span class="sourceLineNo">253</span>}<a name="line.253"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
