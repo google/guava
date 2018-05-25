@@ -1,7 +1,7 @@
 # Guava: Google Core Libraries for Java
 
+[![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
-[![Maven Central](https://img.shields.io/maven-central/v/com.google.guava/guava.svg)](https://mvnrepository.com/artifact/com.google.guava/guava/latest)
 
 Guava is a set of core libraries that includes new collection types (such as
 multimap and multiset), immutable collections, a graph library, functional
@@ -16,12 +16,14 @@ Guava comes in two flavors.
 
 [`android` directory]: https://github.com/google/guava/tree/master/android
 
-## Latest release
+## Adding Guava to your build
 
-The most recent release is [Guava 25.1][current release], released 2018-05-23.
-
-The Maven group ID is `com.google.guava`, and the artifact ID is `guava`. Use
-version `25.1-jre` for the JRE flavor, or `25.1-android` for the Android flavor.
+Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava`.
+Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
+for use on Android or Java 7 or by any library that wants to be compatible with
+either of those. These flavors are specified in the Maven version field as
+either `25.1-jre` or `25.1-android`. For more about depending on
+Guava, see [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -44,8 +46,6 @@ dependencies {
   api 'com.google.guava:guava:25.1-android'
 }
 ```
-
-For more about depending on Guava, see [Using Guava in your build].
 
 ## Snapshots
 
@@ -98,7 +98,6 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[current release]: https://github.com/google/guava/releases/tag/v25.1
 [guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
@@ -106,6 +105,6 @@ API level 15 (Ice Cream Sandwich).
 
 <!-- References -->
 
-[Using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
+[using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
 
