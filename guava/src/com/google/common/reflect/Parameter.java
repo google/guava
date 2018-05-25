@@ -109,7 +109,7 @@ public final class Parameter implements AnnotatedElement {
     return FluentIterable.from(annotations).filter(annotationType).toArray(annotationType);
   }
 
-  /** @since NEXT */
+  /** @since 25.1 */
   // @Override on JDK8
   public AnnotatedType getAnnotatedType() {
     return annotatedType;

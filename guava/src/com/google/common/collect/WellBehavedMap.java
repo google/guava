@@ -21,7 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Workaround for <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6312706">EnumMap
@@ -35,7 +35,7 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 @GwtCompatible
 final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
   private final Map<K, V> delegate;
-  @MonotonicNonNullDecl private Set<Entry<K, V>> entrySet;
+  @MonotonicNonNull private Set<Entry<K, V>> entrySet;
 
   private WellBehavedMap(Map<K, V> delegate) {
     this.delegate = delegate;

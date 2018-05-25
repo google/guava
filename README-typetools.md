@@ -28,10 +28,11 @@ Commits: https://github.com/google/guava/commits/master
 Guava version 24.0 is commit 538d60aed09e945f59077770686df9cbd4e0048d
 Guava version 24.1 is commit 444ff98e688b384e73d7b599b4168fed8003eb3f
 Guava version 25.0 is commit 2cac83e70d77f0fa9b2352fe5ac994280fc3b028
+Guava version 25.1 is commit b28b5850d11b948a5b0f9240894636e0b5bec22a
 
 Pull in that commit:
 ```
-git fetch https://github.com/google/guava
+git fetch --tags https://github.com/google/guava
 git pull https://github.com/google/guava <commitid>
 ```
 

@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -107,19 +107,19 @@ public final class CacheBuilderSpec {
           .put("refreshInterval", new RefreshDurationParser())
           .build();
 
-  @MonotonicNonNullDecl @VisibleForTesting Integer initialCapacity;
-  @MonotonicNonNullDecl @VisibleForTesting Long maximumSize;
-  @MonotonicNonNullDecl @VisibleForTesting Long maximumWeight;
-  @MonotonicNonNullDecl @VisibleForTesting Integer concurrencyLevel;
-  @MonotonicNonNullDecl @VisibleForTesting Strength keyStrength;
-  @MonotonicNonNullDecl @VisibleForTesting Strength valueStrength;
-  @MonotonicNonNullDecl @VisibleForTesting Boolean recordStats;
+  @MonotonicNonNull @VisibleForTesting Integer initialCapacity;
+  @MonotonicNonNull @VisibleForTesting Long maximumSize;
+  @MonotonicNonNull @VisibleForTesting Long maximumWeight;
+  @MonotonicNonNull @VisibleForTesting Integer concurrencyLevel;
+  @MonotonicNonNull @VisibleForTesting Strength keyStrength;
+  @MonotonicNonNull @VisibleForTesting Strength valueStrength;
+  @MonotonicNonNull @VisibleForTesting Boolean recordStats;
   @VisibleForTesting long writeExpirationDuration;
-  @MonotonicNonNullDecl @VisibleForTesting TimeUnit writeExpirationTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit writeExpirationTimeUnit;
   @VisibleForTesting long accessExpirationDuration;
-  @MonotonicNonNullDecl @VisibleForTesting TimeUnit accessExpirationTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit accessExpirationTimeUnit;
   @VisibleForTesting long refreshDuration;
-  @MonotonicNonNullDecl @VisibleForTesting TimeUnit refreshTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit refreshTimeUnit;
   /** Specification; used for toParseableString(). */
   private final String specification;
 

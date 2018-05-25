@@ -99,7 +99,19 @@ public class ComparatorsTest extends TestCase {
     Comparator<Optional<String>> comparator = Comparators.emptiesFirst(comparing(String::length));
     Helpers.testComparator(comparator, empty, z, abc);
 
-    // No explicit type parameter required:
+    // Just demonstrate that no explicit type parameter is required
     comparator = Comparators.emptiesFirst(naturalOrder());
+  }
+
+  public void testEmptiesLast() {
+    Optional<String> empty = Optional.empty();
+    Optional<String> abc = Optional.of("abc");
+    Optional<String> z = Optional.of("z");
+
+    Comparator<Optional<String>> comparator = Comparators.emptiesLast(comparing(String::length));
+    Helpers.testComparator(comparator, z, abc, empty);
+
+    // Just demonstrate that no explicit type parameter is required
+    comparator = Comparators.emptiesLast(naturalOrder());
   }
 }

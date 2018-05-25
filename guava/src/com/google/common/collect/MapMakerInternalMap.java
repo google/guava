@@ -47,7 +47,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -1193,7 +1193,7 @@ class MapMakerInternalMap<
     int threshold;
 
     /** The per-segment table. */
-    @MonotonicNonNullDecl volatile AtomicReferenceArray<E> table;
+    @MonotonicNonNull volatile AtomicReferenceArray<E> table;
 
     /** The maximum size of this map. MapMaker.UNSET_INT if there is no maximum. */
     final int maxSegmentSize;
@@ -2477,7 +2477,7 @@ class MapMakerInternalMap<
     }
   }
 
-  @MonotonicNonNullDecl transient Set<K> keySet;
+  @MonotonicNonNull transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2485,7 +2485,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @MonotonicNonNullDecl transient Collection<V> values;
+  @MonotonicNonNull transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2493,7 +2493,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @MonotonicNonNullDecl transient Set<Entry<K, V>> entrySet;
+  @MonotonicNonNull transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -2507,8 +2507,8 @@ class MapMakerInternalMap<
 
     int nextSegmentIndex;
     int nextTableIndex;
-    @MonotonicNonNullDecl Segment<K, V, E, S> currentSegment;
-    @MonotonicNonNullDecl AtomicReferenceArray<E> currentTable;
+    @MonotonicNonNull Segment<K, V, E, S> currentSegment;
+    @MonotonicNonNull AtomicReferenceArray<E> currentTable;
     @Nullable E nextEntry;
     @Nullable WriteThroughEntry nextExternal;
     @Nullable WriteThroughEntry lastReturned;

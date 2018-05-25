@@ -127,7 +127,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
   }
 
   /**
-   * Returns a {@code Future} whose result is taken from this {@code Future} or, if the this {@code
+   * Returns a {@code Future} whose result is taken from this {@code Future} or, if this {@code
    * Future} fails with the given {@code exceptionType}, from the result provided by the {@code
    * fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has failed, so if
    * the primary input succeeds, it is never invoked. If, during the invocation of {@code fallback},

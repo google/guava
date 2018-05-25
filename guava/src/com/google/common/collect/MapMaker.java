@@ -30,7 +30,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
@@ -100,10 +100,10 @@ public final class MapMaker {
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
 
-  @MonotonicNonNullDecl Strength keyStrength;
-  @MonotonicNonNullDecl Strength valueStrength;
+  @MonotonicNonNull Strength keyStrength;
+  @MonotonicNonNull Strength valueStrength;
 
-  @MonotonicNonNullDecl Equivalence<Object> keyEquivalence;
+  @MonotonicNonNull Equivalence<Object> keyEquivalence;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong
