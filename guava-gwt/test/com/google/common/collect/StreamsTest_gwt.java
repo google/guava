@@ -18,6 +18,26 @@ public class StreamsTest_gwt extends com.google.gwt.junit.client.GWTTestCase {
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testConcatInfiniteStream() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcatInfiniteStream();
+}
+
+public void testConcatInfiniteStream_double() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcatInfiniteStream_double();
+}
+
+public void testConcatInfiniteStream_int() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcatInfiniteStream_int();
+}
+
+public void testConcatInfiniteStream_long() throws Exception {
+  com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
+  testCase.testConcatInfiniteStream_long();
+}
+
 public void testConcat_doubleStream() throws Exception {
   com.google.common.collect.StreamsTest testCase = new com.google.common.collect.StreamsTest();
   testCase.testConcat_doubleStream();
