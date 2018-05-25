@@ -39,7 +39,6 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
-import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -131,12 +130,6 @@ public final class Streams {
     return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
   }
 
-  private static void closeAll(BaseStream<?, ?>[] toClose) {
-    for (BaseStream<?, ?> stream : toClose) {
-      stream.close();
-    }
-  }
-
   /**
    * Returns a {@link Stream} containing the elements of the first stream, followed by the elements
    * of the second stream, and so on.
@@ -168,7 +161,12 @@ public final class Streams {
                 characteristics,
                 estimatedSize),
             isParallel)
-        .onClose(() -> closeAll(streams));
+        .onClose(
+            () -> {
+              for (Stream<? extends T> stream : streams) {
+                stream.close();
+              }
+            });
   }
 
   /**
@@ -181,26 +179,8 @@ public final class Streams {
    * @see IntStream#concat(IntStream, IntStream)
    */
   public static IntStream concat(IntStream... streams) {
-    boolean isParallel = false;
-    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
-    long estimatedSize = 0L;
-    ImmutableList.Builder<Spliterator.OfInt> splitrsBuilder =
-        new ImmutableList.Builder<>(streams.length);
-    for (IntStream stream : streams) {
-      isParallel |= stream.isParallel();
-      Spliterator.OfInt splitr = stream.spliterator();
-      splitrsBuilder.add(splitr);
-      characteristics &= splitr.characteristics();
-      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
-    }
-    return StreamSupport.intStream(
-            CollectSpliterators.flatMapToInt(
-                splitrsBuilder.build().spliterator(),
-                splitr -> splitr,
-                characteristics,
-                estimatedSize),
-            isParallel)
-        .onClose(() -> closeAll(streams));
+    // TODO(lowasser): optimize this later
+    return Stream.of(streams).flatMapToInt(stream -> stream);
   }
 
   /**
@@ -213,26 +193,8 @@ public final class Streams {
    * @see LongStream#concat(LongStream, LongStream)
    */
   public static LongStream concat(LongStream... streams) {
-    boolean isParallel = false;
-    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
-    long estimatedSize = 0L;
-    ImmutableList.Builder<Spliterator.OfLong> splitrsBuilder =
-        new ImmutableList.Builder<>(streams.length);
-    for (LongStream stream : streams) {
-      isParallel |= stream.isParallel();
-      Spliterator.OfLong splitr = stream.spliterator();
-      splitrsBuilder.add(splitr);
-      characteristics &= splitr.characteristics();
-      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
-    }
-    return StreamSupport.longStream(
-            CollectSpliterators.flatMapToLong(
-                splitrsBuilder.build().spliterator(),
-                splitr -> splitr,
-                characteristics,
-                estimatedSize),
-            isParallel)
-        .onClose(() -> closeAll(streams));
+    // TODO(lowasser): optimize this later
+    return Stream.of(streams).flatMapToLong(stream -> stream);
   }
 
   /**
@@ -245,26 +207,8 @@ public final class Streams {
    * @see DoubleStream#concat(DoubleStream, DoubleStream)
    */
   public static DoubleStream concat(DoubleStream... streams) {
-    boolean isParallel = false;
-    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
-    long estimatedSize = 0L;
-    ImmutableList.Builder<Spliterator.OfDouble> splitrsBuilder =
-        new ImmutableList.Builder<>(streams.length);
-    for (DoubleStream stream : streams) {
-      isParallel |= stream.isParallel();
-      Spliterator.OfDouble splitr = stream.spliterator();
-      splitrsBuilder.add(splitr);
-      characteristics &= splitr.characteristics();
-      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
-    }
-    return StreamSupport.doubleStream(
-            CollectSpliterators.flatMapToDouble(
-                splitrsBuilder.build().spliterator(),
-                splitr -> splitr,
-                characteristics,
-                estimatedSize),
-            isParallel)
-        .onClose(() -> closeAll(streams));
+    // TODO(lowasser): optimize this later
+    return Stream.of(streams).flatMapToDouble(stream -> stream);
   }
 
   /**
