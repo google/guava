@@ -60,11 +60,13 @@
     <!-- Annotations from the Checker Framework: nullness, interning, locking, ... -->
     <!-- For guava only, to use a locally-built version of the Checker Framework, run with:
        -P checkerframework-local -->
+    <!-- Not needed; appears above.
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
       <version>2.5.1</version>
     </dependency>
+    -->
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker</artifactId>
