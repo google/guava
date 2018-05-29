@@ -16,9 +16,11 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -213,8 +215,8 @@ public final class Strings {
   /**
    * Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
    * the corresponding argument value from {@code args}; or, if the placeholder and argument counts
-   * do not match, returns a best-effort form of that string. Will not throw an exception under any
-   * circumstances (as long as all arguments' {@code toString} methods successfully return).
+   * do not match, returns a best-effort form of that string. Will not throw an exception under
+   * normal conditions.
    *
    * <p><b>Note:</b> For most string-formatting needs, use {@link String#format}, {@link
    * PrintWriter#format}, and related methods. These support the full range of {@linkplain
@@ -241,11 +243,16 @@ public final class Strings {
    * @since 25.1
    */
   // TODO(diamondm) consider using Arrays.toString() for array parameters
-  // TODO(diamondm) capture exceptions thrown from arguments' toString methods
   public static String lenientFormat(@NullableDecl String template, @NullableDecl Object... args) {
     template = String.valueOf(template); // null -> "null"
 
-    args = args == null ? new Object[] {"(Object[])null"} : args;
+    if (args == null) {
+      args = new Object[] {"(Object[])null"};
+    } else {
+      for (int i = 0; i < args.length; i++) {
+        args[i] = lenientToString(args[i]);
+      }
+    }
 
     // start substituting the arguments into the '%s' placeholders
     StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
@@ -274,6 +281,20 @@ public final class Strings {
     }
 
     return builder.toString();
+  }
+
+  private static String lenientToString(@NullableDecl Object o) {
+    try {
+      return String.valueOf(o);
+    } catch (Exception e) {
+      // Default toString() behavior - see Object.toString()
+      String objectToString =
+          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));
+      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.
+      Logger.getLogger("com.google.common.base.Strings")
+          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);
+      return "<" + objectToString + " threw " + e.getClass().getName() + ">";
+    }
   }
 
   /**
