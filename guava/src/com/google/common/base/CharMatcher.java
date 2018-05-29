@@ -1538,8 +1538,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     private final char[] rangeStarts;
     private final char @SameLen("rangeStarts")[] rangeEnds;
 
-    @SuppressWarnings("samelen:assignment.type.incompatible") // SameLen transitivity
-    RangesMatcher(String description, char[] rangeStarts, char @SameLen("#2")[] rangeEnds) {
+    RangesMatcher(String description, char @SameLen("#3") [] rangeStarts, char[] rangeEnds) {
       this.description = description;
       this.rangeStarts = rangeStarts;
       this.rangeEnds = rangeEnds;
