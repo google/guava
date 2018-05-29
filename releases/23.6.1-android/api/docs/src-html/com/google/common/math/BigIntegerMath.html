@@ -1,0 +1,546 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.math;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.math.MathPreconditions.checkNonNegative;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.math.MathPreconditions.checkPositive;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static java.math.RoundingMode.CEILING;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import static java.math.RoundingMode.FLOOR;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import static java.math.RoundingMode.HALF_EVEN;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.annotations.Beta;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.annotations.GwtCompatible;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.annotations.GwtIncompatible;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.common.annotations.VisibleForTesting;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.math.BigDecimal;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.math.BigInteger;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.math.RoundingMode;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.ArrayList;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.List;<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>/**<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * A class for arithmetic on values of type {@code BigInteger}.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * &lt;p&gt;The implementations of many methods in this class are based on material from Henry S. Warren,<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * Jr.'s &lt;i&gt;Hacker's Delight&lt;/i&gt;, (Addison Wesley, 2002).<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;Similar functionality for {@code int} and for {@code long} can be found in {@link IntMath} and<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * {@link LongMath} respectively.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * @author Louis Wasserman<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * @since 11.0<a name="line.46"></a>
+<span class="sourceLineNo">047</span> */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>@GwtCompatible(emulated = true)<a name="line.48"></a>
+<span class="sourceLineNo">049</span>public final class BigIntegerMath {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * Returns the smallest power of two greater than or equal to {@code x}. This is equivalent to<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * {@code BigInteger.valueOf(2).pow(log2(x, CEILING))}.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   *<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * @throws IllegalArgumentException if {@code x &lt;= 0}<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * @since 20.0<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  @Beta<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public static BigInteger ceilingPowerOfTwo(BigInteger x) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    return BigInteger.ZERO.setBit(log2(x, RoundingMode.CEILING));<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * Returns the largest power of two less than or equal to {@code x}. This is equivalent to {@code<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * BigInteger.valueOf(2).pow(log2(x, FLOOR))}.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * @throws IllegalArgumentException if {@code x &lt;= 0}<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * @since 20.0<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  @Beta<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  public static BigInteger floorPowerOfTwo(BigInteger x) {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return BigInteger.ZERO.setBit(log2(x, RoundingMode.FLOOR));<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /** Returns {@code true} if {@code x} represents a power of two. */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public static boolean isPowerOfTwo(BigInteger x) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    checkNotNull(x);<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    return x.signum() &gt; 0 &amp;&amp; x.getLowestSetBit() == x.bitLength() - 1;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  /**<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   *<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * @throws IllegalArgumentException if {@code x &lt;= 0}<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *     is not a power of two<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  @SuppressWarnings("fallthrough")<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  // TODO(kevinb): remove after this warning is disabled globally<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public static int log2(BigInteger x, RoundingMode mode) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    checkPositive("x", checkNotNull(x));<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    int logFloor = x.bitLength() - 1;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    switch (mode) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>      case UNNECESSARY:<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        checkRoundingUnnecessary(isPowerOfTwo(x)); // fall through<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      case DOWN:<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      case FLOOR:<a name="line.96"></a>
+<span class="sourceLineNo">097</span>        return logFloor;<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>      case UP:<a name="line.99"></a>
+<span class="sourceLineNo">100</span>      case CEILING:<a name="line.100"></a>
+<span class="sourceLineNo">101</span>        return isPowerOfTwo(x) ? logFloor : logFloor + 1;<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>      case HALF_DOWN:<a name="line.103"></a>
+<span class="sourceLineNo">104</span>      case HALF_UP:<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      case HALF_EVEN:<a name="line.105"></a>
+<span class="sourceLineNo">106</span>        if (logFloor &lt; SQRT2_PRECOMPUTE_THRESHOLD) {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>          BigInteger halfPower =<a name="line.107"></a>
+<span class="sourceLineNo">108</span>              SQRT2_PRECOMPUTED_BITS.shiftRight(SQRT2_PRECOMPUTE_THRESHOLD - logFloor);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>          if (x.compareTo(halfPower) &lt;= 0) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>            return logFloor;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>          } else {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>            return logFloor + 1;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>          }<a name="line.113"></a>
+<span class="sourceLineNo">114</span>        }<a name="line.114"></a>
+<span class="sourceLineNo">115</span>        // Since sqrt(2) is irrational, log2(x) - logFloor cannot be exactly 0.5<a name="line.115"></a>
+<span class="sourceLineNo">116</span>        //<a name="line.116"></a>
+<span class="sourceLineNo">117</span>        // To determine which side of logFloor.5 the logarithm is,<a name="line.117"></a>
+<span class="sourceLineNo">118</span>        // we compare x^2 to 2^(2 * logFloor + 1).<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        BigInteger x2 = x.pow(2);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        int logX2Floor = x2.bitLength() - 1;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>        return (logX2Floor &lt; 2 * logFloor + 1) ? logFloor : logFloor + 1;<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>      default:<a name="line.123"></a>
+<span class="sourceLineNo">124</span>        throw new AssertionError();<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  }<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>  /*<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * The maximum number of bits in a square root for which we'll precompute an explicit half power<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * of two. This can be any value, but higher values incur more class load time and linearly<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * increasing memory consumption.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  @VisibleForTesting static final int SQRT2_PRECOMPUTE_THRESHOLD = 256;<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  @VisibleForTesting<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  static final BigInteger SQRT2_PRECOMPUTED_BITS =<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * Returns the base-10 logarithm of {@code x}, rounded according to the specified rounding mode.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   *<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * @throws IllegalArgumentException if {@code x &lt;= 0}<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   *     is not a power of ten<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  @GwtIncompatible // TODO<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  @SuppressWarnings("fallthrough")<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public static int log10(BigInteger x, RoundingMode mode) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    checkPositive("x", x);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    if (fitsInLong(x)) {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      return LongMath.log10(x.longValue(), mode);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>    int approxLog10 = (int) (log2(x, FLOOR) * LN_2 / LN_10);<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    BigInteger approxPow = BigInteger.TEN.pow(approxLog10);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    int approxCmp = approxPow.compareTo(x);<a name="line.156"></a>
+<span class="sourceLineNo">157</span><a name="line.157"></a>
+<span class="sourceLineNo">158</span>    /*<a name="line.158"></a>
+<span class="sourceLineNo">159</span>     * We adjust approxLog10 and approxPow until they're equal to floor(log10(x)) and<a name="line.159"></a>
+<span class="sourceLineNo">160</span>     * 10^floor(log10(x)).<a name="line.160"></a>
+<span class="sourceLineNo">161</span>     */<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>    if (approxCmp &gt; 0) {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      /*<a name="line.164"></a>
+<span class="sourceLineNo">165</span>       * The code is written so that even completely incorrect approximations will still yield the<a name="line.165"></a>
+<span class="sourceLineNo">166</span>       * correct answer eventually, but in practice this branch should almost never be entered, and<a name="line.166"></a>
+<span class="sourceLineNo">167</span>       * even then the loop should not run more than once.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>       */<a name="line.168"></a>
+<span class="sourceLineNo">169</span>      do {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        approxLog10--;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>        approxPow = approxPow.divide(BigInteger.TEN);<a name="line.171"></a>
+<span class="sourceLineNo">172</span>        approxCmp = approxPow.compareTo(x);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      } while (approxCmp &gt; 0);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    } else {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>      BigInteger nextPow = BigInteger.TEN.multiply(approxPow);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>      int nextCmp = nextPow.compareTo(x);<a name="line.176"></a>
+<span class="sourceLineNo">177</span>      while (nextCmp &lt;= 0) {<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        approxLog10++;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        approxPow = nextPow;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>        approxCmp = nextCmp;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        nextPow = BigInteger.TEN.multiply(approxPow);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>        nextCmp = nextPow.compareTo(x);<a name="line.182"></a>
+<span class="sourceLineNo">183</span>      }<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    }<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>    int floorLog = approxLog10;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    BigInteger floorPow = approxPow;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    int floorCmp = approxCmp;<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>    switch (mode) {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      case UNNECESSARY:<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        checkRoundingUnnecessary(floorCmp == 0);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        // fall through<a name="line.193"></a>
+<span class="sourceLineNo">194</span>      case FLOOR:<a name="line.194"></a>
+<span class="sourceLineNo">195</span>      case DOWN:<a name="line.195"></a>
+<span class="sourceLineNo">196</span>        return floorLog;<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>      case CEILING:<a name="line.198"></a>
+<span class="sourceLineNo">199</span>      case UP:<a name="line.199"></a>
+<span class="sourceLineNo">200</span>        return floorPow.equals(x) ? floorLog : floorLog + 1;<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>      case HALF_DOWN:<a name="line.202"></a>
+<span class="sourceLineNo">203</span>      case HALF_UP:<a name="line.203"></a>
+<span class="sourceLineNo">204</span>      case HALF_EVEN:<a name="line.204"></a>
+<span class="sourceLineNo">205</span>        // Since sqrt(10) is irrational, log10(x) - floorLog can never be exactly 0.5<a name="line.205"></a>
+<span class="sourceLineNo">206</span>        BigInteger x2 = x.pow(2);<a name="line.206"></a>
+<span class="sourceLineNo">207</span>        BigInteger halfPowerSquared = floorPow.pow(2).multiply(BigInteger.TEN);<a name="line.207"></a>
+<span class="sourceLineNo">208</span>        return (x2.compareTo(halfPowerSquared) &lt;= 0) ? floorLog : floorLog + 1;<a name="line.208"></a>
+<span class="sourceLineNo">209</span>      default:<a name="line.209"></a>
+<span class="sourceLineNo">210</span>        throw new AssertionError();<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    }<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>  private static final double LN_10 = Math.log(10);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  private static final double LN_2 = Math.log(2);<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * Returns the square root of {@code x}, rounded with the specified rounding mode.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * @throws IllegalArgumentException if {@code x &lt; 0}<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   *     sqrt(x)} is not an integer<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   */<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  @GwtIncompatible // TODO<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  @SuppressWarnings("fallthrough")<a name="line.225"></a>
+<span class="sourceLineNo">226</span>  public static BigInteger sqrt(BigInteger x, RoundingMode mode) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    checkNonNegative("x", x);<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    if (fitsInLong(x)) {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      return BigInteger.valueOf(LongMath.sqrt(x.longValue(), mode));<a name="line.229"></a>
+<span class="sourceLineNo">230</span>    }<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    BigInteger sqrtFloor = sqrtFloor(x);<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    switch (mode) {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      case UNNECESSARY:<a name="line.233"></a>
+<span class="sourceLineNo">234</span>        checkRoundingUnnecessary(sqrtFloor.pow(2).equals(x)); // fall through<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      case FLOOR:<a name="line.235"></a>
+<span class="sourceLineNo">236</span>      case DOWN:<a name="line.236"></a>
+<span class="sourceLineNo">237</span>        return sqrtFloor;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      case CEILING:<a name="line.238"></a>
+<span class="sourceLineNo">239</span>      case UP:<a name="line.239"></a>
+<span class="sourceLineNo">240</span>        int sqrtFloorInt = sqrtFloor.intValue();<a name="line.240"></a>
+<span class="sourceLineNo">241</span>        boolean sqrtFloorIsExact =<a name="line.241"></a>
+<span class="sourceLineNo">242</span>            (sqrtFloorInt * sqrtFloorInt == x.intValue()) // fast check mod 2^32<a name="line.242"></a>
+<span class="sourceLineNo">243</span>                &amp;&amp; sqrtFloor.pow(2).equals(x); // slow exact check<a name="line.243"></a>
+<span class="sourceLineNo">244</span>        return sqrtFloorIsExact ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      case HALF_DOWN:<a name="line.245"></a>
+<span class="sourceLineNo">246</span>      case HALF_UP:<a name="line.246"></a>
+<span class="sourceLineNo">247</span>      case HALF_EVEN:<a name="line.247"></a>
+<span class="sourceLineNo">248</span>        BigInteger halfSquare = sqrtFloor.pow(2).add(sqrtFloor);<a name="line.248"></a>
+<span class="sourceLineNo">249</span>        /*<a name="line.249"></a>
+<span class="sourceLineNo">250</span>         * We wish to test whether or not x &lt;= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both x<a name="line.250"></a>
+<span class="sourceLineNo">251</span>         * and halfSquare are integers, this is equivalent to testing whether or not x &lt;=<a name="line.251"></a>
+<span class="sourceLineNo">252</span>         * halfSquare.<a name="line.252"></a>
+<span class="sourceLineNo">253</span>         */<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        return (halfSquare.compareTo(x) &gt;= 0) ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      default:<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        throw new AssertionError();<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    }<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  @GwtIncompatible // TODO<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  private static BigInteger sqrtFloor(BigInteger x) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>    /*<a name="line.262"></a>
+<span class="sourceLineNo">263</span>     * Adapted from Hacker's Delight, Figure 11-1.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>     *<a name="line.264"></a>
+<span class="sourceLineNo">265</span>     * Using DoubleUtils.bigToDouble, getting a double approximation of x is extremely fast, and<a name="line.265"></a>
+<span class="sourceLineNo">266</span>     * then we can get a double approximation of the square root. Then, we iteratively improve this<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * guess with an application of Newton's method, which sets guess := (guess + (x / guess)) / 2.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     * This iteration has the following two properties:<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     *<a name="line.269"></a>
+<span class="sourceLineNo">270</span>     * a) every iteration (except potentially the first) has guess &gt;= floor(sqrt(x)). This is<a name="line.270"></a>
+<span class="sourceLineNo">271</span>     * because guess' is the arithmetic mean of guess and x / guess, sqrt(x) is the geometric mean,<a name="line.271"></a>
+<span class="sourceLineNo">272</span>     * and the arithmetic mean is always higher than the geometric mean.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>     *<a name="line.273"></a>
+<span class="sourceLineNo">274</span>     * b) this iteration converges to floor(sqrt(x)). In fact, the number of correct digits doubles<a name="line.274"></a>
+<span class="sourceLineNo">275</span>     * with each iteration, so this algorithm takes O(log(digits)) iterations.<a name="line.275"></a>
+<span class="sourceLineNo">276</span>     *<a name="line.276"></a>
+<span class="sourceLineNo">277</span>     * We start out with a double-precision approximation, which may be higher or lower than the<a name="line.277"></a>
+<span class="sourceLineNo">278</span>     * true value. Therefore, we perform at least one Newton iteration to get a guess that's<a name="line.278"></a>
+<span class="sourceLineNo">279</span>     * definitely &gt;= floor(sqrt(x)), and then continue the iteration until we reach a fixed point.<a name="line.279"></a>
+<span class="sourceLineNo">280</span>     */<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    BigInteger sqrt0;<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    int log2 = log2(x, FLOOR);<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    if (log2 &lt; Double.MAX_EXPONENT) {<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      sqrt0 = sqrtApproxWithDoubles(x);<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    } else {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      int shift = (log2 - DoubleUtils.SIGNIFICAND_BITS) &amp; ~1; // even!<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      /*<a name="line.287"></a>
+<span class="sourceLineNo">288</span>       * We have that x / 2^shift &lt; 2^54. Our initial approximation to sqrtFloor(x) will be<a name="line.288"></a>
+<span class="sourceLineNo">289</span>       * 2^(shift/2) * sqrtApproxWithDoubles(x / 2^shift).<a name="line.289"></a>
+<span class="sourceLineNo">290</span>       */<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      sqrt0 = sqrtApproxWithDoubles(x.shiftRight(shift)).shiftLeft(shift &gt;&gt; 1);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    }<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    BigInteger sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    if (sqrt0.equals(sqrt1)) {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      return sqrt0;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    do {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      sqrt0 = sqrt1;<a name="line.298"></a>
+<span class="sourceLineNo">299</span>      sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    } while (sqrt1.compareTo(sqrt0) &lt; 0);<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    return sqrt0;<a name="line.301"></a>
+<span class="sourceLineNo">302</span>  }<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>  @GwtIncompatible // TODO<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  private static BigInteger sqrtApproxWithDoubles(BigInteger x) {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>  /**<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * RoundingMode}.<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   *<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   *     is not an integer multiple of {@code b}<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   */<a name="line.315"></a>
+<span class="sourceLineNo">316</span>  @GwtIncompatible // TODO<a name="line.316"></a>
+<span class="sourceLineNo">317</span>  public static BigInteger divide(BigInteger p, BigInteger q, RoundingMode mode) {<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    BigDecimal pDec = new BigDecimal(p);<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    BigDecimal qDec = new BigDecimal(q);<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    return pDec.divide(qDec, 0, mode).toBigIntegerExact();<a name="line.320"></a>
+<span class="sourceLineNo">321</span>  }<a name="line.321"></a>
+<span class="sourceLineNo">322</span><a name="line.322"></a>
+<span class="sourceLineNo">323</span>  /**<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * Returns {@code n!}, that is, the product of the first {@code n} positive integers, or {@code 1}<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * if {@code n == 0}.<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   *<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; the result takes &lt;i&gt;O(n log n)&lt;/i&gt; space, so use cautiously.<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   *<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * &lt;p&gt;This uses an efficient binary recursive algorithm to compute the factorial with balanced<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * multiplies. It also removes all the 2s from the intermediate products (shifting them back in at<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   * the end).<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   *<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * @throws IllegalArgumentException if {@code n &lt; 0}<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   */<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  public static BigInteger factorial(int n) {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    checkNonNegative("n", n);<a name="line.336"></a>
+<span class="sourceLineNo">337</span><a name="line.337"></a>
+<span class="sourceLineNo">338</span>    // If the factorial is small enough, just use LongMath to do it.<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    if (n &lt; LongMath.factorials.length) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      return BigInteger.valueOf(LongMath.factorials[n]);<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    }<a name="line.341"></a>
+<span class="sourceLineNo">342</span><a name="line.342"></a>
+<span class="sourceLineNo">343</span>    // Pre-allocate space for our list of intermediate BigIntegers.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    ArrayList&lt;BigInteger&gt; bignums = new ArrayList&lt;&gt;(approxSize);<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>    // Start from the pre-computed maximum long factorial.<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    int startingNumber = LongMath.factorials.length;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    long product = LongMath.factorials[startingNumber - 1];<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    // Strip off 2s from this value.<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    int shift = Long.numberOfTrailingZeros(product);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    product &gt;&gt;= shift;<a name="line.352"></a>
+<span class="sourceLineNo">353</span><a name="line.353"></a>
+<span class="sourceLineNo">354</span>    // Use floor(log2(num)) + 1 to prevent overflow of multiplication.<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    int productBits = LongMath.log2(product, FLOOR) + 1;<a name="line.355"></a>
+<span class="sourceLineNo">356</span>    int bits = LongMath.log2(startingNumber, FLOOR) + 1;<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    // Check for the next power of two boundary, to save us a CLZ operation.<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    int nextPowerOfTwo = 1 &lt;&lt; (bits - 1);<a name="line.358"></a>
+<span class="sourceLineNo">359</span><a name="line.359"></a>
+<span class="sourceLineNo">360</span>    // Iteratively multiply the longs as big as they can go.<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    for (long num = startingNumber; num &lt;= n; num++) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      // Check to see if the floor(log2(num)) + 1 has changed.<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      if ((num &amp; nextPowerOfTwo) != 0) {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        nextPowerOfTwo &lt;&lt;= 1;<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        bits++;<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      }<a name="line.366"></a>
+<span class="sourceLineNo">367</span>      // Get rid of the 2s in num.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      int tz = Long.numberOfTrailingZeros(num);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>      long normalizedNum = num &gt;&gt; tz;<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      shift += tz;<a name="line.370"></a>
+<span class="sourceLineNo">371</span>      // Adjust floor(log2(num)) + 1.<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      int normalizedBits = bits - tz;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      // If it won't fit in a long, then we store off the intermediate product.<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      if (normalizedBits + productBits &gt;= Long.SIZE) {<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        bignums.add(BigInteger.valueOf(product));<a name="line.375"></a>
+<span class="sourceLineNo">376</span>        product = 1;<a name="line.376"></a>
+<span class="sourceLineNo">377</span>        productBits = 0;<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      }<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      product *= normalizedNum;<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      productBits = LongMath.log2(product, FLOOR) + 1;<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    }<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    // Check for leftovers.<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    if (product &gt; 1) {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      bignums.add(BigInteger.valueOf(product));<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    }<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    // Efficiently multiply all the intermediate products together.<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    return listProduct(bignums).shiftLeft(shift);<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  }<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span>  static BigInteger listProduct(List&lt;BigInteger&gt; nums) {<a name="line.390"></a>
+<span class="sourceLineNo">391</span>    return listProduct(nums, 0, nums.size());<a name="line.391"></a>
+<span class="sourceLineNo">392</span>  }<a name="line.392"></a>
+<span class="sourceLineNo">393</span><a name="line.393"></a>
+<span class="sourceLineNo">394</span>  static BigInteger listProduct(List&lt;BigInteger&gt; nums, int start, int end) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    switch (end - start) {<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      case 0:<a name="line.396"></a>
+<span class="sourceLineNo">397</span>        return BigInteger.ONE;<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      case 1:<a name="line.398"></a>
+<span class="sourceLineNo">399</span>        return nums.get(start);<a name="line.399"></a>
+<span class="sourceLineNo">400</span>      case 2:<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        return nums.get(start).multiply(nums.get(start + 1));<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      case 3:<a name="line.402"></a>
+<span class="sourceLineNo">403</span>        return nums.get(start).multiply(nums.get(start + 1)).multiply(nums.get(start + 2));<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      default:<a name="line.404"></a>
+<span class="sourceLineNo">405</span>        // Otherwise, split the list in half and recursively do this.<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        int m = (end + start) &gt;&gt;&gt; 1;<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        return listProduct(nums, start, m).multiply(listProduct(nums, m, end));<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    }<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  }<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>  /**<a name="line.411"></a>
+<span class="sourceLineNo">412</span>   * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and<a name="line.412"></a>
+<span class="sourceLineNo">413</span>   * {@code k}, that is, {@code n! / (k! (n - k)!)}.<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   *<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; the result can take as much as &lt;i&gt;O(k log n)&lt;/i&gt; space.<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   *<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   * @throws IllegalArgumentException if {@code n &lt; 0}, {@code k &lt; 0}, or {@code k &gt; n}<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   */<a name="line.418"></a>
+<span class="sourceLineNo">419</span>  public static BigInteger binomial(int n, int k) {<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    checkNonNegative("n", n);<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    checkNonNegative("k", k);<a name="line.421"></a>
+<span class="sourceLineNo">422</span>    checkArgument(k &lt;= n, "k (%s) &gt; n (%s)", k, n);<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    if (k &gt; (n &gt;&gt; 1)) {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      k = n - k;<a name="line.424"></a>
+<span class="sourceLineNo">425</span>    }<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    if (k &lt; LongMath.biggestBinomials.length &amp;&amp; n &lt;= LongMath.biggestBinomials[k]) {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      return BigInteger.valueOf(LongMath.binomial(n, k));<a name="line.427"></a>
+<span class="sourceLineNo">428</span>    }<a name="line.428"></a>
+<span class="sourceLineNo">429</span><a name="line.429"></a>
+<span class="sourceLineNo">430</span>    BigInteger accum = BigInteger.ONE;<a name="line.430"></a>
+<span class="sourceLineNo">431</span><a name="line.431"></a>
+<span class="sourceLineNo">432</span>    long numeratorAccum = n;<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    long denominatorAccum = 1;<a name="line.433"></a>
+<span class="sourceLineNo">434</span><a name="line.434"></a>
+<span class="sourceLineNo">435</span>    int bits = LongMath.log2(n, RoundingMode.CEILING);<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>    int numeratorBits = bits;<a name="line.437"></a>
+<span class="sourceLineNo">438</span><a name="line.438"></a>
+<span class="sourceLineNo">439</span>    for (int i = 1; i &lt; k; i++) {<a name="line.439"></a>
+<span class="sourceLineNo">440</span>      int p = n - i;<a name="line.440"></a>
+<span class="sourceLineNo">441</span>      int q = i + 1;<a name="line.441"></a>
+<span class="sourceLineNo">442</span><a name="line.442"></a>
+<span class="sourceLineNo">443</span>      // log2(p) &gt;= bits - 1, because p &gt;= n/2<a name="line.443"></a>
+<span class="sourceLineNo">444</span><a name="line.444"></a>
+<span class="sourceLineNo">445</span>      if (numeratorBits + bits &gt;= Long.SIZE - 1) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>        // The numerator is as big as it can get without risking overflow.<a name="line.446"></a>
+<span class="sourceLineNo">447</span>        // Multiply numeratorAccum / denominatorAccum into accum.<a name="line.447"></a>
+<span class="sourceLineNo">448</span>        accum =<a name="line.448"></a>
+<span class="sourceLineNo">449</span>            accum<a name="line.449"></a>
+<span class="sourceLineNo">450</span>                .multiply(BigInteger.valueOf(numeratorAccum))<a name="line.450"></a>
+<span class="sourceLineNo">451</span>                .divide(BigInteger.valueOf(denominatorAccum));<a name="line.451"></a>
+<span class="sourceLineNo">452</span>        numeratorAccum = p;<a name="line.452"></a>
+<span class="sourceLineNo">453</span>        denominatorAccum = q;<a name="line.453"></a>
+<span class="sourceLineNo">454</span>        numeratorBits = bits;<a name="line.454"></a>
+<span class="sourceLineNo">455</span>      } else {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>        // We can definitely multiply into the long accumulators without overflowing them.<a name="line.456"></a>
+<span class="sourceLineNo">457</span>        numeratorAccum *= p;<a name="line.457"></a>
+<span class="sourceLineNo">458</span>        denominatorAccum *= q;<a name="line.458"></a>
+<span class="sourceLineNo">459</span>        numeratorBits += bits;<a name="line.459"></a>
+<span class="sourceLineNo">460</span>      }<a name="line.460"></a>
+<span class="sourceLineNo">461</span>    }<a name="line.461"></a>
+<span class="sourceLineNo">462</span>    return accum<a name="line.462"></a>
+<span class="sourceLineNo">463</span>        .multiply(BigInteger.valueOf(numeratorAccum))<a name="line.463"></a>
+<span class="sourceLineNo">464</span>        .divide(BigInteger.valueOf(denominatorAccum));<a name="line.464"></a>
+<span class="sourceLineNo">465</span>  }<a name="line.465"></a>
+<span class="sourceLineNo">466</span><a name="line.466"></a>
+<span class="sourceLineNo">467</span>  // Returns true if BigInteger.valueOf(x.longValue()).equals(x).<a name="line.467"></a>
+<span class="sourceLineNo">468</span>  @GwtIncompatible // TODO<a name="line.468"></a>
+<span class="sourceLineNo">469</span>  static boolean fitsInLong(BigInteger x) {<a name="line.469"></a>
+<span class="sourceLineNo">470</span>    return x.bitLength() &lt;= Long.SIZE - 1;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>  }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>  private BigIntegerMath() {}<a name="line.473"></a>
+<span class="sourceLineNo">474</span>}<a name="line.474"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
