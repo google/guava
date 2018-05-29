@@ -16,10 +16,8 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -77,20 +75,6 @@ final class Platform {
   }
 
   private static PatternCompiler loadPatternCompiler() {
-    ServiceLoader<PatternCompiler> loader = ServiceLoader.load(PatternCompiler.class);
-    // Returns the first PatternCompiler that loads successfully.
-    try {
-      for (Iterator<PatternCompiler> it = loader.iterator(); it.hasNext(); ) {
-        try {
-          return it.next();
-        } catch (ServiceConfigurationError e) {
-          logPatternCompilerError(e);
-        }
-      }
-    } catch (ServiceConfigurationError e) { // from hasNext()
-      logPatternCompilerError(e);
-    }
-    // Fall back to the JDK regex library.
     return new JdkPatternCompiler();
   }
 
