@@ -246,7 +246,6 @@ public final class ImmutableIntArray implements Serializable {
      * Calling ensureRoomFor(values.length) ensures that count is @LTLengthOf(value="array", offset="values.length-1").
      * That also implies that values.length is @LTLengthOf(value="array", offset="count-1")
      */
-    @SuppressWarnings("upperbound:argument.type.incompatible") // https://github.com/typetools/checker-framework/issues/1975 or https://github.com/typetools/checker-framework/issues/1976
     public Builder addAll(int[] values) {
       ensureRoomFor(values.length);
       System.arraycopy(values, 0, array, count, values.length);
@@ -331,7 +330,7 @@ public final class ImmutableIntArray implements Serializable {
       "upperbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
       "contracts.postcondition.not.satisfied", // postcondition
     })
-    @EnsuresLTLengthOf(value = "count", targetValue = "array", offset = "#1 - 1")
+    @EnsuresLTLengthOf(value = {"count", "#1"}, targetValue = {"array", "array"}, offset = {"#1 - 1","count - 1"})
     private void ensureRoomFor(@NonNegative int numberToAdd) {
       int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?
       if (newCount > array.length) {
