@@ -2243,7 +2243,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         if (newValue != null) {
           if (valueReference != null && newValue == valueReference.get()) {
             loadingValueReference.set(newValue);
-            setValue(e, key, newValue, now);
+            e.setValueReference(valueReference);
+            recordWrite(e, 0, now); // no change in weight
             return newValue;
           }
           try {

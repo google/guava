@@ -55,6 +55,30 @@ public class LocalCacheMapComputeTest extends TestCase {
     assertEquals(1, cache.size());
   }
 
+  public void testComputeIfAbsentEviction() {
+    // b/80241237
+
+    Cache<String, String> c = CacheBuilder.newBuilder().maximumSize(1).build();
+
+    assertThat(c.asMap().computeIfAbsent("hash-1", k -> "")).isEqualTo("");
+    assertThat(c.asMap().computeIfAbsent("hash-1", k -> "")).isEqualTo("");
+    assertThat(c.asMap().computeIfAbsent("hash-1", k -> "")).isEqualTo("");
+    assertThat(c.size()).isEqualTo(1);
+    assertThat(c.asMap().computeIfAbsent("hash-2", k -> "")).isEqualTo("");
+  }
+
+  public void testComputeEviction() {
+    // b/80241237
+
+    Cache<String, String> c = CacheBuilder.newBuilder().maximumSize(1).build();
+
+    assertThat(c.asMap().compute("hash-1", (k, v) -> "a")).isEqualTo("a");
+    assertThat(c.asMap().compute("hash-1", (k, v) -> "b")).isEqualTo("b");
+    assertThat(c.asMap().compute("hash-1", (k, v) -> "c")).isEqualTo("c");
+    assertThat(c.size()).isEqualTo(1);
+    assertThat(c.asMap().computeIfAbsent("hash-2", k -> "")).isEqualTo("");
+  }
+
   public void testComputeIfPresent() {
     cache.put(key, "1");
     // simultaneous update for same key, expect count successful updates
