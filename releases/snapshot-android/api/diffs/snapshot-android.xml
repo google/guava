@@ -6310,8 +6310,8 @@
       <doc>
       <![CDATA[Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
  the corresponding argument value from {@code args}; or, if the placeholder and argument counts
- do not match, returns a best-effort form of that string. Will not throw an exception under any
- circumstances (as long as all arguments' {@code toString} methods successfully return).
+ do not match, returns a best-effort form of that string. Will not throw an exception under
+ normal conditions.
 
  <p><b>Note:</b> For most string-formatting needs, use {@link String#format}, {@link
  PrintWriter#format}, and related methods. These support the full range of {@linkplain
