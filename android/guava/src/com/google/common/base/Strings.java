@@ -213,15 +213,29 @@ public final class Strings {
   }
 
   /**
+   * True when a valid surrogate pair starts at the given {@code index} in the given {@code string}.
+   * Out-of-range indexes return false.
+   */
+  @VisibleForTesting
+  static boolean validSurrogatePairAt(CharSequence string, int index) {
+    return index >= 0
+        && index <= (string.length() - 2)
+        && Character.isHighSurrogate(string.charAt(index))
+        && Character.isLowSurrogate(string.charAt(index + 1));
+  }
+
+  /**
    * Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
    * the corresponding argument value from {@code args}; or, if the placeholder and argument counts
    * do not match, returns a best-effort form of that string. Will not throw an exception under
    * normal conditions.
    *
-   * <p><b>Note:</b> For most string-formatting needs, use {@link String#format}, {@link
-   * PrintWriter#format}, and related methods. These support the full range of {@linkplain
-   * Formatter#syntax format specifiers}, and alert you to usage errors by throwing {@link
-   * InvalidFormatException}.
+   * <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
+   * {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
+   * full range of <a
+   * href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+   * specifiers</a>, and alert you to usage errors by throwing {@link
+   * java.util.IllegalFormatException}.
    *
    * <p>In certain cases, such as outputting debugging information or constructing a message to be
    * used for another unchecked exception, an exception during string formatting would serve little
@@ -295,17 +309,5 @@ public final class Strings {
           .log(WARNING, "Exception during lenientFormat for " + objectToString, e);
       return "<" + objectToString + " threw " + e.getClass().getName() + ">";
     }
-  }
-
-  /**
-   * True when a valid surrogate pair starts at the given {@code index} in the given {@code string}.
-   * Out-of-range indexes return false.
-   */
-  @VisibleForTesting
-  static boolean validSurrogatePairAt(CharSequence string, int index) {
-    return index >= 0
-        && index <= (string.length() - 2)
-        && Character.isHighSurrogate(string.charAt(index))
-        && Character.isLowSurrogate(string.charAt(index + 1));
   }
 }
