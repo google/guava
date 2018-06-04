@@ -406,7 +406,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lenientFormat</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.246">lenientFormat</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Strings.html#line.260">lenientFormat</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;template,
                                    <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;args)</pre>
@@ -415,7 +415,11 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
  do not match, returns a best-effort form of that string. Will not throw an exception under
  normal conditions.
 
- <p><b>Note:</b> For most string-formatting needs, use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#format-java.lang.String-java.lang.Object...-" title="class or interface in java.lang"><code>String.format(java.lang.String, java.lang.Object...)</code></a>, <code>PrintWriter#format</code>, and related methods. These support the full range of format specifiers, and alert you to usage errors by throwing <code>InvalidFormatException</code>.
+ <p><b>Note:</b> For most string-formatting needs, use <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true#format-java.lang.String-java.lang.Object...-" title="class or interface in java.lang"><code>String.format</code></a>,
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/io/PrintWriter.html?is-external=true#format-java.lang.String-java.lang.Object...-" title="class or interface in java.io"><code>PrintWriter.format</code></a>, and related methods. These support the
+ full range of <a
+ href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+ specifiers</a>, and alert you to usage errors by throwing <a href="https://docs.oracle.com/javase/9/docs/api/java/util/IllegalFormatException.html?is-external=true" title="class or interface in java.util"><code>IllegalFormatException</code></a>.
 
  <p>In certain cases, such as outputting debugging information or constructing a message to be
  used for another unchecked exception, an exception during string formatting would serve little
