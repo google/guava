@@ -48,7 +48,7 @@ import junit.framework.TestSuite;
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   /**
-   * This classloader blacklists AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
+   * This classloader disallows AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
    * prevent us from selecting our {@code SafeAtomicHelper} strategy.
    *
    * <p>Stashing this in a static field avoids loading it over and over again and speeds up test
@@ -81,7 +81,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     checkHelperVersion(getClass().getClassLoader(), "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_FIELD_UPDATER, "SynchronizedAtomicHelper");
 
-    // Run the corresponding FuturesTest test method in a new classloader that blacklists
+    // Run the corresponding FuturesTest test method in a new classloader that disallows
     // certain core jdk classes.
     ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(NO_ATOMIC_FIELD_UPDATER);
@@ -110,14 +110,14 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
   }
 
-  private static ClassLoader getClassLoader(final Set<String> blacklist) {
+  private static ClassLoader getClassLoader(final Set<String> blocklist) {
     final String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AggregateFutureStateFallbackAtomicHelperTest.class.getClassLoader();
     // we delegate to the current classloader so both loaders agree on classes like TestCase
     return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        if (blacklist.contains(name)) {
+        if (blocklist.contains(name)) {
           throw new ClassNotFoundException("I'm sorry Dave, I'm afraid I can't do that.");
         }
         if (name.startsWith(concurrentPackage)) {
