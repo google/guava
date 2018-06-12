@@ -476,7 +476,7 @@
 <span class="sourceLineNo">468</span>  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod();<a name="line.468"></a>
 <span class="sourceLineNo">469</span><a name="line.469"></a>
 <span class="sourceLineNo">470</span>  /**<a name="line.470"></a>
-<span class="sourceLineNo">471</span>   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not whitelisted for<a name="line.471"></a>
+<span class="sourceLineNo">471</span>   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in<a name="line.471"></a>
 <span class="sourceLineNo">472</span>   * AppEngine, and not present in non-Sun JDKs.<a name="line.472"></a>
 <span class="sourceLineNo">473</span>   */<a name="line.473"></a>
 <span class="sourceLineNo">474</span>  @GwtIncompatible // java.lang.reflect<a name="line.474"></a>
@@ -494,7 +494,7 @@
 <span class="sourceLineNo">486</span>      throw death;<a name="line.486"></a>
 <span class="sourceLineNo">487</span>    } catch (Throwable t) {<a name="line.487"></a>
 <span class="sourceLineNo">488</span>      /*<a name="line.488"></a>
-<span class="sourceLineNo">489</span>       * This is not one of AppEngine's whitelisted classes, so even in Sun JDKs, this can fail with<a name="line.489"></a>
+<span class="sourceLineNo">489</span>       * This is not one of AppEngine's allowed classes, so even in Sun JDKs, this can fail with<a name="line.489"></a>
 <span class="sourceLineNo">490</span>       * a NoClassDefFoundError. Other apps might deny access to sun.misc packages.<a name="line.490"></a>
 <span class="sourceLineNo">491</span>       */<a name="line.491"></a>
 <span class="sourceLineNo">492</span>      return null;<a name="line.492"></a>
