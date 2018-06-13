@@ -115,6 +115,32 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
     expectReplacement(entry(k0(), v3()));
   }
 
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
+  @CollectionSize.Require(absent = ZERO)
+  public void testSetValueWithNullValuesPresent() {
+    for (Entry<K, V> entry : getMap().entrySet()) {
+      if (entry.getKey().equals(k0())) {
+        assertEquals("entry.setValue() should return the old value", v0(), entry.setValue(null));
+        break;
+      }
+    }
+    expectReplacement(entry(k0(), (V) null));
+  }
+
+  @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)
+  @CollectionSize.Require(absent = ZERO)
+  public void testSetValueWithNullValuesAbsent() {
+    for (Entry<K, V> entry : getMap().entrySet()) {
+      try {
+        entry.setValue(null);
+        fail("Expected NullPointerException");
+      } catch (NullPointerException exception) {
+        break;
+      }
+    }
+    expectUnchanged();
+  }
+
   @GwtIncompatible // reflection
   public static Method getContainsEntryWithIncomparableKeyMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testContainsEntryWithIncomparableKey");
@@ -128,5 +154,15 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @GwtIncompatible // reflection
   public static Method getSetValueMethod() {
     return Helpers.getMethod(MapEntrySetTester.class, "testSetValue");
+  }
+
+  @GwtIncompatible // reflection
+  public static Method getSetValueWithNullValuesPresentMethod() {
+    return Helpers.getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesPresent");
+  }
+
+  @GwtIncompatible // reflection
+  public static Method getSetValueWithNullValuesAbsentMethod() {
+    return Helpers.getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesAbsent");
   }
 }
