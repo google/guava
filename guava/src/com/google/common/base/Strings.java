@@ -66,7 +66,7 @@ public final class Strings {
    * @param string a string reference to check
    * @return {@code true} if the string is null or is the empty string
    */
-  @EnsuresNonNullIf(result = false, expression = "#1")
+  @EnsuresNonNullIf(expression = "#1", result = false)
   public static boolean isNullOrEmpty(@Nullable String string) {
     return Platform.stringIsNullOrEmpty(string);
   }
