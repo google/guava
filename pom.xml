@@ -18,7 +18,7 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>0.35</truth.version>
+    <truth.version>0.41</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
   </properties>
