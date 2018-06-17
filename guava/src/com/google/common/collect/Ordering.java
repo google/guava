@@ -414,7 +414,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   // type parameter <S> lets us avoid the extra <String> in statements like:
   // Ordering<String> o = Ordering.<String>natural().nullsFirst();
   @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsFirst() {
+  public <S extends T> Ordering<@Nullable S> nullsFirst() {
     return new NullsFirstOrdering<S>(this);
   }
 
@@ -427,7 +427,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   // type parameter <S> lets us avoid the extra <String> in statements like:
   // Ordering<String> o = Ordering.<String>natural().nullsLast();
   @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsLast() {
+  public <S extends T> Ordering<@Nullable S> nullsLast() {
     return new NullsLastOrdering<S>(this);
   }
 

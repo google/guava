@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -165,7 +166,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
   @CanIgnoreReturnValue
-  public final @Nullable B convert(@Nullable A a) {
+  public final @PolyNull B convert(@PolyNull A a) {
     return correctedDoForward(a);
   }
 
