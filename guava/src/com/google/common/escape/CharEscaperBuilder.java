@@ -19,6 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,7 +46,7 @@ public final class CharEscaperBuilder {
    */
   private static class CharArrayDecorator extends CharEscaper {
     private final char[][] replacements;
-    private final int replaceLength;
+    private final @LTEqLengthOf("replacements") int replaceLength;
 
     CharArrayDecorator(char[][] replacements) {
       this.replacements = replacements;
@@ -52,6 +57,7 @@ public final class CharEscaperBuilder {
      * Overriding escape method to be slightly faster for this decorator. We test the replacements
      * array directly, saving a method call.
      */
+    @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
     @Override
     public String escape(String s) {
       int slen = s.length();
@@ -64,6 +70,7 @@ public final class CharEscaperBuilder {
       return s;
     }
 
+    @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
     @Override
     protected char[] escape(char c) {
       return c < replaceLength ? replacements[c] : null;
@@ -74,7 +81,7 @@ public final class CharEscaperBuilder {
   private final Map<Character, String> map;
 
   // The highest index we've seen so far.
-  private int max = -1;
+  private @GTENegativeOne int max = -1;
 
   /** Construct a new sparse array builder. */
   public CharEscaperBuilder() {
@@ -108,9 +115,12 @@ public final class CharEscaperBuilder {
    *
    * @return a "sparse" array that holds the replacement mappings.
    */
+  @SuppressWarnings(value = {"array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+          "array.access.unsafe.high"})//Charater is annotated to be less than "max + 1" which is the length of result
+          // => enate checker to parse "result[]" in @IndexFor() or @LTLengthOf()
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
-    for (Entry<Character, String> entry : map.entrySet()) {
+    for (Entry<@LessThan("max + 1") Character, String> entry : map.entrySet()) {
       result[entry.getKey()] = entry.getValue().toCharArray();
     }
     return result;
