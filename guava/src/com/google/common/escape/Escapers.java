@@ -21,7 +21,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@link Escaper} instances.
@@ -211,7 +215,7 @@ public final class Escapers {
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement string, or {@code null} if no escaping was needed
    */
-  public static String computeReplacement(UnicodeEscaper escaper, int cp) {
+  public static String computeReplacement(UnicodeEscaper escaper, @NonNegative int cp) {
     return stringOrNull(escaper.escape(cp));
   }
 
@@ -219,6 +223,11 @@ public final class Escapers {
     return (in == null) ? null : new String(in);
   }
 
+  @SuppressWarnings(value = {"assignment.type.incompatible",//checker was not able to parse
+  // int hiCount = hiChars != null ? hiChars.length : 1;
+          "array.access.unsafe.high"//output.length is hiCount + loCount, both for loop has index
+          // value start from zero and max incremented value is either hiCount or loCount
+  })
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
   private static UnicodeEscaper wrap(final CharEscaper escaper) {
     return new UnicodeEscaper() {
@@ -232,7 +241,7 @@ public final class Escapers {
         // Note: This code path is horribly slow and typically allocates 4 new
         // char[] each time it is invoked. However this avoids any
         // synchronization issues and makes the escaper thread safe.
-        char[] surrogateChars = new char[2];
+        char @MinLen(2)[] surrogateChars = new char[2];
         Character.toChars(cp, surrogateChars, 0);
         char[] hiChars = escaper.escape(surrogateChars[0]);
         char[] loChars = escaper.escape(surrogateChars[1]);
@@ -246,9 +255,9 @@ public final class Escapers {
           return null;
         }
         // Combine the characters and/or escaped sequences into a single array.
-        int hiCount = hiChars != null ? hiChars.length : 1;
-        int loCount = loChars != null ? loChars.length : 1;
-        char[] output = new char[hiCount + loCount];
+        @LengthOf("hiChars") int hiCount = hiChars != null ? hiChars.length : 1;
+        @LengthOf("loChars") int loCount = loChars != null ? loChars.length : 1;
+        char @MinLen(1)[] output = new char[hiCount + loCount];
         if (hiChars != null) {
           // TODO: Is this faster than System.arraycopy() for small arrays?
           for (int n = 0; n < hiChars.length; ++n) {
