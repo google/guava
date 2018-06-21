@@ -18,6 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.IndexFor;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -93,14 +98,18 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-  protected final String escapeSlow(String s, int index) {
-    int slen = s.length();
+
+  @SuppressWarnings(value = {"assignment.type.incompatible",//constant 0 is still less than length of the s array
+          "argument.type.incompatible",//int rlen is assigned as length of the r array
+  })
+  protected final String escapeSlow(String s, @IndexFor("#1") int index) {
+    @LengthOf("s") int slen = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
-    int destSize = dest.length;
-    int destIndex = 0;
-    int lastEscape = 0;
+    @LengthOf("dest") int destSize = dest.length;
+    @LTLengthOf(value = {"s","dest"}) int destIndex = 0;
+    @LTLengthOf("s") int lastEscape = 0;
 
     // Loop through the rest of the string, replacing when needed into the
     // destination buffer, which gets grown as needed as well.
@@ -114,7 +123,7 @@ public abstract class CharEscaper extends Escaper {
         continue;
       }
 
-      int rlen = r.length;
+      @LengthOf("r") int rlen = r.length;
       int charsSkipped = index - lastEscape;
 
       // This is the size needed to add the replacement, not the full size
@@ -159,7 +168,7 @@ public abstract class CharEscaper extends Escaper {
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
-  private static char[] growBuffer(char[] dest, int index, int size) {
+  private static char[] growBuffer(char[] dest, @LessThan("#3") @LTEqLengthOf("#1") int index, int size) {
     if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it
       throw new AssertionError("Cannot increase internal buffer any further");
     }
