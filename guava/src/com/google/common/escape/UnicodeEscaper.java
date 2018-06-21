@@ -18,6 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.SameLen;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
@@ -77,7 +84,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement characters, or {@code null} if no escaping was needed
    */
-  protected abstract char[] escape(int cp);
+  protected abstract char[] escape(@NonNegative int cp);
 
   /**
    * Returns the escaped form of a given literal string.
@@ -100,8 +107,8 @@ public abstract class UnicodeEscaper extends Escaper {
   @Override
   public String escape(String string) {
     checkNotNull(string);
-    int end = string.length();
-    int index = nextEscapeIndex(string, 0, end);
+    @LengthOf("string") int end = string.length();
+    @IndexOrHigh("string") int index = nextEscapeIndex(string, 0, end);
     return index == end ? string : escapeSlow(string, index);
   }
 
@@ -127,8 +134,10 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  protected int nextEscapeIndex(CharSequence csq, int start, int end) {
-    int index = start;
+  @SuppressWarnings("compound.assignment.type.incompatible")//index += Character.isSupplementaryCodePoint(cp) ? 2 : 1 occurs
+  //only if escape(cp) == null( cp is not supplementaryCodePoint)
+  protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
+    @IndexOrHigh("#1") int index = start;
     while (index < end) {
       int cp = codePointAt(csq, index, end);
       if (cp < 0 || escape(cp) != null) {
@@ -154,16 +163,22 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
-  protected final String escapeSlow(String s, int index) {
-    int end = s.length();
+  @SuppressWarnings(value = {"assignment.type.incompatible",//use of indexInternal = index cause this.
+          "argument.type.incompatible"//(203,64): escaped.length is length of escaped, so it should be already
+          //inferred as @LTEqLengthOf("escaped")
+  })
+  protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
+    @LengthOf("s") int end = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
-    int destIndex = 0;
-    int unescapedChunkStart = 0;
+    @IndexOrHigh(value = {"s", "dest"}) int destIndex = 0;
+    int destIndexInternal = destIndex;
+    @IndexFor("s") int indexInternal = index;
+    @IndexOrHigh("s") int unescapedChunkStart = 0;
 
-    while (index < end) {
-      int cp = codePointAt(s, index, end);
+    while (indexInternal < end) {
+      int cp = codePointAt(s, indexInternal, end);
       if (cp < 0) {
         throw new IllegalArgumentException("Trailing high surrogate at end of input");
       }
@@ -171,7 +186,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+      @IndexOrHigh("s") int nextIndex = indexInternal + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
@@ -185,11 +200,11 @@ public abstract class UnicodeEscaper extends Escaper {
         // If we have skipped any characters, we need to copy them now.
         if (charsSkipped > 0) {
           s.getChars(unescapedChunkStart, index, dest, destIndex);
-          destIndex += charsSkipped;
+            destIndexInternal += charsSkipped;
         }
         if (escaped.length > 0) {
           System.arraycopy(escaped, 0, dest, destIndex, escaped.length);
-          destIndex += escaped.length;
+          destIndexInternal += escaped.length;
         }
         // If we dealt with an escaped character, reset the unescaped range.
         unescapedChunkStart = nextIndex;
@@ -242,16 +257,17 @@ public abstract class UnicodeEscaper extends Escaper {
    * @return the Unicode code point for the given index or the negated value of the trailing high
    *     surrogate character at the end of the sequence
    */
-  protected static int codePointAt(CharSequence seq, int index, int end) {
+  protected static int codePointAt(CharSequence seq, @IndexFor("#1") int index, @IndexOrHigh("#1") int end) {
     checkNotNull(seq);
-    if (index < end) {
-      char c1 = seq.charAt(index++);
+    @IndexOrHigh("seq") int indexInternal = index;
+    if (indexInternal < end) {
+      char c1 = seq.charAt(indexInternal++);
       if (c1 < Character.MIN_HIGH_SURROGATE || c1 > Character.MAX_LOW_SURROGATE) {
         // Fast path (first test is probably all we need to do)
         return c1;
       } else if (c1 <= Character.MAX_HIGH_SURROGATE) {
         // If the high surrogate was the last character, return its inverse
-        if (index == end) {
+        if (indexInternal == end) {
           return -c1;
         }
         // Otherwise look for the low surrogate following it
@@ -289,7 +305,9 @@ public abstract class UnicodeEscaper extends Escaper {
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
-  private static char[] growBuffer(char[] dest, int index, int size) {
+  @SuppressWarnings("argument.type.incompatible")//upper bound checker does not infer size
+  //as size of the array. Issue: https://github.com/typetools/checker-framework/issues/2029
+  private static char[] growBuffer(char[] dest,  @LTEqLengthOf("#1") @LessThan("#3 + 1") int index, int size) {
     if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it
       throw new AssertionError("Cannot increase internal buffer any further");
     }
