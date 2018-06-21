@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+
+import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -46,7 +48,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;
   // The number of elements in the replacement array.
-  private final int replacementsLength;
+  private final @LengthOf("replacements") int replacementsLength;
   // The first code point in the safe range.
   private final int safeMin;
   // The last code point in the safe range.
@@ -70,10 +72,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      Map<Character, String> replacementMap,
-      int safeMin,
-      int safeMax,
-      @Nullable String unsafeReplacement) {
+          Map<Character, String> replacementMap,
+          int safeMin,
+          int safeMax,
+          @Nullable String unsafeReplacement) {
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);
   }
 
@@ -93,10 +95,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      ArrayBasedEscaperMap escaperMap,
-      int safeMin,
-      int safeMax,
-      @Nullable String unsafeReplacement) {
+          ArrayBasedEscaperMap escaperMap,
+          int safeMin,
+          int safeMax,
+          @Nullable String unsafeReplacement) {
     checkNotNull(escaperMap); // GWT specific check (do not optimize)
     this.replacements = escaperMap.getReplacementArray();
     this.replacementsLength = replacements.length;
@@ -139,14 +141,15 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * This is overridden to improve performance. Rough benchmarking shows that this almost doubles
    * the speed when processing strings that do not require any escaping.
    */
+  @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   public final String escape(String s) {
     checkNotNull(s); // GWT specific check (do not optimize)
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       if ((c < replacementsLength && replacements[c] != null)
-          || c > safeMaxChar
-          || c < safeMinChar) {
+              || c > safeMaxChar
+              || c < safeMinChar) {
         return escapeSlow(s, i);
       }
     }
@@ -159,7 +162,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * {@link #escapeUnsafe} is called.
    */
   @Override
-  protected final char[] escape(int cp) {
+  protected final char[] escape(@NonNegative int cp) {
     if (cp < replacementsLength) {
       char[] chars = replacements[cp];
       if (chars != null) {
@@ -173,13 +176,14 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   }
 
   /* Overridden for performance. */
+  @SuppressWarnings(value = {"array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
-  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {
+  protected final int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int index, @IndexOrHigh("#1") int end) {
     while (index < end) {
       char c = csq.charAt(index);
       if ((c < replacementsLength && replacements[c] != null)
-          || c > safeMaxChar
-          || c < safeMinChar) {
+              || c > safeMaxChar
+              || c < safeMinChar) {
         break;
       }
       index++;
