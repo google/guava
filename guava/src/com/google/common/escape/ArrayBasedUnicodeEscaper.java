@@ -20,7 +20,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 
-import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -176,7 +178,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   }
 
   /* Overridden for performance. */
-  @SuppressWarnings(value = {"array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+  @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   protected final int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int index, @IndexOrHigh("#1") int end) {
     while (index < end) {
