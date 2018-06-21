@@ -19,6 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -65,6 +68,9 @@ public final class ArrayBasedEscaperMap {
   // Creates a replacement array from the given map. The returned array is a
   // linear lookup table of replacement character sequences indexed by the
   // original character value.
+  @SuppressWarnings(value = {"array.length.negative", "array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+          "array.access.unsafe.high"//key in map should be annotated as either @LessThan("max + 1") or @LTLengthOf("replacements"), none are possible for now
+  })
   @VisibleForTesting
   static char[][] createReplacementArray(Map<Character, String> map) {
     checkNotNull(map); // GWT specific check (do not optimize)
