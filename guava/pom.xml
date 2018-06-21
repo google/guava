@@ -22,7 +22,7 @@
     <!-- Index checker warnings are disabled by default, because not all code is annotated by index checker annotations. -->
     <checkerframework.suppress>index</checkerframework.suppress>
     <!-- Packages under com.google.common, that will be additionally checked by the Index Checker -->
-    <checkerframework.index.packages>base|primitives</checkerframework.index.packages>
+    <checkerframework.index.packages>base|primitives|escape</checkerframework.index.packages>
     <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
     <!-- Additional argument passed to the java compiler. Use to pass additional arguments to the checker framework. Example: -Ashowchecks -->
     <checkerframework.extraargs></checkerframework.extraargs>
