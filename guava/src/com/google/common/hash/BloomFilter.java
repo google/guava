@@ -226,11 +226,11 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
    */
   public boolean isCompatible(BloomFilter<T> that) {
     checkNotNull(that);
-    return (this != that)
-        && (this.numHashFunctions == that.numHashFunctions)
-        && (this.bitSize() == that.bitSize())
-        && (this.strategy.equals(that.strategy))
-        && (this.funnel.equals(that.funnel));
+    return this != that
+        && this.numHashFunctions == that.numHashFunctions
+        && this.bitSize() == that.bitSize()
+        && this.strategy.equals(that.strategy)
+        && this.funnel.equals(that.funnel);
   }
 
   /**

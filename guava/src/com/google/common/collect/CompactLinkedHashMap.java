@@ -135,7 +135,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   private void setPredecessor(int entry, int pred) {
-    long predMask = (~0L) << 32;
+    long predMask = ~0L << 32;
     links[entry] = (links[entry] & ~predMask) | ((long) pred << 32);
   }
 
