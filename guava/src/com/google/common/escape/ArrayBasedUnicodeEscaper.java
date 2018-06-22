@@ -74,10 +74,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-          Map<Character, String> replacementMap,
-          int safeMin,
-          int safeMax,
-          @Nullable String unsafeReplacement) {
+      Map<Character, String> replacementMap,
+      int safeMin,
+      int safeMax,
+      @Nullable String unsafeReplacement) {
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);
   }
 
