@@ -115,7 +115,7 @@ public final class CharEscaperBuilder {
    * @return a "sparse" array that holds the replacement mappings.
    */
   @SuppressWarnings(value = {"array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "enhanced.for.type.incompatible"/* Key( Character type) in `map` is required to be NonNegative
+          "enhancedfor.type.incompatible"/* Key( Character type) in `map` is required to be NonNegative
           and LTLengthOf("result") to match `entry`.
           For NonNegative, link to issue https://github.com/kelloggm/checker-framework/issues/192
           LTLengthOf("result") is false positive because `result` is a local variable declared inside of toArray()
