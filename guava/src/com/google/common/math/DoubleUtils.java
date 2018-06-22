@@ -116,7 +116,7 @@ final class DoubleUtils {
     boolean increment =
         (twiceSignifFloor & 1) != 0 && ((signifFloor & 1) != 0 || absX.getLowestSetBit() < shift);
     long signifRounded = increment ? signifFloor + 1 : signifFloor;
-    long bits = (long) ((exponent + EXPONENT_BIAS)) << SIGNIFICAND_BITS;
+    long bits = (long) (exponent + EXPONENT_BIAS) << SIGNIFICAND_BITS;
     bits += signifRounded;
     /*
      * If signifRounded == 2^53, we'd need to set all of the significand bits to zero and add 1 to

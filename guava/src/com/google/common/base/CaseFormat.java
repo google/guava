@@ -202,7 +202,7 @@ public enum CaseFormat {
   }
 
   private static String firstCharOnlyToUpper(String word) {
-    return (word.isEmpty())
+    return word.isEmpty()
         ? word
         : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));
   }

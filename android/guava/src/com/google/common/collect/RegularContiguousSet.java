@@ -41,7 +41,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
-    return (range.isConnected(other))
+    return range.isConnected(other)
         ? ContiguousSet.create(range.intersection(other), domain)
         : new EmptyContiguousSet<C>(domain);
   }

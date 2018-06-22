@@ -355,7 +355,7 @@ public class SetGenerators {
     @Override
     protected SortedSet<Integer> create(Integer[] elements) {
       SortedSet<Integer> set = nullCheckedTreeSet(elements);
-      int tooHigh = (set.isEmpty()) ? 0 : set.last() + 1;
+      int tooHigh = set.isEmpty() ? 0 : set.last() + 1;
       set.add(tooHigh);
       return checkedCreate(set).headSet(tooHigh);
     }
@@ -365,7 +365,7 @@ public class SetGenerators {
     @Override
     protected SortedSet<Integer> create(Integer[] elements) {
       SortedSet<Integer> set = nullCheckedTreeSet(elements);
-      int tooLow = (set.isEmpty()) ? 0 : set.first() - 1;
+      int tooLow = set.isEmpty() ? 0 : set.first() - 1;
       set.add(tooLow);
       return checkedCreate(set).tailSet(tooLow + 1);
     }
@@ -417,7 +417,7 @@ public class SetGenerators {
         assertEquals(elements.get(i) + 1, (int) elements.get(i + 1));
       }
       Range<Integer> range =
-          (elements.isEmpty()) ? Range.closedOpen(0, 0) : Range.encloseAll(elements);
+          elements.isEmpty() ? Range.closedOpen(0, 0) : Range.encloseAll(elements);
       return ContiguousSet.create(range, DiscreteDomain.integers());
     }
   }

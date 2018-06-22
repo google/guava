@@ -45,7 +45,7 @@ final class CollectSpliterators {
       IntFunction<T> function,
       Comparator<? super T> comparator) {
     if (comparator != null) {
-      checkArgument((extraCharacteristics & (Spliterator.SORTED)) != 0);
+      checkArgument((extraCharacteristics & Spliterator.SORTED) != 0);
     }
     class WithCharacteristics implements Spliterator<T> {
       private final Spliterator.OfInt delegate;
