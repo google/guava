@@ -116,11 +116,14 @@ public final class CharEscaperBuilder {
    * @return a "sparse" array that holds the replacement mappings.
    */
   @SuppressWarnings(value = {"array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "array.access.unsafe.high"})//Charater is annotated to be less than "max + 1" which is the length of result
-          // => enate checker to parse "result[]" in @IndexFor() or @LTLengthOf()
+          "enhanced.for.type.incompatible"/* Key( Character type) in `map` is required to be NonNegative
+          and LTLengthOf("result") to match `entry`.
+          For NonNegative, link to issue https://github.com/kelloggm/checker-framework/issues/192
+          LTLengthOf("result") is false positive because `result` is a local variable declared inside of toArray()
+          */})
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
-    for (Entry<@LessThan("max + 1") Character, String> entry : map.entrySet()) {
+    for (Entry<@IndexFor("result") Character, String> entry : map.entrySet()) {
       result[entry.getKey()] = entry.getValue().toCharArray();
     }
     return result;
