@@ -19,8 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import org.checkerframework.checker.index.qual.LengthOf;
-import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.IndexFor;
 
 import java.util.Collections;
 import java.util.Map;
@@ -69,7 +68,11 @@ public final class ArrayBasedEscaperMap {
   // linear lookup table of replacement character sequences indexed by the
   // original character value.
   @SuppressWarnings(value = {"array.length.negative", "array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "array.access.unsafe.high"//key in map should be annotated as either @LessThan("max + 1") or @LTLengthOf("replacements"), none are possible for now
+          "enhancedfor.type.incompatible"/* Key( Character type) in `map` is required to be NonNegative
+          and LTLengthOf("replacements") to match `char c`
+          For NonNegative, link to issue https://github.com/kelloggm/checker-framework/issues/192
+          LTLengthOf("replacements") is not possible because `replacements` is declare after `map`.
+          */
   })
   @VisibleForTesting
   static char[][] createReplacementArray(Map<Character, String> map) {
@@ -79,7 +82,7 @@ public final class ArrayBasedEscaperMap {
     }
     char max = Collections.max(map.keySet());
     char[][] replacements = new char[max + 1][];
-    for (char c : map.keySet()) {
+    for (@IndexFor("replacements") char c : map.keySet()) {
       replacements[c] = map.get(c).toCharArray();
     }
     return replacements;
