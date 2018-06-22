@@ -162,22 +162,24 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
-  @SuppressWarnings(value = {"assignment.type.incompatible",//use of indexInternal = index cause this.
-          "argument.type.incompatible"//(203,64): escaped.length is length of escaped, so it should be already
-          //inferred as @LTEqLengthOf("escaped")
+  @SuppressWarnings(value = {"assignment.type.incompatible",//(192, 61) destIndex is required to be LessThan("destLength + 1")
+          //to match destIndexRegrow but destLength is declared when dest.lenth < sizeNeeded
+          "assignment.type.incompatible",//(183, 47): while index < end, index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+          //is @IndexOrHigh("s")
+          "argument.type.incompatible"//(202, 64): dest.length is required to be @LTLength("dest", offset = "destIndex - 1)
+          // which can be written as @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     @LengthOf("s") int end = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
-    @IndexOrHigh(value = {"s", "dest"}) int destIndex = 0;
+    @LTEqLengthOf("dest") int destIndex = 0;
     int destIndexInternal = destIndex;
-    @IndexFor("s") int indexInternal = index;
-    @IndexOrHigh("s") int unescapedChunkStart = 0;
+    @LTEqLengthOf("s") int unescapedChunkStart = 0;
 
-    while (indexInternal < end) {
-      int cp = codePointAt(s, indexInternal, end);
+    while (index < end) {
+      int cp = codePointAt(s, index, end);
       if (cp < 0) {
         throw new IllegalArgumentException("Trailing high surrogate at end of input");
       }
@@ -185,7 +187,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      @IndexOrHigh("s") int nextIndex = indexInternal + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+      @IndexOrHigh("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
@@ -194,19 +196,22 @@ public abstract class UnicodeEscaper extends Escaper {
         int sizeNeeded = destIndex + charsSkipped + escaped.length;
         if (dest.length < sizeNeeded) {
           int destLength = sizeNeeded + (end - index) + DEST_PAD;
-          dest = growBuffer(dest, destIndex, destLength);
+          @LessThan("destLength + 1") int destIndexRegrow = destIndex;
+          dest = growBuffer(dest, destIndexRegrow, destLength);
         }
         // If we have skipped any characters, we need to copy them now.
         if (charsSkipped > 0) {
           s.getChars(unescapedChunkStart, index, dest, destIndex);
-            destIndexInternal += charsSkipped;
+          destIndexInternal += charsSkipped;
         }
         if (escaped.length > 0) {
-          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);
+          @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
+          System.arraycopy(escaped, 0, dest, destIndexCopy, escaped.length);
           destIndexInternal += escaped.length;
         }
         // If we dealt with an escaped character, reset the unescaped range.
-        unescapedChunkStart = nextIndex;
+        int unescapedChunkStartReset = unescapedChunkStart;
+        unescapedChunkStartReset = nextIndex;
       }
       index = nextEscapeIndex(s, nextIndex, end);
     }
