@@ -98,7 +98,6 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-
   @SuppressWarnings(value = {"argument.type.incompatible",//(141, 49): r.length is required to be @LTLength(value = "r", "dest", offset = "destIndex - 1)
           // which can be written as @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
           // Moreover, rlen = r.length should be inferred as @LTLengthOf(value = "dest", offset = "-1") already
