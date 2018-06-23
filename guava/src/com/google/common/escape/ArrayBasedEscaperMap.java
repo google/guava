@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.checker.index.qual.IndexFor;
-
 import java.util.Collections;
 import java.util.Map;
 
