@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.escape.CharEscaper;
+import com.google.common.escape.UnicodeEscaper;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +27,6 @@ import java.util.Map;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Static utility methods pertaining to {@link Escaper} instances.
@@ -223,11 +224,23 @@ public final class Escapers {
     return (in == null) ? null : new String(in);
   }
 
-  @SuppressWarnings(value = {"assignment.type.incompatible",//checker was not able to parse
-  // int hiCount = hiChars != null ? hiChars.length : 1;
-          "array.access.unsafe.high"//output.length is hiCount + loCount, both for loop has index
-          // value start from zero and max incremented value is either hiCount or loCount
-  })
+  @SuppressWarnings("array.access.unsafe.high")/*
+  (262, 20) and (263, 18)
+  If hiChars is not null, hiChars.length range from 0 to Interger.MAX_VALUE. loChars can be:
+     - loChars is null, loChars.length is 1, so output.length range from 1 to Interger.MAX_VALUE + 1
+     - loChars is not null, loChars.length range from 0 to Interger.MAX_VALUE
+    Therefore, array access output[n] in for loop( n from 0 to hiChars.length - 1) is safe.
+  else if hiChars is null(), hiChars.length is 1, then loChars must be non null( else return null) with length range 0 to Interger.MAX_VALUE
+     - output.length is at least 1 so constant access output[0] is safe.
+
+   (276, 28) and (279, 18)
+   if loChars is not null, loChars.length range from 0 to MAX. hiChars can be:
+     - hiChars is null, hiChars.length is 1, output.length range from 1 to MAX + 1
+     - hiChars is not null, hiChars.length range from 0 to MAX, output.length range from 0 to MAX + MAX
+     Therefore, array access output[hiCount + n] in for loop( n from 0 to loChars.length - 1) is safe.
+   else if loChars is null( hiChars must not be null), loChars.length is 1, hiChars.length range from 0 to MAX
+     - output.length range from 1 to MAX + 1, therefore array access output[hiCount] is safe.
+  */
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
   private static UnicodeEscaper wrap(final CharEscaper escaper) {
     return new UnicodeEscaper() {
@@ -241,7 +254,7 @@ public final class Escapers {
         // Note: This code path is horribly slow and typically allocates 4 new
         // char[] each time it is invoked. However this avoids any
         // synchronization issues and makes the escaper thread safe.
-        char @MinLen(2)[] surrogateChars = new char[2];
+        char[] surrogateChars = new char[2];
         Character.toChars(cp, surrogateChars, 0);
         char[] hiChars = escaper.escape(surrogateChars[0]);
         char[] loChars = escaper.escape(surrogateChars[1]);
@@ -255,9 +268,9 @@ public final class Escapers {
           return null;
         }
         // Combine the characters and/or escaped sequences into a single array.
-        @LengthOf("hiChars") int hiCount = hiChars != null ? hiChars.length : 1;
-        @LengthOf("loChars") int loCount = loChars != null ? loChars.length : 1;
-        char @MinLen(1)[] output = new char[hiCount + loCount];
+        int hiCount = hiChars != null ? hiChars.length : 1;
+        int loCount = loChars != null ? loChars.length : 1;
+        char[] output = new char[hiCount + loCount];
         if (hiChars != null) {
           // TODO: Is this faster than System.arraycopy() for small arrays?
           for (int n = 0; n < hiChars.length; ++n) {
