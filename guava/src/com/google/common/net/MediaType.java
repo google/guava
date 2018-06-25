@@ -88,6 +88,7 @@ public final class MediaType {
           .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
 
   private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));
+
   /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
    * enforce any particular rules with regards to line folding as stated in the class docs.
@@ -148,6 +149,7 @@ public final class MediaType {
   public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");
   public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");
   public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");
+
   /**
    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares {@link
    * #JAVASCRIPT_UTF_8 application/javascript} to be the correct media type for JavaScript, but this
@@ -164,12 +166,14 @@ public final class MediaType {
 
   public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
   public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");
+
   /**
    * As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
    * ({@code text/xml}) is used for XML documents that are "readable by casual users." {@link
    * #APPLICATION_XML_UTF_8} is provided for documents that are intended for applications.
    */
   public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
+
   /**
    * As described in <a href="https://w3c.github.io/webvtt/#iana-text-vtt">the VTT spec</a>, this is
    * used for Web Video Text Tracks (WebVTT) files, used with the HTML5 track element.
@@ -180,6 +184,7 @@ public final class MediaType {
 
   /* image types */
   public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");
+
   /**
    * The media type for the <a href="http://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
    * Image File Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is
@@ -195,6 +200,7 @@ public final class MediaType {
   public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
   public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
   public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
+
   /**
    * The media type for the Photoshop File Format ({@code psd} files) as defined by <a
    * href="http://www.iana.org/assignments/media-types/image/vnd.adobe.photoshop">IANA</a>, and
@@ -368,6 +374,7 @@ public final class MediaType {
    * @since 17.0
    */
   public static final MediaType EOT = createConstant(APPLICATION_TYPE, "vnd.ms-fontobject");
+
   /**
    * As described in the <a href="http://idpf.org/epub">International Digital Publishing Forum</a>
    * EPUB is the distribution and interchange format standard for digital publications and
@@ -381,6 +388,7 @@ public final class MediaType {
 
   public static final MediaType FORM_DATA =
       createConstant(APPLICATION_TYPE, "x-www-form-urlencoded");
+
   /**
    * As described in <a href="https://www.rsa.com/rsalabs/node.asp?id=2138">PKCS #12: Personal
    * Information Exchange Syntax Standard</a>, PKCS #12 defines an archive file format for storing
@@ -389,6 +397,7 @@ public final class MediaType {
    * @since 15.0
    */
   public static final MediaType KEY_ARCHIVE = createConstant(APPLICATION_TYPE, "pkcs12");
+
   /**
    * This is a non-standard media type, but is commonly used in serving hosted binary files as it is
    * <a href="http://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors">
@@ -402,6 +411,15 @@ public final class MediaType {
   public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
 
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
+
+  /**
+   * Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
+   * Hypertext Application Language (HAL) documents</a>.
+   *
+   * @since NEXT
+   */
+  public static final MediaType HAL_JSON = createConstant(APPLICATION_TYPE, "hal+json");
+
   /**
    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
    * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be
@@ -411,6 +429,7 @@ public final class MediaType {
       createConstantUtf8(APPLICATION_TYPE, "javascript");
 
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
+
   /**
    * Media type for the <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web
    * application</a>.
@@ -478,6 +497,7 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
+
   /**
    * <a href="http://tools.ietf.org/html/draft-rfernando-protocol-buffers-00">Protocol buffers</a>
    *
@@ -487,6 +507,7 @@ public final class MediaType {
 
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
+
   /**
    * Media type for SFNT fonts (which includes <a
    * href="http://en.wikipedia.org/wiki/TrueType/">TrueType</a> and <a
@@ -501,6 +522,7 @@ public final class MediaType {
   public static final MediaType SHOCKWAVE_FLASH =
       createConstant(APPLICATION_TYPE, "x-shockwave-flash");
   public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
+
   /**
    * As described in <a href="http://www.ietf.org/rfc/rfc3902.txt">RFC 3902</a>, this constant
    * ({@code application/soap+xml}) is used to identify SOAP 1.2 message envelopes that have been
@@ -515,6 +537,7 @@ public final class MediaType {
   public static final MediaType SOAP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "soap+xml");
 
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
+
   /**
    * Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
    * Format</a> (WOFF) <a href="http://www.w3.org/TR/WOFF/">defined</a> by the W3C. This is <a
@@ -524,6 +547,7 @@ public final class MediaType {
    * @since 17.0
    */
   public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");
+
   /**
    * Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
    * Format</a> (WOFF) version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
@@ -533,6 +557,7 @@ public final class MediaType {
   public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");
 
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
+
   /**
    * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
    * it is specified by OASIS in the <a
@@ -632,8 +657,7 @@ public final class MediaType {
 
   /**
    * <em>Replaces</em> all parameters with the given attribute with parameters using the given
-   * values. If there are no values, any existing parameters with the given attribute are
-   * removed.
+   * values. If there are no values, any existing parameters with the given attribute are removed.
    *
    * @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid
    * @since 24.0
