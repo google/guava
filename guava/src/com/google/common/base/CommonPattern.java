@@ -23,19 +23,17 @@ import com.google.common.annotations.GwtCompatible;
  */
 @GwtCompatible
 abstract class CommonPattern {
-  abstract CommonMatcher matcher(CharSequence t);
+  public abstract CommonMatcher matcher(CharSequence t);
 
-  abstract String pattern();
+  public abstract String pattern();
 
-  abstract int flags();
+  public abstract int flags();
 
-  // Re-declare these as abstract to force subclasses to override.
+  // Re-declare this as abstract to force subclasses to override.
   @Override
   public abstract String toString();
 
-  @Override
-  public abstract int hashCode();
-
-  @Override
-  public abstract boolean equals(Object o);
+  static CommonPattern compile(String pattern) {
+    return Platform.compilePattern(pattern);
+  }
 }
