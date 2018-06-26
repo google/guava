@@ -29,36 +29,23 @@ final class JdkPattern extends CommonPattern implements Serializable {
   }
 
   @Override
-  CommonMatcher matcher(CharSequence t) {
+  public CommonMatcher matcher(CharSequence t) {
     return new JdkMatcher(pattern.matcher(t));
   }
 
   @Override
-  String pattern() {
+  public String pattern() {
     return pattern.pattern();
   }
 
   @Override
-  int flags() {
+  public int flags() {
     return pattern.flags();
   }
 
   @Override
   public String toString() {
     return pattern.toString();
-  }
-
-  @Override
-  public int hashCode() {
-    return pattern.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof JdkPattern)) {
-      return false;
-    }
-    return pattern.equals(((JdkPattern) o).pattern);
   }
 
   private static final class JdkMatcher extends CommonMatcher {
@@ -69,32 +56,32 @@ final class JdkPattern extends CommonPattern implements Serializable {
     }
 
     @Override
-    boolean matches() {
+    public boolean matches() {
       return matcher.matches();
     }
 
     @Override
-    boolean find() {
+    public boolean find() {
       return matcher.find();
     }
 
     @Override
-    boolean find(int index) {
+    public boolean find(int index) {
       return matcher.find(index);
     }
 
     @Override
-    String replaceAll(String replacement) {
+    public String replaceAll(String replacement) {
       return matcher.replaceAll(replacement);
     }
 
     @Override
-    int end() {
+    public int end() {
       return matcher.end();
     }
 
     @Override
-    int start() {
+    public int start() {
       return matcher.start();
     }
   }
