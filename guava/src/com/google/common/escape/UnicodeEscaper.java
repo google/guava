@@ -163,20 +163,23 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
-  @SuppressWarnings(value = {"assignment.type.incompatible",//(192, 61) destIndex is required to be LessThan("destLength + 1")
-          //to match destIndexRegrow but destLength is declared when dest.lenth < sizeNeeded
-          "assignment.type.incompatible",//(183, 47): while index < end, index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
-          //is @IndexOrHigh("s")
-          "argument.type.incompatible"//(202, 64): dest.length is required to be @LTLength("dest", offset = "destIndex - 1)
-          // which can be written as @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
+  @SuppressWarnings(value = {"compound.assignment.type.incompatible",/*
+          line 202 and line 206 `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
+          will always be regrow when `destSize` is less than `sizeNeeded` */
+          "argument.type.incompatible",/*
+          line 210: Because of System.arraycopy() method, `rlen` is required to be
+          @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
+          Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1")
+          */
+          "assignment.type.incompatible"//line 195: nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
+
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
-    @LengthOf("s") int end = s.length();
+    int end = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
     @LTEqLengthOf("dest") int destIndex = 0;
-    int destIndexInternal = destIndex;
     @LTEqLengthOf("s") int unescapedChunkStart = 0;
 
     while (index < end) {
@@ -188,7 +191,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      @IndexOrHigh("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+      @LTEqLengthOf("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
@@ -197,22 +200,19 @@ public abstract class UnicodeEscaper extends Escaper {
         int sizeNeeded = destIndex + charsSkipped + escaped.length;
         if (dest.length < sizeNeeded) {
           int destLength = sizeNeeded + (end - index) + DEST_PAD;
-          @LessThan("destLength + 1") int destIndexRegrow = destIndex;
-          dest = growBuffer(dest, destIndexRegrow, destLength);
+          dest = growBuffer(dest, destIndex, destLength);
         }
         // If we have skipped any characters, we need to copy them now.
         if (charsSkipped > 0) {
           s.getChars(unescapedChunkStart, index, dest, destIndex);
-          destIndexInternal += charsSkipped;
+          destIndex += charsSkipped;
         }
         if (escaped.length > 0) {
-          @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
-          System.arraycopy(escaped, 0, dest, destIndexCopy, escaped.length);
-          destIndexInternal += escaped.length;
+          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);
+          destIndex += escaped.length;
         }
         // If we dealt with an escaped character, reset the unescaped range.
-        int unescapedChunkStartReset = unescapedChunkStart;
-        unescapedChunkStartReset = nextIndex;
+        unescapedChunkStart = nextIndex;
       }
       index = nextEscapeIndex(s, nextIndex, end);
     }
@@ -262,7 +262,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @return the Unicode code point for the given index or the negated value of the trailing high
    *     surrogate character at the end of the sequence
    */
-  protected static int codePointAt(CharSequence seq, @IndexFor("#1") int index, @IndexOrHigh("#1") int end) {
+  protected int codePointAt(CharSequence seq, @IndexFor("#1") int index, @IndexOrHigh("#1") int end) {
     checkNotNull(seq);
     @IndexOrHigh("seq") int indexInternal = index;
     if (indexInternal < end) {
