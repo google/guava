@@ -620,6 +620,18 @@ public class ListsTest extends TestCase {
     assertFalse(actual.contains(list(3, 1)));
   }
 
+  public void testCartesianProduct_indexOf() {
+    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
+    assertEquals(actual.indexOf(list(1, 3)), 0);
+    assertEquals(actual.indexOf(list(1, 4)), 1);
+    assertEquals(actual.indexOf(list(2, 3)), 2);
+    assertEquals(actual.indexOf(list(2, 4)), 3);
+    assertEquals(actual.indexOf(list(3, 1)), -1);
+
+    assertEquals(actual.indexOf(list(1)), -1);
+    assertEquals(actual.indexOf(list(1, 1, 1)), -1);
+  }
+
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_unrelatedTypes() {
     List<Integer> x = list(1, 2);
