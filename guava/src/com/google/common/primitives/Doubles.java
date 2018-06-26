@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -653,16 +652,22 @@ public final class Doubles {
    * that pass this regex are valid -- only a performance hit is incurred, not a semantics bug.
    */
   @GwtIncompatible // regular expressions
-  static final Pattern FLOATING_POINT_PATTERN = fpPattern();
+  static final
+  java.util.regex.Pattern
+      FLOATING_POINT_PATTERN = fpPattern();
 
   @GwtIncompatible // regular expressions
-  private static Pattern fpPattern() {
+  private static
+  java.util.regex.Pattern
+      fpPattern() {
     String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";
     String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";
     String hex = "(?:\\p{XDigit}++(?:\\.\\p{XDigit}*+)?|\\.\\p{XDigit}++)";
     String completeHex = "0[xX]" + hex + "[pP][+-]?\\d++[fFdD]?";
     String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";
-    return Pattern.compile(fpPattern);
+    return
+    java.util.regex.Pattern
+        .compile(fpPattern);
   }
 
   /**
