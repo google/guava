@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.index.qual.IndexOrHigh;
 import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
-import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.LessThan;
 
 /**
@@ -98,20 +97,21 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-  @SuppressWarnings(value = {"argument.type.incompatible",//(141, 49): r.length is required to be @LTLength(value = "r", "dest", offset = "destIndex - 1)
-          // which can be written as @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
-          // Moreover, rlen = r.length should be inferred as @LTLengthOf(value = "dest", offset = "-1") already
-          "assignment.type.incompatible"//(133, 59): int `destIndex` is required to be @LessThan("destSizeGrow + 1") to match `destIndexCopy`
-          //but destSizeGrow is declared after when destSize < sizeNeeded
-  })
+  @SuppressWarnings(value = {"assignment.type.incompatible", "argument.type.incompatible",/*
+  line 132 and line 152: Because of System.arraycopy() method, `rlen` is required to be
+   @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
+   Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1" */
+          "compound.assignment.type.incompatible"/*
+          line 147 and line 153 `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
+          will always be regrow when `destSize` is less than `sizeNeeded`
+          */})
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
-    @LengthOf("s") int slen = s.length();
+    int slen = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
-    @LengthOf("dest") int destSize = dest.length;
-    @LTEqLengthOf("dest") int destIndex = 0;
-    int destIndexInternal = destIndex;
+    int destSize = dest.length;
+    @LTEqLengthOf("dest") @LessThan("destSize + 1") int destIndex = 0;
     @LTEqLengthOf("s") int lastEscape = 0;
 
     // Loop through the rest of the string, replacing when needed into the
@@ -126,7 +126,7 @@ public abstract class CharEscaper extends Escaper {
         continue;
       }
 
-      @LengthOf("r") int rlen = r.length;
+      @LTLengthOf(value = "dest", offset = "destIndex - 1") int rlen = r.length;
       int charsSkipped = index - lastEscape;
 
       // This is the size needed to add the replacement, not the full size
@@ -134,23 +134,20 @@ public abstract class CharEscaper extends Escaper {
       // when we do grow, grow enough to avoid excessive growing. Grow.
       int sizeNeeded = destIndex + charsSkipped + rlen;
       if (destSize < sizeNeeded) {
-        int destSizeGrow = destSize;
-        destSizeGrow = sizeNeeded + DEST_PAD_MULTIPLIER * (slen - index);
-        @LessThan("destSizeGrow + 1") int destIndexGrow = destIndex;
-        dest = growBuffer(dest, destIndexGrow, destSizeGrow);
+        destSize = sizeNeeded + DEST_PAD_MULTIPLIER * (slen - index);
+        dest = growBuffer(dest, destIndex, destSize);
       }
 
       // If we have skipped any characters, we need to copy them now.
       if (charsSkipped > 0) {
         s.getChars(lastEscape, index, dest, destIndex);
-        destIndexInternal += charsSkipped;
+        destIndex += charsSkipped;
       }
 
       // Copy the replacement string into the dest buffer as needed.
       if (rlen > 0) {
-        @LTLengthOf(value = "dest", offset = "- escaped.length + 1") int destIndexCopy = destIndex;
-        System.arraycopy(r, 0, dest, destIndexCopy, rlen);
-        destIndexInternal += rlen;
+        System.arraycopy(r, 0, dest, destIndex, rlen);
+        destIndex += rlen;
       }
       lastEscape = index + 1;
     }
@@ -165,7 +162,7 @@ public abstract class CharEscaper extends Escaper {
         dest = growBuffer(dest, destIndex, sizeNeeded);
       }
       s.getChars(lastEscape, slen, dest, destIndex);
-      destIndexInternal = sizeNeeded;
+      destIndex = sizeNeeded;
     }
     return new String(dest, 0, destIndex);
   }
