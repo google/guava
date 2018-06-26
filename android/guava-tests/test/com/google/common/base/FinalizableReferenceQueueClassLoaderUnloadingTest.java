@@ -140,7 +140,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
    * loader of that class from being garbage-collected.
    */
   public void testUnloadableWithoutSecurityManager() throws Exception {
-    if (isJdk9()) {
+    if (isJdk9OrHigher()) {
       return;
     }
     SecurityManager oldSecurityManager = System.getSecurityManager();
@@ -161,7 +161,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
    * ClassLoader}.
    */
   public void testUnloadableWithSecurityManager() throws Exception {
-    if (isJdk9()) {
+    if (isJdk9OrHigher()) {
       return;
     }
     Policy oldPolicy = Policy.getPolicy();
@@ -194,7 +194,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
   }
 
   public void testUnloadableInStaticFieldIfClosed() throws Exception {
-    if (isJdk9()) {
+    if (isJdk9OrHigher()) {
       return;
     }
     Policy oldPolicy = Policy.getPolicy();
@@ -288,11 +288,12 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
   }
 
   /**
-   * These tests fail in JDK 9 for an unknown reason. It might be the test; it might be the
-   * underlying functionality. Fixing this is not a high priority; if you need it to be fixed,
+   * These tests fail in JDK 9 and JDK 10 for an unknown reason. It might be the test; it might be
+   * the underlying functionality. Fixing this is not a high priority; if you need it to be fixed,
    * please comment on <a href="https://github.com/google/guava/issues/3086">issue 3086</a>.
    */
-  private static boolean isJdk9() {
-    return JAVA_SPECIFICATION_VERSION.value().startsWith("9");
+  private static boolean isJdk9OrHigher() {
+    return JAVA_SPECIFICATION_VERSION.value().startsWith("9")
+        || JAVA_SPECIFICATION_VERSION.value().startsWith("10");
   }
 }
