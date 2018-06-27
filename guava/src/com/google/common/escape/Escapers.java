@@ -228,8 +228,7 @@ public final class Escapers {
     Therefore, array access output[n] in for loop( n from 0 to hiChars.length - 1) is safe.
   line 276
   else if hiChars is null(), hiChars.length is 1, then loChars must be non null( else return null) with length range 0 to Interger.MAX_VALUE
-   - output.length is at least 1 so constant access output[0] is safe.//
-
+   - output.length is at least 1 so constant access output[0] is safe.
    line 281
    if loChars is not null, loChars.length range from 0 to MAX. hiChars can be:
      - hiChars is null, hiChars.length is 1, output.length range from 1 to MAX + 1
