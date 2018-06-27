@@ -171,7 +171,7 @@ public abstract class CharEscaper extends Escaper {
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
-  @SuppressWarnings("argument.type.incompatible")//index should infer @LessThan("#3 + 1") as same as @LTEqLengthOf("#3")
+  @SuppressWarnings("argument.type.incompatible")//index should infer @LessThan("#3 + 1") as same as @LTEqLengthOf("copy")
   //this is a similar improvement to this issue: https://github.com/typetools/checker-framework/issues/2029
   private static char[] growBuffer(char[] dest, @LTEqLengthOf("#1") @LessThan("#3 + 1")  int index, int size) {
     if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it
