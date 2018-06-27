@@ -55,7 +55,7 @@ public final class CharEscaperBuilder {
      * Overriding escape method to be slightly faster for this decorator. We test the replacements
      * array directly, saving a method call.
      */
-    @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+    @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
     @Override
     public String escape(String s) {
       int slen = s.length();
@@ -68,7 +68,7 @@ public final class CharEscaperBuilder {
       return s;
     }
 
-    @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+    @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
     @Override
     protected char[] escape(char c) {
       return c < replaceLength ? replacements[c] : null;
@@ -113,7 +113,7 @@ public final class CharEscaperBuilder {
    *
    * @return a "sparse" array that holds the replacement mappings.
    */
-  @SuppressWarnings(value = {"array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+  @SuppressWarnings(value = {"lowerbound:array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
           "enhancedfor.type.incompatible"/* Key( Character type) in `map` is required to be NonNegative
           and LTLengthOf("result") to match `entry`.
           For NonNegative, link to issue https://github.com/kelloggm/checker-framework/issues/192

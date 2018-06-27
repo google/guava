@@ -163,15 +163,15 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
-  @SuppressWarnings(value = {"compound.assignment.type.incompatible",/*
+  @SuppressWarnings(value = {"upperbound:compound.assignment.type.incompatible",/*
           line 202 and line 206 `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
           will always be regrow when `destSize` is less than `sizeNeeded` */
-          "argument.type.incompatible",/*
+          "upperbound:argument.type.incompatible",/*
           line 210: Because of System.arraycopy() method, `rlen` is required to be
           @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
           Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1")
           */
-          "assignment.type.incompatible"//line 195: nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
+          "upperbound:assignment.type.incompatible"//line 195: nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
@@ -309,7 +309,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
-  @SuppressWarnings("argument.type.incompatible")//upper bound checker does not infer size
+  @SuppressWarnings("upperbound:argument.type.incompatible")//upper bound checker does not infer size
   //as size of the array. Issue: https://github.com/typetools/checker-framework/issues/2029
   private static char[] growBuffer(char[] dest,  @LTEqLengthOf("#1") @LessThan("#3 + 1") int index, int size) {
     if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it

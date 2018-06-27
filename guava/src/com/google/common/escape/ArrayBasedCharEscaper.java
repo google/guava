@@ -101,7 +101,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * This is overridden to improve performance. Rough benchmarking shows that this almost doubles
    * the speed when processing strings that do not require any escaping.
    */
-  @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+  @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   public final String escape(String s) {
     checkNotNull(s); // GWT specific check (do not optimize).
@@ -119,7 +119,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * character does not have an explicit replacement and lies outside the safe range then {@link
    * #escapeUnsafe} is called.
    */
-  @SuppressWarnings("array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
+  @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   protected final char[] escape(char c) {
     if (c < replacementsLength) {
