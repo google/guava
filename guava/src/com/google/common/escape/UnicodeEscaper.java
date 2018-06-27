@@ -172,7 +172,6 @@ public abstract class UnicodeEscaper extends Escaper {
           Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1")
           */
           "assignment.type.incompatible"//line 195: nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
-
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();

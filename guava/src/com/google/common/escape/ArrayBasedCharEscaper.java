@@ -66,7 +66,6 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    */
   protected ArrayBasedCharEscaper(
       Map<Character, String> replacementMap, char safeMin, char safeMax) {
-    
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax);
   }
 
