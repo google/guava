@@ -97,7 +97,7 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-  @SuppressWarnings(value = {"assignment.type.incompatible", "argument.type.incompatible",/*
+  @SuppressWarnings(value = {"upperbound:assignment.type.incompatible", "upperbound:argument.type.incompatible",/*
   line 132 and line 152: Because of System.arraycopy() method, `rlen` is required to be
    @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
    Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1" */

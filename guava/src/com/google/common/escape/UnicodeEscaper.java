@@ -134,7 +134,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  @SuppressWarnings("compound.assignment.type.incompatible")//index += Character.isSupplementaryCodePoint(cp) ? 2 : 1 occurs
+  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")//index += Character.isSupplementaryCodePoint(cp) ? 2 : 1 occurs
   //only if escape(cp) == null( cp is not supplementaryCodePoint)
   protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("#1") int index = start;
