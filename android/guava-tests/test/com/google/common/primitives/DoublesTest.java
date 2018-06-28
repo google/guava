@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 /**
@@ -539,7 +540,10 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
-    assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
+    assertThat(input)
+        .matches(
+            Pattern.compile(
+                Doubles.FLOATING_POINT_PATTERN.pattern(), Doubles.FLOATING_POINT_PATTERN.flags()));
   }
 
   @GwtIncompatible // Doubles.tryParse
@@ -621,7 +625,11 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
-      assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
+      assertThat(badInput)
+          .doesNotMatch(
+              Pattern.compile(
+                  Doubles.FLOATING_POINT_PATTERN.pattern(),
+                  Doubles.FLOATING_POINT_PATTERN.flags()));
       assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
       assertNull(Doubles.tryParse(badInput));
     }
