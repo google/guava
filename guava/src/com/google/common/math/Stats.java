@@ -33,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Iterator;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * A bundle of statistical summary values -- sum, count, mean/average, min and max, and several
@@ -434,7 +435,7 @@ public final class Stats implements Serializable {
    * @param values a series of values
    * @throws IllegalArgumentException if the dataset is empty
    */
-  public static double meanOf(double... values) {
+  public static double meanOf(double @MinLen(1)... values) {
     checkArgument(values.length > 0);
     double mean = values[0];
     for (int index = 1; index < values.length; index++) {
@@ -458,7 +459,7 @@ public final class Stats implements Serializable {
    * @param values a series of values
    * @throws IllegalArgumentException if the dataset is empty
    */
-  public static double meanOf(int... values) {
+  public static double meanOf(int @MinLen(1)... values) {
     checkArgument(values.length > 0);
     double mean = values[0];
     for (int index = 1; index < values.length; index++) {
@@ -483,7 +484,7 @@ public final class Stats implements Serializable {
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @throws IllegalArgumentException if the dataset is empty
    */
-  public static double meanOf(long... values) {
+  public static double meanOf(long @MinLen(1)... values) {
     checkArgument(values.length > 0);
     double mean = values[0];
     for (int index = 1; index < values.length; index++) {
