@@ -233,11 +233,11 @@
 <span class="sourceLineNo">225</span>   */<a name="line.225"></a>
 <span class="sourceLineNo">226</span>  public boolean isCompatible(BloomFilter&lt;T&gt; that) {<a name="line.226"></a>
 <span class="sourceLineNo">227</span>    checkNotNull(that);<a name="line.227"></a>
-<span class="sourceLineNo">228</span>    return (this != that)<a name="line.228"></a>
-<span class="sourceLineNo">229</span>        &amp;&amp; (this.numHashFunctions == that.numHashFunctions)<a name="line.229"></a>
-<span class="sourceLineNo">230</span>        &amp;&amp; (this.bitSize() == that.bitSize())<a name="line.230"></a>
-<span class="sourceLineNo">231</span>        &amp;&amp; (this.strategy.equals(that.strategy))<a name="line.231"></a>
-<span class="sourceLineNo">232</span>        &amp;&amp; (this.funnel.equals(that.funnel));<a name="line.232"></a>
+<span class="sourceLineNo">228</span>    return this != that<a name="line.228"></a>
+<span class="sourceLineNo">229</span>        &amp;&amp; this.numHashFunctions == that.numHashFunctions<a name="line.229"></a>
+<span class="sourceLineNo">230</span>        &amp;&amp; this.bitSize() == that.bitSize()<a name="line.230"></a>
+<span class="sourceLineNo">231</span>        &amp;&amp; this.strategy.equals(that.strategy)<a name="line.231"></a>
+<span class="sourceLineNo">232</span>        &amp;&amp; this.funnel.equals(that.funnel);<a name="line.232"></a>
 <span class="sourceLineNo">233</span>  }<a name="line.233"></a>
 <span class="sourceLineNo">234</span><a name="line.234"></a>
 <span class="sourceLineNo">235</span>  /**<a name="line.235"></a>
