@@ -30,6 +30,8 @@ import java.math.RoundingMode;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
+import static com.google.common.math.MathPreconditions.checkPositive;
+import static com.google.common.math.MathPreconditions.checkNoOverflow;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
