@@ -35,6 +35,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.common.value.qual.MinLen;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Iterator;
@@ -45,6 +47,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  * @since 11.0
  */
+@SuppressWarnings("expression.unparsable.type.invalid")// link to issue: https://github.com/typetools/checker-framework/issues/2030
 @GwtCompatible(emulated = true)
 public final class DoubleMath {
   /*
@@ -296,7 +299,7 @@ public final class DoubleMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
-  public static double factorial(int n) {
+  public static double factorial(@NonNegative int n) {
     checkNonNegative("n", n);
     if (n > MAX_FACTORIAL) {
       return Double.POSITIVE_INFINITY;
@@ -402,7 +405,7 @@ public final class DoubleMath {
   @Deprecated
   // com.google.common.math.DoubleUtils
   @GwtIncompatible
-  public static double mean(double... values) {
+  public static double mean(double @MinLen(1)... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
     double mean = checkFinite(values[0]);
@@ -454,7 +457,7 @@ public final class DoubleMath {
    *     values.
    */
   @Deprecated
-  public static double mean(long... values) {
+  public static double mean(long @MinLen(1)... values) {
     checkArgument(values.length > 0, "Cannot take mean of 0 values");
     long count = 1;
     double mean = values[0];
