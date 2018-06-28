@@ -105,8 +105,7 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
-  @SuppressWarnings(value = {"lowerbound:return.type.incompatible", "upperbound:return.type.incompatible"}// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
-  )
+  @SuppressWarnings("return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(int x, int y) {
     // The double negation is optimized away by normal Java, but is necessary for GWT
@@ -163,7 +162,11 @@ public final class IntMath {
    *     is not a power of ten
    */
   @GwtIncompatible // need BigIntegerMath to adequately test
-  @SuppressWarnings("fallthrough")
+  @SuppressWarnings({"fallthrough",
+          "lowerbound:assignment.type.incompatible",/* line 172: only time when logFloor = log10Floor(x) is negative is
+          when `x` is 0, and that can't be because log10() only takes in positive `x` */
+          "upperbound:assignment.type.incompatible"/* since all elements in `maxLog10ForLeadingZeros` array
+          is @LTLengthOf("powersOf10","halfPowersOf10"), log10Floor() always return indexed values for `powersOf10` and `halfPowersOf10` */})
   public static int log10(@Positive int x, RoundingMode mode) {
     checkPositive("x", x);
     @IndexFor(value = {"powersOf10","halfPowersOf10"}) int logFloor = log10Floor(x);
@@ -188,6 +191,8 @@ public final class IntMath {
     }
   }
 
+  @SuppressWarnings("lowerbound:return.type.incompatible")/* only time when log10Floor(x) return negative values
+  and x < y, and that can't be because log10() only takes in positive `x` */
   private static int log10Floor(int x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
@@ -196,7 +201,7 @@ public final class IntMath {
      * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
      * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
+    int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
     /*
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
@@ -206,7 +211,7 @@ public final class IntMath {
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
   @VisibleForTesting
-  static final @IndexFor("powersOf10") byte[] maxLog10ForLeadingZeros = {
+  static final @IndexFor(value = {"powersOf10", "halfPowersOf10"}) byte[] maxLog10ForLeadingZeros = {
     9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0,
     0
   };
@@ -218,7 +223,7 @@ public final class IntMath {
 
   // halfPowersOf10[i] = largest int less than 10^(i + 0.5)
   @VisibleForTesting
-  static final int[] halfPowersOf10 = {
+  static final int @MinLen(10)[] halfPowersOf10 = {
     3, 31, 316, 3162, 31622, 316227, 3162277, 31622776, 316227766, Integer.MAX_VALUE
   };
 
