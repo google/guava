@@ -101,8 +101,8 @@ public abstract class CharEscaper extends Escaper {
   line 132 and line 152: Because of System.arraycopy() method, `rlen` is required to be
    @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
    Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1" */
-          "compound.assignment.type.incompatible"/*
-          line 147 and line 153 `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
+          "upperbound:compound.assignment.type.incompatible"/*
+          line 147 and line 153 `destIndex` is always @LTEqLengthOf("dest") because `dest` array
           will always be regrow when `destSize` is less than `sizeNeeded`
           */})
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
