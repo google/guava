@@ -584,9 +584,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     }
   }
 
-  @WeakOuter
   static final class ElementSet<E> extends ImmutableSet.Indexed<E> {
     private final List<Entry<E>> entries;
+    // TODO(cpovirk): @Weak?
     private final Multiset<E> delegate;
 
     ElementSet(List<Entry<E>> entries, Multiset<E> delegate) {
