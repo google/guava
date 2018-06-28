@@ -67,9 +67,6 @@ public final class ArrayBasedEscaperMap {
   // linear lookup table of replacement character sequences indexed by the
   // original character value.
   @SuppressWarnings(value = {"lowerbound:array.length.negative", "lowerbound:array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "lowerbound:enhancedfor.type.incompatible",/* Key( Character type) in `map` is required to be NonNegative
-          and LTLengthOf("replacements") to match `char c`
-          For NonNegative, link to issue https://github.com/kelloggm/checker-framework/issues/192 */
           "upperbound:enhancedfor.type.incompatible"//LTLengthOf("replacements") is not possible because `replacements` is declare after `map`
   })
   @VisibleForTesting
