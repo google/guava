@@ -14,15 +14,14 @@
 
 package com.google.common.escape;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import java.util.Map;
 import org.checkerframework.checker.index.qual.IndexOrHigh;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import java.util.Map;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given

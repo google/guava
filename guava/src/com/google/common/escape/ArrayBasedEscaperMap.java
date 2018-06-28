@@ -14,14 +14,13 @@
 
 package com.google.common.escape;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import java.util.Collections;
 import java.util.Map;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation-specific parameter class suitable for initializing {@link

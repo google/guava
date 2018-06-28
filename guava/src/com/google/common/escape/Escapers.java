@@ -14,15 +14,14 @@
 
 package com.google.common.escape;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.HashMap;
-import java.util.Map;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to {@link Escaper} instances.

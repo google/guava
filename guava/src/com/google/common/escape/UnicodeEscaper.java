@@ -14,8 +14,6 @@
 
 package com.google.common.escape;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.index.qual.IndexFor;
@@ -24,6 +22,7 @@ import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.checker.index.qual.NonNegative;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
