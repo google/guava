@@ -14,22 +14,6 @@
 
 package com.google.common.math;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
-import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
-import static com.google.common.math.DoubleUtils.getSignificand;
-import static com.google.common.math.DoubleUtils.isFinite;
-import static com.google.common.math.DoubleUtils.isNormal;
-import static com.google.common.math.DoubleUtils.scaleNormalize;
-import static com.google.common.math.MathPreconditions.checkInRange;
-import static com.google.common.math.MathPreconditions.checkNonNegative;
-import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
-import static java.lang.Math.abs;
-import static java.lang.Math.copySign;
-import static java.lang.Math.getExponent;
-import static java.lang.Math.log;
-import static java.lang.Math.rint;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -40,6 +24,17 @@ import org.checkerframework.common.value.qual.MinLen;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Iterator;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.math.DoubleUtils.isFinite;
+import static com.google.common.math.DoubleUtils.isNormal;
+import static com.google.common.math.MathPreconditions.checkInRange;
+import static com.google.common.math.MathPreconditions.checkNonNegative;
+import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
+import static java.lang.Math.abs;
+import static java.lang.Math.copySign;
+import static java.lang.Math.getExponent;
+import static java.lang.Math.log;
+import static java.lang.Math.rint;
 
 /**
  * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.

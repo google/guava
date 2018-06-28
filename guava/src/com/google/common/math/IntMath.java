@@ -14,17 +14,6 @@
 
 package com.google.common.math;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.math.MathPreconditions.checkNoOverflow;
-import static com.google.common.math.MathPreconditions.checkNonNegative;
-import static com.google.common.math.MathPreconditions.checkPositive;
-import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
-import static java.lang.Math.abs;
-import static java.lang.Math.min;
-import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.HALF_UP;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,6 +27,14 @@ import org.checkerframework.common.value.qual.IntRange;
 import org.checkerframework.common.value.qual.MinLen;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.math.MathPreconditions.checkNonNegative;
+import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
+import static java.math.RoundingMode.HALF_EVEN;
+import static java.math.RoundingMode.HALF_UP;
 
 /**
  * A class for arithmetic on values of type {@code int}. Where possible, methods are defined and
