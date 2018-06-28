@@ -114,8 +114,10 @@ public final class CharEscaperBuilder {
    * @return a "sparse" array that holds the replacement mappings.
    */
   @SuppressWarnings(value = {"lowerbound:array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "upperbound:enhancedfor.type.incompatible"//because `result` is a local variable declared inside of toArray()
-          })
+          "upperbound:enhancedfor.type.incompatible"/* because `result` is a local variable declared inside of toArray()
+          Since `max` is maximum index is the value of the highest character that has been seen,
+          Key values in map can be indexed by the `result` array.
+          */})
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
     for (Entry<@LTLengthOf("result") Character, String> entry : map.entrySet()) {
