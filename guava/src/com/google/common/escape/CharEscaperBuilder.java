@@ -14,16 +14,16 @@
 
 package com.google.common.escape;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Simple helper class to build a "sparse" array of objects based on the indexes that were added to

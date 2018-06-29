@@ -14,13 +14,13 @@
 
 package com.google.common.escape;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import org.checkerframework.checker.index.qual.IndexOrHigh;
 import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.LessThan;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
