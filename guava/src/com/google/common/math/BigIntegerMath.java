@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import org.checkerframework.checker.index.qual.LTLengthOf;
 import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
@@ -146,8 +147,10 @@ public final class BigIntegerMath {
    *     is not a power of ten
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings("fallthrough")
-  public static int log10(BigInteger x, RoundingMode mode) {
+  @SuppressWarnings({"fallthrough",
+          "lowerbound:argument.type.incompatible"// BigIntegerMath.log10() only takes in positive x values
+          })
+  public static int log10(@Positive BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
     if (fitsInLong(x)) {
       return LongMath.log10(x.longValue(), mode);
