@@ -30,10 +30,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.UnsignedLongs;
-import org.checkerframework.checker.index.qual.IndexFor;
-import org.checkerframework.checker.index.qual.LessThan;
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.*;
+import org.checkerframework.common.value.qual.IntRange;
 import org.checkerframework.common.value.qual.MinLen;
 
 import java.math.BigInteger;
@@ -108,8 +106,10 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
+
+  @SuppressWarnings("return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
   @VisibleForTesting
-  static int lessThanBranchFree(long x, long y) {
+  static @IntRange(from = 0, to = 1) int lessThanBranchFree(long x, long y) {
     // Returns the sign bit of x - y.
     return (int) (~~(x - y) >>> (Long.SIZE - 1));
   }
@@ -190,7 +190,16 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  static int log10Floor(long x) {
+  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* line 208: Long.numberOfLeadingZeros() return 64 and causes
+  an error only if x is 0, because `log10floor()` is a static method and only called by methods that take in positive `x` values. */
+          "lowerbound:return.type.incompatible",/* line 213: `log10Floor()` return negative int value only when y = 0 and
+          `LessThanBranchFree` return 1( when x < y). Since `log10floor()` is a static method and only called by methods that take in positive `x` values.
+          Therefore x can't be less less than y */
+          "upperbound:return.type.incompatible",// all elements in `maxLog10ForLeadingZeros` can be indexed for `powersOf10`
+          "upperbound:assignment.type.incompatible",/* line 209: except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
+          can be indexed for `powersOf10`
+          */})
+  static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(long x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
@@ -208,7 +217,7 @@ public final class LongMath {
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
   @VisibleForTesting
-  static final byte @MinLen(65)[] maxLog10ForLeadingZeros = {
+  static final @NonNegative byte @MinLen(64)[] maxLog10ForLeadingZeros = {
     19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12,
     12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3,
     3, 2, 2, 2, 1, 1, 1, 0, 0, 0
@@ -216,7 +225,7 @@ public final class LongMath {
 
   @GwtIncompatible // TODO
   @VisibleForTesting
-  static final long[] powersOf10 = {
+  static final long @MinLen(19)[] powersOf10 = {
     1L,
     10L,
     100L,
@@ -811,7 +820,10 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  public static long binomial(@NonNegative int n, @LessThan("#1 + 1") int k) {
+  @SuppressWarnings(value = {"lowerbound:compound.assignment.type.incompatible",// the lowest n can be is 0 in this method
+          "upperbound:array.access.unsafe.high"// line 840: Since k <= n, k is safely indexed
+  })
+  public static long binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
     checkArgument(k <= n, "k (%s) > n (%s)", k, n);
