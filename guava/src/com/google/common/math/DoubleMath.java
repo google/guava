@@ -14,16 +14,6 @@
 
 package com.google.common.math;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.primitives.Booleans;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.common.value.qual.MinLen;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.util.Iterator;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
@@ -39,6 +29,17 @@ import static java.lang.Math.copySign;
 import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
 import static java.lang.Math.rint;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Booleans;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.Iterator;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
