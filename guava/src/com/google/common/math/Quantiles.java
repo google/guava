@@ -29,6 +29,10 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * Provides a fluent API for calculating <a
@@ -151,7 +155,7 @@ public final class Quantiles {
    * @param scale the scale for the quantiles to be calculated, i.e. the q of the q-quantiles, which
    *     must be positive
    */
-  public static Scale scale(int scale) {
+  public static Scale scale(@Positive int scale) {
     return new Scale(scale);
   }
 
@@ -163,9 +167,9 @@ public final class Quantiles {
    */
   public static final class Scale {
 
-    private final int scale;
+    private final @Positive int scale;
 
-    private Scale(int scale) {
+    private Scale(@Positive int scale) {
       checkArgument(scale > 0, "Quantile scale must be positive");
       this.scale = scale;
     }
@@ -175,7 +179,7 @@ public final class Quantiles {
      *
      * @param index the quantile index, which must be in the inclusive range [0, q] for q-quantiles
      */
-    public ScaleAndIndex index(int index) {
+    public ScaleAndIndex index(@NonNegative int index) {
       return new ScaleAndIndex(scale, index);
     }
 
@@ -212,10 +216,10 @@ public final class Quantiles {
    */
   public static final class ScaleAndIndex {
 
-    private final int scale;
-    private final int index;
+    private final @Positive int scale;
+    private final @NonNegative int index;
 
-    private ScaleAndIndex(int scale, int index) {
+    private ScaleAndIndex(@Positive int scale, @NonNegative int index) {
       checkIndex(index, scale);
       this.scale = scale;
       this.index = index;
@@ -229,6 +233,8 @@ public final class Quantiles {
      *     this call (it is copied instead)
      * @return the quantile value
      */
+    @SuppressWarnings("argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
+    //if `dataset` is not empty as specified in doc, method `Doubles.toArray()` return a non empty `dataset` as well
     public double compute(Collection<? extends Number> dataset) {
       return computeInPlace(Doubles.toArray(dataset));
     }
@@ -240,7 +246,7 @@ public final class Quantiles {
      *     be mutated by this call (it is copied instead)
      * @return the quantile value
      */
-    public double compute(double... dataset) {
+    public double compute(double @MinLen(1)... dataset) {
       return computeInPlace(dataset.clone());
     }
 
@@ -252,7 +258,7 @@ public final class Quantiles {
      *     this call (it is copied instead)
      * @return the quantile value
      */
-    public double compute(long... dataset) {
+    public double compute(long @MinLen(1)... dataset) {
       return computeInPlace(longsToDoubles(dataset));
     }
 
@@ -263,7 +269,7 @@ public final class Quantiles {
      *     cast to doubles, and which will not be mutated by this call (it is copied instead)
      * @return the quantile value
      */
-    public double compute(int... dataset) {
+    public double compute(int @MinLen(1)... dataset) {
       return computeInPlace(intsToDoubles(dataset));
     }
 
@@ -274,7 +280,9 @@ public final class Quantiles {
      *     be arbitrarily reordered by this method call
      * @return the quantile value
      */
-    public double computeInPlace(double... dataset) {
+    @SuppressWarnings({"lowerbound:assignment.type.incompatible",// Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
+    })
+    public double computeInPlace(double @MinLen(1)... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
       if (containsNaN(dataset)) {
         return NaN;
@@ -287,11 +295,11 @@ public final class Quantiles {
 
       // Since index and (dataset.length - 1) are non-negative ints, their product can be expressed
       // as a long, without risk of overflow:
-      long numerator = (long) index * (dataset.length - 1);
+      @NonNegative long numerator = (long) index * (dataset.length - 1);
       // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a
       // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get
       // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:
-      int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
+      @IndexFor("dataset") int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
       int remainder = (int) (numerator - (long) quotient * scale);
       selectInPlace(quotient, dataset, 0, dataset.length - 1);
       if (remainder == 0) {
@@ -331,6 +339,9 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
+
+    @SuppressWarnings("argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
+    //if `dataset` is not empty as specified in doc, method `Doubles.toArray()` return a non empty `dataset` as well
     public Map<Integer, Double> compute(Collection<? extends Number> dataset) {
       return computeInPlace(Doubles.toArray(dataset));
     }
@@ -343,7 +354,7 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    public Map<Integer, Double> compute(double... dataset) {
+    public Map<Integer, Double> compute(double @MinLen(1)... dataset) {
       return computeInPlace(dataset.clone());
     }
 
@@ -356,7 +367,7 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    public Map<Integer, Double> compute(long... dataset) {
+    public Map<Integer, Double> compute(long @MinLen(1)... dataset) {
       return computeInPlace(longsToDoubles(dataset));
     }
 
@@ -368,7 +379,7 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    public Map<Integer, Double> compute(int... dataset) {
+    public Map<Integer, Double> compute(int @MinLen(1)... dataset) {
       return computeInPlace(intsToDoubles(dataset));
     }
 
@@ -380,7 +391,7 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    public Map<Integer, Double> computeInPlace(double... dataset) {
+    public Map<Integer, Double> computeInPlace(double @MinLen(1)... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
       if (containsNaN(dataset)) {
         Map<Integer, Double> nanMap = new HashMap<>();
@@ -399,7 +410,7 @@ public final class Quantiles {
       int[] remainders = new int[indexes.length];
       // The indexes to select. In the worst case, we'll need one each side of each quantile.
       int[] requiredSelections = new int[indexes.length * 2];
-      int requiredSelectionsCount = 0;
+      @IndexFor("requiredSelections") int requiredSelectionsCount = 0;
       for (int i = 0; i < indexes.length; i++) {
         // Since index and (dataset.length - 1) are non-negative ints, their product can be
         // expressed as a long, without risk of overflow:
@@ -424,7 +435,7 @@ public final class Quantiles {
           requiredSelections, 0, requiredSelectionsCount - 1, dataset, 0, dataset.length - 1);
       Map<Integer, Double> ret = new HashMap<>();
       for (int i = 0; i < indexes.length; i++) {
-        int quotient = quotients[i];
+        @IndexFor("dataset") int quotient = quotients[i];
         int remainder = remainders[i];
         if (remainder == 0) {
           ret.put(indexes[i], dataset[quotient]);
@@ -475,7 +486,7 @@ public final class Quantiles {
     }
   }
 
-  private static double[] longsToDoubles(long[] longs) {
+  private static double  @MinLen(1)[] longsToDoubles(long @MinLen(1)[] longs) {
     int len = longs.length;
     double[] doubles = new double[len];
     for (int i = 0; i < len; i++) {
@@ -484,7 +495,7 @@ public final class Quantiles {
     return doubles;
   }
 
-  private static double[] intsToDoubles(int[] ints) {
+  private static double @MinLen(1)[] intsToDoubles(int @MinLen(1)[] ints) {
     int len = ints.length;
     double[] doubles = new double[len];
     for (int i = 0; i < len; i++) {
@@ -513,7 +524,11 @@ public final class Quantiles {
    * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
    * {@code required} is the value which would appear at that index in the sorted dataset.
    */
-  private static void selectInPlace(int required, double[] array, int from, int to) {
+  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//line 555: lowest possbile `partionPoint` value is 1, therefore `to` can't be negative.
+          "upperbound:assignment.type.incompatible"/* line 559: highest possible `partionPoint` value is array.length / 2 or (array.length / 2) + 1.
+          Even with highest `required` value, `from` can only grow to array.length.
+          */})
+  private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
     // (We will hit this whenever we are doing quantile interpolation: our first selection finds
     // the lower value, our second one finds the upper value by looking for the next least element.)
@@ -551,14 +566,14 @@ public final class Quantiles {
    * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
    * greater than or equal to that.
    */
-  private static int partition(double[] array, int from, int to) {
+  private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
     double pivot = array[from];
 
     // Move all elements with indexes in (from, to] which are greater than the pivot to the end of
     // the array. Keep track of where those elements begin.
-    int partitionPoint = to;
+    @IndexFor("array") int partitionPoint = to;
     for (int i = to; i > from; i--) {
       if (array[i] > pivot) {
         swap(array, partitionPoint, i);
@@ -579,7 +594,7 @@ public final class Quantiles {
    * necessary) that that pivot value appears at the start of the slice i.e. at {@code from}.
    * Expects that {@code from} is strictly less than {@code to}.
    */
-  private static void movePivotToStartOfSlice(double[] array, int from, int to) {
+  private static void movePivotToStartOfSlice(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     int mid = (from + to) >>> 1;
     // We want to make a swap such that either array[to] <= array[from] <= array[mid], or
     // array[mid] <= array[from] <= array[to]. We know that from < to, so we know mid < to
@@ -604,16 +619,16 @@ public final class Quantiles {
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
   private static void selectAllInPlace(
-      int[] allRequired, int requiredFrom, int requiredTo, double[] array, int from, int to) {
+      @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
-    int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);
+    @IndexFor("allRequired") int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);
     int required = allRequired[requiredChosen];
 
     // ...do the first selection...
     selectInPlace(required, array, from, to);
 
     // ...then recursively perform the selections in the range below...
-    int requiredBelow = requiredChosen - 1;
+    @IndexFor("allRequired") int requiredBelow = requiredChosen - 1;
     while (requiredBelow >= requiredFrom && allRequired[requiredBelow] == required) {
       requiredBelow--; // skip duplicates of required in the range below
     }
@@ -622,7 +637,7 @@ public final class Quantiles {
     }
 
     // ...and then recursively perform the selections in the range above.
-    int requiredAbove = requiredChosen + 1;
+    @IndexFor("allRequired") int requiredAbove = requiredChosen + 1;
     while (requiredAbove <= requiredTo && allRequired[requiredAbove] == required) {
       requiredAbove++; // skip duplicates of required in the range above
     }
@@ -640,8 +655,8 @@ public final class Quantiles {
    * value closest to the center of the range first is the most efficient strategy because it
    * minimizes the size of the subranges from which the remaining selections must be done.
    */
-  private static int chooseNextSelection(
-      int[] allRequired, int requiredFrom, int requiredTo, int from, int to) {
+  private static @IndexFor("#1") int chooseNextSelection(
+      int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, int from, int to) {
     if (requiredFrom == requiredTo) {
       return requiredFrom; // only one thing to choose, so choose it
     }
@@ -677,7 +692,7 @@ public final class Quantiles {
   }
 
   /** Swaps the values at {@code i} and {@code j} in {@code array}. */
-  private static void swap(double[] array, int i, int j) {
+  private static void swap(double[] array, @IndexFor("#1") int i, @IndexFor("#1") int j) {
     double temp = array[i];
     array[i] = array[j];
     array[j] = temp;
