@@ -520,9 +520,6 @@ public final class Quantiles {
     return doubles;
   }
 
-  public static void main(String args[]) {
-
-  }
   /**
    * Performs an in-place selection to find the element which would appear at a given index in a
    * dataset if it were sorted. The following preconditions should hold:
@@ -658,7 +655,6 @@ public final class Quantiles {
     }
     if (requiredBelow >= requiredFrom) {
       selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);// (1)
-      System.out.println("required - 1: " + required);
     }
 
     // ...and then recursively perform the selections in the range above.

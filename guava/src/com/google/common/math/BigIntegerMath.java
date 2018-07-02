@@ -339,7 +339,6 @@ public final class BigIntegerMath {
    */
   @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",// line 350: Since `n` is required to be non negative
           // IntMath.divide() will also return a non negative value
-          //"lowerbound:assignment.type.incompatible"//line 356: since `factorials` length is
   })
   public static BigInteger factorial(@NonNegative int n) {
     checkNonNegative("n", n);
