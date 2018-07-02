@@ -108,7 +108,6 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
-
   @SuppressWarnings("return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(long x, long y) {
