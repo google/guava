@@ -221,21 +221,18 @@ public final class Escapers {
   }
 
   @SuppressWarnings("upperbound:array.access.unsafe.high")/*
-  line 272
-  If hiChars is not null, hiChars.length range from 0 to Interger.MAX_VALUE. loChars can be:
+  (1): If hiChars is not null, hiChars.length range from 0 to Interger.MAX_VALUE. loChars can be:
      - loChars is null, loChars.length is 1, so output.length range from 1 to Interger.MAX_VALUE + 1
      - loChars is not null, loChars.length range from 0 to Interger.MAX_VALUE
     Therefore, array access output[n] in for loop( n from 0 to hiChars.length - 1) is safe.
-  line 276
-  else if hiChars is null(), hiChars.length is 1, then loChars must be non null( else return null) with length range 0 to Interger.MAX_VALUE
+  (2): else if hiChars is null(), hiChars.length is 1, then loChars must be non null( else return null) with length range 0 to Interger.MAX_VALUE
    - output.length is at least 1 so constant access output[0] is safe.
    line 281
    if loChars is not null, loChars.length range from 0 to MAX. hiChars can be:
      - hiChars is null, hiChars.length is 1, output.length range from 1 to MAX + 1
      - hiChars is not null, hiChars.length range from 0 to MAX, output.length range from 0 to MAX + MAX
      Therefore, array access output[hiCount + n] in for loop( n from 0 to loChars.length - 1) is safe.
-   line 285
-   else if loChars is null( hiChars must not be null), loChars.length is 1, hiChars.length range from 0 to MAX
+   (3): else if loChars is null( hiChars must not be null), loChars.length is 1, hiChars.length range from 0 to MAX
      - output.length range from 1 to MAX + 1, therefore array access output[hiCount] is safe.
   */
   /** Private helper to wrap a CharEscaper as a UnicodeEscaper. */
@@ -271,17 +268,17 @@ public final class Escapers {
         if (hiChars != null) {
           // TODO: Is this faster than System.arraycopy() for small arrays?
           for (int n = 0; n < hiChars.length; ++n) {
-            output[n] = hiChars[n];
+            output[n] = hiChars[n];//(1)
           }
         } else {
           output[0] = surrogateChars[0];
         }
         if (loChars != null) {
           for (int n = 0; n < loChars.length; ++n) {
-            output[hiCount + n] = loChars[n];
+            output[hiCount + n] = loChars[n];//(2)
           }
         } else {
-          output[hiCount] = surrogateChars[1];
+          output[hiCount] = surrogateChars[1];//(3)
         }
         return output;
       }
