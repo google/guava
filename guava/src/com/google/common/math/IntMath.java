@@ -193,7 +193,7 @@ public final class IntMath {
 
   @SuppressWarnings("lowerbound:return.type.incompatible")/* only time when log10Floor(x) return negative values
   and x < y, and that can't be because log10() only takes in positive `x` */
-  private static int log10Floor(int x) {
+  private static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(int x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
