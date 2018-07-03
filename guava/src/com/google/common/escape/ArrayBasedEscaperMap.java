@@ -67,10 +67,8 @@ public final class ArrayBasedEscaperMap {
   // linear lookup table of replacement character sequences indexed by the
   // original character value.
   @SuppressWarnings(value = {"lowerbound:array.length.negative", "lowerbound:array.access.unsafe.low",//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "upperbound:enhancedfor.type.incompatible"/* LTLengthOf("replacements") is not possible because `replacements` is declare after `map`
-          Since `max` is maximum value out of all Keys in map and `max + 1` is length of `replacements` array.
-          Char `c`is always less than length of `replacements`
-          */})
+          "upperbound:enhancedfor.type.incompatible"/* LTLengthOf("replacements") is not possible because `replacements` is declared after `map`.
+          Moreover, `max` is maximum value out of all Keys in map and `max + 1` is length of `replacements` array, therefore char `c`is always less than length of `replacements`.*/})
   @VisibleForTesting
   static char[][] createReplacementArray(Map<Character, String> map) {
     checkNotNull(map); // GWT specific check (do not optimize)
