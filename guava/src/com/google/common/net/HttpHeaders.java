@@ -385,6 +385,13 @@ public final class HttpHeaders {
   public static final String PING_TO = "Ping-To";
 
   /**
+   * The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
+   * field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_METADATA = "Sec-Metadata";
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/draft-ietf-tokbind-https">{@code
    * Sec-Token-Binding}</a> header field name.
    *
