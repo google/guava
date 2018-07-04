@@ -105,7 +105,8 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
-  @SuppressWarnings("return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
+  @SuppressWarnings("return.type.incompatible")// Since `Integer.SIZE - 1` bits form is: 1111, for shifted( >>> ) positive values return 1,
+  //otherwise return 0.
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(int x, int y) {
     // The double negation is optimized away by normal Java, but is necessary for GWT
