@@ -133,7 +133,8 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")//index += 2 only if Character.isSupplementaryCodePoint(cp) is true
+  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")//index += 2 only if Character.isSupplementaryCodePoint(cp) is true.
+  //This won't happen since loop breaks if `cp` < 0.
   protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("#1") int index = start;
     while (index < end) {
@@ -170,6 +171,7 @@ public abstract class UnicodeEscaper extends Escaper {
           Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1")
           */
           "upperbound:assignment.type.incompatible"//(3): nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
+          //This won't happen since if `cp` < 0, throws exception.
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
