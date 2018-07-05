@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.checkerframework.checker.index.qual.LTLengthOf;
@@ -114,13 +114,12 @@ public final class CharEscaperBuilder {
    * @return a "sparse" array that holds the replacement mappings.
    */
   @SuppressWarnings(value = {"lowerbound:array.access.unsafe.low",//Character types are non negative: https://github.com/kelloggm/checker-framework/issues/192
-          "upperbound:enhancedfor.type.incompatible"/* because `result` is a local variable declared inside of toArray()
-          Since `max` is maximum index is the value of the highest character that has been seen,
-          Key values in map can be indexed by the `result` array.
-          */})
+          "upperbound:enhancedfor.type.incompatible"/*(2):
+          Since `max` is maximum index is the value of the highest character that has been seen, `max + 1` is larger than any of the key values in map.
+          Therefore, key values in map can be indexed by the `result` array.*/})
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
-    for (Entry<@LTLengthOf("result") Character, String> entry : map.entrySet()) {
+    for (Entry<@LTLengthOf("result") Character, String> entry : map.entrySet()) { //(2)
       result[entry.getKey()] = entry.getValue().toCharArray();
     }
     return result;
