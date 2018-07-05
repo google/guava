@@ -582,8 +582,8 @@ public final class Quantiles {
    * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
    * greater than or equal to that.
    */
-  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")// (1): `i` needs to be at least at 1 in order to execute for loop
-  // Therefore, `partionPoint` can't be negative
+  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")// (1): Lowest possible `from` value is 0, Since for loop init at `i = to`, `to` needs to be at least at 1 in order to execute for loop
+  // If `to` is at least 1, `partionPoint` can't be negative
   private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
