@@ -147,10 +147,8 @@ public final class BigIntegerMath {
    *     is not a power of ten
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings({"fallthrough",
-          "lowerbound:argument.type.incompatible"// BigIntegerMath.log10() only takes in positive x values
-          })
-  public static int log10(@Positive BigInteger x, RoundingMode mode) {
+  @SuppressWarnings("fallthrough")
+  public static int log10(BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
     if (fitsInLong(x)) {
       return LongMath.log10(x.longValue(), mode);

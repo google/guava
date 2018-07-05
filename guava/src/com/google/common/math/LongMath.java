@@ -166,7 +166,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
-  public static int log10(@Positive long x, RoundingMode mode) {
+  public static int log10(long x, RoundingMode mode) {
     checkPositive("x", x);
     @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int logFloor = log10Floor(x);
     long floorPow = powersOf10[logFloor];
