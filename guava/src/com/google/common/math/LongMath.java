@@ -191,13 +191,13 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* line 208: Long.numberOfLeadingZeros() return 64 and causes
+  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* (1): Long.numberOfLeadingZeros() return 64 and causes
   an error only if x is 0, because `log10floor()` is a static method and only called by methods that take in positive `x` values. */
-          "lowerbound:return.type.incompatible",/* line 213: `log10Floor()` return negative int value only when y = 0 and
+          "lowerbound:return.type.incompatible",/* (2): `log10Floor()` return negative int value only when y = 0 and
           `LessThanBranchFree` return 1( when x < y). Since `log10floor()` is a static method and only called by methods that take in positive `x` values.
           Therefore x can't be less less than y */
           "upperbound:return.type.incompatible",// all elements in `maxLog10ForLeadingZeros` can be indexed for `powersOf10`
-          "upperbound:assignment.type.incompatible",/* line 209: except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
+          "upperbound:assignment.type.incompatible",/* (2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
           can be indexed for `powersOf10`
           */})
   static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(long x) {
@@ -208,12 +208,12 @@ public final class LongMath {
      * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
      * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];
+    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];//(1)
     /*
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - lessThanBranchFree(x, powersOf10[y]);
+    return y - lessThanBranchFree(x, powersOf10[y]);//(2)
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
@@ -822,7 +822,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
   @SuppressWarnings(value = {"lowerbound:compound.assignment.type.incompatible",// the lowest n can be is 0 in this method
-          "upperbound:array.access.unsafe.high"// line 840: Since k <= n, k is safely indexed
+          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is safely indexed
   })
   public static long binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
@@ -838,7 +838,7 @@ public final class LongMath {
         return n;
       default:
         if (n < factorials.length) {
-          return factorials[n] / (factorials[k] * factorials[n - k]);
+          return factorials[n] / (factorials[k] * factorials[n - k]);//(1)
         } else if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
           return Long.MAX_VALUE;
         } else if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
