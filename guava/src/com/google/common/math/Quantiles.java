@@ -582,7 +582,7 @@ public final class Quantiles {
    * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
    * greater than or equal to that.
    */
-  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")//line 581: `i` needs to be at least at 1 in order to execute for loop
+  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")// (1): `i` needs to be at least at 1 in order to execute for loop
   // Therefore, `partionPoint` can't be negative
   private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
@@ -595,7 +595,7 @@ public final class Quantiles {
     for (int i = to; i > from; i--) {
       if (array[i] > pivot) {
         swap(array, partitionPoint, i);
-        partitionPoint--;
+        partitionPoint--;//(1)
       }
     }
 
