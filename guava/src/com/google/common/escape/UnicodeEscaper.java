@@ -133,8 +133,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")/* (1) `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
-  Since `int cp = codePointAt(csq, index, end);` and `csq` is a sequence of characters. `cp` can only range from 97 to 122. */
+  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")//index += 2 only if Character.isSupplementaryCodePoint(cp) is true
   protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("#1") int index = start;
     while (index < end) {
@@ -142,7 +141,7 @@ public abstract class UnicodeEscaper extends Escaper {
       if (cp < 0 || escape(cp) != null) {
         break;
       }
-      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;//(1)
+      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;
     }
     return index;
   }
@@ -163,16 +162,14 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
   @SuppressWarnings(value = {"upperbound:compound.assignment.type.incompatible",/*
-          (1): `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
+          line 202 and line 206 `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
           will always be regrow when `destSize` is less than `sizeNeeded` */
           "upperbound:argument.type.incompatible",/*
-          (2): Because of System.arraycopy() method, `escaped.length` is required to be
-          @LTLengthOf(value={"escaped", "dest"}, offset={"-1", "destIndex - 1"}).
-          `escaped.length + destIndex - 1 < dest.length` is true because when `dest.length < sizeNeeded`,
-          `dest.length` regrow to new `destLength = destIndex + charsSkipped + escaped.length + (end - index) + DEST_PAD`
-          Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1") */
-          "upperbound:assignment.type.incompatible"/* (3): `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
-          Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` can only range from 97 to 122. */
+          line 210: Because of System.arraycopy() method, `rlen` is required to be
+          @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
+          Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1")
+          */
+          "upperbound:assignment.type.incompatible"//line 195: nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
@@ -191,7 +188,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      @LTEqLengthOf("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);//(3)
+      @LTEqLengthOf("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
@@ -200,15 +197,15 @@ public abstract class UnicodeEscaper extends Escaper {
         int sizeNeeded = destIndex + charsSkipped + escaped.length;
         if (dest.length < sizeNeeded) {
           int destLength = sizeNeeded + (end - index) + DEST_PAD;
-          dest = growBuffer(dest, destIndex, destLength);//(1)
+          dest = growBuffer(dest, destIndex, destLength);
         }
         // If we have skipped any characters, we need to copy them now.
         if (charsSkipped > 0) {
-          s.getChars(unescapedChunkStart, index, dest, destIndex);//(1)
+          s.getChars(unescapedChunkStart, index, dest, destIndex);
           destIndex += charsSkipped;
         }
         if (escaped.length > 0) {
-          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);//(2)
+          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);
           destIndex += escaped.length;
         }
         // If we dealt with an escaped character, reset the unescaped range.
@@ -262,8 +259,6 @@ public abstract class UnicodeEscaper extends Escaper {
    * @return the Unicode code point for the given index or the negated value of the trailing high
    *     surrogate character at the end of the sequence
    */
-  @SuppressWarnings("upperbound:argument.type.incompatible")/* highest possible `end` value is `seq.length`,
-  `indexInternal` can't be >= seq.length in while loop.*/
   protected static int codePointAt(CharSequence seq, @IndexFor("#1") int index, @IndexOrHigh("#1") int end) {
     checkNotNull(seq);
     @IndexOrHigh("seq") int indexInternal = index;
@@ -278,7 +273,7 @@ public abstract class UnicodeEscaper extends Escaper {
           return -c1;
         }
         // Otherwise look for the low surrogate following it
-        char c2 = seq.charAt(indexInternal);//(1)
+        char c2 = seq.charAt(index);
         if (Character.isLowSurrogate(c2)) {
           return Character.toCodePoint(c1, c2);
         }
@@ -288,7 +283,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c2
                 + " at index "
-                + indexInternal
+                + index
                 + " in '"
                 + seq
                 + "'");
@@ -299,7 +294,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c1
                 + " at index "
-                + (indexInternal - 1)
+                + (index - 1)
                 + " in '"
                 + seq
                 + "'");

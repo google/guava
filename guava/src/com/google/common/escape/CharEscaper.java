@@ -98,10 +98,13 @@ public abstract class CharEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    */
   @SuppressWarnings(value = {"upperbound:assignment.type.incompatible", "upperbound:argument.type.incompatible",/*
-   (1) Because of System.arraycopy() method, `rlen` is required to be @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
-   Since r = escape(), can't annotate `escape()` return type as @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).*/
-          "upperbound:compound.assignment.type.incompatible"/*(2): `destIndex` is always @LTEqLengthOf("dest") because `dest` array
-          will always be regrow when `destSize` is less than `sizeNeeded`*/})
+  line 132 and line 152: Because of System.arraycopy() method, `rlen` is required to be
+   @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
+   Since rlen = r.length, rlen should already be inferred to have length of @LTLengthOf(value="r", offset="-1" */
+          "upperbound:compound.assignment.type.incompatible"/*
+          line 147 and line 153 `destIndex` is always @LTEqLengthOf("dest") because `dest` array
+          will always be regrow when `destSize` is less than `sizeNeeded`
+          */})
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int slen = s.length();
 
@@ -123,7 +126,7 @@ public abstract class CharEscaper extends Escaper {
         continue;
       }
 
-      @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}) int rlen = r.length;//(1)
+      @LTLengthOf(value = "dest", offset = "destIndex - 1") int rlen = r.length;
       int charsSkipped = index - lastEscape;
 
       // This is the size needed to add the replacement, not the full size
@@ -143,7 +146,7 @@ public abstract class CharEscaper extends Escaper {
 
       // Copy the replacement string into the dest buffer as needed.
       if (rlen > 0) {
-        System.arraycopy(r, 0, dest, destIndex, rlen);//(2)
+        System.arraycopy(r, 0, dest, destIndex, rlen);
         destIndex += rlen;
       }
       lastEscape = index + 1;
@@ -156,7 +159,7 @@ public abstract class CharEscaper extends Escaper {
       if (destSize < sizeNeeded) {
 
         // Regrow and copy, expensive! No padding as this is the final copy.
-        dest = growBuffer(dest, destIndex, sizeNeeded);//(2)
+        dest = growBuffer(dest, destIndex, sizeNeeded);
       }
       s.getChars(lastEscape, slen, dest, destIndex);
       destIndex = sizeNeeded;
