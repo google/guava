@@ -133,8 +133,8 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")//index += 2 only if Character.isSupplementaryCodePoint(cp) is true.
-  //This won't happen since loop breaks if `cp` < 0.
+  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")/* (1) `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
+  Since `int cp = codePointAt(csq, index, end);` and `csq` is a sequence of characters. `cp` can only range from 97 to 122. */
   protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("#1") int index = start;
     while (index < end) {
@@ -142,7 +142,7 @@ public abstract class UnicodeEscaper extends Escaper {
       if (cp < 0 || escape(cp) != null) {
         break;
       }
-      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;
+      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;//(1)
     }
     return index;
   }
@@ -170,8 +170,8 @@ public abstract class UnicodeEscaper extends Escaper {
           @LTLengthOf(value={"escaped", "dest"}, offset={"-1", "destIndex - 1"}).
           Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1")
           */
-          "upperbound:assignment.type.incompatible"//(3): nextIndex = index + 2 only when Character.isSupplementaryCodePoint(cp) is true
-          //This won't happen since if `cp` < 0, throws exception.
+          "upperbound:assignment.type.incompatible"/* (3): `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
+          Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` can only range from 97 to 122. */
   })
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
@@ -287,7 +287,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c2
                 + " at index "
-                + index
+                + indexInternal
                 + " in '"
                 + seq
                 + "'");
@@ -298,7 +298,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c1
                 + " at index "
-                + (index - 1)
+                + (indexInternal - 1)
                 + " in '"
                 + seq
                 + "'");
