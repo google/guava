@@ -168,10 +168,9 @@ public abstract class UnicodeEscaper extends Escaper {
           "upperbound:argument.type.incompatible",/*
           (2): Because of System.arraycopy() method, `escaped.length` is required to be
           @LTLengthOf(value={"escaped", "dest"}, offset={"-1", "destIndex - 1"}).
-          Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1")
           `escaped.length + destIndex - 1 < dest.length` is true because when `dest.length < sizeNeeded`,
           `dest.length` regrow to new `destLength = destIndex + charsSkipped + escaped.length + (end - index) + DEST_PAD`
-          */
+          Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1") */
           "upperbound:assignment.type.incompatible"/* (3): `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
           Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` can only range from 97 to 122. */
   })
