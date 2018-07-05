@@ -395,7 +395,7 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    @SuppressWarnings({"upperbound:assignment.type.incompatible",// (0): indexes` array is annotated to have min length of 1( which is > 0).
+    @SuppressWarnings({"upperbound:assignment.type.incompatible",// indexes` array is annotated to have min length of 1( which is > 0).
             "upperbound:compound.assignment.type.incompatible",/* (1): Since `requiredSelections.length = indexes.length * 2`, and the for loop
             iterate from 0 to indexes.length, increment on requiredSelectionsCount is safe thoughout the loop.
             */
@@ -540,8 +540,8 @@ public final class Quantiles {
    * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
    * {@code required} is the value which would appear at that index in the sorted dataset.
    */
-  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//line 555: lowest possible while `to` > 0, `partionPoint` value is 1, therefore `to` can't be negative.
-          "upperbound:assignment.type.incompatible"/* line 559: highest possible `partionPoint` value is array.length / 2 or (array.length / 2) + 1.
+  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//(1): lowest possible while `to` > 0, `partionPoint` value is 1, therefore `to` can't be negative.
+          "upperbound:assignment.type.incompatible"/* (2): highest possible `partionPoint` value is array.length / 2 or (array.length / 2) + 1.
           Even with highest `required` value, `from` can only grow to array.length.
           */})
   private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
@@ -566,10 +566,10 @@ public final class Quantiles {
     while (to > from) {
       int partitionPoint = partition(array, from, to);
       if (partitionPoint >= required) {
-        to = partitionPoint - 1;
+        to = partitionPoint - 1;//(1)
       }
       if (partitionPoint <= required) {
-        from = partitionPoint + 1;
+        from = partitionPoint + 1;//(2)
       }
     }
   }
