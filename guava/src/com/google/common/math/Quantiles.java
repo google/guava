@@ -281,8 +281,8 @@ public final class Quantiles {
      *     be arbitrarily reordered by this method call
      * @return the quantile value
      */
-    @SuppressWarnings({"lowerbound:assignment.type.incompatible",// Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
-            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* when remainder is not zero,
+    @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
+            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1)(2): when remainder is not zero,
             quotient max value is `dataset.length - 2`*/
             "upperbound:assignment.type.incompatible"/* Since `numerator = index * (dataset.length - 1)`,
             dividing it to scale will return a value less than length of `dataset`. */})
@@ -299,7 +299,7 @@ public final class Quantiles {
 
       // Since index and (dataset.length - 1) are non-negative ints, their product can be expressed
       // as a long, without risk of overflow:
-      @NonNegative long numerator = (long) index * (dataset.length - 1);
+      @NonNegative long numerator = (long) index * (dataset.length - 1);//(0)
       // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a
       // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get
       // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:
@@ -309,8 +309,8 @@ public final class Quantiles {
       if (remainder == 0) {
         return dataset[quotient];
       } else {
-        selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);
-        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);
+        selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);//(1)
+        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);//(2)
       }
     }
   }
