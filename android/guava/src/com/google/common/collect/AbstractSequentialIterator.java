@@ -56,6 +56,7 @@ public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator
    * remain. This method is invoked during each call to {@link #next()} in order to compute the
    * result of a <i>future</i> call to {@code next()}.
    */
+  @NullableDecl
   protected abstract T computeNext(T previous);
 
   @Override
