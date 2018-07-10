@@ -172,8 +172,8 @@ public abstract class UnicodeEscaper extends Escaper {
           `dest.length` regrow to new `destLength = destIndex + charsSkipped + escaped.length + (end - index) + DEST_PAD`
           Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1") */
           "upperbound:assignment.type.incompatible"/* (3): `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
-          Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` can only range from 97 to 122. */
-  })
+          Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` will be an an integer between 0 and 65535
+          representing the UTF-16 code unit at the given index. */})
   protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
 
