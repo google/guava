@@ -592,9 +592,9 @@
 <span class="sourceLineNo">584</span>    }<a name="line.584"></a>
 <span class="sourceLineNo">585</span>  }<a name="line.585"></a>
 <span class="sourceLineNo">586</span><a name="line.586"></a>
-<span class="sourceLineNo">587</span>  @WeakOuter<a name="line.587"></a>
-<span class="sourceLineNo">588</span>  static final class ElementSet&lt;E&gt; extends ImmutableSet.Indexed&lt;E&gt; {<a name="line.588"></a>
-<span class="sourceLineNo">589</span>    private final List&lt;Entry&lt;E&gt;&gt; entries;<a name="line.589"></a>
+<span class="sourceLineNo">587</span>  static final class ElementSet&lt;E&gt; extends ImmutableSet.Indexed&lt;E&gt; {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>    private final List&lt;Entry&lt;E&gt;&gt; entries;<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    // TODO(cpovirk): @Weak?<a name="line.589"></a>
 <span class="sourceLineNo">590</span>    private final Multiset&lt;E&gt; delegate;<a name="line.590"></a>
 <span class="sourceLineNo">591</span><a name="line.591"></a>
 <span class="sourceLineNo">592</span>    ElementSet(List&lt;Entry&lt;E&gt;&gt; entries, Multiset&lt;E&gt; delegate) {<a name="line.592"></a>

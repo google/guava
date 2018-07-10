@@ -29138,9 +29138,6 @@
  multimap, either directly or through the multimap's views, result in an {@code
  UnsupportedOperationException}.
 
- <p>Note that the generated multimap's {@link Multimap#removeAll} and {@link
- Multimap#replaceValues} methods return collections that are modifiable.
-
  <p>The returned multimap will be serializable if the specified multimap is serializable.
 
  @param delegate the multimap for which an unmodifiable view is to be returned
@@ -29185,9 +29182,6 @@
  returned multimap "read through" to the specified multimap, and attempts to modify the returned
  multimap, either directly or through the multimap's views, result in an {@code
  UnsupportedOperationException}.
-
- <p>Note that the generated multimap's {@link Multimap#removeAll} and {@link
- Multimap#replaceValues} methods return collections that are modifiable.
 
  <p>The returned multimap will be serializable if the specified multimap is serializable.
 
@@ -29235,9 +29229,6 @@
  returned multimap, either directly or through the multimap's views, result in an {@code
  UnsupportedOperationException}.
 
- <p>Note that the generated multimap's {@link Multimap#removeAll} and {@link
- Multimap#replaceValues} methods return collections that are modifiable.
-
  <p>The returned multimap will be serializable if the specified multimap is serializable.
 
  @param delegate the multimap for which an unmodifiable view is to be returned
@@ -29268,9 +29259,6 @@
  returned multimap "read through" to the specified multimap, and attempts to modify the returned
  multimap, either directly or through the multimap's views, result in an {@code
  UnsupportedOperationException}.
-
- <p>Note that the generated multimap's {@link Multimap#removeAll} and {@link
- Multimap#replaceValues} methods return collections that are modifiable.
 
  <p>The returned multimap will be serializable if the specified multimap is serializable.
 
@@ -45366,7 +45354,6 @@
       <param name="file" type="java.io.File"/>
       <param name="mode" type="java.nio.channels.FileChannel.MapMode"/>
       <param name="size" type="long"/>
-      <exception name="FileNotFoundException" type="java.io.FileNotFoundException"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Maps a file in to memory as per {@link FileChannel#map(java.nio.channels.FileChannel.MapMode,
@@ -51446,8 +51433,7 @@
       <param name="values" type="java.lang.Iterable&lt;java.lang.String&gt;"/>
       <doc>
       <![CDATA[<em>Replaces</em> all parameters with the given attribute with parameters using the given
- values. If there are no values, any existing parameters with the given attribute are
- removed.
+ values. If there are no values, any existing parameters with the given attribute are removed.
 
  @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid
  @since 24.0]]>
@@ -52048,6 +52034,17 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+    </field>
+    <field name="HAL_JSON" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
+ Hypertext Application Language (HAL) documents</a>.
+
+ @since NEXT]]>
+      </doc>
     </field>
     <field name="JAVASCRIPT_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
