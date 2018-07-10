@@ -97,7 +97,7 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-  @SuppressWarnings(value = {"upperbound:assignment.type.incompatible", "upperbound:argument.type.incompatible",/*
+  @SuppressWarnings(value = {"upperbound:assignment.type.incompatible",/*
    (1) Because of System.arraycopy() method, `rlen` is required to be @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).
    Since r = escape(), can't annotate `escape()` return type as @LTLengthOf(value={"r", "dest"}, offset={"-1", "destIndex - 1"}).*/
           "upperbound:compound.assignment.type.incompatible"/*(2): `destIndex` is always @LTEqLengthOf("dest") because `dest` array
