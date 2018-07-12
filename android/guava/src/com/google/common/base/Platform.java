@@ -70,8 +70,8 @@ final class Platform {
     return patternCompiler.compile(pattern);
   }
 
-  static boolean usingJdkPatternCompiler() {
-    return patternCompiler instanceof JdkPatternCompiler;
+  static boolean patternCompilerIsPcreLike() {
+    return patternCompiler.isPcreLike();
   }
 
   private static PatternCompiler loadPatternCompiler() {
@@ -91,6 +91,11 @@ final class Platform {
     @Override
     public CommonPattern compile(String pattern) {
       return new JdkPattern(Pattern.compile(pattern));
+    }
+
+    @Override
+    public boolean isPcreLike() {
+      return true;
     }
   }
 }

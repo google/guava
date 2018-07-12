@@ -33,7 +33,11 @@ abstract class CommonPattern {
   @Override
   public abstract String toString();
 
-  static CommonPattern compile(String pattern) {
+  public static CommonPattern compile(String pattern) {
     return Platform.compilePattern(pattern);
+  }
+
+  public static boolean isPcreLike() {
+    return Platform.patternCompilerIsPcreLike();
   }
 }
