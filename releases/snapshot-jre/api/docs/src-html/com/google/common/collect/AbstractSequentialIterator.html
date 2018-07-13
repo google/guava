@@ -64,25 +64,26 @@
 <span class="sourceLineNo">056</span>   * remain. This method is invoked during each call to {@link #next()} in order to compute the<a name="line.56"></a>
 <span class="sourceLineNo">057</span>   * result of a &lt;i&gt;future&lt;/i&gt; call to {@code next()}.<a name="line.57"></a>
 <span class="sourceLineNo">058</span>   */<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  protected abstract T computeNext(T previous);<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  public final boolean hasNext() {<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    return nextOrNull != null;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  }<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  @Override<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  public final T next() {<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    if (!hasNext()) {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>      throw new NoSuchElementException();<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    }<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    try {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>      return nextOrNull;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    } finally {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>      nextOrNull = computeNext(nextOrNull);<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    }<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
-<span class="sourceLineNo">077</span>}<a name="line.77"></a>
+<span class="sourceLineNo">059</span>  @Nullable<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  protected abstract T computeNext(T previous);<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  @Override<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  public final boolean hasNext() {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    return nextOrNull != null;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  @Override<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  public final T next() {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    if (!hasNext()) {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>      throw new NoSuchElementException();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    }<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    try {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      return nextOrNull;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    } finally {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      nextOrNull = computeNext(nextOrNull);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    }<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span>}<a name="line.78"></a>
 
 
 

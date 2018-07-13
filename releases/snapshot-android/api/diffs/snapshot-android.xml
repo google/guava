@@ -48196,6 +48196,17 @@
  @since 19.0]]>
       </doc>
     </field>
+    <field name="SEC_METADATA" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_TOKEN_BINDING" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

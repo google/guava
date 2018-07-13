@@ -266,7 +266,8 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>computeNext</h4>
-<pre>protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.59">computeNext</a>(<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;previous)</pre>
+<pre><a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+protected abstract&nbsp;<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.60">computeNext</a>(<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;previous)</pre>
 <div class="block">Returns the element that follows <code>previous</code>, or returns <code>null</code> if no elements
  remain. This method is invoked during each call to <a href="../../../../com/google/common/collect/AbstractSequentialIterator.html#next--"><code>next()</code></a> in order to compute the
  result of a <i>future</i> call to <code>next()</code>.</div>
@@ -278,7 +279,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasNext</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.62">hasNext</a>()</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.63">hasNext</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#hasNext--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns <code>true</code> if the iteration has more elements.
  (In other words, returns <code>true</code> if <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util"><code>Iterator.next()</code></a> would
@@ -295,7 +296,7 @@ extends <a href="../../../../com/google/common/collect/UnmodifiableIterator.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>next</h4>
-<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.67">next</a>()</pre>
+<pre>public final&nbsp;<a href="../../../../com/google/common/collect/AbstractSequentialIterator.html" title="type parameter in AbstractSequentialIterator">T</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/AbstractSequentialIterator.html#line.68">next</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true#next--" title="class or interface in java.util">java.util.Iterator</a></code></span></div>
 <div class="block">Returns the next element in the iteration.</div>
 <dl>
