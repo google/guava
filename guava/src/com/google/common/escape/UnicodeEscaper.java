@@ -134,7 +134,8 @@ public abstract class UnicodeEscaper extends Escaper {
    *     surrogate pairs
    */
   @SuppressWarnings("upperbound:compound.assignment.type.incompatible")/* (1) `Character.isSupplementaryCodePoint(cp)` is true when `cp` range from 65536 to 1114111.
-  Since `int cp = codePointAt(csq, index, end);` and `csq` is a sequence of characters. `cp` can only range from 97 to 122. */
+          Since `int cp = codePointAt(s, index, end);` and `s` is a string composed of characters, `cp` will be an an integer between 0 and 65535
+          representing the UTF-16 code unit at the given index. */
   protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("#1") int index = start;
     while (index < end) {
