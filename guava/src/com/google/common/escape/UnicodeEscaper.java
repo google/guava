@@ -18,6 +18,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.IndexOrHigh;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.LengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular
@@ -77,7 +83,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * @param cp the Unicode code point to escape if necessary
    * @return the replacement characters, or {@code null} if no escaping was needed
    */
-  protected abstract char[] escape(int cp);
+  protected abstract char[] escape(@NonNegative int cp);
 
   /**
    * Returns the escaped form of a given literal string.
@@ -100,8 +106,8 @@ public abstract class UnicodeEscaper extends Escaper {
   @Override
   public String escape(String string) {
     checkNotNull(string);
-    int end = string.length();
-    int index = nextEscapeIndex(string, 0, end);
+    @LengthOf("string") int end = string.length();
+    @IndexOrHigh("string") int index = nextEscapeIndex(string, 0, end);
     return index == end ? string : escapeSlow(string, index);
   }
 
@@ -127,14 +133,17 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid
    *     surrogate pairs
    */
-  protected int nextEscapeIndex(CharSequence csq, int start, int end) {
-    int index = start;
+  @SuppressWarnings("upperbound:compound.assignment.type.incompatible")/* (1) In char arrays and CharSequence and its subclasses, two chars are used to represent
+          unicode characters that are outside the range of a 16-bit char character. If cp is in the larger range then there is guaranteed to be another
+          character following the one located at index, which is the rest of the unicode character. */
+  protected @IndexOrHigh("#1") int nextEscapeIndex(CharSequence csq, @IndexOrHigh("#1") int start, @IndexOrHigh("#1") int end) {
+    @IndexOrHigh("#1") int index = start;
     while (index < end) {
       int cp = codePointAt(csq, index, end);
       if (cp < 0 || escape(cp) != null) {
         break;
       }
-      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;
+      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;//(1)
     }
     return index;
   }
@@ -154,13 +163,25 @@ public abstract class UnicodeEscaper extends Escaper {
    * @throws NullPointerException if {@code string} is null
    * @throws IllegalArgumentException if invalid surrogate characters are encountered
    */
-  protected final String escapeSlow(String s, int index) {
+  @SuppressWarnings(value = {"upperbound:compound.assignment.type.incompatible",/*
+          (1): `destIndex` is always @LTEqLengthOf("dest") @LessThan("destSize + 1") because `dest` array
+          will always be regrow when `destSize` is less than `sizeNeeded` */
+          "upperbound:argument.type.incompatible",/*
+          (2): Because of System.arraycopy() method, `escaped.length` is required to be
+          @LTLengthOf(value={"escaped", "dest"}, offset={"-1", "destIndex - 1"}).
+          `escaped.length + destIndex - 1 < dest.length` is true because when `dest.length < sizeNeeded`,
+          `dest.length` regrow to new `destLength = destIndex + charsSkipped + escaped.length + (end - index) + DEST_PAD`
+          Since escaped.length is length of `escaped`, it should already be inferred to have length of @LTLengthOf(value="escaped", offset="-1") */
+          "upperbound:assignment.type.incompatible"/* (3): In char arrays and CharSequence and its subclasses, two chars are used to represent
+          unicode characters that are outside the range of a 16-bit char character. If cp is in the larger range then there is guaranteed to be another
+          character following the one located at index, which is the rest of the unicode character. */})
+  protected final String escapeSlow(String s, @IndexOrHigh("#1") int index) {
     int end = s.length();
 
     // Get a destination buffer and setup some loop variables.
     char[] dest = Platform.charBufferFromThreadLocal();
-    int destIndex = 0;
-    int unescapedChunkStart = 0;
+    @LTEqLengthOf("dest") int destIndex = 0;
+    @LTEqLengthOf("s") int unescapedChunkStart = 0;
 
     while (index < end) {
       int cp = codePointAt(s, index, end);
@@ -171,7 +192,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+      @LTEqLengthOf("s") int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);//(3)
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
@@ -180,15 +201,15 @@ public abstract class UnicodeEscaper extends Escaper {
         int sizeNeeded = destIndex + charsSkipped + escaped.length;
         if (dest.length < sizeNeeded) {
           int destLength = sizeNeeded + (end - index) + DEST_PAD;
-          dest = growBuffer(dest, destIndex, destLength);
+          dest = growBuffer(dest, destIndex, destLength);//(1)
         }
         // If we have skipped any characters, we need to copy them now.
         if (charsSkipped > 0) {
-          s.getChars(unescapedChunkStart, index, dest, destIndex);
+          s.getChars(unescapedChunkStart, index, dest, destIndex);//(1)
           destIndex += charsSkipped;
         }
         if (escaped.length > 0) {
-          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);
+          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);//(2)
           destIndex += escaped.length;
         }
         // If we dealt with an escaped character, reset the unescaped range.
@@ -242,20 +263,23 @@ public abstract class UnicodeEscaper extends Escaper {
    * @return the Unicode code point for the given index or the negated value of the trailing high
    *     surrogate character at the end of the sequence
    */
-  protected static int codePointAt(CharSequence seq, int index, int end) {
+  @SuppressWarnings("upperbound:argument.type.incompatible")/* highest possible `end` value is `seq.length`,
+  `indexInternal` can't be >= seq.length in while loop.*/
+  protected static int codePointAt(CharSequence seq, @IndexFor("#1") int index, @IndexOrHigh("#1") int end) {
     checkNotNull(seq);
-    if (index < end) {
-      char c1 = seq.charAt(index++);
+    @IndexOrHigh("seq") int indexInternal = index;
+    if (indexInternal < end) {
+      char c1 = seq.charAt(indexInternal++);
       if (c1 < Character.MIN_HIGH_SURROGATE || c1 > Character.MAX_LOW_SURROGATE) {
         // Fast path (first test is probably all we need to do)
         return c1;
       } else if (c1 <= Character.MAX_HIGH_SURROGATE) {
         // If the high surrogate was the last character, return its inverse
-        if (index == end) {
+        if (indexInternal == end) {
           return -c1;
         }
         // Otherwise look for the low surrogate following it
-        char c2 = seq.charAt(index);
+        char c2 = seq.charAt(indexInternal);//(1)
         if (Character.isLowSurrogate(c2)) {
           return Character.toCodePoint(c1, c2);
         }
@@ -265,7 +289,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c2
                 + " at index "
-                + index
+                + indexInternal
                 + " in '"
                 + seq
                 + "'");
@@ -276,7 +300,7 @@ public abstract class UnicodeEscaper extends Escaper {
                 + "' with value "
                 + (int) c1
                 + " at index "
-                + (index - 1)
+                + (indexInternal - 1)
                 + " in '"
                 + seq
                 + "'");
@@ -289,7 +313,9 @@ public abstract class UnicodeEscaper extends Escaper {
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
    */
-  private static char[] growBuffer(char[] dest, int index, int size) {
+  @SuppressWarnings("upperbound:argument.type.incompatible")//upper bound checker does not infer size
+  //as size of the array. Issue: https://github.com/typetools/checker-framework/issues/2029
+  private static char[] growBuffer(char[] dest,  @LTEqLengthOf("#1") @LessThan("#3 + 1") int index, int size) {
     if (size < 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it
       throw new AssertionError("Cannot increase internal buffer any further");
     }

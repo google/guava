@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.checkerframework.checker.index.qual.LengthOf;
 
 /**
  * A {@link CharEscaper} that uses an array to quickly look up replacement characters for a given
@@ -46,7 +47,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
   // The replacement array (see ArrayBasedEscaperMap).
   private final char[][] replacements;
   // The number of elements in the replacement array.
-  private final int replacementsLength;
+  private final @LengthOf("replacements") int replacementsLength;
   // The first character in the safe range.
   private final char safeMin;
   // The last character in the safe range.
@@ -101,6 +102,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * This is overridden to improve performance. Rough benchmarking shows that this almost doubles
    * the speed when processing strings that do not require any escaping.
    */
+  @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   public final String escape(String s) {
     checkNotNull(s); // GWT specific check (do not optimize).
@@ -118,6 +120,7 @@ public abstract class ArrayBasedCharEscaper extends CharEscaper {
    * character does not have an explicit replacement and lies outside the safe range then {@link
    * #escapeUnsafe} is called.
    */
+  @SuppressWarnings("lowerbound:array.access.unsafe.low")//char types are non negative: https://github.com/kelloggm/checker-framework/issues/192
   @Override
   protected final char[] escape(char c) {
     if (c < replacementsLength) {
