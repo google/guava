@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /**
  * Utility methods for working with {@link Enum} instances.
@@ -33,6 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Steve McKay
  * @since 9.0
  */
+@AnnotatedFor({"nullness"})
 @GwtCompatible(emulated = true)
 public final class Enums {
 

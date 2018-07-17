@@ -23,6 +23,7 @@ import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.AnnotatedFor;
 
@@ -48,6 +49,9 @@ final class Platform {
     return matcher.precomputedInternal();
   }
 
+  @SuppressWarnings("nullness:argument.type.incompatible") // ref.get returns null in case the object
+  // that it refers to is cleared or garbage collected which is unlikely during normal program
+  // execution. Optional.of always return a non-null value for non-null argument.
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
     return ref == null ? Optional.<T>absent() : Optional.of(enumClass.cast(ref.get()));
@@ -57,6 +61,7 @@ final class Platform {
     return String.format(Locale.ROOT, "%.4g", value);
   }
 
+  @EnsuresNonNullIf(expression = "#1", result = false)
   static boolean stringIsNullOrEmpty(@Nullable String string) {
     return string == null || string.isEmpty();
   }
@@ -65,7 +70,7 @@ final class Platform {
     return (string == null) ? "" : string;
   }
 
-  static String emptyToNull(@Nullable String string) {
+  static @Nullable String emptyToNull(@Nullable String string) {
     return stringIsNullOrEmpty(string) ? null : string;
   }
 

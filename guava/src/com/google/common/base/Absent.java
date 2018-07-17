@@ -19,9 +19,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+import org.checkerframework.framework.qual.AnnotatedFor;
 
 /** Implementation of an {@link Optional} not containing a reference. */
+@AnnotatedFor({"nullness"})
 @GwtCompatible
 final class Absent<T> extends Optional<T> {
   static final Absent<Object> INSTANCE = new Absent<>();
@@ -39,12 +43,12 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public T get() {
+  public @NonNull T get() {
     throw new IllegalStateException("Optional.get() cannot be called on an absent value");
   }
 
   @Override
-  public T or(T defaultValue) {
+  public @NonNull T or(@NonNull T defaultValue) {
     return checkNotNull(defaultValue, "use Optional.orNull() instead of Optional.or(null)");
   }
 
@@ -55,7 +59,7 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public T or(Supplier<? extends T> supplier) {
+  public @NonNull T or(Supplier<? extends @NonNull T> supplier) {
     return checkNotNull(
         supplier.get(), "use Optional.orNull() instead of a Supplier that returns null");
   }
@@ -66,12 +70,12 @@ final class Absent<T> extends Optional<T> {
   }
 
   @Override
-  public Set<T> asSet() {
+  public Set<@NonNull T> asSet() {
     return Collections.emptySet();
   }
 
   @Override
-  public <V> Optional<V> transform(Function<? super T, V> function) {
+  public <V extends @NonNull Object> Optional<V> transform(Function<? super T, V> function) {
     checkNotNull(function);
     return Optional.absent();
   }
