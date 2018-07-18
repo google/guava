@@ -171,6 +171,14 @@ public class CacheBuilderTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // digs into internals of the non-GWT implementation
+  public void testMaximumSize_largerThanInt() {
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().initialCapacity(512).maximumSize(Long.MAX_VALUE);
+    LocalCache<?, ?> cache = ((LocalCache.LocalManualCache<?, ?>) builder.build()).localCache;
+    assertThat(cache.segments.length * cache.segments[0].table.length()).isEqualTo(512);
+  }
+
   @GwtIncompatible // maximumWeight
   public void testMaximumWeight_negative() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
