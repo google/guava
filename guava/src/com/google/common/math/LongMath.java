@@ -108,7 +108,7 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
-  @SuppressWarnings("return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
+  @SuppressWarnings("value:return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(long x, long y) {
     // Returns the sign bit of x - y.
@@ -168,7 +168,7 @@ public final class LongMath {
   // TODO(kevinb): remove after this warning is disabled globally
   public static int log10(long x, RoundingMode mode) {
     checkPositive("x", x);
-    @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int logFloor = log10Floor(x);
+    int logFloor = log10Floor(x);
     long floorPow = powersOf10[logFloor];
     switch (mode) {
       case UNNECESSARY:
@@ -191,12 +191,14 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* (1): Long.numberOfLeadingZeros() return 64 and causes
+  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* (1): Long.numberOfLeadingZeros() returns 64 and causes
   an error only if x is 0, because `log10floor()` is a static method and only called by methods that take in positive `x` values. */
           "lowerbound:return.type.incompatible",/* (2): `log10Floor()` return negative int value only when y = 0 and
           `LessThanBranchFree` return 1( when x < y). Since `log10floor()` is a static method and only called by methods that take in positive `x` values.
           Therefore x can't be less less than y */
-          "upperbound:return.type.incompatible",// all elements in `maxLog10ForLeadingZeros` can be indexed for `powersOf10`
+          "upperbound:return.type.incompatible",/*(2) powersOf10.length is 19 and largest element in `maxLog10ForLeadingZeros` is 19 at index 0.
+          Since `log10Floor()` is a static method and only called by methods that take in positive `x` values, `Long.numberOfLeadingZeros(x)`
+          won't return 0 and cause an error */
           "upperbound:assignment.type.incompatible",/* (2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
           can be indexed for `powersOf10`
           */})
@@ -822,7 +824,8 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
   @SuppressWarnings(value = {"lowerbound:compound.assignment.type.incompatible",// the lowest n can be is 0 in this method
-          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is safely indexed
+          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is safely indexed.
+          // Link to issue: https://github.com/typetools/checker-framework/issues/2029
   })
   public static long binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
