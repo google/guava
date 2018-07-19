@@ -350,7 +350,7 @@ public final class BigIntegerMath {
     ArrayList<BigInteger> bignums = new ArrayList<>(approxSize);
 
     // Start from the pre-computed maximum long factorial.
-    @Positive int startingNumber = LongMath.factorials.length;
+    int startingNumber = LongMath.factorials.length;
     long product = LongMath.factorials[startingNumber - 1];
     // Strip off 2s from this value.
     int shift = Long.numberOfTrailingZeros(product);
