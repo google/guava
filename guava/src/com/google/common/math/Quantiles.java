@@ -318,6 +318,7 @@ public final class Quantiles {
       for (int index : indexes) {
         checkIndex(index, scale);
       }
+      checkArgument(indexes.length > 0, "Indexes must be a non empty array");
       this.scale = scale;
       this.indexes = indexes;
     }
