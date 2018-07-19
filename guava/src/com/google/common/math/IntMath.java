@@ -163,14 +163,10 @@ public final class IntMath {
    *     is not a power of ten
    */
   @GwtIncompatible // need BigIntegerMath to adequately test
-  @SuppressWarnings({"fallthrough",
-          "lowerbound:assignment.type.incompatible",/* (1): only time when logFloor = log10Floor(x) is negative is
-          when `x` is 0, and that can't be because log10() only takes in positive `x` */
-          "upperbound:assignment.type.incompatible"/* since all elements in `maxLog10ForLeadingZeros` array
-          is @LTLengthOf("powersOf10","halfPowersOf10"), log10Floor() always return indexed values for `powersOf10` and `halfPowersOf10` */})
+  @SuppressWarnings("fallthrough")
   public static int log10(@Positive int x, RoundingMode mode) {
     checkPositive("x", x);
-    @IndexFor(value = {"powersOf10","halfPowersOf10"}) int logFloor = log10Floor(x);//(1)
+    int logFloor = log10Floor(x);//(1)
     int floorPow = powersOf10[logFloor];
     switch (mode) {
       case UNNECESSARY:
