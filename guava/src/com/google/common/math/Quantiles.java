@@ -282,7 +282,8 @@ public final class Quantiles {
      * @return the quantile value
      */
     @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
-            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1)(2): when remainder is not zero,
+            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1): second argument in selectInPlace() and interpolate()
+            is required to be < dataset.length,since quotien therefore `quotient + 1` should be < dataset.length. If when remainder is not zero,
             quotient max value is `dataset.length - 2`*/
             "upperbound:assignment.type.incompatible"/*(3) Since `numerator = index * (dataset.length - 1)`,
             dividing it to scale will return a value less than dataset.length. */})
@@ -310,7 +311,7 @@ public final class Quantiles {
         return dataset[quotient];
       } else {
         selectInPlace(quotient + 1, dataset, quotient + 1, dataset.length - 1);//(1)
-        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);//(2)
+        return interpolate(dataset[quotient], dataset[quotient + 1], remainder, scale);//(1)
       }
     }
   }
