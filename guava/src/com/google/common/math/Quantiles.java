@@ -284,8 +284,8 @@ public final class Quantiles {
     @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
             "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1)(2): when remainder is not zero,
             quotient max value is `dataset.length - 2`*/
-            "upperbound:assignment.type.incompatible"/* Since `numerator = index * (dataset.length - 1)`,
-            dividing it to scale will return a value less than length of `dataset`. */})
+            "upperbound:assignment.type.incompatible"/*(3) Since `numerator = index * (dataset.length - 1)`,
+            dividing it to scale will return a value less than dataset.length. */})
     public double computeInPlace(double @MinLen(1)... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
       if (containsNaN(dataset)) {
@@ -303,7 +303,7 @@ public final class Quantiles {
       // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a
       // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get
       // a rounded ratio and a remainder which can be expressed as ints, without risk of overflow:
-      @IndexFor("dataset") int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
+      @IndexFor("dataset") int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);//(3)
       int remainder = (int) (numerator - (long) quotient * scale);
       selectInPlace(quotient, dataset, 0, dataset.length - 1);
       if (remainder == 0) {
