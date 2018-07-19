@@ -746,7 +746,7 @@ public class QuantilesTest extends TestCase {
     }
   }
 
-  public void testIndexes_empty() {
+  public void testScale_indexes_indexes_computeInPlace_empty() {
     int[] empty_indexes = {};
     try {
       Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(empty_indexes);
