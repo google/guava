@@ -33,7 +33,6 @@ import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulCheckedFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.DoNotCall;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -296,58 +295,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * // Falling back to a zero counter in case an exception happens when
    * // processing the RPC to fetch counters.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-   *     fetchCounterFuture, FetchException.class, x -> 0);
-   * }</pre>
-   *
-   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
-   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
-   * also applicable to heavyweight functions passed to this method.
-   *
-   * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
-   *     type is matched against the input's exception. "The input's exception" means the cause of
-   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
-   *     different kind of exception, that exception itself. To avoid hiding bugs and other
-   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
-   *     Throwable.class} in particular.
-   * @param fallback the {@link Function} to be called if {@code input} fails with the expected
-   *     exception type. The function's argument is the input's exception. "The input's exception"
-   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
-   *     {@code get()} throws a different kind of exception, that exception itself.
-   * @since 19.0
-   * @deprecated Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
-   *     that requires an executor}. For identical behavior, pass {@link
-   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in July 2018.
-   */
-  @Deprecated
-  @DoNotCall
-  @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
-  public static <V, X extends Throwable> ListenableFuture<V> catching(
-      ListenableFuture<? extends V> input,
-      Class<X> exceptionType,
-      Function<? super X, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
-  }
-
-  /**
-   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
-   * primary input fails with the given {@code exceptionType}, from the result provided by the
-   * {@code fallback}. {@link Function#apply} is not invoked until the primary input has failed, so
-   * if the primary input succeeds, it is never invoked. If, during the invocation of {@code
-   * fallback}, an exception is thrown, this exception is used as the result of the output {@code
-   * Future}.
-   *
-   * <p>Usage example:
-   *
-   * <pre>{@code
-   * ListenableFuture<Integer> fetchCounterFuture = ...;
-   *
-   * // Falling back to a zero counter in case an exception happens when
-   * // processing the RPC to fetch counters.
-   * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
    *     fetchCounterFuture, FetchException.class, x -> 0, directExecutor());
    * }</pre>
    *
@@ -377,80 +324,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       Function<? super X, ? extends V> fallback,
       Executor executor) {
     return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
-  }
-
-  /**
-   * Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
-   * primary input fails with the given {@code exceptionType}, from the result provided by the
-   * {@code fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has
-   * failed, so if the primary input succeeds, it is never invoked. If, during the invocation of
-   * {@code fallback}, an exception is thrown, this exception is used as the result of the output
-   * {@code Future}.
-   *
-   * <p>Usage examples:
-   *
-   * <pre>{@code
-   * ListenableFuture<Integer> fetchCounterFuture = ...;
-   *
-   * // Falling back to a zero counter in case an exception happens when
-   * // processing the RPC to fetch counters.
-   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *     fetchCounterFuture, FetchException.class, x -> immediateFuture(0));
-   * }</pre>
-   *
-   * <p>The fallback can also choose to propagate the original exception when desired:
-   *
-   * <pre>{@code
-   * ListenableFuture<Integer> fetchCounterFuture = ...;
-   *
-   * // Falling back to a zero counter only in case the exception was a
-   * // TimeoutException.
-   * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-   *     fetchCounterFuture,
-   *     FetchException.class,
-   *     e -> {
-   *       if (omitDataOnFetchFailure) {
-   *         return immediateFuture(0);
-   *       }
-   *       throw e;
-   *     });
-   * }</pre>
-   *
-   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
-   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
-   * also applicable to heavyweight functions passed to this method. (Specifically, {@code
-   * directExecutor} functions should avoid heavyweight operations inside {@code
-   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
-   * completing the returned {@code Future}.)
-   *
-   * @param input the primary input {@code Future}
-   * @param exceptionType the exception type that triggers use of {@code fallback}. The exception
-   *     type is matched against the input's exception. "The input's exception" means the cause of
-   *     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
-   *     different kind of exception, that exception itself. To avoid hiding bugs and other
-   *     unrecoverable errors, callers should prefer more specific types, avoiding {@code
-   *     Throwable.class} in particular.
-   * @param fallback the {@link AsyncFunction} to be called if {@code input} fails with the expected
-   *     exception type. The function's argument is the input's exception. "The input's exception"
-   *     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
-   *     {@code get()} throws a different kind of exception, that exception itself.
-   * @since 19.0 (similar functionality in 14.0 as {@code withFallback})
-   * @deprecated Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
-   *     the overload that requires an executor}. For identical behavior, pass {@link
-   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in July 2018.
-   */
-  @CanIgnoreReturnValue // TODO(kak): @CheckReturnValue
-  @Deprecated
-  @DoNotCall
-  @Partially.GwtIncompatible("AVAILABLE but requires exceptionType to be Throwable.class")
-  public static <V, X extends Throwable> ListenableFuture<V> catchingAsync(
-      ListenableFuture<? extends V> input,
-      Class<X> exceptionType,
-      AsyncFunction<? super X, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
   }
 
   /**
@@ -555,54 +428,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * <pre>{@code
    * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
    * ListenableFuture<QueryResult> queryFuture =
-   *     transformAsync(rowKeyFuture, dataService::readFuture);
-   * }</pre>
-   *
-   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
-   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
-   * also applicable to heavyweight functions passed to this method. (Specifically, {@code
-   * directExecutor} functions should avoid heavyweight operations inside {@code
-   * AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
-   * completing the returned {@code Future}.)
-   *
-   * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
-   * input future and that of the future returned by the function. That is, if the returned {@code
-   * Future} is cancelled, it will attempt to cancel the other two, and if either of the other two
-   * is cancelled, the returned {@code Future} will receive a callback in which it will attempt to
-   * cancel itself.
-   *
-   * @param input The future to transform
-   * @param function A function to transform the result of the input future to the result of the
-   *     output future
-   * @return A future that holds result of the function (if the input succeeded) or the original
-   *     input's failure (if not)
-   * @since 19.0 (in 11.0 as {@code transform})
-   * @deprecated Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
-   *     overload that requires an executor}. For identical behavior, pass {@link
-   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in July 2018.
-   */
-  @Deprecated
-  @DoNotCall
-  public static <I, O> ListenableFuture<O> transformAsync(
-      ListenableFuture<I> input, AsyncFunction<? super I, ? extends O> function) {
-    return AbstractTransformFuture.create(input, function, directExecutor());
-  }
-
-  /**
-   * Returns a new {@code Future} whose result is asynchronously derived from the result of the
-   * given {@code Future}. If the given {@code Future} fails, the returned {@code Future} fails with
-   * the same exception (and the function is not invoked).
-   *
-   * <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
-   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
-   * Example usage:
-   *
-   * <pre>{@code
-   * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   * ListenableFuture<QueryResult> queryFuture =
    *     transformAsync(rowKeyFuture, dataService::readFuture, executor);
    * }</pre>
    *
@@ -632,48 +457,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
     return AbstractTransformFuture.create(input, function, executor);
-  }
-
-  /**
-   * Returns a new {@code Future} whose result is derived from the result of the given {@code
-   * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
-   * the function is not invoked). Example usage:
-   *
-   * <pre>{@code
-   * ListenableFuture<QueryResult> queryFuture = ...;
-   * ListenableFuture<List<Row>> rowsFuture =
-   *     transform(queryFuture, QueryResult::getRows);
-   * }</pre>
-   *
-   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
-   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
-   * also applicable to heavyweight functions passed to this method.
-   *
-   * <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
-   * input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel
-   * the input, and if the input is cancelled, the returned {@code Future} will receive a callback
-   * in which it will attempt to cancel itself.
-   *
-   * <p>An example use of this method is to convert a serializable object returned from an RPC into
-   * a POJO.
-   *
-   * @param input The future to transform
-   * @param function A Function to transform the results of the provided future to the results of
-   *     the returned future. This will be run in the thread that notifies input it is complete.
-   * @return A future that holds result of the transformation.
-   * @since 9.0 (in 1.0 as {@code compose})
-   * @deprecated Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
-   *     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
-   *     but consider whether another executor would be safer, as discussed in the {@link
-   *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-   *     scheduled to be removed in July 2018.
-   */
-  @Deprecated
-  @DoNotCall
-  public static <I, O> ListenableFuture<O> transform(
-      ListenableFuture<I> input, Function<? super I, ? extends O> function) {
-    return AbstractTransformFuture.create(input, function, directExecutor());
   }
 
   /**
@@ -918,22 +701,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     }
 
     /**
-     * Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
-     * MoreExecutors#directExecutor direct executor}.
-     *
-     * @deprecated Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
-     *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     *     consider whether another executor would be safer, as discussed in the {@link
-     *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     *     scheduled to be removed in July 2018.
-     */
-    @Deprecated
-    @DoNotCall
-    public <C> ListenableFuture<C> callAsync(AsyncCallable<C> combiner) {
-      return callAsync(combiner, directExecutor());
-    }
-
-    /**
      * Creates the {@link ListenableFuture} which will return the result of calling {@link
      * Callable#call} in {@code combiner} when all futures complete, using the specified {@code
      * executor}.
@@ -950,23 +717,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     @CanIgnoreReturnValue // TODO(cpovirk): Remove this
     public <C> ListenableFuture<C> call(Callable<C> combiner, Executor executor) {
       return new CombinedFuture<C>(futures, allMustSucceed, executor, combiner);
-    }
-
-    /**
-     * Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
-     * direct executor}.
-     *
-     * @deprecated Use {@linkplain #call(Callable, Executor) the overload that requires an
-     *     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     *     consider whether another executor would be safer, as discussed in the {@link
-     *     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     *     scheduled to be removed in July 2018.
-     */
-    @CanIgnoreReturnValue // TODO(cpovirk): Remove this
-    @Deprecated
-    @DoNotCall
-    public <C> ListenableFuture<C> call(Callable<C> combiner) {
-      return call(combiner, directExecutor());
     }
 
     /**
@@ -1235,53 +985,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         }
       }
     }
-  }
-
-  /**
-   * Registers separate success and failure callbacks to be run when the {@code Future}'s
-   * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
-   * computation is already complete, immediately.
-   *
-   * <p>There is no guaranteed ordering of execution of callbacks, but any callback added through
-   * this method is guaranteed to be called once the computation is complete.
-   *
-   * <p>Example:
-   *
-   * <pre>{@code
-   * ListenableFuture<QueryResult> future = ...;
-   * addCallback(future,
-   *     new FutureCallback<QueryResult>() {
-   *       public void onSuccess(QueryResult result) {
-   *         storeInCache(result);
-   *       }
-   *       public void onFailure(Throwable t) {
-   *         reportError(t);
-   *       }
-   *     });
-   * }</pre>
-   *
-   * <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
-   * choice in some cases. See the discussion in the {@link ListenableFuture#addListener
-   * ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
-   * also applicable to heavyweight callbacks passed to this method.
-   *
-   * <p>For a more general interface to attach a completion listener to a {@code Future}, see {@link
-   * ListenableFuture#addListener addListener}.
-   *
-   * @param future The future attach the callback to.
-   * @param callback The callback to invoke when {@code future} is completed.
-   * @since 10.0
-   * @deprecated Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
-   *     overload that requires an executor}. For identical behavior, pass {@link
-   *     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-   *     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-   *     documentation. This method is scheduled to be removed in July 2018.
-   */
-  @Deprecated
-  @DoNotCall
-  public static <V> void addCallback(
-      ListenableFuture<V> future, FutureCallback<? super V> callback) {
-    addCallback(future, callback, directExecutor());
   }
 
   /**
