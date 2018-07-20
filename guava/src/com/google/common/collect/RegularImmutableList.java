@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.util.Arrays;
 import java.util.Spliterator;
 import java.util.Spliterators;
 
@@ -73,5 +74,20 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return Spliterators.spliterator(array, SPLITERATOR_CHARACTERISTICS);
   }
 
+  /**
+   * This is the same implementation of Java's {@link java.util.ArrayList#toArray(Object[])}.
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public <E> E[] toArray(E[] a) {
+
+    if (a.length < array.length)
+      // Make a new array of a's runtime type, but my contents:
+      return (E[]) Arrays.copyOf(array, array.length, a.getClass());
+    System.arraycopy(array, 0, a, 0, array.length);
+    if (a.length > array.length)
+      a[array.length] = null;
+    return a;
+  }
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile
 }

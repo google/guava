@@ -194,7 +194,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @CanIgnoreReturnValue
   @Override
-  public final <T> T[] toArray(T[] other) {
+  public <T> T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
     if (other.length < size) {
