@@ -66,7 +66,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
+public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V>
     implements Serializable {
 
   /** Returns an empty multimap. */
