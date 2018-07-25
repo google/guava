@@ -166,7 +166,7 @@ public final class IntMath {
   @SuppressWarnings("fallthrough")
   public static int log10(@Positive int x, RoundingMode mode) {
     checkPositive("x", x);
-    int logFloor = log10Floor(x);//(1)
+    int logFloor = log10Floor(x);
     int floorPow = powersOf10[logFloor];
     switch (mode) {
       case UNNECESSARY:
