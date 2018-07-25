@@ -202,8 +202,8 @@ public final class LongMath {
           won't return 0 and cause an error */
           "upperbound:assignment.type.incompatible",/* (2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
           can be indexed for `powersOf10` */
-          "upperbound:array.access.unsafe.high"/*(1): `Integer.numberOfLeadingZeros(x)` return an int value range from 0 to 32.
-          Since maxLog10ForLeadingZeros has min length of 32, array access is safe.
+          "upperbound:array.access.unsafe.high"/*(1): `Integer.numberOfLeadingZeros(x)` return an int value range from 0 to 64.
+          Since maxLog10ForLeadingZeros has min length of 64, array access is safe.
           */})
   static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(long x) {
     /*
