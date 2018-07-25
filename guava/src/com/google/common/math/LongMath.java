@@ -108,7 +108,8 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
-  @SuppressWarnings("value:return.type.incompatible")// lessThanBranchFree() is specified to return 1 if x < y and 0 otherwise
+  @SuppressWarnings("value:return.type.incompatible")//Since `Integer.SIZE - 1` in bits form is: 1111, for shifted( i.e >>> ), positive values return 1,
+  //otherwise return 0.
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(long x, long y) {
     // Returns the sign bit of x - y.
