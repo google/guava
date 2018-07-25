@@ -541,7 +541,7 @@ public final class Quantiles {
    * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
    * {@code required} is the value which would appear at that index in the sorted dataset.
    */
-  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//(1): lowest possible while `to` > 0, `partionPoint` value is 1, therefore `to` can't be negative.
+  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//(1): lowest possible while `to` > 0, `partitionPoint` value is 1, therefore `to` can't be negative.
           "upperbound:assignment.type.incompatible"/* (2): highest possible `partionPoint` value is array.length / 2 or (array.length / 2) + 1.
           Even with highest `required` value, `from` can only grow to array.length.
           */})
