@@ -283,7 +283,7 @@ public final class Quantiles {
      */
     @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
             "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1): second argument in selectInPlace() and interpolate()
-            is required to be < dataset.length, therefore `quotient + 1` should be < dataset.length. If when remainder is not zero,
+            is `dataset`, therefore `quotient + 1` should be < dataset.length. If remainder is not zero,
             quotient max value is `dataset.length - 2`*/
             "upperbound:assignment.type.incompatible"/*(3) Since `numerator = index * (dataset.length - 1)`,
             dividing it to scale will return a value less than dataset.length. */})
