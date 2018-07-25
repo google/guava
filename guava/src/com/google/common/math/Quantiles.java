@@ -203,7 +203,7 @@ public final class Quantiles {
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
      */
-    @SuppressWarnings("argument.type.incompatible")//para `indexes` is of mutable length data structures(Collection)
+    @SuppressWarnings("value:argument.type.incompatible")//para `indexes` is of mutable length data structures(Collection)
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
       return new ScaleAndIndexes(scale, Ints.toArray(indexes));
     }
@@ -234,7 +234,7 @@ public final class Quantiles {
      *     this call (it is copied instead)
      * @return the quantile value
      */
-    @SuppressWarnings("argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
+    @SuppressWarnings("value:argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
     //if `dataset` is not empty as specified in doc, method `Doubles.toArray()` return a non empty `dataset` as well
     public double compute(Collection<? extends Number> dataset) {
       return computeInPlace(Doubles.toArray(dataset));
@@ -283,7 +283,7 @@ public final class Quantiles {
      */
     @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
             "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1): second argument in selectInPlace() and interpolate()
-            is required to be < dataset.length,since quotien therefore `quotient + 1` should be < dataset.length. If when remainder is not zero,
+            is required to be < dataset.length, therefore `quotient + 1` should be < dataset.length. If when remainder is not zero,
             quotient max value is `dataset.length - 2`*/
             "upperbound:assignment.type.incompatible"/*(3) Since `numerator = index * (dataset.length - 1)`,
             dividing it to scale will return a value less than dataset.length. */})
@@ -345,7 +345,7 @@ public final class Quantiles {
      *     the values the corresponding quantile values
      */
 
-    @SuppressWarnings("argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
+    @SuppressWarnings("value:argument.type.incompatible")// `dataset` is of mutable length data structures type( `Collection`)
     //if `dataset` is not empty as specified in doc, method `Doubles.toArray()` return a non empty `dataset` as well
     public Map<Integer, Double> compute(Collection<? extends Number> dataset) {
       return computeInPlace(Doubles.toArray(dataset));
