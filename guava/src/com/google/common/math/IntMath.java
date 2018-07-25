@@ -198,7 +198,7 @@ public final class IntMath {
      * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
      * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
+    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
     /*
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
