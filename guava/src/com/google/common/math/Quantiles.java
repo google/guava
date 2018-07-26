@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.IndexFor;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
@@ -638,7 +639,8 @@ public final class Quantiles {
    * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
-  @SuppressWarnings({"lowerbound:argument.type.incompatible",// (1): lowest `requiredFrom` value is 0, for `requiredBelow >= requiredFrom`, required is least 1
+  @SuppressWarnings({"lowerbound:argument.type.incompatible",/* (1): Lowest possible `requiredFrom` value is 0.
+           Although `requiredBelow` can be negative, if `requiredBelow` is not >= `requiredFrom`, `required` can't be negative */
           "upperbound:argument.type.incompatible"/* (2): highest `requiredTo` value is `allRequired.length - 1`.
           When `requiredAbove` <= highest `requiredTo` value, required max value is `allRequired.length - 1`*/ })
   private static void selectAllInPlace(
@@ -651,7 +653,7 @@ public final class Quantiles {
     selectInPlace(required, array, from, to);
 
     // ...then recursively perform the selections in the range below...
-    int requiredBelow = requiredChosen - 1;// (1)
+    @GTENegativeOne int requiredBelow = requiredChosen - 1;
     while (requiredBelow >= requiredFrom && allRequired[requiredBelow] == required) {
       requiredBelow--; // skip duplicates of required in the range below
     }
