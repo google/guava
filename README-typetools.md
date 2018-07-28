@@ -51,13 +51,15 @@ To upload to Maven Central
 
 # Ensure the version number is set properly in file guava/cfMavenCentral.xml.
 # Then, set this variable to the same version.
-PACKAGE=guava-25.1-jre
+PACKAGE=guava-25.1.0.1-jre
 
 cd guava
 
 
-# Compile, and create Javadoc jar file
+# Compile, and create Javadoc jar file (`mvn clean` removes MANIFEST.MF).
+# This takes about 20 minutes.
 [ ! -z "$PACKAGE" ] && \
+mvn clean && \
 mvn package -Dmaven.test.skip=true -Danimal.sniffer.skip=true && \
 mvn source:jar && \
 mvn javadoc:javadoc && (cd target/site/apidocs && jar -cf ${PACKAGE}-javadoc.jar com)
