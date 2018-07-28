@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>25.1-jre</version>
+    <version>25.1.0.1-jre</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
@@ -64,18 +64,18 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>2.5.1</version>
+      <version>2.5.3</version>
     </dependency>
     -->
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker</artifactId>
-      <version>2.5.1</version>
+      <version>2.5.3</version>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>jdk8</artifactId>
-      <version>2.5.1</version>
+      <version>2.5.3</version>
     </dependency>
   </dependencies>
   <build>
