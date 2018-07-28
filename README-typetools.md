@@ -6,7 +6,7 @@ The annotations are only in the main Guava project, not in the "Android" variant
 To build this project
 ---------------------
 
-Optionally change `guava/pom.xml` to use a locally-built version of the Checker Framework
+Optionally change `guava/pom.xml` to use a locally-built version of the Checker Framework.
 
 Create file `guava/target/guava-HEAD-jre-SNAPSHOT.jar`:
 
@@ -43,7 +43,7 @@ git fetch --tags https://github.com/google/guava
 git pull https://github.com/google/guava v25.1
 ```
 
-Use latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.
+Use the latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.
 
 
 To upload to Maven Central
@@ -54,7 +54,6 @@ To upload to Maven Central
 PACKAGE=guava-25.1.0.1-jre
 
 cd guava
-
 
 # Compile, and create Javadoc jar file (`mvn clean` removes MANIFEST.MF).
 # This takes about 20 minutes.
