@@ -392,6 +392,7 @@ public final class BigIntegerMath {
     return listProduct(bignums).shiftLeft(shift);
   }
 
+  @SuppressWarnings("lowerbound:argument.type.incompatible")//List<BigInteger> is a mutable length data type.
   static BigInteger listProduct(List<BigInteger> nums) {
     return listProduct(nums, 0, nums.size());
   }
