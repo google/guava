@@ -144,9 +144,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in July 2018.
+   *     themselves. This method is scheduled for removal from Guava in October 2018.
    */
-  // TODO(b/72241575): Remove by 2018-07
+  // TODO(b/72241575): Remove by 2018-10
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
@@ -183,9 +183,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in July 2018.
+   *     themselves. This method is scheduled for removal from Guava in October 2018.
    */
-  // TODO(b/72241893): Remove by 2018-07
+  // TODO(b/72241893): Remove by 2018-10
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
@@ -230,9 +230,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in July 2018.
+   *     themselves. This method is scheduled for removal from Guava in October 2018.
    */
-  // TODO(b/72241500): Remove by 2018-07
+  // TODO(b/72241500): Remove by 2018-10
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
