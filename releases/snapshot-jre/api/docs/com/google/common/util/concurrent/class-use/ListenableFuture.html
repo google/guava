@@ -280,31 +280,9 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>&lt;C&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.FutureCombiner.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-">call</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;C&gt;&nbsp;combiner)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-java.util.concurrent.Executor-">the overload that requires an
-     executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but
-     consider whether another executor would be safer, as discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>&lt;C&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.FutureCombiner.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-java.util.concurrent.Executor-">call</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;C&gt;&nbsp;combiner,
     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
 <div class="block">Creates the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true#call--" title="class or interface in java.util.concurrent"><code>Callable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>&lt;C&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;C&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.FutureCombiner.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-">callAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/AsyncCallable.html" title="interface in com.google.common.util.concurrent">AsyncCallable</a>&lt;C&gt;&nbsp;combiner)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-">the overload that requires an
-     executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but
-     consider whether another executor would be safer, as discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -316,19 +294,6 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-">catching</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
-        <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">the overload
-     that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">catching</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
         <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
         <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends V&gt;&nbsp;fallback,
@@ -336,18 +301,6 @@
 <div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
  primary input fails with the given <code>exceptionType</code>, from the result provided by the
  <code>fallback</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-">catchingAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
-             <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -488,34 +441,10 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">transform</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-         <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
-     requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
-     but consider whether another executor would be safer, as discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">transform</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
          <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function,
          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>Future</code>.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">transformAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-              <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
-     overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -563,18 +492,6 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;void</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-">addCallback</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
-           <a href="../../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">the
-     overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V&gt;&nbsp;void</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">addCallback</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
            <a href="../../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super V&gt;&nbsp;callback,
            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
@@ -583,24 +500,11 @@
  computation is already complete, immediately.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#allAsList-com.google.common.util.concurrent.ListenableFuture...-">allAsList</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  input futures, if all succeed.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-">catching</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-        <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
-        <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">the overload
-     that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -616,18 +520,6 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-">catchingAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
-             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
-             <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends V&gt;&nbsp;fallback)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">catchingAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;&nbsp;input,
              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
              <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends V&gt;&nbsp;fallback,
@@ -637,13 +529,13 @@
  <code>fallback</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">FluentFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.ListenableFuture-">from</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</code>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V,X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>&gt;<br><a href="../../../../../../com/google/common/util/concurrent/CheckedFuture.html" title="interface in com.google.common.util.concurrent">CheckedFuture</a>&lt;V,X&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#makeChecked-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">makeChecked</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future,
            <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Exception.html?is-external=true" title="class or interface in java.lang">Exception</a>,X&gt;&nbsp;mapper)</code>
@@ -659,18 +551,18 @@
 </div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#nonCancellationPropagating-com.google.common.util.concurrent.ListenableFuture-">nonCancellationPropagating</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</code>
 <div class="block">Returns a <code>ListenableFuture</code> whose result is set from the supplied future when it
  completes.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">SettableFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">AbstractFuture.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">setFuture</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</code>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
@@ -678,23 +570,11 @@
  (including "set asynchronously," defined below).</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;V&gt;&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#successfulAsList-com.google.common.util.concurrent.ListenableFuture...-">successfulAsList</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
  successful input futures.</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">transform</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-         <a href="../../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
-     requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
-     but consider whether another executor would be safer, as discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -707,18 +587,6 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
-<td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">transformAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
-              <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">Use <a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
-     overload that requires an executor</a>. For identical behavior, pass <a href="../../../../../../com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static &lt;I,O&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;O&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">transformAsync</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;I&gt;&nbsp;input,
               <a href="../../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super I,? extends O&gt;&nbsp;function,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
@@ -726,20 +594,20 @@
  given <code>Future</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#whenAllComplete-com.google.common.util.concurrent.ListenableFuture...-">whenAllComplete</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code>
 <div class="block">Creates a <a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> that processes the completed futures whether or not they're
  successful.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#whenAllSucceed-com.google.common.util.concurrent.ListenableFuture...-">whenAllSucceed</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends V&gt;...&nbsp;futures)</code>
 <div class="block">Creates a <a href="../../../../../../com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent"><code>Futures.FutureCombiner</code></a> requiring that all passed in futures are successful.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><span class="typeNameLabel">Futures.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Futures.html#withTimeout-com.google.common.util.concurrent.ListenableFuture-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout</a></span>(<a href="../../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;delegate,
            long&nbsp;time,

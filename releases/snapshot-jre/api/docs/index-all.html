@@ -705,15 +705,6 @@
  computation is <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the
  computation is already complete, immediately.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-">addCallback(ListenableFuture&lt;V&gt;, FutureCallback&lt;? super V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">the
-     overload that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#addCallback-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.FutureCallback-java.util.concurrent.Executor-">addCallback(ListenableFuture&lt;V&gt;, FutureCallback&lt;? super V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Registers separate success and failure callbacks to be run when the <code>Future</code>'s
@@ -979,13 +970,6 @@
 <dd>
 <div class="block">Returns a converter whose <code>convert</code> method applies <code>secondConverter</code> to the result
  of this converter.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#ANY">ANY</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#any--"><code>CharMatcher.any()</code></a> instead. This constant is scheduled to be
-     removed in June 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#any--">any()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -1340,13 +1324,6 @@
 <dd>
 <div class="block">Static methods pertaining to ASCII characters (those in the range of values <code>0x00</code> through
  <code>0x7F</code>), and to strings containing such characters.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#ASCII">ASCII</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#ascii--"><code>CharMatcher.ascii()</code></a> instead. This constant is scheduled to be
-     removed in June 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#ascii--">ascii()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -1909,13 +1886,6 @@
      same behavior.</span></div>
 </div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#BREAKING_WHITESPACE">BREAKING_WHITESPACE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#breakingWhitespace--"><code>CharMatcher.breakingWhitespace()</code></a> instead. This constant is scheduled
-     to be removed in June 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#breakingWhitespace--">breakingWhitespace()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block">Determines whether a character is a breaking whitespace (that is, a whitespace which can be
@@ -2359,15 +2329,6 @@
 <dd>
 <div class="block">Creates the <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true#call--" title="class or interface in java.util.concurrent"><code>Callable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-">call(Callable&lt;C&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#call-java.util.concurrent.Callable-java.util.concurrent.Executor-">the overload that requires an
-     executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but
-     consider whether another executor would be safer, as discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
-</dd>
 <dt><a href="com/google/common/util/concurrent/Callables.html" title="class in com.google.common.util.concurrent"><span class="typeNameLink">Callables</span></a> - Class in <a href="com/google/common/util/concurrent/package-summary.html">com.google.common.util.concurrent</a></dt>
 <dd>
 <div class="block">Static utility methods pertaining to the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a> interface.</div>
@@ -2375,15 +2336,6 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-">callAsync(AsyncCallable&lt;C&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
 <dd>
 <div class="block">Creates the <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> which will return the result of calling <a href="com/google/common/util/concurrent/AsyncCallable.html#call--"><code>AsyncCallable.call()</code></a> in <code>combiner</code> when all futures complete, using the specified <code>executor</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-">callAsync(AsyncCallable&lt;C&gt;)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.FutureCombiner.html" title="class in com.google.common.util.concurrent">Futures.FutureCombiner</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.FutureCombiner.html#callAsync-com.google.common.util.concurrent.AsyncCallable-java.util.concurrent.Executor-">the overload that requires an
-     executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but
-     consider whether another executor would be safer, as discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FakeTimeLimiter.html#callUninterruptiblyWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callUninterruptiblyWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
@@ -2453,15 +2405,6 @@
 <dd>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-">catching(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, Function&lt;? super X, ? extends V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">the overload
-     that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catching-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">catching(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, Function&lt;? super X, ? extends V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a <code>Future</code> whose result is taken from the given primary <code>input</code> or, if the
@@ -2471,14 +2414,6 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#catchingAsync-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">catchingAsync(Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
 <dd>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-">catchingAsync(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the overload that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#catchingAsync-com.google.common.util.concurrent.ListenableFuture-java.lang.Class-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">catchingAsync(ListenableFuture&lt;? extends V&gt;, Class&lt;X&gt;, AsyncFunction&lt;? super X, ? extends V&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -5280,14 +5215,6 @@
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Sets.html#difference-java.util.Set-java.util.Set-">difference(Set&lt;E&gt;, Set&lt;?&gt;)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Sets.html" title="class in com.google.common.collect">Sets</a></dt>
 <dd>
 <div class="block">Returns an unmodifiable <b>view</b> of the difference of two sets.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#DIGIT">DIGIT</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#digit--"><code>CharMatcher.digit()</code></a> instead. This
- .   constant is scheduled to be removed in June 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#digit--">digit()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -9597,14 +9524,6 @@
 <div class="block">Copies each key-value mapping in <code>source</code> into <code>dest</code>, with its key and value
  reversed.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#INVISIBLE">INVISIBLE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Most invisible characters are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#invisible--"><code>CharMatcher.invisible()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#invisible--">invisible()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -10100,53 +10019,6 @@
 </a>
 <h2 class="title">J</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_DIGIT">JAVA_DIGIT</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#javaDigit--"><code>CharMatcher.javaDigit()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_ISO_CONTROL">JAVA_ISO_CONTROL</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#javaIsoControl--"><code>CharMatcher.javaIsoControl()</code></a> instead. This constant is scheduled to
-     be removed in June 2018.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_LETTER">JAVA_LETTER</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Most letters are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#javaLetter--"><code>CharMatcher.javaLetter()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_LETTER_OR_DIGIT">JAVA_LETTER_OR_DIGIT</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Most letters and digits are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#javaLetterOrDigit--"><code>CharMatcher.javaLetterOrDigit()</code></a>
-     instead. This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_LOWER_CASE">JAVA_LOWER_CASE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Some lowercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#javaLowerCase--"><code>CharMatcher.javaLowerCase()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#JAVA_UPPER_CASE">JAVA_UPPER_CASE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Some uppercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#javaUpperCase--"><code>CharMatcher.javaUpperCase()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#javaDigit--">javaDigit()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>
@@ -12201,13 +12073,6 @@
 <dd>
 <div class="block">Returns a <code>ListenableFuture</code> whose result is set from the supplied future when it
  completes.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#NONE">NONE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#none--"><code>CharMatcher.none()</code></a> instead. This constant is scheduled to be
-     removed in June 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#none--">none()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>
@@ -15817,14 +15682,6 @@
 <div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
  to the original.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#SINGLE_WIDTH">SINGLE_WIDTH</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Many such characters are supplementary characters; see the class
-     documentation. If you need to use this, use <a href="com/google/common/base/CharMatcher.html#singleWidth--"><code>CharMatcher.singleWidth()</code></a> instead.
-     This constant is scheduled to be removed in June 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/Range.html#singleton-C-">singleton(C)</a></span> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
 <div class="block">Returns a range that <a href="com/google/common/collect/Range.html#contains-C-">contains</a> only the given value.</div>
@@ -18063,15 +17920,6 @@
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-">transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">the overload that
-     requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>,
-     but consider whether another executor would be safer, as discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a> documentation. This method is
-     scheduled to be removed in July 2018.</span></div>
-</div>
-</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transform-com.google.common.util.concurrent.ListenableFuture-com.google.common.base.Function-java.util.concurrent.Executor-">transform(ListenableFuture&lt;I&gt;, Function&lt;? super I, ? extends O&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>Future</code>.</div>
@@ -18085,15 +17933,6 @@
 <dd>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
  <code>Future</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-">transformAsync(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">the
-     overload that requires an executor</a>. For identical behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>, but consider whether another executor would be safer, as
-     discussed in the <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>
-     documentation. This method is scheduled to be removed in July 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/Futures.html#transformAsync-com.google.common.util.concurrent.ListenableFuture-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">transformAsync(ListenableFuture&lt;I&gt;, AsyncFunction&lt;? super I, ? extends O&gt;, Executor)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/Futures.html" title="class in com.google.common.util.concurrent">Futures</a></dt>
 <dd>
@@ -19294,13 +19133,6 @@ the order they are declared.</div>
 <dd>
 <div class="block">Returns a new <code>TypeToken</code> where type variables represented by <code>typeParam</code> are
  substituted by <code>typeArg</code>.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#WHITESPACE">WHITESPACE</a></span> - Static variable in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
-<dd>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>
-<div class="block"><span class="deprecationComment">Use <a href="com/google/common/base/CharMatcher.html#whitespace--"><code>CharMatcher.whitespace()</code></a> instead. This constant is scheduled to be
-     removed in June 2018.</span></div>
-</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/CharMatcher.html#whitespace--">whitespace()</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a></dt>
 <dd>

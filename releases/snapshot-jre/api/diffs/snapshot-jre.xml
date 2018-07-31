@@ -1439,222 +1439,6 @@
  CharMatcher.or(WHITESPACE, JAVA_DIGIT)}.]]>
       </doc>
     </method>
-    <field name="WHITESPACE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #whitespace()} instead. This constant is scheduled to be
-     removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is whitespace according to the latest Unicode
- standard, as illustrated
- <a
-  // href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
- This is not the same definition used by other Java APIs. (See a
- <a href="https://goo.gl/Y6SLWx">comparison of several definitions of
- "whitespace"</a>.)
-
- <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant
- to keep it up to date.
-
- @deprecated Use {@link #whitespace()} instead. This constant is scheduled to be
-     removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="BREAKING_WHITESPACE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #breakingWhitespace()} instead. This constant is scheduled
-     to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is a breaking whitespace (that is, a whitespace
- which can be interpreted as a break between words for formatting purposes). See
- {@link #whitespace} for a discussion of that term.
-
- @since 2.0
- @deprecated Use {@link #breakingWhitespace()} instead. This constant is scheduled
-     to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="ASCII" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #ascii()} instead. This constant is scheduled to be
-     removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is ASCII, meaning that its code point is less than
- 128.
-
- @deprecated Use {@link #ascii()} instead. This constant is scheduled to be
-     removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="DIGIT" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #digit()} instead. This
- .   constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is a digit according to
- <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">
- Unicode</a>. If you only care to match ASCII digits, you can use
- {@code inRange('0', '9')}.
-
- @deprecated Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #digit()} instead. This
- .   constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_DIGIT" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaDigit()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is a digit according to
- {@linkplain Character#isDigit(char) Java's definition}. If you only care to match
- ASCII digits, you can use {@code inRange('0', '9')}.
-
- @deprecated Many digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaDigit()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_LETTER" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Most letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLetter()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is a letter according to
- {@linkplain Character#isLetter(char) Java's definition}. If you only care to
- match letters of the Latin alphabet, you can use
- {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
-
- @deprecated Most letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLetter()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_LETTER_OR_DIGIT" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Most letters and digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLetterOrDigit()}
-     instead. This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is a letter or digit according to
- {@linkplain Character#isLetterOrDigit(char) Java's definition}.
-
- @deprecated Most letters and digits are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLetterOrDigit()}
-     instead. This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_UPPER_CASE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Some uppercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaUpperCase()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is upper case according to
- {@linkplain Character#isUpperCase(char) Java's definition}.
-
- @deprecated Some uppercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaUpperCase()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_LOWER_CASE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Some lowercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLowerCase()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is lower case according to
- {@linkplain Character#isLowerCase(char) Java's definition}.
-
- @deprecated Some lowercase letters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #javaLowerCase()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="JAVA_ISO_CONTROL" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #javaIsoControl()} instead. This constant is scheduled to
-     be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is an ISO control character as specified by
- {@link Character#isISOControl(char)}.
-
- @deprecated Use {@link #javaIsoControl()} instead. This constant is scheduled to
-     be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="INVISIBLE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Most invisible characters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #invisible()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is invisible; that is, if its Unicode category is
- any of SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT,
- SURROGATE, and PRIVATE_USE according to ICU4J.
-
- @deprecated Most invisible characters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #invisible()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="SINGLE_WIDTH" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Many such characters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #singleWidth()} instead.
-     This constant is scheduled to be removed in June 2018.">
-      <doc>
-      <![CDATA[Determines whether a character is single-width (not double-width). When in doubt,
- this matcher errs on the side of returning {@code false} (that is, it tends to
- assume a character is double-width).
-
- <p><b>Note:</b> as the reference file evolves, we will modify this constant to
- keep it up to date.
-
- @deprecated Many such characters are supplementary characters; see the class
-     documentation. If you need to use this, use {@link #singleWidth()} instead.
-     This constant is scheduled to be removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="ANY" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #any()} instead. This constant is scheduled to be
-     removed in June 2018.">
-      <doc>
-      <![CDATA[Matches any character.
-
- @deprecated Use {@link #any()} instead. This constant is scheduled to be
-     removed in June 2018.]]>
-      </doc>
-    </field>
-    <field name="NONE" type="com.google.common.base.CharMatcher"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="Use {@link #none()} instead. This constant is scheduled to be
-     removed in June 2018.">
-      <doc>
-      <![CDATA[Matches no characters.
-
- @deprecated Use {@link #none()} instead. This constant is scheduled to be
-     removed in June 2018.]]>
-      </doc>
-    </field>
     <doc>
     <![CDATA[Determines a true or false value for any Java {@code char} value, just as {@link Predicate} does
  for any {@link Object}. Also offers basic text processing methods based on this function.
@@ -19101,7 +18885,7 @@
   </class>
   <!-- end class com.google.common.collect.ImmutableMap.Builder -->
   <!-- start class com.google.common.collect.ImmutableMultimap -->
-  <class name="ImmutableMultimap" extends="com.google.common.collect.AbstractMultimap&lt;K, V&gt;"
+  <class name="ImmutableMultimap" extends="com.google.common.collect.BaseImmutableMultimap&lt;K, V&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -63961,60 +63745,6 @@
     <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
-     that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.">
-      <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
-      <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
-      <param name="fallback" type="com.google.common.base.Function&lt;? super X, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}. {@link Function#apply} is not invoked until the primary input has failed, so
- if the primary input succeeds, it is never invoked. If, during the invocation of {@code
- fallback}, an exception is thrown, this exception is used as the result of the output {@code
- Future}.
-
- <p>Usage example:
-
- <pre>{@code
- ListenableFuture<Integer> fetchCounterFuture = ...;
-
- // Falling back to a zero counter in case an exception happens when
- // processing the RPC to fetch counters.
- ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
-     fetchCounterFuture, FetchException.class, x -> 0);
- }</pre>
-
- <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
- choice in some cases. See the discussion in the {@link ListenableFuture#addListener
- ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
- also applicable to heavyweight functions passed to this method.
-
- @param input the primary input {@code Future}
- @param exceptionType the exception type that triggers use of {@code fallback}. The exception
-     type is matched against the input's exception. "The input's exception" means the cause of
-     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
-     different kind of exception, that exception itself. To avoid hiding bugs and other
-     unrecoverable errors, callers should prefer more specific types, avoiding {@code
-     Throwable.class} in particular.
- @param fallback the {@link Function} to be called if {@code input} fails with the expected
-     exception type. The function's argument is the input's exception. "The input's exception"
-     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
-     {@code get()} throws a different kind of exception, that exception itself.
- @since 19.0
- @deprecated Use {@linkplain #catching(ListenableFuture, Class, Function, Executor) the overload
-     that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.]]>
-      </doc>
-    </method>
-    <method name="catching" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
       <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
@@ -64057,81 +63787,6 @@
      {@code get()} throws a different kind of exception, that exception itself.
  @param executor the executor that runs {@code fallback} if {@code input} fails
  @since 19.0]]>
-      </doc>
-    </method>
-    <method name="catchingAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
-     the overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.">
-      <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;? extends V&gt;"/>
-      <param name="exceptionType" type="java.lang.Class&lt;X&gt;"/>
-      <param name="fallback" type="com.google.common.util.concurrent.AsyncFunction&lt;? super X, ? extends V&gt;"/>
-      <doc>
-      <![CDATA[Returns a {@code Future} whose result is taken from the given primary {@code input} or, if the
- primary input fails with the given {@code exceptionType}, from the result provided by the
- {@code fallback}. {@link AsyncFunction#apply} is not invoked until the primary input has
- failed, so if the primary input succeeds, it is never invoked. If, during the invocation of
- {@code fallback}, an exception is thrown, this exception is used as the result of the output
- {@code Future}.
-
- <p>Usage examples:
-
- <pre>{@code
- ListenableFuture<Integer> fetchCounterFuture = ...;
-
- // Falling back to a zero counter in case an exception happens when
- // processing the RPC to fetch counters.
- ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-     fetchCounterFuture, FetchException.class, x -> immediateFuture(0));
- }</pre>
-
- <p>The fallback can also choose to propagate the original exception when desired:
-
- <pre>{@code
- ListenableFuture<Integer> fetchCounterFuture = ...;
-
- // Falling back to a zero counter only in case the exception was a
- // TimeoutException.
- ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
-     fetchCounterFuture,
-     FetchException.class,
-     e -> {
-       if (omitDataOnFetchFailure) {
-         return immediateFuture(0);
-       }
-       throw e;
-     });
- }</pre>
-
- <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
- choice in some cases. See the discussion in the {@link ListenableFuture#addListener
- ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
- also applicable to heavyweight functions passed to this method. (Specifically, {@code
- directExecutor} functions should avoid heavyweight operations inside {@code
- AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
- completing the returned {@code Future}.)
-
- @param input the primary input {@code Future}
- @param exceptionType the exception type that triggers use of {@code fallback}. The exception
-     type is matched against the input's exception. "The input's exception" means the cause of
-     the {@link ExecutionException} thrown by {@code input.get()} or, if {@code get()} throws a
-     different kind of exception, that exception itself. To avoid hiding bugs and other
-     unrecoverable errors, callers should prefer more specific types, avoiding {@code
-     Throwable.class} in particular.
- @param fallback the {@link AsyncFunction} to be called if {@code input} fails with the expected
-     exception type. The function's argument is the input's exception. "The input's exception"
-     means the cause of the {@link ExecutionException} thrown by {@code input.get()} or, if
-     {@code get()} throws a different kind of exception, that exception itself.
- @since 19.0 (similar functionality in 14.0 as {@code withFallback})
- @deprecated Use {@linkplain #catchingAsync(ListenableFuture, Class, AsyncFunction, Executor)
-     the overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="catchingAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -64226,58 +63881,6 @@
     <method name="transformAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
-     overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.">
-      <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
-      <param name="function" type="com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;"/>
-      <doc>
-      <![CDATA[Returns a new {@code Future} whose result is asynchronously derived from the result of the
- given {@code Future}. If the given {@code Future} fails, the returned {@code Future} fails with
- the same exception (and the function is not invoked).
-
- <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
- by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
- Example usage:
-
- <pre>{@code
- ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
- ListenableFuture<QueryResult> queryFuture =
-     transformAsync(rowKeyFuture, dataService::readFuture);
- }</pre>
-
- <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
- choice in some cases. See the discussion in the {@link ListenableFuture#addListener
- ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
- also applicable to heavyweight functions passed to this method. (Specifically, {@code
- directExecutor} functions should avoid heavyweight operations inside {@code
- AsyncFunction.apply}. Any heavyweight operations should occur in other threads responsible for
- completing the returned {@code Future}.)
-
- <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
- input future and that of the future returned by the function. That is, if the returned {@code
- Future} is cancelled, it will attempt to cancel the other two, and if either of the other two
- is cancelled, the returned {@code Future} will receive a callback in which it will attempt to
- cancel itself.
-
- @param input The future to transform
- @param function A function to transform the result of the input future to the result of the
-     output future
- @return A future that holds result of the function (if the input succeeded) or the original
-     input's failure (if not)
- @since 19.0 (in 11.0 as {@code transform})
- @deprecated Use {@linkplain #transformAsync(ListenableFuture, AsyncFunction, Executor) the
-     overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.]]>
-      </doc>
-    </method>
-    <method name="transformAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
       <param name="function" type="com.google.common.util.concurrent.AsyncFunction&lt;? super I, ? extends O&gt;"/>
@@ -64317,52 +63920,6 @@
  @return A future that holds result of the function (if the input succeeded) or the original
      input's failure (if not)
  @since 19.0 (in 11.0 as {@code transform})]]>
-      </doc>
-    </method>
-    <method name="transform" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
-     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
-     but consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.">
-      <param name="input" type="com.google.common.util.concurrent.ListenableFuture&lt;I&gt;"/>
-      <param name="function" type="com.google.common.base.Function&lt;? super I, ? extends O&gt;"/>
-      <doc>
-      <![CDATA[Returns a new {@code Future} whose result is derived from the result of the given {@code
- Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
- the function is not invoked). Example usage:
-
- <pre>{@code
- ListenableFuture<QueryResult> queryFuture = ...;
- ListenableFuture<List<Row>> rowsFuture =
-     transform(queryFuture, QueryResult::getRows);
- }</pre>
-
- <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
- choice in some cases. See the discussion in the {@link ListenableFuture#addListener
- ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
- also applicable to heavyweight functions passed to this method.
-
- <p>The returned {@code Future} attempts to keep its cancellation state in sync with that of the
- input future. That is, if the returned {@code Future} is cancelled, it will attempt to cancel
- the input, and if the input is cancelled, the returned {@code Future} will receive a callback
- in which it will attempt to cancel itself.
-
- <p>An example use of this method is to convert a serializable object returned from an RPC into
- a POJO.
-
- @param input The future to transform
- @param function A Function to transform the results of the provided future to the results of
-     the returned future. This will be run in the thread that notifies input it is complete.
- @return A future that holds result of the transformation.
- @since 9.0 (in 1.0 as {@code compose})
- @deprecated Use {@linkplain #transform(ListenableFuture, Function, Executor) the overload that
-     requires an executor}. For identical behavior, pass {@link MoreExecutors#directExecutor},
-     but consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="transform" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -64595,57 +64152,6 @@
  too.
 
  @since 17.0]]>
-      </doc>
-    </method>
-    <method name="addCallback"
-      abstract="false" native="false" synchronized="false"
-      static="true" final="false" visibility="public"
-      deprecated="Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
-     overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.">
-      <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
-      <param name="callback" type="com.google.common.util.concurrent.FutureCallback&lt;? super V&gt;"/>
-      <doc>
-      <![CDATA[Registers separate success and failure callbacks to be run when the {@code Future}'s
- computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
- computation is already complete, immediately.
-
- <p>There is no guaranteed ordering of execution of callbacks, but any callback added through
- this method is guaranteed to be called once the computation is complete.
-
- <p>Example:
-
- <pre>{@code
- ListenableFuture<QueryResult> future = ...;
- addCallback(future,
-     new FutureCallback<QueryResult>() {
-       public void onSuccess(QueryResult result) {
-         storeInCache(result);
-       }
-       public void onFailure(Throwable t) {
-         reportError(t);
-       }
-     });
- }</pre>
-
- <p>This overload, which does not accept an executor, uses {@code directExecutor}, a dangerous
- choice in some cases. See the discussion in the {@link ListenableFuture#addListener
- ListenableFuture.addListener} documentation. All its warnings about heavyweight listeners are
- also applicable to heavyweight callbacks passed to this method.
-
- <p>For a more general interface to attach a completion listener to a {@code Future}, see {@link
- ListenableFuture#addListener addListener}.
-
- @param future The future attach the callback to.
- @param callback The callback to invoke when {@code future} is completed.
- @since 10.0
- @deprecated Use {@linkplain #addCallback(ListenableFuture, FutureCallback, Executor) the
-     overload that requires an executor}. For identical behavior, pass {@link
-     MoreExecutors#directExecutor}, but consider whether another executor would be safer, as
-     discussed in the {@link ListenableFuture#addListener ListenableFuture.addListener}
-     documentation. This method is scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="addCallback"
@@ -64915,26 +64421,6 @@
  <p>Canceling this future will attempt to cancel all the component futures.]]>
       </doc>
     </method>
-    <method name="callAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
-     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.">
-      <param name="combiner" type="com.google.common.util.concurrent.AsyncCallable&lt;C&gt;"/>
-      <doc>
-      <![CDATA[Like {@link #callAsync(AsyncCallable, Executor)} but using {@linkplain
- MoreExecutors#directExecutor direct executor}.
-
- @deprecated Use {@linkplain #callAsync(AsyncCallable, Executor) the overload that requires an
-     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.]]>
-      </doc>
-    </method>
     <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -64954,26 +64440,6 @@
  ExecutionException} that gets thrown by the returned combined future.
 
  <p>Canceling this future will attempt to cancel all the component futures.]]>
-      </doc>
-    </method>
-    <method name="call" return="com.google.common.util.concurrent.ListenableFuture&lt;C&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="Use {@linkplain #call(Callable, Executor) the overload that requires an
-     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.">
-      <param name="combiner" type="java.util.concurrent.Callable&lt;C&gt;"/>
-      <doc>
-      <![CDATA[Like {@link #call(Callable, Executor)} but using {@linkplain MoreExecutors#directExecutor
- direct executor}.
-
- @deprecated Use {@linkplain #call(Callable, Executor) the overload that requires an
-     executor}. For identical behavior, pass {@link MoreExecutors#directExecutor}, but
-     consider whether another executor would be safer, as discussed in the {@link
-     ListenableFuture#addListener ListenableFuture.addListener} documentation. This method is
-     scheduled to be removed in July 2018.]]>
       </doc>
     </method>
     <method name="run" return="com.google.common.util.concurrent.ListenableFuture&lt;?&gt;"
