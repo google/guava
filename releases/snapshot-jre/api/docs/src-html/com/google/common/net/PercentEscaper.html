@@ -91,8 +91,8 @@
 <span class="sourceLineNo">083</span>   * @throws IllegalArgumentException if any of the parameters were invalid<a name="line.83"></a>
 <span class="sourceLineNo">084</span>   */<a name="line.84"></a>
 <span class="sourceLineNo">085</span>  public PercentEscaper(String safeChars, boolean plusForSpace) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    // TODO(user): Switch to static factory methods for creation now that class is final.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    // TODO(user): Support escapers where alphanumeric chars are not safe.<a name="line.87"></a>
+<span class="sourceLineNo">086</span>    // TODO(dbeaumont): Switch to static factory methods for creation now that class is final.<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    // TODO(dbeaumont): Support escapers where alphanumeric chars are not safe.<a name="line.87"></a>
 <span class="sourceLineNo">088</span>    checkNotNull(safeChars); // eager for GWT.<a name="line.88"></a>
 <span class="sourceLineNo">089</span>    // Avoid any misunderstandings about the behavior of this escaper<a name="line.89"></a>
 <span class="sourceLineNo">090</span>    if (safeChars.matches(".*[0-9A-Za-z].*")) {<a name="line.90"></a>
