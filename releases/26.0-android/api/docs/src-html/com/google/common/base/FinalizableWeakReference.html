@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import java.lang.ref.ReferenceQueue;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.lang.ref.WeakReference;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * Weak reference with a {@code finalizeReferent()} method which a background thread invokes after<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * the garbage collector reclaims the referent. This is a simpler alternative to using a {@link<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * ReferenceQueue}.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * @author Bob Lee<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * @since 2.0<a name="line.27"></a>
+<span class="sourceLineNo">028</span> */<a name="line.28"></a>
+<span class="sourceLineNo">029</span>@GwtIncompatible<a name="line.29"></a>
+<span class="sourceLineNo">030</span>public abstract class FinalizableWeakReference&lt;T&gt; extends WeakReference&lt;T&gt;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>    implements FinalizableReference {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  /**<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * Constructs a new finalizable weak reference.<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   *<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * @param referent to weakly reference<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * @param queue that should finalize the referent<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  protected FinalizableWeakReference(T referent, FinalizableReferenceQueue queue) {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    super(referent, queue.queue);<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    queue.cleanUp();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  }<a name="line.41"></a>
+<span class="sourceLineNo">042</span>}<a name="line.42"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

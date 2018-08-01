@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtCompatible;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with {@code<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * ExecutionException}, the exception's {@linkplain #getCause() cause} comes from a failed task,<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * possibly run in another thread.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> *<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * &lt;p&gt;{@code UncheckedExecutionException} is intended as an alternative to {@code<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * ExecutionException} when the exception thrown by a task is an unchecked exception. However, it<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * may also wrap a checked exception in some cases.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p&gt;When wrapping an {@code Error} from another thread, prefer {@link ExecutionError}. When<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * wrapping a checked exception, prefer {@code ExecutionException}.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * @author Charles Fry<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * @since 10.0<a name="line.33"></a>
+<span class="sourceLineNo">034</span> */<a name="line.34"></a>
+<span class="sourceLineNo">035</span>@GwtCompatible<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public class UncheckedExecutionException extends RuntimeException {<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  /** Creates a new instance with {@code null} as its detail message. */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  protected UncheckedExecutionException() {}<a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>  /** Creates a new instance with the given detail message. */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  protected UncheckedExecutionException(@Nullable String message) {<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    super(message);<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  }<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /** Creates a new instance with the given detail message and cause. */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  public UncheckedExecutionException(@Nullable String message, @Nullable Throwable cause) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    super(message, cause);<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  }<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /** Creates a new instance with the given cause. */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  public UncheckedExecutionException(@Nullable Throwable cause) {<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    super(cause);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  private static final long serialVersionUID = 0;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>}<a name="line.56"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
