@@ -388,7 +388,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 26.0
    */
   public static final String SEC_METADATA = "Sec-Metadata";
   /**

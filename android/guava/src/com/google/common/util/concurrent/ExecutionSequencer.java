@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * MoreExecutors#newSequentialExecutor}. If your tasks all run on the same underlying executor and
  * don't need to wait for {@code Future}s returned from {@code AsyncCallable}s, use it instead.
  *
- * @since NEXT
+ * @since 26.0
  */
 @Beta
 public final class ExecutionSequencer {
