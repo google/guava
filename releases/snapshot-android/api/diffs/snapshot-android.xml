@@ -47988,7 +47988,7 @@
       <![CDATA[The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
  field name.
 
- @since NEXT]]>
+ @since 26.0]]>
       </doc>
     </field>
     <field name="SEC_TOKEN_BINDING" type="java.lang.String"
@@ -49692,7 +49692,7 @@
       <![CDATA[Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
  Hypertext Application Language (HAL) documents</a>.
 
- @since NEXT]]>
+ @since 26.0]]>
       </doc>
     </field>
     <field name="JAVASCRIPT_UTF_8" type="com.google.common.net.MediaType"
@@ -60235,7 +60235,7 @@
  MoreExecutors#newSequentialExecutor}. If your tasks all run on the same underlying executor and
  don't need to wait for {@code Future}s returned from {@code AsyncCallable}s, use it instead.
 
- @since NEXT]]>
+ @since 26.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ExecutionSequencer -->

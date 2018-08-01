@@ -1,3 +1,0 @@
-OK: com.google.common.util.concurrent.ExecutionSequencer Class
-OK: com.google.common.net.MediaType Field HAL_JSON
-OK: com.google.common.net.HttpHeaders Field SEC_METADATA
