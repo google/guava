@@ -105,8 +105,10 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
-  @SuppressWarnings("value:return.type.incompatible")//Since `Integer.SIZE - 1` in bits form is: 1111, for shifted( i.e >>> ), positive values return 1,
-  //otherwise return 0.
+  @SuppressWarnings("value:return.type.incompatible")/* An int has 32 bits, the lest most bit is 0 for positive values, and is 1 for negative values.
+  For shift right zero fill operator( >>> ), the left operands value is moved right by the number of bits specified by the right operand
+  and shifted values are filled up with zeros. Therefore if x > y, (x - y) return a positive value, when being shifted 31 bits, it returns 0, otherwise return 1.
+  */
   @VisibleForTesting
   static @IntRange(from = 0, to = 1) int lessThanBranchFree(int x, int y) {
     // The double negation is optimized away by normal Java, but is necessary for GWT
