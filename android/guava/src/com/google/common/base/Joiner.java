@@ -272,6 +272,11 @@ public class Joiner {
       }
 
       @Override
+      public Joiner skipNulls() {
+        return this;
+      }
+
+      @Override
       public MapJoiner withKeyValueSeparator(String kvs) {
         throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
