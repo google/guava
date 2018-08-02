@@ -841,7 +841,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     while (true) {
       future.releaseWaiters();
       // We call this before the listeners in order to avoid needing to manage a separate stack data
-      // structure for them.
+      // structure for them.  Also, some implementations rely on this running prior to listeners
+      // so that the cleanup work is visible to listeners.
       // afterDone() should be generally fast and only used for cleanup work... but in theory can
       // also be recursive and create StackOverflowErrors
       future.afterDone();
