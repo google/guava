@@ -15,7 +15,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
@@ -966,7 +965,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       }
       // The future may complete during or before the call to getPendingToString, so we use null
       // as a signal that we should try checking if the future is done again.
-      if (!isNullOrEmpty(pendingDescription)) {
+      if (pendingDescription != null && !pendingDescription.isEmpty()) {
         builder.append("PENDING, info=[").append(pendingDescription).append("]");
       } else if (isDone()) {
         addDoneString(builder);
