@@ -105,7 +105,7 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
-  @SuppressWarnings("value:return.type.incompatible")/* An int has 32 bits, the lest most bit is 0 for positive values, and is 1 for negative values.
+  @SuppressWarnings("value:return.type.incompatible")/* An int has 32 bits, the lestmost bit is 0 for positive values, and is 1 for negative values.
   For shift right zero fill operator( >>> ), the left operands value is moved right by the number of bits specified by the right operand
   and shifted values are filled up with zeros. Therefore if x > y, (x - y) return a positive value, when being shifted 31 bits, it returns 0, otherwise return 1.
   */
