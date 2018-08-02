@@ -309,6 +309,18 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
         .expectCollects(ImmutableSet.of("a", "b", "c", "d"), "a", "b", "a", "c", "b", "b", "d");
   }
 
+  public void testCombineBuilders() {
+    Builder<Integer> builder1 = ImmutableSet.builder();
+    for (int i = 0; i < 100; i++) {
+      builder1.add(i);
+    }
+    Builder<Integer> builder2 = ImmutableSet.builder();
+    for (int i = 100; i < 200; i++) {
+      builder2.add(i);
+    }
+    assertEquals(200, builder1.combine(builder2).build().size());
+  }
+
   public void testToImmutableSet_duplicates() {
     class TypeWithDuplicates {
       final int a;
