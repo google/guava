@@ -29,6 +29,7 @@ import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Locale;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -40,7 +41,6 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -841,7 +841,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     while (true) {
       future.releaseWaiters();
       // We call this before the listeners in order to avoid needing to manage a separate stack data
-      // structure for them.
+      // structure for them.  Also, some implementations rely on this running prior to listeners
+      // so that the cleanup work is visible to listeners.
       // afterDone() should be generally fast and only used for cleanup work... but in theory can
       // also be recursive and create StackOverflowErrors
       future.afterDone();
