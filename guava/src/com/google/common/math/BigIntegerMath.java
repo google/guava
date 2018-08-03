@@ -35,6 +35,7 @@ import java.util.List;
 import org.checkerframework.checker.index.qual.LessThan;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.PolyValue;
 
 /**
  * A class for arithmetic on values of type {@code BigInteger}.
@@ -147,11 +148,12 @@ public final class BigIntegerMath {
    *     is not a power of ten
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings("fallthrough")
-  public static int log10(BigInteger x, RoundingMode mode) {
+  @SuppressWarnings({"fallthrough","lowerbound:argument.type.incompatible"// if x is posItive, `x.longValue()` returns positive
+  })
+  public static int log10(@Positive BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
     if (fitsInLong(x)) {
-      return LongMath.log10(x.longValue(), mode);
+      return LongMath.log10(x.longValue(), mode);//(1)
     }
 
     int approxLog10 = (int) (log2(x, FLOOR) * LN_2 / LN_10);
