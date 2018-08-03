@@ -190,10 +190,12 @@ public final class IntMath {
     }
   }
 
-  @SuppressWarnings({"lowerbound:return.type.incompatible",/* only time when log10Floor(x) return negative values
-  and x < y, and that can't be because log10() only takes in positive `x` */
-  })
-  private static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(int x) {
+  @SuppressWarnings("lowerbound:return.type.incompatible")/*(1): `log10Floor()` returns a negative value if y is 0 and
+  `lessThanBranchFree(x, powersOf10[y])` returns 1( when x < powersOf10[y]). Since y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)],
+  y is 0 when 0 < x < 8( the array `maxLog10ForLeadingZeros` has 0 values at indexes: 29, 30, 31, 32).
+  Since when 0 < x < 8, y is 0 and powersOf10[0] is 1, x can't be < `powersOf10[y]`, therefore `log10Floor()` won't return
+  a negative value. */
+  private static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(@Positive int x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
@@ -206,7 +208,7 @@ public final class IntMath {
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - lessThanBranchFree(x, powersOf10[y]);
+    return y - lessThanBranchFree(x, powersOf10[y]);//(1)
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
