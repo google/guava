@@ -584,9 +584,9 @@ public final class Quantiles {
    * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
    * greater than or equal to that.
    */
-  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")// (1): Lowest possible `from` value is 0.
-  // Since for loop init at `i = to`, lowest possible `to` value is 1 in order to execute for loop, `partitionPoint--`
-  // will be as low as 0 and for loop will stop executing.
+  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): Both partitionPoint and i are initialized to the same value `to`.
+  partitionPoint is decremented at most one more time than i is decremented, therefore partitionPoint >= i-1.
+  i > from, therefore partitionPoint >= from. Since from is non-negative, therefore partitionPoint is non-negative. */
   private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
