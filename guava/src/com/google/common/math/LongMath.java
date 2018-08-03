@@ -168,7 +168,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
-  public static int log10(long x, RoundingMode mode) {
+  public static int log10(@Positive long x, RoundingMode mode) {
     checkPositive("x", x);
     int logFloor = log10Floor(x);
     long floorPow = powersOf10[logFloor];
@@ -193,18 +193,20 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  @SuppressWarnings(value = {"upperbound:array.access.unsafe.high.range",/* (1): Long.numberOfLeadingZeros() returns 64 and causes
-  an error only if x is 0, because `log10floor()` is a static method and only called by methods that take in positive `x` values. */
-          "lowerbound:return.type.incompatible",/* (2): `log10Floor()` return negative int value only when y = 0 and
+  @SuppressWarnings(value = {"lowerbound:return.type.incompatible",/* (2): `log10Floor()` return negative int value only when y = 0 and
           `LessThanBranchFree` return 1( when x < y). Since `log10floor()` is a static method and only called by methods that take in positive `x` values.
           Therefore x can't be less less than y */
           "upperbound:return.type.incompatible",/*(2) powersOf10.length is 19 and largest element in `maxLog10ForLeadingZeros` is 19 at index 0.
           Since `log10Floor()` is a static method and only called by methods that take in positive `x` values, `Long.numberOfLeadingZeros(x)`
           won't return 0 and cause an error */
-          "upperbound:assignment.type.incompatible",/* (2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
+          "upperbound:assignment.type.incompatible",/*(2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
           can be indexed for `powersOf10` */
+          "upperbound:array.access.unsafe.high.range"/*(1): `Long.numberOfLeadingZeros(x)` can return an int range from 0 to 64,
+          therfore the array `maxLog10ForLeadingZeros` should have min length of 65. However, since param `x` is required to
+          be positive, the highest int from `Long.numberOfLeadingZeros(x)` is 63.
+          */
           })
-  static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(long x) {
+  static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(@Positive long x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
@@ -826,7 +828,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
   @SuppressWarnings(value = {"lowerbound:compound.assignment.type.incompatible",// the lowest n can be is 0 in this method
-          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is safely indexed.
+          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is a valid index.
           // Link to issue: https://github.com/typetools/checker-framework/issues/2029
   })
   public static long binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
