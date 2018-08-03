@@ -29,10 +29,8 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.checkerframework.checker.index.qual.GTENegativeOne;
-import org.checkerframework.checker.index.qual.IndexFor;
-import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.index.qual.Positive;
+
+import org.checkerframework.checker.index.qual.*;
 import org.checkerframework.common.value.qual.MinLen;
 
 /**
@@ -283,7 +281,7 @@ public final class Quantiles {
      * @return the quantile value
      */
     @SuppressWarnings({"lowerbound:assignment.type.incompatible",// (0): Since index and (dataset.length - 1) are non-negative ints, numerator is non negative.
-            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1): second argument in selectInPlace() and interpolate() is `dataset`,
+            "upperbound:argument.type.incompatible", "upperbound:array.access.unsafe.high",/* (1): second argument in selectInPlace() is `dataset`,
             therefore `quotient + 1` should be < dataset.length. If remainder is not zero,
             quotient max value is `dataset.length - 2`*/
             "upperbound:assignment.type.incompatible"/*(3) Since `numerator = index * (dataset.length - 1)`,
