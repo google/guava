@@ -283,16 +283,14 @@ public final class HostAndPort implements Serializable {
     }
     if (other instanceof HostAndPort) {
       HostAndPort that = (HostAndPort) other;
-      return Objects.equal(this.host, that.host)
-          && this.port == that.port
-          && this.hasBracketlessColons == that.hasBracketlessColons;
+      return Objects.equal(this.host, that.host) && this.port == that.port;
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(host, port, hasBracketlessColons);
+    return Objects.hashCode(host, port);
   }
 
   /** Rebuild the host:port string, including brackets if necessary. */

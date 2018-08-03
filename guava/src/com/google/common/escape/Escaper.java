@@ -55,7 +55,7 @@ import com.google.common.base.Function;
  */
 @GwtCompatible
 public abstract class Escaper {
-  // TODO(user): evaluate custom implementations, considering package private constructor.
+  // TODO(dbeaumont): evaluate custom implementations, considering package private constructor.
   /** Constructor for use by subclasses. */
   protected Escaper() {}
 

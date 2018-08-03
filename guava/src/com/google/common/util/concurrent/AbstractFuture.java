@@ -23,7 +23,6 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Ascii;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
@@ -41,6 +40,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -461,11 +461,16 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
           "Waited "
               + timeout
               + " "
-              + Ascii.toLowerCase(unit.toString())
+              + unit.toString().toLowerCase(Locale.ROOT)
               + " but future completed as timeout expired");
     }
     throw new TimeoutException(
-        "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString()) + " for " + futureToString);
+        "Waited "
+            + timeout
+            + " "
+            + unit.toString().toLowerCase(Locale.ROOT)
+            + " for "
+            + futureToString);
   }
 
   /**
