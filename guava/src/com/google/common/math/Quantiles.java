@@ -542,10 +542,11 @@ public final class Quantiles {
    * ({@code required}, {@code to}] are greater than or equal to that value. Therefore, the value at
    * {@code required} is the value which would appear at that index in the sorted dataset.
    */
-  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",//(1): lowest possible while `to` > 0, `partitionPoint` value is 1, therefore `to` can't be negative.
-          "upperbound:assignment.type.incompatible"/* (2): highest possible `partionPoint` value is array.length / 2 or (array.length / 2) + 1.
-          Even with highest `required` value, `from` can only grow to array.length.
-          */})
+  @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",/*(1): When entering the loop,
+          required > from and from >= 0, therefore required >= 1.
+          At the assignment, partitionPoint >= required, therefore partitionPoint - 1 >= 0. */
+          "upperbound:assignment.type.incompatible"/* (2): When entering the loop, required > from.
+          At the assignment, partitionPoint <= required, therefore partitionPoint + 1 < required. */ })
   private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
     // (We will hit this whenever we are doing quantile interpolation: our first selection finds
