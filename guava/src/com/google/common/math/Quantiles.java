@@ -190,7 +190,7 @@ public final class Quantiles {
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
      */
-    public ScaleAndIndexes indexes(int @MinLen(1)... indexes) {
+    public ScaleAndIndexes indexes(@NonNegative int @MinLen(1)... indexes) {
       return new ScaleAndIndexes(scale, indexes.clone());
     }
 
@@ -202,7 +202,7 @@ public final class Quantiles {
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
      */
-    @SuppressWarnings("value:argument.type.incompatible")//para `indexes` is of mutable length data structures(Collection)
+    @SuppressWarnings({"value:argument.type.incompatible", "lowerbound:argument.type.incompatible"})//para `indexes` is of mutable length data structures(Collection)
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
       return new ScaleAndIndexes(scale, Ints.toArray(indexes));
     }
@@ -324,9 +324,9 @@ public final class Quantiles {
   public static final class ScaleAndIndexes {
 
     private final int scale;
-    private final int @MinLen(1)[] indexes;
+    private final @NonNegative int @MinLen(1)[] indexes;
 
-    private ScaleAndIndexes(int scale, int @MinLen(1)[] indexes) {
+    private ScaleAndIndexes(int scale, @NonNegative int @MinLen(1)[] indexes) {
       for (int index : indexes) {
         checkIndex(index, scale);
       }
@@ -395,16 +395,16 @@ public final class Quantiles {
      * @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
      *     the values the corresponding quantile values
      */
-    @SuppressWarnings({"upperbound:assignment.type.incompatible",// indexes` array is annotated to have min length of 1( which is > 0).
-            "upperbound:compound.assignment.type.incompatible",/* (1): Since `requiredSelections.length = indexes.length * 2`, and the for loop
+    @SuppressWarnings({"upperbound:compound.assignment.type.incompatible",/* (1): Since `requiredSelections.length = indexes.length * 2`, and the for loop
             iterate from 0 to indexes.length, increment on requiredSelectionsCount is safe thoughout the loop.
             */
             "lowerbound:argument.type.incompatible", "upperbound:argument.type.incompatible",/* (2): Since `indexes` is annotated to have at least length of 1,
             `requiredSelections.length` will be at least 2, therefore larger than constant 0. */
-            "lowerbound:assignment.type.incompatible",/* (3)
-            Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is non-negative int,
-            we can do long-arithmetic on index * (dataset.length - 1) / scale to
-            get a rounded ratio and a remainder which can be expressed as ints, without risk of overflow */
+            "lowerbound:assignment.type.incompatible",/*(3): numerator is = (long) indexes[i] * (dataset.length - 1). Since indexes[i] are non negative
+            dataset has min length of 1, numerator is non negative */
+            "upperbound:assignment.type.incompatible",/* (3): Since scale is a positive int, index is in [0, scale],
+            and (dataset.length - 1) is non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get a rounded ratio and a remainder
+             which can be expressed as ints, without risk of overflow */
             "upperbound:array.access.unsafe.high"// (4) if `remainder` is not 0, highest possible value for quotient is `dataset.length - 2`
     })
     public Map<Integer, Double> computeInPlace(double @MinLen(1)... dataset) {
@@ -426,16 +426,16 @@ public final class Quantiles {
       int[] remainders = new int[indexes.length];
       // The indexes to select. In the worst case, we'll need one each side of each quantile.
       int[] requiredSelections = new int[indexes.length * 2];
-      @IndexFor("requiredSelections") int requiredSelectionsCount = 0;
+      @IndexOrHigh("requiredSelections") int requiredSelectionsCount = 0;
       for (int i = 0; i < indexes.length; i++) {
         // Since index and (dataset.length - 1) are non-negative ints, their product can be
         // expressed as a long, without risk of overflow:
-        long numerator = (long) indexes[i] * (dataset.length - 1);
+        long numerator = (long) indexes[i] * (dataset.length - 1);//(3)
         // Since scale is a positive int, index is in [0, scale], and (dataset.length - 1) is a
         // non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to
         // get a rounded ratio and a remainder which can be expressed as ints, without risk of
         // overflow:
-        @IndexFor("dataset") int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);// (3)
+        @IndexFor("dataset") int quotient = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);//(3)
         int remainder = (int) (numerator - (long) quotient * scale);
         quotients[i] = quotient;
         remainders[i] = remainder;
