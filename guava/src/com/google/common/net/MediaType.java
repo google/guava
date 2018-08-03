@@ -416,7 +416,7 @@ public final class MediaType {
    * Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
    * Hypertext Application Language (HAL) documents</a>.
    *
-   * @since NEXT
+   * @since 26.0
    */
   public static final MediaType HAL_JSON = createConstant(APPLICATION_TYPE, "hal+json");
 

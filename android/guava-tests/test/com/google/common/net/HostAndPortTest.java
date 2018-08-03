@@ -193,15 +193,19 @@ public class HostAndPortTest extends TestCase {
   }
 
   public void testHashCodeAndEquals() {
-    HostAndPort hp1 = HostAndPort.fromString("foo::123");
-    HostAndPort hp2 = HostAndPort.fromString("foo::123");
-    HostAndPort hp3 = HostAndPort.fromString("[foo::123]");
-    HostAndPort hp4 = HostAndPort.fromParts("[foo::123]", 80);
-    HostAndPort hp5 = HostAndPort.fromString("[foo::123]:80");
+    HostAndPort hpNoPort1 = HostAndPort.fromString("foo::123");
+    HostAndPort hpNoPort2 = HostAndPort.fromString("foo::123");
+    HostAndPort hpNoPort3 = HostAndPort.fromString("[foo::123]");
+    HostAndPort hpNoPort4 = HostAndPort.fromHost("[foo::123]");
+    HostAndPort hpNoPort5 = HostAndPort.fromHost("foo::123");
+
+    HostAndPort hpWithPort1 = HostAndPort.fromParts("[foo::123]", 80);
+    HostAndPort hpWithPort2 = HostAndPort.fromParts("foo::123", 80);
+    HostAndPort hpWithPort3 = HostAndPort.fromString("[foo::123]:80");
+
     new EqualsTester()
-        .addEqualityGroup(hp1, hp2)
-        .addEqualityGroup(hp3)
-        .addEqualityGroup(hp4, hp5)
+        .addEqualityGroup(hpNoPort1, hpNoPort2, hpNoPort3, hpNoPort4, hpNoPort5)
+        .addEqualityGroup(hpWithPort1, hpWithPort2, hpWithPort3)
         .testEquals();
   }
 
