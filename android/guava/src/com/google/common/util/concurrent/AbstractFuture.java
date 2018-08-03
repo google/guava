@@ -71,17 +71,10 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
           System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
 
   /**
-   * Tag interface marking trusted subclasses. This enables some optimizations.
-   * The implementation of this interface must also be an AbstractureFuture and
-   * must not override or expose for overriding all the public methods of ListenableFuture.
-   * */
-  interface Trusted<V> extends ListenableFuture<V> {}
-
-  /**
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-  abstract static class TrustedFuture<V> extends AbstractFuture<V> implements Trusted<V> {
+  abstract static class TrustedFuture<V> extends AbstractFuture<V> {
     @CanIgnoreReturnValue
     @Override
     public final V get() throws InterruptedException, ExecutionException {
@@ -597,7 +590,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
             // propagate cancellation to the future set in setfuture, this is racy, and we don't
             // care if we are successful or not.
             ListenableFuture<?> futureToPropagateTo = ((SetFuture) localValue).future;
-            if (futureToPropagateTo instanceof Trusted) {
+            if (futureToPropagateTo instanceof TrustedFuture) {
               // If the future is a TrustedFuture then we specifically avoid calling cancel()
               // this has 2 benefits
               // 1. for long chains of futures strung together with setFuture we consume less stack
@@ -804,7 +797,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    */
   private static Object getFutureValue(ListenableFuture<?> future) {
     Object valueToSet;
-    if (future instanceof Trusted) {
+    if (future instanceof TrustedFuture) {
       // Break encapsulation for TrustedFuture instances since we know that subclasses cannot
       // override .get() (since it is final) and therefore this is equivalent to calling .get()
       // and unpacking the exceptions like we do below (just much faster because it is a single
