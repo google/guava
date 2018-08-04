@@ -543,8 +543,9 @@ public final class Quantiles {
   @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",/*(1): When entering the loop,
           required > from and from >= 0, therefore required >= 1.
           At the assignment, partitionPoint >= required, therefore partitionPoint - 1 >= 0. */
-          "upperbound:assignment.type.incompatible"/* (2): When entering the loop, required > from.
-          At the assignment, partitionPoint <= required, therefore partitionPoint + 1 < required. */ })
+          "upperbound:assignment.type.incompatible"/*(2): To and from are both < array.length. Entering the loop, from < to,
+          from < array.length - 1, therefore from = partitionPoint + 1 < array.length.
+          */ })
   private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
     // (We will hit this whenever we are doing quantile interpolation: our first selection finds
@@ -586,7 +587,7 @@ public final class Quantiles {
   @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): Both partitionPoint and i are initialized to the same value `to`.
   partitionPoint is decremented at most one more time than i is decremented, therefore partitionPoint >= i-1.
   i > from, therefore partitionPoint >= from. Since from is non-negative, therefore partitionPoint is non-negative. */
-  private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
+  private static @IndexFor("#1") int partition( double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
     double pivot = array[from];
@@ -638,12 +639,8 @@ public final class Quantiles {
    * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
-  @SuppressWarnings({"lowerbound:argument.type.incompatible",/* (1): Lowest possible `requiredFrom` value is 0.
-           Although `requiredBelow` can be negative, if `requiredBelow` is not >= `requiredFrom`, `required` can't be negative */
-          "upperbound:argument.type.incompatible"/* (2): highest `requiredTo` value is `allRequired.length - 1`.
-          When `requiredAbove` <= highest `requiredTo` value, required max value is `allRequired.length - 1`*/ })
   private static void selectAllInPlace(
-      @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
+          @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
     @IndexFor("allRequired") int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);
     int required = allRequired[requiredChosen];
@@ -652,7 +649,7 @@ public final class Quantiles {
     selectInPlace(required, array, from, to);
 
     // ...then recursively perform the selections in the range below...
-    @GTENegativeOne int requiredBelow = requiredChosen - 1;
+    int requiredBelow = requiredChosen - 1;
     while (requiredBelow >= requiredFrom && allRequired[requiredBelow] == required) {
       requiredBelow--; // skip duplicates of required in the range below
     }
