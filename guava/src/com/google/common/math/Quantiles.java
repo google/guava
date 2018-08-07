@@ -546,9 +546,8 @@ public final class Quantiles {
   @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",/*(1): When entering the loop,
           required > from and from >= 0, therefore required >= 1.
           At the assignment, partitionPoint >= required, therefore partitionPoint - 1 >= 0. */
-          "upperbound:assignment.type.incompatible"/*(2): To and from are both < array.length. Entering the loop, from < to,
-          from < array.length - 1, therefore from = partitionPoint + 1 < array.length.
-          */ })
+          "upperbound:assignment.type.incompatible"/*(2): To and from are both < array.length. If from == array.length,
+          then from > to and the loop ends, so the code is still safe. */ })
   private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
     // (We will hit this whenever we are doing quantile interpolation: our first selection finds
