@@ -269,9 +269,9 @@ public interface Service {
      * diagram. Therefore, if this method is called, no other methods will be called on the {@link
      * Listener}.
      *
-     * @param from The previous state that is being transitioned from. The only valid values for
-     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or {@linkplain
-     *     State#STOPPING STOPPING}.
+     * @param from The previous state that is being transitioned from. Failure can occur in any
+     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain
+     *     State#TERMINATED TERMINATED}.
      */
     public void terminated(State from) {}
 
