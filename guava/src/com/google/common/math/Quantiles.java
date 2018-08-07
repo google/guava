@@ -590,7 +590,7 @@ public final class Quantiles {
   @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): Both partitionPoint and i are initialized to the same value `to`.
   partitionPoint is decremented at most one more time than i is decremented, therefore partitionPoint >= i-1.
   i > from, therefore partitionPoint >= from. Since from is non-negative, therefore partitionPoint is non-negative. */
-  private static @IndexFor("#1") int partition( double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
+  private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {
     // Select a pivot, and move it to the start of the slice i.e. to index from.
     movePivotToStartOfSlice(array, from, to);
     double pivot = array[from];
@@ -651,7 +651,7 @@ public final class Quantiles {
   of if and while, allRequired[requiredAbove] != required. Because allRequired[requiredAbove] >= required, we know that allRequired[requiredAbove] > required,
   since array.length > allRequired[requiredAbove] > required, required + 1 < array.length. */})
   private static void selectAllInPlace(
-          @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
+      @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
     @IndexFor("allRequired") int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);
     int required = allRequired[requiredChosen];
