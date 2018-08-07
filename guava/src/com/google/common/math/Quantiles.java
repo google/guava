@@ -639,22 +639,25 @@ public final class Quantiles {
    * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
+  @SuppressWarnings({"lowerbound:argument.type.incompatible",/*(1): Since allRequired is sorted, and requiredBelow < requiredChosen,
+  allRequired[requiredBelow] <= allRequired[requiredChosen], therefore allRequired[requiredBelow] is always <= required. Based on the condition
+  of if and while, allRequired[requiredBelow] != required. Because allRequired[requiredBelow] <= required, we know that allRequired[requiredBelow] < required,
+  since allRequired[requiredBelow] >= from >= 0, then required > 0. */})
   private static void selectAllInPlace(
-          @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
+          @Positive @LTLengthOf(value = "#4",offset = "1") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
     @IndexFor("allRequired") int requiredChosen = chooseNextSelection(allRequired, requiredFrom, requiredTo, from, to);
     int required = allRequired[requiredChosen];
-
     // ...do the first selection...
     selectInPlace(required, array, from, to);
 
     // ...then recursively perform the selections in the range below...
-    int requiredBelow = requiredChosen - 1;
+    @GTENegativeOne int requiredBelow = requiredChosen - 1;
     while (requiredBelow >= requiredFrom && allRequired[requiredBelow] == required) {
       requiredBelow--; // skip duplicates of required in the range below
     }
     if (requiredBelow >= requiredFrom) {
-      selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);// (1)
+      selectAllInPlace(allRequired, requiredFrom, requiredBelow, array, from, required - 1);//(1)
     }
 
     // ...and then recursively perform the selections in the range above.
@@ -663,7 +666,7 @@ public final class Quantiles {
       requiredAbove++; // skip duplicates of required in the range above
     }
     if (requiredAbove <= requiredTo) {
-      selectAllInPlace(allRequired, requiredAbove, requiredTo, array, required + 1, to);// (2)
+      selectAllInPlace(allRequired, requiredAbove, requiredTo, array, required + 1, to);//(2)
     }
   }
 
