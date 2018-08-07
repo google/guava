@@ -639,10 +639,6 @@ public final class Quantiles {
    * allRequired[i]} for {@code i} in the range [{@code requiredFrom}, {@code requiredTo}]. These
    * indexes must be sorted in the array and must all be in the range [{@code from}, {@code to}].
    */
-  @SuppressWarnings({"lowerbound:argument.type.incompatible",/*(1): Since allRequired is sorted, and requiredBelow < requiredChosen,
-  allRequired[requiredBelow] <= allRequired[requiredChosen], therefore allRequired[requiredBelow] is always <= required. Based on the condition
-  of if and while, allRequired[requiredBelow] != required. Because allRequired[requiredBelow] <= required, we know that allRequired[requiredBelow] < required,
-  since allRequired[requiredBelow] >= from >= 0, then required > 0. */})
   private static void selectAllInPlace(
           @Positive @LTLengthOf(value = "#4",offset = "1") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
