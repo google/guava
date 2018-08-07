@@ -458,6 +458,13 @@ public final class MediaType {
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
+   * Media type for WASM applications. For more information see <a
+   * href="https://webassembly.org/">the Web Assembly overview</a>.
+   *
+   * @since NEXT
+   */
+  public static final MediaType WASM_APPLICATION = createConstant(APPLICATION_TYPE, "wasm");
+  /**
    * Media type for NaCl applications. For more information see <a
    * href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
    * Developer Guide for Native Client Application Structure</a>.
