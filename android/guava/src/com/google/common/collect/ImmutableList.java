@@ -445,6 +445,21 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override
+    Object[] internalArray() {
+      return ImmutableList.this.internalArray();
+    }
+
+    @Override
+    int internalArrayStart() {
+      return ImmutableList.this.internalArrayStart() + offset;
+    }
+
+    @Override
+    int internalArrayEnd() {
+      return ImmutableList.this.internalArrayStart() + offset + length;
+    }
+
+    @Override
     public E get(int index) {
       checkElementIndex(index, length);
       return ImmutableList.this.get(index + offset);
