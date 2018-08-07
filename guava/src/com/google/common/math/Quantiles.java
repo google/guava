@@ -645,11 +645,11 @@ public final class Quantiles {
   @SuppressWarnings({"lowerbound:argument.type.incompatible",/*(1): Since allRequired is sorted, and requiredBelow < requiredChosen,
   allRequired[requiredBelow] <= allRequired[requiredChosen], therefore allRequired[requiredBelow] is always <= required. Based on the condition
   of if and while, allRequired[requiredBelow] != required. Because allRequired[requiredBelow] <= required, we know that allRequired[requiredBelow] < required,
-  since allRequired[requiredBelow] >= requiredFrom >= 0, then required > 0. */
+  since allRequired[requiredBelow] >= 0, then required > 0. */
           "upperbound:argument.type.incompatible"/*(2): Since allRequired is sorted, and requiredAbove > requiredChosen,
   allRequired[requiredAbove] >= allRequired[requiredChosen], therefore allRequired[requiredAbove] is always >= required. Based on the condition
   of if and while, allRequired[requiredAbove] != required. Because allRequired[requiredAbove] >= required, we know that allRequired[requiredAbove] > required,
-  since requiredTo >= allRequired[requiredAbove] > required, required + 1 < array.length. */})
+  since array.length > allRequired[requiredAbove] > required, required + 1 < array.length. */})
   private static void selectAllInPlace(
           @IndexFor("#4") int[] allRequired, @IndexFor("#1") int requiredFrom, @IndexFor("#1") int requiredTo, double[] array, @IndexFor("#4") int from, @IndexFor("#4") int to) {
     // Choose the first selection to do...
