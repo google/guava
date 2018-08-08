@@ -177,7 +177,8 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       checkNotNull(
           replacement,
           "AsyncFunction.apply returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          fallback);
       return replacement;
     }
 

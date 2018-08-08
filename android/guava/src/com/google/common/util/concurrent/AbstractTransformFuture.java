@@ -207,7 +207,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
       checkNotNull(
           outputFuture,
           "AsyncFunction.apply returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          function);
       return outputFuture;
     }
 
