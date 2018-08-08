@@ -159,7 +159,8 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
       return checkNotNull(
           callable.call(),
           "AsyncCallable.call returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          callable);
     }
 
     @Override

@@ -150,7 +150,8 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
       return checkNotNull(
           result,
           "AsyncCallable.call returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          callable);
     }
 
     @Override

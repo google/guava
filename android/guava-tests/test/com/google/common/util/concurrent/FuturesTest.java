@@ -1154,7 +1154,8 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
       assertThat(cause)
-          .hasMessage(
+          .hasMessageThat()
+          .contains(
               "AsyncFunction.apply returned null instead of a Future. "
                   + "Did you mean to return immediateFuture(null)?");
     }
@@ -1767,7 +1768,8 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
       assertThat(cause)
-          .hasMessage(
+          .hasMessageThat()
+          .contains(
               "AsyncFunction.apply returned null instead of a Future. "
                   + "Did you mean to return immediateFuture(null)?");
     }
@@ -1875,7 +1877,8 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
       assertThat(cause)
-          .hasMessage(
+          .hasMessageThat()
+          .contains(
               "AsyncCallable.call returned null instead of a Future. "
                   + "Did you mean to return immediateFuture(null)?");
     }
@@ -1999,7 +2002,8 @@ public class FuturesTest extends TestCase {
     } catch (ExecutionException expected) {
       NullPointerException cause = (NullPointerException) expected.getCause();
       assertThat(cause)
-          .hasMessage(
+          .hasMessageThat()
+          .contains(
               "AsyncCallable.call returned null instead of a Future. "
                   + "Did you mean to return immediateFuture(null)?");
     }
