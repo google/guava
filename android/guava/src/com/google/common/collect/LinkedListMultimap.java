@@ -58,7 +58,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * between keys, entries and values. For example, calling:
  *
  * <pre>{@code
- * map.remove(key1, foo);
+ * multimap.remove(key1, foo);
  * }</pre>
  *
  * <p>changes the entries iteration order to {@code [key2=bar, key1=baz]} and the key iteration
