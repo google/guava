@@ -828,7 +828,7 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
   @SuppressWarnings(value = {"lowerbound:compound.assignment.type.incompatible",// the lowest n can be is 0 in this method
-          "upperbound:array.access.unsafe.high"// (1): Since k <= n, k is a valid index.
+          "upperbound:array.access.unsafe.high"// (1): Since k <= n, n - k is a valid index.
           // Link to issue: https://github.com/typetools/checker-framework/issues/2029
   })
   public static long binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
