@@ -24349,7 +24349,7 @@
  between keys, entries and values. For example, calling:
 
  <pre>{@code
- map.remove(key1, foo);
+ multimap.remove(key1, foo);
  }</pre>
 
  <p>changes the entries iteration order to {@code [key2=bar, key1=baz]} and the key iteration
@@ -49762,6 +49762,17 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="WASM_APPLICATION" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for WASM applications. For more information see <a
+ href="https://webassembly.org/">the Web Assembly overview</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="NACL_APPLICATION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -58711,7 +58722,30 @@
 
  <p>This method should return promptly; prefer to do work on a different thread where it is
  convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
- called multiple times.]]>
+ called multiple times.
+
+ <p>If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not
+ invoked immediately. Instead, it will be deferred until after the service is {@link
+ State#RUNNING}. Services that need to cancel startup work can override {#link #doCancelStart}.]]>
+      </doc>
+    </method>
+    <method name="doCancelStart"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="protected"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[This method is called by {@link #stopAsync} when the service is still starting (i.e. {@link
+ #startAsync} has been called but {@link #notifyStarted} has not). Subclasses can override the
+ method to cancel pending work and then call {@link #notifyStopped} to stop the service.
+
+ <p>This method should return promptly; prefer to do work on a different thread where it is
+ convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
+ called multiple times.
+
+ <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which
+ is the external state observable by the caller of {@link #stopAsync}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="startAsync" return="com.google.common.util.concurrent.Service"
@@ -58767,10 +58801,11 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Implementing classes should invoke this method once their service has stopped. It will cause
- the service to transition from {@link State#STOPPING} to {@link State#TERMINATED}.
+ the service to transition from {@link State#STARTING} or {@link State#STOPPING} to {@link
+ State#TERMINATED}.
 
- @throws IllegalStateException if the service is neither {@link State#STOPPING} nor {@link
-     State#RUNNING}.]]>
+ @throws IllegalStateException if the service is not one of {@link State#STOPPING}, {@link
+     State#STARTING}, or {@link State#RUNNING}.]]>
       </doc>
     </method>
     <method name="notifyFailed"
@@ -64025,9 +64060,9 @@
  diagram. Therefore, if this method is called, no other methods will be called on the {@link
  Listener}.
 
- @param from The previous state that is being transitioned from. The only valid values for
-     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or {@linkplain
-     State#STOPPING STOPPING}.]]>
+ @param from The previous state that is being transitioned from. Failure can occur in any
+     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain
+     State#TERMINATED TERMINATED}.]]>
       </doc>
     </method>
     <method name="failed"

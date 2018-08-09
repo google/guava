@@ -278,8 +278,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  diagram. Therefore, if this method is called, no other methods will be called on the <a href="../../../../../com/google/common/util/concurrent/Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>from</code> - The previous state that is being transitioned from. The only valid values for
-     this are <a href="../../../../../com/google/common/util/concurrent/Service.State.html#NEW">NEW</a>, <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">RUNNING</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#STOPPING">STOPPING</a>.</dd>
+<dd><code>from</code> - The previous state that is being transitioned from. Failure can occur in any
+     state with the exception of <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED">FAILED</a> and <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">TERMINATED</a>.</dd>
 </dl>
 </li>
 </ul>

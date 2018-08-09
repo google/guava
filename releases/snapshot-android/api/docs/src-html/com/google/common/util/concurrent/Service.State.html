@@ -277,9 +277,9 @@
 <span class="sourceLineNo">269</span>     * diagram. Therefore, if this method is called, no other methods will be called on the {@link<a name="line.269"></a>
 <span class="sourceLineNo">270</span>     * Listener}.<a name="line.270"></a>
 <span class="sourceLineNo">271</span>     *<a name="line.271"></a>
-<span class="sourceLineNo">272</span>     * @param from The previous state that is being transitioned from. The only valid values for<a name="line.272"></a>
-<span class="sourceLineNo">273</span>     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or {@linkplain<a name="line.273"></a>
-<span class="sourceLineNo">274</span>     *     State#STOPPING STOPPING}.<a name="line.274"></a>
+<span class="sourceLineNo">272</span>     * @param from The previous state that is being transitioned from. Failure can occur in any<a name="line.272"></a>
+<span class="sourceLineNo">273</span>     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain<a name="line.273"></a>
+<span class="sourceLineNo">274</span>     *     State#TERMINATED TERMINATED}.<a name="line.274"></a>
 <span class="sourceLineNo">275</span>     */<a name="line.275"></a>
 <span class="sourceLineNo">276</span>    public void terminated(State from) {}<a name="line.276"></a>
 <span class="sourceLineNo">277</span><a name="line.277"></a>
