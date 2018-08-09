@@ -297,16 +297,13 @@ public final class HostAndPort implements Serializable {
   @Override
   public String toString() {
     // "[]:12345" requires 8 extra bytes.
-    StringBuilder builder = new StringBuilder(host.length() + 8);
-    if (host.indexOf(':') >= 0) {
-      builder.append('[').append(host).append(']');
-    } else {
-      builder.append(host);
-    }
+    String str = "";
+    boolean hostHasSemicolon = host.indexOf(":") >= 0;
+    str += hostHasSemicolon ? String.format("[%s]", host) : host;
     if (hasPort()) {
-      builder.append(':').append(port);
+      str += String.format(":%s", port);
     }
-    return builder.toString();
+    return str;
   }
 
   /** Return true for valid port numbers. */
