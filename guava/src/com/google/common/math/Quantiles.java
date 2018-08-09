@@ -205,7 +205,7 @@ public final class Quantiles {
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
      */
-    @SuppressWarnings({"value:argument.type.incompatible", "lowerbound:argument.type.incompatible"})//para `indexes` is of mutable length data structures(Collection)
+    @SuppressWarnings({"value:argument.type.incompatible", "lowerbound:argument.type.incompatible"})//parameter `indexes` is of mutable length data structures(Collection)
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
       return new ScaleAndIndexes(scale, Ints.toArray(indexes));
     }

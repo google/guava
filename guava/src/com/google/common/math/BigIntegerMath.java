@@ -148,7 +148,8 @@ public final class BigIntegerMath {
    *     is not a power of ten
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings({"fallthrough","lowerbound:argument.type.incompatible"// if x is posItive, `x.longValue()` returns positive
+  @SuppressWarnings({"fallthrough","lowerbound:argument.type.incompatible"// x fits in a long, then longValue is polymorphic over x's value
+          // with respect to the lowerbound type system. 
   })
   public static int log10(@Positive BigInteger x, RoundingMode mode) {
     checkPositive("x", x);

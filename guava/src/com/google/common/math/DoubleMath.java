@@ -47,7 +47,6 @@ import org.checkerframework.common.value.qual.MinLen;
  * @author Louis Wasserman
  * @since 11.0
  */
-@SuppressWarnings("expression.unparsable.type.invalid")// link to issue: https://github.com/typetools/checker-framework/issues/2030
 @GwtCompatible(emulated = true)
 public final class DoubleMath {
   /*
