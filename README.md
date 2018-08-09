@@ -39,7 +39,7 @@ To add a dependency on Guava using Maven, use the following:
 
 To add a dependency using Gradle:
 
-```
+```gradle
 dependencies {
   compile 'com.google.guava:guava:26.0-jre'
   // or, for Android:
