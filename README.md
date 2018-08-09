@@ -108,3 +108,5 @@ API level 15 (Ice Cream Sandwich).
 [using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
 
+## Contributing
+Please read the [CONTRIBUTING.md](https://github.com/xamuel/guava/blob/master/CONTRIBUTING.md) for details on how to contribute to this project.
