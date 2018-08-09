@@ -24,15 +24,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import junit.framework.TestCase;
 
 /** Tests for {@link ExecutionSequencer} */
-@RunWith(JUnit4.class)
-public class ExecutionSequencerTest {
+public class ExecutionSequencerTest extends TestCase {
 
   ExecutorService executor;
 
@@ -40,7 +35,7 @@ public class ExecutionSequencerTest {
   private SettableFuture<Void> firstFuture;
   private TestCallable firstCallable;
 
-  @Before
+  @Override
   public void setUp() throws Exception {
     executor = Executors.newCachedThreadPool();
     serializer = ExecutionSequencer.create();
@@ -48,12 +43,11 @@ public class ExecutionSequencerTest {
     firstCallable = new TestCallable(firstFuture);
   }
 
-  @After
+  @Override
   public void tearDown() throws Exception {
     executor.shutdown();
   }
 
-  @Test
   public void testCallableStartsAfterFirstFutureCompletes() {
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
@@ -66,13 +60,11 @@ public class ExecutionSequencerTest {
     assertThat(secondCallable.called).isTrue();
   }
 
-  @Test
   public void testCancellationNotPropagatedIfAlreadyStarted() {
     serializer.submitAsync(firstCallable, directExecutor()).cancel(true);
     assertThat(firstFuture.isCancelled()).isFalse();
   }
 
-  @Test
   public void testCancellationDoesNotViolateSerialization() {
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
@@ -89,7 +81,6 @@ public class ExecutionSequencerTest {
     assertThat(thirdCallable.called).isTrue();
   }
 
-  @Test
   public void testCancellationMultipleThreads() throws Exception {
     final BlockingCallable blockingCallable = new BlockingCallable();
     ListenableFuture<Void> unused = serializer.submit(blockingCallable, executor);
@@ -117,8 +108,7 @@ public class ExecutionSequencerTest {
     assertThat(getDone(future2)).isFalse();
   }
 
-  @Test
-  public void secondTaskWaitsForFirstEvenIfCancelled() throws Exception {
+  public void testSecondTaskWaitsForFirstEvenIfCancelled() throws Exception {
     final BlockingCallable blockingCallable = new BlockingCallable();
     ListenableFuture<Void> future1 = serializer.submit(blockingCallable, executor);
     ListenableFuture<Boolean> future2 =
@@ -148,6 +138,16 @@ public class ExecutionSequencerTest {
     executor.shutdown();
     assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
     assertThat(getDone(future2)).isFalse();
+  }
+
+  public void testToString() {
+    Future<?> first = serializer.submitAsync(firstCallable, directExecutor());
+    TestCallable secondCallable = new TestCallable(SettableFuture.<Void>create());
+    Future<?> second = serializer.submitAsync(secondCallable, directExecutor());
+    assertThat(secondCallable.called).isFalse();
+    assertThat(second.toString()).contains(secondCallable.toString());
+    firstFuture.set(null);
+    assertThat(second.toString()).contains(secondCallable.future.toString());
   }
 
   private static class BlockingCallable implements Callable<Void> {
