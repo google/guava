@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,8 +42,8 @@ public final class Primitives {
   // Sad that we can't use a BiMap. :(
 
   static {
-    Map<Class<?>, Class<?>> primToWrap = new HashMap<>(16);
-    Map<Class<?>, Class<?>> wrapToPrim = new HashMap<>(16);
+    Map<Class<?>, Class<?>> primToWrap = new LinkedHashMap<>(16);
+    Map<Class<?>, Class<?>> wrapToPrim = new LinkedHashMap<>(16);
 
     add(primToWrap, wrapToPrim, boolean.class, Boolean.class);
     add(primToWrap, wrapToPrim, byte.class, Byte.class);
