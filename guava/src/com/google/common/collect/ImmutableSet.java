@@ -31,6 +31,7 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -571,7 +572,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     abstract SetBuilderImpl<E> add(E e);
 
     /** Adds all the elements from the specified SetBuilderImpl to this SetBuilderImpl. */
-    final SetBuilderImpl<E> combine(SetBuilderImpl<E> other) {
+    SetBuilderImpl<E> combine(SetBuilderImpl<E> other) {
       SetBuilderImpl<E> result = this;
       for (int i = 0; i < other.distinct; i++) {
         result = result.add(other.dedupedElements[i]);
@@ -698,9 +699,19 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   /**
-   * Default implementation of the guts of ImmutableSet.Builder, creating an open-addressed hash
-   * table and deduplicating elements as they come, so it only allocates O(max(distinct,
-   * expectedCapacity)) rather than O(calls to add).
+   * Default implementation of the guts of ImmutableSet.Builder, creating many open-addressed hash
+   * tables and deduplicating elements within each table as they come.
+   *
+   * <p>We do not deduplicate all elements as they come as doing so requires a lot of hash table
+   * resizing if many elements are being added. Instead, we will deduplicate and hash all elements
+   * until the table needs resizing. Then we will create a new table without copying the previous
+   * table, and hash and deduplicate only newly added elements until the new table is full, and then
+   * merging the deduplicated tables together at the end. This way, adding n elements, m of which
+   * are distinct, saves about O(m/2) rehashes of elements compared to deduplicating all elements
+   * and resizing a single hashtable.
+   *
+   * <p>while worst case, we allocate O(n) during building, given uniformly distributed duplicates
+   * during the build stage, the average memory allocated is still O(m)
    *
    * <p>This implementation attempts to detect hash flooding, and if it's identified, falls back to
    * JdkBackedSetBuilderImpl.
@@ -710,6 +721,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     private int maxRunBeforeFallback;
     private int expandTableThreshold;
     private int hashCode;
+
+    // this is number of elements in `hashTable`, which is the currently active hashTable that has
+    // yet to overflow.
+    // We use this to track when we should resize.
+    private int numElementsInHashTable = 0;
+    private ArrayList<Object[]> overflowTables;
 
     RegularSetBuilderImpl(int expectedCapacity) {
       super(expectedCapacity);
@@ -722,18 +739,90 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     RegularSetBuilderImpl(RegularSetBuilderImpl<E> toCopy) {
       super(toCopy);
       this.hashTable = Arrays.copyOf(toCopy.hashTable, toCopy.hashTable.length);
+      this.numElementsInHashTable = toCopy.numElementsInHashTable;
       this.maxRunBeforeFallback = toCopy.maxRunBeforeFallback;
       this.expandTableThreshold = toCopy.expandTableThreshold;
       this.hashCode = toCopy.hashCode;
+
+      if (toCopy.overflowTables != null) {
+        int size = toCopy.overflowTables.size();
+        this.overflowTables = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+          Object[] table = toCopy.overflowTables.get(i);
+          this.overflowTables.add(Arrays.copyOf(table, table.length));
+        }
+      }
     }
 
+    @SuppressWarnings("unchecked")
     void ensureTableCapacity(int minCapacity) {
       if (minCapacity > expandTableThreshold && hashTable.length < MAX_TABLE_SIZE) {
-        int newTableSize = hashTable.length * 2;
-        hashTable = rebuildHashTable(newTableSize, dedupedElements, distinct);
+        /**
+         * we have about {@code (a_0 sum_{k=1 to n+1} of 2^k)} elements total in our table, assuming
+         * we fill each of the overflow tables fully, which is {@code a_0 * (2^{n+2} - 2) <=
+         * hashtable.size * 2} by geometric series.
+         *
+         * <p>We always allocate enough to fill all elements in our table to needing to rehash
+         * frequently.
+         */
+        int newTableSize = chooseTableSize(hashTable.length * 2);
+        if (overflowTables == null) {
+          overflowTables = new ArrayList<>();
+        }
+        overflowTables.add(dedupedElements);
+        distinct = 0;
+        dedupedElements = (E[]) new Object[expandTableThreshold];
+
+        numElementsInHashTable = 0;
+        hashTable = new Object[newTableSize];
+
+        hashCode = 0;
         maxRunBeforeFallback = maxRunBeforeFallback(newTableSize);
         expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * newTableSize);
       }
+    }
+
+    @SuppressWarnings("unchecked")
+    void flattenOverflowTables() {
+      if (overflowTables == null) {
+        return;
+      }
+
+      // ensure capacity first to avoid resizing and inserting into a high load table as much as
+      // possible
+      ensureTableCapacity(hashTable.length * 2);
+
+      ArrayList<Object[]> overflows = overflowTables;
+      overflowTables = null;
+      // now we rehash.
+      for (int i = 0; i < overflows.size(); i++) {
+        Object[] table = overflows.get(i);
+        for (int j = 0; j < table.length && table[j] != null; j++) {
+          add((E) table[j]);
+        }
+      }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    SetBuilderImpl<E> combine(SetBuilderImpl<E> other) {
+      if (other instanceof RegularSetBuilderImpl) {
+        RegularSetBuilderImpl<E> otherR = (RegularSetBuilderImpl<E>) other;
+        SetBuilderImpl<E> result = this;
+        for (int i = 0; i < other.distinct; i++) {
+          result = result.add(other.dedupedElements[i]);
+        }
+        if (otherR.overflowTables != null) {
+          for (int i = 0; i < otherR.overflowTables.size(); i++) {
+            Object[] tables = otherR.overflowTables.get(i);
+            for (int j = 0; j < tables.length && tables[j] != null; j++) {
+              result = result.add((E) tables[j]);
+            }
+          }
+        }
+        return result;
+      }
+      return super.combine(other);
     }
 
     @Override
@@ -749,7 +838,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
           addDedupedElement(e);
           hashTable[index] = e;
           hashCode += eHash;
-          ensureTableCapacity(distinct); // rebuilds table if necessary
+          numElementsInHashTable++;
+          // rebuilds table if necessary. We fill each overflow table as much as possible.
+          ensureTableCapacity(numElementsInHashTable);
           return this;
         } else if (tableEntry.equals(e)) { // not a new element, ignore
           return this;
@@ -766,6 +857,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
     @Override
     SetBuilderImpl<E> review() {
+      flattenOverflowTables();
+
       int targetTableSize = chooseTableSize(distinct);
       if (targetTableSize * 2 < hashTable.length) {
         hashTable = rebuildHashTable(targetTableSize, dedupedElements, distinct);
