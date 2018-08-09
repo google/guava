@@ -25,6 +25,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+import com.google.common.util.concurrent.DirectExecutor;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -387,21 +388,6 @@ public final class MoreExecutors {
    */
   public static Executor directExecutor() {
     return DirectExecutor.INSTANCE;
-  }
-
-  /** See {@link #directExecutor} for behavioral notes. */
-  private enum DirectExecutor implements Executor {
-    INSTANCE;
-
-    @Override
-    public void execute(Runnable command) {
-      command.run();
-    }
-
-    @Override
-    public String toString() {
-      return "MoreExecutors.directExecutor()";
-    }
   }
 
   /**

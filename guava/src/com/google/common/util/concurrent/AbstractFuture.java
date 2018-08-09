@@ -15,21 +15,20 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Futures.getDone;
-import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Ascii;
+import com.google.common.util.concurrent.DirectExecutor;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Locale;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -461,11 +460,16 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
           "Waited "
               + timeout
               + " "
-              + Ascii.toLowerCase(unit.toString())
+              + unit.toString().toLowerCase(Locale.ROOT)
               + " but future completed as timeout expired");
     }
     throw new TimeoutException(
-        "Waited " + timeout + " " + Ascii.toLowerCase(unit.toString()) + " for " + futureToString);
+        "Waited "
+            + timeout
+            + " "
+            + unit.toString().toLowerCase(Locale.ROOT)
+            + " for "
+            + futureToString);
   }
 
   /**
@@ -759,7 +763,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
         // the listener is responsible for calling completeWithFuture, directExecutor is appropriate
         // since all we are doing is unpacking a completed future which should be fast.
         try {
-          future.addListener(valueToSet, directExecutor());
+          future.addListener(valueToSet, DirectExecutor.INSTANCE);
         } catch (Throwable t) {
           // addListener has thrown an exception! SetFuture.run can't throw any exceptions so this
           // must have been caused by addListener itself. The most likely explanation is a
@@ -836,7 +840,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     while (true) {
       future.releaseWaiters();
       // We call this before the listeners in order to avoid needing to manage a separate stack data
-      // structure for them.
+      // structure for them.  Also, some implementations rely on this running prior to listeners
+      // so that the cleanup work is visible to listeners.
       // afterDone() should be generally fast and only used for cleanup work... but in theory can
       // also be recursive and create StackOverflowErrors
       future.afterDone();
@@ -961,7 +966,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       }
       // The future may complete during or before the call to getPendingToString, so we use null
       // as a signal that we should try checking if the future is done again.
-      if (!isNullOrEmpty(pendingDescription)) {
+      if (pendingDescription != null && !pendingDescription.isEmpty()) {
         builder.append("PENDING, info=[").append(pendingDescription).append("]");
       } else if (isDone()) {
         addDoneString(builder);
