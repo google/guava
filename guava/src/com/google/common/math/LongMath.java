@@ -828,7 +828,8 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")// the lowest n can be is 0 in this method
+  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): k = n - k. Entering for loop, i <= k, Since
+  n is non negative and k <= n, n - n - k is always >= 0 */
   public static long binomial(@NonNegative @LTLengthOf("this.factorials") int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
@@ -843,13 +844,13 @@ public final class LongMath {
         return n;
       default:
         if (n < factorials.length) {
-          return factorials[n] / (factorials[k] * factorials[n - k]);//(1)
+          return factorials[n] / (factorials[k] * factorials[n - k]);
         } else if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
           return Long.MAX_VALUE;
         } else if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
           // guaranteed not to overflow
           long result = n--;
-          for (int i = 2; i <= k; n--, i++) {
+          for (int i = 2; i <= k; n--, i++) {//(1)
             result *= n;
             result /= i;
           }
@@ -869,7 +870,7 @@ public final class LongMath {
            * technique previously used by BigIntegerMath: maintain separate numerator and
            * denominator accumulators, multiplying the fraction into result when near overflow.
            */
-          for (int i = 2; i <= k; i++, n--) {
+          for (int i = 2; i <= k; i++, n--) {//(1)
             if (numeratorBits + nBits < Long.SIZE - 1) {
               // It's definitely safe to multiply into numerator and denominator.
               numerator *= n;
