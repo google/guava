@@ -53,7 +53,7 @@ public final class DoubleMath {
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result as
    * rounding x according to the specified mode.
    */
-  @SuppressWarnings("expression.unparsable.type.invalid")//Link to issue: https://github.com/typetools/checker-framework/issues/2030( marked as unreproducible)
+  @SuppressWarnings("expression.unparsable.type.invalid")//Link to issue: https://github.com/typetools/checker-framework/issues/2030
   @GwtIncompatible // #isMathematicalInteger, com.google.common.math.DoubleUtils
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
