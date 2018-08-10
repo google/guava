@@ -554,6 +554,30 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
   }
 
   /**
+   * Returns the maximal range lying between this range and {@code otherRange}, if such a range
+   * exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.
+   *
+   * <p>For example, the gap of {@code [1..5]} and {@code (7..10)} is {@code (5..7]}. The resulting
+   * range may be empty; for example, the gap between {@code [1..5)} {@code [5..7)} yields the empty
+   * range {@code [5..5)}.
+   *
+   * <p>The gap exists if and only if the two ranges are either disconnected or immediately adjacent
+   * (any intersection must be an empty range).
+   *
+   * <p>The gap operation is commutative.
+   *
+   * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty
+   *     intersection
+   * @since NEXT
+   */
+  public Range<C> gap(Range<C> otherRange) {
+    boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) < 0;
+    Range<C> firstRange = isThisFirst ? this : otherRange;
+    Range<C> secondRange = isThisFirst ? otherRange : this;
+    return create(firstRange.upperBound, secondRange.lowerBound);
+  }
+
+  /**
    * Returns the minimal range that {@linkplain #encloses encloses} both this range and {@code
    * other}. For example, the span of {@code [1..3]} and {@code (5..7)} is {@code [1..7)}.
    *
