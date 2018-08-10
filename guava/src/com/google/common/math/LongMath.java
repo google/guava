@@ -194,9 +194,10 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  @SuppressWarnings(value = {"lowerbound:return.type.incompatible",/* (2): `log10Floor()` return negative int value only when y = 0 and
-          `LessThanBranchFree` return 1( when x < y). Since `log10floor()` is a static method and only called by methods that take in positive `x` values.
-          Therefore x can't be less less than y */
+  @SuppressWarnings(value = {"lowerbound:return.type.incompatible",/* (2): `log10Floor()` returns a negative value if y is 0 and
+  `lessThanBranchFree(x, powersOf10[y])` returns 1( when x < powersOf10[y]). Since x is positive, y is 0 when 0 < x < 8( the array `maxLog10ForLeadingZeros` has 0 values at indexes: 61, 62, 63).
+  Since when 0 < x < 8, y is 0 and powersOf10[0] is 1, x can't be < `powersOf10[y]`, therefore `log10Floor()` won't return
+  a negative value. */
           "upperbound:return.type.incompatible",/*(2) powersOf10.length is 19 and largest element in `maxLog10ForLeadingZeros` is 19 at index 0.
           Since `log10Floor()` is a static method and only called by methods that take in positive `x` values, `Long.numberOfLeadingZeros(x)`
           won't return 0 and cause an error */
