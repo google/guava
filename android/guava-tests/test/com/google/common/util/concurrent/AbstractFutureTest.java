@@ -230,6 +230,23 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
+  public void testToString_delayedTimeout() throws Exception {
+    TimedWaiterThread thread =
+        new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
+    thread.setPriority(Thread.MIN_PRIORITY);
+    thread.start();
+    thread.awaitWaiting();
+    thread.suspend();
+    Thread.sleep(3500);
+    thread.setPriority(Thread.MAX_PRIORITY);
+    thread.resume();
+    thread.join();
+
+    assertThat(thread.exception)
+        .hasMessageThat()
+        .matches("Waited 2 seconds \\(plus 1 seconds, [5-6][0-9]+ nanoseconds delay\\).*");
+  }
+
   public void testToString_completed() throws Exception {
     AbstractFuture<Object> testFuture2 =
         new AbstractFuture<Object>() {
@@ -850,11 +867,21 @@ public class AbstractFutureTest extends TestCase {
     }
 
     void awaitWaiting() {
-      while (LockSupport.getBlocker(this) != future) {
+      while (!isBlocked()) {
         if (getState() == State.TERMINATED) {
           throw new RuntimeException("Thread exited");
         }
         Thread.yield();
+      }
+    }
+
+    private boolean isBlocked() {
+      switch (getState()) {
+        case TIMED_WAITING:
+        case WAITING:
+          return LockSupport.getBlocker(this) == future;
+        default:
+          return false;
       }
     }
   }
@@ -863,6 +890,7 @@ public class AbstractFutureTest extends TestCase {
     private final AbstractFuture<?> future;
     private final long timeout;
     private final TimeUnit unit;
+    private Exception exception;
 
     TimedWaiterThread(AbstractFuture<?> future, long timeout, TimeUnit unit) {
       this.future = future;
@@ -876,15 +904,26 @@ public class AbstractFutureTest extends TestCase {
         future.get(timeout, unit);
       } catch (Exception e) {
         // nothing
+        exception = e;
       }
     }
 
     void awaitWaiting() {
-      while (LockSupport.getBlocker(this) != future) {
+      while (!isBlocked()) {
         if (getState() == State.TERMINATED) {
           throw new RuntimeException("Thread exited");
         }
         Thread.yield();
+      }
+    }
+
+    private boolean isBlocked() {
+      switch (getState()) {
+        case TIMED_WAITING:
+        case WAITING:
+          return LockSupport.getBlocker(this) == future;
+        default:
+          return false;
       }
     }
   }
