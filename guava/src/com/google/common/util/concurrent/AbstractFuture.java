@@ -817,7 +817,6 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
    * <p>This is approximately the inverse of {@link #getDoneValue(Object)}
    */
   private static Object getFutureValue(ListenableFuture<?> future) {
-    Object valueToSet;
     if (future instanceof Trusted) {
       // Break encapsulation for TrustedFuture instances since we know that subclasses cannot
       // override .get() (since it is final) and therefore this is equivalent to calling .get()
@@ -838,19 +837,18 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       }
       return v;
     } else {
-      // Otherwise calculate valueToSet by calling .get()
+      // Otherwise calculate the value by calling .get()
       try {
         Object v = getDone(future);
-        valueToSet = v == null ? NULL : v;
+        return v == null ? NULL : v;
       } catch (ExecutionException exception) {
-        valueToSet = new Failure(exception.getCause());
+        return new Failure(exception.getCause());
       } catch (CancellationException cancellation) {
-        valueToSet = new Cancellation(false, cancellation);
+        return new Cancellation(false, cancellation);
       } catch (Throwable t) {
-        valueToSet = new Failure(t);
+        return new Failure(t);
       }
     }
-    return valueToSet;
   }
 
   /** Unblocks all threads and runs all listeners. */
