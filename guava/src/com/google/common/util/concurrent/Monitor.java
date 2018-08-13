@@ -371,6 +371,8 @@ public final class Monitor {
   /**
    * Creates a new {@link Guard} for {@code this} monitor. @Param isSatisfied The guards boolean
    * condition. See {@link Guard#isSatisfied}.
+   *
+   * @since 21.0
    */
   public Guard newGuard(final BooleanSupplier isSatisfied) {
     checkNotNull(isSatisfied, "isSatisfied");
