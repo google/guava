@@ -545,11 +545,7 @@ public final class Quantiles {
    */
   @SuppressWarnings(value = {"lowerbound:assignment.type.incompatible",/*(1): When entering the loop,
           required > from and from >= 0, therefore required >= 1.
-          At the assignment, partitionPoint >= required, therefore partitionPoint - 1 >= 0. */
-          "upperbound:assignment.type.incompatible"/*(2): Entering the loop, from and to < array.length.
-          Since `partition(array, from, to)` while to > from return partitionPoint >= from, partitionPoint + 1 > from.
-          Since array.length > to > from and partitionPoint + 1 > from, partitionPoint + 1 < array.length.
-          */})
+          At the assignment, partitionPoint >= required, therefore partitionPoint - 1 >= 0. */})
   private static void selectInPlace(@IndexFor("#2") int required, double[] array, @IndexFor("#2") int from, @IndexFor("#2") int to) {
     // If we are looking for the least element in the range, we can just do a linear search for it.
     // (We will hit this whenever we are doing quantile interpolation: our first selection finds
@@ -569,13 +565,14 @@ public final class Quantiles {
 
     // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the
     // required element, as long as it has more than one element.
-    while (to > from) {
-      int partitionPoint = partition(array, from, to);
+    @IndexOrHigh("array") int fromInternal = from;
+    while (to > fromInternal) {
+      int partitionPoint = partition(array, fromInternal, to);
       if (partitionPoint >= required) {
         to = partitionPoint - 1;//(1)
       }
       if (partitionPoint <= required) {
-        from = partitionPoint + 1;//(2)
+        fromInternal = partitionPoint + 1;
       }
     }
   }
