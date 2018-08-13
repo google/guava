@@ -395,7 +395,8 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
       throws InterruptedException, TimeoutException, ExecutionException {
     // NOTE: if timeout < 0, remainingNanos will be < 0 and we will fall into the while(true) loop
     // at the bottom and throw a timeoutexception.
-    long remainingNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.
+    final long timeoutNanos = unit.toNanos(timeout); // we rely on the implicit null check on unit.
+    long remainingNanos = timeoutNanos;
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
@@ -458,24 +459,37 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     }
 
     String futureToString = toString();
+    final String unitString = unit.toString().toLowerCase(Locale.ROOT);
+    String message = "Waited " + timeout + " " + unit.toString().toLowerCase(Locale.ROOT);
+    // Only report scheduling delay if larger than our spin threshold - otherwise it's just noise
+    if (remainingNanos + SPIN_THRESHOLD_NANOS < 0) {
+      // We over-waited for our timeout.
+      message += " (plus ";
+      long overWaitNanos = -remainingNanos;
+      long overWaitUnits = unit.convert(overWaitNanos, TimeUnit.NANOSECONDS);
+      long overWaitLeftoverNanos = overWaitNanos - unit.toNanos(overWaitUnits);
+      boolean shouldShowExtraNanos =
+          overWaitUnits == 0 || overWaitLeftoverNanos > SPIN_THRESHOLD_NANOS;
+      if (overWaitUnits > 0) {
+        message += overWaitUnits + " " + unitString;
+        if (shouldShowExtraNanos) {
+          message += ",";
+        }
+        message += " ";
+      }
+      if (shouldShowExtraNanos) {
+        message += overWaitLeftoverNanos + " nanoseconds ";
+      }
+
+      message += "delay)";
+    }
     // It's confusing to see a completed future in a timeout message; if isDone() returns false,
     // then we know it must have given a pending toString value earlier. If not, then the future
     // completed after the timeout expired, and the message might be success.
     if (isDone()) {
-      throw new TimeoutException(
-          "Waited "
-              + timeout
-              + " "
-              + unit.toString().toLowerCase(Locale.ROOT)
-              + " but future completed as timeout expired");
+      throw new TimeoutException(message + " but future completed as timeout expired");
     }
-    throw new TimeoutException(
-        "Waited "
-            + timeout
-            + " "
-            + unit.toString().toLowerCase(Locale.ROOT)
-            + " for "
-            + futureToString);
+    throw new TimeoutException(message + " for " + futureToString);
   }
 
   /**
