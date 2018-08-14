@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
@@ -230,21 +231,49 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
+  /**
+   * This test attempts to cause a future to wait for longer than it was requested to from a timed
+   * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
+   * derived from observing how much time actually passed for various operations.
+   */
   public void testToString_delayedTimeout() throws Exception {
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
-    thread.setPriority(Thread.MIN_PRIORITY);
     thread.start();
     thread.awaitWaiting();
     thread.suspend();
-    Thread.sleep(3500);
+    // Sleep for enough time to add 1500 milliseconds of overwait to the get() call.
+    long toWaitMillis = 3500 - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - thread.startTime);
+    Thread.sleep(toWaitMillis);
     thread.setPriority(Thread.MAX_PRIORITY);
     thread.resume();
     thread.join();
-
-    assertThat(thread.exception)
+    // It's possible to race and suspend the thread just before the park call actually takes effect,
+    // causing the thread to be suspended for 3.5 seconds, and then park itself for 2 seconds after
+    // being resumed. To avoid a flake in this scenario, calculate how long that thread actually
+    // waited and assert based on that time. Empirically, the race where the thread ends up waiting
+    // for 5.5 seconds happens about 2% of the time.
+    boolean longWait = TimeUnit.NANOSECONDS.toSeconds(thread.timeSpentBlocked) >= 5;
+    // Count how long it actually took to return; we'll accept any number between the expected delay
+    // and the approximate actual delay, to be robust to variance in thread scheduling.
+    char overWaitNanosFirstDigit =
+        Long.toString(
+                thread.timeSpentBlocked - TimeUnit.MILLISECONDS.toNanos(longWait ? 5000 : 3000))
+            .charAt(0);
+    if (overWaitNanosFirstDigit < '4') {
+      overWaitNanosFirstDigit = '9';
+    }
+    String nanosRegex = "[4-" + overWaitNanosFirstDigit + "][0-9]+";
+    assertWithMessage(
+            "Spent " + thread.timeSpentBlocked + " ns blocked; slept for " + toWaitMillis + " ms")
+        .that(thread.exception)
         .hasMessageThat()
-        .matches("Waited 2 seconds \\(plus 1 seconds, [5-6][0-9]+ nanoseconds delay\\).*");
+        .matches(
+            "Waited 2 seconds \\(plus "
+                + (longWait ? "3" : "1")
+                + " seconds, "
+                + nanosRegex
+                + " nanoseconds delay\\).*");
   }
 
   public void testToString_completed() throws Exception {
@@ -876,13 +905,7 @@ public class AbstractFutureTest extends TestCase {
     }
 
     private boolean isBlocked() {
-      switch (getState()) {
-        case TIMED_WAITING:
-        case WAITING:
-          return LockSupport.getBlocker(this) == future;
-        default:
-          return false;
-      }
+      return getState() == Thread.State.WAITING && LockSupport.getBlocker(this) == future;
     }
   }
 
@@ -891,6 +914,8 @@ public class AbstractFutureTest extends TestCase {
     private final long timeout;
     private final TimeUnit unit;
     private Exception exception;
+    private volatile long startTime;
+    private long timeSpentBlocked;
 
     TimedWaiterThread(AbstractFuture<?> future, long timeout, TimeUnit unit) {
       this.future = future;
@@ -900,11 +925,14 @@ public class AbstractFutureTest extends TestCase {
 
     @Override
     public void run() {
+      startTime = System.nanoTime();
       try {
         future.get(timeout, unit);
       } catch (Exception e) {
         // nothing
         exception = e;
+      } finally {
+        timeSpentBlocked = System.nanoTime() - startTime;
       }
     }
 
@@ -918,13 +946,7 @@ public class AbstractFutureTest extends TestCase {
     }
 
     private boolean isBlocked() {
-      switch (getState()) {
-        case TIMED_WAITING:
-        case WAITING:
-          return LockSupport.getBlocker(this) == future;
-        default:
-          return false;
-      }
+      return getState() == Thread.State.TIMED_WAITING && LockSupport.getBlocker(this) == future;
     }
   }
 
