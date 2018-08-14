@@ -34,7 +34,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
-final class TimeoutFuture<V> extends AbstractFuture.TrustedFuture<V> {
+final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   static <V> ListenableFuture<V> create(
       ListenableFuture<V> delegate,
       long time,

@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.immediate*}. */
 @GwtCompatible(emulated = true)
-abstract class ImmediateFuture<V> extends FluentFuture<V> {
+abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
 
   @Override

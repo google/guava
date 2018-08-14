@@ -63,7 +63,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-public abstract class AbstractFuture<V> extends FluentFuture<V> {
+public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
   private static final boolean GENERATE_CANCELLATION_CAUSES =
@@ -71,10 +71,10 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
           System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
 
   /**
-   * Tag interface marking trusted subclasses. This enables some optimizations.
-   * The implementation of this interface must also be an AbstractureFuture and
-   * must not override or expose for overriding all the public methods of ListenableFuture.
-   * */
+   * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
+   * of this interface must also be an AbstractFuture and must not override or expose for overriding
+   * any of the public methods of ListenableFuture.
+   */
   interface Trusted<V> extends ListenableFuture<V> {}
 
   /**
@@ -965,7 +965,7 @@ public abstract class AbstractFuture<V> extends FluentFuture<V> {
     return reversedList;
   }
 
-  // TODO(user) move this up into FluentFuture, or parts as a default method on ListenableFuture?
+  // TODO(user): move parts into a default method on ListenableFuture?
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder().append(super.toString()).append("[status=");
