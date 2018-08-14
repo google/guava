@@ -91,7 +91,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return construct(2, e1, e2);
+    return construct(2, 2, Iterators.forArray(e1, e2));
   }
 
   /**
@@ -100,7 +100,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return construct(3, e1, e2, e3);
+    return construct(3, 3, Iterators.forArray(e1, e2, e3));
   }
 
   /**
@@ -109,7 +109,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return construct(4, e1, e2, e3, e4);
+    return construct(4, 4, Iterators.forArray(e1, e2, e3, e4));
   }
 
   /**
@@ -118,7 +118,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return construct(5, e1, e2, e3, e4, e5);
+    return construct(5, 5, Iterators.forArray(e1, e2, e3, e4, e5));
   }
 
   /**
@@ -130,6 +130,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 3.0 (source-compatible since 2.0)
    */
+  @SuppressWarnings("unchecked")
   @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
@@ -144,37 +145,34 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     elements[4] = e5;
     elements[5] = e6;
     System.arraycopy(others, 0, elements, paramCount, others.length);
-    return construct(elements.length, elements);
+    return construct(elements.length, 6, (Iterator<E>) Iterators.forArray(elements));
   }
 
   /**
-   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array. If
-   * {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of {@code
-   * elements} will be in the first {@code k} positions, and {@code elements[i] == null} for {@code
-   * k <= i < n}.
-   *
-   * <p>This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code
-   * elements} contains no duplicates, {@code elements} may be used without copying in the returned
-   * {@code ImmutableSet}, in which case it may no longer be modified.
+   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified iterable.
+   * If {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of
+   * {@code elements} will be in the first {@code k} positions, and {@code elements[i] == null} for
+   * {@code k <= i < n}.
    *
    * <p>{@code elements} may contain only values of type {@code E}.
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
-  private static <E> ImmutableSet<E> construct(int n, Object... elements) {
+  private static <E> ImmutableSet<E> construct(int n, Iterator<E> elements) {
+    return construct(n, Builder.DEFAULT_INITIAL_CAPACITY, elements);
+  }
+
+  private static <E> ImmutableSet<E> construct(int n, int expectedSize, Iterator<E> elements) {
     switch (n) {
       case 0:
         return of();
       case 1:
-        @SuppressWarnings("unchecked") // safe; elements contains only E's
-        E elem = (E) elements[0];
+        E elem = elements.next();
         return of(elem);
       default:
-        SetBuilderImpl<E> builder =
-            new RegularSetBuilderImpl<E>(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
+        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<>(expectedSize);
         for (int i = 0; i < n; i++) {
-          @SuppressWarnings("unchecked")
-          E e = (E) checkNotNull(elements[i]);
+          E e = checkNotNull(elements.next());
           builder = builder.add(e);
         }
         return builder.review().build();
@@ -193,6 +191,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
+  @SuppressWarnings("unchecked") // all supported methods are covariant
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here
@@ -200,16 +199,33 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      */
     // Don't refer to ImmutableSortedSet by name so it won't pull in all that code
     if (elements instanceof ImmutableSet && !(elements instanceof SortedSet)) {
-      @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableSet<E> set = (ImmutableSet<E>) elements;
       if (!set.isPartialView()) {
         return set;
+      } else {
+        // We use the iterator to avoid making a copy of the set, since adding to the builder would
+        // make a copy of the collection anyways under this condition.
+
+        // we know that sets are all unique, so we can supply the set size to avoid resizing.
+        return construct(elements.size(), elements.size(), (Iterator<E>) elements.iterator());
       }
     } else if (elements instanceof EnumSet) {
       return copyOfEnumSet((EnumSet) elements);
+    } else if (elements instanceof ImmutableCollection) {
+      // The collection is immutable, so avoid making a copy of the collection right now since
+      // adding to the builder would make a copy of the elements anyways under this condition
+      return construct(elements.size(), (Iterator<E>) elements.iterator());
+    } else if (elements instanceof Set) {
+      // we know that sets are all unique, so we can supply the set size to avoid resizing.
+
+      // In case of mutation, make a copy first for thread safety.
+      E[] array = (E[]) elements.toArray();
+      return construct(array.length, array.length, Iterators.forArray(array));
     }
-    Object[] array = elements.toArray();
-    return construct(array.length, array);
+
+    // In case of mutation, make a copy first for thread safety.
+    E[] array = (E[]) elements.toArray();
+    return construct(array.length, Iterators.forArray(array));
   }
 
   /**
@@ -263,7 +279,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 1:
         return of(elements[0]);
       default:
-        return construct(elements.length, elements.clone());
+        return construct(elements.length, Iterators.forArray(elements));
     }
   }
 
