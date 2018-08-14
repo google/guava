@@ -40,7 +40,7 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public class FluentFutureTest extends TestCase {
   public void testFromFluentFuture() {
-    FluentFuture<String> f = SettableFuture.create();
+    FluentFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
     assertThat(FluentFuture.from(f)).isSameAs(f);
   }
 
@@ -131,7 +131,8 @@ public class FluentFutureTest extends TestCase {
   public void testWithTimeout() throws Exception {
     ScheduledExecutorService executor = newScheduledThreadPool(1);
     try {
-      FluentFuture<?> f = SettableFuture.create().withTimeout(0, SECONDS, executor);
+      FluentFuture<?> f =
+          FluentFuture.from(SettableFuture.create()).withTimeout(0, SECONDS, executor);
       try {
         f.get();
         fail();

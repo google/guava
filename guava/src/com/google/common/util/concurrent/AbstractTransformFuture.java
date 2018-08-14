@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
-abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.TrustedFuture<O>
+abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedFuture<O>
     implements Runnable {
   static <I, O> ListenableFuture<O> create(
       ListenableFuture<I> input,
