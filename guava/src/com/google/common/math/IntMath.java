@@ -32,6 +32,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * A class for arithmetic on values of type {@code int}. Where possible, methods are defined and
@@ -99,8 +105,12 @@ public final class IntMath {
    * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
    * narrowly) faster than the straightforward ternary expression.
    */
+  @SuppressWarnings("value:return.type.incompatible")/* An int has 32 bits, the lestmost bit is 0 for positive values, and is 1 for negative values.
+  For shift right zero fill operator( >>> ), the left operands value is moved right by the number of bits specified by the right operand
+  and shifted values are filled up with zeros. Therefore if x > y, (x - y) return a positive value, when being shifted 31 bits, it returns 0, otherwise return 1.
+  */
   @VisibleForTesting
-  static int lessThanBranchFree(int x, int y) {
+  static @IntRange(from = 0, to = 1) int lessThanBranchFree(int x, int y) {
     // The double negation is optimized away by normal Java, but is necessary for GWT
     // to make sure bit twiddling works as expected.
     return ~~(x - y) >>> (Integer.SIZE - 1);
@@ -156,7 +166,7 @@ public final class IntMath {
    */
   @GwtIncompatible // need BigIntegerMath to adequately test
   @SuppressWarnings("fallthrough")
-  public static int log10(int x, RoundingMode mode) {
+  public static int log10(@Positive int x, RoundingMode mode) {
     checkPositive("x", x);
     int logFloor = log10Floor(x);
     int floorPow = powersOf10[logFloor];
@@ -180,7 +190,12 @@ public final class IntMath {
     }
   }
 
-  private static int log10Floor(int x) {
+  @SuppressWarnings("lowerbound:return.type.incompatible")/*(1): `log10Floor()` returns a negative value if y is 0 and
+  `lessThanBranchFree(x, powersOf10[y])` returns 1( when x < powersOf10[y]). Since y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)],
+  y is 0 when 0 < x < 8( the array `maxLog10ForLeadingZeros` has 0 values at indexes: 29, 30, 31, 32).
+  Since when 0 < x < 8, y is 0 and powersOf10[0] is 1, x can't be < `powersOf10[y]`, therefore `log10Floor()` won't return
+  a negative value. */
+  private static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(@Positive int x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
@@ -188,29 +203,29 @@ public final class IntMath {
      * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
      * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
+    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
     /*
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - lessThanBranchFree(x, powersOf10[y]);
+    return y - lessThanBranchFree(x, powersOf10[y]);//(1)
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
   @VisibleForTesting
-  static final byte[] maxLog10ForLeadingZeros = {
+  static final @IndexFor(value = {"powersOf10", "halfPowersOf10"}) byte @MinLen(33)[] maxLog10ForLeadingZeros = {
     9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0,
     0
   };
 
   @VisibleForTesting
-  static final int[] powersOf10 = {
+  static final int @MinLen(10)[] powersOf10 = {
     1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
   };
 
   // halfPowersOf10[i] = largest int less than 10^(i + 0.5)
   @VisibleForTesting
-  static final int[] halfPowersOf10 = {
+  static final int @MinLen(10)[] halfPowersOf10 = {
     3, 31, 316, 3162, 31622, 316227, 3162277, 31622776, 316227766, Integer.MAX_VALUE
   };
 
@@ -619,7 +634,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
-  public static int factorial(int n) {
+  public static int factorial(@NonNegative int n) {
     checkNonNegative("n", n);
     return (n < factorials.length) ? factorials[n] : Integer.MAX_VALUE;
   }
@@ -646,7 +661,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0} or {@code k > n}
    */
-  public static int binomial(int n, int k) {
+  public static int binomial(@NonNegative int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
     checkArgument(k <= n, "k (%s) > n (%s)", k, n);

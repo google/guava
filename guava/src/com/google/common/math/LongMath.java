@@ -32,6 +32,13 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.common.value.qual.IntRange;
+import org.checkerframework.common.value.qual.MinLen;
 
 /**
  * A class for arithmetic on values of type {@code long}. Where possible, methods are defined and
@@ -102,8 +109,11 @@ public final class LongMath {
    * signed long. The implementation is branch-free, and benchmarks suggest it is measurably faster
    * than the straightforward ternary expression.
    */
+  @SuppressWarnings("value:return.type.incompatible")/* An int has 64 bits, the lestmost bit is 0 for positive values, and is 1 for negative values.
+  For shift right zero fill operator( >>> ), the left operands value is moved right by the number of bits specified by the right operand
+  and shifted values are filled up with zeros. Therefore if x > y, (x - y) return a positive value, when being shifted 63 bits, it returns 0, otherwise return 1. */
   @VisibleForTesting
-  static int lessThanBranchFree(long x, long y) {
+  static @IntRange(from = 0, to = 1) int lessThanBranchFree(long x, long y) {
     // Returns the sign bit of x - y.
     return (int) (~~(x - y) >>> (Long.SIZE - 1));
   }
@@ -159,7 +169,7 @@ public final class LongMath {
   @GwtIncompatible // TODO
   @SuppressWarnings("fallthrough")
   // TODO(kevinb): remove after this warning is disabled globally
-  public static int log10(long x, RoundingMode mode) {
+  public static int log10(@Positive long x, RoundingMode mode) {
     checkPositive("x", x);
     int logFloor = log10Floor(x);
     long floorPow = powersOf10[logFloor];
@@ -184,7 +194,21 @@ public final class LongMath {
   }
 
   @GwtIncompatible // TODO
-  static int log10Floor(long x) {
+  @SuppressWarnings(value = {"lowerbound:return.type.incompatible",/* (2): `log10Floor()` returns a negative value if y is 0 and
+  `lessThanBranchFree(x, powersOf10[y])` returns 1( when x < powersOf10[y]). Since x is positive, y is 0 when 0 < x < 8( the array `maxLog10ForLeadingZeros` has 0 values at indexes: 61, 62, 63).
+  Since when 0 < x < 8, y is 0 and powersOf10[0] is 1, x can't be < `powersOf10[y]`, therefore `log10Floor()` won't return
+  a negative value. */
+          "upperbound:return.type.incompatible",/*(2) powersOf10.length is 19 and largest element in `maxLog10ForLeadingZeros` is 19 at index 0.
+          Since `log10Floor()` is a static method and only called by methods that take in positive `x` values, `Long.numberOfLeadingZeros(x)`
+          won't return 0 and cause an error */
+          "upperbound:assignment.type.incompatible",/*(2): except for element at index 0 in `maxLog10ForLeadingZeros`, the rest
+          can be indexed for `powersOf10` */
+          "upperbound:array.access.unsafe.high.range"/*(1): `Long.numberOfLeadingZeros(x)` can return an int range from 0 to 64,
+          therfore the array `maxLog10ForLeadingZeros` should have min length of 65. However, since param `x` is required to
+          be positive, the highest int from `Long.numberOfLeadingZeros(x)` is 63.
+          */
+          })
+  static @IndexFor(value = {"powersOf10", "halfPowersOf10"}) int log10Floor(@Positive long x) {
     /*
      * Based on Hacker's Delight Fig. 11-5, the two-table-lookup, branch-free implementation.
      *
@@ -192,17 +216,17 @@ public final class LongMath {
      * can narrow the possible floor(log10(x)) values to two. For example, if floor(log2(x)) is 6,
      * then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];
+    @IndexFor("powersOf10") int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];//(1)
     /*
      * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
      * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - lessThanBranchFree(x, powersOf10[y]);
+    return y - lessThanBranchFree(x, powersOf10[y]);//(2)
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
   @VisibleForTesting
-  static final byte[] maxLog10ForLeadingZeros = {
+  static final @NonNegative  byte @MinLen(64)[] maxLog10ForLeadingZeros = {
     19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12, 12,
     12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3,
     3, 2, 2, 2, 1, 1, 1, 0, 0, 0
@@ -210,7 +234,7 @@ public final class LongMath {
 
   @GwtIncompatible // TODO
   @VisibleForTesting
-  static final long[] powersOf10 = {
+  static final long @MinLen(19)[] powersOf10 = {
     1L,
     10L,
     100L,
@@ -770,12 +794,12 @@ public final class LongMath {
    * @throws IllegalArgumentException if {@code n < 0}
    */
   @GwtIncompatible // TODO
-  public static long factorial(int n) {
+  public static long factorial(@NonNegative int n) {
     checkNonNegative("n", n);
     return (n < factorials.length) ? factorials[n] : Long.MAX_VALUE;
   }
 
-  static final long[] factorials = {
+  static final long @MinLen(1)[] factorials = {
     1L,
     1L,
     1L * 2,
@@ -805,7 +829,9 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  public static long binomial(int n, int k) {
+  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): k = n - k. Entering for loop, i <= k, Since
+  n is non negative and k <= n, n - n - k is always >= 0 */
+  public static long binomial(@NonNegative @LTLengthOf("this.factorials") int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
     checkArgument(k <= n, "k (%s) > n (%s)", k, n);
@@ -825,7 +851,7 @@ public final class LongMath {
         } else if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
           // guaranteed not to overflow
           long result = n--;
-          for (int i = 2; i <= k; n--, i++) {
+          for (int i = 2; i <= k; n--, i++) {//(1)
             result *= n;
             result /= i;
           }
@@ -845,7 +871,7 @@ public final class LongMath {
            * technique previously used by BigIntegerMath: maintain separate numerator and
            * denominator accumulators, multiplying the fraction into result when near overflow.
            */
-          for (int i = 2; i <= k; i++, n--) {
+          for (int i = 2; i <= k; i++, n--) {//(1)
             if (numeratorBits + nBits < Long.SIZE - 1) {
               // It's definitely safe to multiply into numerator and denominator.
               numerator *= n;
@@ -1038,7 +1064,7 @@ public final class LongMath {
    * NOTE: We could get slightly better bases that would be treated as unsigned, but benchmarks
    * showed negligible performance improvements.
    */
-  private static final long[][] millerRabinBaseSets = {
+  private static final long[] @MinLen(1)[] millerRabinBaseSets = {
     {291830, 126401071349994536L},
     {885594168, 725270293939359937L, 3569819667048198375L},
     {273919523040L, 15, 7363882082L, 992620450144556L},

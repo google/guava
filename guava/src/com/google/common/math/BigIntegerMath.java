@@ -32,6 +32,10 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.index.qual.LTLengthOf;
+import org.checkerframework.checker.index.qual.LessThan;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
 
 /**
  * A class for arithmetic on values of type {@code BigInteger}.
@@ -144,11 +148,13 @@ public final class BigIntegerMath {
    *     is not a power of ten
    */
   @GwtIncompatible // TODO
-  @SuppressWarnings("fallthrough")
-  public static int log10(BigInteger x, RoundingMode mode) {
+  @SuppressWarnings({"fallthrough","lowerbound:argument.type.incompatible"// x fits in a long, then longValue is polymorphic over x's value
+          // with respect to the lowerbound type system. 
+  })
+  public static int log10(@Positive BigInteger x, RoundingMode mode) {
     checkPositive("x", x);
     if (fitsInLong(x)) {
-      return LongMath.log10(x.longValue(), mode);
+      return LongMath.log10(x.longValue(), mode);//(1)
     }
 
     int approxLog10 = (int) (log2(x, FLOOR) * LN_2 / LN_10);
@@ -332,7 +338,9 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
-  public static BigInteger factorial(int n) {
+  @SuppressWarnings("lowerbound:assignment.type.incompatible")/* (1): Since `n` is required to be non negative,
+  IntMath.divide() return a non negative value */
+  public static BigInteger factorial(@NonNegative int n) {
     checkNonNegative("n", n);
 
     // If the factorial is small enough, just use LongMath to do it.
@@ -341,7 +349,7 @@ public final class BigIntegerMath {
     }
 
     // Pre-allocate space for our list of intermediate BigIntegers.
-    int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);
+    @NonNegative int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);//(1)
     ArrayList<BigInteger> bignums = new ArrayList<>(approxSize);
 
     // Start from the pre-computed maximum long factorial.
@@ -387,11 +395,12 @@ public final class BigIntegerMath {
     return listProduct(bignums).shiftLeft(shift);
   }
 
+  @SuppressWarnings("lowerbound:argument.type.incompatible")//List<BigInteger> is a mutable length data type.
   static BigInteger listProduct(List<BigInteger> nums) {
     return listProduct(nums, 0, nums.size());
   }
 
-  static BigInteger listProduct(List<BigInteger> nums, int start, int end) {
+  static BigInteger listProduct(List<BigInteger> nums, @NonNegative int start, @NonNegative int end) {
     switch (end - start) {
       case 0:
         return BigInteger.ONE;
@@ -416,7 +425,7 @@ public final class BigIntegerMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  public static BigInteger binomial(int n, int k) {
+  public static BigInteger binomial(@NonNegative @LTLengthOf("LongMath.factorials") int n, @NonNegative @LessThan("#1 + 1") int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
     checkArgument(k <= n, "k (%s) > n (%s)", k, n);
