@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.util.concurrent.Futures.getDone;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
@@ -836,18 +837,29 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         }
       }
       return v;
-    } else {
-      // Otherwise calculate the value by calling .get()
-      try {
-        Object v = getDone(future);
-        return v == null ? NULL : v;
-      } catch (ExecutionException exception) {
-        return new Failure(exception.getCause());
-      } catch (CancellationException cancellation) {
-        return new Cancellation(false, cancellation);
-      } catch (Throwable t) {
-        return new Failure(t);
+    }
+    boolean wasCancelled = future.isCancelled();
+    // Don't allocate a CancellationException if it's not necessary
+    if (!GENERATE_CANCELLATION_CAUSES & wasCancelled) {
+      return Cancellation.CAUSELESS_CANCELLED;
+    }
+    // Otherwise calculate the value by calling .get()
+    try {
+      Object v = getUninterruptibly(future);
+      return v == null ? NULL : v;
+    } catch (ExecutionException exception) {
+      return new Failure(exception.getCause());
+    } catch (CancellationException cancellation) {
+      if (!wasCancelled) {
+        return new Failure(
+            new IllegalArgumentException(
+                "get() threw CancellationException, despite reporting isCancelled() == false: "
+                    + future,
+                cancellation));
       }
+      return new Cancellation(false, cancellation);
+    } catch (Throwable t) {
+      return new Failure(t);
     }
   }
 
