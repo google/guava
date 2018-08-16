@@ -1,2 +1,3 @@
 OK: com.google.common.util.concurrent.AbstractService Method doCancelStart()
+OK: com.google.common.collect.Range Method gap(com.google.common.collect.Range<C>)
 OK: com.google.common.net.MediaType Field WASM_APPLICATION

@@ -604,9 +604,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>newGuard</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.375">newGuard</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BooleanSupplier.html?is-external=true" title="class or interface in java.util.function">BooleanSupplier</a>&nbsp;isSatisfied)</pre>
+<pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.377">newGuard</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BooleanSupplier.html?is-external=true" title="class or interface in java.util.function">BooleanSupplier</a>&nbsp;isSatisfied)</pre>
 <div class="block">Creates a new <a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent"><code>Monitor.Guard</code></a> for <code>this</code> monitor. @Param isSatisfied The guards boolean
  condition. See <a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html#isSatisfied--"><code>Monitor.Guard.isSatisfied()</code></a>.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>21.0</dd>
+</dl>
 </li>
 </ul>
 <a name="enter--">
@@ -615,7 +619,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enter</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.386">enter</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.388">enter</a>()</pre>
 <div class="block">Enters this monitor. Blocks indefinitely.</div>
 </li>
 </ul>
@@ -625,7 +629,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enter</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.395">enter</a>(long&nbsp;time,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.397">enter</a>(long&nbsp;time,
                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Enters this monitor. Blocks at most the given time.</div>
 <dl>
@@ -640,7 +644,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterInterruptibly</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.424">enterInterruptibly</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.426">enterInterruptibly</a>()
                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor. Blocks indefinitely, but may be interrupted.</div>
 <dl>
@@ -655,7 +659,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterInterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.434">enterInterruptibly</a>(long&nbsp;time,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.436">enterInterruptibly</a>(long&nbsp;time,
                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                            throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor. Blocks at most the given time, and may be interrupted.</div>
@@ -673,7 +677,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>tryEnter</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.445">tryEnter</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.447">tryEnter</a>()</pre>
 <div class="block">Enters this monitor if it is possible to do so immediately. Does not block.
 
  <p><b>Note:</b> This method disregards the fairness setting of this monitor.</div>
@@ -689,7 +693,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhen</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.454">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.456">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
                throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely, but may be interrupted.</div>
 <dl>
@@ -704,7 +708,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhen</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.483">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.485">enterWhen</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                          long&nbsp;time,
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
@@ -725,7 +729,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhenUninterruptibly</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.535">enterWhenUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.537">enterWhenUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely.</div>
 </li>
 </ul>
@@ -735,7 +739,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterWhenUninterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.562">enterWhenUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.564">enterWhenUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                         long&nbsp;time,
                                         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
@@ -752,7 +756,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.628">enterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.630">enterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied.</div>
 <dl>
@@ -767,7 +771,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.651">enterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.653">enterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
@@ -784,7 +788,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIfInterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.676">enterIfInterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.678">enterIfInterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied, and may be interrupted.</div>
@@ -802,7 +806,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>enterIfInterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.699">enterIfInterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.701">enterIfInterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                     long&nbsp;time,
                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
@@ -822,7 +826,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>tryEnterIf</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.727">tryEnterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.729">tryEnterIf</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Enters this monitor if it is possible to do so immediately and the guard is satisfied. Does not
  block acquiring the lock and does not wait for the guard to be satisfied.
 
@@ -839,7 +843,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>waitFor</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.752">waitFor</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.754">waitFor</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)
              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be called
  only by a thread currently occupying this monitor.</div>
@@ -855,7 +859,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>waitFor</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.768">waitFor</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.770">waitFor</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                        long&nbsp;time,
                        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                 throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
@@ -875,7 +879,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>waitForUninterruptibly</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.786">waitForUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.788">waitForUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
  currently occupying this monitor.</div>
 </li>
@@ -886,7 +890,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>waitForUninterruptibly</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.801">waitForUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.803">waitForUninterruptibly</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
                                       long&nbsp;time,
                                       <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
@@ -903,7 +907,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>leave</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.833">leave</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.835">leave</a>()</pre>
 <div class="block">Leaves this monitor. May be called only by a thread currently occupying this monitor.</div>
 </li>
 </ul>
@@ -913,7 +917,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isFair</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.846">isFair</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.848">isFair</a>()</pre>
 <div class="block">Returns whether this monitor is using a fair ordering policy.</div>
 </li>
 </ul>
@@ -923,7 +927,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupied</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.854">isOccupied</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.856">isOccupied</a>()</pre>
 <div class="block">Returns whether this monitor is occupied by any thread. This method is designed for use in
  monitoring of the system state, not for synchronization control.</div>
 </li>
@@ -934,7 +938,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>isOccupiedByCurrentThread</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.862">isOccupiedByCurrentThread</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.864">isOccupiedByCurrentThread</a>()</pre>
 <div class="block">Returns whether the current thread is occupying this monitor (has entered more times than it
  has left).</div>
 </li>
@@ -945,7 +949,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getOccupiedDepth</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.870">getOccupiedDepth</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.872">getOccupiedDepth</a>()</pre>
 <div class="block">Returns the number of times the current thread has entered this monitor in excess of the number
  of times it has left. Returns 0 if the current thread is not occupying this monitor.</div>
 </li>
@@ -956,7 +960,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>getQueueLength</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.880">getQueueLength</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.882">getQueueLength</a>()</pre>
 <div class="block">Returns an estimate of the number of threads waiting to enter this monitor. The value is only
  an estimate because the number of threads may change dynamically while this method traverses
  internal data structures. This method is designed for use in monitoring of the system state,
@@ -969,7 +973,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThreads</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.890">hasQueuedThreads</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.892">hasQueuedThreads</a>()</pre>
 <div class="block">Returns whether any threads are waiting to enter this monitor. Note that because cancellations
  may occur at any time, a <code>true</code> return does not guarantee that any other thread will ever
  enter this monitor. This method is designed primarily for use in monitoring of the system
@@ -982,7 +986,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasQueuedThread</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.900">hasQueuedThread</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;thread)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.902">hasQueuedThread</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html?is-external=true" title="class or interface in java.lang">Thread</a>&nbsp;thread)</pre>
 <div class="block">Queries whether the given thread is waiting to enter this monitor. Note that because
  cancellations may occur at any time, a <code>true</code> return does not guarantee that this thread
  will ever enter this monitor. This method is designed primarily for use in monitoring of the
@@ -995,7 +999,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hasWaiters</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.910">hasWaiters</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.912">hasWaiters</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Queries whether any threads are waiting for the given guard to become satisfied. Note that
  because timeouts and interrupts may occur at any time, a <code>true</code> return does not guarantee
  that the guard becoming satisfied in the future will awaken any threads. This method is
@@ -1008,7 +1012,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getWaitQueueLength</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.920">getWaitQueueLength</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line.922">getWaitQueueLength</a>(<a href="../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</pre>
 <div class="block">Returns an estimate of the number of threads waiting for the given guard to become satisfied.
  Note that because timeouts and interrupts may occur at any time, the estimate serves only as an
  upper bound on the actual number of waiters. This method is designed for use in monitoring of
