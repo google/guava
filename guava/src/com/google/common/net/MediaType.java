@@ -439,8 +439,25 @@ public final class MediaType {
   public static final MediaType MANIFEST_JSON_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "manifest+json");
 
+  /**
+   * Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC Keyhole Markup Language</a>
+   * (KML) formerly developed by Keyhole, Inc., and Google.
+   *
+   * @see #KMZ
+   */
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
+
+  /**
+   * Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC Keyhole Markup Language</a>
+   * (KML), compressed using the ZIP format into KMZ archives.
+   *
+   * @see #KML
+   */
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
+
+  /**
+   * Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>.
+   */
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
 
   /**
