@@ -413,6 +413,12 @@ public final class MediaType {
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**
+   * Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>,
+   * a geospatial data interchange format based on JSON.
+   */
+  public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
+
+  /**
    * Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
    * Hypertext Application Language (HAL) documents</a>.
    *
