@@ -16,8 +16,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
-import static com.google.common.util.concurrent.Futures.getDone;
-import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.Beta;
@@ -863,6 +861,27 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     }
   }
 
+  /**
+   * An inlined private copy of {@link Uninterruptibles#getUninterruptibly} used to break an
+   * internal dependency on other /util/concurrent classes.
+   */
+  private static <V> V getUninterruptibly(Future<V> future) throws ExecutionException {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return future.get();
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
   /** Unblocks all threads and runs all listeners. */
   private static void complete(AbstractFuture<?> future) {
     Listener next = null;
@@ -1027,7 +1046,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   private void addDoneString(StringBuilder builder) {
     try {
-      V value = getDone(this);
+      V value = getUninterruptibly(this);
       builder.append("SUCCESS, result=[").append(userObjectToString(value)).append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
