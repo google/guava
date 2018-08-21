@@ -49748,16 +49748,27 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
+ Language)</a>.]]>
+      </doc>
     </field>
     <field name="KMZ" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
+ Language)</a>, compressed using the ZIP format into KMZ archives.]]>
+      </doc>
     </field>
     <field name="MBOX" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>.]]>
+      </doc>
     </field>
     <field name="APPLE_MOBILE_CONFIG" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
