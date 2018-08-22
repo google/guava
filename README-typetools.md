@@ -8,7 +8,8 @@ To build this project
 
 Optionally change `guava/pom.xml` to use a locally-built version of the Checker Framework.
 
-Create file `guava/target/guava-HEAD-jre-SNAPSHOT.jar`:
+To create file `guava/target/guava-HEAD-jre-SNAPSHOT.jar`:
+(This takes about 25 minutes.)
 
 ```
 (cd guava && mvn package -Dmaven.test.skip=true -Danimal.sniffer.skip=true)
@@ -52,6 +53,7 @@ To upload to Maven Central
 # Ensure the version number is set properly in file guava/cfMavenCentral.xml.
 # Then, set this variable to the same version.
 # If it's not the same as the upstream version, then also edit pom.xml and guava/pom.xml.
+
 PACKAGE=guava-26.0-jre
 
 cd guava
