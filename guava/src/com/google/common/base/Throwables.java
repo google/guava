@@ -468,7 +468,7 @@ public final class Throwables {
       (jla == null) ? null : getSizeMethod();
 
   /**
-   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not whitelisted for
+   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in
    * AppEngine, and not present in non-Sun JDKs.
    */
   @GwtIncompatible // java.lang.reflect
@@ -485,7 +485,7 @@ public final class Throwables {
       throw death;
     } catch (Throwable t) {
       /*
-       * This is not one of AppEngine's whitelisted classes, so even in Sun JDKs, this can fail with
+       * This is not one of AppEngine's allowed classes, so even in Sun JDKs, this can fail with
        * a NoClassDefFoundError. Other apps might deny access to sun.misc packages.
        */
       return null;

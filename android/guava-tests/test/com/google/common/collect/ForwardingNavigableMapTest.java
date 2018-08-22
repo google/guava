@@ -279,7 +279,10 @@ public class ForwardingNavigableMapTest extends TestCase {
              * TODO(cpovirk): Consider making StandardDescendingMap return a ForwardingEntry that
              * supports setValue().
              */
-            .suppressing(MapEntrySetTester.getSetValueMethod())
+            .suppressing(
+                MapEntrySetTester.getSetValueMethod(),
+                MapEntrySetTester.getSetValueWithNullValuesAbsentMethod(),
+                MapEntrySetTester.getSetValueWithNullValuesPresentMethod())
             .createTestSuite());
     // TODO(lowasser): add forwarding-to-ImmutableSortedMap test
     return suite;

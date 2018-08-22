@@ -24,15 +24,15 @@ import org.checkerframework.checker.index.qual.NonNegative;
  */
 @GwtCompatible
 abstract class CommonMatcher {
-  abstract boolean matches();
+  public abstract boolean matches();
 
-  abstract boolean find();
+  public abstract boolean find();
 
-  abstract boolean find(@NonNegative int index);
+  public abstract boolean find(@NonNegative int index);
 
-  abstract String replaceAll(String replacement);
+  public abstract String replaceAll(String replacement);
 
-  abstract @NonNegative int end();
+  public @NonNegative abstract int end();
 
-  abstract @NonNegative int start();
+  public abstract @NonNegative int start();
 }

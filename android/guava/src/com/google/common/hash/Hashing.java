@@ -669,7 +669,7 @@ public final class Hashing {
 
     public double nextDouble() {
       state = 2862933555777941757L * state + 1;
-      return ((double) ((int) (state >>> 33) + 1)) / (0x1.0p31);
+      return ((double) ((int) (state >>> 33) + 1)) / 0x1.0p31;
     }
   }
 

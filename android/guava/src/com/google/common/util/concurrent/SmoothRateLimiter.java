@@ -83,7 +83,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    * with underutilization, then we want stored permits to be given out /faster/ than fresh ones,
    * because underutilization = free resources for the taking. If we are primarily interested to
    * deal with overflow, then stored permits could be given out /slower/ than fresh ones. Thus, we
-   * require a (different in each case) function that translates storedPermits to throtting time.
+   * require a (different in each case) function that translates storedPermits to throttling time.
    *
    * This role is played by storedPermitsToWaitTime(double storedPermits, double permitsToTake). The
    * underlying model is a continuous function mapping storedPermits (from 0.0 to maxStoredPermits)

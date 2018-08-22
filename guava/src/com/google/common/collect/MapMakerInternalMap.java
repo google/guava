@@ -2184,7 +2184,7 @@ class MapMakerInternalMap<
     @Override
     public WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> getWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e) {
-      return (castForTesting(e)).getValueReference();
+      return castForTesting(e).getValueReference();
     }
 
     @Override

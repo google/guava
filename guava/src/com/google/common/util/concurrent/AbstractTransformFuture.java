@@ -21,7 +21,6 @@ import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagati
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -109,10 +108,6 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     T transformResult;
     try {
       transformResult = doTransform(localFunction, sourceResult);
-    } catch (UndeclaredThrowableException e) {
-      // Set the cause of the exception as this future's exception.
-      setException(e.getCause());
-      return;
     } catch (Throwable t) {
       // This exception is irrelevant in this thread, but useful for the client.
       setException(t);
@@ -236,7 +231,6 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
     @Nullable
     O doTransform(Function<? super I, ? extends O> function, @Nullable I input) {
       return function.apply(input);
-      // TODO(lukes): move the UndeclaredThrowable catch block here?
     }
 
     @Override

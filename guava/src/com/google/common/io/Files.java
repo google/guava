@@ -631,12 +631,7 @@ public final class Files {
    * @since 2.0
    */
   public static MappedByteBuffer map(File file, MapMode mode) throws IOException {
-    checkNotNull(file);
-    checkNotNull(mode);
-    if (!file.exists()) {
-      throw new FileNotFoundException(file.toString());
-    }
-    return map(file, mode, file.length());
+    return mapInternal(file, mode, -1);
   }
 
   /**
@@ -658,8 +653,13 @@ public final class Files {
    * @see FileChannel#map(MapMode, long, long)
    * @since 2.0
    */
-  public static MappedByteBuffer map(File file, MapMode mode, long size)
-      throws FileNotFoundException, IOException {
+  public static MappedByteBuffer map(File file, MapMode mode, long size) throws IOException {
+    checkArgument(size >= 0, "size (%s) may not be negative", size);
+    return mapInternal(file, mode, size);
+  }
+
+  private static MappedByteBuffer mapInternal(File file, MapMode mode, long size)
+      throws IOException {
     checkNotNull(file);
     checkNotNull(mode);
 
@@ -667,20 +667,8 @@ public final class Files {
     try {
       RandomAccessFile raf =
           closer.register(new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw"));
-      return map(raf, mode, size);
-    } catch (Throwable e) {
-      throw closer.rethrow(e);
-    } finally {
-      closer.close();
-    }
-  }
-
-  private static MappedByteBuffer map(RandomAccessFile raf, MapMode mode, long size)
-      throws IOException {
-    Closer closer = Closer.create();
-    try {
       FileChannel channel = closer.register(raf.getChannel());
-      return channel.map(mode, 0, size);
+      return channel.map(mode, 0, size == -1 ? channel.size() : size);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {

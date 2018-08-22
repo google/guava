@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Guava Authors
+ * Copyright (C) 2018 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.google.common.collect;
 
-package java.lang.reflect;
+import com.google.common.annotations.GwtCompatible;
 
 /**
- * GWT emulation of UndeclaredThrowableException.
+ * A dummy superclass of {@link ImmutableMultimap} that can be instanceof'd without ProGuard retaining
+ * additional implementation details of {@link ImmutableMultimap}.
  */
-public class UndeclaredThrowableException extends RuntimeException {
-  public UndeclaredThrowableException(Throwable undeclaredThrowable) {
-    super(undeclaredThrowable);
-  }
-
-  public UndeclaredThrowableException(Throwable undeclaredThrowable, String message) {
-    super(message, undeclaredThrowable);
-  }
-
-  public Throwable getUndeclaredThrowable() {
-    return getCause();
-  }
-}
+@GwtCompatible
+abstract class BaseImmutableMultimap<K, V> extends AbstractMultimap<K, V> {}

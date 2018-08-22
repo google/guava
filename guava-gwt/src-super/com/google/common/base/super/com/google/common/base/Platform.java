@@ -75,8 +75,8 @@ final class Platform {
     throw new UnsupportedOperationException();
   }
 
-  static boolean usingJdkPatternCompiler() {
-    return false;
+  static boolean patternCompilerIsPcreLike() {
+    throw new UnsupportedOperationException();
   }
 
   private Platform() {}

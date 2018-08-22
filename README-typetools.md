@@ -40,7 +40,7 @@ This must be done on a CSE machine, which has access to the necessary passwords.
 Pull in the latest Guava version; for example:
 ```
 git fetch --tags https://github.com/google/guava
-git pull https://github.com/google/guava v25.1
+git pull https://github.com/google/guava v26.0
 ```
 
 Use the latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.

@@ -16,9 +16,11 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -211,15 +213,29 @@ public final class Strings {
   }
 
   /**
+   * True when a valid surrogate pair starts at the given {@code index} in the given {@code string}.
+   * Out-of-range indexes return false.
+   */
+  @VisibleForTesting
+  static boolean validSurrogatePairAt(CharSequence string, int index) {
+    return index >= 0
+        && index <= (string.length() - 2)
+        && Character.isHighSurrogate(string.charAt(index))
+        && Character.isLowSurrogate(string.charAt(index + 1));
+  }
+
+  /**
    * Returns the given {@code template} string with each occurrence of {@code "%s"} replaced with
    * the corresponding argument value from {@code args}; or, if the placeholder and argument counts
-   * do not match, returns a best-effort form of that string. Will not throw an exception under any
-   * circumstances (as long as all arguments' {@code toString} methods successfully return).
+   * do not match, returns a best-effort form of that string. Will not throw an exception under
+   * normal conditions.
    *
-   * <p><b>Note:</b> For most string-formatting needs, use {@link String#format}, {@link
-   * PrintWriter#format}, and related methods. These support the full range of {@linkplain
-   * Formatter#syntax format specifiers}, and alert you to usage errors by throwing {@link
-   * InvalidFormatException}.
+   * <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
+   * {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
+   * full range of <a
+   * href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+   * specifiers</a>, and alert you to usage errors by throwing {@link
+   * java.util.IllegalFormatException}.
    *
    * <p>In certain cases, such as outputting debugging information or constructing a message to be
    * used for another unchecked exception, an exception during string formatting would serve little
@@ -241,11 +257,16 @@ public final class Strings {
    * @since 25.1
    */
   // TODO(diamondm) consider using Arrays.toString() for array parameters
-  // TODO(diamondm) capture exceptions thrown from arguments' toString methods
   public static String lenientFormat(@NullableDecl String template, @NullableDecl Object... args) {
     template = String.valueOf(template); // null -> "null"
 
-    args = args == null ? new Object[] {"(Object[])null"} : args;
+    if (args == null) {
+      args = new Object[] {"(Object[])null"};
+    } else {
+      for (int i = 0; i < args.length; i++) {
+        args[i] = lenientToString(args[i]);
+      }
+    }
 
     // start substituting the arguments into the '%s' placeholders
     StringBuilder builder = new StringBuilder(template.length() + 16 * args.length);
@@ -276,15 +297,17 @@ public final class Strings {
     return builder.toString();
   }
 
-  /**
-   * True when a valid surrogate pair starts at the given {@code index} in the given {@code string}.
-   * Out-of-range indexes return false.
-   */
-  @VisibleForTesting
-  static boolean validSurrogatePairAt(CharSequence string, int index) {
-    return index >= 0
-        && index <= (string.length() - 2)
-        && Character.isHighSurrogate(string.charAt(index))
-        && Character.isLowSurrogate(string.charAt(index + 1));
+  private static String lenientToString(@NullableDecl Object o) {
+    try {
+      return String.valueOf(o);
+    } catch (Exception e) {
+      // Default toString() behavior - see Object.toString()
+      String objectToString =
+          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));
+      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.
+      Logger.getLogger("com.google.common.base.Strings")
+          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);
+      return "<" + objectToString + " threw " + e.getClass().getName() + ">";
+    }
   }
 }

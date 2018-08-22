@@ -43,6 +43,11 @@ public void testLenientFormat() throws Exception {
   testCase.testLenientFormat();
 }
 
+public void testLenientFormat_badArgumentToString_gwtFriendly() throws Exception {
+  com.google.common.base.StringsTest testCase = new com.google.common.base.StringsTest();
+  testCase.testLenientFormat_badArgumentToString_gwtFriendly();
+}
+
 public void testNullToEmpty() throws Exception {
   com.google.common.base.StringsTest testCase = new com.google.common.base.StringsTest();
   testCase.testNullToEmpty();
