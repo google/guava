@@ -781,7 +781,7 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(orig.isDone());
   }
 
-  public void testSetFuture_misbehavingFuture() throws Exception {
+  public void testSetFuture_misbehavingFutureThrows() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
     ListenableFuture<String> badFuture =
         new ListenableFuture<String>() {
@@ -819,6 +819,44 @@ public class AbstractFutureTest extends TestCase {
     ExecutionException expected = getExpectingExecutionException(future);
     assertThat(expected).hasCauseThat().isInstanceOf(IllegalArgumentException.class);
     assertThat(expected).hasCauseThat().hasMessageThat().contains(badFuture.toString());
+  }
+
+  public void testSetFuture_misbehavingFutureDoesNotThrow() throws Exception {
+    SettableFuture<String> future = SettableFuture.create();
+    ListenableFuture<String> badFuture =
+        new ListenableFuture<String>() {
+          @Override
+          public boolean cancel(boolean interrupt) {
+            return false;
+          }
+
+          @Override
+          public boolean isDone() {
+            return true;
+          }
+
+          @Override
+          public boolean isCancelled() {
+            return true; // BAD!!
+          }
+
+          @Override
+          public String get() {
+            return "foo"; // BAD!!
+          }
+
+          @Override
+          public String get(long time, TimeUnit unit) {
+            return "foo"; // BAD!!
+          }
+
+          @Override
+          public void addListener(Runnable runnable, Executor executor) {
+            executor.execute(runnable);
+          }
+        };
+    future.setFuture(badFuture);
+    assertThat(future.isCancelled()).isTrue();
   }
 
   public void testCancel_stackOverflow() {

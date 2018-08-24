@@ -844,8 +844,25 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     // Otherwise calculate the value by calling .get()
     try {
       Object v = getUninterruptibly(future);
+      if (wasCancelled) {
+        return new Cancellation(
+            false,
+            new IllegalArgumentException(
+                "get() did not throw CancellationException, despite reporting "
+                    + "isCancelled() == true: "
+                    + future));
+      }
       return v == null ? NULL : v;
     } catch (ExecutionException exception) {
+      if (wasCancelled) {
+        return new Cancellation(
+            false,
+            new IllegalArgumentException(
+                "get() did not throw CancellationException, despite reporting "
+                    + "isCancelled() == true: "
+                    + future,
+                exception));
+      }
       return new Failure(exception.getCause());
     } catch (CancellationException cancellation) {
       if (!wasCancelled) {
