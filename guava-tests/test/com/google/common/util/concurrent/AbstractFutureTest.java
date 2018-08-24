@@ -236,6 +236,7 @@ public class AbstractFutureTest extends TestCase {
    * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
    * derived from observing how much time actually passed for various operations.
    */
+  @SuppressWarnings({"DeprecatedThreadMethods", "ThreadPriorityCheck"})
   public void testToString_delayedTimeout() throws Exception {
     TimedWaiterThread thread =
         new TimedWaiterThread(new AbstractFuture<Object>() {}, 2, TimeUnit.SECONDS);
