@@ -69,6 +69,13 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
     }
     inputFuture = null;
 
+    if (localInputFuture.isCancelled()) {
+      @SuppressWarnings("unchecked")
+      boolean unused =
+          setFuture((ListenableFuture<O>) localInputFuture); // Respects cancellation cause setting
+      return;
+    }
+
     /*
      * Any of the setException() calls below can fail if the output Future is cancelled between now
      * and then. This means that we're silently swallowing an exception -- maybe even an Error. But
@@ -77,11 +84,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
      *
      * Contrast this to the situation we have if setResult() throws, a situation described below.
      */
-
     I sourceResult;
     try {
       sourceResult = getDone(localInputFuture);
     } catch (CancellationException e) {
+      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture. This
+      // code should be unreachable with correctly implemented Futures.
       // Cancel this future and return.
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of
       // mayInterruptIfRunning is irrelevant.
