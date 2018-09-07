@@ -113,7 +113,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       try {
-        keys.toArray(null);
+        keys.toArray((Object[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
