@@ -17,6 +17,7 @@ package com.google.common.math;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -82,9 +83,10 @@ final class MathPreconditions {
     }
   }
 
-  static void checkInRange(boolean condition) {
+  static void checkInRangeForRoundingInputs(boolean condition, double input, RoundingMode mode) {
     if (!condition) {
-      throw new ArithmeticException("not in range");
+      throw new ArithmeticException(
+          "rounded value is out of range for input " + input + " and rounding mode " + mode);
     }
   }
 
