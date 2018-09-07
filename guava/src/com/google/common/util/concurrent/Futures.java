@@ -413,6 +413,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
+    if (delegate.isDone()) {
+      return delegate;
+    }
     return TimeoutFuture.create(delegate, time, unit, scheduledExecutor);
   }
 
