@@ -911,6 +911,66 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
+  // Regression test for a case where we would fail to execute listeners immediately on done futures
+  // this would be observable from an afterDone callback
+  public void testListenersExecuteImmediately_fromAfterDone() {
+    AbstractFuture<String> f =
+        new AbstractFuture<String>() {
+          @Override
+          protected void afterDone() {
+            final AtomicBoolean ranImmediately = new AtomicBoolean();
+            addListener(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    ranImmediately.set(true);
+                  }
+                },
+                MoreExecutors.directExecutor());
+            assertThat(ranImmediately.get()).isTrue();
+          }
+        };
+    f.set("foo");
+  }
+
+  // Regression test for a case where we would fail to execute listeners immediately on done futures
+  // this would be observable from a waiter that was just unblocked.
+  public void testListenersExecuteImmediately_afterWaiterWakesUp() throws Exception {
+    final AbstractFuture<String> f =
+        new AbstractFuture<String>() {
+          @Override
+          protected void afterDone() {
+            // this simply delays executing listeners
+            try {
+              Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+            } catch (InterruptedException ignored) {
+              Thread.currentThread().interrupt(); // preserve status
+            }
+          }
+        };
+    Thread t =
+        new Thread() {
+          @Override
+          public void run() {
+            f.set("foo");
+          }
+        };
+    t.start();
+    f.get();
+    final AtomicBoolean ranImmediately = new AtomicBoolean();
+    f.addListener(
+        new Runnable() {
+          @Override
+          public void run() {
+            ranImmediately.set(true);
+          }
+        },
+        MoreExecutors.directExecutor());
+    assertThat(ranImmediately.get()).isTrue();
+    t.interrupt();
+    t.join();
+  }
+
   private static void awaitUnchecked(final CyclicBarrier barrier) {
     try {
       barrier.await();
