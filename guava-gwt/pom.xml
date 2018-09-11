@@ -46,6 +46,11 @@
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
+      <artifactId>failureaccess</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -125,6 +130,20 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
+            <id>unpack-failureaccess-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>failureaccess</includeArtifactIds>
+              <classifier>sources</classifier>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/failureaccess-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+          <execution>
             <id>unpack-guava-sources</id>
             <phase>generate-resources</phase>
             <goals><goal>unpack-dependencies</goal></goals>
@@ -184,6 +203,12 @@
         <dependencies>
           <dependency>
             <groupId>com.google.guava</groupId>
+            <artifactId>failureaccess</artifactId>
+            <version>1.0</version>
+            <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
@@ -220,6 +245,22 @@
                 <copy toDir="${project.build.directory}/guava-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-sources">
                     <contains text="@GwtCompatible"/>
+                  </fileset>
+                </copy>
+                <!-- The following don't contain @GwtCompatible for dependency reasons. -->
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/guava-sources">
+                    <include name="**/ListenableFuture.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutures.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutureFailureAccess.java" />
                   </fileset>
                 </copy>
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources">
