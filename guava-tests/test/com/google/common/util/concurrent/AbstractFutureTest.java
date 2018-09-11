@@ -22,6 +22,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -969,6 +970,113 @@ public class AbstractFutureTest extends TestCase {
     assertThat(ranImmediately.get()).isTrue();
     t.interrupt();
     t.join();
+  }
+
+  public void testTrustedGetFailure_Completed() {
+    SettableFuture<String> future = SettableFuture.create();
+    future.set("261");
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testTrustedGetFailure_Failed() {
+    SettableFuture<String> future = SettableFuture.create();
+    Throwable failure = new Throwable();
+    future.setException(failure);
+    assertThat(future.tryInternalFastPathGetFailure()).isEqualTo(failure);
+  }
+
+  public void testTrustedGetFailure_NotCompleted() {
+    SettableFuture<String> future = SettableFuture.create();
+    assertThat(future.isDone()).isFalse();
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testTrustedGetFailure_CanceledNoCause() {
+    SettableFuture<String> future = SettableFuture.create();
+    future.cancel(false);
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testGetFailure_Completed() {
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
+    future.set("261");
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testGetFailure_Failed() {
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
+    final Throwable failure = new Throwable();
+    future.setException(failure);
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testGetFailure_NotCompleted() {
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
+    assertThat(future.isDone()).isFalse();
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testGetFailure_CanceledNoCause() {
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
+    future.cancel(false);
+    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+  }
+
+  public void testForwardExceptionFastPath() throws Exception {
+    class FailFuture extends InternalFutureFailureAccess implements ListenableFuture<String> {
+      Throwable failure;
+
+      FailFuture(Throwable throwable) {
+        failure = throwable;
+      }
+
+      @Override
+      public boolean cancel(boolean mayInterruptIfRunning) {
+        throw new AssertionFailedError("cancel shouldn't be called on this object");
+      }
+
+      @Override
+      public boolean isCancelled() {
+        return false;
+      }
+
+      @Override
+      public boolean isDone() {
+        return true;
+      }
+
+      @Override
+      public String get() throws InterruptedException, ExecutionException {
+        throw new AssertionFailedError("get() shouldn't be called on this object");
+      }
+
+      @Override
+      public String get(long timeout, TimeUnit unit)
+          throws InterruptedException, ExecutionException, TimeoutException {
+        return get();
+      }
+
+      @Override
+      protected Throwable tryInternalFastPathGetFailure() {
+        return failure;
+      }
+
+      @Override
+      public void addListener(Runnable listener, Executor executor) {
+        throw new AssertionFailedError("addListener() shouldn't be called on this object");
+      }
+    }
+
+    final RuntimeException exception = new RuntimeException("you still didn't say the magic word!");
+    SettableFuture<String> normalFuture = SettableFuture.create();
+    normalFuture.setFuture(new FailFuture(exception));
+    assertTrue(normalFuture.isDone());
+    try {
+      normalFuture.get();
+      fail();
+    } catch (ExecutionException e) {
+      assertSame(exception, e.getCause());
+    }
   }
 
   private static void awaitUnchecked(final CyclicBarrier barrier) {

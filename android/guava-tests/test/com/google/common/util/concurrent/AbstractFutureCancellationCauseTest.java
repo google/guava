@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.lang.reflect.Method;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,8 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
 
   private ClassLoader oldClassLoader;
   private URLClassLoader classReloader;
+  private Class<?> settableFutureClass;
+  private Class<?> abstractFutureClass;
 
   @Override
   protected void setUp() throws Exception {
@@ -68,6 +71,8 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
         };
     oldClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(classReloader);
+    abstractFutureClass = classReloader.loadClass(AbstractFuture.class.getName());
+    settableFutureClass = classReloader.loadClass(SettableFuture.class.getName());
   }
 
   @Override
@@ -82,6 +87,7 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
     assertTrue(future.cancel(false));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
+    assertNull(tryInternalFastPathGetFailure(future));
     try {
       future.get();
       fail("Expected CancellationException");
@@ -95,6 +101,7 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
     assertTrue(future.cancel(true));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
+    assertNull(tryInternalFastPathGetFailure(future));
     try {
       future.get();
       fail("Expected CancellationException");
@@ -153,7 +160,13 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
   }
 
   private Future<?> newFutureInstance() throws Exception {
-    return (Future<?>)
-        classReloader.loadClass(SettableFuture.class.getName()).getMethod("create").invoke(null);
+    return (Future<?>) settableFutureClass.getMethod("create").invoke(null);
+  }
+
+  private Throwable tryInternalFastPathGetFailure(Future<?> future) throws Exception {
+    Method tryInternalFastPathGetFailureMethod =
+        abstractFutureClass.getDeclaredMethod("tryInternalFastPathGetFailure");
+    tryInternalFastPathGetFailureMethod.setAccessible(true);
+    return (Throwable) tryInternalFastPathGetFailureMethod.invoke(future);
   }
 }

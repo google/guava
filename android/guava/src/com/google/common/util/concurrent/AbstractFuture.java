@@ -20,6 +20,8 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
+import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.j2objc.annotations.ReflectionSupport;
@@ -62,7 +64,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @SuppressWarnings("ShortCircuitBoolean") // we use non-short circuiting comparisons intentionally
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
+    implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
   private static final boolean GENERATE_CANCELLATION_CAUSES =
@@ -847,6 +850,13 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       }
       return v;
     }
+    if (future instanceof InternalFutureFailureAccess) {
+      Throwable throwable =
+          InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);
+      if (throwable != null) {
+        return new Failure(throwable);
+      }
+    }
     boolean wasCancelled = future.isCancelled();
     // Don't allocate a CancellationException if it's not necessary
     if (!GENERATE_CANCELLATION_CAUSES & wasCancelled) {
@@ -966,6 +976,39 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   @Beta
   @ForOverride
   protected void afterDone() {}
+
+  // TODO(b/114236866): Inherit doc from InternalFutureFailureAccess. Also, -link to its URL.
+  /**
+   * Usually returns {@code null} but, if this {@code Future} has failed, may <i>optionally</i>
+   * return the cause of the failure. "Failure" means specifically "completed with an exception"; it
+   * does not include "was cancelled." To be explicit: If this method returns a non-null value,
+   * then:
+   *
+   * <ul>
+   *   <li>{@code isDone()} must return {@code true}
+   *   <li>{@code isCancelled()} must return {@code false}
+   *   <li>{@code get()} must not block, and it must throw an {@code ExecutionException} with the
+   *       return value of this method as its cause
+   * </ul>
+   *
+   * <p>This method is {@code protected} so that classes like {@code
+   * com.google.common.util.concurrent.SettableFuture} do not expose it to their users as an
+   * instance method. In the unlikely event that you need to call this method, call {@link
+   * InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.
+   *
+   * @since 27.0
+   */
+  @Override
+  @NullableDecl
+  protected final Throwable tryInternalFastPathGetFailure() {
+    if (this instanceof Trusted) {
+      Object obj = value;
+      if (obj instanceof Failure) {
+        return ((Failure) obj).exception;
+      }
+    }
+    return null;
+  }
 
   /**
    * Returns the exception that this {@code Future} completed with. This includes completion through

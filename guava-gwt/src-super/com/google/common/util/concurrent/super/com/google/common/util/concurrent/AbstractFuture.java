@@ -22,6 +22,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -35,7 +36,8 @@ import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Emulation for AbstractFuture in GWT. */
-public abstract class AbstractFuture<V> implements ListenableFuture<V> {
+public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
+    implements ListenableFuture<V> {
 
   /**
    * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
@@ -214,6 +216,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   protected void afterDone() {}
+
+  @Override
+  protected final Throwable tryInternalFastPathGetFailure() {
+    return state == State.FAILURE ? throwable : null;
+  }
 
   final Throwable trustedGetException() {
     checkState(state == State.FAILURE);

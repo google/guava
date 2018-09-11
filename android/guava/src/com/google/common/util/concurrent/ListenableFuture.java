@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -28,6 +27,8 @@ import java.util.concurrent.RejectedExecutionException;
  * <p>See the Guava User Guide article on <a
  * href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
  * ListenableFuture}</a>.
+ *
+ * <p>This class is GWT-compatible.
  *
  * <h3>Purpose</h3>
  *
@@ -97,7 +98,6 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
-@GwtCompatible
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
