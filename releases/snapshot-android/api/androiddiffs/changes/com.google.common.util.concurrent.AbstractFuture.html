@@ -65,6 +65,17 @@ Change in return type from <code>String</code> to <code>java.lang.String</code>.
   </TD>
   <TD VALIGN="TOP">Provide a human-readable explanation of why this future has not yet completed.</TD>
 </TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.AbstractFuture.tryInternalFastPathGetFailure_changed()"></A>
+  <nobr><code>Throwable</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#tryInternalFastPathGetFailure()" target="_top"><tt>tryInternalFastPathGetFailure</tt></A>()  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in return type from <code>Throwable</code> to <code>java.lang.Throwable</code>.<br>
+  </TD>
+  <TD VALIGN="TOP">Usually returns {@code null} but, if this {@code Future} has failed, may <i>optionally</i>
+ return the cause of the failure.</TD>
+</TR>
 </TABLE>
 &nbsp;
 <a NAME="fields"></a>

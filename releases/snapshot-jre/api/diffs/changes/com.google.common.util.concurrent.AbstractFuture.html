@@ -35,7 +35,11 @@ com.google.common.util.concurrent.AbstractFuture
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.util.concurrent.AbstractFuture.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
-<TD BGCOLOR="0xFFFFFF" CLASS="NavBarCell3"></TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
+CONSTRUCTORS&nbsp;|&nbsp;
+<a href="#methods">METHODS</a>&nbsp;|&nbsp;
+FIELDS
+  </FONT></TD>
 </TR>
 </TABLE>
 <HR>
@@ -43,9 +47,25 @@ com.google.common.util.concurrent.AbstractFuture
 <H2>
 Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html" target="_top"><tt>AbstractFuture</tt></A>
 </H2>
-<p><font size="+1">The superclass changed from <code>com.google.common.util.concurrent.FluentFuture<V></code> to <code>java.lang.Object</code>.<br> Added interface <code>com.google.common.util.concurrent.ListenableFuture<V></code>.<br></font>
+<p><font size="+1">The superclass changed from <code>com.google.common.util.concurrent.FluentFuture<V></code> to <code>com.google.common.util.concurrent.internal.InternalFutureFailureAccess</code>.<br> Added interface <code>com.google.common.util.concurrent.ListenableFuture<V></code>.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
+<p>
+<a NAME="Added"></a>
+<TABLE summary="Added Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Added Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.AbstractFuture.tryInternalFastPathGetFailure_added()"></A>
+  <nobr><code>Throwable</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture.html#tryInternalFastPathGetFailure()" target="_top"><tt>tryInternalFastPathGetFailure</tt></A>()</nobr>
+  </TD>
+  <TD VALIGN="TOP">Usually returns {@code null} but, if this {@code Future} has failed, may <i>optionally</i>
+ return the cause of the failure.</TD>
+</TR>
+</TABLE>
+&nbsp;
 <a NAME="fields"></a>
 <HR>
 <!-- Start of nav bar -->

@@ -60209,7 +60209,7 @@
   </class>
   <!-- end class com.google.common.util.concurrent.AbstractExecutionThreadService -->
   <!-- start class com.google.common.util.concurrent.AbstractFuture -->
-  <class name="AbstractFuture" extends="java.lang.Object"
+  <class name="AbstractFuture" extends="com.google.common.util.concurrent.internal.InternalFutureFailureAccess"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -60404,6 +60404,31 @@
  If your task does anything heavier consider, just using a listener with an executor.
 
  @since 20.0]]>
+      </doc>
+    </method>
+    <method name="tryInternalFastPathGetFailure" return="Throwable"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="protected"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Usually returns {@code null} but, if this {@code Future} has failed, may <i>optionally</i>
+ return the cause of the failure. "Failure" means specifically "completed with an exception"; it
+ does not include "was cancelled." To be explicit: If this method returns a non-null value,
+ then:
+
+ <ul>
+   <li>{@code isDone()} must return {@code true}
+   <li>{@code isCancelled()} must return {@code false}
+   <li>{@code get()} must not block, and it must throw an {@code ExecutionException} with the
+       return value of this method as its cause
+ </ul>
+
+ <p>This method is {@code protected} so that classes like {@code
+ com.google.common.util.concurrent.SettableFuture} do not expose it to their users as an
+ instance method. In the unlikely event that you need to call this method, call {@link
+ InternalFutures#tryInternalFastPathGetFailure(InternalFutureFailureAccess)}.
+
+ @since 27.0]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -64737,6 +64762,8 @@
  href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
  ListenableFuture}</a>.
 
+ <p>This class is GWT-compatible.
+
  <h3>Purpose</h3>
 
  <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
@@ -65078,9 +65105,10 @@
       deprecated="not deprecated">
       <param name="isSatisfied" type="java.util.function.BooleanSupplier"/>
       <doc>
-      <![CDATA[Creates a new {@link Guard} for {@code this} monitor. @Param isSatisfied The guards boolean
- condition. See {@link Guard#isSatisfied}.
+      <![CDATA[Creates a new {@linkplain Guard guard} for this monitor.
 
+ @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
+     isSatisfied()})
  @since 21.0]]>
       </doc>
     </method>
@@ -65511,10 +65539,10 @@
 
  <pre>{@code
  public class SafeBox<V> {
+   private V value;
    private final ReentrantLock lock = new ReentrantLock();
    private final Condition valuePresent = lock.newCondition();
    private final Condition valueAbsent = lock.newCondition();
-   private V value;
 
    public V get() throws InterruptedException {
      lock.lock();
@@ -65556,18 +65584,10 @@
 
  <pre>{@code
  public class SafeBox<V> {
-   private final Monitor monitor = new Monitor();
-   private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
-     public boolean isSatisfied() {
-       return value != null;
-     }
-   };
-   private final Monitor.Guard valueAbsent = new Monitor.Guard(monitor) {
-     public boolean isSatisfied() {
-       return value == null;
-     }
-   };
    private V value;
+   private final Monitor monitor = new Monitor();
+   private final Monitor.Guard valuePresent = monitor.newGuard(() -> value != null);
+   private final Monitor.Guard valueAbsent = monitor.newGuard(() -> value == null);
 
    public V get() throws InterruptedException {
      monitor.enterWhen(valuePresent);
