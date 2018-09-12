@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import java.util.concurrent.TimeUnit;
@@ -121,10 +120,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *
  * <pre>{@code
  * public class SafeBox<V> {
+ *   private V value;
  *   private final ReentrantLock lock = new ReentrantLock();
  *   private final Condition valuePresent = lock.newCondition();
  *   private final Condition valueAbsent = lock.newCondition();
- *   private V value;
  *
  *   public V get() throws InterruptedException {
  *     lock.lock();
@@ -166,18 +165,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *
  * <pre>{@code
  * public class SafeBox<V> {
- *   private final Monitor monitor = new Monitor();
- *   private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
- *     public boolean isSatisfied() {
- *       return value != null;
- *     }
- *   };
- *   private final Monitor.Guard valueAbsent = new Monitor.Guard(monitor) {
- *     public boolean isSatisfied() {
- *       return value == null;
- *     }
- *   };
  *   private V value;
+ *   private final Monitor monitor = new Monitor();
+ *   private final Monitor.Guard valuePresent = monitor.newGuard(() -> value != null);
+ *   private final Monitor.Guard valueAbsent = monitor.newGuard(() -> value == null);
  *
  *   public V get() throws InterruptedException {
  *     monitor.enterWhen(valuePresent);
@@ -1015,7 +1006,7 @@ public final class Monitor {
       return guard.isSatisfied();
     } catch (Throwable throwable) {
       signalAllWaiters();
-      throw Throwables.propagate(throwable);
+      throw throwable;
     }
   }
 
