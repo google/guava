@@ -1011,17 +1011,6 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   /**
-   * Returns the exception that this {@code Future} completed with. This includes completion through
-   * a call to {@link #setException} or {@link #setFuture setFuture}{@code (failedFuture)} but not
-   * cancellation.
-   *
-   * @throws RuntimeException if the {@code Future} has not failed
-   */
-  final Throwable trustedGetException() {
-    return ((Failure) value).exception;
-  }
-
-  /**
    * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
    * the given future (if available).
    */
