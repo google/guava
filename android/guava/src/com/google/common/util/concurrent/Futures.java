@@ -658,16 +658,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     loginService.findLastLoginDate(username);
    * final ListenableFuture<List<String>> recentCommandsFuture =
    *     recentCommandsService.findRecentCommands(username);
-   * Callable<UsageHistory> usageComputation =
-   *     new Callable<UsageHistory>() {
-   *       public UsageHistory call() throws Exception {
-   *         return new UsageHistory(
-   *             username, loginDateFuture.get(), recentCommandsFuture.get());
-   *       }
-   *     };
    * ListenableFuture<UsageHistory> usageFuture =
    *     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
-   *         .call(usageComputation, executor);
+   *         .call(
+   *             () ->
+   *                 new UsageHistory(
+   *                     username,
+   *                     Futures.getDone(loginDateFuture),
+   *                     Futures.getDone(recentCommandsFuture)),
+   *             executor);
    * }</pre>
    *
    * @since 20.0
