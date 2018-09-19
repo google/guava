@@ -16,6 +16,12 @@
 
 package com.google.common.util.concurrent;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+
+import org.mockito.Mockito;
+
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 
@@ -29,4 +35,15 @@ public class RunnablesTest extends TestCase {
   public void testDoNothingRunnableIsSingleton() {
     assertSame(Runnables.doNothing(), Runnables.doNothing());
   }
+
+  public void testRunOnceSequential() {
+    Runnable dlg = mock(Runnable.class);
+    Runnable wrap = Runnables.runOnce(dlg);
+    verifyZeroInteractions(dlg);
+    wrap.run();
+    verify(dlg).run();
+    wrap.run();
+    verify(dlg).run(); // still once
+  }
+
 }

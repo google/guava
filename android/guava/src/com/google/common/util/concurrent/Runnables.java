@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -35,6 +37,39 @@ public final class Runnables {
   /** Returns a {@link Runnable} instance that does nothing when run. */
   public static Runnable doNothing() {
     return EMPTY_RUNNABLE;
+  }
+
+  /** Returns a thread-safe {@link Runnable} that invokes the delegate only once */
+  public static Runnable runOnce(Runnable delegate) {
+    if (delegate instanceof OnceRunnable) {
+      return delegate;
+    }
+    return new OnceRunnable(checkNotNull(delegate));
+  }
+
+  static class OnceRunnable implements Runnable {
+    Runnable delegate;
+    Object initLock = new Object();
+
+    OnceRunnable(Runnable delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public void run() {
+      // Double-checked locking to improve performance and avoid redundant locking after the single invocation
+      Object lockState = this.initLock;
+      if (lockState != null) {
+        synchronized (lockState) {
+          if (this.initLock != null) {
+            delegate.run();
+            // release, not needed anymore
+            this.initLock = null;
+            this.delegate = null;
+          }
+        }
+      }
+    }
   }
 
   private Runnables() {}
