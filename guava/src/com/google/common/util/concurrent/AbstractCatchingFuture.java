@@ -95,7 +95,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     }
 
     if (!isInstanceOfThrowableClass(throwable, localExceptionType)) {
-      setException(throwable);
+      setFuture(localInputFuture);
       // TODO(cpovirk): Test that fallback is not run in this case.
       return;
     }
