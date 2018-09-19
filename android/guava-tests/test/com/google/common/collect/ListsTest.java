@@ -21,9 +21,6 @@ import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -830,18 +827,35 @@ public class ListsTest extends TestCase {
    * {@code iterator()} call into a call on {@code listIterator(int)}. This is fine because the
    * behavior is clearly documented so it's not expected to change.
    */
-  @GwtIncompatible // Mockito TODO(kak): Can we remove this?
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
     List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
-    ListIterator<Integer> sampleListIterator = SOME_SEQUENTIAL_LIST.listIterator();
-    @SuppressWarnings("unchecked")
-    List<Integer> listMock = mock(List.class);
-    when(listMock.size()).thenReturn(SOME_SEQUENTIAL_LIST.size());
-    when(listMock.listIterator(0)).thenReturn(sampleListIterator);
-    verifyNoMoreInteractions(listMock);
-    List<String> transform = Lists.transform(listMock, SOME_FUNCTION);
+    List<Integer> listIteratorOnlyList = new ListIterationOnlyList<>(randomAccessList);
+    List<String> transform = Lists.transform(listIteratorOnlyList, SOME_FUNCTION);
     assertTrue(
         Iterables.elementsEqual(transform, Lists.transform(randomAccessList, SOME_FUNCTION)));
+  }
+
+  private static class ListIterationOnlyList<E> extends ForwardingList<E> {
+    private final List<E> realDelegate;
+
+    private ListIterationOnlyList(List<E> realDelegate) {
+      this.realDelegate = realDelegate;
+    }
+
+    @Override
+    public int size() {
+      return realDelegate.size();
+    }
+
+    @Override
+    public ListIterator<E> listIterator(int index) {
+      return realDelegate.listIterator(index);
+    }
+
+    @Override
+    protected List<E> delegate() {
+      throw new UnsupportedOperationException("This list only supports ListIterator");
+    }
   }
 
   private static void assertTransformIterator(List<String> list) {
