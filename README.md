@@ -80,7 +80,7 @@ ensure that you do not use any `@Beta` APIs!**
 
 2. APIs without `@Beta` will remain binary-compatible for the indefinite
 future. (Previously, we sometimes removed such APIs after a deprecation period.
-The last release to remove non-`@Beta` APIs was Guava 21.0.) Even `@Deprecated`
+The last release to remove non-`@Beta` APIs was Guava 26.0.) Even `@Deprecated`
 APIs will remain (again, unless they are `@Beta`). We have no plans to start
 removing things again, but officially, we're leaving our options open in case
 of surprises (like, say, a serious security problem).
