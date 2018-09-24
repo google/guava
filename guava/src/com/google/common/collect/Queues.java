@@ -430,7 +430,7 @@ public final class Queues {
    */
   public static <E> Deque<E> reversedDeque(Deque<E> deque) {
     if (deque instanceof ReversedDeque) {
-      return ((ReversedDeque<E>)deque).deque;
+      return ((ReversedDeque<E>)deque).delegate();
     }
     return new ReversedDeque<>(deque);
   }
