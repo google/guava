@@ -261,6 +261,11 @@ public final class Suppliers {
     private static final long serialVersionUID = 0;
   }
 
+  /** Returns a supplier that always supplies {@code null}. */
+  public static <T> Supplier<T> ofNull() {
+    return new SupplierOfInstance<T>(null);
+  }
+
   /** Returns a supplier that always supplies {@code instance}. */
   public static <T> Supplier<T> ofInstance(@Nullable T instance) {
     return new SupplierOfInstance<T>(instance);
