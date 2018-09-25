@@ -278,8 +278,12 @@ public class SuppliersTest extends TestCase {
     assertNull(nullSupplier.get());
   }
 
-  @GwtIncompatible // Thread
+  public void testOfNullSuppliesNull() {
+    Supplier<?> tested = Suppliers.ofNull();
+    assertNull(tested.get());
+  }
 
+  @GwtIncompatible // Thread
   public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -292,7 +296,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testMemoizedSupplierThreadSafe() throws Throwable {
     Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
         new Function<Supplier<Boolean>, Supplier<Boolean>>() {
@@ -381,7 +384,6 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible // Thread
-
   public void testSynchronizedSupplierThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe =
         new Supplier<Integer>() {
