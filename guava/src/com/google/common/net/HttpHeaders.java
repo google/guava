@@ -73,6 +73,13 @@ public final class HttpHeaders {
   public static final String CONNECTION = "Connection";
   /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
+   * name.
+   *
+   * @since NEXT
+   */
+  public static final String EARLY_DATA = "Early-Data";
   /** The HTTP {@code Expect} header field name. */
   public static final String EXPECT = "Expect";
   /** The HTTP {@code From} header field name. */
