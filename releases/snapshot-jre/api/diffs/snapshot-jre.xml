@@ -49429,6 +49429,17 @@
       <![CDATA[The HTTP {@code Cookie} header field name.]]>
       </doc>
     </field>
+    <field name="EARLY_DATA" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
+ name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="EXPECT" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

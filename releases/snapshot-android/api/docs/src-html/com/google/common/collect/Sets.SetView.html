@@ -1455,9 +1455,9 @@
 <span class="sourceLineNo">1447</span>    final ImmutableMap&lt;E, Integer&gt; inputSet;<a name="line.1447"></a>
 <span class="sourceLineNo">1448</span><a name="line.1448"></a>
 <span class="sourceLineNo">1449</span>    PowerSet(Set&lt;E&gt; input) {<a name="line.1449"></a>
-<span class="sourceLineNo">1450</span>      this.inputSet = Maps.indexMap(input);<a name="line.1450"></a>
-<span class="sourceLineNo">1451</span>      checkArgument(<a name="line.1451"></a>
-<span class="sourceLineNo">1452</span>          inputSet.size() &lt;= 30, "Too many elements to create power set: %s &gt; 30", inputSet.size());<a name="line.1452"></a>
+<span class="sourceLineNo">1450</span>      checkArgument(<a name="line.1450"></a>
+<span class="sourceLineNo">1451</span>          input.size() &lt;= 30, "Too many elements to create power set: %s &gt; 30", input.size());<a name="line.1451"></a>
+<span class="sourceLineNo">1452</span>      this.inputSet = Maps.indexMap(input);<a name="line.1452"></a>
 <span class="sourceLineNo">1453</span>    }<a name="line.1453"></a>
 <span class="sourceLineNo">1454</span><a name="line.1454"></a>
 <span class="sourceLineNo">1455</span>    @Override<a name="line.1455"></a>
