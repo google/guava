@@ -780,8 +780,8 @@
 <span class="sourceLineNo">772</span><a name="line.772"></a>
 <span class="sourceLineNo">773</span>    @Override<a name="line.773"></a>
 <span class="sourceLineNo">774</span>    public void run() {<a name="line.774"></a>
-<span class="sourceLineNo">775</span>      // This prevents cancellation from propagating because we don't assign delegate until<a name="line.775"></a>
-<span class="sourceLineNo">776</span>      // delegate is already done, so calling cancel() on it is a no-op.<a name="line.776"></a>
+<span class="sourceLineNo">775</span>      // This prevents cancellation from propagating because we don't call setFuture(delegate) until<a name="line.775"></a>
+<span class="sourceLineNo">776</span>      // delegate is already done, so calling cancel() on this future won't affect it.<a name="line.776"></a>
 <span class="sourceLineNo">777</span>      ListenableFuture&lt;V&gt; localDelegate = delegate;<a name="line.777"></a>
 <span class="sourceLineNo">778</span>      if (localDelegate != null) {<a name="line.778"></a>
 <span class="sourceLineNo">779</span>        setFuture(localDelegate);<a name="line.779"></a>
