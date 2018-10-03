@@ -1759,6 +1759,9 @@ public final class Sets {
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
    *
+   * <p><b>Java 8 users and later:</b> this method is now unnecessary and should be treated as deprecated. Use
+   * Collections#unmodifiableNavigableSet instead.
+   *
    * @param set the navigable set for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable set
    * @since 12.0
@@ -1914,6 +1917,9 @@ public final class Sets {
    *
    * <p>The returned navigable set will be serializable if the specified navigable set is
    * serializable.
+   *
+   * <p><b>Java 8 users and later:</b> this method is now unnecessary and should be treated as deprecated. Use
+   * Collections#synchronizedNavigableSet instead.
    *
    * @param navigableSet the navigable set to be "wrapped" in a synchronized navigable set.
    * @return a synchronized view of the specified navigable set.
