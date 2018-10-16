@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import java.util.Iterator;
@@ -58,6 +59,19 @@ public class SplitterTest extends TestCase {
   public void testCharacterSimpleSplitToList() {
     String simple = "a,b,c";
     List<String> letters = COMMA_SPLITTER.splitToList(simple);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
+  /**
+   * All of the infrastructure of split and splitToString is identical, so we do one test of
+   * splitToString. All other cases should be covered by testing of split.
+   *
+   * <p>TODO(user): It would be good to make all the relevant tests run on both split and
+   * splitToString automatically.
+   */
+  public void testCharacterSimpleSplitToImmutableList() {
+    String simple = "a,b,c";
+    ImmutableList<String> letters = COMMA_SPLITTER.splitToImmutableList(simple);
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 

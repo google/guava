@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -416,6 +418,29 @@ public final class Splitter {
     }
 
     return Collections.unmodifiableList(result);
+  }
+
+  /**
+   * Splits {@code sequence} into string components and returns them as
+   * a Guava {@link com.google.common.collect.ImmutableList ImmutableList}. If you
+   * want an {@link Iterable} which may be lazily evaluated, use {@link #split(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return an immutable list of the segments split from the parameter
+   * @since 27.0
+   */
+  @Beta
+  public ImmutableList<String> splitToImmutableList(CharSequence sequence) {
+    checkNotNull(sequence);
+
+    Iterator<String> iterator = splittingIterator(sequence);
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+
+    while (iterator.hasNext()) {
+      builder.add(iterator.next());
+    }
+
+    return builder.build();
   }
 
   /**

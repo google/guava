@@ -61,6 +61,19 @@ public class SplitterTest extends TestCase {
     assertThat(letters).containsExactly("a", "b", "c").inOrder();
   }
 
+  /**
+   * All of the infrastructure of split and splitToString is identical, so we do one test of
+   * splitToString. All other cases should be covered by testing of split.
+   *
+   * <p>TODO(user): It would be good to make all the relevant tests run on both split and
+   * splitToString automatically.
+   */
+  public void testCharacterSimpleSplitToImmutableList() {
+    String simple = "a,b,c";
+    List<String> letters = COMMA_SPLITTER.splitToImmutableList(simple);
+    assertThat(letters).containsExactly("a", "b", "c").inOrder();
+  }
+
   public void testToString() {
     assertEquals("[]", COMMA_SPLITTER.split("").toString());
     assertEquals("[a, b, c]", COMMA_SPLITTER.split("a,b,c").toString());
