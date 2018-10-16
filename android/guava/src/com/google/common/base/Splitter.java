@@ -419,6 +419,29 @@ public final class Splitter {
   }
 
   /**
+   * Splits {@code sequence} into string components and returns them as
+   * a Guava {@link com.google.common.collect.ImmutableList ImmutableList}. If you
+   * want an {@link Iterable} which may be lazily evaluated, use {@link #split(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return an immutable list of the segments split from the parameter
+   * @since 27.0
+   */
+  @Beta
+  public ImmutableList<String> splitToImmutableList(CharSequence sequence) {
+    checkNotNull(sequence);
+
+    Iterator<String> iterator = splittingIterator(sequence);
+    ImmutableList.Builder<String> builder = ImmutableList.builder();
+
+    while (iterator.hasNext()) {
+      builder.add(iterator.next());
+    }
+
+    return builder.build();
+  }
+
+  /**
    * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries
    * into keys and values using the specified separator.
    *
