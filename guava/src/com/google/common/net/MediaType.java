@@ -472,7 +472,7 @@ public final class MediaType {
    * Media type for WASM applications. For more information see <a
    * href="https://webassembly.org/">the Web Assembly overview</a>.
    *
-   * @since NEXT
+   * @since 27.0
    */
   public static final MediaType WASM_APPLICATION = createConstant(APPLICATION_TYPE, "wasm");
   /**

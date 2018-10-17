@@ -568,7 +568,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    *
    * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty
    *     intersection
-   * @since NEXT
+   * @since 27.0
    */
   public Range<C> gap(Range<C> otherRange) {
     boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) < 0;

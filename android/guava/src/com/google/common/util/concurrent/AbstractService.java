@@ -233,7 +233,7 @@ public abstract class AbstractService implements Service {
    * <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which
    * is the external state observable by the caller of {@link #stopAsync}.
    *
-   * @since NEXT
+   * @since 27.0
    */
   @ForOverride
   protected void doCancelStart() {}

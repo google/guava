@@ -77,7 +77,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
    * name.
    *
-   * @since NEXT
+   * @since 27.0
    */
   public static final String EARLY_DATA = "Early-Data";
   /** The HTTP {@code Expect} header field name. */
