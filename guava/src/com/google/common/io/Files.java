@@ -63,7 +63,7 @@ import java.util.List;
  * @author Colin Decker
  * @since 1.0
  */
-@Beta
+
 @GwtIncompatible
 public final class Files {
 
