@@ -244,6 +244,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
   @GwtIncompatible // ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);

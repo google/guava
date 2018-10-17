@@ -31,6 +31,7 @@ import java.util.concurrent.TimeoutException;
  */
 @Beta
 @GwtIncompatible
+@SuppressWarnings("GoodTime") // should have java.time.Duration overloads
 public interface TimeLimiter {
 
   /**

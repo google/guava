@@ -367,6 +367,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enter(long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     final ReentrantLock lock = this.lock;
@@ -406,6 +407,7 @@ public final class Monitor {
    * @return whether the monitor was entered
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterInterruptibly(long time, TimeUnit unit) throws InterruptedException {
     return lock.tryLock(time, unit);
   }
@@ -455,6 +457,7 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -534,6 +537,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -623,6 +627,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterIf(Guard guard, long time, TimeUnit unit) {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -671,6 +676,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterIfInterruptibly(Guard guard, long time, TimeUnit unit)
       throws InterruptedException {
     if (guard.monitor != this) {
@@ -740,6 +746,7 @@ public final class Monitor {
    * @return whether the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
@@ -773,6 +780,7 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {

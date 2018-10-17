@@ -106,6 +106,7 @@ public interface Service {
    *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
    * @since 15.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException;
 
   /**
@@ -126,6 +127,7 @@ public interface Service {
    * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
    * @since 15.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException;
 
   /**
