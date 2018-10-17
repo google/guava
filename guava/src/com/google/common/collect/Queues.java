@@ -267,6 +267,7 @@ public final class Queues {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // BlockingQueue
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <E> int drain(
       BlockingQueue<E> q,
       Collection<? super E> buffer,
@@ -314,6 +315,7 @@ public final class Queues {
   @Beta
   @CanIgnoreReturnValue
   @GwtIncompatible // BlockingQueue
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <E> int drainUninterruptibly(
       BlockingQueue<E> q,
       Collection<? super E> buffer,

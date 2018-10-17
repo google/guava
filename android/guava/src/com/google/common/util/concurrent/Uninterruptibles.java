@@ -72,6 +72,7 @@ public final class Uninterruptibles {
    */
   @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -101,6 +102,7 @@ public final class Uninterruptibles {
    * @since 23.6
    */
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -147,6 +149,7 @@ public final class Uninterruptibles {
    * uninterruptibly.
    */
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void joinUninterruptibly(Thread toJoin, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(toJoin);
     boolean interrupted = false;
@@ -225,6 +228,7 @@ public final class Uninterruptibles {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // TODO
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V> V getUninterruptibly(Future<V> future, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
     boolean interrupted = false;
@@ -297,6 +301,7 @@ public final class Uninterruptibles {
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
     boolean interrupted = false;
     try {
@@ -326,6 +331,7 @@ public final class Uninterruptibles {
    * @since 18.0
    */
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, long timeout, TimeUnit unit) {
     return tryAcquireUninterruptibly(semaphore, 1, timeout, unit);
@@ -338,6 +344,7 @@ public final class Uninterruptibles {
    * @since 18.0
    */
   @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
     boolean interrupted = false;

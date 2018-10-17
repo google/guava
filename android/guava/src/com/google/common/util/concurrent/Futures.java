@@ -260,6 +260,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 23.0
    */
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <O> ListenableFuture<O> scheduleAsync(
       AsyncCallable<O> callable,
       long delay,
@@ -408,6 +409,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 19.0
    */
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate,
       long time,
@@ -1197,6 +1199,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);

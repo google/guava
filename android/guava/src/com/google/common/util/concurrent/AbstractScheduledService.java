@@ -122,6 +122,7 @@ public abstract class AbstractScheduledService implements Service {
      *     next
      * @param unit the time unit of the initialDelay and delay parameters
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     public static Scheduler newFixedDelaySchedule(
         final long initialDelay, final long delay, final TimeUnit unit) {
       checkNotNull(unit);
@@ -143,6 +144,7 @@ public abstract class AbstractScheduledService implements Service {
      * @param period the period between successive executions of the task
      * @param unit the time unit of the initialDelay and period parameters
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     public static Scheduler newFixedRateSchedule(
         final long initialDelay, final long period, final TimeUnit unit) {
       checkNotNull(unit);
