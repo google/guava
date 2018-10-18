@@ -4,7 +4,6 @@ language: java
 
 jdk:
   - oraclejdk8
-  - oraclejdk10
   - openjdk11
 
 # https://github.com/travis-ci/travis-ci/issues/3259#issuecomment-130860338
