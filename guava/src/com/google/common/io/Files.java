@@ -397,6 +397,7 @@ public final class Files {
    */
   public static File createTempDir() {
     File baseDir = new File(System.getProperty("java.io.tmpdir"));
+    @SuppressWarnings("GoodTime") // reading system time without TimeSource
     String baseName = System.currentTimeMillis() + "-";
 
     for (int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++) {
@@ -423,6 +424,7 @@ public final class Files {
    * @param file the file to create or update
    * @throws IOException if an I/O error occurs
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   public static void touch(File file) throws IOException {
     checkNotNull(file);
     if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
