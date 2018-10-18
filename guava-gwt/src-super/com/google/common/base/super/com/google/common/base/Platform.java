@@ -33,6 +33,7 @@ final class Platform {
     return matcher;
   }
 
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   static long systemNanoTime() {
     // System.nanoTime() is not available in GWT, so we get milliseconds
     // and convert to nanos.

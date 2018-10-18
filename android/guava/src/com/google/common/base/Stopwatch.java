@@ -77,6 +77,7 @@ import java.util.concurrent.TimeUnit;
  * @since 10.0
  */
 @GwtCompatible
+@SuppressWarnings("GoodTime") // lots of violations
 public final class Stopwatch {
   private final Ticker ticker;
   private boolean isRunning;

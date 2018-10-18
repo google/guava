@@ -391,6 +391,7 @@ public final class MoreFiles {
    * Like the unix command of the same name, creates an empty file or updates the last modified
    * timestamp of the existing file at the given path to the current system time.
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   public static void touch(Path path) throws IOException {
     checkNotNull(path);
 
