@@ -1,0 +1,707 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2010 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * Static methods pertaining to ASCII characters (those in the range of values {@code 0x00} through<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * {@code 0x7F}), and to strings containing such characters.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * &lt;p&gt;ASCII utilities also exist in other classes of this package:<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * &lt;ul&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *   &lt;!-- TODO(kevinb): how can we make this not produce a warning when building gwt javadoc? --&gt;<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *   &lt;li&gt;{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *   &lt;li&gt;{@link CharMatcher#ascii} matches ASCII characters and provides text processing methods<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *       which operate only on the ASCII characters of a string.<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;/ul&gt;<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @author Catherine Berry<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @author Gregory Kick<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @since 7.0<a name="line.37"></a>
+<span class="sourceLineNo">038</span> */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@GwtCompatible<a name="line.39"></a>
+<span class="sourceLineNo">040</span>public final class Ascii {<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>  private Ascii() {}<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  /* The ASCII control characters, per RFC 20. */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * Null ('\0'): The all-zeros character which may serve to accomplish time fill and media fill.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * Normally used as a C string terminator.<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   *<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * &lt;p&gt;Although RFC 20 names this as "Null", note that it is distinct from the C/C++ "NULL"<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * pointer.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   *<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @since 8.0<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static final byte NUL = 0;<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * Start of Heading: A communication control character used at the beginning of a sequence of<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   * characters which constitute a machine-sensible address or routing information. Such a sequence<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * is referred to as the "heading." An STX character has the effect of terminating a heading.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   *<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * @since 8.0<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   */<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  public static final byte SOH = 1;<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * Start of Text: A communication control character which precedes a sequence of characters that<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * is to be treated as an entity and entirely transmitted through to the ultimate destination.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Such a sequence is referred to as "text." STX may be used to terminate a sequence of characters<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * started by SOH.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   *<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * @since 8.0<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  public static final byte STX = 2;<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * End of Text: A communication control character used to terminate a sequence of characters<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * started with STX and transmitted as an entity.<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   *<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * @since 8.0<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public static final byte ETX = 3;<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * End of Transmission: A communication control character used to indicate the conclusion of a<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * transmission, which may have contained one or more texts and any associated headings.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * @since 8.0<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public static final byte EOT = 4;<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * Enquiry: A communication control character used in data communication systems as a request for<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * a response from a remote station. It may be used as a "Who Are You" (WRU) to obtain<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * identification, or may be used to obtain station status, or both.<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   *<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * @since 8.0<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  public static final byte ENQ = 5;<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * Acknowledge: A communication control character transmitted by a receiver as an affirmative<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * response to a sender.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   *<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * @since 8.0<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   */<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  public static final byte ACK = 6;<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * Bell ('\a'): A character for use when there is a need to call for human attention. It may<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * control alarm or attention devices.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * @since 8.0<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  public static final byte BEL = 7;<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Backspace ('\b'): A format effector which controls the movement of the printing position one<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * printing space backward on the same printing line. (Applicable also to display devices.)<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   *<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * @since 8.0<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  public static final byte BS = 8;<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Horizontal Tabulation ('\t'): A format effector which controls the movement of the printing<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * position to the next in a series of predetermined positions along the printing line.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * (Applicable also to display devices and the skip function on punched cards.)<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * @since 8.0<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public static final byte HT = 9;<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * Line Feed ('\n'): A format effector which controls the movement of the printing position to the<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * next printing line. (Applicable also to display devices.) Where appropriate, this character may<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * have the meaning "New Line" (NL), a format effector which controls the movement of the printing<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * point to the first printing position on the next printing line. Use of this convention requires<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * agreement between sender and recipient of data.<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   *<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * @since 8.0<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   */<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  public static final byte LF = 10;<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * Alternate name for {@link #LF}. ({@code LF} is preferred.)<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   *<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * @since 8.0<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public static final byte NL = 10;<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * Vertical Tabulation ('\v'): A format effector which controls the movement of the printing<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * position to the next in a series of predetermined printing lines. (Applicable also to display<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * devices.)<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @since 8.0<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  public static final byte VT = 11;<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * Form Feed ('\f'): A format effector which controls the movement of the printing position to the<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * first pre-determined printing line on the next form or page. (Applicable also to display<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * devices.)<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   *<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * @since 8.0<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   */<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  public static final byte FF = 12;<a name="line.167"></a>
+<span class="sourceLineNo">168</span><a name="line.168"></a>
+<span class="sourceLineNo">169</span>  /**<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   * Carriage Return ('\r'): A format effector which controls the movement of the printing position<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * to the first printing position on the same printing line. (Applicable also to display devices.)<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   *<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * @since 8.0<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public static final byte CR = 13;<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * Shift Out: A control character indicating that the code combinations which follow shall be<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * interpreted as outside of the character set of the standard code table until a Shift In<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * character is reached.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   *<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * @since 8.0<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  public static final byte SO = 14;<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>  /**<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * Shift In: A control character indicating that the code combinations which follow shall be<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * interpreted according to the standard code table.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   *<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * @since 8.0<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   */<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  public static final byte SI = 15;<a name="line.192"></a>
+<span class="sourceLineNo">193</span><a name="line.193"></a>
+<span class="sourceLineNo">194</span>  /**<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * Data Link Escape: A communication control character which will change the meaning of a limited<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * number of contiguously following characters. It is used exclusively to provide supplementary<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * controls in data communication networks.<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   *<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * @since 8.0<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   */<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  public static final byte DLE = 16;<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Device Control 1. Characters for the control of ancillary devices associated with data<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * processing or telecommunication systems, more especially switching devices "on" or "off." (If a<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * preferred assignment.)<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * @since 8.0<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   */<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  public static final byte DC1 = 17; // aka XON<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>  /**<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * Transmission On: Although originally defined as DC1, this ASCII control character is now better<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * known as the XON code used for software flow control in serial communications. The main use is<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * restarting the transmission after the communication has been stopped by the XOFF control code.<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   *<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * @since 8.0<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  public static final byte XON = 17; // aka DC1<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>  /**<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Device Control 2. Characters for the control of ancillary devices associated with data<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * processing or telecommunication systems, more especially switching devices "on" or "off." (If a<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * preferred assignment.)<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   *<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * @since 8.0<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  public static final byte DC2 = 18;<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * Device Control 3. Characters for the control of ancillary devices associated with data<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * processing or telecommunication systems, more especially switching devices "on" or "off." (If a<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * preferred assignment.)<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   *<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * @since 8.0<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   */<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  public static final byte DC3 = 19; // aka XOFF<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  /**<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * Transmission off. See {@link #XON} for explanation.<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   *<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @since 8.0<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  public static final byte XOFF = 19; // aka DC3<a name="line.247"></a>
+<span class="sourceLineNo">248</span><a name="line.248"></a>
+<span class="sourceLineNo">249</span>  /**<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * Device Control 4. Characters for the control of ancillary devices associated with data<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * processing or telecommunication systems, more especially switching devices "on" or "off." (If a<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * single "stop" control is required to interrupt or turn off ancillary devices, DC4 is the<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * preferred assignment.)<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   *<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * @since 8.0<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  public static final byte DC4 = 20;<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  /**<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * Negative Acknowledge: A communication control character transmitted by a receiver as a negative<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * response to the sender.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * @since 8.0<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   */<a name="line.264"></a>
+<span class="sourceLineNo">265</span>  public static final byte NAK = 21;<a name="line.265"></a>
+<span class="sourceLineNo">266</span><a name="line.266"></a>
+<span class="sourceLineNo">267</span>  /**<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * Synchronous Idle: A communication control character used by a synchronous transmission system<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * in the absence of any other character to provide a signal from which synchronism may be<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * achieved or retained.<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   *<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * @since 8.0<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public static final byte SYN = 22;<a name="line.274"></a>
+<span class="sourceLineNo">275</span><a name="line.275"></a>
+<span class="sourceLineNo">276</span>  /**<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   * End of Transmission Block: A communication control character used to indicate the end of a<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * block of data for communication purposes. ETB is used for blocking data where the block<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * structure is not necessarily related to the processing format.<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   *<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * @since 8.0<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   */<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  public static final byte ETB = 23;<a name="line.283"></a>
+<span class="sourceLineNo">284</span><a name="line.284"></a>
+<span class="sourceLineNo">285</span>  /**<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * Cancel: A control character used to indicate that the data with which it is sent is in error or<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * is to be disregarded.<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   *<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * @since 8.0<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   */<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  public static final byte CAN = 24;<a name="line.291"></a>
+<span class="sourceLineNo">292</span><a name="line.292"></a>
+<span class="sourceLineNo">293</span>  /**<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * End of Medium: A control character associated with the sent data which may be used to identify<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * the physical end of the medium, or the end of the used, or wanted, portion of information<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * recorded on a medium. (The position of this character does not necessarily correspond to the<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * physical end of the medium.)<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   *<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * @since 8.0<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   */<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  public static final byte EM = 25;<a name="line.301"></a>
+<span class="sourceLineNo">302</span><a name="line.302"></a>
+<span class="sourceLineNo">303</span>  /**<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * Substitute: A character that may be substituted for a character which is determined to be<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * invalid or in error.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   *<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * @since 8.0<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   */<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  public static final byte SUB = 26;<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>  /**<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * Escape: A control character intended to provide code extension (supplementary characters) in<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * general information interchange. The Escape character itself is a prefix affecting the<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * interpretation of a limited number of contiguously following characters.<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   *<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * @since 8.0<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   */<a name="line.317"></a>
+<span class="sourceLineNo">318</span>  public static final byte ESC = 27;<a name="line.318"></a>
+<span class="sourceLineNo">319</span><a name="line.319"></a>
+<span class="sourceLineNo">320</span>  /**<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * File Separator: These four information separators may be used within data in optional fashion,<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * not specified.)<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   *<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * @since 8.0<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  public static final byte FS = 28;<a name="line.328"></a>
+<span class="sourceLineNo">329</span><a name="line.329"></a>
+<span class="sourceLineNo">330</span>  /**<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   * Group Separator: These four information separators may be used within data in optional fashion,<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   * except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   * not specified.)<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   *<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * @since 8.0<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   */<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  public static final byte GS = 29;<a name="line.338"></a>
+<span class="sourceLineNo">339</span><a name="line.339"></a>
+<span class="sourceLineNo">340</span>  /**<a name="line.340"></a>
+<span class="sourceLineNo">341</span>   * Record Separator: These four information separators may be used within data in optional<a name="line.341"></a>
+<span class="sourceLineNo">342</span>   * fashion, except that their hierarchical relationship shall be: FS is the most inclusive, then<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * GS, then RS, and US is least inclusive. (The content and length of a File, Group, Record, or<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   * Unit are not specified.)<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   *<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   * @since 8.0<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   */<a name="line.347"></a>
+<span class="sourceLineNo">348</span>  public static final byte RS = 30;<a name="line.348"></a>
+<span class="sourceLineNo">349</span><a name="line.349"></a>
+<span class="sourceLineNo">350</span>  /**<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   * Unit Separator: These four information separators may be used within data in optional fashion,<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * except that their hierarchical relationship shall be: FS is the most inclusive, then GS, then<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * RS, and US is least inclusive. (The content and length of a File, Group, Record, or Unit are<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * not specified.)<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   *<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   * @since 8.0<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   */<a name="line.357"></a>
+<span class="sourceLineNo">358</span>  public static final byte US = 31;<a name="line.358"></a>
+<span class="sourceLineNo">359</span><a name="line.359"></a>
+<span class="sourceLineNo">360</span>  /**<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   * Space: A normally non-printing graphic character used to separate words. It is also a format<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * effector which controls the movement of the printing position, one printing position forward.<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * (Applicable also to display devices.)<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   *<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * @since 8.0<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   */<a name="line.366"></a>
+<span class="sourceLineNo">367</span>  public static final byte SP = 32;<a name="line.367"></a>
+<span class="sourceLineNo">368</span><a name="line.368"></a>
+<span class="sourceLineNo">369</span>  /**<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * Alternate name for {@link #SP}.<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * @since 8.0<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  public static final byte SPACE = 32;<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>  /**<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * Delete: This character is used primarily to "erase" or "obliterate" erroneous or unwanted<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * characters in perforated tape.<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   *<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * @since 8.0<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   */<a name="line.381"></a>
+<span class="sourceLineNo">382</span>  public static final byte DEL = 127;<a name="line.382"></a>
+<span class="sourceLineNo">383</span><a name="line.383"></a>
+<span class="sourceLineNo">384</span>  /**<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * The minimum value of an ASCII character.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * @since 9.0 (was type {@code int} before 12.0)<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   */<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  public static final char MIN = 0;<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>  /**<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * The maximum value of an ASCII character.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   *<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * @since 9.0 (was type {@code int} before 12.0)<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  public static final char MAX = 127;<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>  /** A bit mask which selects the bit encoding ASCII character case. */<a name="line.398"></a>
+<span class="sourceLineNo">399</span>  private static final char CASE_MASK = 0x20;<a name="line.399"></a>
+<span class="sourceLineNo">400</span><a name="line.400"></a>
+<span class="sourceLineNo">401</span>  /**<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * Returns a copy of the input string in which all {@linkplain #isUpperCase(char) uppercase ASCII<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * characters} have been converted to lowercase. All other characters are copied without<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * modification.<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   */<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  public static String toLowerCase(String string) {<a name="line.406"></a>
+<span class="sourceLineNo">407</span>    int length = string.length();<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    for (int i = 0; i &lt; length; i++) {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      if (isUpperCase(string.charAt(i))) {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>        char[] chars = string.toCharArray();<a name="line.410"></a>
+<span class="sourceLineNo">411</span>        for (; i &lt; length; i++) {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>          char c = chars[i];<a name="line.412"></a>
+<span class="sourceLineNo">413</span>          if (isUpperCase(c)) {<a name="line.413"></a>
+<span class="sourceLineNo">414</span>            chars[i] = (char) (c ^ CASE_MASK);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>          }<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        }<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        return String.valueOf(chars);<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      }<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    }<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    return string;<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  }<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>  /**<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * Returns a copy of the input character sequence in which all {@linkplain #isUpperCase(char)<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * uppercase ASCII characters} have been converted to lowercase. All other characters are copied<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * without modification.<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   *<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * @since 14.0<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   */<a name="line.429"></a>
+<span class="sourceLineNo">430</span>  public static String toLowerCase(CharSequence chars) {<a name="line.430"></a>
+<span class="sourceLineNo">431</span>    if (chars instanceof String) {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      return toLowerCase((String) chars);<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    }<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    char[] newChars = new char[chars.length()];<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    for (int i = 0; i &lt; newChars.length; i++) {<a name="line.435"></a>
+<span class="sourceLineNo">436</span>      newChars[i] = toLowerCase(chars.charAt(i));<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    }<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    return String.valueOf(newChars);<a name="line.438"></a>
+<span class="sourceLineNo">439</span>  }<a name="line.439"></a>
+<span class="sourceLineNo">440</span><a name="line.440"></a>
+<span class="sourceLineNo">441</span>  /**<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character} returns the<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   * lowercase equivalent. Otherwise returns the argument.<a name="line.443"></a>
+<span class="sourceLineNo">444</span>   */<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  public static char toLowerCase(char c) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>    return isUpperCase(c) ? (char) (c ^ CASE_MASK) : c;<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  }<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>  /**<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * Returns a copy of the input string in which all {@linkplain #isLowerCase(char) lowercase ASCII<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * characters} have been converted to uppercase. All other characters are copied without<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   * modification.<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  public static String toUpperCase(String string) {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    int length = string.length();<a name="line.455"></a>
+<span class="sourceLineNo">456</span>    for (int i = 0; i &lt; length; i++) {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>      if (isLowerCase(string.charAt(i))) {<a name="line.457"></a>
+<span class="sourceLineNo">458</span>        char[] chars = string.toCharArray();<a name="line.458"></a>
+<span class="sourceLineNo">459</span>        for (; i &lt; length; i++) {<a name="line.459"></a>
+<span class="sourceLineNo">460</span>          char c = chars[i];<a name="line.460"></a>
+<span class="sourceLineNo">461</span>          if (isLowerCase(c)) {<a name="line.461"></a>
+<span class="sourceLineNo">462</span>            chars[i] = (char) (c ^ CASE_MASK);<a name="line.462"></a>
+<span class="sourceLineNo">463</span>          }<a name="line.463"></a>
+<span class="sourceLineNo">464</span>        }<a name="line.464"></a>
+<span class="sourceLineNo">465</span>        return String.valueOf(chars);<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      }<a name="line.466"></a>
+<span class="sourceLineNo">467</span>    }<a name="line.467"></a>
+<span class="sourceLineNo">468</span>    return string;<a name="line.468"></a>
+<span class="sourceLineNo">469</span>  }<a name="line.469"></a>
+<span class="sourceLineNo">470</span><a name="line.470"></a>
+<span class="sourceLineNo">471</span>  /**<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   * Returns a copy of the input character sequence in which all {@linkplain #isLowerCase(char)<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * lowercase ASCII characters} have been converted to uppercase. All other characters are copied<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   * without modification.<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   *<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   * @since 14.0<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   */<a name="line.477"></a>
+<span class="sourceLineNo">478</span>  public static String toUpperCase(CharSequence chars) {<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    if (chars instanceof String) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>      return toUpperCase((String) chars);<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    }<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    char[] newChars = new char[chars.length()];<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    for (int i = 0; i &lt; newChars.length; i++) {<a name="line.483"></a>
+<span class="sourceLineNo">484</span>      newChars[i] = toUpperCase(chars.charAt(i));<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    }<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    return String.valueOf(newChars);<a name="line.486"></a>
+<span class="sourceLineNo">487</span>  }<a name="line.487"></a>
+<span class="sourceLineNo">488</span><a name="line.488"></a>
+<span class="sourceLineNo">489</span>  /**<a name="line.489"></a>
+<span class="sourceLineNo">490</span>   * If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character} returns the<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   * uppercase equivalent. Otherwise returns the argument.<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   */<a name="line.492"></a>
+<span class="sourceLineNo">493</span>  public static char toUpperCase(char c) {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    return isLowerCase(c) ? (char) (c ^ CASE_MASK) : c;<a name="line.494"></a>
+<span class="sourceLineNo">495</span>  }<a name="line.495"></a>
+<span class="sourceLineNo">496</span><a name="line.496"></a>
+<span class="sourceLineNo">497</span>  /**<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * Indicates whether {@code c} is one of the twenty-six lowercase ASCII alphabetic characters<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * between {@code 'a'} and {@code 'z'} inclusive. All others (including non-ASCII characters)<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * return {@code false}.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   */<a name="line.501"></a>
+<span class="sourceLineNo">502</span>  public static boolean isLowerCase(char c) {<a name="line.502"></a>
+<span class="sourceLineNo">503</span>    // Note: This was benchmarked against the alternate expression "(char)(c - 'a') &lt; 26" (Nov '13)<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    // and found to perform at least as well, or better.<a name="line.504"></a>
+<span class="sourceLineNo">505</span>    return (c &gt;= 'a') &amp;&amp; (c &lt;= 'z');<a name="line.505"></a>
+<span class="sourceLineNo">506</span>  }<a name="line.506"></a>
+<span class="sourceLineNo">507</span><a name="line.507"></a>
+<span class="sourceLineNo">508</span>  /**<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * Indicates whether {@code c} is one of the twenty-six uppercase ASCII alphabetic characters<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * between {@code 'A'} and {@code 'Z'} inclusive. All others (including non-ASCII characters)<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   * return {@code false}.<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   */<a name="line.512"></a>
+<span class="sourceLineNo">513</span>  public static boolean isUpperCase(char c) {<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    return (c &gt;= 'A') &amp;&amp; (c &lt;= 'Z');<a name="line.514"></a>
+<span class="sourceLineNo">515</span>  }<a name="line.515"></a>
+<span class="sourceLineNo">516</span><a name="line.516"></a>
+<span class="sourceLineNo">517</span>  /**<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   * Truncates the given character sequence to the given maximum length. If the length of the<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   * sequence is greater than {@code maxLength}, the returned string will be exactly {@code<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   * maxLength} chars in length and will end with the given {@code truncationIndicator}. Otherwise,<a name="line.520"></a>
+<span class="sourceLineNo">521</span>   * the sequence will be returned as a string with no changes to the content.<a name="line.521"></a>
+<span class="sourceLineNo">522</span>   *<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   * &lt;p&gt;Examples:<a name="line.523"></a>
+<span class="sourceLineNo">524</span>   *<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   * &lt;pre&gt;{@code<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   * Ascii.truncate("foobar", 7, "..."); // returns "foobar"<a name="line.526"></a>
+<span class="sourceLineNo">527</span>   * Ascii.truncate("foobar", 5, "..."); // returns "fo..."<a name="line.527"></a>
+<span class="sourceLineNo">528</span>   * }&lt;/pre&gt;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>   *<a name="line.529"></a>
+<span class="sourceLineNo">530</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This method &lt;i&gt;may&lt;/i&gt; work with certain non-ASCII text but is not safe for use<a name="line.530"></a>
+<span class="sourceLineNo">531</span>   * with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe<a name="line.531"></a>
+<span class="sourceLineNo">532</span>   * for use with it (such as all-ASCII text) and for simple debugging text. When using this method,<a name="line.532"></a>
+<span class="sourceLineNo">533</span>   * consider the following:<a name="line.533"></a>
+<span class="sourceLineNo">534</span>   *<a name="line.534"></a>
+<span class="sourceLineNo">535</span>   * &lt;ul&gt;<a name="line.535"></a>
+<span class="sourceLineNo">536</span>   *   &lt;li&gt;it may split surrogate pairs<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   *   &lt;li&gt;it may split characters and combining characters<a name="line.537"></a>
+<span class="sourceLineNo">538</span>   *   &lt;li&gt;it does not consider word boundaries<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   *   &lt;li&gt;if truncating for display to users, there are other considerations that must be taken<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   *       into account<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   *   &lt;li&gt;the appropriate truncation indicator may be locale-dependent<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *   &lt;li&gt;it is safe to use non-ASCII characters in the truncation indicator<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * &lt;/ul&gt;<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   *<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   *<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * @throws IllegalArgumentException if {@code maxLength} is less than the length of {@code<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   *     truncationIndicator}<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * @since 16.0<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   */<a name="line.549"></a>
+<span class="sourceLineNo">550</span>  public static String truncate(CharSequence seq, int maxLength, String truncationIndicator) {<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    checkNotNull(seq);<a name="line.551"></a>
+<span class="sourceLineNo">552</span><a name="line.552"></a>
+<span class="sourceLineNo">553</span>    // length to truncate the sequence to, not including the truncation indicator<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    int truncationLength = maxLength - truncationIndicator.length();<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>    // in this worst case, this allows a maxLength equal to the length of the truncationIndicator,<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    // meaning that a string will be truncated to just the truncation indicator itself<a name="line.557"></a>
+<span class="sourceLineNo">558</span>    checkArgument(<a name="line.558"></a>
+<span class="sourceLineNo">559</span>        truncationLength &gt;= 0,<a name="line.559"></a>
+<span class="sourceLineNo">560</span>        "maxLength (%s) must be &gt;= length of the truncation indicator (%s)",<a name="line.560"></a>
+<span class="sourceLineNo">561</span>        maxLength,<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        truncationIndicator.length());<a name="line.562"></a>
+<span class="sourceLineNo">563</span><a name="line.563"></a>
+<span class="sourceLineNo">564</span>    if (seq.length() &lt;= maxLength) {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>      String string = seq.toString();<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      if (string.length() &lt;= maxLength) {<a name="line.566"></a>
+<span class="sourceLineNo">567</span>        return string;<a name="line.567"></a>
+<span class="sourceLineNo">568</span>      }<a name="line.568"></a>
+<span class="sourceLineNo">569</span>      // if the length of the toString() result was &gt; maxLength for some reason, truncate that<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      seq = string;<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    }<a name="line.571"></a>
+<span class="sourceLineNo">572</span><a name="line.572"></a>
+<span class="sourceLineNo">573</span>    return new StringBuilder(maxLength)<a name="line.573"></a>
+<span class="sourceLineNo">574</span>        .append(seq, 0, truncationLength)<a name="line.574"></a>
+<span class="sourceLineNo">575</span>        .append(truncationIndicator)<a name="line.575"></a>
+<span class="sourceLineNo">576</span>        .toString();<a name="line.576"></a>
+<span class="sourceLineNo">577</span>  }<a name="line.577"></a>
+<span class="sourceLineNo">578</span><a name="line.578"></a>
+<span class="sourceLineNo">579</span>  /**<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * Indicates whether the contents of the given character sequences {@code s1} and {@code s2} are<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * equal, ignoring the case of any ASCII alphabetic characters between {@code 'a'} and {@code 'z'}<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   * or {@code 'A'} and {@code 'Z'} inclusive.<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   *<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * &lt;p&gt;This method is significantly faster than {@link String#equalsIgnoreCase} and should be used<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   * in preference if at least one of the parameters is known to contain only ASCII characters.<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   *<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   * &lt;p&gt;Note however that this method does not always behave identically to expressions such as:<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   *<a name="line.588"></a>
+<span class="sourceLineNo">589</span>   * &lt;ul&gt;<a name="line.589"></a>
+<span class="sourceLineNo">590</span>   *   &lt;li&gt;{@code string.toUpperCase().equals("UPPER CASE ASCII")}<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   *   &lt;li&gt;{@code string.toLowerCase().equals("lower case ascii")}<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   * &lt;/ul&gt;<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   *<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * &lt;p&gt;due to case-folding of some non-ASCII characters (which does not occur in {@link<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   * String#equalsIgnoreCase}). However in almost all cases that ASCII strings are used, the author<a name="line.595"></a>
+<span class="sourceLineNo">596</span>   * probably wanted the behavior provided by this method rather than the subtle and sometimes<a name="line.596"></a>
+<span class="sourceLineNo">597</span>   * surprising behavior of {@code toUpperCase()} and {@code toLowerCase()}.<a name="line.597"></a>
+<span class="sourceLineNo">598</span>   *<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   * @since 16.0<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   */<a name="line.600"></a>
+<span class="sourceLineNo">601</span>  public static boolean equalsIgnoreCase(CharSequence s1, CharSequence s2) {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    // Calling length() is the null pointer check (so do it before we can exit early).<a name="line.602"></a>
+<span class="sourceLineNo">603</span>    int length = s1.length();<a name="line.603"></a>
+<span class="sourceLineNo">604</span>    if (s1 == s2) {<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      return true;<a name="line.605"></a>
+<span class="sourceLineNo">606</span>    }<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    if (length != s2.length()) {<a name="line.607"></a>
+<span class="sourceLineNo">608</span>      return false;<a name="line.608"></a>
+<span class="sourceLineNo">609</span>    }<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    for (int i = 0; i &lt; length; i++) {<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      char c1 = s1.charAt(i);<a name="line.611"></a>
+<span class="sourceLineNo">612</span>      char c2 = s2.charAt(i);<a name="line.612"></a>
+<span class="sourceLineNo">613</span>      if (c1 == c2) {<a name="line.613"></a>
+<span class="sourceLineNo">614</span>        continue;<a name="line.614"></a>
+<span class="sourceLineNo">615</span>      }<a name="line.615"></a>
+<span class="sourceLineNo">616</span>      int alphaIndex = getAlphaIndex(c1);<a name="line.616"></a>
+<span class="sourceLineNo">617</span>      // This was also benchmarked using '&amp;' to avoid branching (but always evaluate the rhs),<a name="line.617"></a>
+<span class="sourceLineNo">618</span>      // however this showed no obvious improvement.<a name="line.618"></a>
+<span class="sourceLineNo">619</span>      if (alphaIndex &lt; 26 &amp;&amp; alphaIndex == getAlphaIndex(c2)) {<a name="line.619"></a>
+<span class="sourceLineNo">620</span>        continue;<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      }<a name="line.621"></a>
+<span class="sourceLineNo">622</span>      return false;<a name="line.622"></a>
+<span class="sourceLineNo">623</span>    }<a name="line.623"></a>
+<span class="sourceLineNo">624</span>    return true;<a name="line.624"></a>
+<span class="sourceLineNo">625</span>  }<a name="line.625"></a>
+<span class="sourceLineNo">626</span><a name="line.626"></a>
+<span class="sourceLineNo">627</span>  /**<a name="line.627"></a>
+<span class="sourceLineNo">628</span>   * Returns the non-negative index value of the alpha character {@code c}, regardless of case. Ie,<a name="line.628"></a>
+<span class="sourceLineNo">629</span>   * 'a'/'A' returns 0 and 'z'/'Z' returns 25. Non-alpha characters return a value of 26 or greater.<a name="line.629"></a>
+<span class="sourceLineNo">630</span>   */<a name="line.630"></a>
+<span class="sourceLineNo">631</span>  private static int getAlphaIndex(char c) {<a name="line.631"></a>
+<span class="sourceLineNo">632</span>    // Fold upper-case ASCII to lower-case and make zero-indexed and unsigned (by casting to char).<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    return (char) ((c | CASE_MASK) - 'a');<a name="line.633"></a>
+<span class="sourceLineNo">634</span>  }<a name="line.634"></a>
+<span class="sourceLineNo">635</span>}<a name="line.635"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
