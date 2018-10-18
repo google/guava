@@ -31136,7 +31136,7 @@
 
  @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty
      intersection
- @since NEXT]]>
+ @since 27.0]]>
       </doc>
     </method>
     <method name="span" return="com.google.common.collect.Range&lt;C&gt;"
@@ -34411,7 +34411,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     lEsS_tHaNp>This class is scheduled to be removed in October 2018.">
+     lEsS_tHaNp>This class is scheduled to be removed in January 2019.">
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -34534,7 +34534,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     <p>This class is scheduled to be removed in October 2018.]]>
+     <p>This class is scheduled to be removed in January 2019.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.TreeTraverser -->
@@ -47291,7 +47291,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
  name.
 
- @since NEXT]]>
+ @since 27.0]]>
       </doc>
     </field>
     <field name="EXPECT" type="java.lang.String"
@@ -49815,7 +49815,7 @@
       <![CDATA[Media type for WASM applications. For more information see <a
  href="https://webassembly.org/">the Web Assembly overview</a>.
 
- @since NEXT]]>
+ @since 27.0]]>
       </doc>
     </field>
     <field name="NACL_APPLICATION" type="com.google.common.net.MediaType"
@@ -57667,7 +57667,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.">
+     class is scheduled for removal from Guava in January 2019.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="AbstractCheckedFuture" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       static="false" final="false" visibility="protected"
@@ -57748,7 +57748,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.]]>
+     class is scheduled for removal from Guava in January 2019.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.AbstractCheckedFuture -->
@@ -58816,7 +58816,7 @@
  <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which
  is the external state observable by the caller of {@link #stopAsync}.
 
- @since NEXT]]>
+ @since 27.0]]>
       </doc>
     </method>
     <method name="startAsync" return="com.google.common.util.concurrent.Service"
@@ -59722,7 +59722,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.">
+     class is scheduled for removal from Guava in January 2019.">
     <implements name="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
     <method name="checkedGet" return="V"
       abstract="true" native="false" synchronized="false"
@@ -59792,7 +59792,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.]]>
+     class is scheduled for removal from Guava in January 2019.]]>
     </doc>
   </interface>
   <!-- end interface com.google.common.util.concurrent.CheckedFuture -->
@@ -60971,7 +60971,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.">
+     class is scheduled for removal from Guava in January 2019.">
     <implements name="com.google.common.util.concurrent.CheckedFuture&lt;V, X&gt;"/>
     <constructor name="ForwardingCheckedFuture"
       static="false" final="false" visibility="public"
@@ -61015,7 +61015,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend that
      most people use {@code ListenableFuture} and perform any exception wrapping themselves. This
-     class is scheduled for removal from Guava in October 2018.]]>
+     class is scheduled for removal from Guava in January 2019.]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ForwardingCheckedFuture -->
@@ -61415,7 +61415,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.">
+     themselves. This method is scheduled for removal from Guava in January 2019.">
       <param name="future" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
       <param name="mapper" type="com.google.common.base.Function&lt;? super java.lang.Exception, X&gt;"/>
       <doc>
@@ -61441,7 +61441,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.]]>
+     themselves. This method is scheduled for removal from Guava in January 2019.]]>
       </doc>
     </method>
     <method name="immediateFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61465,7 +61465,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.">
+     themselves. This method is scheduled for removal from Guava in January 2019.">
       <param name="value" type="V"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has its value set immediately upon construction.
@@ -61481,7 +61481,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.]]>
+     themselves. This method is scheduled for removal from Guava in January 2019.]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -61518,7 +61518,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.">
+     themselves. This method is scheduled for removal from Guava in January 2019.">
       <param name="exception" type="X extends java.lang.Exception"/>
       <doc>
       <![CDATA[Returns a {@code CheckedFuture} which has an exception set immediately upon construction.
@@ -61535,7 +61535,7 @@
      untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
      use, possibly specializing them to the particular exception type they use. We recommend
      that most people use {@code ListenableFuture} and perform any exception wrapping
-     themselves. This method is scheduled for removal from Guava in October 2018.]]>
+     themselves. This method is scheduled for removal from Guava in January 2019.]]>
       </doc>
     </method>
     <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
