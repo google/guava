@@ -449,7 +449,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitHealthy</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.328">awaitHealthy</a>(long&nbsp;timeout,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.329">awaitHealthy</a>(long&nbsp;timeout,
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block">Waits for the <a href="../../../../../com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> to become <a href="../../../../../com/google/common/util/concurrent/ServiceManager.html#isHealthy--">healthy</a> for no more
@@ -473,7 +473,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <li class="blockList">
 <h4>stopAsync</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.339">stopAsync</a>()</pre>
+public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.340">stopAsync</a>()</pre>
 <div class="block">Initiates service <a href="../../../../../com/google/common/util/concurrent/Service.html#stopAsync--">shutdown</a> if necessary on all the services
  being managed.</div>
 <dl>
@@ -488,7 +488,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitStopped</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.351">awaitStopped</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.352">awaitStopped</a>()</pre>
 <div class="block">Waits for the all the services to reach a terminal state. After this method returns all
  services will either be <a href="../../../../../com/google/common/util/concurrent/Service.State.html#TERMINATED">terminated</a> or <a href="../../../../../com/google/common/util/concurrent/Service.State.html#FAILED">failed</a>.</div>
 </li>
@@ -499,7 +499,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>awaitStopped</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.364">awaitStopped</a>(long&nbsp;timeout,
+<pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.366">awaitStopped</a>(long&nbsp;timeout,
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent">TimeoutException</a></pre>
 <div class="block">Waits for the all the services to reach a terminal state for no more than the given time. After
@@ -519,7 +519,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>isHealthy</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.374">isHealthy</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.376">isHealthy</a>()</pre>
 <div class="block">Returns true if all services are currently in the <a href="../../../../../com/google/common/util/concurrent/Service.State.html#RUNNING">running</a> state.
 
  <p>Users who want more detailed information should use the <a href="../../../../../com/google/common/util/concurrent/ServiceManager.html#servicesByState--"><code>servicesByState()</code></a> method to
@@ -532,7 +532,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>servicesByState</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>,<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.389">servicesByState</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../com/google/common/collect/ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>,<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.391">servicesByState</a>()</pre>
 <div class="block">Provides a snapshot of the current state of all the services under management.
 
  <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
@@ -545,7 +545,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockList">
 <li class="blockList">
 <h4>startupTimes</h4>
-<pre>public&nbsp;<a href="../../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.400">startupTimes</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="../../../../../com/google/common/util/concurrent/Service.html" title="interface in com.google.common.util.concurrent">Service</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Long.html?is-external=true" title="class or interface in java.lang">Long</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.402">startupTimes</a>()</pre>
 <div class="block">Returns the service load times. This value will only return startup times for services that
  have finished starting.</div>
 <dl>
@@ -561,7 +561,7 @@ public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ServiceMan
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.405">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ServiceManager.html#line.407">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that
