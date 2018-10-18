@@ -85,15 +85,18 @@ APIs will remain (again, unless they are `@Beta`). We have no plans to start
 removing things again, but officially, we're leaving our options open in case
 of surprises (like, say, a serious security problem).
 
-3. Serialized forms of ALL objects are subject to change unless noted
+3. Guava has one dependency that is needed at runtime:
+`com.google.guava:failureaccess:1.0`
+
+4. Serialized forms of ALL objects are subject to change unless noted
 otherwise. Do not persist these and assume they can be read by a
 future version of the library.
 
-4. Our classes are not designed to protect against a malicious caller.
+5. Our classes are not designed to protect against a malicious caller.
 You should not use them for communication between trusted and
 untrusted code.
 
-5. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
+6. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
 Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
