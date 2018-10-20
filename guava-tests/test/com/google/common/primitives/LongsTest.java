@@ -16,6 +16,7 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Long.MAX_VALUE;
 import static java.lang.Long.MIN_VALUE;
 
@@ -185,6 +186,46 @@ public class LongsTest extends TestCase {
     assertTrue(
         Arrays.equals(
             new long[] {(long) 1, (long) 2, (long) 3, (long) 4}, Longs.concat(ARRAY1, ARRAY234)));
+  }
+
+  public void testConcat_overflow_negative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 15;
+    assertThat((long) dim1 * dim2).isNotEqualTo((long) (dim1 * dim2));
+    assertThat(dim1 * dim2).isLessThan(0);
+
+    long[][] arrays = new long[dim1][];
+    // it's shared to avoid using too much memory in tests
+    long[] sharedArray = new long[dim2];
+    for (int i = 0; i < dim1; i++) {
+      arrays[i] = sharedArray;
+    }
+
+    try {
+      Longs.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testConcat_overflow_nonNegative() {
+    int dim1 = 1 << 16;
+    int dim2 = 1 << 16;
+    assertThat((long) dim1 * dim2).isNotEqualTo((long) (dim1 * dim2));
+    assertThat(dim1 * dim2).isAtLeast(0);
+
+    long[][] arrays = new long[dim1][];
+    // it's shared to avoid using too much memory in tests
+    long[] sharedArray = new long[dim2];
+    for (int i = 0; i < dim1; i++) {
+      arrays[i] = sharedArray;
+    }
+
+    try {
+      Longs.concat(arrays);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 
   private static void assertByteArrayEquals(byte[] expected, byte[] actual) {
