@@ -191,35 +191,24 @@ public class LongsTest extends TestCase {
   public void testConcat_overflow_negative() {
     int dim1 = 1 << 16;
     int dim2 = 1 << 15;
-    assertThat((long) dim1 * dim2).isNotEqualTo((long) (dim1 * dim2));
     assertThat(dim1 * dim2).isLessThan(0);
-
-    long[][] arrays = new long[dim1][];
-    // it's shared to avoid using too much memory in tests
-    long[] sharedArray = new long[dim2];
-    for (int i = 0; i < dim1; i++) {
-      arrays[i] = sharedArray;
-    }
-
-    try {
-      Longs.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    testConcat_overflow(dim1, dim2);
   }
 
   public void testConcat_overflow_nonNegative() {
     int dim1 = 1 << 16;
     int dim2 = 1 << 16;
-    assertThat((long) dim1 * dim2).isNotEqualTo((long) (dim1 * dim2));
     assertThat(dim1 * dim2).isAtLeast(0);
+    testConcat_overflow(dim1, dim2);
+  }
 
-    long[][] arrays = new long[dim1][];
+  private static void testConcat_overflow(int arraysDim1, int arraysDim2) {
+    assertThat((long) arraysDim1 * arraysDim2).isNotEqualTo((long) (arraysDim1 * arraysDim2));
+
+    long[][] arrays = new long[arraysDim1][];
     // it's shared to avoid using too much memory in tests
-    long[] sharedArray = new long[dim2];
-    for (int i = 0; i < dim1; i++) {
-      arrays[i] = sharedArray;
-    }
+    long[] sharedArray = new long[arraysDim2];
+    Arrays.fill(arrays, sharedArray);
 
     try {
       Longs.concat(arrays);
