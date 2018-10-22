@@ -44,6 +44,12 @@ import com.google.common.base.Optional;
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
+ * @param <N> The most general node type this builder will support. This is normally {@code Object}
+ *     unless it is constrained by using a method like {@link #nodeOrder}, or the builder is
+ *     constructed based on an existing {@code ValueGraph} using {@link #from(ValueGraph)}.
+ * @param <V> The most general value type this builder will support. This is normally {@code Object}
+ *     unless the builder is constructed based on an existing {@code Graph} using {@link
+ *     #from(ValueGraph)}.
  * @since 20.0
  */
 @Beta
