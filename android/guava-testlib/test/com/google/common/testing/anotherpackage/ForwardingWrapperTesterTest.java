@@ -116,6 +116,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
           @Override
           public Runnable apply(final Runnable runnable) {
             return new ForwardingRunnable(runnable) {
+
+              @SuppressWarnings("EqualsHashCode")
               @Override
               public boolean equals(Object o) {
                 if (o instanceof ForwardingRunnable) {

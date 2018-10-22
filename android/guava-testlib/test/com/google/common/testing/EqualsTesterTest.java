@@ -326,6 +326,7 @@ public class EqualsTesterTest extends TestCase {
       this.aspect2 = aspect2;
     }
 
+    @SuppressWarnings("EqualsHashCode")
     @Override
     public boolean equals(Object o) {
       if (!(o instanceof InvalidHashCodeObject)) {
