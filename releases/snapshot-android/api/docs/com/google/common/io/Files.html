@@ -780,7 +780,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>touch</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.426">touch</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.428">touch</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Creates an empty file or updates the last updated timestamp on the same as the unix command of
  the same name.</div>
@@ -798,7 +798,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>createParentDirs</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.442">createParentDirs</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.444">createParentDirs</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
                              throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Creates any necessary but nonexistent parent directories of the specified file. Note that if
  this operation fails it may have succeeded in creating some (but not all) of the necessary
@@ -818,7 +818,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <ul class="blockList">
 <li class="blockList">
 <h4>move</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.472">move</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.474">move</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;from,
                         <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;to)
                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Moves a file from one path to another. This method can rename a file and/or move it to a
@@ -843,7 +843,7 @@ public static&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/io/
 <li class="blockList">
 <h4>readFirstLine</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.501">readFirstLine</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.503">readFirstLine</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
                                         throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asCharSource(file, charset).readFirstLine()</code>. This method is
@@ -868,7 +868,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <ul class="blockList">
 <li class="blockList">
 <h4>readLines</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.521">readLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.523">readLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset)
                               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reads all of the lines from a file. The lines do not include line-termination characters, but
@@ -897,7 +897,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/
 <h4>readLines</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.557">readLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.559">readLines</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/charset/Charset.html?is-external=true" title="class or interface in java.nio.charset">Charset</a>&nbsp;charset,
                                                                  <a href="../../../../com/google/common/io/LineProcessor.html" title="interface in com.google.common.io">LineProcessor</a>&lt;T&gt;&nbsp;callback)
                                                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -926,7 +926,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <h4>readBytes</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.576">readBytes</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.578">readBytes</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                                                  <a href="../../../../com/google/common/io/ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)
                                                           throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asByteSource(file).read(processor)</code>. This method is scheduled to be
@@ -952,7 +952,7 @@ public static&nbsp;&lt;T&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/googl
 <li class="blockList">
 <h4>hash</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.592">hash</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.594">hash</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                         <a href="../../../../com/google/common/hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)
                                  throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Prefer <code>asByteSource(file).hash(hashFunction)</code>. This method is scheduled to
@@ -977,7 +977,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.611">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.613">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file)
                             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Fully maps a file read-only in to memory as per <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.html?is-external=true#map-java.nio.channels.FileChannel.MapMode-long-long-" title="class or interface in java.nio.channels"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a>.
 
@@ -1005,7 +1005,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.633">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.635">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels">FileChannel.MapMode</a>&nbsp;mode)
                             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Fully maps a file in to memory as per <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.html?is-external=true#map-java.nio.channels.FileChannel.MapMode-long-long-" title="class or interface in java.nio.channels"><code>FileChannel.map(java.nio.channels.FileChannel.MapMode, long, long)</code></a> using the requested <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels"><code>FileChannel.MapMode</code></a>.
@@ -1035,7 +1035,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>map</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.656">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/nio/MappedByteBuffer.html?is-external=true" title="class or interface in java.nio">MappedByteBuffer</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.658">map</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&nbsp;file,
                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/channels/FileChannel.MapMode.html?is-external=true" title="class or interface in java.nio.channels">FileChannel.MapMode</a>&nbsp;mode,
                                    long&nbsp;size)
                             throws <a href="https://docs.oracle.com/javase/9/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -1070,7 +1070,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>simplifyPath</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.699">simplifyPath</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;pathname)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.701">simplifyPath</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;pathname)</pre>
 <div class="block">Returns the lexically cleaned form of the path name, <i>usually</i> (but not always) equivalent
  to the original. The following heuristics are used:
 
@@ -1099,7 +1099,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>getFileExtension</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.759">getFileExtension</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;fullName)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.761">getFileExtension</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;fullName)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> for
  the given file name, or the empty string if the file has no extension. The result does not
  include the '<code>.</code>'.
@@ -1122,7 +1122,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameWithoutExtension</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.776">getNameWithoutExtension</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;file)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.778">getNameWithoutExtension</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;file)</pre>
 <div class="block">Returns the file name without its <a
  href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
  similar to the <code>basename</code> unix command. The result does not include the '<code>.</code>'.</div>
@@ -1143,7 +1143,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>fileTraverser</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.834">fileTraverser</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.836">fileTraverser</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree. The returned traverser
  starts from a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io"><code>File</code></a> and will return all files and directories it encounters.
 
@@ -1173,7 +1173,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirectory</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.863">isDirectory</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.865">isDirectory</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isDirectory--" title="class or interface in java.io"><code>File.isDirectory()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1187,7 +1187,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isFile</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.872">isFile</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.874">isFile</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isFile--" title="class or interface in java.io"><code>File.isFile()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
