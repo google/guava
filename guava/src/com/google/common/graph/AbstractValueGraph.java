@@ -106,6 +106,11 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
   }
 
   @Override
+  public Optional<V> edgeValue(EndpointPair<N> endpoints) {
+    return Optional.ofNullable(edgeValueOrDefault(endpoints, null));
+  }
+
+  @Override
   public final boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;

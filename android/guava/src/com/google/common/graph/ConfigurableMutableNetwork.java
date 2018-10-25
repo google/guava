@@ -118,6 +118,13 @@ final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
 
   @Override
   @CanIgnoreReturnValue
+  public boolean addEdge(EndpointPair<N> endpoints, E edge) {
+    validateEndpoints(endpoints);
+    return addEdge(endpoints.nodeU(), endpoints.nodeV(), edge);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
   public boolean removeNode(N node) {
     checkNotNull(node, "node");
 

@@ -32,6 +32,8 @@ import org.junit.Test;
  * Test cases that do not require the graph to be undirected are found in superclasses.
  */
 public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest {
+  private static final EndpointPair<Integer> ENDPOINTS_N1N2 = EndpointPair.ordered(N1, N2);
+  private static final EndpointPair<Integer> ENDPOINTS_N2N1 = EndpointPair.ordered(N2, N1);
 
   @After
   public void validateUndirectedEdges() {
@@ -50,6 +52,27 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
             .containsExactlyElementsIn(network.edgesConnecting(adjacentNode, node));
       }
     }
+  }
+
+  @Test
+  public void edges_containsOrderMismatch() {
+    addEdge(N1, N2, E12);
+    assertThat(network.asGraph().edges()).contains(ENDPOINTS_N2N1);
+    assertThat(network.asGraph().edges()).contains(ENDPOINTS_N1N2);
+  }
+
+  @Test
+  public void edgesConnecting_orderMismatch() {
+    addEdge(N1, N2, E12);
+    assertThat(network.edgesConnecting(ENDPOINTS_N2N1)).containsExactly(E12);
+    assertThat(network.edgesConnecting(ENDPOINTS_N1N2)).containsExactly(E12);
+  }
+
+  @Test
+  public void edgeConnectingOrNull_orderMismatch() {
+    addEdge(N1, N2, E12);
+    assertThat(network.edgeConnectingOrNull(ENDPOINTS_N2N1)).isEqualTo(E12);
+    assertThat(network.edgeConnectingOrNull(ENDPOINTS_N1N2)).isEqualTo(E12);
   }
 
   @Test
@@ -117,7 +140,7 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
-    addEdge(N1, N2, E12);
+    assertThat(addEdge(N1, N2, E12)).isTrue();
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
     assertThat(addEdge(N1, N2, E12)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
@@ -152,5 +175,11 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
+  }
+
+  @Test
+  public void addEdge_orderMismatch() {
+    EndpointPair<Integer> endpoints = EndpointPair.ordered(N1, N2);
+    assertThat(addEdge(endpoints, E12)).isTrue();
   }
 }

@@ -19,6 +19,7 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -89,7 +90,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
           return false;
         }
         EndpointPair<?> endpointPair = (EndpointPair<?>) obj;
-        return isDirected() == endpointPair.isOrdered()
+        return isOrderingCompatible(endpointPair)
             && nodes().contains(endpointPair.nodeU())
             && successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());
       }
@@ -129,6 +130,30 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkNotNull(nodeU);
     checkNotNull(nodeV);
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    checkNotNull(endpoints);
+    if (!isOrderingCompatible(endpoints)) {
+      return false;
+    }
+    N nodeU = endpoints.nodeU();
+    N nodeV = endpoints.nodeV();
+    return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  /**
+   * Throws {@code IllegalArgumentException} if the ordering of {@code endpoints} is not compatible
+   * with the directionality of this graph.
+   */
+  protected final void validateEndpoints(EndpointPair<?> endpoints) {
+    checkNotNull(endpoints);
+    checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);
+  }
+
+  protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
+    return endpoints.isOrdered() || !this.isDirected();
   }
 
   private abstract static class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
