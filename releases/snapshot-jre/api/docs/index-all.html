@@ -727,6 +727,10 @@
 <dd>
 <div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/MutableNetwork.html#addEdge-com.google.common.graph.EndpointPair-E-">addEdge(EndpointPair&lt;N&gt;, E)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
+<dd>
+<div class="block">Adds <code>edge</code> connecting <code>endpoints</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/escape/CharEscaperBuilder.html#addEscape-char-java.lang.String-">addEscape(char, String)</a></span> - Method in class com.google.common.escape.<a href="com/google/common/escape/CharEscaperBuilder.html" title="class in com.google.common.escape">CharEscaperBuilder</a></dt>
 <dd>
 <div class="block">Add a new mapping from an index to an object to the escaping.</div>
@@ -5403,17 +5407,32 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgeConnecting-N-N-">edgeConnecting(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgeConnecting-com.google.common.graph.EndpointPair-">edgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeConnecting-N-N-">edgeConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present,
- or <code>Optional.empty()</code> if no such edge exists.</div>
+<div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
+ present, or <code>Optional.empty()</code> if no such edge exists.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeConnecting-com.google.common.graph.EndpointPair-">edgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
+ specified by <code>endpoints</code>), if one is present, or <code>Optional.empty()</code> if no such edge
+ exists.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgeConnectingOrNull-N-N-">edgeConnectingOrNull(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgeConnectingOrNull-com.google.common.graph.EndpointPair-">edgeConnectingOrNull(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeConnectingOrNull-N-N-">edgeConnectingOrNull(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the single edge directly connecting <code>nodeU</code> to <code>nodeV</code>, if one is present,
- or <code>null</code> if no such edge exists.</div>
+<div class="block">Returns the single edge that directly connects <code>nodeU</code> to <code>nodeV</code>, if one is
+ present, or <code>null</code> if no such edge exists.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeConnectingOrNull-com.google.common.graph.EndpointPair-">edgeConnectingOrNull(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns the single edge that directly connects <code>endpoints</code> (in the order, if any,
+ specified by <code>endpoints</code>), if one is present, or <code>null</code> if no such edge exists.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgeOrder--">edgeOrder()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
@@ -5437,21 +5456,41 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgesConnecting-N-N-">edgesConnecting(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#edgesConnecting-com.google.common.graph.EndpointPair-">edgesConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgesConnecting-N-N-">edgesConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#edgesConnecting-com.google.common.graph.EndpointPair-">edgesConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns the set of edges that each directly connect <code>endpoints</code> (in the order, if any,
+ specified by <code>endpoints</code>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractValueGraph.html#edgeValue-N-N-">edgeValue(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractValueGraph.html#edgeValue-com.google.common.graph.EndpointPair-">edgeValue(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValue-N-N-">edgeValue(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns the value of the edge connecting <code>nodeU</code> to <code>nodeV</code>, if one is present;
+<div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code> (in the order, if
+ any, specified by <code>endpoints</code>), if one is present;
  otherwise, returns <code>Optional.empty()</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValue-com.google.common.graph.EndpointPair-">edgeValue(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
+ by <code>endpoints</code>), if one is present; otherwise, returns <code>Optional.empty()</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValueOrDefault-N-N-V-">edgeValueOrDefault(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns the value of the edge connecting <code>nodeU</code> to <code>nodeV</code>, if one is present;
+<div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
  otherwise, returns <code>defaultValue</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#edgeValueOrDefault-com.google.common.graph.EndpointPair-V-">edgeValueOrDefault(EndpointPair&lt;N&gt;, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
+ by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Stopwatch.html#elapsed-java.util.concurrent.TimeUnit-">elapsed(TimeUnit)</a></span> - Method in class com.google.common.base.<a href="com/google/common/base/Stopwatch.html" title="class in com.google.common.base">Stopwatch</a></dt>
 <dd>
@@ -8270,17 +8309,34 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#hasEdgeConnecting-N-N-">hasEdgeConnecting(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">hasEdgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#hasEdgeConnecting-N-N-">hasEdgeConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">hasEdgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
+<dd>
+<div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
+ any, specified by <code>endpoints</code>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#hasEdgeConnecting-N-N-">hasEdgeConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Network.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">hasEdgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
+ any, specified by <code>endpoints</code>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#hasEdgeConnecting-N-N-">hasEdgeConnecting(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns true if there is an edge directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">hasEdgeConnecting(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
+ any, specified by <code>endpoints</code>).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/InetAddresses.html#hasEmbeddedIPv4ClientAddress-java.net.Inet6Address-">hasEmbeddedIPv4ClientAddress(Inet6Address)</a></span> - Static method in class com.google.common.net.<a href="com/google/common/net/InetAddresses.html" title="class in com.google.common.net">InetAddresses</a></dt>
 <dd>
@@ -9816,6 +9872,8 @@
 <dd>
 <div class="block">Returns <code>true</code> if this <a href="com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph"><code>EndpointPair</code></a> is an ordered pair (i.e.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#isOrderingCompatible-com.google.common.graph.EndpointPair-">isOrderingCompatible(EndpointPair&lt;?&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/reflect/Invokable.html#isOverridable--">isOverridable()</a></span> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/Invokable.html" title="class in com.google.common.reflect">Invokable</a></dt>
 <dd>
 <div class="block">Returns <code>true</code> if this is an overridable method.</div>
@@ -13946,10 +14004,19 @@
 <dd>
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/MutableGraph.html#putEdge-com.google.common.graph.EndpointPair-">putEdge(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>endpoints</code> (in the order, if any, specified by <code>endpoints</code>) if one is not already present.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableValueGraph.html#putEdgeValue-N-N-V-">putEdgeValue(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
-<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present; associate
- that edge with <code>value</code>.</div>
+<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present, and
+ sets a value for that edge to <code>value</code> (overwriting the existing value, if any).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/MutableValueGraph.html#putEdgeValue-com.google.common.graph.EndpointPair-V-">putEdgeValue(EndpointPair&lt;N&gt;, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>endpoints</code> if one is not already present, and sets a value for
+ that edge to <code>value</code> (overwriting the existing value, if any).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingBlockingDeque.html#putFirst-E-">putFirst(E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingBlockingDeque.html" title="class in com.google.common.collect">ForwardingBlockingDeque</a></dt>
 <dd>
@@ -14726,6 +14793,10 @@
 <dd>
 <div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/MutableGraph.html#removeEdge-com.google.common.graph.EndpointPair-">removeEdge(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
+<dd>
+<div class="block">Removes the edge connecting <code>endpoints</code>, if it is present.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableNetwork.html#removeEdge-E-">removeEdge(E)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
 <dd>
 <div class="block">Removes <code>edge</code> from this network, if it is present.</div>
@@ -14733,6 +14804,10 @@
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableValueGraph.html#removeEdge-N-N-">removeEdge(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
 <div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/MutableValueGraph.html#removeEdge-com.google.common.graph.EndpointPair-">removeEdge(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
+<dd>
+<div class="block">Removes the edge connecting <code>endpoints</code>, if it is present.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ConcurrentHashMultiset.html#removeExactly-java.lang.Object-int-">removeExactly(Object, int)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ConcurrentHashMultiset.html" title="class in com.google.common.collect">ConcurrentHashMultiset</a></dt>
 <dd>
@@ -18658,6 +18733,11 @@
 </a>
 <h2 class="title">V</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/AbstractNetwork.html#validateEndpoints-com.google.common.graph.EndpointPair-">validateEndpoints(EndpointPair&lt;?&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
+<dd>
+<div class="block">Throws an IllegalArgumentException if the ordering of <code>endpoints</code> is not compatible
+ with the directionality of this graph.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/StandardSystemProperty.html#value--">value()</a></span> - Method in enum com.google.common.base.<a href="com/google/common/base/StandardSystemProperty.html" title="enum in com.google.common.base">StandardSystemProperty</a></dt>
 <dd>
 <div class="block">Returns the current value for this system property by delegating to <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#getProperty-java.lang.String-" title="class or interface in java.lang"><code>System.getProperty(String)</code></a>.</div>

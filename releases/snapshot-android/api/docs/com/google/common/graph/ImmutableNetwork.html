@@ -251,7 +251,7 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ImmutableNetwork.html#edgesConnecting-N-N-">edgesConnecting</a></span>(N&nbsp;nodeU,
                N&nbsp;nodeV)</code>
-<div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -319,7 +319,7 @@ extends <a href="../../../../com/google/common/graph/AbstractNetwork.html" title
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.google.common.graph.<a href="../../../../com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></h3>
-<code><a href="../../../../com/google/common/graph/AbstractNetwork.html#adjacentEdges-E-">adjacentEdges</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#degree-N-">degree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#edgeConnectingOrNull-N-N-">edgeConnectingOrNull</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#equals-java.lang.Object-">equals</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#hasEdgeConnecting-N-N-">hasEdgeConnecting</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#hashCode--">hashCode</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#inDegree-N-">inDegree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#outDegree-N-">outDegree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#toString--">toString</a></code></li>
+<code><a href="../../../../com/google/common/graph/AbstractNetwork.html#adjacentEdges-E-">adjacentEdges</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#degree-N-">degree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#edgeConnectingOrNull-com.google.common.graph.EndpointPair-">edgeConnectingOrNull</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#edgeConnectingOrNull-N-N-">edgeConnectingOrNull</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#edgesConnecting-com.google.common.graph.EndpointPair-">edgesConnecting</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#equals-java.lang.Object-">equals</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">hasEdgeConnecting</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#hasEdgeConnecting-N-N-">hasEdgeConnecting</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#hashCode--">hashCode</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#inDegree-N-">inDegree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#isOrderingCompatible-com.google.common.graph.EndpointPair-">isOrderingCompatible</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#outDegree-N-">outDegree</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#toString--">toString</a>, <a href="../../../../com/google/common/graph/AbstractNetwork.html#validateEndpoints-com.google.common.graph.EndpointPair-">validateEndpoints</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -543,7 +543,7 @@ public static&nbsp;&lt;N,E&gt;&nbsp;<a href="../../../../com/google/common/graph
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ConfigurableNetwork.html#line.148">edgesConnecting</a>(N&nbsp;nodeU,
                               N&nbsp;nodeV)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#edgesConnecting-N-N-">Network</a></code></span></div>
-<div class="block">Returns the set of edges directly connecting <code>nodeU</code> to <code>nodeV</code>.
+<div class="block">Returns the set of edges that each directly connect <code>nodeU</code> to <code>nodeV</code>.
 
  <p>In an undirected network, this is equal to <code>edgesConnecting(nodeV, nodeU)</code>.
 

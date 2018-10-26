@@ -60,8 +60,17 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Va
   <A NAME="com.google.common.graph.ValueGraph.edgeValue_removed(N, N)"></A>
   <nobr><code>Optional&lt;V&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/graph/ValueGraph.html#edgeValue(N, N)" target="_top"><tt>edgeValue</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
   </TD>
-  <TD VALIGN="TOP">Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+  <TD VALIGN="TOP">Returns the value of the edge that connects {@code nodeU} to {@code nodeV} (in the order, if
+ any, specified by {@code endpoints}), if one is present;
  otherwise, returns {@code Optional.empty()}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.ValueGraph.edgeValue_removed(com.google.common.graph.EndpointPair<N>)"></A>
+  <nobr><code>Optional&lt;V&gt;</code>&nbsp;<A HREF="../../../../snapshot-jre/api/docs/com/google/common/graph/ValueGraph.html#edgeValue(com.google.common.graph.EndpointPair<N>)" target="_top"><tt>edgeValue</tt></A>(<code>EndpointPair&lt;N&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+ by {@code endpoints}), if one is present; otherwise, returns {@code Optional.empty()}.</TD>
 </TR>
 </TABLE>
 &nbsp;

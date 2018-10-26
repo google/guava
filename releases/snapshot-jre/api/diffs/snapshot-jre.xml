@@ -5669,6 +5669,19 @@
       <![CDATA[Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries
  into keys and values using the specified key-value splitter.
 
+ <p>Note: Any configuration option configured on this splitter, such as {@link #trimResults},
+ does not change the behavior of the {@code keyValueSplitter}.
+
+ <p>Example:
+
+ <pre>{@code
+ String toSplit = " x -> y, z-> a ";
+ Splitter outerSplitter = Splitter.on(',').trimResults();
+ MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("->"));
+ Map<String, String> result = mapSplitter.split(toSplit);
+ assertThat(result).isEqualTo(ImmutableMap.of(" x", " y", "z", " a"));
+ }</pre>
+
  @since 10.0]]>
       </doc>
     </method>
@@ -37486,7 +37499,26 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
     </method>
+    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+    </method>
     <method name="edgeConnecting" return="java.util.Optional&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+    </method>
+    <method name="edgeConnecting" return="java.util.Optional&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+    </method>
+    <method name="edgeConnectingOrNull" return="E"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -37497,8 +37529,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
     </method>
     <method name="hasEdgeConnecting" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -37506,6 +37537,28 @@
       deprecated="not deprecated">
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+    </method>
+    <method name="validateEndpoints"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="protected"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;?&gt;"/>
+      <doc>
+      <![CDATA[Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible
+ with the directionality of this graph.]]>
+      </doc>
+    </method>
+    <method name="isOrderingCompatible" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="protected"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;?&gt;"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -37561,6 +37614,12 @@
       deprecated="not deprecated">
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
+    </method>
+    <method name="edgeValue" return="java.util.Optional&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -37994,12 +38053,31 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+      <![CDATA[Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
  equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
 
  <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
 
  @since 23.0]]>
+      </doc>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+ any, specified by {@code endpoints}). This is equivalent to {@code
+ edges().contains(endpoints)}.
+
+ <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+ endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+ consistency with the behavior of {@link Collection#contains(Object)} (which does not generally
+ throw if the object cannot be present in the collection), and the desire to have this method's
+ behavior be compatible with {@code edges().contains(endpoints)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -38560,8 +38638,10 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present. In an
- undirected graph, the edge will also connect {@code nodeV} to {@code nodeU}.
+      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present.
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
 
  <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
  silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
@@ -38569,6 +38649,29 @@
  @return {@code true} if the graph was modified as a result of this call
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="putEdge" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code endpoints} (in the order, if any, specified by {@code
+ endpoints}) if one is not already present.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered and the added edge will be
+ directed; if it is undirected, the added edge will be undirected.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ <p>If either or both endpoints are not already present in this graph, this method will silently
+ {@link #addNode(Object) add} each missing endpoint to the graph.
+
+ @return {@code true} if the graph was modified as a result of this call
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -38591,6 +38694,20 @@
       <doc>
       <![CDATA[Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.
 
+ @return {@code true} if the graph was modified as a result of this call]]>
+      </doc>
+    </method>
+    <method name="removeEdge" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Removes the edge connecting {@code endpoints}, if it is present.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
  @return {@code true} if the graph was modified as a result of this call]]>
       </doc>
     </method>
@@ -38631,10 +38748,13 @@
       <param name="nodeV" type="N"/>
       <param name="edge" type="E"/>
       <doc>
-      <![CDATA[Adds {@code edge} connecting {@code nodeU} to {@code nodeV}. In an undirected network, the edge
- will also connect {@code nodeV} to {@code nodeU}.
+      <![CDATA[Adds {@code edge} connecting {@code nodeU} to {@code nodeV}.
 
- <p><b>Edges must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
+ <p>If the graph is directed, {@code edge} will be directed in this graph; otherwise, it will be
+ undirected.
+
+ <p><b>{@code edge} must be unique to this graph</b>, just as a {@code Map} key must be. It must
+ also be non-null.
 
  <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
  silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
@@ -38643,9 +38763,42 @@
  this network {@link #isDirected()}, else in any order), then this method will have no effect.
 
  @return {@code true} if the network was modified as a result of this call
- @throws IllegalArgumentException if {@code edge} already exists and does not connect {@code
-     nodeU} to {@code nodeV}, or if the introduction of the edge would violate {@link
+ @throws IllegalArgumentException if {@code edge} already exists in the graph and does not
+     connect {@code nodeU} to {@code nodeV}
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsParallelEdges()} or {@link #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <param name="edge" type="E"/>
+      <doc>
+      <![CDATA[Adds {@code edge} connecting {@code endpoints}. In an undirected network, {@code edge} will
+ also connect {@code nodeV} to {@code nodeU}.
+
+ <p>If this graph is directed, {@code edge} will be directed in this graph; if it is undirected,
+ {@code edge} will be undirected in this graph.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ <p><b>{@code edge} must be unique to this graph</b>, just as a {@code Map} key must be. It must
+ also be non-null.
+
+ <p>If either or both endpoints are not already present in this graph, this method will silently
+ {@link #addNode(Object) add} each missing endpoint to the graph.
+
+ <p>If {@code edge} already connects an endpoint pair equal to {@code endpoints}, then this
+ method will have no effect.
+
+ @return {@code true} if the network was modified as a result of this call
+ @throws IllegalArgumentException if {@code edge} already exists in the graph and connects some
+     other endpoint pair that is not equal to {@code endpoints}
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsParallelEdges()} or {@link #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -38708,9 +38861,11 @@
       <param name="nodeV" type="N"/>
       <param name="value" type="V"/>
       <doc>
-      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present; associate
- that edge with {@code value}. In an undirected graph, the edge will also connect {@code nodeV}
- to {@code nodeU}.
+      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and
+ sets a value for that edge to {@code value} (overwriting the existing value, if any).
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
 
  <p>Values do not have to be unique. However, values must be non-null.
 
@@ -38721,6 +38876,33 @@
      nodeV}, or null if there was no such edge.
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="putEdgeValue" return="V"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <param name="value" type="V"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code endpoints} if one is not already present, and sets a value for
+ that edge to {@code value} (overwriting the existing value, if any).
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ <p>Values do not have to be unique. However, values must be non-null.
+
+ <p>If either or both endpoints are not already present in this graph, this method will silently
+ {@link #addNode(Object) add} each missing endpoint to the graph.
+
+ @return the value previously associated with the edge connecting {@code nodeU} to {@code
+     nodeV}, or null if there was no such edge.
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -38745,6 +38927,20 @@
 
  @return the value previously associated with the edge connecting {@code nodeU} to {@code
      nodeV}, or null if there was no such edge.]]>
+      </doc>
+    </method>
+    <method name="removeEdge" return="V"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Removes the edge connecting {@code endpoints}, if it is present.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ @return the value previously associated with the edge connecting {@code endpoints}, or null if
+     there was no such edge.]]>
       </doc>
     </method>
     <doc>
@@ -39001,7 +39197,7 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
+      <![CDATA[Returns the set of edges that each directly connect {@code nodeU} to {@code nodeV}.
 
  <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
 
@@ -39013,6 +39209,26 @@
      network]]>
       </doc>
     </method>
+    <method name="edgesConnecting" return="java.util.Set&lt;E&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
+ specified by {@code endpoints}).
+
+ <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
+ If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
+ will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).
+
+ <p>If this network is directed, {@code endpoints} must be ordered.
+
+ @throws IllegalArgumentException if either endpoint is not an element of this network
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="edgeConnecting" return="java.util.Optional&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -39020,10 +39236,48 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
- or {@code Optional.empty()} if no such edge exists.
+      <![CDATA[Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+ present, or {@code Optional.empty()} if no such edge exists.
 
  <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
+
+ @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+     to {@code nodeV}
+ @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+     network
+ @since 23.0]]>
+      </doc>
+    </method>
+    <method name="edgeConnecting" return="java.util.Optional&lt;E&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+ specified by {@code endpoints}), if one is present, or {@code Optional.empty()} if no such edge
+ exists.
+
+ <p>If this graph is directed, the endpoints must be ordered.
+
+ @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+     to {@code nodeV}
+ @throws IllegalArgumentException if either endpoint is not an element of this network
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="edgeConnectingOrNull" return="E"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <doc>
+      <![CDATA[Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+ present, or {@code null} if no such edge exists.
+
+ <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
 
  @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
      to {@code nodeV}
@@ -39036,19 +39290,18 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="nodeU" type="N"/>
-      <param name="nodeV" type="N"/>
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
       <doc>
-      <![CDATA[Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
- or {@code null} if no such edge exists.
+      <![CDATA[Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+ specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.
 
- <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+ <p>If this graph is directed, the endpoints must be ordered.
 
  @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
      to {@code nodeV}
- @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
-     network
- @since 23.0]]>
+ @throws IllegalArgumentException if either endpoint is not an element of this network
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since NEXT]]>
       </doc>
     </method>
     <method name="hasEdgeConnecting" return="boolean"
@@ -39058,13 +39311,30 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+      <![CDATA[Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
  equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
  {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
 
  <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
 
  @since 23.0]]>
+      </doc>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+ any, specified by {@code endpoints}).
+
+ <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+ endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+ consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
+ ValueGraph#hasEdgeConnecting(EndpointPair)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -39979,12 +40249,31 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+      <![CDATA[Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
  equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
 
  <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
 
  @since 23.0]]>
+      </doc>
+    </method>
+    <method name="hasEdgeConnecting" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+ any, specified by {@code endpoints}). This is equivalent to {@code
+ edges().contains(endpoints)}.
+
+ <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+ endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+ consistency with the behavior of {@link Collection#contains(Object)} (which does not generally
+ throw if the object cannot be present in the collection), and the desire to have this method's
+ behavior be compatible with {@code edges().contains(endpoints)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="edgeValue" return="java.util.Optional&lt;V&gt;"
@@ -39994,14 +40283,29 @@
       <param name="nodeU" type="N"/>
       <param name="nodeV" type="N"/>
       <doc>
-      <![CDATA[Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+      <![CDATA[Returns the value of the edge that connects {@code nodeU} to {@code nodeV} (in the order, if
+ any, specified by {@code endpoints}), if one is present;
  otherwise, returns {@code Optional.empty()}.
-
- <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
 
  @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
      graph
  @since 23.0 (since 20.0 with return type {@code V})]]>
+      </doc>
+    </method>
+    <method name="edgeValue" return="java.util.Optional&lt;V&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+ by {@code endpoints}), if one is present; otherwise, returns {@code Optional.empty()}.
+
+ <p>If this graph is directed, the endpoints must be ordered.
+
+ @throws IllegalArgumentException if either endpoint is not an element of this graph
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since NEXT]]>
       </doc>
     </method>
     <method name="edgeValueOrDefault" return="V"
@@ -40012,7 +40316,7 @@
       <param name="nodeV" type="N"/>
       <param name="defaultValue" type="V"/>
       <doc>
-      <![CDATA[Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+      <![CDATA[Returns the value of the edge that connects {@code nodeU} to {@code nodeV}, if one is present;
  otherwise, returns {@code defaultValue}.
 
  <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
@@ -40020,6 +40324,23 @@
 
  @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
      graph]]>
+      </doc>
+    </method>
+    <method name="edgeValueOrDefault" return="V"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <param name="defaultValue" type="V"/>
+      <doc>
+      <![CDATA[Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+ by {@code endpoints}), if one is present; otherwise, returns {@code defaultValue}.
+
+ <p>If this graph is directed, the endpoints must be ordered.
+
+ @throws IllegalArgumentException if either endpoint is not an element of this graph
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since NEXT]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
