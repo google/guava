@@ -444,6 +444,19 @@ public final class Splitter {
    * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries
    * into keys and values using the specified key-value splitter.
    *
+   * <p>Note: Any configuration option configured on this splitter, such as {@link #trimResults},
+   * does not change the behavior of the {@code keyValueSplitter}.
+   *
+   * <p>Example:
+   *
+   * <pre>{@code
+   * String toSplit = " x -> y, z-> a ";
+   * Splitter outerSplitter = Splitter.on(',').trimResults();
+   * MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("->"));
+   * Map<String, String> result = mapSplitter.split(toSplit);
+   * assertThat(result).isEqualTo(ImmutableMap.of(" x", " y", "z", " a"));
+   * }</pre>
+   *
    * @since 10.0
    */
   @Beta
