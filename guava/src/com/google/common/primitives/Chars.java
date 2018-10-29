@@ -369,10 +369,11 @@ public final class Chars {
 
   /**
    * Returns a comparator that compares two {@code char} arrays <a
-   * href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>. That is, it
-   * compares, using {@link #compare(char, char)}), the first pair of values that follow any common
-   * prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For
-   * example, {@code [] < ['a'] < ['a', 'b'] < ['b']}.
+   * href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>; not advisable
+   * for sorting user-visible strings as the ordering may not match the conventions of the user's
+   * locale. That is, it compares, using {@link #compare(char, char)}), the first pair of values
+   * that follow any common prefix, or when one array is a prefix of the other, treats the shorter
+   * array as the lesser. For example, {@code [] < ['a'] < ['a', 'b'] < ['b']}.
    *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
    * support only identity equality), but it is consistent with {@link Arrays#equals(char[],
