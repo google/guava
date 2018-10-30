@@ -9,6 +9,7 @@
   </parent>
   <artifactId>failureaccess</artifactId>
   <version>1.0.1</version>
+  <packaging>bundle</packaging>
   <name>Guava InternalFutureFailureAccess and InternalFutures</name>
   <description>
     Contains
