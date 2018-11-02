@@ -464,6 +464,7 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "x-apple-aspen-config");
 
   public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
+  public static final MediaType MICROSOFT_OUTLOOK = createConstant(APPLICATION_TYPE, "vnd.ms-outlook");
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
