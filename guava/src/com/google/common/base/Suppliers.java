@@ -240,8 +240,13 @@ public final class Suppliers {
       if (nanos == 0 || now - nanos >= 0) {
         synchronized (this) {
           if (nanos == expirationNanos) { // recheck for lost race
-            T t = delegate.get();
-            value = t;
+            // assign null if the delegate fails to avoid leaks in garbage collection
+            T t = null;
+            try {
+              t = delegate.get();
+            } finally {
+              value = t;
+            }
             nanos = now + durationNanos;
             // In the very unlikely event that nanos is 0, set it to 1;
             // no one will notice 1 ns of tardiness.
