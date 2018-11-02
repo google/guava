@@ -463,9 +463,22 @@ public final class MediaType {
   public static final MediaType APPLE_MOBILE_CONFIG =
       createConstant(APPLICATION_TYPE, "x-apple-aspen-config");
 
+  /** Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets. */
   public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
+
+  /**
+   * Media type for <a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
+   *
+   * @since NEXT
+   */
+  public static final MediaType MICROSOFT_OUTLOOK =
+      createConstant(APPLICATION_TYPE, "vnd.ms-outlook");
+
+  /** Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations. */
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
+
+  /** Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents. */
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
@@ -475,6 +488,7 @@ public final class MediaType {
    * @since 27.0
    */
   public static final MediaType WASM_APPLICATION = createConstant(APPLICATION_TYPE, "wasm");
+
   /**
    * Media type for NaCl applications. For more information see <a
    * href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
