@@ -52278,16 +52278,35 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets.]]>
+      </doc>
+    </field>
+    <field name="MICROSOFT_OUTLOOK" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
+
+ @since NEXT]]>
+      </doc>
     </field>
     <field name="MICROSOFT_POWERPOINT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations.]]>
+      </doc>
     </field>
     <field name="MICROSOFT_WORD" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents.]]>
+      </doc>
     </field>
     <field name="WASM_APPLICATION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
