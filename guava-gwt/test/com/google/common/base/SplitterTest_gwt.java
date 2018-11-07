@@ -268,6 +268,11 @@ public void testMapSplitter_trimmedKeyValue() throws Exception {
   testCase.testMapSplitter_trimmedKeyValue();
 }
 
+public void testMapSplitter_varyingTrimLevels() throws Exception {
+  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
+  testCase.testMapSplitter_varyingTrimLevels();
+}
+
 public void testSplitNullString() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testSplitNullString();

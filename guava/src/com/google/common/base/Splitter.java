@@ -454,7 +454,7 @@ public final class Splitter {
    * Splitter outerSplitter = Splitter.on(',').trimResults();
    * MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("->"));
    * Map<String, String> result = mapSplitter.split(toSplit);
-   * assertThat(result).isEqualTo(ImmutableMap.of(" x", " y", "z", " a"));
+   * assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));
    * }</pre>
    *
    * @since 10.0
