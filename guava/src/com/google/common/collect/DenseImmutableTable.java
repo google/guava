@@ -14,8 +14,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
 import com.google.errorprone.annotations.Immutable;
@@ -69,7 +67,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       int rowIndex = rowKeyToIndex.get(rowKey);
       int columnIndex = columnKeyToIndex.get(columnKey);
       V existingValue = values[rowIndex][columnIndex];
-      checkArgument(existingValue == null, "duplicate key: (%s, %s)", rowKey, columnKey);
+      checkNoDuplicate(rowKey, columnKey, existingValue, cell.getValue());
       values[rowIndex][columnIndex] = cell.getValue();
       rowCounts[rowIndex]++;
       columnCounts[columnIndex]++;
