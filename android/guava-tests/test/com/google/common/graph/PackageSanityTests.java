@@ -51,6 +51,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
+    setDefault(EndpointPair.class, EndpointPair.ordered("A", "B"));
   }
 
   @Override
