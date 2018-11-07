@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Splitter.MapSplitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import java.util.Iterator;
@@ -773,5 +774,12 @@ public class SplitterTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+  }
+
+  public void testMapSplitter_varyingTrimLevels() {
+    MapSplitter splitter = COMMA_SPLITTER.trimResults().withKeyValueSeparator(Splitter.on("->"));
+    Map<String, String> split = splitter.split(" x -> y, z-> a ");
+    assertThat(split).containsEntry("x ", " y");
+    assertThat(split).containsEntry("z", " a");
   }
 }
