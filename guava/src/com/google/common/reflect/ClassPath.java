@@ -43,6 +43,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -497,7 +499,8 @@ public final class ClassPath {
      */
     @VisibleForTesting
     static URL getClassPathEntry(File jarFile, String path) throws MalformedURLException {
-      return new URL(jarFile.toURI().toURL(), path);
+      Path fpath = Paths.get(path);
+      return new URL(jarFile.toURI().toURL(), fpath.toString());
     }
   }
 
