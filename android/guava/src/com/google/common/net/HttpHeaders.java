@@ -259,6 +259,11 @@ public final class HttpHeaders {
   public static final String LINK = "Link";
   /** The HTTP {@code Location} header field name. */
   public static final String LOCATION = "Location";
+  /**
+   * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
+   * header field name.
+   */
+  public static final String ORIGIN_TRIAL = "Origin-Trial";
   /** The HTTP {@code P3P} header field name. Limited browser support. */
   public static final String P3P = "P3P";
   /** The HTTP {@code Proxy-Authenticate} header field name. */
