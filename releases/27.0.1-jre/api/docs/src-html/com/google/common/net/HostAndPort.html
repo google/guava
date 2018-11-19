@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.net;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkState;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Objects;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.Strings;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.errorprone.annotations.Immutable;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.io.Serializable;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>/**<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * An immutable representation of a host and port.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;Example usage:<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * &lt;pre&gt;<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *     .withDefaultPort(80)<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *     .requireBracketsForIPv6();<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * hp.getHost();   // returns "2001:db8::1"<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * hp.getPort();   // returns 80<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * hp.toString();  // returns "[2001:db8::1]:80"<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;/pre&gt;<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * &lt;p&gt;Here are some examples of recognized formats:<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;ul&gt;<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *   &lt;li&gt;example.com<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *   &lt;li&gt;example.com:80<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *   &lt;li&gt;192.0.2.1<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *   &lt;li&gt;192.0.2.1:80<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;[2001:db8::1] - {@link #getHost()} omits brackets<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *   &lt;li&gt;[2001:db8::1]:80 - {@link #getHost()} omits brackets<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *   &lt;li&gt;2001:db8::1 - Use {@link #requireBracketsForIPv6()} to prohibit this<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;/ul&gt;<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;p&gt;Note that this is not an exhaustive list, because these methods are only concerned with<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * brackets, colons, and port numbers. Full validation of the host field (if desired) is the<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * caller's responsibility.<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * @author Paul Marks<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * @since 10.0<a name="line.60"></a>
+<span class="sourceLineNo">061</span> */<a name="line.61"></a>
+<span class="sourceLineNo">062</span>@Beta<a name="line.62"></a>
+<span class="sourceLineNo">063</span>@Immutable<a name="line.63"></a>
+<span class="sourceLineNo">064</span>@GwtCompatible<a name="line.64"></a>
+<span class="sourceLineNo">065</span>public final class HostAndPort implements Serializable {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  /** Magic value indicating the absence of a port number. */<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  private static final int NO_PORT = -1;<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /** Hostname, IPv4/IPv6 literal, or unvalidated nonsense. */<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  private final String host;<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /** Validated port number in the range [0..65535], or NO_PORT */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  private final int port;<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /** True if the parsed host has colons, but no surrounding brackets. */<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  private final boolean hasBracketlessColons;<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  private HostAndPort(String host, int port, boolean hasBracketlessColons) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    this.host = host;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    this.port = port;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    this.hasBracketlessColons = hasBracketlessColons;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * Returns the portion of this {@code HostAndPort} instance that should represent the hostname or<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * IPv4/IPv6 literal.<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   *<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * &lt;p&gt;A successful parse does not imply any degree of sanity in this field. For additional<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * validation, see the {@link HostSpecifier} class.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @since 20.0 (since 10.0 as {@code getHostText})<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  public String getHost() {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    return host;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>  /** Return true if this instance has a defined port. */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  public boolean hasPort() {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    return port &gt;= 0;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * Get the current port number, failing if no port is defined.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @return a validated port number, in the range [0..65535]<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @throws IllegalStateException if no port is defined. You can use {@link #withDefaultPort(int)}<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *     to prevent this from occurring.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public int getPort() {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    checkState(hasPort());<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    return port;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>  /** Returns the current port number, with a default if no port is defined. */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public int getPortOrDefault(int defaultPort) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return hasPort() ? port : defaultPort;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * Build a HostAndPort instance from separate host and port values.<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   *<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * &lt;p&gt;Note: Non-bracketed IPv6 literals are allowed. Use {@link #requireBracketsForIPv6()} to<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * prohibit these.<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   *<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * @param host the host string to parse. Must not contain a port number.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * @param port a port number from [0..65535]<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * @return if parsing was successful, a populated HostAndPort object.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * @throws IllegalArgumentException if {@code host} contains a port number, or {@code port} is out<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *     of range.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public static HostAndPort fromParts(String host, int port) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    checkArgument(isValidPort(port), "Port out of range: %s", port);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    HostAndPort parsedHost = fromString(host);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    return new HostAndPort(parsedHost.host, port, parsedHost.hasBracketlessColons);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * Build a HostAndPort instance from a host only.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   *<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * &lt;p&gt;Note: Non-bracketed IPv6 literals are allowed. Use {@link #requireBracketsForIPv6()} to<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * prohibit these.<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   *<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * @param host the host-only string to parse. Must not contain a port number.<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * @return if parsing was successful, a populated HostAndPort object.<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * @throws IllegalArgumentException if {@code host} contains a port number.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * @since 17.0<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public static HostAndPort fromHost(String host) {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    HostAndPort parsedHost = fromString(host);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    checkArgument(!parsedHost.hasPort(), "Host has a port: %s", host);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    return parsedHost;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  /**<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * Split a freeform string into a host and port, without strict validation.<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   *<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * &lt;p&gt;Note that the host-only formats will leave the port field undefined. You can use {@link<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * #withDefaultPort(int)} to patch in a default value.<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   *<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * @param hostPortString the input string to parse.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * @return if parsing was successful, a populated HostAndPort object.<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * @throws IllegalArgumentException if nothing meaningful could be parsed.<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  public static HostAndPort fromString(String hostPortString) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    checkNotNull(hostPortString);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    String host;<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    String portString = null;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    boolean hasBracketlessColons = false;<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>    if (hostPortString.startsWith("[")) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      String[] hostAndPort = getHostAndPortFromBracketedHost(hostPortString);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      host = hostAndPort[0];<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      portString = hostAndPort[1];<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    } else {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>      int colonPos = hostPortString.indexOf(':');<a name="line.176"></a>
+<span class="sourceLineNo">177</span>      if (colonPos &gt;= 0 &amp;&amp; hostPortString.indexOf(':', colonPos + 1) == -1) {<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        // Exactly 1 colon. Split into host:port.<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        host = hostPortString.substring(0, colonPos);<a name="line.179"></a>
+<span class="sourceLineNo">180</span>        portString = hostPortString.substring(colonPos + 1);<a name="line.180"></a>
+<span class="sourceLineNo">181</span>      } else {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>        // 0 or 2+ colons. Bare hostname or IPv6 literal.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>        host = hostPortString;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>        hasBracketlessColons = (colonPos &gt;= 0);<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      }<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    }<a name="line.186"></a>
+<span class="sourceLineNo">187</span><a name="line.187"></a>
+<span class="sourceLineNo">188</span>    int port = NO_PORT;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    if (!Strings.isNullOrEmpty(portString)) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>      // Try to parse the whole port string as a number.<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      // JDK7 accepts leading plus signs. We don't want to.<a name="line.191"></a>
+<span class="sourceLineNo">192</span>      checkArgument(!portString.startsWith("+"), "Unparseable port number: %s", hostPortString);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      try {<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        port = Integer.parseInt(portString);<a name="line.194"></a>
+<span class="sourceLineNo">195</span>      } catch (NumberFormatException e) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>        throw new IllegalArgumentException("Unparseable port number: " + hostPortString);<a name="line.196"></a>
+<span class="sourceLineNo">197</span>      }<a name="line.197"></a>
+<span class="sourceLineNo">198</span>      checkArgument(isValidPort(port), "Port number out of range: %s", hostPortString);<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    }<a name="line.199"></a>
+<span class="sourceLineNo">200</span><a name="line.200"></a>
+<span class="sourceLineNo">201</span>    return new HostAndPort(host, port, hasBracketlessColons);<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  }<a name="line.202"></a>
+<span class="sourceLineNo">203</span><a name="line.203"></a>
+<span class="sourceLineNo">204</span>  /**<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * Parses a bracketed host-port string, throwing IllegalArgumentException if parsing fails.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @param hostPortString the full bracketed host-port specification. Post might not be specified.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * @return an array with 2 strings: host and port, in that order.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * @throws IllegalArgumentException if parsing the bracketed host-port string fails.<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   */<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  private static String[] getHostAndPortFromBracketedHost(String hostPortString) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    int colonIndex = 0;<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    int closeBracketIndex = 0;<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    checkArgument(<a name="line.214"></a>
+<span class="sourceLineNo">215</span>        hostPortString.charAt(0) == '[',<a name="line.215"></a>
+<span class="sourceLineNo">216</span>        "Bracketed host-port string must start with a bracket: %s",<a name="line.216"></a>
+<span class="sourceLineNo">217</span>        hostPortString);<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    colonIndex = hostPortString.indexOf(':');<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    closeBracketIndex = hostPortString.lastIndexOf(']');<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    checkArgument(<a name="line.220"></a>
+<span class="sourceLineNo">221</span>        colonIndex &gt; -1 &amp;&amp; closeBracketIndex &gt; colonIndex,<a name="line.221"></a>
+<span class="sourceLineNo">222</span>        "Invalid bracketed host/port: %s",<a name="line.222"></a>
+<span class="sourceLineNo">223</span>        hostPortString);<a name="line.223"></a>
+<span class="sourceLineNo">224</span><a name="line.224"></a>
+<span class="sourceLineNo">225</span>    String host = hostPortString.substring(1, closeBracketIndex);<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    if (closeBracketIndex + 1 == hostPortString.length()) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      return new String[] {host, ""};<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    } else {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      checkArgument(<a name="line.229"></a>
+<span class="sourceLineNo">230</span>          hostPortString.charAt(closeBracketIndex + 1) == ':',<a name="line.230"></a>
+<span class="sourceLineNo">231</span>          "Only a colon may follow a close bracket: %s",<a name="line.231"></a>
+<span class="sourceLineNo">232</span>          hostPortString);<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      for (int i = closeBracketIndex + 2; i &lt; hostPortString.length(); ++i) {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>        checkArgument(<a name="line.234"></a>
+<span class="sourceLineNo">235</span>            Character.isDigit(hostPortString.charAt(i)),<a name="line.235"></a>
+<span class="sourceLineNo">236</span>            "Port must be numeric: %s",<a name="line.236"></a>
+<span class="sourceLineNo">237</span>            hostPortString);<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      }<a name="line.238"></a>
+<span class="sourceLineNo">239</span>      return new String[] {host, hostPortString.substring(closeBracketIndex + 2)};<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    }<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
+<span class="sourceLineNo">242</span><a name="line.242"></a>
+<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * Provide a default port if the parsed string contained only a host.<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   *<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * &lt;p&gt;You can chain this after {@link #fromString(String)} to include a port in case the port was<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * omitted from the input string. If a port was already provided, then this method is a no-op.<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   *<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * @param defaultPort a port number, from [0..65535]<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * @return a HostAndPort instance, guaranteed to have a defined port.<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   */<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  public HostAndPort withDefaultPort(int defaultPort) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    checkArgument(isValidPort(defaultPort));<a name="line.253"></a>
+<span class="sourceLineNo">254</span>    if (hasPort()) {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      return this;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    }<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    return new HostAndPort(host, defaultPort, hasBracketlessColons);<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  /**<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * Generate an error if the host might be a non-bracketed IPv6 literal.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * &lt;p&gt;URI formatting requires that IPv6 literals be surrounded by brackets, like "[2001:db8::1]".<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * Chain this call after {@link #fromString(String)} to increase the strictness of the parser, and<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * disallow IPv6 literals that don't contain these brackets.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   *<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * &lt;p&gt;Note that this parser identifies IPv6 literals solely based on the presence of a colon. To<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * perform actual validation of IP addresses, see the {@link InetAddresses#forString(String)}<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * method.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * @return {@code this}, to enable chaining of calls.<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * @throws IllegalArgumentException if bracketless IPv6 is detected.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public HostAndPort requireBracketsForIPv6() {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    checkArgument(!hasBracketlessColons, "Possible bracketless IPv6 literal: %s", host);<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    return this;<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>  @Override<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  public boolean equals(@Nullable Object other) {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    if (this == other) {<a name="line.281"></a>
+<span class="sourceLineNo">282</span>      return true;<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    }<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    if (other instanceof HostAndPort) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      HostAndPort that = (HostAndPort) other;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      return Objects.equal(this.host, that.host) &amp;&amp; this.port == that.port;<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    }<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    return false;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  @Override<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  public int hashCode() {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    return Objects.hashCode(host, port);<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  }<a name="line.294"></a>
+<span class="sourceLineNo">295</span><a name="line.295"></a>
+<span class="sourceLineNo">296</span>  /** Rebuild the host:port string, including brackets if necessary. */<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  @Override<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  public String toString() {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    // "[]:12345" requires 8 extra bytes.<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    StringBuilder builder = new StringBuilder(host.length() + 8);<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    if (host.indexOf(':') &gt;= 0) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      builder.append('[').append(host).append(']');<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    } else {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      builder.append(host);<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    }<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    if (hasPort()) {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      builder.append(':').append(port);<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    }<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    return builder.toString();<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  /** Return true for valid port numbers. */<a name="line.312"></a>
+<span class="sourceLineNo">313</span>  private static boolean isValidPort(int port) {<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    return port &gt;= 0 &amp;&amp; port &lt;= 65535;<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  }<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>  private static final long serialVersionUID = 0;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>}<a name="line.318"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

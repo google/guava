@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Collection;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Iterator;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.List;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.ListIterator;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>/**<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * A list which forwards all its method calls to another list. Subclasses should override one or<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * more methods to modify the behavior of the backing list as desired per the &lt;a<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;p&gt;This class does not implement {@link java.util.RandomAccess}. If the delegate supports random<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * access, the {@code ForwardingList} subclass should implement the {@code RandomAccess} interface.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingList} forward &lt;b&gt;indiscriminately&lt;/b&gt; to the<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * methods of the delegate. For example, overriding {@link #add} alone &lt;b&gt;will not&lt;/b&gt; change the<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * override {@code addAll} as well, either providing your own implementation, or delegating to the<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * provided {@code standardAddAll} method.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * default} methods. Instead, it inherits their default implementations. When those implementations<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * invoke methods, they invoke methods on the {@code ForwardingList}.<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * &lt;p&gt;The {@code standard} methods and any collection views they return are not guaranteed to be<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * thread-safe, even when all of the methods that they depend on are thread-safe.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * @author Mike Bostock<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * @author Louis Wasserman<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * @since 2.0<a name="line.51"></a>
+<span class="sourceLineNo">052</span> */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>@GwtCompatible<a name="line.53"></a>
+<span class="sourceLineNo">054</span>public abstract class ForwardingList&lt;E&gt; extends ForwardingCollection&lt;E&gt; implements List&lt;E&gt; {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  // TODO(lowasser): identify places where thread safety is actually lost<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  /** Constructor for use by subclasses. */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  protected ForwardingList() {}<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  @Override<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  protected abstract List&lt;E&gt; delegate();<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Override<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public void add(int index, E element) {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    delegate().add(index, element);<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @CanIgnoreReturnValue<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  @Override<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  public boolean addAll(int index, Collection&lt;? extends E&gt; elements) {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return delegate().addAll(index, elements);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @Override<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public E get(int index) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    return delegate().get(index);<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  @Override<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  public int indexOf(Object element) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    return delegate().indexOf(element);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @Override<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  public int lastIndexOf(Object element) {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    return delegate().lastIndexOf(element);<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  @Override<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public ListIterator&lt;E&gt; listIterator() {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return delegate().listIterator();<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  @Override<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public ListIterator&lt;E&gt; listIterator(int index) {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    return delegate().listIterator(index);<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>  @CanIgnoreReturnValue<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  @Override<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  public E remove(int index) {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    return delegate().remove(index);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @CanIgnoreReturnValue<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  @Override<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  public E set(int index, E element) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    return delegate().set(index, element);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  @Override<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  public List&lt;E&gt; subList(int fromIndex, int toIndex) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return delegate().subList(fromIndex, toIndex);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  public boolean equals(@Nullable Object object) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    return object == this || delegate().equals(object);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  @Override<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  public int hashCode() {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    return delegate().hashCode();<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>  /**<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * A sensible default implementation of {@link #add(Object)}, in terms of {@link #add(int,<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * Object)}. If you override {@link #add(int, Object)}, you may wish to override {@link<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * #add(Object)} to forward to this implementation.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * @since 7.0<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  protected boolean standardAdd(E element) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    add(size(), element);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    return true;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * A sensible default implementation of {@link #addAll(int, Collection)}, in terms of the {@code<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * add} method of {@link #listIterator(int)}. If you override {@link #listIterator(int)}, you may<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * wish to override {@link #addAll(int, Collection)} to forward to this implementation.<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   *<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * @since 7.0<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   */<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  protected boolean standardAddAll(int index, Iterable&lt;? extends E&gt; elements) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    return Lists.addAllImpl(this, index, elements);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>  /**<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * A sensible default implementation of {@link #indexOf}, in terms of {@link #listIterator()}. If<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * you override {@link #listIterator()}, you may wish to override {@link #indexOf} to forward to<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * this implementation.<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   *<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @since 7.0<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  protected int standardIndexOf(@Nullable Object element) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    return Lists.indexOfImpl(this, element);<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * A sensible default implementation of {@link #lastIndexOf}, in terms of {@link<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * #listIterator(int)}. If you override {@link #listIterator(int)}, you may wish to override<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * {@link #lastIndexOf} to forward to this implementation.<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   *<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * @since 7.0<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   */<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  protected int standardLastIndexOf(@Nullable Object element) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return Lists.lastIndexOfImpl(this, element);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * A sensible default implementation of {@link #iterator}, in terms of {@link #listIterator()}. If<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * you override {@link #listIterator()}, you may wish to override {@link #iterator} to forward to<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * this implementation.<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   *<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * @since 7.0<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  protected Iterator&lt;E&gt; standardIterator() {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    return listIterator();<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * A sensible default implementation of {@link #listIterator()}, in terms of {@link<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * #listIterator(int)}. If you override {@link #listIterator(int)}, you may wish to override<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * {@link #listIterator()} to forward to this implementation.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   *<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * @since 7.0<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  protected ListIterator&lt;E&gt; standardListIterator() {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return listIterator(0);<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * A sensible default implementation of {@link #listIterator(int)}, in terms of {@link #size},<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * {@link #get(int)}, {@link #set(int, Object)}, {@link #add(int, Object)}, and {@link<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * #remove(int)}. If you override any of these methods, you may wish to override {@link<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * #listIterator(int)} to forward to this implementation.<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   *<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * @since 7.0<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   */<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  @Beta<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  protected ListIterator&lt;E&gt; standardListIterator(int start) {<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    return Lists.listIteratorImpl(this, start);<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  }<a name="line.204"></a>
+<span class="sourceLineNo">205</span><a name="line.205"></a>
+<span class="sourceLineNo">206</span>  /**<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * A sensible default implementation of {@link #subList(int, int)}. If you override any other<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * methods, you may wish to override {@link #subList(int, int)} to forward to this implementation.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * @since 7.0<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  @Beta<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  protected List&lt;E&gt; standardSubList(int fromIndex, int toIndex) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return Lists.subListImpl(this, fromIndex, toIndex);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * A sensible definition of {@link #equals(Object)} in terms of {@link #size} and {@link<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   * #iterator}. If you override either of those methods, you may wish to override {@link<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * #equals(Object)} to forward to this implementation.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   *<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * @since 7.0<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   */<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  @Beta<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  protected boolean standardEquals(@Nullable Object object) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    return Lists.equalsImpl(this, object);<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>  /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * A sensible definition of {@link #hashCode} in terms of {@link #iterator}. If you override<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * {@link #iterator}, you may wish to override {@link #hashCode} to forward to this<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * implementation.<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   *<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * @since 7.0<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   */<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  @Beta<a name="line.236"></a>
+<span class="sourceLineNo">237</span>  protected int standardHashCode() {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    return Lists.hashCodeImpl(this);<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  }<a name="line.239"></a>
+<span class="sourceLineNo">240</span>}<a name="line.240"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
