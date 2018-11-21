@@ -263,6 +263,10 @@ public final class Splitter {
    * Splitter.fixedLength(2).split("abcde")} returns an iterable containing {@code ["ab", "cd",
    * "e"]}. The last piece can be smaller than {@code length} but will never be empty.
    *
+   * <p><b>Note:</b> if {@link #fixedLength} is used in conjunction with {@link #limit}, the final
+   * split piece <i>may be longer than the specified fixed length</i>. This is because the splitter
+   * will <i>stop splitting when the limit is reached</i>, and just return the final piece as-is.
+   *
    * <p><b>Exception:</b> for consistency with separator-based splitters, {@code split("")} does not
    * yield an empty iterable, but an iterable containing {@code ""}. This is the only case in which
    * {@code Iterables.size(split(input))} does not equal {@code IntMath.divide(input.length(),
