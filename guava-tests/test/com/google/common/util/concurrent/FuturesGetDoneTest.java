@@ -42,7 +42,7 @@ public class FuturesGetDoneTest extends TestCase {
       getDone(immediateFailedFuture(failureCause));
       fail();
     } catch (ExecutionException expected) {
-      assertThat(expected.getCause()).isEqualTo(failureCause);
+      assertThat(expected).hasCauseThat().isEqualTo(failureCause);
     }
   }
 

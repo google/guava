@@ -142,7 +142,7 @@ public class SuppliersTest extends TestCase {
       reserialize(memoizedSupplier);
       fail();
     } catch (RuntimeException ex) {
-      assertEquals(java.io.NotSerializableException.class, ex.getCause().getClass());
+      assertThat(ex).hasCauseThat().isInstanceOf(java.io.NotSerializableException.class);
     }
   }
 

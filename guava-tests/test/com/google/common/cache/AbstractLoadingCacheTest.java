@@ -16,6 +16,8 @@
 
 package com.google.common.cache;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.concurrent.ExecutionException;
@@ -53,7 +55,7 @@ public class AbstractLoadingCacheTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
+      assertThat(expected).hasCauseThat().isEqualTo(cause);
     }
 
     Object newValue = new Object();
@@ -85,7 +87,7 @@ public class AbstractLoadingCacheTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
+      assertThat(expected).hasCauseThat().isEqualTo(cause);
     }
 
     Object newValue = new Object();
@@ -117,7 +119,7 @@ public class AbstractLoadingCacheTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (ExecutionError expected) {
-      assertEquals(cause, expected.getCause());
+      assertThat(expected).hasCauseThat().isEqualTo(cause);
     }
 
     Object newValue = new Object();
@@ -149,7 +151,7 @@ public class AbstractLoadingCacheTest extends TestCase {
       cache.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
+      assertThat(expected).hasCauseThat().isEqualTo(cause);
     }
 
     Object newValue = new Object();

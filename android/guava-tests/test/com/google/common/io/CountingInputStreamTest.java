@@ -94,7 +94,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not set");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
     }
   }
 
@@ -105,7 +105,7 @@ public class CountingInputStreamTest extends IoTestCase {
       counter.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
     }
   }
 

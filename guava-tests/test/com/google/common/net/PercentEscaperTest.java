@@ -116,7 +116,7 @@ public class PercentEscaperTest extends TestCase {
       new PercentEscaper("-+#abc.!", false);
       fail(msg);
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage(msg);
+      assertThat(expected).hasMessageThat().isEqualTo(msg);
     }
   }
 
@@ -135,7 +135,7 @@ public class PercentEscaperTest extends TestCase {
       new PercentEscaper(" ", true);
       fail(msg);
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage(msg);
+      assertThat(expected).hasMessageThat().isEqualTo(msg);
     }
   }
 

@@ -3813,7 +3813,7 @@ public class FuturesTest extends TestCase {
           getDone(future);
           fail();
         } catch (ExecutionException expected) {
-          assertThat(expected.getCause()).hasMessage("2L");
+          assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("2L");
         }
       }
       expectedResult++;

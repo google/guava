@@ -46,7 +46,7 @@ public class VerifyTest extends TestCase {
       verify(false, "message");
       fail();
     } catch (VerifyException expected) {
-      assertThat(expected).hasMessage("message");
+      assertThat(expected).hasMessageThat().isEqualTo("message");
     }
   }
 
@@ -103,6 +103,6 @@ public class VerifyTest extends TestCase {
   private static final String FORMAT = "I ate %s pies.";
 
   private static void checkMessage(Exception e) {
-    assertThat(e).hasMessage("I ate 5 pies.");
+    assertThat(e).hasMessageThat().isEqualTo("I ate 5 pies.");
   }
 }

@@ -395,7 +395,7 @@ public class BaseEncodingTest extends TestCase {
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       if (expectedMessage != null) {
-        assertThat(expected.getCause()).hasMessage(expectedMessage);
+        assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo(expectedMessage);
       }
     }
     try {
@@ -403,7 +403,7 @@ public class BaseEncodingTest extends TestCase {
       fail("Expected DecodingException");
     } catch (DecodingException expected) {
       if (expectedMessage != null) {
-        assertThat(expected).hasMessage(expectedMessage);
+        assertThat(expected).hasMessageThat().isEqualTo(expectedMessage);
       }
     }
   }

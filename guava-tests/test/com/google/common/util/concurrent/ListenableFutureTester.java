@@ -106,7 +106,7 @@ public class ListenableFutureTester {
       future.get();
       fail("Future should rethrow the exception.");
     } catch (ExecutionException e) {
-      assertThat(e.getCause()).hasMessage(message);
+      assertThat(e).hasCauseThat().hasMessageThat().isEqualTo(message);
     }
   }
 }
