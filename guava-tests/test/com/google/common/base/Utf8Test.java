@@ -121,7 +121,9 @@ public class Utf8Test extends TestCase {
       Utf8.encodedLength(invalidString);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Unpaired surrogate at index " + invalidCodePointIndex);
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("Unpaired surrogate at index " + invalidCodePointIndex);
     }
   }
 

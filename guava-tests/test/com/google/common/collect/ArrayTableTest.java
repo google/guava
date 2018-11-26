@@ -427,13 +427,13 @@ public class ArrayTableTest extends AbstractTableTest {
       table.put("dog", 1, 'd');
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Row dog not in [foo, bar, cat]");
+      assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
     }
     try {
       table.put("foo", 4, 'd');
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Column 4 not in [1, 2, 3]");
+      assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
     }
     assertFalse(table.containsValue('d'));
   }
@@ -504,7 +504,7 @@ public class ArrayTableTest extends AbstractTableTest {
       map.put(4, 'd');
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Column 4 not in [1, 2, 3]");
+      assertThat(expected).hasMessageThat().isEqualTo("Column 4 not in [1, 2, 3]");
     }
   }
 
@@ -515,7 +515,7 @@ public class ArrayTableTest extends AbstractTableTest {
       map.put("dog", 'd');
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Row dog not in [foo, bar, cat]");
+      assertThat(expected).hasMessageThat().isEqualTo("Row dog not in [foo, bar, cat]");
     }
   }
 

@@ -136,8 +136,8 @@ public class GcFinalizationTest extends TestCase {
   }
 
   void assertWrapsInterruptedException(RuntimeException e) {
-    assertThat(e.getMessage()).contains("Unexpected interrupt");
-    assertThat(e.getCause()).isInstanceOf(InterruptedException.class);
+    assertThat(e).hasMessageThat().contains("Unexpected interrupt");
+    assertThat(e).hasCauseThat().isInstanceOf(InterruptedException.class);
   }
 
   public void testAwait_CountDownLatch_Interrupted() {

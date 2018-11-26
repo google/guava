@@ -79,7 +79,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
       getDone(task);
       fail();
     } catch (ExecutionException executionException) {
-      assertEquals(e, executionException.getCause());
+      assertThat(executionException).hasCauseThat().isEqualTo(e);
     }
   }
 

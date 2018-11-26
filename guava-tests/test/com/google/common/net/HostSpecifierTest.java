@@ -108,7 +108,7 @@ public final class HostSpecifierTest extends TestCase {
       HostSpecifier.from(spec);
       fail("Should have thrown ParseException: " + spec);
     } catch (ParseException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IllegalArgumentException.class);
+      assertThat(expected).hasCauseThat().isInstanceOf(IllegalArgumentException.class);
     }
 
     assertFalse(HostSpecifier.isValid(spec));

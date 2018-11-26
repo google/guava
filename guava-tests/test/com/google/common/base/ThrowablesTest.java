@@ -415,7 +415,7 @@ public class ThrowablesTest extends TestCase {
       sample.noneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertThat(expected.getCause()).isInstanceOf(SomeCheckedException.class);
+      assertThat(expected).hasCauseThat().isInstanceOf(SomeCheckedException.class);
     }
   }
 
@@ -532,7 +532,7 @@ public class ThrowablesTest extends TestCase {
       sample.oneDeclared();
       fail();
     } catch (RuntimeException expected) {
-      assertThat(expected.getCause()).isInstanceOf(SomeOtherCheckedException.class);
+      assertThat(expected).hasCauseThat().isInstanceOf(SomeOtherCheckedException.class);
     }
   }
 
@@ -684,7 +684,7 @@ public class ThrowablesTest extends TestCase {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException thrown = new SomeChainingException(cause);
 
-    assertThat(thrown.getCause()).isSameAs(cause);
+    assertThat(thrown).hasCauseThat().isSameAs(cause);
     assertThat(Throwables.getCauseAs(thrown, SomeCheckedException.class)).isSameAs(cause);
     assertThat(Throwables.getCauseAs(thrown, Exception.class)).isSameAs(cause);
 
@@ -692,7 +692,7 @@ public class ThrowablesTest extends TestCase {
       Throwables.getCauseAs(thrown, IllegalStateException.class);
       fail("Should have thrown CCE");
     } catch (ClassCastException expected) {
-      assertThat(expected.getCause()).isSameAs(thrown);
+      assertThat(expected).hasCauseThat().isSameAs(thrown);
     }
   }
 

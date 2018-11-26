@@ -194,7 +194,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator);
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("expected one element but was: <one, two>");
+      assertThat(expected).hasMessageThat().isEqualTo("expected one element but was: <one, two>");
     }
   }
 
@@ -205,7 +205,8 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected)
-          .hasMessage("expected one element but was: <one, two, three, four, five>");
+          .hasMessageThat()
+          .isEqualTo("expected one element but was: <one, two, three, four, five>");
     }
   }
 
@@ -216,7 +217,8 @@ public class IteratorsTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
       assertThat(expected)
-          .hasMessage("expected one element but was: <one, two, three, four, five, ...>");
+          .hasMessageThat()
+          .isEqualTo("expected one element but was: <one, two, three, four, five, ...>");
     }
   }
 
@@ -241,7 +243,7 @@ public class IteratorsTest extends TestCase {
       Iterators.getOnlyElement(iterator, "x");
       fail();
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("expected one element but was: <foo, bar>");
+      assertThat(expected).hasMessageThat().isEqualTo("expected one element but was: <foo, bar>");
     }
   }
 

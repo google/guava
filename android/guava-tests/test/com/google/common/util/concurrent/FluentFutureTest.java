@@ -137,7 +137,7 @@ public class FluentFutureTest extends TestCase {
         f.get();
         fail();
       } catch (ExecutionException e) {
-        assertThat(e.getCause()).isInstanceOf(TimeoutException.class);
+        assertThat(e).hasCauseThat().isInstanceOf(TimeoutException.class);
       }
     } finally {
       executor.shutdown();
