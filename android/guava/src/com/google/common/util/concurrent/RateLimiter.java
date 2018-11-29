@@ -92,6 +92,7 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 // would mean a maximum rate of "1MB/s", which might be small in some cases.
 @Beta
 @GwtIncompatible
+@SuppressWarnings("GoodTime") // lots of violations - also how should we model a rate?
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per

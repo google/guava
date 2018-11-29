@@ -144,9 +144,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in October 2018.
+   *     themselves. This method is scheduled for removal from Guava in January 2019.
    */
-  // TODO(b/72241575): Remove by 2018-10
+  // TODO(b/72241575): Remove by 2019-01
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
@@ -183,9 +183,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in October 2018.
+   *     themselves. This method is scheduled for removal from Guava in January 2019.
    */
-  // TODO(b/72241893): Remove by 2018-10
+  // TODO(b/72241893): Remove by 2019-01
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateCheckedFuture(
@@ -230,9 +230,9 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     untouched. Guava users who want a {@code CheckedFuture} can fork the classes for their own
    *     use, possibly specializing them to the particular exception type they use. We recommend
    *     that most people use {@code ListenableFuture} and perform any exception wrapping
-   *     themselves. This method is scheduled for removal from Guava in October 2018.
+   *     themselves. This method is scheduled for removal from Guava in January 2019.
    */
-  // TODO(b/72241500): Remove by 2018-10
+  // TODO(b/72241500): Remove by 2019-01
   @Deprecated
   @GwtIncompatible // TODO
   public static <V, X extends Exception> CheckedFuture<V, X> immediateFailedCheckedFuture(
@@ -260,6 +260,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 23.0
    */
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <O> ListenableFuture<O> scheduleAsync(
       AsyncCallable<O> callable,
       long delay,
@@ -408,11 +409,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * @since 19.0
    */
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate,
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
+    if (delegate.isDone()) {
+      return delegate;
+    }
     return TimeoutFuture.create(delegate, time, unit, scheduledExecutor);
   }
 
@@ -655,16 +660,15 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *     loginService.findLastLoginDate(username);
    * final ListenableFuture<List<String>> recentCommandsFuture =
    *     recentCommandsService.findRecentCommands(username);
-   * Callable<UsageHistory> usageComputation =
-   *     new Callable<UsageHistory>() {
-   *       public UsageHistory call() throws Exception {
-   *         return new UsageHistory(
-   *             username, loginDateFuture.get(), recentCommandsFuture.get());
-   *       }
-   *     };
    * ListenableFuture<UsageHistory> usageFuture =
    *     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
-   *         .call(usageComputation, executor);
+   *         .call(
+   *             () ->
+   *                 new UsageHistory(
+   *                     username,
+   *                     Futures.getDone(loginDateFuture),
+   *                     Futures.getDone(recentCommandsFuture)),
+   *             executor);
    * }</pre>
    *
    * @since 20.0
@@ -770,8 +774,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
 
     @Override
     public void run() {
-      // This prevents cancellation from propagating because we don't assign delegate until
-      // delegate is already done, so calling cancel() on it is a no-op.
+      // This prevents cancellation from propagating because we don't call setFuture(delegate) until
+      // delegate is already done, so calling cancel() on this future won't affect it.
       ListenableFuture<V> localDelegate = delegate;
       if (localDelegate != null) {
         setFuture(localDelegate);
@@ -1195,6 +1199,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // reflection
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     return FuturesGetChecked.getChecked(future, exceptionClass, timeout, unit);

@@ -200,7 +200,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     final void addInitialException(Set<Throwable> seen) {
       if (!isCancelled()) {
         // TODO(cpovirk): Think about whether we could/should use Verify to check this.
-        boolean unused = addCausalChain(seen, trustedGetException());
+        boolean unused = addCausalChain(seen, tryInternalFastPathGetFailure());
       }
     }
 

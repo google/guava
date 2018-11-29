@@ -73,6 +73,13 @@ final class Platform {
     ((NativeArray) array).setLength(newSize);
   }
 
+  /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+    T[] result = newArray(arrayOfType, to - from);
+    System.arraycopy(source, from, result, 0, to - from);
+    return result;
+  }
+
   // TODO(user): Move this logic to a utility class.
   @JsType(isNative = true, name = "Array", namespace = JsPackage.GLOBAL)
   private interface NativeArray {

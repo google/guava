@@ -73,6 +73,11 @@ public final class ExecutionSequencer {
           public ListenableFuture<T> call() throws Exception {
             return immediateFuture(callable.call());
           }
+
+          @Override
+          public String toString() {
+            return callable.toString();
+          }
         },
         executor);
   }
@@ -96,6 +101,11 @@ public final class ExecutionSequencer {
               return immediateCancelledFuture();
             }
             return callable.call();
+          }
+
+          @Override
+          public String toString() {
+            return callable.toString();
           }
         };
     /*

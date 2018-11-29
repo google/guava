@@ -188,13 +188,7 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
 
   @Override
   public final @Nullable Object[] toArray() {
-    int size = size();
-    if (size == 0) {
-      return EMPTY_ARRAY;
-    }
-    Object[] result = new Object[size];
-    copyIntoArray(result, 0);
-    return result;
+    return toArray(EMPTY_ARRAY);
   }
 
   @CanIgnoreReturnValue
@@ -202,13 +196,40 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
   public final <T> @Nullable T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
+
     if (other.length < size) {
+      Object[] internal = internalArray();
+      if (internal != null) {
+        return Platform.copy(internal, internalArrayStart(), internalArrayEnd(), other);
+      }
       other = ObjectArrays.newArray(other, size);
     } else if (other.length > size) {
       other[size] = null;
     }
     copyIntoArray(other, 0);
     return other;
+  }
+
+  /** If this collection is backed by an array of its elements in insertion order, returns it. */
+  @Nullable
+  Object[] internalArray() {
+    return null;
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements start.
+   */
+  int internalArrayStart() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements end.
+   */
+  int internalArrayEnd() {
+    throw new UnsupportedOperationException();
   }
 
   @Pure

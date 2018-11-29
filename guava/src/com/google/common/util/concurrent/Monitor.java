@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.Weak;
 import java.util.concurrent.TimeUnit;
@@ -122,10 +121,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <pre>{@code
  * public class SafeBox<V> {
+ *   private V value;
  *   private final ReentrantLock lock = new ReentrantLock();
  *   private final Condition valuePresent = lock.newCondition();
  *   private final Condition valueAbsent = lock.newCondition();
- *   private V value;
  *
  *   public V get() throws InterruptedException {
  *     lock.lock();
@@ -167,18 +166,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <pre>{@code
  * public class SafeBox<V> {
- *   private final Monitor monitor = new Monitor();
- *   private final Monitor.Guard valuePresent = new Monitor.Guard(monitor) {
- *     public boolean isSatisfied() {
- *       return value != null;
- *     }
- *   };
- *   private final Monitor.Guard valueAbsent = new Monitor.Guard(monitor) {
- *     public boolean isSatisfied() {
- *       return value == null;
- *     }
- *   };
  *   private V value;
+ *   private final Monitor monitor = new Monitor();
+ *   private final Monitor.Guard valuePresent = monitor.newGuard(() -> value != null);
+ *   private final Monitor.Guard valueAbsent = monitor.newGuard(() -> value == null);
  *
  *   public V get() throws InterruptedException {
  *     monitor.enterWhen(valuePresent);
@@ -369,8 +360,11 @@ public final class Monitor {
   }
 
   /**
-   * Creates a new {@link Guard} for {@code this} monitor. @Param isSatisfied The guards boolean
-   * condition. See {@link Guard#isSatisfied}.
+   * Creates a new {@linkplain Guard guard} for this monitor.
+   *
+   * @param isSatisfied the new guard's boolean condition (see {@link Guard#isSatisfied
+   *     isSatisfied()})
+   * @since 21.0
    */
   public Guard newGuard(final BooleanSupplier isSatisfied) {
     checkNotNull(isSatisfied, "isSatisfied");
@@ -392,6 +386,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enter(long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     final ReentrantLock lock = this.lock;
@@ -431,6 +426,7 @@ public final class Monitor {
    * @return whether the monitor was entered
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterInterruptibly(long time, TimeUnit unit) throws InterruptedException {
     return lock.tryLock(time, unit);
   }
@@ -480,6 +476,7 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -559,6 +556,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -648,6 +646,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterIf(Guard guard, long time, TimeUnit unit) {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -696,6 +695,7 @@ public final class Monitor {
    *
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean enterIfInterruptibly(Guard guard, long time, TimeUnit unit)
       throws InterruptedException {
     if (guard.monitor != this) {
@@ -765,6 +765,7 @@ public final class Monitor {
    * @return whether the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
@@ -798,6 +799,7 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (!((guard.monitor == this) & lock.isHeldByCurrentThread())) {
@@ -1031,7 +1033,7 @@ public final class Monitor {
       return guard.isSatisfied();
     } catch (Throwable throwable) {
       signalAllWaiters();
-      throw Throwables.propagate(throwable);
+      throw throwable;
     }
   }
 

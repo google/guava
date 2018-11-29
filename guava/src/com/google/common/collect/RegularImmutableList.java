@@ -54,6 +54,21 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
+  Object[] internalArray() {
+    return array;
+  }
+
+  @Override
+  int internalArrayStart() {
+    return 0;
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return array.length;
+  }
+
+  @Override
   int copyIntoArray(Object[] dst, int dstOff) {
     System.arraycopy(array, 0, dst, dstOff, array.length);
     return dstOff + array.length;

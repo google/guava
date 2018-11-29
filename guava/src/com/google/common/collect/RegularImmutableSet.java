@@ -84,6 +84,21 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
+  Object[] internalArray() {
+    return elements;
+  }
+
+  @Override
+  int internalArrayStart() {
+    return 0;
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return elements.length;
+  }
+
+  @Override
   int copyIntoArray(Object[] dst, int offset) {
     System.arraycopy(elements, 0, dst, offset, elements.length);
     return offset + elements.length;

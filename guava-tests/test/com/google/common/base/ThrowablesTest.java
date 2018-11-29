@@ -29,6 +29,7 @@ import static java.util.regex.Pattern.quote;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
@@ -699,8 +700,8 @@ public class ThrowablesTest extends TestCase {
   @GwtIncompatible // lazyStackTraceIsLazy()
   public void testLazyStackTraceWorksInProd() {
     // TODO(b/64442212): Remove this guard once lazyStackTrace() works in Java 9+.
-    if (JAVA_SPECIFICATION_VERSION.value().equals("9")
-        || JAVA_SPECIFICATION_VERSION.value().equals("10")) {
+    Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
+    if (javaVersion != null && javaVersion >= 9) {
       return;
     }
     // Obviously this isn't guaranteed in every environment, but it works well enough for now:

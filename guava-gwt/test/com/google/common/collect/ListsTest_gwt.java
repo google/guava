@@ -262,4 +262,9 @@ public void testTransformViewSequential() throws Exception {
   com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
   testCase.testTransformViewSequential();
 }
+
+public void testTransformedSequentialIterationUsesBackingListIterationOnly() throws Exception {
+  com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
+  testCase.testTransformedSequentialIterationUsesBackingListIterationOnly();
+}
 }

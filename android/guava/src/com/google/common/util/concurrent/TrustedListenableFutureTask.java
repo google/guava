@@ -30,7 +30,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * performance reasons.
  */
 @GwtCompatible
-class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
+class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
   static <V> TrustedListenableFutureTask<V> create(AsyncCallable<V> callable) {
@@ -159,7 +159,8 @@ class TrustedListenableFutureTask<V> extends AbstractFuture.TrustedFuture<V>
       return checkNotNull(
           callable.call(),
           "AsyncCallable.call returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          callable);
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -68,6 +69,48 @@ import java.util.concurrent.TimeoutException;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
+
+  /**
+   * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
+   * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
+   */
+  abstract static class TrustedFuture<V> extends FluentFuture<V>
+      implements AbstractFuture.Trusted<V> {
+    @CanIgnoreReturnValue
+    @Override
+    public final V get() throws InterruptedException, ExecutionException {
+      return super.get();
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    public final V get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return super.get(timeout, unit);
+    }
+
+    @Override
+    public final boolean isDone() {
+      return super.isDone();
+    }
+
+    @Override
+    public final boolean isCancelled() {
+      return super.isCancelled();
+    }
+
+    @Override
+    public final void addListener(Runnable listener, Executor executor) {
+      super.addListener(listener, executor);
+    }
+
+    @CanIgnoreReturnValue
+    @Override
+    public final boolean cancel(boolean mayInterruptIfRunning) {
+      return super.cancel(mayInterruptIfRunning);
+    }
+  }
+
   FluentFuture() {}
 
   /**
@@ -201,6 +244,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * @param scheduledExecutor The executor service to enforce the timeout.
    */
   @GwtIncompatible // ScheduledExecutorService
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public final FluentFuture<V> withTimeout(
       long timeout, TimeUnit unit, ScheduledExecutorService scheduledExecutor) {
     return (FluentFuture<V>) Futures.withTimeout(this, timeout, unit, scheduledExecutor);

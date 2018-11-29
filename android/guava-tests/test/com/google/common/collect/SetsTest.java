@@ -917,6 +917,12 @@ public class SetsTest extends TestCase {
     }
 
     try {
+      Set<Set<Integer>> unused = powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
       powerSet(singleton(null));
       fail();
     } catch (NullPointerException expected) {

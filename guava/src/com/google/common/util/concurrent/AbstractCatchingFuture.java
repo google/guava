@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
-    extends AbstractFuture.TrustedFuture<V> implements Runnable {
+    extends FluentFuture.TrustedFuture<V> implements Runnable {
   static <V, X extends Throwable> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
       Class<X> exceptionType,
@@ -95,7 +95,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     }
 
     if (!isInstanceOfThrowableClass(throwable, localExceptionType)) {
-      setException(throwable);
+      setFuture(localInputFuture);
       // TODO(cpovirk): Test that fallback is not run in this case.
       return;
     }
@@ -176,7 +176,8 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
       checkNotNull(
           replacement,
           "AsyncFunction.apply returned null instead of a Future. "
-              + "Did you mean to return immediateFuture(null)?");
+              + "Did you mean to return immediateFuture(null)? %s",
+          fallback);
       return replacement;
     }
 

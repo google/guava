@@ -30,6 +30,7 @@ import junit.framework.TestCase;
  * @author Jim McMaster
  */
 @GwtCompatible
+@SuppressWarnings("MissingTestCall")
 public class EqualsTesterTest extends TestCase {
   private ValidTestObject reference;
   private EqualsTester equalsTester;

@@ -439,8 +439,19 @@ public final class MediaType {
   public static final MediaType MANIFEST_JSON_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "manifest+json");
 
+  /**
+   * Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
+   * Language)</a>.
+   */
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
+
+  /**
+   * Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
+   * Language)</a>, compressed using the ZIP format into KMZ archives.
+   */
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
+
+  /** Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>. */
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
 
   /**
@@ -457,6 +468,13 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
+  /**
+   * Media type for WASM applications. For more information see <a
+   * href="https://webassembly.org/">the Web Assembly overview</a>.
+   *
+   * @since 27.0
+   */
+  public static final MediaType WASM_APPLICATION = createConstant(APPLICATION_TYPE, "wasm");
   /**
    * Media type for NaCl applications. For more information see <a
    * href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
