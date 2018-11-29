@@ -54,7 +54,7 @@ To upload to Maven Central
 # Then, set this variable to the same version.
 # If it's not the same as the upstream version, then also edit pom.xml and guava/pom.xml.
 
-PACKAGE=guava-26.0-jre
+PACKAGE=guava-27.0.1-jre
 
 cd guava
 
