@@ -165,6 +165,13 @@ public final class MediaType {
   public static final MediaType TSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "tab-separated-values");
 
   public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
+
+  /**
+   * UTF-8 encoded <a href="https://en.wikipedia.org/wiki/Wireless_Markup_Language">Wireless Markup
+   * Language</a>.
+   *
+   * @since 13.0
+   */
   public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");
 
   /**
@@ -182,11 +189,16 @@ public final class MediaType {
    */
   public static final MediaType VTT_UTF_8 = createConstantUtf8(TEXT_TYPE, "vtt");
 
-  /* image types */
+  /**
+   * <a href="https://en.wikipedia.org/wiki/BMP_file_format">Bitmap file format</a> ({@code bmp}
+   * files).
+   *
+   * @since 13.0
+   */
   public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");
 
   /**
-   * The media type for the <a href="http://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
+   * The media type for the <a href="https://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
    * Image File Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is
    * found in {@code /etc/mime.types}, e.g. in <a href=
    * "http://anonscm.debian.org/gitweb/?p=collab-maint/mime-support.git;a=blob;f=mime.types;hb=HEAD"
@@ -222,6 +234,12 @@ public final class MediaType {
 
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
+
+  /**
+   * <a href="https://en.wikipedia.org/wiki/WebP">WebP image format</a>.
+   *
+   * @since 13.0
+   */
   public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");
 
   /* audio types */
@@ -344,6 +362,8 @@ public final class MediaType {
    * As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
    * ({@code application/xml}) is used for XML documents that are "unreadable by casual users."
    * {@link #XML_UTF_8} is provided for documents that may be read by users.
+   *
+   * @since 14.0
    */
   public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
 
@@ -451,7 +471,11 @@ public final class MediaType {
    */
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
 
-  /** Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>. */
+  /**
+   * Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>.
+   *
+   * @since 13.0
+   */
   public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
 
   /**
@@ -537,7 +561,16 @@ public final class MediaType {
    */
   public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");
 
+  /**
+   * <a href="https://en.wikipedia.org/wiki/RDF/XML">RDF/XML</a> documents, which are XML
+   * serializations of <a
+   * href="https://en.wikipedia.org/wiki/Resource_Description_Framework">Resource Description
+   * Framework</a> graphs.
+   *
+   * @since 14.0
+   */
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
+
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
 
   /**
@@ -553,6 +586,13 @@ public final class MediaType {
 
   public static final MediaType SHOCKWAVE_FLASH =
       createConstant(APPLICATION_TYPE, "x-shockwave-flash");
+
+  /**
+   * {@code skp} files produced by the 3D Modeling software <a
+   * href="https://www.sketchup.com/">SketchUp</a>
+   *
+   * @since 13.0
+   */
   public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
 
   /**
@@ -595,6 +635,8 @@ public final class MediaType {
    * it is specified by OASIS in the <a
    * href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html">XRD definition</a> and
    * implemented in projects such as <a href="http://code.google.com/p/webfinger/">WebFinger</a>.
+   *
+   * @since 14.0
    */
   public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");
 
