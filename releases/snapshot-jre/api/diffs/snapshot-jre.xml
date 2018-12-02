@@ -51825,6 +51825,12 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[UTF-8 encoded <a href="https://en.wikipedia.org/wiki/Wireless_Markup_Language">Wireless Markup
+ Language</a>.
+
+ @since 13.0]]>
+      </doc>
     </field>
     <field name="XML_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -51851,15 +51857,21 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/BMP_file_format">Bitmap file format</a> ({@code bmp}
+ files).
+
+ @since 13.0]]>
+      </doc>
     </field>
     <field name="CRW" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The media type for the <a href="http://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon
- Image File Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is
- found in {@code /etc/mime.types}, e.g. in <a href=
+      <![CDATA[The <a href="https://en.wikipedia.org/wiki/Camera_Image_File_Format">Canon Image File
+ Format</a> ({@code crw} files), a widely-used "raw image" format for cameras. It is found in
+ {@code /etc/mime.types}, e.g. in <a href=
  "http://anonscm.debian.org/gitweb/?p=collab-maint/mime-support.git;a=blob;f=mime.types;hb=HEAD"
  >Debian 3.48-1</a>.
 
@@ -51891,7 +51903,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The media type for the Photoshop File Format ({@code psd} files) as defined by <a
+      <![CDATA[The Photoshop File Format ({@code psd} files) as defined by <a
  href="http://www.iana.org/assignments/media-types/image/vnd.adobe.photoshop">IANA</a>, and
  found in {@code /etc/mime.types}, e.g. <a
  href="http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types"></a> of the
@@ -51922,6 +51934,11 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/WebP">WebP image format</a>.
+
+ @since 13.0]]>
+      </doc>
     </field>
     <field name="MP4_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -51948,8 +51965,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for L16 audio, as defined by <a href="https://tools.ietf.org/html/rfc2586">RFC
- 2586</a>.
+      <![CDATA[L16 audio, as defined by <a href="https://tools.ietf.org/html/rfc2586">RFC 2586</a>.
 
  @since 24.1]]>
       </doc>
@@ -51959,8 +51975,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for L24 audio, as defined by <a href="https://tools.ietf.org/html/rfc3190">RFC
- 3190</a>.
+      <![CDATA[L24 audio, as defined by <a href="https://tools.ietf.org/html/rfc3190">RFC 3190</a>.
 
  @since 20.0]]>
       </doc>
@@ -51970,8 +51985,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Basic Audio, as defined by <a
- href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC 2046</a>.
+      <![CDATA[Basic Audio, as defined by <a href="http://tools.ietf.org/html/rfc2046#section-4.3">RFC
+ 2046</a>.
 
  @since 20.0]]>
       </doc>
@@ -51981,7 +51996,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Advanced Audio Coding. For more information, see <a
+      <![CDATA[Advanced Audio Coding. For more information, see <a
  href="https://en.wikipedia.org/wiki/Advanced_Audio_Coding">Advanced Audio Coding</a>.
 
  @since 20.0]]>
@@ -51992,8 +52007,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Vorbis Audio, as defined by <a href="http://tools.ietf.org/html/rfc5215">RFC
- 5215</a>.
+      <![CDATA[Vorbis Audio, as defined by <a href="http://tools.ietf.org/html/rfc5215">RFC 5215</a>.
 
  @since 20.0]]>
       </doc>
@@ -52003,7 +52017,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Windows Media Audio. For more information, see <a
+      <![CDATA[Windows Media Audio. For more information, see <a
  href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx">file
  name extensions for Windows Media metafiles</a>.
 
@@ -52015,7 +52029,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Windows Media metafiles. For more information, see <a
+      <![CDATA[Windows Media metafiles. For more information, see <a
  href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx">file
  name extensions for Windows Media metafiles</a>.
 
@@ -52027,7 +52041,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Real Audio. For more information, see <a
+      <![CDATA[Real Audio. For more information, see <a
  href="http://service.real.com/help/faq/rp8/configrp8win.html">this link</a>.
 
  @since 20.0]]>
@@ -52038,8 +52052,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for WAVE format, as defined by <a href="https://tools.ietf.org/html/rfc2361">RFC
- 2361</a>.
+      <![CDATA[WAVE format, as defined by <a href="https://tools.ietf.org/html/rfc2361">RFC 2361</a>.
 
  @since 20.0]]>
       </doc>
@@ -52079,7 +52092,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Flash video. For more information, see <a href=
+      <![CDATA[Flash video. For more information, see <a href=
  "http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7d48.html"
  >this link</a>.
 
@@ -52091,7 +52104,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the 3GP multimedia container format. For more information, see <a
+      <![CDATA[The 3GP multimedia container format. For more information, see <a
  href="ftp://www.3gpp.org/tsg_sa/TSG_SA/TSGS_23/Docs/PDF/SP-040065.pdf#page=10">3GPP TS
  26.244</a>.
 
@@ -52103,7 +52116,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the 3G2 multimedia container format. For more information, see <a
+      <![CDATA[The 3G2 multimedia container format. For more information, see <a
  href="http://www.3gpp2.org/Public_html/specs/C.S0050-B_v1.0_070521.pdf#page=16">3GPP2
  C.S0050-B</a>.
 
@@ -52117,7 +52130,9 @@
       <doc>
       <![CDATA[As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
  ({@code application/xml}) is used for XML documents that are "unreadable by casual users."
- {@link #XML_UTF_8} is provided for documents that may be read by users.]]>
+ {@link #XML_UTF_8} is provided for documents that may be read by users.
+
+ @since 14.0]]>
       </doc>
     </field>
     <field name="ATOM_UTF_8" type="com.google.common.net.MediaType"
@@ -52135,7 +52150,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="https://www.dartlang.org/articles/embedding-in-html/">dart files</a>.
+      <![CDATA[Files in the <a href="https://www.dartlang.org/articles/embedding-in-html/">dart</a>
+ programming language.
 
  @since 19.0]]>
       </doc>
@@ -52145,7 +52161,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
+      <![CDATA[<a href="https://goo.gl/2QoMvg">Apple Passbook</a>.
 
  @since 19.0]]>
       </doc>
@@ -52155,9 +52171,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a>
- fonts. This is <a
- href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
+      <![CDATA[<a href="http://en.wikipedia.org/wiki/Embedded_OpenType">Embedded OpenType</a> fonts. This is
+ <a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject">registered
  </a> with the IANA.
 
  @since 17.0]]>
@@ -52219,8 +52234,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON
- Hypertext Application Language (HAL) documents</a>.
+      <![CDATA[<a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON Hypertext
+ Application Language (HAL) documents</a>.
 
  @since 26.0]]>
       </doc>
@@ -52245,8 +52260,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web
- application</a>.
+      <![CDATA[The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
 
  @since 19.0]]>
       </doc>
@@ -52256,8 +52270,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
- Language)</a>.]]>
+      <![CDATA[<a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup Language)</a>.]]>
       </doc>
     </field>
     <field name="KMZ" type="com.google.common.net.MediaType"
@@ -52265,8 +52278,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup
- Language)</a>, compressed using the ZIP format into KMZ archives.]]>
+      <![CDATA[<a href="http://www.opengeospatial.org/standards/kml/">OGC KML (Keyhole Markup Language)</a>,
+ compressed using the ZIP format into KMZ archives.]]>
       </doc>
     </field>
     <field name="MBOX" type="com.google.common.net.MediaType"
@@ -52274,7 +52287,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>.]]>
+      <![CDATA[The <a href="https://tools.ietf.org/html/rfc4155">mbox database format</a>.
+
+ @since 13.0]]>
       </doc>
     </field>
     <field name="APPLE_MOBILE_CONFIG" type="com.google.common.net.MediaType"
@@ -52282,8 +52297,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://goo.gl/1pGBFm">Apple over-the-air mobile configuration
- profiles</a>.
+      <![CDATA[<a href="http://goo.gl/1pGBFm">Apple over-the-air mobile configuration profiles</a>.
 
  @since 18.0]]>
       </doc>
@@ -52293,7 +52307,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets.]]>
+      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Excel</a> spreadsheets.]]>
       </doc>
     </field>
     <field name="MICROSOFT_OUTLOOK" type="com.google.common.net.MediaType"
@@ -52301,7 +52315,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
+      <![CDATA[<a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
 
  @since NEXT]]>
       </doc>
@@ -52311,7 +52325,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations.]]>
+      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Powerpoint</a> presentations.]]>
       </doc>
     </field>
     <field name="MICROSOFT_WORD" type="com.google.common.net.MediaType"
@@ -52319,7 +52333,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for <a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents.]]>
+      <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents.]]>
       </doc>
     </field>
     <field name="WASM_APPLICATION" type="com.google.common.net.MediaType"
@@ -52327,8 +52341,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for WASM applications. For more information see <a
- href="https://webassembly.org/">the Web Assembly overview</a>.
+      <![CDATA[WASM applications. For more information see <a href="https://webassembly.org/">the Web Assembly
+ overview</a>.
 
  @since 27.0]]>
       </doc>
@@ -52338,7 +52352,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for NaCl applications. For more information see <a
+      <![CDATA[NaCl applications. For more information see <a
  href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
  Developer Guide for Native Client Application Structure</a>.
 
@@ -52350,7 +52364,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for NaCl portable applications. For more information see <a
+      <![CDATA[NaCl portable applications. For more information see <a
  href="https://developer.chrome.com/native-client/devguide/coding/application-structure">the
  Developer Guide for Native Client Application Structure</a>.
 
@@ -52426,6 +52440,14 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/RDF/XML">RDF/XML</a> documents, which are XML
+ serializations of <a
+ href="https://en.wikipedia.org/wiki/Resource_Description_Framework">Resource Description
+ Framework</a> graphs.
+
+ @since 14.0]]>
+      </doc>
     </field>
     <field name="RTF_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -52437,8 +52459,7 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for SFNT fonts (which includes <a
- href="http://en.wikipedia.org/wiki/TrueType/">TrueType</a> and <a
+      <![CDATA[SFNT fonts (which includes <a href="http://en.wikipedia.org/wiki/TrueType/">TrueType</a> and <a
  href="http://en.wikipedia.org/wiki/OpenType/">OpenType</a> fonts). This is <a
  href="http://www.iana.org/assignments/media-types/application/font-sfnt">registered</a> with
  the IANA.
@@ -52455,6 +52476,12 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[{@code skp} files produced by the 3D Modeling software <a
+ href="https://www.sketchup.com/">SketchUp</a>
+
+ @since 13.0]]>
+      </doc>
     </field>
     <field name="SOAP_XML_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -52482,8 +52509,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
- Format</a> (WOFF) <a href="http://www.w3.org/TR/WOFF/">defined</a> by the W3C. This is <a
+      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF) <a
+ href="http://www.w3.org/TR/WOFF/">defined</a> by the W3C. This is <a
  href="http://www.iana.org/assignments/media-types/application/font-woff">registered</a> with
  the IANA.
 
@@ -52495,8 +52522,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for the <a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font
- Format</a> (WOFF) version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
+      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF)
+ version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
 
  @since 20.0]]>
       </doc>
@@ -52511,10 +52538,12 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
- it is specified by OASIS in the <a
- href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html">XRD definition</a> and
- implemented in projects such as <a href="http://code.google.com/p/webfinger/">WebFinger</a>.]]>
+      <![CDATA[Extensible Resource Descriptors. This is not yet registered with the IANA, but it is specified
+ by OASIS in the <a href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html">XRD
+ definition</a> and implemented in projects such as <a
+ href="http://code.google.com/p/webfinger/">WebFinger</a>.
+
+ @since 14.0]]>
       </doc>
     </field>
     <field name="ZIP" type="com.google.common.net.MediaType"
