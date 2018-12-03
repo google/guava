@@ -283,8 +283,9 @@ public final class MoreFiles {
    * created by this traverser if an {@link IOException} is thrown by a call to {@link
    * #listFiles(Path)}.
    *
-   * <p>Example: {@code MoreFiles.fileTraverser().breadthFirst("/")} may return files with the
-   * following paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   * <p>Example: {@code MoreFiles.fileTraverser().depthFirstPreOrder(Paths.get("/"))} may return the
+   * following paths: {@code ["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "/home/alice",
+   * ...]}
    *
    * @since 23.5
    */
