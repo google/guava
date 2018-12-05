@@ -836,79 +836,80 @@
 <span class="sourceLineNo">828</span>   * a directory, no exception will be thrown and the returned {@link Iterable} will contain a<a name="line.828"></a>
 <span class="sourceLineNo">829</span>   * single element: that file.<a name="line.829"></a>
 <span class="sourceLineNo">830</span>   *<a name="line.830"></a>
-<span class="sourceLineNo">831</span>   * &lt;p&gt;Example: {@code Files.fileTraverser().breadthFirst("/")} may return files with the following<a name="line.831"></a>
-<span class="sourceLineNo">832</span>   * paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}<a name="line.832"></a>
-<span class="sourceLineNo">833</span>   *<a name="line.833"></a>
-<span class="sourceLineNo">834</span>   * @since 23.5<a name="line.834"></a>
-<span class="sourceLineNo">835</span>   */<a name="line.835"></a>
-<span class="sourceLineNo">836</span>  public static Traverser&lt;File&gt; fileTraverser() {<a name="line.836"></a>
-<span class="sourceLineNo">837</span>    return Traverser.forTree(FILE_TREE);<a name="line.837"></a>
-<span class="sourceLineNo">838</span>  }<a name="line.838"></a>
-<span class="sourceLineNo">839</span><a name="line.839"></a>
-<span class="sourceLineNo">840</span>  private static final SuccessorsFunction&lt;File&gt; FILE_TREE =<a name="line.840"></a>
-<span class="sourceLineNo">841</span>      new SuccessorsFunction&lt;File&gt;() {<a name="line.841"></a>
-<span class="sourceLineNo">842</span>        @Override<a name="line.842"></a>
-<span class="sourceLineNo">843</span>        public Iterable&lt;File&gt; successors(File file) {<a name="line.843"></a>
-<span class="sourceLineNo">844</span>          return fileTreeChildren(file);<a name="line.844"></a>
-<span class="sourceLineNo">845</span>        }<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      };<a name="line.846"></a>
-<span class="sourceLineNo">847</span><a name="line.847"></a>
-<span class="sourceLineNo">848</span>  private static Iterable&lt;File&gt; fileTreeChildren(File file) {<a name="line.848"></a>
-<span class="sourceLineNo">849</span>    // check isDirectory() just because it may be faster than listFiles() on a non-directory<a name="line.849"></a>
-<span class="sourceLineNo">850</span>    if (file.isDirectory()) {<a name="line.850"></a>
-<span class="sourceLineNo">851</span>      File[] files = file.listFiles();<a name="line.851"></a>
-<span class="sourceLineNo">852</span>      if (files != null) {<a name="line.852"></a>
-<span class="sourceLineNo">853</span>        return Collections.unmodifiableList(Arrays.asList(files));<a name="line.853"></a>
-<span class="sourceLineNo">854</span>      }<a name="line.854"></a>
-<span class="sourceLineNo">855</span>    }<a name="line.855"></a>
-<span class="sourceLineNo">856</span><a name="line.856"></a>
-<span class="sourceLineNo">857</span>    return Collections.emptyList();<a name="line.857"></a>
-<span class="sourceLineNo">858</span>  }<a name="line.858"></a>
-<span class="sourceLineNo">859</span><a name="line.859"></a>
-<span class="sourceLineNo">860</span>  /**<a name="line.860"></a>
-<span class="sourceLineNo">861</span>   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.<a name="line.861"></a>
-<span class="sourceLineNo">862</span>   *<a name="line.862"></a>
-<span class="sourceLineNo">863</span>   * @since 15.0<a name="line.863"></a>
-<span class="sourceLineNo">864</span>   */<a name="line.864"></a>
-<span class="sourceLineNo">865</span>  public static Predicate&lt;File&gt; isDirectory() {<a name="line.865"></a>
-<span class="sourceLineNo">866</span>    return FilePredicate.IS_DIRECTORY;<a name="line.866"></a>
-<span class="sourceLineNo">867</span>  }<a name="line.867"></a>
-<span class="sourceLineNo">868</span><a name="line.868"></a>
-<span class="sourceLineNo">869</span>  /**<a name="line.869"></a>
-<span class="sourceLineNo">870</span>   * Returns a predicate that returns the result of {@link File#isFile} on input files.<a name="line.870"></a>
-<span class="sourceLineNo">871</span>   *<a name="line.871"></a>
-<span class="sourceLineNo">872</span>   * @since 15.0<a name="line.872"></a>
-<span class="sourceLineNo">873</span>   */<a name="line.873"></a>
-<span class="sourceLineNo">874</span>  public static Predicate&lt;File&gt; isFile() {<a name="line.874"></a>
-<span class="sourceLineNo">875</span>    return FilePredicate.IS_FILE;<a name="line.875"></a>
-<span class="sourceLineNo">876</span>  }<a name="line.876"></a>
-<span class="sourceLineNo">877</span><a name="line.877"></a>
-<span class="sourceLineNo">878</span>  private enum FilePredicate implements Predicate&lt;File&gt; {<a name="line.878"></a>
-<span class="sourceLineNo">879</span>    IS_DIRECTORY {<a name="line.879"></a>
-<span class="sourceLineNo">880</span>      @Override<a name="line.880"></a>
-<span class="sourceLineNo">881</span>      public boolean apply(File file) {<a name="line.881"></a>
-<span class="sourceLineNo">882</span>        return file.isDirectory();<a name="line.882"></a>
-<span class="sourceLineNo">883</span>      }<a name="line.883"></a>
-<span class="sourceLineNo">884</span><a name="line.884"></a>
-<span class="sourceLineNo">885</span>      @Override<a name="line.885"></a>
-<span class="sourceLineNo">886</span>      public String toString() {<a name="line.886"></a>
-<span class="sourceLineNo">887</span>        return "Files.isDirectory()";<a name="line.887"></a>
-<span class="sourceLineNo">888</span>      }<a name="line.888"></a>
-<span class="sourceLineNo">889</span>    },<a name="line.889"></a>
-<span class="sourceLineNo">890</span><a name="line.890"></a>
-<span class="sourceLineNo">891</span>    IS_FILE {<a name="line.891"></a>
-<span class="sourceLineNo">892</span>      @Override<a name="line.892"></a>
-<span class="sourceLineNo">893</span>      public boolean apply(File file) {<a name="line.893"></a>
-<span class="sourceLineNo">894</span>        return file.isFile();<a name="line.894"></a>
-<span class="sourceLineNo">895</span>      }<a name="line.895"></a>
-<span class="sourceLineNo">896</span><a name="line.896"></a>
-<span class="sourceLineNo">897</span>      @Override<a name="line.897"></a>
-<span class="sourceLineNo">898</span>      public String toString() {<a name="line.898"></a>
-<span class="sourceLineNo">899</span>        return "Files.isFile()";<a name="line.899"></a>
-<span class="sourceLineNo">900</span>      }<a name="line.900"></a>
-<span class="sourceLineNo">901</span>    }<a name="line.901"></a>
-<span class="sourceLineNo">902</span>  }<a name="line.902"></a>
-<span class="sourceLineNo">903</span>}<a name="line.903"></a>
+<span class="sourceLineNo">831</span>   * &lt;p&gt;Example: {@code Files.fileTraverser().depthFirstPreOrder(new File("/"))} may return files<a name="line.831"></a>
+<span class="sourceLineNo">832</span>   * with the following paths: {@code ["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home",<a name="line.832"></a>
+<span class="sourceLineNo">833</span>   * "/home/alice", ...]}<a name="line.833"></a>
+<span class="sourceLineNo">834</span>   *<a name="line.834"></a>
+<span class="sourceLineNo">835</span>   * @since 23.5<a name="line.835"></a>
+<span class="sourceLineNo">836</span>   */<a name="line.836"></a>
+<span class="sourceLineNo">837</span>  public static Traverser&lt;File&gt; fileTraverser() {<a name="line.837"></a>
+<span class="sourceLineNo">838</span>    return Traverser.forTree(FILE_TREE);<a name="line.838"></a>
+<span class="sourceLineNo">839</span>  }<a name="line.839"></a>
+<span class="sourceLineNo">840</span><a name="line.840"></a>
+<span class="sourceLineNo">841</span>  private static final SuccessorsFunction&lt;File&gt; FILE_TREE =<a name="line.841"></a>
+<span class="sourceLineNo">842</span>      new SuccessorsFunction&lt;File&gt;() {<a name="line.842"></a>
+<span class="sourceLineNo">843</span>        @Override<a name="line.843"></a>
+<span class="sourceLineNo">844</span>        public Iterable&lt;File&gt; successors(File file) {<a name="line.844"></a>
+<span class="sourceLineNo">845</span>          return fileTreeChildren(file);<a name="line.845"></a>
+<span class="sourceLineNo">846</span>        }<a name="line.846"></a>
+<span class="sourceLineNo">847</span>      };<a name="line.847"></a>
+<span class="sourceLineNo">848</span><a name="line.848"></a>
+<span class="sourceLineNo">849</span>  private static Iterable&lt;File&gt; fileTreeChildren(File file) {<a name="line.849"></a>
+<span class="sourceLineNo">850</span>    // check isDirectory() just because it may be faster than listFiles() on a non-directory<a name="line.850"></a>
+<span class="sourceLineNo">851</span>    if (file.isDirectory()) {<a name="line.851"></a>
+<span class="sourceLineNo">852</span>      File[] files = file.listFiles();<a name="line.852"></a>
+<span class="sourceLineNo">853</span>      if (files != null) {<a name="line.853"></a>
+<span class="sourceLineNo">854</span>        return Collections.unmodifiableList(Arrays.asList(files));<a name="line.854"></a>
+<span class="sourceLineNo">855</span>      }<a name="line.855"></a>
+<span class="sourceLineNo">856</span>    }<a name="line.856"></a>
+<span class="sourceLineNo">857</span><a name="line.857"></a>
+<span class="sourceLineNo">858</span>    return Collections.emptyList();<a name="line.858"></a>
+<span class="sourceLineNo">859</span>  }<a name="line.859"></a>
+<span class="sourceLineNo">860</span><a name="line.860"></a>
+<span class="sourceLineNo">861</span>  /**<a name="line.861"></a>
+<span class="sourceLineNo">862</span>   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.<a name="line.862"></a>
+<span class="sourceLineNo">863</span>   *<a name="line.863"></a>
+<span class="sourceLineNo">864</span>   * @since 15.0<a name="line.864"></a>
+<span class="sourceLineNo">865</span>   */<a name="line.865"></a>
+<span class="sourceLineNo">866</span>  public static Predicate&lt;File&gt; isDirectory() {<a name="line.866"></a>
+<span class="sourceLineNo">867</span>    return FilePredicate.IS_DIRECTORY;<a name="line.867"></a>
+<span class="sourceLineNo">868</span>  }<a name="line.868"></a>
+<span class="sourceLineNo">869</span><a name="line.869"></a>
+<span class="sourceLineNo">870</span>  /**<a name="line.870"></a>
+<span class="sourceLineNo">871</span>   * Returns a predicate that returns the result of {@link File#isFile} on input files.<a name="line.871"></a>
+<span class="sourceLineNo">872</span>   *<a name="line.872"></a>
+<span class="sourceLineNo">873</span>   * @since 15.0<a name="line.873"></a>
+<span class="sourceLineNo">874</span>   */<a name="line.874"></a>
+<span class="sourceLineNo">875</span>  public static Predicate&lt;File&gt; isFile() {<a name="line.875"></a>
+<span class="sourceLineNo">876</span>    return FilePredicate.IS_FILE;<a name="line.876"></a>
+<span class="sourceLineNo">877</span>  }<a name="line.877"></a>
+<span class="sourceLineNo">878</span><a name="line.878"></a>
+<span class="sourceLineNo">879</span>  private enum FilePredicate implements Predicate&lt;File&gt; {<a name="line.879"></a>
+<span class="sourceLineNo">880</span>    IS_DIRECTORY {<a name="line.880"></a>
+<span class="sourceLineNo">881</span>      @Override<a name="line.881"></a>
+<span class="sourceLineNo">882</span>      public boolean apply(File file) {<a name="line.882"></a>
+<span class="sourceLineNo">883</span>        return file.isDirectory();<a name="line.883"></a>
+<span class="sourceLineNo">884</span>      }<a name="line.884"></a>
+<span class="sourceLineNo">885</span><a name="line.885"></a>
+<span class="sourceLineNo">886</span>      @Override<a name="line.886"></a>
+<span class="sourceLineNo">887</span>      public String toString() {<a name="line.887"></a>
+<span class="sourceLineNo">888</span>        return "Files.isDirectory()";<a name="line.888"></a>
+<span class="sourceLineNo">889</span>      }<a name="line.889"></a>
+<span class="sourceLineNo">890</span>    },<a name="line.890"></a>
+<span class="sourceLineNo">891</span><a name="line.891"></a>
+<span class="sourceLineNo">892</span>    IS_FILE {<a name="line.892"></a>
+<span class="sourceLineNo">893</span>      @Override<a name="line.893"></a>
+<span class="sourceLineNo">894</span>      public boolean apply(File file) {<a name="line.894"></a>
+<span class="sourceLineNo">895</span>        return file.isFile();<a name="line.895"></a>
+<span class="sourceLineNo">896</span>      }<a name="line.896"></a>
+<span class="sourceLineNo">897</span><a name="line.897"></a>
+<span class="sourceLineNo">898</span>      @Override<a name="line.898"></a>
+<span class="sourceLineNo">899</span>      public String toString() {<a name="line.899"></a>
+<span class="sourceLineNo">900</span>        return "Files.isFile()";<a name="line.900"></a>
+<span class="sourceLineNo">901</span>      }<a name="line.901"></a>
+<span class="sourceLineNo">902</span>    }<a name="line.902"></a>
+<span class="sourceLineNo">903</span>  }<a name="line.903"></a>
+<span class="sourceLineNo">904</span>}<a name="line.904"></a>
 
 
 

@@ -1143,7 +1143,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>fileTraverser</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.836">fileTraverser</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph">Traverser</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.837">fileTraverser</a>()</pre>
 <div class="block">Returns a <a href="../../../../com/google/common/graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instance for the file and directory tree. The returned traverser
  starts from a <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io"><code>File</code></a> and will return all files and directories it encounters.
 
@@ -1159,8 +1159,9 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
  a directory, no exception will be thrown and the returned <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a> will contain a
  single element: that file.
 
- <p>Example: <code>Files.fileTraverser().breadthFirst("/")</code> may return files with the following
- paths: <code>["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]</code></div>
+ <p>Example: <code>Files.fileTraverser().depthFirstPreOrder(new File("/"))</code> may return files
+ with the following paths: <code>["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home",
+ "/home/alice", ...]</code></div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>23.5</dd>
@@ -1173,7 +1174,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirectory</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.865">isDirectory</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.866">isDirectory</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isDirectory--" title="class or interface in java.io"><code>File.isDirectory()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -1187,7 +1188,7 @@ public static&nbsp;<a href="../../../../com/google/common/hash/HashCode.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isFile</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.874">isFile</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true" title="class or interface in java.io">File</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/io/Files.html#line.875">isFile</a>()</pre>
 <div class="block">Returns a predicate that returns the result of <a href="https://docs.oracle.com/javase/9/docs/api/java/io/File.html?is-external=true#isFile--" title="class or interface in java.io"><code>File.isFile()</code></a> on input files.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
