@@ -1,4 +1,4 @@
-This is a version of Guava with additional type annotations for the Checker Framework.
+This is a version of Guava that is annotated with type annotations for the Checker Framework.
 
 The annotations are only in the main Guava project, not in the "Android" variant that supports JDK 7 and Android.
 
@@ -36,8 +36,6 @@ The Maven properties in guava/pom.xml can be used to change the behavior:
 To update to a newer version of the upstream library
 ----------------------------------------------------
 
-This must be done on a CSE machine, which has access to the necessary passwords.
-
 Pull in the latest Guava version; for example:
 ```
 git fetch --tags https://github.com/google/guava
@@ -49,6 +47,8 @@ Use the latest Checker Framework version by changing `pom.xml` and `guava/pom.xm
 
 To upload to Maven Central
 --------------------------
+
+This must be done on a CSE machine, which has access to the necessary passwords.
 
 # Ensure the version number is set properly in file guava/cfMavenCentral.xml.
 # Then, set this variable to the same version.
@@ -76,4 +76,4 @@ mvn gpg:sign-and-deploy-file -Durl=https://oss.sonatype.org/service/local/stagin
 && \
 mvn gpg:sign-and-deploy-file -Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=sonatype-nexus-staging -DpomFile=cfMavenCentral.xml -Dgpg.publicKeyring=/projects/swlab1/checker-framework/hosting-info/pubring.gpg -Dgpg.secretKeyring=/projects/swlab1/checker-framework/hosting-info/secring.gpg -Dgpg.keyname=ADF4D638 -Dgpg.passphrase="`cat /projects/swlab1/checker-framework/hosting-info/release-private.password`" -Dfile=target/site/apidocs/${PACKAGE}-javadoc.jar -Dclassifier=javadoc
 
-# Browse to https://oss.sonatype.org/#stagingRepositories to complete the release.
+# Complete the release at https://oss.sonatype.org/#stagingRepositories
