@@ -67,7 +67,7 @@ final class Platform {
     return string || null;
   }-*/;
 
-  @JsType(isNative = true, name = "Number", namespace = GLOBAL)
+  @JsType(isNative = true, name = "number", namespace = GLOBAL)
   private interface Number {
     double toPrecision(int precision);
   }
