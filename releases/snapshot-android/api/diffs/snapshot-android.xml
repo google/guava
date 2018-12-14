@@ -50058,6 +50058,28 @@
  necessary in certain situations for compatibility.]]>
       </doc>
     </field>
+    <field name="JOSE" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the Compact
+ Serialization</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="JOSE_JSON" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the JSON
+ Serialization</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="JSON_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"

@@ -14,5 +14,7 @@ MISSING @SINCE TAG: com.google.common.graph.MutableValueGraph Method putEdgeValu
 MISSING @SINCE TAG: com.google.common.graph.MutableGraph Method removeEdge(com.google.common.graph.EndpointPair<N>)
 MISSING @SINCE TAG: com.google.common.graph.MutableValueGraph Method removeEdge(com.google.common.graph.EndpointPair<N>)
 MISSING @SINCE TAG: com.google.common.graph.AbstractNetwork Method validateEndpoints(com.google.common.graph.EndpointPair<?>)
+OK: com.google.common.net.MediaType Field JOSE
+OK: com.google.common.net.MediaType Field JOSE_JSON
 OK: com.google.common.net.MediaType Field MICROSOFT_OUTLOOK
 MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field ORIGIN_TRIAL
