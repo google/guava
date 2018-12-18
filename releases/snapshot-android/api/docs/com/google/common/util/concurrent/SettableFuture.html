@@ -273,7 +273,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.47">set</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                          <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#set-V-">AbstractFuture</a></code></span></div>
@@ -299,7 +299,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>setException</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.53">setException</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&nbsp;throwable)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setException-java.lang.Throwable-">AbstractFuture</a></code></span></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
@@ -326,7 +326,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <li class="blockList">
 <h4>setFuture</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
- <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+ @CanIgnoreReturnValue
 public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line.60">setFuture</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="../../../../../com/google/common/util/concurrent/SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#setFuture-com.google.common.util.concurrent.ListenableFuture-">AbstractFuture</a></code></span></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
@@ -364,7 +364,7 @@ public&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.89">get</a>()
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">ExecutionException</a></pre>
@@ -395,7 +395,7 @@ public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.95">get</a>(long&nbsp;timeout,
                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                                   throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a>,
@@ -526,7 +526,7 @@ public final&nbsp;V&nbsp;<a href="../../../../../src-html/com/google/common/util
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cancel</h4>
-<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+<pre>@CanIgnoreReturnValue
 public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.TrustedFuture.html#line.117">cancel</a>(boolean&nbsp;mayInterruptIfRunning)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html#cancel-boolean-">AbstractFuture</a></code></span></div>
 <div class="block">Attempts to cancel execution of this task.  This attempt will
