@@ -331,7 +331,8 @@ public final class Files {
    *     be removed in January 2019.
    */
   @Deprecated
-  public static void copy(File from, Charset charset, Appendable to) throws IOException {
+  public
+  static void copy(File from, Charset charset, Appendable to) throws IOException {
     asCharSource(from, charset).copyTo(to);
   }
 
@@ -347,7 +348,8 @@ public final class Files {
    *     method is scheduled to be removed in January 2019.
    */
   @Deprecated
-  public static void append(CharSequence from, File to, Charset charset) throws IOException {
+  public
+  static void append(CharSequence from, File to, Charset charset) throws IOException {
     asCharSink(to, charset, FileWriteMode.APPEND).write(from);
   }
 
@@ -500,7 +502,8 @@ public final class Files {
    *     scheduled to be removed in January 2019.
    */
   @Deprecated
-  public static String readFirstLine(File file, Charset charset) throws IOException {
+  public
+  static String readFirstLine(File file, Charset charset) throws IOException {
     return asCharSource(file, charset).readFirstLine();
   }
 
@@ -556,8 +559,8 @@ public final class Files {
    */
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(File file, Charset charset, LineProcessor<T> callback)
-      throws IOException {
+  public
+  static <T> T readLines(File file, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(file, charset).readLines(callback);
   }
 
@@ -575,7 +578,8 @@ public final class Files {
    */
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readBytes(File file, ByteProcessor<T> processor) throws IOException {
+  public
+  static <T> T readBytes(File file, ByteProcessor<T> processor) throws IOException {
     return asByteSource(file).read(processor);
   }
 
@@ -591,7 +595,8 @@ public final class Files {
    *     be removed in January 2019.
    */
   @Deprecated
-  public static HashCode hash(File file, HashFunction hashFunction) throws IOException {
+  public
+  static HashCode hash(File file, HashFunction hashFunction) throws IOException {
     return asByteSource(file).hash(hashFunction);
   }
 
