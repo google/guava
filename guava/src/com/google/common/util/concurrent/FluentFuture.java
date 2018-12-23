@@ -109,6 +109,14 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
     public final boolean cancel(boolean mayInterruptIfRunning) {
       return super.cancel(mayInterruptIfRunning);
     }
+    
+    @Override
+    protected final boolean requiresAfterDoneCallback() {
+      return false;
+    }
+    
+    @Override
+    protected final void afterDone() {}
   }
 
   FluentFuture() {}

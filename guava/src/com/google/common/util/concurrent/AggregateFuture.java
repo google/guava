@@ -46,6 +46,13 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
    */
   private @Nullable RunningState runningState;
 
+  //TODO it would be nice to eliminate this if possible - only applies to the CombinedFuture
+  // subclass currently, which is the only one that makes use of setFuture()
+  @Override
+  protected final boolean requiresAfterDoneCallback() {
+    return true;
+  }
+
   @Override
   protected final void afterDone() {
     super.afterDone();

@@ -73,23 +73,22 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
 
   @Override
   public void run() {
-    InterruptibleTask localTask = task;
+    InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.run();
+      
+      /*
+       * In the Async case, we may have called setFuture(pendingFuture), in which case afterDone()
+       * won't have been called yet.
+       */
+      this.task = null;
     }
-    /*
-     * In the Async case, we may have called setFuture(pendingFuture), in which case afterDone()
-     * won't have been called yet.
-     */
-    this.task = null;
   }
 
   @Override
-  protected void afterDone() {
-    super.afterDone();
-
+  protected void afterEarlyCancellation() {
     if (wasInterrupted()) {
-      InterruptibleTask localTask = task;
+      InterruptibleTask<?> localTask = task;
       if (localTask != null) {
         localTask.interruptTask();
       }
@@ -100,7 +99,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
 
   @Override
   protected String pendingToString() {
-    InterruptibleTask localTask = task;
+    InterruptibleTask<?> localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";
     }

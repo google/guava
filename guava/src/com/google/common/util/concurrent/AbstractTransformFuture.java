@@ -52,8 +52,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @Nullable ListenableFuture<? extends I> inputFuture;
-  @Nullable F function;
+  private @Nullable ListenableFuture<? extends I> inputFuture;
+  private @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -73,6 +73,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
       @SuppressWarnings("unchecked")
       boolean unused =
           setFuture((ListenableFuture<O>) localInputFuture); // Respects cancellation cause setting
+      function = null;
       return;
     }
 
@@ -94,14 +95,17 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of
       // mayInterruptIfRunning is irrelevant.
       cancel(false);
+      function = null;
       return;
     } catch (ExecutionException e) {
       // Set the cause of the exception as this future's exception.
       setException(e.getCause());
+      function = null;
       return;
     } catch (RuntimeException e) {
       // Bug in inputFuture.get(). Propagate to the output Future so that its consumers don't hang.
       setException(e);
+      function = null;
       return;
     } catch (Error e) {
       /*
@@ -110,6 +114,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
        * resulting Error will propagate upward up to the root call to set().
        */
       setException(e);
+      function = null;
       return;
     }
 
@@ -172,9 +177,12 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
   abstract void setResult(@Nullable T result);
 
   @Override
-  protected final void afterDone() {
-    maybePropagateCancellationTo(inputFuture);
-    this.inputFuture = null;
+  protected final void afterEarlyCancellation() {
+    final ListenableFuture<? extends I> inputFuture = this.inputFuture;
+    if (inputFuture != null) {
+      inputFuture.cancel(wasInterrupted());
+      this.inputFuture = null;
+    }
     this.function = null;
   }
 

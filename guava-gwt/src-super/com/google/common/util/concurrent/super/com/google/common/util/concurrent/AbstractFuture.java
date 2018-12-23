@@ -106,6 +106,8 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     if (delegate != null) {
       // TODO(lukes): consider adding the StackOverflowError protection from the server version
       delegate.cancel(mayInterruptIfRunning);
+    } else {
+      afterEarlyCancellation();
     }
 
     return true;
@@ -216,6 +218,12 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   protected void afterDone() {}
+
+  protected void afterEarlyCancellation() {}
+
+  protected boolean requiresAfterDoneCallback() {
+    return true;
+  }
 
   @Override
   protected final Throwable tryInternalFastPathGetFailure() {
