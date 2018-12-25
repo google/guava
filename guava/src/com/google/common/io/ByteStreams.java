@@ -488,7 +488,6 @@ public final class ByteStreams {
     return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
   }
 
-  @SuppressWarnings("deprecation") // for writeBytes
   private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
