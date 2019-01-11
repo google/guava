@@ -67,6 +67,7 @@ interface ReferenceEntry<K, V> {
   long getAccessTime();
 
   /** Sets the entry access time in ns. */
+  @SuppressWarnings("GoodTime") // b/122668874
   void setAccessTime(long time);
 
   /** Returns the next entry in the access queue. */
@@ -91,6 +92,7 @@ interface ReferenceEntry<K, V> {
   long getWriteTime();
 
   /** Sets the entry write time in ns. */
+  @SuppressWarnings("GoodTime") // b/122668874
   void setWriteTime(long time);
 
   /** Returns the next entry in the write queue. */

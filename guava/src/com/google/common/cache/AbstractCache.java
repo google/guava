@@ -216,12 +216,14 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       missCount.add(count);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadSuccess(long loadTime) {
       loadSuccessCount.increment();
       totalLoadTime.add(loadTime);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadException(long loadTime) {
       loadExceptionCount.increment();

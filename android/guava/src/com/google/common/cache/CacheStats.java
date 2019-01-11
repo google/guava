@@ -60,7 +60,10 @@ public final class CacheStats {
   private final long missCount;
   private final long loadSuccessCount;
   private final long loadExceptionCount;
+
+  @SuppressWarnings("GoodTime") // should be a java.time.Duration
   private final long totalLoadTime;
+
   private final long evictionCount;
 
   /**
