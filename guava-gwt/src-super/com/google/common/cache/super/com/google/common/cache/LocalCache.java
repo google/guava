@@ -241,6 +241,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private V load(Object key) throws ExecutionException {
     long startTime = ticker.read();
     V calculatedValue;
@@ -300,6 +301,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return load(key);
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private static class Timestamped<V> {
     private final V value;
     private final Ticker ticker;
