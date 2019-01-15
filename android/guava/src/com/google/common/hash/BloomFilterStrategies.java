@@ -191,7 +191,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     boolean get(long bitIndex) {
-      return (data.get((int) (bitIndex >>> 6)) & (1L << bitIndex)) != 0;
+      return (data.get((int) (bitIndex >>> LONG_ADDRESSABLE_BITS)) & (1L << bitIndex)) != 0;
     }
 
     /**
