@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A skeletal implementation of {@code RangeSet}.
@@ -60,37 +60,13 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   }
 
   @Override
-  public boolean enclosesAll(Iterable<Range<C>> ranges) {
-    for (Range<C> range : ranges) {
-      if (!encloses(range)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
   public void addAll(RangeSet<C> other) {
     addAll(other.asRanges());
   }
 
   @Override
-  public void addAll(Iterable<Range<C>> ranges) {
-    for (Range<C> range : ranges) {
-      add(range);
-    }
-  }
-
-  @Override
   public void removeAll(RangeSet<C> other) {
     removeAll(other.asRanges());
-  }
-
-  @Override
-  public void removeAll(Iterable<Range<C>> ranges) {
-    for (Range<C> range : ranges) {
-      remove(range);
-    }
   }
 
   @Override

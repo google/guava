@@ -25,9 +25,10 @@ import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Used to represent the order of elements in a data structure that supports different options for
@@ -35,28 +36,29 @@ import javax.annotation.Nullable;
  *
  * <p>Example usage:
  *
- * <pre><code>
+ * <pre>{@code
  * MutableGraph<Integer> graph =
  *     GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- * </code></pre>
+ * }</pre>
  *
  * @author Joshua O'Madadhain
  * @since 20.0
  */
 @Beta
+@Immutable
 public final class ElementOrder<T> {
   private final Type type;
 
-  @Nullable
-  private final Comparator<T> comparator;
+  @SuppressWarnings("Immutable") // Hopefully the comparator provided is immutable!
+  private final @Nullable Comparator<T> comparator;
 
   /**
    * The type of ordering that this object specifies.
    *
    * <ul>
-   * <li>UNORDERED: no order is guaranteed.
-   * <li>INSERTION: insertion ordering is guaranteed.
-   * <li>SORTED: ordering according to a supplied comparator is guaranteed.
+   *   <li>UNORDERED: no order is guaranteed.
+   *   <li>INSERTION: insertion ordering is guaranteed.
+   *   <li>SORTED: ordering according to a supplied comparator is guaranteed.
    * </ul>
    */
   public enum Type {

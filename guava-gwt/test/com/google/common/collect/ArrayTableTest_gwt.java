@@ -114,6 +114,12 @@ public void testCreateCopyArrayTable() throws Exception {
   testCase.testCreateCopyArrayTable();
 }
 
+public void testCreateCopyEmptyArrayTable() throws Exception {
+  com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
+  testCase.setUp();
+  testCase.testCreateCopyEmptyArrayTable();
+}
+
 public void testCreateCopyEmptyTable() throws Exception {
   com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
   testCase.setUp();
@@ -148,6 +154,12 @@ public void testCreateEmptyRows() throws Exception {
   com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
   testCase.setUp();
   testCase.testCreateEmptyRows();
+}
+
+public void testCreateEmptyRowsXColumns() throws Exception {
+  com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
+  testCase.setUp();
+  testCase.testCreateEmptyRowsXColumns();
 }
 
 public void testEquals() throws Exception {

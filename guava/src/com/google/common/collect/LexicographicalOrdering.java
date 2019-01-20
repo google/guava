@@ -20,12 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * An ordering which sorts iterables by comparing corresponding elements
- * pairwise.
- */
+/** An ordering which sorts iterables by comparing corresponding elements pairwise. */
 @GwtCompatible(serializable = true)
 final class LexicographicalOrdering<T> extends Ordering<Iterable<T>> implements Serializable {
   final Comparator<? super T> elementOrder;

@@ -24,13 +24,17 @@ import com.google.common.collect.testing.testers.CollectionContainsAllTester;
 import com.google.common.collect.testing.testers.CollectionContainsTester;
 import com.google.common.collect.testing.testers.CollectionCreationTester;
 import com.google.common.collect.testing.testers.CollectionEqualsTester;
+import com.google.common.collect.testing.testers.CollectionForEachTester;
 import com.google.common.collect.testing.testers.CollectionIsEmptyTester;
 import com.google.common.collect.testing.testers.CollectionIteratorTester;
 import com.google.common.collect.testing.testers.CollectionRemoveAllTester;
+import com.google.common.collect.testing.testers.CollectionRemoveIfTester;
 import com.google.common.collect.testing.testers.CollectionRemoveTester;
 import com.google.common.collect.testing.testers.CollectionRetainAllTester;
 import com.google.common.collect.testing.testers.CollectionSerializationTester;
 import com.google.common.collect.testing.testers.CollectionSizeTester;
+import com.google.common.collect.testing.testers.CollectionSpliteratorTester;
+import com.google.common.collect.testing.testers.CollectionStreamTester;
 import com.google.common.collect.testing.testers.CollectionToArrayTester;
 import com.google.common.collect.testing.testers.CollectionToStringTester;
 import java.util.Arrays;
@@ -58,13 +62,17 @@ public abstract class AbstractCollectionTestSuiteBuilder<
         CollectionContainsTester.class,
         CollectionCreationTester.class,
         CollectionEqualsTester.class,
+        CollectionForEachTester.class,
         CollectionIsEmptyTester.class,
         CollectionIteratorTester.class,
         CollectionRemoveAllTester.class,
+        CollectionRemoveIfTester.class,
         CollectionRemoveTester.class,
         CollectionRetainAllTester.class,
         CollectionSerializationTester.class,
         CollectionSizeTester.class,
+        CollectionSpliteratorTester.class,
+        CollectionStreamTester.class,
         CollectionToArrayTester.class,
         CollectionToStringTester.class);
   }

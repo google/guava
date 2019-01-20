@@ -156,6 +156,12 @@ public void testSetFutureDelegateAlreadyCancelled() throws Exception {
   testCase.testSetFutureDelegateAlreadyCancelled();
 }
 
+public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testSetFutureDelegateAlreadyInterrupted();
+}
+
 public void testSetFutureDelegateAlreadySuccessful() throws Exception {
   com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
   testCase.setUp();
@@ -166,6 +172,12 @@ public void testSetFutureDelegateLaterCancelled() throws Exception {
   com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
   testCase.setUp();
   testCase.testSetFutureDelegateLaterCancelled();
+}
+
+public void testSetFutureDelegateLaterInterrupted() throws Exception {
+  com.google.common.util.concurrent.UntrustedInputFutureTest testCase = new com.google.common.util.concurrent.UntrustedInputFutureTest();
+  testCase.setUp();
+  testCase.testSetFutureDelegateLaterInterrupted();
 }
 
 public void testSetFutureDelegateLaterSuccessful() throws Exception {

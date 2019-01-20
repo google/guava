@@ -30,7 +30,7 @@ import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for directed networks.
@@ -96,14 +96,14 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
   }
 
   @Override
-  public N oppositeNode(Object edge) {
+  public N adjacentNode(E edge) {
     // Since the reference node is defined to be 'source' for directed graphs,
     // we can assume this edge lives in the set of outgoing edges.
     return checkNotNull(outEdgeMap.get(edge));
   }
 
   @Override
-  public N removeInEdge(Object edge, boolean isSelfLoop) {
+  public N removeInEdge(E edge, boolean isSelfLoop) {
     if (isSelfLoop) {
       checkNonNegative(--selfLoopCount);
     }
@@ -112,7 +112,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
   }
 
   @Override
-  public N removeOutEdge(Object edge) {
+  public N removeOutEdge(E edge) {
     N previousNode = outEdgeMap.remove(edge);
     return checkNotNull(previousNode);
   }

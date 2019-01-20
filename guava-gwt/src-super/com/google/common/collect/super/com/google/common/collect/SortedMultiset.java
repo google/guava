@@ -21,8 +21,8 @@ import java.util.Comparator;
 import java.util.SortedSet;
 
 /**
- * GWT emulation of {@code SortedMultiset}, with {@code elementSet} reduced
- * to returning a {@code SortedSet} for GWT compatibility.
+ * GWT emulation of {@code SortedMultiset}, with {@code elementSet} reduced to returning a {@code
+ * SortedSet} for GWT compatibility.
  *
  * @author Louis Wasserman
  * @since 11.0
@@ -40,17 +40,18 @@ public interface SortedMultiset<E> extends Multiset<E>, SortedIterable<E> {
   Entry<E> pollLastEntry();
 
   /**
-   * Returns a {@link SortedSet} view of the distinct elements in this multiset.
-   * (Outside GWT, this returns a {@code NavigableSet}.)
+   * Returns a {@link SortedSet} view of the distinct elements in this multiset. (Outside GWT, this
+   * returns a {@code NavigableSet}.)
    */
-  @Override SortedSet<E> elementSet();
+  @Override
+  SortedSet<E> elementSet();
 
   SortedMultiset<E> descendingMultiset();
 
   SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
-  SortedMultiset<E> subMultiset(E lowerBound, BoundType lowerBoundType,
-      E upperBound, BoundType upperBoundType);
+  SortedMultiset<E> subMultiset(
+      E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType);
 
   SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
 }

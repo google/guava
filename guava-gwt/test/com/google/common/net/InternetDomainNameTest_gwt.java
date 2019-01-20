@@ -28,11 +28,6 @@ public void testEquality() throws Exception {
   testCase.testEquality();
 }
 
-public void testExclusion() throws Exception {
-  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
-  testCase.testExclusion();
-}
-
 public void testInvalid() throws Exception {
   com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
   testCase.testInvalid();
@@ -46,11 +41,6 @@ public void testInvalidTopPrivateDomain() throws Exception {
 public void testIsValid() throws Exception {
   com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
   testCase.testIsValid();
-}
-
-public void testMultipleUnders() throws Exception {
-  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
-  testCase.testMultipleUnders();
 }
 
 public void testParent() throws Exception {
@@ -68,9 +58,39 @@ public void testPublicSuffix() throws Exception {
   testCase.testPublicSuffix();
 }
 
+public void testPublicSuffixExclusion() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testPublicSuffixExclusion();
+}
+
+public void testPublicSuffixMultipleUnders() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testPublicSuffixMultipleUnders();
+}
+
+public void testRegistrySuffix() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testRegistrySuffix();
+}
+
+public void testRegistrySuffixExclusion() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testRegistrySuffixExclusion();
+}
+
+public void testRegistrySuffixMultipleUnders() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testRegistrySuffixMultipleUnders();
+}
+
 public void testToString() throws Exception {
   com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
   testCase.testToString();
+}
+
+public void testTopDomainUnderRegistrySuffix() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testTopDomainUnderRegistrySuffix();
 }
 
 public void testTopPrivateDomain() throws Exception {
@@ -86,6 +106,16 @@ public void testUnderPrivateDomain() throws Exception {
 public void testUnderPublicSuffix() throws Exception {
   com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
   testCase.testUnderPublicSuffix();
+}
+
+public void testUnderRegistrySuffix() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testUnderRegistrySuffix();
+}
+
+public void testUnderTopDomainUnderRegistrySuffix() throws Exception {
+  com.google.common.net.InternetDomainNameTest testCase = new com.google.common.net.InternetDomainNameTest();
+  testCase.testUnderTopDomainUnderRegistrySuffix();
 }
 
 public void testValid() throws Exception {

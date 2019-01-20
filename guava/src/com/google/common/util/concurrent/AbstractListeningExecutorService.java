@@ -20,7 +20,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RunnableFuture;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Abstract {@link ListeningExecutorService} implementation that creates {@link ListenableFuture}

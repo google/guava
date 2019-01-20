@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -29,6 +31,37 @@ import jsinterop.annotations.JsType;
  * @author Hayward Chan
  */
 final class Platform {
+  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+    return Maps.newHashMapWithExpectedSize(expectedSize);
+  }
+
+  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+    return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+    return Sets.newHashSetWithExpectedSize(expectedSize);
+  }
+
+  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+    return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
+  }
+
+  /**
+   * Returns the platform preferred map implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+    return Maps.newLinkedHashMap();
+  }
+
+  /**
+   * Returns the platform preferred set implementation that preserves insertion order when used only
+   * for insertions.
+   */
+  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+    return Sets.newLinkedHashSet();
+  }
 
   static <T> T[] newArray(T[] reference, int length) {
     T[] clone = Arrays.copyOf(reference, 0);
@@ -40,6 +73,13 @@ final class Platform {
     ((NativeArray) array).setLength(newSize);
   }
 
+  /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+    T[] result = newArray(arrayOfType, to - from);
+    System.arraycopy(source, from, result, 0, to - from);
+    return result;
+  }
+
   // TODO(user): Move this logic to a utility class.
   @JsType(isNative = true, name = "Array", namespace = JsPackage.GLOBAL)
   private interface NativeArray {
@@ -49,6 +89,14 @@ final class Platform {
 
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
+  }
+
+  static int reduceIterationsIfGwt(int iterations) {
+    return iterations / 10;
+  }
+
+  static int reduceExponentIfGwt(int exponent) {
+    return exponent / 2;
   }
 
   private Platform() {}

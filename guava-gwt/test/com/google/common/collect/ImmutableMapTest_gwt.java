@@ -33,9 +33,24 @@ public void testAsMultimapWhenEmpty() throws Exception {
   testCase.testAsMultimapWhenEmpty();
 }
 
+public void testBuilderPutAllEntryList() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testBuilderPutAllEntryList();
+}
+
+public void testBuilderPutAllEntryListJdkBacked() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testBuilderPutAllEntryListJdkBacked();
+}
+
 public void testCopyOfEnumMap() throws Exception {
   com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
   testCase.testCopyOfEnumMap();
+}
+
+public void testCopyOfMutableEntryList() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testCopyOfMutableEntryList();
 }
 
 public void testEquals() throws Exception {
@@ -186,6 +201,21 @@ public void testPuttingTheSameKeyTwiceThrowsOnBuild__CreationTests() throws Exce
 public void testSingletonBuilder__CreationTests() throws Exception {
   com.google.common.collect.ImmutableMapTest.CreationTests testCase = new com.google.common.collect.ImmutableMapTest.CreationTests();
   testCase.testSingletonBuilder();
+}
+
+public void testToImmutableMap__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableMapTest.CreationTests testCase = new com.google.common.collect.ImmutableMapTest.CreationTests();
+  testCase.testToImmutableMap();
+}
+
+public void testToImmutableMapMerging__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableMapTest.CreationTests testCase = new com.google.common.collect.ImmutableMapTest.CreationTests();
+  testCase.testToImmutableMapMerging();
+}
+
+public void testToImmutableMap_exceptionOnDuplicateKey__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableMapTest.CreationTests testCase = new com.google.common.collect.ImmutableMapTest.CreationTests();
+  testCase.testToImmutableMap_exceptionOnDuplicateKey();
 }
 
 public void testClear__MapTestsWithBadHashes() throws Exception {

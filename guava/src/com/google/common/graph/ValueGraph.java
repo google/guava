@@ -17,134 +17,332 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import java.util.ConcurrentModificationException;
-import java.util.Map;
-import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- * data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
- * edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
- * relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- * with an undirected graph, where an edge that connects node U to node V also connects node V to
- * node U. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
- * represented with a directed graph, where edges are strictly one-way.
+ * An interface for <a
+ * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ * whose edges have associated non-unique values.
  *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
+ * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
+ *
+ * <p>There are three primary interfaces provided to represent graphs. In order of increasing
  * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
- * prefer the simplest interface that satisfies your use case.
+ * prefer the simplest interface that satisfies your use case. See the <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
+ * "Choosing the right graph type"</a> section of the Guava User Guide for more details.
  *
- * <p>To choose the right interface, answer these questions:
+ * <h3>Capabilities</h3>
  *
- * <ol>
- * <li>Do you have data (objects) that you wish to associate with edges?
- *     <p>Yes: Go to question 2. No: Use {@link Graph}.
- * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
- *     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
- *     where this would <i>not</i> be the case is with weighted graphs.
- *     <p>Yes: Go to question 3. No: Use {@link ValueGraph}.
- * <li>Do you need to be able to query the graph for an edge associated with a particular object?
- *     For example, do you need to query what nodes an edge associated with a particular object
- *     connects, or whether an edge associated with that object exists in the graph?
- *     <p>Yes: Use {@link Network}. No: Go to question 4.
- * <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
- *     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
- *     <p>Yes: Use {@link Network}. No: Use {@link ValueGraph}.
- * </ol>
+ * <p>{@code ValueGraph} supports the following use cases (<a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
+ * terms</a>):
  *
- * <p>Although {@link MutableValueGraph} and {@link MutableNetwork} both require users to provide
- * objects to associate with edges when adding them, the differentiating factor is that in {@link
- * ValueGraph}s, these objects can be any arbitrary data. Like the values in a {@link Map}, they do
- * not have to be unique, and can be mutated while in the graph. In a {@link Network}, these objects
- * serve as keys into the data structure. Like the keys in a {@link Map}, they must be unique, and
- * cannot be mutated in a way that affects their equals/hashcode or the data structure will become
- * corrupted.
+ * <ul>
+ *   <li>directed graphs
+ *   <li>undirected graphs
+ *   <li>graphs that do/don't allow self-loops
+ *   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
+ *   <li>graphs whose edges have associated values
+ * </ul>
  *
- * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ * <p>{@code ValueGraph}, as a subtype of {@code Graph}, explicitly does not support parallel edges,
+ * and forbids implementations or extensions with parallel edges. If you need parallel edges, use
+ * {@link Network}. (You can use a positive {@code Integer} edge value as a loose representation of
+ * edge multiplicity, but the {@code *degree()} and mutation methods will not reflect your
+ * interpretation of the edge value as its multiplicity.)
  *
- * <p>The {@link Graph} interface does not support parallel {@link #edges()}, and forbids
- * implementations or extensions with parallel edges. It is possible to encode a notion of edge
- * multiplicity into the values of a {@link ValueGraph} (e.g. with an integer or a list of values),
- * but this will not be reflected in methods such as {@link Graph#degree(Object)}. For that
- * functionality, see {@link Network}.
+ * <h3>Building a {@code ValueGraph}</h3>
  *
- * <p>All mutation methods live on the subinterface {@link MutableValueGraph}. If you do not need to
- * mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph), you
- * should prefer the non-mutating {@link ValueGraph} interface.
+ * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ * create an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
+ * ValueGraphBuilder} class:
  *
- * <p>We provide an efficient implementation of this interface via {@link ValueGraphBuilder}. When
- * using the implementation provided, all collection-returning methods provide live, unmodifiable
- * views of the graph. In other words, you cannot add an element to the collection, but if an
- * element is added to the {@link ValueGraph} that would affect the collection, the collection will
- * be updated automatically. This also means that you cannot mutate a {@link ValueGraph} in a way
- * that would affect a collection while iterating over that collection. For example, you cannot
- * remove either {@code foo} or any successors of {@code foo} from the graph while iterating over
- * {@code successors(foo)} (unless you first make a copy of the successors), just as you could not
- * remove keys from a {@link Map} while iterating over its {@link Map#keySet()}. Behavior in such a
- * case is undefined, and may result in {@link ConcurrentModificationException}.
+ * <pre>{@code
+ * MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
+ * }</pre>
  *
- * <p>Example of use:
+ * <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
+ * subtype of {@code ValueGraph} that provides methods for adding and removing nodes and edges. If
+ * you do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on
+ * the graph), you should use the non-mutating {@link ValueGraph} interface, or an {@link
+ * ImmutableValueGraph}.
  *
- * <pre><code>
- * MutableValueGraph<String, Double> synonymGraph = ValueGraphBuilder.undirected().build();
- * synonymGraph.putEdgeValue("large", "big", 0.9);
- * synonymGraph.putEdgeValue("large", "huge", 0.9);
- * synonymGraph.putEdgeValue("large", "grand", 0.6);
- * synonymGraph.putEdgeValue("large", "cold", 0.0);
- * synonymGraph.putEdgeValue("large", "small", -1.0);
- * for (String word : synonymGraph.adjacentNodes("large")) {
- *   if (synonymGraph.edgeValue(word, "large") > 0.5) {
- *     System.out.println(word + " is a synonym for large");
- *   }
- * }
- * </code></pre>
+ * <p>You can create an immutable copy of an existing {@code ValueGraph} using {@link
+ * ImmutableValueGraph#copyOf(ValueGraph)}:
+ *
+ * <pre>{@code
+ * ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
+ * }</pre>
+ *
+ * <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
+ * (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.
+ *
+ * <p>The Guava User Guide has <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
+ * information on (and examples of) building graphs</a>.
+ *
+ * <h3>Additional documentation</h3>
+ *
+ * <p>See the Guava User Guide for the {@code common.graph} package (<a
+ * href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
+ * additional documentation, including:
+ *
+ * <ul>
+ *   <li><a
+ *       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence">
+ *       {@code equals()}, {@code hashCode()}, and graph equivalence</a>
+ *   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization">
+ *       Synchronization policy</a>
+ *   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">Notes
+ *       for implementors</a>
+ * </ul>
  *
  * @author James Sexton
+ * @author Joshua O'Madadhain
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  * @since 20.0
  */
 @Beta
-public interface ValueGraph<N, V> extends Graph<N> {
+public interface ValueGraph<N, V> extends BaseGraph<N> {
+  //
+  // ValueGraph-level accessors
+  //
+
+  /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */
+  @Override
+  Set<N> nodes();
+
+  /** Returns all edges in this graph. */
+  @Override
+  Set<EndpointPair<N>> edges();
 
   /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge.
-   *
-   * <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
-   *
-   * @throws IllegalArgumentException if there is no edge connecting {@code nodeU} to {@code nodeV}.
+   * Returns a live view of this graph as a {@link Graph}. The resulting {@link Graph} will have an
+   * edge connecting node A to node B if this {@link ValueGraph} has an edge connecting A to B.
    */
-  V edgeValue(Object nodeU, Object nodeV);
+  Graph<N> asGraph();
+
+  //
+  // ValueGraph properties
+  //
 
   /**
-   * If there is an edge connecting {@code nodeU} to {@code nodeV}, returns the non-null value
-   * associated with that edge; otherwise, returns {@code defaultValue}.
+   * Returns true if the edges in this graph are directed. Directed edges connect a {@link
+   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+   * undirected edges connect a pair of nodes to each other.
+   */
+  @Override
+  boolean isDirected();
+
+  /**
+   * Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+   * to add a self-loop to a graph that does not allow them will throw an {@link
+   * IllegalArgumentException}.
+   */
+  @Override
+  boolean allowsSelfLoops();
+
+  /** Returns the order of iteration for the elements of {@link #nodes()}. */
+  @Override
+  ElementOrder<N> nodeOrder();
+
+  //
+  // Element-level accessors
+  //
+
+  /**
+   * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  Set<N> adjacentNodes(N node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  Set<N> predecessors(N node);
+
+  /**
+   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing
+   * {@code node}'s outgoing edges in the direction (if any) of the edge.
+   *
+   * <p>In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.
+   *
+   * <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
+   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  Set<N> successors(N node);
+
+  /**
+   * Returns the edges in this graph whose endpoints include {@code node}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   * @since 24.0
+   */
+  @Override
+  Set<EndpointPair<N>> incidentEdges(N node);
+
+  /**
+   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,
+   * the number of times an edge touches {@code node}).
+   *
+   * <p>For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.
+   *
+   * <p>For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of
+   * self-loops incident to {@code node}).
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  int degree(N node);
+
+  /**
+   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  int inDegree(N node);
+
+  /**
+   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})
+   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.
+   *
+   * <p>If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.
+   *
+   * @throws IllegalArgumentException if {@code node} is not an element of this graph
+   */
+  @Override
+  int outDegree(N node);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
+  @Override
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+   * any, specified by {@code endpoints}). This is equivalent to {@code
+   * edges().contains(endpoints)}.
+   *
+   * <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+   * consistency with the behavior of {@link Collection#contains(Object)} (which does not generally
+   * throw if the object cannot be present in the collection), and the desire to have this method's
+   * behavior be compatible with {@code edges().contains(endpoints)}.
+   *
+   * @since NEXT
+   */
+  @Override
+  boolean hasEdgeConnecting(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the value of the edge that connects {@code nodeU} to {@code nodeV} (in the order, if
+   * any, specified by {@code endpoints}), if one is present;
+   * otherwise, returns {@code Optional.empty()}.
+   *
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     graph
+   * @since 23.0 (since 20.0 with return type {@code V})
+   */
+  Optional<V> edgeValue(N nodeU, N nodeV);
+
+  /**
+   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+   * by {@code endpoints}), if one is present; otherwise, returns {@code Optional.empty()}.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this graph
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since NEXT
+   */
+  Optional<V> edgeValue(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the value of the edge that connects {@code nodeU} to {@code nodeV}, if one is present;
+   * otherwise, returns {@code defaultValue}.
    *
    * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
    * defaultValue)}.
+   *
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     graph
    */
-  V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue);
+  @Nullable
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
+
+  /**
+   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+   * by {@code endpoints}), if one is present; otherwise, returns {@code defaultValue}.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this graph
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since NEXT
+   */
+  @Nullable
+  V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue);
 
   //
   // ValueGraph identity
   //
 
   /**
-   * For the default {@link ValueGraph} implementations, returns true iff {@code this == object}
-   * (reference equality). External implementations are free to define this method as they see fit,
-   * as long as they satisfy the {@link Object#equals(Object)} contract.
+   * Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and
+   * the same structural relationships as those in this graph.
    *
-   * <p>To compare two {@link ValueGraph}s based on their contents rather than their references, see
-   * {@link Graphs#equivalent(ValueGraph, ValueGraph)}.
+   * <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
+   *
+   * <ul>
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>The {@link #edgeValue(Object, Object) value} of a given edge is the same in both A and B.
+   * </ul>
+   *
+   * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
+   * For example, two graphs may be considered equal even if one allows self-loops and the other
+   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order
+   * in which they are iterated over, are irrelevant.
+   *
+   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
    */
   @Override
   boolean equals(@Nullable Object object);
 
   /**
-   * For the default {@link ValueGraph} implementations, returns {@code
-   * System.identityHashCode(this)}. External implementations are free to define this method as they
-   * see fit, as long as they satisfy the {@link Object#hashCode()} contract.
+   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
+   * map from each of its {@link #edges() edges} to the associated {@link #edgeValue(Object, Object)
+   * edge value}.
+   *
+   * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
    */
   @Override
   int hashCode();

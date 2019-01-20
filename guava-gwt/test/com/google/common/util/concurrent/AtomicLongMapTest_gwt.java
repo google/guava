@@ -158,6 +158,11 @@ public void testReplace_zero() throws Exception {
   testCase.testReplace_zero();
 }
 
+public void testSerialization() throws Exception {
+  com.google.common.util.concurrent.AtomicLongMapTest testCase = new com.google.common.util.concurrent.AtomicLongMapTest();
+  testCase.testSerialization();
+}
+
 public void testSum() throws Exception {
   com.google.common.util.concurrent.AtomicLongMapTest testCase = new com.google.common.util.concurrent.AtomicLongMapTest();
   testCase.testSum();

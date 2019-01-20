@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
@@ -28,9 +28,8 @@ import javax.annotation.Nullable;
  *
  * <p>All methods return serializable functions as long as they're given serializable parameters.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Function}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Function}</a>.
  *
  * @author Mike Bostock
  * @author Jared Levy
@@ -77,9 +76,7 @@ public final class Functions {
     }
   }
 
-  /**
-   * Returns the identity function.
-   */
+  /** Returns the identity function. */
   // implementation is "fully variant"; E has become a "pass-through" type
   @SuppressWarnings("unchecked")
   public static <E> Function<E, E> identity() {
@@ -91,8 +88,7 @@ public final class Functions {
     INSTANCE;
 
     @Override
-    @Nullable
-    public Object apply(@Nullable Object o) {
+    public @Nullable Object apply(@Nullable Object o) {
       return o;
     }
 
@@ -103,9 +99,9 @@ public final class Functions {
   }
 
   /**
-   * Returns a function which performs a map lookup. The returned function throws an
-   * {@link IllegalArgumentException} if given a key that does not exist in the map. See also
-   * {@link #forMap(Map, Object)}, which returns a default value in this case.
+   * Returns a function which performs a map lookup. The returned function throws an {@link
+   * IllegalArgumentException} if given a key that does not exist in the map. See also {@link
+   * #forMap(Map, Object)}, which returns a default value in this case.
    *
    * <p>Note: if {@code map} is a {@link com.google.common.collect.BiMap BiMap} (or can be one), you
    * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
@@ -116,7 +112,24 @@ public final class Functions {
    * instead.
    */
   public static <K, V> Function<K, V> forMap(Map<K, V> map) {
-    return new FunctionForMapNoDefault<K, V>(map);
+    return new FunctionForMapNoDefault<>(map);
+  }
+
+  /**
+   * Returns a function which performs a map lookup with a default value. The function created by
+   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
+   * set. See also {@link #forMap(Map)}, which throws an exception in this case.
+   *
+   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
+   * map.getWithDefault(k, defaultValue)} instead.
+   *
+   * @param map source map that determines the function behavior
+   * @param defaultValue the value to return for inputs that aren't map keys
+   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
+   *     defaultValue} otherwise
+   */
+  public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
+    return new ForMapWithDefault<>(map, defaultValue);
   }
 
   private static class FunctionForMapNoDefault<K, V> implements Function<K, V>, Serializable {
@@ -155,26 +168,9 @@ public final class Functions {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a function which performs a map lookup with a default value. The function created by
-   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
-   * set. See also {@link #forMap(Map)}, which throws an exception in this case.
-   *
-   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
-   * map.getWithDefault(k, defaultValue)} instead.
-   *
-   * @param map source map that determines the function behavior
-   * @param defaultValue the value to return for inputs that aren't map keys
-   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
-   *         defaultValue} otherwise
-   */
-  public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
-    return new ForMapWithDefault<K, V>(map, defaultValue);
-  }
-
   private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    final V defaultValue;
+    final @Nullable V defaultValue;
 
     ForMapWithDefault(Map<K, ? extends V> map, @Nullable V defaultValue) {
       this.map = checkNotNull(map);
@@ -223,7 +219,7 @@ public final class Functions {
    * @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>
    */
   public static <A, B, C> Function<A, C> compose(Function<B, C> g, Function<A, ? extends B> f) {
-    return new FunctionComposition<A, B, C>(g, f);
+    return new FunctionComposition<>(g, f);
   }
 
   private static class FunctionComposition<A, B, C> implements Function<A, C>, Serializable {
@@ -266,8 +262,8 @@ public final class Functions {
   /**
    * Creates a function that returns the same boolean output as the given predicate for all inputs.
    *
-   * <p>The returned function is <i>consistent with equals</i> (as documented at
-   * {@link Function#apply}) if and only if {@code predicate} is itself consistent with equals.
+   * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
+   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    *
    * <p><b>Java 8 users:</b> use the method reference {@code predicate::test} instead.
    */
@@ -323,7 +319,7 @@ public final class Functions {
   }
 
   private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
-    private final E value;
+    private final @Nullable E value;
 
     public ConstantFunction(@Nullable E value) {
       this.value = value;

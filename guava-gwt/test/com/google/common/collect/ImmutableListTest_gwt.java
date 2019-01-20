@@ -262,4 +262,49 @@ public void testCreation_withNull__CreationTests() throws Exception {
   com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
   testCase.testCreation_withNull();
 }
+
+public void testSortedCopyOf__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf();
+}
+
+public void testSortedCopyOf_containsNull__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_containsNull();
+}
+
+public void testSortedCopyOf_empty__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_empty();
+}
+
+public void testSortedCopyOf_natural__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_natural();
+}
+
+public void testSortedCopyOf_natural_containsNull__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_natural_containsNull();
+}
+
+public void testSortedCopyOf_natural_empty__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_natural_empty();
+}
+
+public void testSortedCopyOf_natural_singleton__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_natural_singleton();
+}
+
+public void testSortedCopyOf_singleton__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testSortedCopyOf_singleton();
+}
+
+public void testToImmutableList__CreationTests() throws Exception {
+  com.google.common.collect.ImmutableListTest.CreationTests testCase = new com.google.common.collect.ImmutableListTest.CreationTests();
+  testCase.testToImmutableList();
+}
 }

@@ -23,18 +23,22 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
-import javax.annotation.Nullable;
+import com.google.errorprone.annotations.Immutable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * An immutable pair representing the two (possibly equal, in the case of a self-loop) endpoints of
- * an edge in a graph. The {@link EndpointPair} of a directed edge is an ordered pair of nodes
- * ({@link #source()} and {@link #target()}). The {@link EndpointPair} of an undirected edge is an
- * unordered pair of nodes ({@link #nodeU()} and {@link #nodeV()}).
+ * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}
+ * of a directed edge is an ordered pair of nodes ({@link #source()} and {@link #target()}). The
+ * {@link EndpointPair} of an undirected edge is an unordered pair of nodes ({@link #nodeU()} and
+ * {@link #nodeV()}).
+ *
+ * <p>The edge is a self-loop if, and only if, the two endpoints are equal.
  *
  * @author James Sexton
  * @since 20.0
  */
 @Beta
+@Immutable(containerOf = {"N"})
 public abstract class EndpointPair<N> implements Iterable<N> {
   private final N nodeU;
   private final N nodeV;
@@ -106,13 +110,12 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     } else if (node.equals(nodeV)) {
       return nodeU;
     } else {
-      throw new IllegalArgumentException(
-          String.format("EndpointPair %s does not contain node %s", this, node));
+      throw new IllegalArgumentException("EndpointPair " + this + " does not contain node " + node);
     }
   }
 
   /**
-   * Returns {@code true} iff this {@link EndpointPair} is an ordered pair (i.e. represents the
+   * Returns {@code true} if this {@link EndpointPair} is an ordered pair (i.e. represents the
    * endpoints of a directed edge).
    */
   public abstract boolean isOrdered();
@@ -183,7 +186,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public String toString() {
-      return String.format("<%s -> %s>", source(), target());
+      return "<" + source() + " -> " + target() + ">";
     }
   }
 
@@ -243,7 +246,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public String toString() {
-      return String.format("[%s, %s]", nodeU(), nodeV());
+      return "[" + nodeU() + ", " + nodeV() + "]";
     }
   }
 }

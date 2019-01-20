@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(Multimap, Predicate)}.
@@ -102,9 +102,9 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     if (keyPredicate.apply(key)) {
       return unfiltered.get(key);
     } else if (unfiltered instanceof SetMultimap) {
-      return new AddRejectingSet<K, V>(key);
+      return new AddRejectingSet<>(key);
     } else {
-      return new AddRejectingList<K, V>(key);
+      return new AddRejectingList<>(key);
     }
   }
 
@@ -146,15 +146,15 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     }
 
     @Override
-    public boolean addAll(Collection<? extends V> collection) {
-      addAll(0, collection);
-      return true;
-    }
-
-    @Override
     public void add(int index, V element) {
       checkPositionIndex(index, 0);
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends V> collection) {
+      addAll(0, collection);
+      return true;
     }
 
     @CanIgnoreReturnValue
@@ -205,7 +205,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
   @Override
   Collection<V> createValues() {
-    return new FilteredMultimapValues<K, V>(this);
+    return new FilteredMultimapValues<>(this);
   }
 
   @Override

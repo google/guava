@@ -20,8 +20,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of
- * {@link EmptyImmutableListMultimap}.
+ * This class implements the GWT serialization of {@link EmptyImmutableListMultimap}.
  *
  * @author Chris Povirk
  */

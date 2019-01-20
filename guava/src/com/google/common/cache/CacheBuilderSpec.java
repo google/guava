@@ -27,7 +27,8 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -37,18 +38,19 @@ import javax.annotation.Nullable;
  *
  * <p>The string syntax is a series of comma-separated keys or key-value pairs, each corresponding
  * to a {@code CacheBuilder} method.
+ *
  * <ul>
- * <li>{@code concurrencyLevel=[integer]}: sets {@link CacheBuilder#concurrencyLevel}.
- * <li>{@code initialCapacity=[integer]}: sets {@link CacheBuilder#initialCapacity}.
- * <li>{@code maximumSize=[long]}: sets {@link CacheBuilder#maximumSize}.
- * <li>{@code maximumWeight=[long]}: sets {@link CacheBuilder#maximumWeight}.
- * <li>{@code expireAfterAccess=[duration]}: sets {@link CacheBuilder#expireAfterAccess}.
- * <li>{@code expireAfterWrite=[duration]}: sets {@link CacheBuilder#expireAfterWrite}.
- * <li>{@code refreshAfterWrite=[duration]}: sets {@link CacheBuilder#refreshAfterWrite}.
- * <li>{@code weakKeys}: sets {@link CacheBuilder#weakKeys}.
- * <li>{@code softValues}: sets {@link CacheBuilder#softValues}.
- * <li>{@code weakValues}: sets {@link CacheBuilder#weakValues}.
- * <li>{@code recordStats}: sets {@link CacheBuilder#recordStats}.
+ *   <li>{@code concurrencyLevel=[integer]}: sets {@link CacheBuilder#concurrencyLevel}.
+ *   <li>{@code initialCapacity=[integer]}: sets {@link CacheBuilder#initialCapacity}.
+ *   <li>{@code maximumSize=[long]}: sets {@link CacheBuilder#maximumSize}.
+ *   <li>{@code maximumWeight=[long]}: sets {@link CacheBuilder#maximumWeight}.
+ *   <li>{@code expireAfterAccess=[duration]}: sets {@link CacheBuilder#expireAfterAccess}.
+ *   <li>{@code expireAfterWrite=[duration]}: sets {@link CacheBuilder#expireAfterWrite}.
+ *   <li>{@code refreshAfterWrite=[duration]}: sets {@link CacheBuilder#refreshAfterWrite}.
+ *   <li>{@code weakKeys}: sets {@link CacheBuilder#weakKeys}.
+ *   <li>{@code softValues}: sets {@link CacheBuilder#softValues}.
+ *   <li>{@code weakValues}: sets {@link CacheBuilder#weakValues}.
+ *   <li>{@code recordStats}: sets {@link CacheBuilder#recordStats}.
  * </ul>
  *
  * <p>The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys will
@@ -60,16 +62,17 @@ import javax.annotation.Nullable;
  *
  * <p>Whitespace before and after commas and equal signs is ignored. Keys may not be repeated; it is
  * also illegal to use the following pairs of keys in a single value:
+ *
  * <ul>
- * <li>{@code maximumSize} and {@code maximumWeight}
- * <li>{@code softValues} and {@code weakValues}
+ *   <li>{@code maximumSize} and {@code maximumWeight}
+ *   <li>{@code softValues} and {@code weakValues}
  * </ul>
  *
  * <p>{@code CacheBuilderSpec} does not support configuring {@code CacheBuilder} methods with
  * non-value parameters. These must be configured in code.
  *
- * <p>A new {@code CacheBuilder} can be instantiated from a {@code CacheBuilderSpec} using
- * {@link CacheBuilder#from(CacheBuilderSpec)} or {@link CacheBuilder#from(String)}.
+ * <p>A new {@code CacheBuilder} can be instantiated from a {@code CacheBuilderSpec} using {@link
+ * CacheBuilder#from(CacheBuilderSpec)} or {@link CacheBuilder#from(String)}.
  *
  * @author Adam Winer
  * @since 12.0
@@ -104,19 +107,19 @@ public final class CacheBuilderSpec {
           .put("refreshInterval", new RefreshDurationParser())
           .build();
 
-  @VisibleForTesting Integer initialCapacity;
-  @VisibleForTesting Long maximumSize;
-  @VisibleForTesting Long maximumWeight;
-  @VisibleForTesting Integer concurrencyLevel;
-  @VisibleForTesting Strength keyStrength;
-  @VisibleForTesting Strength valueStrength;
-  @VisibleForTesting Boolean recordStats;
+  @MonotonicNonNull @VisibleForTesting Integer initialCapacity;
+  @MonotonicNonNull @VisibleForTesting Long maximumSize;
+  @MonotonicNonNull @VisibleForTesting Long maximumWeight;
+  @MonotonicNonNull @VisibleForTesting Integer concurrencyLevel;
+  @MonotonicNonNull @VisibleForTesting Strength keyStrength;
+  @MonotonicNonNull @VisibleForTesting Strength valueStrength;
+  @MonotonicNonNull @VisibleForTesting Boolean recordStats;
   @VisibleForTesting long writeExpirationDuration;
-  @VisibleForTesting TimeUnit writeExpirationTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit writeExpirationTimeUnit;
   @VisibleForTesting long accessExpirationDuration;
-  @VisibleForTesting TimeUnit accessExpirationTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit accessExpirationTimeUnit;
   @VisibleForTesting long refreshDuration;
-  @VisibleForTesting TimeUnit refreshTimeUnit;
+  @MonotonicNonNull @VisibleForTesting TimeUnit refreshTimeUnit;
   /** Specification; used for toParseableString(). */
   private final String specification;
 
@@ -153,17 +156,13 @@ public final class CacheBuilderSpec {
     return spec;
   }
 
-  /**
-   * Returns a CacheBuilderSpec that will prevent caching.
-   */
+  /** Returns a CacheBuilderSpec that will prevent caching. */
   public static CacheBuilderSpec disableCaching() {
     // Maximum size of zero is one way to block caching
     return CacheBuilderSpec.parse("maximumSize=0");
   }
 
-  /**
-   * Returns a CacheBuilder configured according to this instance's specification.
-   */
+  /** Returns a CacheBuilder configured according to this instance's specification. */
   CacheBuilder<Object, Object> toCacheBuilder() {
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (initialCapacity != null) {
@@ -279,8 +278,7 @@ public final class CacheBuilderSpec {
    * Converts an expiration duration/unit pair into a single Long for hashing and equality. Uses
    * nanos to match CacheBuilder implementation.
    */
-  @Nullable
-  private static Long durationInNanos(long duration, @Nullable TimeUnit unit) {
+  private static @Nullable Long durationInNanos(long duration, @Nullable TimeUnit unit) {
     return (unit == null) ? null : unit.toNanos(duration);
   }
 

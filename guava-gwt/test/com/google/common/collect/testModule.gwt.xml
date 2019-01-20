@@ -10,6 +10,7 @@
   <inherits name="com.google.common.io.Io"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="com.google.common.truth.Truth"/>
+  <inherits name="com.google.common.truth.Truth8"/>
   <entry-point class="com.google.common.collect.TestModuleEntryPoint"/>
    
   <source path=""/>

@@ -18,13 +18,12 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -101,31 +100,41 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public Set<N> adjacentNodes(Object node) {
+  public Set<N> adjacentNodes(N node) {
     return checkedConnections(node).adjacentNodes();
   }
 
   @Override
-  public Set<N> predecessors(Object node) {
+  public Set<N> predecessors(N node) {
     return checkedConnections(node).predecessors();
   }
 
   @Override
-  public Set<N> successors(Object node) {
+  public Set<N> successors(N node) {
     return checkedConnections(node).successors();
   }
 
   @Override
-  public V edgeValueOrDefault(Object nodeU, Object nodeV, @Nullable V defaultValue) {
-    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    if (connectionsU == null) {
-      return defaultValue;
-    }
-    V value = connectionsU.value(nodeV);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
+  public boolean hasEdgeConnecting(N nodeU, N nodeV) {
+    return hasEdgeConnecting_internal(checkNotNull(nodeU), checkNotNull(nodeV));
+  }
+
+  @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    checkNotNull(endpoints);
+    return isOrderingCompatible(endpoints)
+        && hasEdgeConnecting_internal(endpoints.nodeU(), endpoints.nodeV());
+  }
+
+  @Override
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    return edgeValueOrDefault_internal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
+  }
+
+  @Override
+  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
+    validateEndpoints(endpoints);
+    return edgeValueOrDefault_internal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
 
   @Override
@@ -133,16 +142,27 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return edgeCount;
   }
 
-  protected final GraphConnections<N, V> checkedConnections(Object node) {
+  protected final GraphConnections<N, V> checkedConnections(N node) {
     GraphConnections<N, V> connections = nodeConnections.get(node);
     if (connections == null) {
       checkNotNull(node);
-      throw new IllegalArgumentException(String.format(NODE_NOT_IN_GRAPH, node));
+      throw new IllegalArgumentException("Node " + node + " is not an element of this graph.");
     }
     return connections;
   }
 
-  protected final boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
+  }
+
+  protected final boolean hasEdgeConnecting_internal(N nodeU, N nodeV) {
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
+    return (connectionsU != null) && connectionsU.successors().contains(nodeV);
+  }
+
+  protected final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
+    V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
+    return value == null ? defaultValue : value;
   }
 }

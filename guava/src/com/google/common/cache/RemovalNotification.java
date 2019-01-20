@@ -18,13 +18,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A notification of the removal of a single entry. The key and/or value may be null if they were
  * already garbage collected.
  *
- * <p>Like other {@code Map.Entry} instances associated with {@code CacheBuilder}, this class holds
+ * <p>Like other {@code Entry} instances associated with {@code CacheBuilder}, this class holds
  * strong references to the key and value, regardless of the type of references the cache may be
  * using.
  *
@@ -37,8 +37,8 @@ public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> 
 
   /**
    * Creates a new {@code RemovalNotification} for the given {@code key}/{@code value} pair, with
-   * the given {@code cause} for the removal. The {@code key} and/or {@code value} may be
-   * {@code null} if they were already garbage collected.
+   * the given {@code cause} for the removal. The {@code key} and/or {@code value} may be {@code
+   * null} if they were already garbage collected.
    *
    * @since 19.0
    */
@@ -52,9 +52,7 @@ public final class RemovalNotification<K, V> extends SimpleImmutableEntry<K, V> 
     this.cause = checkNotNull(cause);
   }
 
-  /**
-   * Returns the cause for which the entry was removed.
-   */
+  /** Returns the cause for which the entry was removed. */
   public RemovalCause getCause() {
     return cause;
   }

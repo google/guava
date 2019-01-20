@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collections;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Implementation of an {@link Optional} containing a reference.
- */
+/** Implementation of an {@link Optional} containing a reference. */
 @GwtCompatible
 final class Present<T> extends Optional<T> {
   private final T reference;

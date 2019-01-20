@@ -18,11 +18,11 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike
- * {@code FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
+ * A {@link FutureTask} that also implements the {@link ListenableFuture} interface. Unlike {@code
+ * FutureTask}, {@code ListenableFutureTask} does not provide an overrideable {@link
  * FutureTask#done() done()} method. For similar functionality, call {@link #addListener}.
  *
  * <p>Few users should use this class. It is intended primarily for those who are implementing an
@@ -80,9 +80,7 @@ public class ListenableFutureTask<V> extends FutureTask<V> implements Listenable
     executionList.add(listener, exec);
   }
 
-  /**
-   * Internal implementation detail used to invoke the listeners.
-   */
+  /** Internal implementation detail used to invoke the listeners. */
   @Override
   protected void done() {
     executionList.execute();

@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.testers.CollectionCreationTester
 import static com.google.common.collect.testing.testers.MapCreationTester.getCreateWithNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableKeyMethod;
 import static com.google.common.collect.testing.testers.MapEntrySetTester.getContainsEntryWithIncomparableValueMethod;
+import static com.google.common.collect.testing.testers.MapMergeTester.getMergeNullValueMethod;
 import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
 import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
 
@@ -35,8 +36,8 @@ import java.util.Map;
 import junit.framework.Test;
 
 /**
- * Tests the {@link Map} implementations of {@link java.util}, suppressing
- * tests that trip known bugs in OpenJDK 6 or higher.
+ * Tests the {@link Map} implementations of {@link java.util}, suppressing tests that trip known
+ * bugs in OpenJDK 6 or higher.
  *
  * @author Kevin Bourrillion
  */
@@ -49,7 +50,8 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
     return new OpenJdk6MapTests().allTests();
   }
 
-  @Override protected Collection<Method> suppressForTreeMapNatural() {
+  @Override
+  protected Collection<Method> suppressForTreeMapNatural() {
     return Arrays.asList(
         getPutNullKeyUnsupportedMethod(),
         getPutAllNullKeyUnsupportedMethod(),
@@ -85,5 +87,10 @@ public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
     methods.add(getContainsEntryWithIncomparableKeyMethod());
     methods.add(getContainsEntryWithIncomparableValueMethod());
     return methods;
+  }
+
+  @Override
+  protected Collection<Method> suppressForHashtable() {
+    return Arrays.asList(getMergeNullValueMethod());
   }
 }

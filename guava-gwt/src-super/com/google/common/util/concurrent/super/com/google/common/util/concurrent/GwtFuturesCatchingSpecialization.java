@@ -14,8 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.base.Function;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.base.Function;
 import java.util.concurrent.Executor;
 
 /**
@@ -30,11 +31,13 @@ abstract class GwtFuturesCatchingSpecialization {
    * your own instanceof tests.
    */
 
+  /** @deprecated Use the overload that requires an executor. */
+  @Deprecated
   public static <V> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       Function<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
+    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
   }
 
   public static <V> ListenableFuture<V> catching(
@@ -45,11 +48,13 @@ abstract class GwtFuturesCatchingSpecialization {
     return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
   }
 
+  /** @deprecated Use the overload that requires an executor. */
+  @Deprecated
   public static <V> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       AsyncFunction<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
+    return AbstractCatchingFuture.create(input, exceptionType, fallback, directExecutor());
   }
 
   public static <V> ListenableFuture<V> catchingAsync(

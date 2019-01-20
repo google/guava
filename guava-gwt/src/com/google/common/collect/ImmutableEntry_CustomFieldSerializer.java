@@ -21,8 +21,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of
- * {@link ImmutableEntry}.
+ * This class implements the GWT serialization of {@link ImmutableEntry}.
  *
  * @author Kyle Butt
  */
@@ -34,7 +33,7 @@ public class ImmutableEntry_CustomFieldSerializer {
       throws SerializationException {
     Object key = reader.readObject();
     Object value = reader.readObject();
-    return new ImmutableEntry<Object, Object>(key, value);
+    return new ImmutableEntry<>(key, value);
   }
 
   public static void serialize(SerializationStreamWriter writer, ImmutableEntry<?, ?> instance)

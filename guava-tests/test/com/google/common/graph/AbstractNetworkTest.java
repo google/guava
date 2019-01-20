@@ -16,6 +16,9 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.ERROR_NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.TestUtil.assertEdgeNotInGraphErrorMessage;
+import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
@@ -40,8 +43,8 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Network} interface.
+ *   <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
+ *   <li>Test cases related to the specific implementation of the {@link Network} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
@@ -76,16 +79,11 @@ public abstract class AbstractNetworkTest {
   // here to provide error messages.
   // TODO(user): Some Strings used in the subclasses can be added as static Strings
   // here too.
-  static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
-  static final String NODE_STRING = "Node";
-  static final String EDGE_STRING = "Edge";
   static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
   static final String ERROR_REUSE_EDGE = "it cannot be reused to connect";
   static final String ERROR_MODIFIABLE_COLLECTION =
       "Collection returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
-  static final String ERROR_NODE_NOT_IN_GRAPH =
-      "Should not be allowed to pass a node that is not an element of the graph.";
   static final String ERROR_EDGE_NOT_IN_GRAPH =
       "Should not be allowed to pass an edge that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
@@ -122,6 +120,8 @@ public abstract class AbstractNetworkTest {
    * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
    * method.
    *
+   * TODO(user): remove the addNode() calls, that's now contractually guaranteed
+   *
    * @return {@code true} iff the graph was modified as a result of this call
    */
   @CanIgnoreReturnValue
@@ -129,6 +129,12 @@ public abstract class AbstractNetworkTest {
     network.addNode(n1);
     network.addNode(n2);
     return network.addEdge(n1, n2, e);
+  }
+
+  protected boolean addEdge(EndpointPair<Integer> endpoints, String e) {
+    network.addNode(endpoints.nodeU());
+    network.addNode(endpoints.nodeV());
+    return network.addEdge(endpoints, e);
   }
 
   @Before
@@ -217,6 +223,32 @@ public abstract class AbstractNetworkTest {
 
       for (N otherNode : network.nodes()) {
         Set<E> edgesConnecting = sanityCheckSet(network.edgesConnecting(node, otherNode));
+        switch (edgesConnecting.size()) {
+          case 0:
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isNull();
+            assertThat(network.edgeConnecting(node, otherNode).isPresent()).isFalse();
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isFalse();
+            break;
+          case 1:
+            E edge = edgesConnecting.iterator().next();
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isEqualTo(edge);
+            assertThat(network.edgeConnecting(node, otherNode).get()).isEqualTo(edge);
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            break;
+          default:
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            try {
+              network.edgeConnectingOrNull(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
+            try {
+              network.edgeConnecting(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
+        }
+
         boolean isSelfLoop = node.equals(otherNode);
         boolean connected = !edgesConnecting.isEmpty();
         if (network.isDirected() || !isSelfLoop) {
@@ -229,6 +261,7 @@ public abstract class AbstractNetworkTest {
         if (!network.allowsSelfLoops() && isSelfLoop) {
           assertThat(connected).isFalse();
         }
+
         assertThat(network.successors(node).contains(otherNode)).isEqualTo(connected);
         assertThat(network.predecessors(otherNode).contains(node)).isEqualTo(connected);
         for (E edge : edgesConnecting) {
@@ -651,15 +684,5 @@ public abstract class AbstractNetworkTest {
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
     }
-  }
-
-  static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(NODE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
-  }
-
-  static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(EDGE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
 }

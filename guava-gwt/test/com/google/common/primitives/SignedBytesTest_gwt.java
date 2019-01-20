@@ -62,4 +62,14 @@ public void testSaturatedCast() throws Exception {
   com.google.common.primitives.SignedBytesTest testCase = new com.google.common.primitives.SignedBytesTest();
   testCase.testSaturatedCast();
 }
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.SignedBytesTest testCase = new com.google.common.primitives.SignedBytesTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.SignedBytesTest testCase = new com.google.common.primitives.SignedBytesTest();
+  testCase.testSortDescendingIndexed();
+}
 }
