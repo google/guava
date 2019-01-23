@@ -297,7 +297,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   public static <T> T getOnlyElement(Iterator<T> iterator) {
     T first = iterator.next();
     if (!iterator.hasNext()) {
@@ -323,7 +322,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   @NullableDecl
   public static <T> T getOnlyElement(Iterator<? extends T> iterator, @NullableDecl T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
