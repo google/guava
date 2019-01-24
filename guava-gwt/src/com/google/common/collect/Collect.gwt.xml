@@ -25,8 +25,6 @@
   <inherits name="com.google.common.primitives.Primitives"/>
    
   <inherits name="java.lang.Lang"/>
-   
-  <inherits name="java.util.Util"/>
      
   <inherits name="com.google.gwt.core.Core"/>
    

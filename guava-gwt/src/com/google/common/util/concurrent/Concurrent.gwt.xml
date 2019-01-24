@@ -21,8 +21,6 @@
   <inherits name="com.google.common.collect.Collect"/>
    
   <inherits name="java.lang.Lang"/>
-   
-  <inherits name="java.util.Util"/>
      
   <inherits name="com.google.gwt.core.Core"/>
    

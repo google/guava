@@ -17,8 +17,6 @@
   <inherits name="com.google.gwt.user.User"/>
    
   <inherits name="com.google.common.annotations.Annotations"/>
-   
-  <inherits name="java.util.Util"/>
      
   <inherits name="com.google.gwt.core.Core"/>
    
