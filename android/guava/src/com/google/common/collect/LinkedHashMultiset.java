@@ -34,7 +34,6 @@ import com.google.common.annotations.GwtCompatible;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial") // we're overriding default serialization
 public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
 
   /** Creates a new, empty {@code LinkedHashMultiset} using the default initial capacity. */

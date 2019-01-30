@@ -26,7 +26,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
-import com.google.common.io.ByteSource.AsCharSource;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
