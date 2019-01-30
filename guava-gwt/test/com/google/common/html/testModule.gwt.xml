@@ -6,8 +6,6 @@
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.html.Html"/>
   <inherits name="com.google.common.truth.Truth"/>
-  <inherits name="auto.Auto_value"/>
-  <inherits name="com.google.javascript.rhino.Token_stream"/>
   <entry-point class="com.google.common.html.TestModuleEntryPoint"/>
    
   <source path=""/>
