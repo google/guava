@@ -543,6 +543,10 @@ public final class Lists {
       this.function = checkNotNull(function);
     }
 
+    @Override protected void removeRange(int fromIndex, int toIndex) {
+      fromList.subList(fromIndex, toIndex).clear();
+    }
+
     /**
      * The default implementation inherited is based on iteration and removal of each element which
      * can be overkill. That's why we forward this call directly to the backing list.
@@ -591,6 +595,10 @@ public final class Lists {
     TransformingRandomAccessList(List<F> fromList, Function<? super F, ? extends T> function) {
       this.fromList = checkNotNull(fromList);
       this.function = checkNotNull(function);
+    }
+
+    @Override protected void removeRange(int fromIndex, int toIndex) {
+      fromList.subList(fromIndex, toIndex).clear();
     }
 
     @Override
