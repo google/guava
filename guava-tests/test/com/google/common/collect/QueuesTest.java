@@ -222,6 +222,7 @@ public class QueuesTest extends TestCase {
     Future<?> possiblyIgnoredError =
         threadPool.submit(
             new Callable<Void>() {
+              @Override
               public Void call() throws InterruptedException {
                 new Producer(q, 50).call();
                 new Interrupter(mainThread).run();
