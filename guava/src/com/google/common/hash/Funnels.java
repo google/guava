@@ -39,6 +39,7 @@ public final class Funnels {
   private enum ByteArrayFunnel implements Funnel<byte[]> {
     INSTANCE;
 
+    @Override
     public void funnel(byte[] from, PrimitiveSink into) {
       into.putBytes(from);
     }
@@ -63,6 +64,7 @@ public final class Funnels {
   private enum UnencodedCharsFunnel implements Funnel<CharSequence> {
     INSTANCE;
 
+    @Override
     public void funnel(CharSequence from, PrimitiveSink into) {
       into.putUnencodedChars(from);
     }
@@ -90,6 +92,7 @@ public final class Funnels {
       this.charset = Preconditions.checkNotNull(charset);
     }
 
+    @Override
     public void funnel(CharSequence from, PrimitiveSink into) {
       into.putString(from, charset);
     }
@@ -144,6 +147,7 @@ public final class Funnels {
   private enum IntegerFunnel implements Funnel<Integer> {
     INSTANCE;
 
+    @Override
     public void funnel(Integer from, PrimitiveSink into) {
       into.putInt(from);
     }
@@ -171,6 +175,7 @@ public final class Funnels {
       this.elementFunnel = Preconditions.checkNotNull(elementFunnel);
     }
 
+    @Override
     public void funnel(Iterable<? extends E> from, PrimitiveSink into) {
       for (E e : from) {
         elementFunnel.funnel(e, into);
@@ -209,6 +214,7 @@ public final class Funnels {
   private enum LongFunnel implements Funnel<Long> {
     INSTANCE;
 
+    @Override
     public void funnel(Long from, PrimitiveSink into) {
       into.putLong(from);
     }

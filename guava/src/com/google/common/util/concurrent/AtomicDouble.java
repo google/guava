@@ -191,6 +191,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @return the String representation of the current value
    */
+  @Override
   public String toString() {
     return Double.toString(get());
   }
@@ -199,6 +200,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive
    * conversion.
    */
+  @Override
   public int intValue() {
     return (int) get();
   }
@@ -207,6 +209,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive
    * conversion.
    */
+  @Override
   public long longValue() {
     return (long) get();
   }
@@ -215,11 +218,13 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive
    * conversion.
    */
+  @Override
   public float floatValue() {
     return (float) get();
   }
 
   /** Returns the value of this {@code AtomicDouble} as a {@code double}. */
+  @Override
   public double doubleValue() {
     return get();
   }
