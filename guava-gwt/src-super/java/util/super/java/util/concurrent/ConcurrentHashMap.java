@@ -24,16 +24,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Minimal emulation of {@link java.util.concurrent.ConcurrentHashMap}.
- * Note that the javascript interpreter is <a
+ * Minimal emulation of {@link java.util.concurrent.ConcurrentHashMap}. Note that the javascript
+ * interpreter is <a
  * href="http://code.google.com/docreader/#p=google-web-toolkit-doc-1-5&t=DevGuideJavaCompatibility">
- * single-threaded</a>, it is essentially a {@link java.util.HashMap},
- * implementing the new methods introduced by {@link ConcurrentMap}.
+ * single-threaded</a>, it is essentially a {@link java.util.HashMap}, implementing the new methods
+ * introduced by {@link ConcurrentMap}.
  *
  * @author Hayward Chan
  */
-public class ConcurrentHashMap<K, V>
-    extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
+public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   private final Map<K, V> backingMap;
 
@@ -91,42 +90,48 @@ public class ConcurrentHashMap<K, V>
     }
   }
 
-  @Override public boolean containsKey(Object key) {
+  @Override
+  public boolean containsKey(Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
     return backingMap.containsKey(key);
   }
 
-  @Override public V get(Object key) {
+  @Override
+  public V get(Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
     return backingMap.get(key);
   }
 
-  @Override public V put(K key, V value) {
+  @Override
+  public V put(K key, V value) {
     if (key == null || value == null) {
       throw new NullPointerException();
     }
     return backingMap.put(key, value);
   }
 
-  @Override public boolean containsValue(Object value) {
+  @Override
+  public boolean containsValue(Object value) {
     if (value == null) {
       throw new NullPointerException();
     }
     return backingMap.containsValue(value);
   }
 
-  @Override public V remove(Object key) {
+  @Override
+  public V remove(Object key) {
     if (key == null) {
       throw new NullPointerException();
     }
     return backingMap.remove(key);
   }
 
-  @Override public Set<Entry<K, V>> entrySet() {
+  @Override
+  public Set<Entry<K, V>> entrySet() {
     return backingMap.entrySet();
   }
 

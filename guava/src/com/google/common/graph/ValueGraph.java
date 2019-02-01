@@ -263,8 +263,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /**
    * Returns the value of the edge that connects {@code nodeU} to {@code nodeV} (in the order, if
-   * any, specified by {@code endpoints}), if one is present;
-   * otherwise, returns {@code Optional.empty()}.
+   * any, specified by {@code endpoints}), if one is present; otherwise, returns {@code
+   * Optional.empty()}.
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph

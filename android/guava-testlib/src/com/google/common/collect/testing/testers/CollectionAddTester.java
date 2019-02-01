@@ -72,9 +72,8 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   }
 
   @CollectionFeature.Require(
-    value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
-    absent = RESTRICTS_ELEMENTS
-  )
+      value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+      absent = RESTRICTS_ELEMENTS)
   public void testAdd_nullSupported() {
     assertTrue("add(null) should return true", collection.add(null));
     expectAdded((E) null);

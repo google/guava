@@ -17,8 +17,8 @@
 package java.util.concurrent.atomic;
 
 /**
- * GWT emulated version of {@link AtomicInteger}.  It's a thin wrapper
- * around the primitive {@code int}.
+ * GWT emulated version of {@link AtomicInteger}. It's a thin wrapper around the primitive {@code
+ * int}.
  *
  * @author Hayward Chan
  */
@@ -30,8 +30,7 @@ public class AtomicInteger extends Number implements java.io.Serializable {
     value = initialValue;
   }
 
-  public AtomicInteger() {
-  }
+  public AtomicInteger() {}
 
   public final int get() {
     return value;
@@ -87,7 +86,8 @@ public class AtomicInteger extends Number implements java.io.Serializable {
     return value;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return Integer.toString(value);
   }
 

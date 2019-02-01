@@ -12,24 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */  /**
- * Atomically sets the value to the given updated value
- * if the current value {@code ==} the expected value.
+ */
+/**
+ * Atomically sets the value to the given updated value if the current value {@code ==} the expected
+ * value.
  *
- * <p>May <a href="package-summary.html#Spurious">fail spuriously</a>
- * and does not provide ordering guarantees, so is only rarely an
- * appropriate alternative to {@code compareAndSet}.
+ * <p>May <a href="package-summary.html#Spurious">fail spuriously</a> and does not provide ordering
+ * guarantees, so is only rarely an appropriate alternative to {@code compareAndSet}.
  *
  * @param expect the expected value
  * @param update the new value
  * @return true if successful.
  */
-
 package java.util.concurrent.atomic;
 
-/**
- * GWT emulation of AtomicBoolean.
- */
+/** GWT emulation of AtomicBoolean. */
 public class AtomicBoolean implements java.io.Serializable {
   private boolean value;
 
@@ -37,8 +34,7 @@ public class AtomicBoolean implements java.io.Serializable {
     value = initialValue;
   }
 
-  public AtomicBoolean() {
-  }
+  public AtomicBoolean() {}
 
   public final boolean get() {
     return value;

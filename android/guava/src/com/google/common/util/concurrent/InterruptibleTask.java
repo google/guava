@@ -154,8 +154,8 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   abstract void afterRanInterruptibly(@NullableDecl T result, @NullableDecl Throwable error);
 
   /**
-   * Interrupts the running task. Because this internally calls {@link Thread#interrupt()} which can in turn
-   * invoke arbitrary code it is not safe to call while holding a lock.
+   * Interrupts the running task. Because this internally calls {@link Thread#interrupt()} which can
+   * in turn invoke arbitrary code it is not safe to call while holding a lock.
    */
   final void interruptTask() {
     // Since the Thread is replaced by DONE before run() invokes listeners or returns, if we succeed
