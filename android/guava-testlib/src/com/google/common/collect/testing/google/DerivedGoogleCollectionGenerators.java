@@ -81,6 +81,7 @@ public final class DerivedGoogleCollectionGenerators {
       return (V[]) new Object[length];
     }
 
+    @Override
     public TestSubjectGenerator<?> getInnerGenerator() {
       return generator;
     }
@@ -144,6 +145,7 @@ public final class DerivedGoogleCollectionGenerators {
       return (K[]) new Object[length];
     }
 
+    @Override
     public TestSubjectGenerator<?> getInnerGenerator() {
       return generator;
     }
@@ -202,6 +204,7 @@ public final class DerivedGoogleCollectionGenerators {
       return insertionOrder;
     }
 
+    @Override
     public TestSubjectGenerator<?> getInnerGenerator() {
       return mapGenerator;
     }

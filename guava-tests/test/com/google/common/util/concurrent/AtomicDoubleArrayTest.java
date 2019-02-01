@@ -188,6 +188,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     Thread t =
         newStartedThread(
             new CheckedRunnable() {
+              @Override
               public void realRun() {
                 while (!a.compareAndSet(0, 2.0, 3.0)) {
                   Thread.yield();
@@ -270,6 +271,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
       aa = a;
     }
 
+    @Override
     public void realRun() {
       for (; ; ) {
         boolean done = true;

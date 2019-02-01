@@ -102,6 +102,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
     Thread t =
         newStartedThread(
             new CheckedRunnable() {
+              @Override
               public void realRun() {
                 while (!at.compareAndSet(2.0, 3.0)) {
                   Thread.yield();
