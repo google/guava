@@ -135,6 +135,9 @@ public interface ListenableFuture<V> extends Future<V> {
    * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
    * <i>happen-before</i></a> its execution begins, perhaps in another thread.
    *
+   * <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
+   * after executing them.
+   *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in
    * @throws RejectedExecutionException if we tried to execute the listener immediately but the
