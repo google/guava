@@ -232,7 +232,7 @@ public final class InetAddresses {
       if (parts.get(0).length() == 0 && --partsHi != 0) {
         return null; // ^: requires ^::
       }
-       if (Iterables.getLast(parts).length() == 0 && --partsLo != 0) {
+      if (Iterables.getLast(parts).length() == 0 && --partsLo != 0) {
         return null; // :$ requires ::$
       }
     } else {

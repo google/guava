@@ -171,8 +171,8 @@ public final class ByteStreams {
     // in a deque so that there's no copying between buffers while reading and so all of the bytes
     // in each new allocated buffer are available for reading from the stream.
     for (int bufSize = BUFFER_SIZE;
-         totalLen < MAX_ARRAY_LEN;
-         bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
+        totalLen < MAX_ARRAY_LEN;
+        bufSize = IntMath.saturatedMultiply(bufSize, 2)) {
       byte[] buf = new byte[Math.min(bufSize, MAX_ARRAY_LEN - totalLen)];
       bufs.add(buf);
       int off = 0;
@@ -255,7 +255,7 @@ public final class ByteStreams {
     // the stream was longer, so read the rest normally
     Deque<byte[]> bufs = new ArrayDeque<byte[]>(TO_BYTE_ARRAY_DEQUE_SIZE + 2);
     bufs.add(bytes);
-    bufs.add(new byte[] { (byte) b });
+    bufs.add(new byte[] {(byte) b});
     return toByteArrayInternal(in, bufs, bytes.length + 1);
   }
 

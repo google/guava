@@ -10,9 +10,7 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of executors.
- */
+/** Emulation of executors. */
 public class Executors {
 
   public static <T> Callable<T> callable(Runnable task, T result) {
@@ -45,6 +43,5 @@ public class Executors {
     }
   }
 
-  private Executors() {
-  }
+  private Executors() {}
 }

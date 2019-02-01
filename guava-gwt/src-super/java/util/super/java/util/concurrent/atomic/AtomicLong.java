@@ -17,8 +17,8 @@
 package java.util.concurrent.atomic;
 
 /**
- * GWT emulated version of {@link AtomicLong}.  It's a thin wrapper
- * around the primitive {@code long}.
+ * GWT emulated version of {@link AtomicLong}. It's a thin wrapper around the primitive {@code
+ * long}.
  *
  * @author Jige Yu
  */
@@ -30,8 +30,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
     this.value = initialValue;
   }
 
-  public AtomicLong() {
-  }
+  public AtomicLong() {}
 
   public final long get() {
     return value;
@@ -87,7 +86,8 @@ public class AtomicLong extends Number implements java.io.Serializable {
     return value;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return Long.toString(value);
   }
 

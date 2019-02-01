@@ -66,8 +66,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>This class should not be assumed to be universally superior to {@code java.util.HashMap}.
  * Generally speaking, this class reduces object allocation and memory consumption at the price of
- * moderately increased constant factors of CPU.  Only use this class when there is a specific
- * reason to prioritize memory over CPU.
+ * moderately increased constant factors of CPU. Only use this class when there is a specific reason
+ * to prioritize memory over CPU.
  *
  * @author Louis Wasserman
  */
@@ -139,13 +139,13 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * The keys of the entries in the map, in the range of [0, size()). The keys in [size(),
    * keys.length) are all {@code null}.
    */
-  @VisibleForTesting transient Object @MonotonicNonNull[] keys;
+  @VisibleForTesting transient Object @MonotonicNonNull [] keys;
 
   /**
    * The values of the entries in the map, in the range of [0, size()). The values in [size(),
    * values.length) are all {@code null}.
    */
-  @VisibleForTesting transient Object @MonotonicNonNull[] values;
+  @VisibleForTesting transient Object @MonotonicNonNull [] values;
 
   /** The load factor. */
   transient float loadFactor;

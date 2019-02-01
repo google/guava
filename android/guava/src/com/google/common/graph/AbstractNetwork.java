@@ -222,8 +222,8 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   }
 
   /**
-   * Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible
-   * with the directionality of this graph.
+   * Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible with
+   * the directionality of this graph.
    */
   protected final void validateEndpoints(EndpointPair<?> endpoints) {
     checkNotNull(endpoints);

@@ -452,6 +452,7 @@ public final class Splitter {
    * does not change the behavior of the {@code keyValueSplitter}.
    *
    * <p>Example:
+   *
    * <pre>{@code
    * String toSplit = " x -> y, z-> a ";
    * Splitter outerSplitter = Splitter.on(',').trimResults();

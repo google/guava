@@ -16,12 +16,9 @@
 
 package java.util.concurrent;
 
-/**
- * GWT emulation of RejectedExecutionException.
- */
+/** GWT emulation of RejectedExecutionException. */
 public class RejectedExecutionException extends RuntimeException {
-  public RejectedExecutionException() {
-  }
+  public RejectedExecutionException() {}
 
   public RejectedExecutionException(String message) {
     super(message);

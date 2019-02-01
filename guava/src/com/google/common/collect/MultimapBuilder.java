@@ -79,8 +79,8 @@ public abstract class MultimapBuilder<K0, V0> {
   }
 
   /**
-   * Uses a hash table to map keys to value collections, initialized to expect the specified
-   * number of keys.
+   * Uses a hash table to map keys to value collections, initialized to expect the specified number
+   * of keys.
    *
    * @throws IllegalArgumentException if {@code expectedKeys < 0}
    */
@@ -107,8 +107,8 @@ public abstract class MultimapBuilder<K0, V0> {
   }
 
   /**
-   * Uses an hash table to map keys to value collections, initialized to expect the
-   * specified number of keys.
+   * Uses an hash table to map keys to value collections, initialized to expect the specified number
+   * of keys.
    *
    * <p>The collections returned by {@link Multimap#keySet()}, {@link Multimap#keys()}, and {@link
    * Multimap#asMap()} will iterate through the keys in the order that they were first added to the
@@ -223,7 +223,7 @@ public abstract class MultimapBuilder<K0, V0> {
       return Platform.newHashSetWithExpectedSize(expectedValuesPerKey);
     }
   }
-  
+
   private static final class LinkedHashSetSupplier<V> implements Supplier<Set<V>>, Serializable {
     private final int expectedValuesPerKey;
 
@@ -319,8 +319,8 @@ public abstract class MultimapBuilder<K0, V0> {
     }
 
     /**
-     * Uses a hash-based {@code Set} to store value collections, initialized to expect the specified number
-     * of values per key.
+     * Uses a hash-based {@code Set} to store value collections, initialized to expect the specified
+     * number of values per key.
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
@@ -342,8 +342,8 @@ public abstract class MultimapBuilder<K0, V0> {
     }
 
     /**
-     * Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to expect the specified
-     * number of values per key.
+     * Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to
+     * expect the specified number of values per key.
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */

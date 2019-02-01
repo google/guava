@@ -41,9 +41,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * based on your answers to the following questions:
  *
  * <ol>
- *   <li>Is there only one path to any node that's reachable from any start node? (If so, the
- *       graph to be traversed is a tree or forest even if it is a subgraph of a graph which is
- *       neither.)
+ *   <li>Is there only one path to any node that's reachable from any start node? (If so, the graph
+ *       to be traversed is a tree or forest even if it is a subgraph of a graph which is neither.)
  *   <li>Are the node objects' implementations of {@code equals()}/{@code hashCode()} <a
  *       href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursive</a>?
  * </ol>

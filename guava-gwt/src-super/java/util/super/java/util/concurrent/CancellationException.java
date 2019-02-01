@@ -16,9 +16,7 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of CancellationException.
- */
+/** Emulation of CancellationException. */
 public class CancellationException extends IllegalStateException {
 
   public CancellationException() {}
