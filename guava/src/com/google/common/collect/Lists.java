@@ -543,7 +543,8 @@ public final class Lists {
       this.function = checkNotNull(function);
     }
 
-    @Override protected void removeRange(int fromIndex, int toIndex) {
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
       fromList.subList(fromIndex, toIndex).clear();
     }
 
@@ -597,7 +598,8 @@ public final class Lists {
       this.function = checkNotNull(function);
     }
 
-    @Override protected void removeRange(int fromIndex, int toIndex) {
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
       fromList.subList(fromIndex, toIndex).clear();
     }
 
