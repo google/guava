@@ -34,8 +34,10 @@ final class MacHashFunction extends AbstractHashFunction {
 
   @SuppressWarnings("Immutable") // cloned before each use
   private final Mac prototype;
+
   @SuppressWarnings("Immutable") // keys are immutable, but not provably so
   private final Key key;
+
   private final String toString;
   private final int bits;
   private final boolean supportsClone;

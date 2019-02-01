@@ -42,8 +42,8 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
   boolean addNode(N node);
 
   /**
-   * Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and
-   * sets a value for that edge to {@code value} (overwriting the existing value, if any).
+   * Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and sets
+   * a value for that edge to {@code value} (overwriting the existing value, if any).
    *
    * <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
    * undirected.

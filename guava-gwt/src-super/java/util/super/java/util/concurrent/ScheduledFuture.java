@@ -15,5 +15,4 @@ package java.util.concurrent;
  *
  * @param <V> value type returned by the future.
  */
-public interface ScheduledFuture<V> extends Delayed, Future<V> {
-}
+public interface ScheduledFuture<V> extends Delayed, Future<V> {}

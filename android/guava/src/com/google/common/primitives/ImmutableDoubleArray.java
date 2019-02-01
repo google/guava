@@ -130,8 +130,7 @@ public final class ImmutableDoubleArray implements Serializable {
   // is okay since we have to copy the just-created array anyway.
   public static ImmutableDoubleArray of(double first, double... rest) {
     checkArgument(
-        rest.length <= Integer.MAX_VALUE - 1,
-        "the total number of elements must fit in an int");
+        rest.length <= Integer.MAX_VALUE - 1, "the total number of elements must fit in an int");
     double[] array = new double[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);

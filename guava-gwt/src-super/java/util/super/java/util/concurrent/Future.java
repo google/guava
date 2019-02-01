@@ -25,18 +25,18 @@ package java.util.concurrent;
  * @param <V> value type returned by the future.
  */
 public interface Future<V> {
-   boolean cancel(boolean mayInterruptIfRunning);
+  boolean cancel(boolean mayInterruptIfRunning);
 
-   boolean isCancelled();
+  boolean isCancelled();
 
-   boolean isDone();
+  boolean isDone();
 
   // Even though the 'get' methods below are blocking, they are the only built-in APIs to get the
   // result of the {@code Future}, hence they are not removed. The implementation must throw {@link
   // IllegalStateException} if the {@code Future} is not done yet (see the class javadoc).
 
-   V get() throws InterruptedException, ExecutionException;
+  V get() throws InterruptedException, ExecutionException;
 
-   V get(long timeout, TimeUnit unit)
-       throws InterruptedException, ExecutionException, TimeoutException;
+  V get(long timeout, TimeUnit unit)
+      throws InterruptedException, ExecutionException, TimeoutException;
 }

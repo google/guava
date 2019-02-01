@@ -374,8 +374,7 @@ public final class HttpHeaders {
    *
    * @since 24.1
    */
-  @Beta
-  public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
+  @Beta public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
   /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
   /**

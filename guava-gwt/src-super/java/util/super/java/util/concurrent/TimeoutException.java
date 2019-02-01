@@ -16,9 +16,7 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of TimeoutException.
- */
+/** Emulation of TimeoutException. */
 public class TimeoutException extends Exception {
   public TimeoutException() {}
 

@@ -16,9 +16,7 @@
 
 package java.util.concurrent;
 
-/**
- * Emulation of Executor.
- */
+/** Emulation of Executor. */
 public interface Executor {
   void execute(Runnable command);
 }

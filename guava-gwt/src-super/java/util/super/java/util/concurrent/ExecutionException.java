@@ -22,7 +22,7 @@ package java.util.concurrent;
  * @author Charles Fry
  */
 public class ExecutionException extends Exception {
-  protected ExecutionException() { }
+  protected ExecutionException() {}
 
   protected ExecutionException(String message) {
     super(message);

@@ -230,8 +230,8 @@ public abstract class AbstractService implements Service {
    * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
    * called multiple times.
    *
-   * <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which
-   * is the external state observable by the caller of {@link #stopAsync}.
+   * <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which is the
+   * external state observable by the caller of {@link #stopAsync}.
    *
    * @since 27.0
    */

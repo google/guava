@@ -11,79 +11,240 @@
 package java.util.concurrent;
 
 /**
- * GWT emulation of TimeUnit, created by removing unsupported operations from
- * Doug Lea's public domain version.
+ * GWT emulation of TimeUnit, created by removing unsupported operations from Doug Lea's public
+ * domain version.
  */
 public enum TimeUnit {
   NANOSECONDS {
-    public long toNanos(long d)   { return d; }
-    public long toMicros(long d)  { return d / C1_C0; }
-    public long toMillis(long d)  { return d / C2_C0; }
-    public long toSeconds(long d) { return d / C3_C0; }
-    public long toMinutes(long d) { return d / C4_C0; }
-    public long toHours(long d)   { return d / C5_C0; }
-    public long toDays(long d)    { return d / C6_C0; }
-    public long convert(long d, TimeUnit u) { return u.toNanos(d); }
+    public long toNanos(long d) {
+      return d;
+    }
+
+    public long toMicros(long d) {
+      return d / C1_C0;
+    }
+
+    public long toMillis(long d) {
+      return d / C2_C0;
+    }
+
+    public long toSeconds(long d) {
+      return d / C3_C0;
+    }
+
+    public long toMinutes(long d) {
+      return d / C4_C0;
+    }
+
+    public long toHours(long d) {
+      return d / C5_C0;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C0;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toNanos(d);
+    }
   },
   MICROSECONDS {
-    public long toNanos(long d)   { return x(d, C1_C0, MAX_C1_C0); }
-    public long toMicros(long d)  { return d; }
-    public long toMillis(long d)  { return d / C2_C1; }
-    public long toSeconds(long d) { return d / C3_C1; }
-    public long toMinutes(long d) { return d / C4_C1; }
-    public long toHours(long d)   { return d / C5_C1; }
-    public long toDays(long d)    { return d / C6_C1; }
-    public long convert(long d, TimeUnit u) { return u.toMicros(d); }
+    public long toNanos(long d) {
+      return x(d, C1_C0, MAX_C1_C0);
+    }
+
+    public long toMicros(long d) {
+      return d;
+    }
+
+    public long toMillis(long d) {
+      return d / C2_C1;
+    }
+
+    public long toSeconds(long d) {
+      return d / C3_C1;
+    }
+
+    public long toMinutes(long d) {
+      return d / C4_C1;
+    }
+
+    public long toHours(long d) {
+      return d / C5_C1;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C1;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toMicros(d);
+    }
   },
   MILLISECONDS {
-    public long toNanos(long d)   { return x(d, C2_C0, MAX_C2_C0); }
-    public long toMicros(long d)  { return x(d, C2_C1, MAX_C2_C1); }
-    public long toMillis(long d)  { return d; }
-    public long toSeconds(long d) { return d / C3_C2; }
-    public long toMinutes(long d) { return d / C4_C2; }
-    public long toHours(long d)   { return d / C5_C2; }
-    public long toDays(long d)    { return d / C6_C2; }
-    public long convert(long d, TimeUnit u) { return u.toMillis(d); }
+    public long toNanos(long d) {
+      return x(d, C2_C0, MAX_C2_C0);
+    }
+
+    public long toMicros(long d) {
+      return x(d, C2_C1, MAX_C2_C1);
+    }
+
+    public long toMillis(long d) {
+      return d;
+    }
+
+    public long toSeconds(long d) {
+      return d / C3_C2;
+    }
+
+    public long toMinutes(long d) {
+      return d / C4_C2;
+    }
+
+    public long toHours(long d) {
+      return d / C5_C2;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C2;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toMillis(d);
+    }
   },
   SECONDS {
-    public long toNanos(long d)   { return x(d, C3_C0, MAX_C3_C0); }
-    public long toMicros(long d)  { return x(d, C3_C1, MAX_C3_C1); }
-    public long toMillis(long d)  { return x(d, C3_C2, MAX_C3_C2); }
-    public long toSeconds(long d) { return d; }
-    public long toMinutes(long d) { return d / C4_C3; }
-    public long toHours(long d)   { return d / C5_C3; }
-    public long toDays(long d)    { return d / C6_C3; }
-    public long convert(long d, TimeUnit u) { return u.toSeconds(d); }
+    public long toNanos(long d) {
+      return x(d, C3_C0, MAX_C3_C0);
+    }
+
+    public long toMicros(long d) {
+      return x(d, C3_C1, MAX_C3_C1);
+    }
+
+    public long toMillis(long d) {
+      return x(d, C3_C2, MAX_C3_C2);
+    }
+
+    public long toSeconds(long d) {
+      return d;
+    }
+
+    public long toMinutes(long d) {
+      return d / C4_C3;
+    }
+
+    public long toHours(long d) {
+      return d / C5_C3;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C3;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toSeconds(d);
+    }
   },
   MINUTES {
-    public long toNanos(long d)   { return x(d, C4_C0, MAX_C4_C0); }
-    public long toMicros(long d)  { return x(d, C4_C1, MAX_C4_C1); }
-    public long toMillis(long d)  { return x(d, C4_C2, MAX_C4_C2); }
-    public long toSeconds(long d) { return x(d, C4_C3, MAX_C4_C3); }
-    public long toMinutes(long d) { return d; }
-    public long toHours(long d)   { return d / C5_C4; }
-    public long toDays(long d)    { return d / C6_C4; }
-    public long convert(long d, TimeUnit u) { return u.toMinutes(d); }
+    public long toNanos(long d) {
+      return x(d, C4_C0, MAX_C4_C0);
+    }
+
+    public long toMicros(long d) {
+      return x(d, C4_C1, MAX_C4_C1);
+    }
+
+    public long toMillis(long d) {
+      return x(d, C4_C2, MAX_C4_C2);
+    }
+
+    public long toSeconds(long d) {
+      return x(d, C4_C3, MAX_C4_C3);
+    }
+
+    public long toMinutes(long d) {
+      return d;
+    }
+
+    public long toHours(long d) {
+      return d / C5_C4;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C4;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toMinutes(d);
+    }
   },
   HOURS {
-    public long toNanos(long d)   { return x(d, C5_C0, MAX_C5_C0); }
-    public long toMicros(long d)  { return x(d, C5_C1, MAX_C5_C1); }
-    public long toMillis(long d)  { return x(d, C5_C2, MAX_C5_C2); }
-    public long toSeconds(long d) { return x(d, C5_C3, MAX_C5_C3); }
-    public long toMinutes(long d) { return x(d, C5_C4, MAX_C5_C4); }
-    public long toHours(long d)   { return d; }
-    public long toDays(long d)    { return d / C6_C5; }
-    public long convert(long d, TimeUnit u) { return u.toHours(d); }
+    public long toNanos(long d) {
+      return x(d, C5_C0, MAX_C5_C0);
+    }
+
+    public long toMicros(long d) {
+      return x(d, C5_C1, MAX_C5_C1);
+    }
+
+    public long toMillis(long d) {
+      return x(d, C5_C2, MAX_C5_C2);
+    }
+
+    public long toSeconds(long d) {
+      return x(d, C5_C3, MAX_C5_C3);
+    }
+
+    public long toMinutes(long d) {
+      return x(d, C5_C4, MAX_C5_C4);
+    }
+
+    public long toHours(long d) {
+      return d;
+    }
+
+    public long toDays(long d) {
+      return d / C6_C5;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toHours(d);
+    }
   },
   DAYS {
-    public long toNanos(long d)   { return x(d, C6_C0, MAX_C6_C0); }
-    public long toMicros(long d)  { return x(d, C6_C1, MAX_C6_C1); }
-    public long toMillis(long d)  { return x(d, C6_C2, MAX_C6_C2); }
-    public long toSeconds(long d) { return x(d, C6_C3, MAX_C6_C3); }
-    public long toMinutes(long d) { return x(d, C6_C4, MAX_C6_C4); }
-    public long toHours(long d)   { return x(d, C6_C5, MAX_C6_C5); }
-    public long toDays(long d)    { return d; }
-    public long convert(long d, TimeUnit u) { return u.toDays(d); }
+    public long toNanos(long d) {
+      return x(d, C6_C0, MAX_C6_C0);
+    }
+
+    public long toMicros(long d) {
+      return x(d, C6_C1, MAX_C6_C1);
+    }
+
+    public long toMillis(long d) {
+      return x(d, C6_C2, MAX_C6_C2);
+    }
+
+    public long toSeconds(long d) {
+      return x(d, C6_C3, MAX_C6_C3);
+    }
+
+    public long toMinutes(long d) {
+      return x(d, C6_C4, MAX_C6_C4);
+    }
+
+    public long toHours(long d) {
+      return x(d, C6_C5, MAX_C6_C5);
+    }
+
+    public long toDays(long d) {
+      return d;
+    }
+
+    public long convert(long d, TimeUnit u) {
+      return u.toDays(d);
+    }
   };
 
   // Handy constants for conversion methods
@@ -152,7 +313,7 @@ public enum TimeUnit {
   private static final long MAX_C1_C0 = MAX / C1_C0;
 
   static long x(long d, long m, long over) {
-    if (d >  over) return Long.MAX_VALUE;
+    if (d > over) return Long.MAX_VALUE;
     if (d < -over) return Long.MIN_VALUE;
     return d * m;
   }

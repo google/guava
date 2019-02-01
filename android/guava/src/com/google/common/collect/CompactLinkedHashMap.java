@@ -44,20 +44,18 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
-  /**
-   * Creates an empty {@code CompactLinkedHashMap} instance.
-   */
+  /** Creates an empty {@code CompactLinkedHashMap} instance. */
   public static <K, V> CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
 
   /**
-   * Creates a {@code CompactLinkedHashMap} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without growth.
+   * Creates a {@code CompactLinkedHashMap} instance, with a high enough "initial capacity" that it
+   * <i>should</i> hold {@code expectedSize} elements without growth.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code CompactLinkedHashMap} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <K, V> CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
@@ -80,9 +78,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
 
-  /**
-   * Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries.
-   */
+  /** Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int lastEntry;
 
   private final boolean accessOrder;

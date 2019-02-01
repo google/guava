@@ -596,7 +596,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
         ? ((ImmutableSortedSet<V>) emptySet).comparator()
         : null;
   }
-  
+
   @GwtIncompatible // java serialization
   private static final class SetFieldSettersHolder {
     static final Serialization.FieldSetter<ImmutableSetMultimap> EMPTY_SET_FIELD_SETTER =

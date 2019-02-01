@@ -223,8 +223,7 @@ public final class PairedStats implements Serializable {
     PairedStats other = (PairedStats) obj;
     return xStats.equals(other.xStats)
         && yStats.equals(other.yStats)
-        && doubleToLongBits(sumOfProductsOfDeltas)
-            == doubleToLongBits(other.sumOfProductsOfDeltas);
+        && doubleToLongBits(sumOfProductsOfDeltas) == doubleToLongBits(other.sumOfProductsOfDeltas);
   }
 
   /**

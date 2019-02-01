@@ -129,8 +129,7 @@ public final class ImmutableLongArray implements Serializable {
   // okay since we have to copy the just-created array anyway.
   public static ImmutableLongArray of(long first, long... rest) {
     checkArgument(
-        rest.length <= Integer.MAX_VALUE - 1,
-        "the total number of elements must fit in an int");
+        rest.length <= Integer.MAX_VALUE - 1, "the total number of elements must fit in an int");
     long[] array = new long[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);
