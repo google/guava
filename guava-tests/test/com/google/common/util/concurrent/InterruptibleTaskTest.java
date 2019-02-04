@@ -36,7 +36,7 @@ public final class InterruptibleTaskTest extends TestCase {
             BrokenChannel bc = new BrokenChannel();
             bc.doBegin();
             isInterruptibleRegistered.countDown();
-            new CountDownLatch(1).await();  // the interrupt will wake us up
+            new CountDownLatch(1).await(); // the interrupt will wake us up
             return null;
           }
 
@@ -95,7 +95,7 @@ public final class InterruptibleTaskTest extends TestCase {
             slowChannel.doBegin();
             isInterruptibleRegistered.countDown();
             try {
-             new CountDownLatch(1).await();  // the interrupt will wake us up
+              new CountDownLatch(1).await(); // the interrupt will wake us up
             } catch (InterruptedException ie) {
               // continue
             }

@@ -37,26 +37,31 @@ import junit.framework.TestSuite;
 @GwtIncompatible // java.util.Arrays#copyOf(Object[], int), java.lang.reflect.Array
 public class CompactLinkedHashSetTest extends TestCase {
   public static Test suite() {
-    List<Feature<?>> allFeatures = Arrays.<Feature<?>>asList(
-        CollectionSize.ANY,
-        CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-        CollectionFeature.GENERAL_PURPOSE,
-        CollectionFeature.REMOVE_OPERATIONS,
-        CollectionFeature.SERIALIZABLE,
-        CollectionFeature.KNOWN_ORDER,
-        CollectionFeature.SUPPORTS_ADD,
-        CollectionFeature.SUPPORTS_REMOVE);
+    List<Feature<?>> allFeatures =
+        Arrays.<Feature<?>>asList(
+            CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SUPPORTS_ADD,
+            CollectionFeature.SUPPORTS_REMOVE);
 
     TestSuite suite = new TestSuite();
     suite.addTestSuite(CompactLinkedHashSetTest.class);
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-      @Override protected Set<String> create(String[] elements) {
-        return CompactLinkedHashSet.create(Arrays.asList(elements));
-      }
-    }).named("CompactLinkedHashSet")
-      .withFeatures(allFeatures)
-      .createTestSuite());
+    suite.addTest(
+        SetTestSuiteBuilder.using(
+                new TestStringSetGenerator() {
+                  @Override
+                  protected Set<String> create(String[] elements) {
+                    return CompactLinkedHashSet.create(Arrays.asList(elements));
+                  }
+                })
+            .named("CompactLinkedHashSet")
+            .withFeatures(allFeatures)
+            .createTestSuite());
     return suite;
   }
 

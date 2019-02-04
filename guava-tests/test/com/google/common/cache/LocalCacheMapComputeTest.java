@@ -115,9 +115,17 @@ public class LocalCacheMapComputeTest extends TestCase {
 
   public void testComputeExceptionally() {
     try {
-      doParallelCacheOp(count, n -> {
-        cache.asMap().compute(key, (k, v) -> { throw new RuntimeException(); });
-      });
+      doParallelCacheOp(
+          count,
+          n -> {
+            cache
+                .asMap()
+                .compute(
+                    key,
+                    (k, v) -> {
+                      throw new RuntimeException();
+                    });
+          });
       fail("Should not get here");
     } catch (RuntimeException ex) {
     }

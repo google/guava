@@ -329,10 +329,11 @@ public class ForwardingMapTest extends TestCase {
     };
   }
 
-  private static final ImmutableMap<String, String> JUF_METHODS = ImmutableMap.of(
-      "java.util.function.Predicate", "test",
-      "java.util.function.Consumer", "accept",
-      "java.util.function.IntFunction", "apply");
+  private static final ImmutableMap<String, String> JUF_METHODS =
+      ImmutableMap.of(
+          "java.util.function.Predicate", "test",
+          "java.util.function.Consumer", "accept",
+          "java.util.function.IntFunction", "apply");
 
   private static Object getDefaultValue(final TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
@@ -387,8 +388,7 @@ public class ForwardingMapTest extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(
-            cause, method + " with args: " + Arrays.toString(args));
+        throw new InvocationTargetException(cause, method + " with args: " + Arrays.toString(args));
       }
     }
   }
