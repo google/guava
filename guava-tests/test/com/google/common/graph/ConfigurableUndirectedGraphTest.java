@@ -59,9 +59,8 @@ public class ConfigurableUndirectedGraphTest extends ConfigurableSimpleUndirecte
     putEdge(N1, N1);
     assertThat(graph.incidentEdges(N1)).containsExactly(EndpointPair.unordered(N1, N1));
     putEdge(N1, N2);
-    assertThat(graph.incidentEdges(N1)).containsExactly(
-        EndpointPair.unordered(N1, N1),
-        EndpointPair.unordered(N1, N2));
+    assertThat(graph.incidentEdges(N1))
+        .containsExactly(EndpointPair.unordered(N1, N1), EndpointPair.unordered(N1, N2));
   }
 
   @Test
