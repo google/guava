@@ -792,8 +792,7 @@ public class ImmutableBiMapTest extends TestCase {
     ADVERSARIAL_KEYS {
       @Override
       List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
-        return createAdversarialObjects(power, counter)
-            .stream()
+        return createAdversarialObjects(power, counter).stream()
             .map(k -> Maps.immutableEntry(k, new Object()))
             .collect(toList());
       }
@@ -801,8 +800,7 @@ public class ImmutableBiMapTest extends TestCase {
     ADVERSARIAL_VALUES {
       @Override
       List<? extends Entry<?, ?>> createAdversarialEntries(int power, CallsCounter counter) {
-        return createAdversarialObjects(power, counter)
-            .stream()
+        return createAdversarialObjects(power, counter).stream()
             .map(k -> Maps.immutableEntry(new Object(), k))
             .collect(toList());
       }

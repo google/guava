@@ -120,7 +120,7 @@ public abstract class AbstractNetworkTest {
    * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
    * method.
    *
-   * TODO(user): remove the addNode() calls, that's now contractually guaranteed
+   * <p>TODO(user): remove the addNode() calls, that's now contractually guaranteed
    *
    * @return {@code true} iff the graph was modified as a result of this call
    */

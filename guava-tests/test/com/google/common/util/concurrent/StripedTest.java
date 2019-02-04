@@ -50,18 +50,22 @@ public class StripedTest extends TestCase {
         Striped.readWriteLock(256),
         Striped.lock(100),
         Striped.lock(256),
-        Striped.custom(100, new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(true);
-          }
-        }),
-        Striped.custom(256, new Supplier<Lock>() {
-          @Override
-          public Lock get() {
-            return new ReentrantLock(true);
-          }
-        }),
+        Striped.custom(
+            100,
+            new Supplier<Lock>() {
+              @Override
+              public Lock get() {
+                return new ReentrantLock(true);
+              }
+            }),
+        Striped.custom(
+            256,
+            new Supplier<Lock>() {
+              @Override
+              public Lock get() {
+                return new ReentrantLock(true);
+              }
+            }),
         Striped.semaphore(100, 1),
         Striped.semaphore(256, 1));
   }

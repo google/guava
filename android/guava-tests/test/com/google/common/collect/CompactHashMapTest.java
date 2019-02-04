@@ -37,22 +37,27 @@ import junit.framework.TestSuite;
 public class CompactHashMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
-        @Override
-        protected Map<String, String> create(Entry<String, String>[] entries) {
-          Map<String, String> map = CompactHashMap.create();
-          for (Entry<String, String> entry : entries) {
-            map.put(entry.getKey(), entry.getValue());
-          }
-          return map;
-        }
-      })
-      .named("CompactHashMap")
-      .withFeatures(
-        CollectionSize.ANY, MapFeature.GENERAL_PURPOSE, MapFeature.ALLOWS_NULL_KEYS,
-        MapFeature.ALLOWS_NULL_VALUES, CollectionFeature.SERIALIZABLE,
-        CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
-      .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    Map<String, String> map = CompactHashMap.create();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactHashMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
     suite.addTestSuite(CompactHashMapTest.class);
     return suite;
   }
