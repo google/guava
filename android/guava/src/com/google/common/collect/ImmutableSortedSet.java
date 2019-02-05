@@ -732,7 +732,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     private static final long serialVersionUID = 0;
   }
 
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+  private void readObject(ObjectInputStream unused) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
