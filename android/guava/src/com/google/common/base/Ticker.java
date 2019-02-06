@@ -14,7 +14,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -28,7 +27,6 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility">mostly
  *     source-compatible</a> since 9.0)
  */
-@Beta
 @GwtCompatible
 public abstract class Ticker {
   /** Constructor for use by subclasses. */

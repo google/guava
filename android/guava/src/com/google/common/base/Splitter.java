@@ -408,7 +408,6 @@ public final class Splitter {
    * @return an immutable list of the segments split from the parameter
    * @since 15.0
    */
-  @Beta
   public List<String> splitToList(CharSequence sequence) {
     checkNotNull(sequence);
 

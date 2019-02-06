@@ -48,7 +48,6 @@ import java.util.Deque;
  * @author Colin Decker
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public final class ByteStreams {
 
@@ -266,6 +265,7 @@ public final class ByteStreams {
    * @since 20.0
    */
   @CanIgnoreReturnValue
+  @Beta
   public static long exhaust(InputStream in) throws IOException {
     long total = 0;
     long read;
@@ -280,6 +280,7 @@ public final class ByteStreams {
    * Returns a new {@link ByteArrayDataInput} instance to read from the {@code bytes} array from the
    * beginning.
    */
+  @Beta
   public static ByteArrayDataInput newDataInput(byte[] bytes) {
     return newDataInput(new ByteArrayInputStream(bytes));
   }
@@ -291,6 +292,7 @@ public final class ByteStreams {
    * @throws IndexOutOfBoundsException if {@code start} is negative or greater than the length of
    *     the array
    */
+  @Beta
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
     checkPositionIndex(start, bytes.length);
     return newDataInput(new ByteArrayInputStream(bytes, start, bytes.length - start));
@@ -303,6 +305,7 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
+  @Beta
   public static ByteArrayDataInput newDataInput(ByteArrayInputStream byteArrayInputStream) {
     return new ByteArrayDataInputStream(checkNotNull(byteArrayInputStream));
   }
@@ -453,6 +456,7 @@ public final class ByteStreams {
   }
 
   /** Returns a new {@link ByteArrayDataOutput} instance with a default size. */
+  @Beta
   public static ByteArrayDataOutput newDataOutput() {
     return newDataOutput(new ByteArrayOutputStream());
   }
@@ -463,6 +467,7 @@ public final class ByteStreams {
    *
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @Beta
   public static ByteArrayDataOutput newDataOutput(int size) {
     // When called at high frequency, boxing size generates too much garbage,
     // so avoid doing that if we can.
@@ -484,6 +489,7 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
+  @Beta
   public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputSteam) {
     return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
   }
@@ -659,6 +665,7 @@ public final class ByteStreams {
    *
    * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
    */
+  @Beta
   public static OutputStream nullOutputStream() {
     return NULL_OUTPUT_STREAM;
   }
@@ -671,6 +678,7 @@ public final class ByteStreams {
    * @return a length-limited {@link InputStream}
    * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)
    */
+  @Beta
   public static InputStream limit(InputStream in, long limit) {
     return new LimitedInputStream(in, limit);
   }
@@ -757,6 +765,7 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
+  @Beta
   public static void readFully(InputStream in, byte[] b) throws IOException {
     readFully(in, b, 0, b.length);
   }
@@ -773,6 +782,7 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before reading all the bytes.
    * @throws IOException if an I/O error occurs.
    */
+  @Beta
   public static void readFully(InputStream in, byte[] b, int off, int len) throws IOException {
     int read = read(in, b, off, len);
     if (read != len) {
@@ -790,6 +800,7 @@ public final class ByteStreams {
    * @throws EOFException if this stream reaches the end before skipping all the bytes
    * @throws IOException if an I/O error occurs, or the stream does not support skipping
    */
+  @Beta
   public static void skipFully(InputStream in, long n) throws IOException {
     long skipped = skipUpTo(in, n);
     if (skipped < n) {
@@ -848,6 +859,7 @@ public final class ByteStreams {
    * @throws IOException if an I/O error occurs
    * @since 14.0
    */
+  @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
   public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
@@ -883,6 +895,7 @@ public final class ByteStreams {
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
    */
+  @Beta
   @CanIgnoreReturnValue
   // Sometimes you don't care how many bytes you actually read, I guess.
   // (You know that it's either going to read len bytes or stop at EOF.)
