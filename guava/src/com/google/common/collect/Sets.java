@@ -181,7 +181,6 @@ public final class Sets {
    *
    * @since 21.0
    */
-  @Beta
   public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
     return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
   }
