@@ -51,6 +51,18 @@ public class Murmur3Hash32Test extends TestCase {
         -528633700, murmur3_32().hashUnencodedChars("The quick brown fox jumps over the lazy dog"));
   }
 
+  public void testKnownUtf8StringInputs() {
+    assertHash(0, murmur3_32().hashString("", Charsets.UTF_8));
+    assertHash(0xcfbda5d1, murmur3_32().hashString("k", Charsets.UTF_8));
+    assertHash(0xa167dbf3, murmur3_32().hashString("hell", Charsets.UTF_8));
+    assertHash(0x248bfa47, murmur3_32().hashString("hello", Charsets.UTF_8));
+    assertHash(0x3d41b97c, murmur3_32().hashString("http://www.google.com/", Charsets.UTF_8));
+    assertHash(
+        0x2e4ff723,
+        murmur3_32().hashString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8));
+    assertHash(0xfc5ba834, murmur3_32().hashString("毎月１日,毎週月曜日", Charsets.UTF_8));
+  }
+
   @SuppressWarnings("deprecation")
   public void testSimpleStringUtf8() {
     assertEquals(
