@@ -144,7 +144,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @Beta
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -218,7 +217,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @Beta
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
       java.util.function.Function<? super T, ? extends K> keyFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction) {
@@ -251,7 +249,6 @@ public final class Maps {
    *
    * @since 21.0
    */
-  @Beta
   public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
       java.util.function.Function<? super T, ? extends K> keyFunction,
       java.util.function.Function<? super T, ? extends V> valueFunction,
@@ -1491,7 +1488,6 @@ public final class Maps {
    *
    * @since 16.0
    */
-  @Beta
   public static <A, B> Converter<A, B> asConverter(final BiMap<A, B> bimap) {
     return new BiMapConverter<>(bimap);
   }
