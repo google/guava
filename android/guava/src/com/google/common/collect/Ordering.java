@@ -837,7 +837,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * calling {@link Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
@@ -861,7 +860,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this before internal migration
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }
