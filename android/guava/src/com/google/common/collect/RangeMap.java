@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Collection;
 import java.util.Map;
@@ -34,7 +33,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**
