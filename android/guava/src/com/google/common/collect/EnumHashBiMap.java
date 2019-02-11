@@ -71,7 +71,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
 
   private EnumHashBiMap(Class<K> keyType) {
     super(
-        WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
+        new EnumMap<K, V>(keyType),
         Maps.<V, K>newHashMapWithExpectedSize(keyType.getEnumConstants().length));
     this.keyType = keyType;
   }
@@ -117,8 +117,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V> extends AbstractBiMap<K, 
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
     setDelegates(
-        WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
-        new HashMap<V, K>(keyType.getEnumConstants().length * 3 / 2));
+        new EnumMap<K, V>(keyType), new HashMap<V, K>(keyType.getEnumConstants().length * 3 / 2));
     Serialization.populateMap(this, stream);
   }
 
