@@ -1300,6 +1300,8 @@ public final class Preconditions {
    * Ensures that {@code index} specifies a valid <i>element</i> in an array, list or string of size
    * {@code size}. An element index may range from zero, inclusive, to {@code size}, exclusive.
    *
+   * <p><b>Java 9 users:</b> use {@code java.util.Objects.checkIndex(index, size)} instead.
+   *
    * @param index a user-supplied index identifying an element of an array, list or string
    * @param size the size of that array, list or string
    * @return the value of {@code index}
@@ -1390,6 +1392,9 @@ public final class Preconditions {
    * Ensures that {@code start} and {@code end} specify a valid <i>positions</i> in an array, list
    * or string of size {@code size}, and are in order. A position index may range from zero to
    * {@code size}, inclusive.
+   *
+   * <p><b>Java 9 users:</b> use {@code java.util.Objects.checkFromToIndex(start, end, size)}
+   * instead.
    *
    * @param start a user-supplied index identifying a starting position in an array, list or string
    * @param end a user-supplied index identifying a ending position in an array, list or string
