@@ -20,7 +20,6 @@ import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
@@ -45,7 +44,7 @@ import junit.framework.TestCase;
  *
  * @author Steve McKay
  */
-@GwtCompatible(emulated = true)
+@GwtIncompatible
 @J2ktIncompatible
 public class EnumsTest extends TestCase {
 
@@ -117,6 +116,7 @@ public class EnumsTest extends TestCase {
     return new WeakReference<>(shadowLoader);
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_convert() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertEquals(TestEnum.CHEETO, converter.convert("CHEETO"));
@@ -126,6 +126,7 @@ public class EnumsTest extends TestCase {
     assertNull(converter.reverse().convert(null));
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_convertError() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     try {
@@ -135,6 +136,7 @@ public class EnumsTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_reverse() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertEquals("CHEETO", converter.reverse().convert(TestEnum.CHEETO));
@@ -143,13 +145,14 @@ public class EnumsTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // NullPointerTester
+  @GwtIncompatible // stringConverter
   public void testStringConverter_nullPointerTester() throws Exception {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(converter);
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_nullConversions() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     assertNull(converter.convert(null));
@@ -164,6 +167,7 @@ public class EnumsTest extends TestCase {
         Enums.stringConverter(TestEnum.class).toString());
   }
 
+  @GwtIncompatible // stringConverter
   public void testStringConverter_serialization() {
     SerializableTester.reserializeAndAssert(Enums.stringConverter(TestEnum.class));
   }
