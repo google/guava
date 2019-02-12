@@ -43,27 +43,75 @@ import java.util.concurrent.locks.Condition;
 @GwtCompatible(emulated = true)
 public final class Uninterruptibles {
 
-  // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
-  // methods is identical, save for method being invoked.
+  /**
+   * Shared logic
+   * 
+   * @param <T> type on which to perform the blocking operation
+   * @param <R> return type
+   */
+  static abstract class Interruptible<T,R> {
+    // only need to override those which are used
+    R await(T target) throws InterruptedException {
+      throw new UnsupportedOperationException();
+    }
+    R await(T target, Object arg) throws InterruptedException {
+      return await(target);
+    }
+    R await(T target, int count, long timeout, TimeUnit unit) throws InterruptedException {
+      throw new UnsupportedOperationException();
+    }
+
+    final R awaitUninterruptibly(T target) {
+      return awaitUninterruptibly(target, null);
+    }
+
+    final R awaitUninterruptibly(T target, Object arg) {
+      boolean interrupted = false;
+      try {
+        while (true) {
+          try {
+            return await(target, arg);
+          } catch (InterruptedException e) {
+            interrupted = true;
+          }
+        }
+      } finally {
+        if (interrupted) {
+          Thread.currentThread().interrupt();
+        }
+      }
+    }
+
+    final R awaitUninterruptibly(T target, long timeout, TimeUnit unit) {
+      return awaitUninterruptibly(target, 1, timeout, unit);
+    }
+
+    final R awaitUninterruptibly(T target, int count, long timeout, TimeUnit unit) {
+      boolean interrupted = false;
+      try {
+        long remainingNanos = unit.toNanos(timeout);
+        long end = System.nanoTime() + remainingNanos;
+
+        while (true) {
+          try {
+            return await(target, count, remainingNanos, NANOSECONDS);
+          } catch (InterruptedException e) {
+            interrupted = true;
+            remainingNanos = end - System.nanoTime();
+          }
+        }
+      } finally {
+        if (interrupted) {
+          Thread.currentThread().interrupt();
+        }
+      }
+    }
+  }
 
   /** Invokes {@code latch.}{@link CountDownLatch#await() await()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void awaitUninterruptibly(CountDownLatch latch) {
-    boolean interrupted = false;
-    try {
-      while (true) {
-        try {
-          latch.await();
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    LATCH.awaitUninterruptibly(latch);
   }
 
   /**
@@ -74,26 +122,20 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(CountDownLatch latch, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(timeout);
-      long end = System.nanoTime() + remainingNanos;
-
-      while (true) {
-        try {
-          // CountDownLatch treats negative timeouts just like zero.
-          return latch.await(remainingNanos, NANOSECONDS);
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    return LATCH.awaitUninterruptibly(latch, timeout, unit);
   }
+
+  private static final Interruptible<CountDownLatch,Boolean> LATCH
+      = new Interruptible<CountDownLatch,Boolean>() {
+    @Override Boolean await(CountDownLatch latch) throws InterruptedException {
+      latch.await();
+      return Boolean.TRUE;
+    }
+    @Override Boolean await(CountDownLatch latch, int unused,
+        long timeout, TimeUnit unit) throws InterruptedException {
+      return latch.await(timeout, unit);
+    }
+  };
 
   /**
    * Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
@@ -104,44 +146,21 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean awaitUninterruptibly(Condition condition, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(timeout);
-      long end = System.nanoTime() + remainingNanos;
-
-      while (true) {
-        try {
-          return condition.await(remainingNanos, NANOSECONDS);
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    return CONDITION.awaitUninterruptibly(condition, timeout, unit);
   }
+
+  private static final Interruptible<Condition,Boolean> CONDITION
+      = new Interruptible<Condition,Boolean>() {
+    @Override Boolean await(Condition condition, int unused,
+        long timeout, TimeUnit unit) throws InterruptedException {
+      return condition.await(timeout, unit);
+    }
+  };
 
   /** Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly. */
   @GwtIncompatible // concurrency
   public static void joinUninterruptibly(Thread toJoin) {
-    boolean interrupted = false;
-    try {
-      while (true) {
-        try {
-          toJoin.join();
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    THREAD_JOIN.awaitUninterruptibly(toJoin);
   }
 
   /**
@@ -152,26 +171,20 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void joinUninterruptibly(Thread toJoin, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(toJoin);
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(timeout);
-      long end = System.nanoTime() + remainingNanos;
-      while (true) {
-        try {
-          // TimeUnit.timedJoin() treats negative timeouts just like zero.
-          NANOSECONDS.timedJoin(toJoin, remainingNanos);
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    THREAD_JOIN.awaitUninterruptibly(toJoin, timeout, unit);
   }
+
+  private static final Interruptible<Thread,Void> THREAD_JOIN = new Interruptible<Thread,Void>() {
+    @Override Void await(Thread thread) throws InterruptedException {
+      thread.join();
+      return null;
+    }
+    @Override Void await(Thread thread, int unused,
+        long timeout, TimeUnit unit) throws InterruptedException {
+      unit.timedJoin(thread, timeout);
+      return null;
+    }
+  };
 
   /**
    * Invokes {@code future.}{@link Future#get() get()} uninterruptibly.
@@ -190,22 +203,10 @@ public final class Uninterruptibles {
    * @throws ExecutionException if the computation threw an exception
    * @throws CancellationException if the computation was cancelled
    */
+  @SuppressWarnings("unchecked")
   @CanIgnoreReturnValue
   public static <V> V getUninterruptibly(Future<V> future) throws ExecutionException {
-    boolean interrupted = false;
-    try {
-      while (true) {
-        try {
-          return future.get();
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    return (V) FUTURE_GET.awaitUninterruptibly(future);
   }
 
   /**
@@ -228,48 +229,44 @@ public final class Uninterruptibles {
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // TODO
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings({"GoodTime", "unchecked"}) // should accept a java.time.Duration
   public static <V> V getUninterruptibly(Future<V> future, long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(timeout);
-      long end = System.nanoTime() + remainingNanos;
+    return (V) FUTURE_GET.awaitUninterruptibly(future, timeout, unit);
+  }
 
-      while (true) {
-        try {
-          // Future treats negative timeouts just like zero.
-          return future.get(remainingNanos, NANOSECONDS);
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
+  private static final Interruptible<Future<? extends Object>,Object> FUTURE_GET
+      = new Interruptible<Future<? extends Object>,Object>() {
+    @Override Object await(Future<? extends Object> future) throws InterruptedException {
+      try {
+        return future.get();
+      } catch (ExecutionException e) {
+        throw throwUnchecked(e);
       }
     }
-  }
+    @Override Object await(Future<? extends Object> future,
+        int unused, long time, TimeUnit unit) throws InterruptedException {
+      try {
+        return future.get(time, unit);
+      } catch (ExecutionException | TimeoutException e) {
+        throw throwUnchecked(e);
+      }
+    }
+  };
 
   /** Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly. */
+  @SuppressWarnings("unchecked")
   @GwtIncompatible // concurrency
   public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
-    boolean interrupted = false;
-    try {
-      while (true) {
-        try {
-          return queue.take();
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    return (E) QUEUE_TAKE.awaitUninterruptibly(queue);
   }
+
+  private static final Interruptible<BlockingQueue<? extends Object>,Object> QUEUE_TAKE
+      = new Interruptible<BlockingQueue<? extends Object>,Object>() {
+    @Override Object await(BlockingQueue<? extends Object> queue) throws InterruptedException {
+      return queue.take();
+    }
+  };
 
   /**
    * Invokes {@code queue.}{@link BlockingQueue#put(Object) put(element)} uninterruptibly.
@@ -281,48 +278,33 @@ public final class Uninterruptibles {
    */
   @GwtIncompatible // concurrency
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
-    boolean interrupted = false;
-    try {
-      while (true) {
-        try {
-          queue.put(element);
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    QUEUE_PUT.awaitUninterruptibly(queue, element);
   }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static final Interruptible<BlockingQueue,Void> QUEUE_PUT
+      = new Interruptible<BlockingQueue,Void>() {
+    @Override Void await(BlockingQueue queue, Object element) throws InterruptedException {
+      queue.put(element);
+      return null;
+    }
+  };
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
   @GwtIncompatible // concurrency
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(sleepFor);
-      long end = System.nanoTime() + remainingNanos;
-      while (true) {
-        try {
-          // TimeUnit.sleep() treats negative timeouts just like zero.
-          NANOSECONDS.sleep(remainingNanos);
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    SLEEP.awaitUninterruptibly(null, sleepFor, unit);
   }
+
+  private static final Interruptible<Void,Void> SLEEP = new Interruptible<Void,Void>() {
+    @Override Void await(
+        Void none, int unused, long timeout, TimeUnit unit) throws InterruptedException {
+      unit.sleep(timeout);
+      return null;
+    }
+  };
 
   /**
    * Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
@@ -334,7 +316,7 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, long timeout, TimeUnit unit) {
-    return tryAcquireUninterruptibly(semaphore, 1, timeout, unit);
+    return SEMAPHORE.awaitUninterruptibly(semaphore, timeout, unit);
   }
 
   /**
@@ -347,25 +329,21 @@ public final class Uninterruptibles {
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, long timeout, TimeUnit unit) {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(timeout);
-      long end = System.nanoTime() + remainingNanos;
+    return SEMAPHORE.awaitUninterruptibly(semaphore, permits, timeout, unit);
+  }
 
-      while (true) {
-        try {
-          // Semaphore treats negative timeouts just like zero.
-          return semaphore.tryAcquire(permits, remainingNanos, NANOSECONDS);
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
+  private static final Interruptible<Semaphore,Boolean> SEMAPHORE
+      = new Interruptible<Semaphore,Boolean>() {
+    @Override Boolean await(
+        Semaphore semaphore, int permits, long timeout, TimeUnit unit) throws InterruptedException {
+      return semaphore.tryAcquire(permits, timeout, unit);
     }
+  };
+
+  // used to propagate checked exceptions for Future.get methods, bypassing compiler check
+  @SuppressWarnings("unchecked")
+  private static <E extends Exception> RuntimeException throwUnchecked(Exception e) throws E {
+      throw (E) e;
   }
 
   // TODO(user): Add support for waitUninterruptibly.
