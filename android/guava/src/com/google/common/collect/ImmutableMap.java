@@ -25,6 +25,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -537,7 +538,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  @LazyInit private transient ImmutableSet<K> keySet;
+  @LazyInit @RetainedWith private transient ImmutableSet<K> keySet;
 
   /**
    * Returns an immutable set of the keys in this map, in the same order that they appear in {@link
