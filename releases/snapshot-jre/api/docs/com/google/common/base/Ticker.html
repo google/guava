@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public abstract class <a href="../../../../src-html/com/google/common/base/Ticker.html#line.34">Ticker</a>
+public abstract class <a href="../../../../src-html/com/google/common/base/Ticker.html#line.33">Ticker</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">A time source; returns a time value representing the number of nanoseconds elapsed since some
  fixed but arbitrary point in time. Note that most users should use <a href="../../../../com/google/common/base/Stopwatch.html" title="class in com.google.common.base"><code>Stopwatch</code></a> instead of
@@ -204,7 +204,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Ticker</h4>
-<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.36">Ticker</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.35">Ticker</a>()</pre>
 <div class="block">Constructor for use by subclasses.</div>
 </li>
 </ul>
@@ -222,8 +222,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>@CanIgnoreReturnValue
-public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.40">read</a>()</pre>
+<pre>public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.38">read</a>()</pre>
 <div class="block">Returns the number of nanoseconds elapsed since this ticker's fixed point of reference.</div>
 </li>
 </ul>
@@ -233,7 +232,7 @@ public abstract&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/b
 <ul class="blockListLast">
 <li class="blockList">
 <h4>systemTicker</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.47">systemTicker</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Ticker.html" title="class in com.google.common.base">Ticker</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Ticker.html#line.45">systemTicker</a>()</pre>
 <div class="block">A ticker that reads the current time using <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime--" title="class or interface in java.lang"><code>System.nanoTime()</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>

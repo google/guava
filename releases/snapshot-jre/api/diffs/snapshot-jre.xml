@@ -50517,12 +50517,56 @@
  @since 19.0]]>
       </doc>
     </field>
+    <field name="SEC_FETCH_DEST" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_FETCH_MODE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_FETCH_SITE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_FETCH_USER" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_METADATA" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
+      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
  field name.
 
  @since 26.0]]>
