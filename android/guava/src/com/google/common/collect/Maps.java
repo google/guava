@@ -1242,6 +1242,9 @@ public final class Maps {
    *
    * <p>The returned entry is serializable.
    *
+   * <p><b>Java 9 users:</b> consider using {@code java.util.Map.entry(key, value)} if the key and
+   * value are non-null and the entry does not need to be serializable.
+   *
    * @param key the key to be associated with the returned entry
    * @param value the value to be associated with the returned entry
    */
