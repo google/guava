@@ -39,6 +39,8 @@ public class HttpHeadersTest extends TestCase {
         ImmutableBiMap.of(
             "ETAG",
             "ETag",
+            "SOURCE_MAP",
+            "SourceMap",
             "X_WEBKIT_CSP",
             "X-WebKit-CSP",
             "X_WEBKIT_CSP_REPORT_ONLY",
