@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -264,7 +263,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @GwtCompatible(emulated = true)
   private static final class Values<K, V> extends ImmutableList<V> {
-    @Weak final RegularImmutableMap<K, V> map;
+    final RegularImmutableMap<K, V> map;
 
     Values(RegularImmutableMap<K, V> map) {
       this.map = map;
