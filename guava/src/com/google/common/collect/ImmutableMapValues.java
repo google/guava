@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
@@ -35,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  @Weak private final ImmutableMap<K, V> map;
+  private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;
