@@ -192,6 +192,14 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
+  * Determines whether a character matches any of the ASCII digits. This is the same as calling
+  * {@code inRange('0', '9')}.
+  */
+  public static CharMatcher asciiDigit(){
+    return inRange('0', '9');
+  }
+
+  /**
    * Determines whether a character is a BMP letter according to {@linkplain
    * Character#isLetter(char) Java's definition}.
    *
