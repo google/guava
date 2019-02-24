@@ -167,10 +167,10 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Determines whether a character is a BMP digit according to <a
-   * href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>. If
-   * you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
+   * href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
    *
-   * @deprecated Many digits are supplementary characters; see the class documentation.
+   * @deprecated Many digits are supplementary characters; see the class documentation. If you only
+   * need to match basic ASCII digits, you can use {@code inRange('0', '9')}.
    * @since 19.0 (since 1.0 as constant {@code DIGIT})
    */
   @Deprecated
@@ -180,10 +180,10 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Determines whether a character is a BMP digit according to {@linkplain Character#isDigit(char)
-   * Java's definition}. If you only care to match ASCII digits, you can use {@code inRange('0',
-   * '9')}.
+   * Java's definition}.
    *
-   * @deprecated Many digits are supplementary characters; see the class documentation.
+   * @deprecated Many digits are supplementary characters; see the class documentation. If you only
+   * need to match basic ASCII digits, you can use {@code inRange('0', '9')}.
    * @since 19.0 (since 1.0 as constant {@code JAVA_DIGIT})
    */
   @Deprecated
@@ -193,10 +193,11 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Determines whether a character is a BMP letter according to {@linkplain
-   * Character#isLetter(char) Java's definition}. If you only care to match letters of the Latin
-   * alphabet, you can use {@code inRange('a', 'z').or(inRange('A', 'Z'))}.
+   * Character#isLetter(char) Java's definition}.
    *
-   * @deprecated Most letters are supplementary characters; see the class documentation.
+   * @deprecated Most letters are supplementary characters; see the class documentation. If you only
+   * need to match letters of the Latin alphabet, you can use {@code inRange('a', 'z')
+   * .or(inRange('A', 'Z'))}.
    * @since 19.0 (since 1.0 as constant {@code JAVA_LETTER})
    */
   @Deprecated
@@ -221,7 +222,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Character#isUpperCase(char) Java's definition}.
    *
    * @deprecated Some uppercase characters are supplementary characters; see the class
-   *     documentation.
+   *     documentation. If you only need to match uppercase letters of the Latin alphabet,
+   *     you can use {@code inRange('A', 'Z')}.
    * @since 19.0 (since 1.0 as constant {@code JAVA_UPPER_CASE})
    */
   @Deprecated
@@ -234,7 +236,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Character#isLowerCase(char) Java's definition}.
    *
    * @deprecated Some lowercase characters are supplementary characters; see the class
-   *     documentation.
+   *     documentation. If you only need to match lowercase letters of the Latin alphabet,
+   *     you can use {@code inRange('a', 'z')}.
    * @since 19.0 (since 1.0 as constant {@code JAVA_LOWER_CASE})
    */
   @Deprecated
