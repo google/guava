@@ -342,6 +342,7 @@
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
+              <!-- Fix OutOfMemoryError under Travis. -->
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
               <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
