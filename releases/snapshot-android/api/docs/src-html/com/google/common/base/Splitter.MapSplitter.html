@@ -416,50 +416,50 @@
 <span class="sourceLineNo">408</span>   * @return an immutable list of the segments split from the parameter<a name="line.408"></a>
 <span class="sourceLineNo">409</span>   * @since 15.0<a name="line.409"></a>
 <span class="sourceLineNo">410</span>   */<a name="line.410"></a>
-<span class="sourceLineNo">411</span>  @Beta<a name="line.411"></a>
-<span class="sourceLineNo">412</span>  public List&lt;String&gt; splitToList(CharSequence sequence) {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    checkNotNull(sequence);<a name="line.413"></a>
-<span class="sourceLineNo">414</span><a name="line.414"></a>
-<span class="sourceLineNo">415</span>    Iterator&lt;String&gt; iterator = splittingIterator(sequence);<a name="line.415"></a>
-<span class="sourceLineNo">416</span>    List&lt;String&gt; result = new ArrayList&lt;&gt;();<a name="line.416"></a>
-<span class="sourceLineNo">417</span><a name="line.417"></a>
-<span class="sourceLineNo">418</span>    while (iterator.hasNext()) {<a name="line.418"></a>
-<span class="sourceLineNo">419</span>      result.add(iterator.next());<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    }<a name="line.420"></a>
-<span class="sourceLineNo">421</span><a name="line.421"></a>
-<span class="sourceLineNo">422</span>    return Collections.unmodifiableList(result);<a name="line.422"></a>
-<span class="sourceLineNo">423</span>  }<a name="line.423"></a>
-<span class="sourceLineNo">424</span><a name="line.424"></a>
-<span class="sourceLineNo">425</span>  /**<a name="line.425"></a>
-<span class="sourceLineNo">426</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.426"></a>
-<span class="sourceLineNo">427</span>   * into keys and values using the specified separator.<a name="line.427"></a>
-<span class="sourceLineNo">428</span>   *<a name="line.428"></a>
-<span class="sourceLineNo">429</span>   * @since 10.0<a name="line.429"></a>
-<span class="sourceLineNo">430</span>   */<a name="line.430"></a>
-<span class="sourceLineNo">431</span>  @Beta<a name="line.431"></a>
-<span class="sourceLineNo">432</span>  public MapSplitter withKeyValueSeparator(String separator) {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>    return withKeyValueSeparator(on(separator));<a name="line.433"></a>
-<span class="sourceLineNo">434</span>  }<a name="line.434"></a>
-<span class="sourceLineNo">435</span><a name="line.435"></a>
-<span class="sourceLineNo">436</span>  /**<a name="line.436"></a>
-<span class="sourceLineNo">437</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.437"></a>
-<span class="sourceLineNo">438</span>   * into keys and values using the specified separator.<a name="line.438"></a>
-<span class="sourceLineNo">439</span>   *<a name="line.439"></a>
-<span class="sourceLineNo">440</span>   * @since 14.0<a name="line.440"></a>
-<span class="sourceLineNo">441</span>   */<a name="line.441"></a>
-<span class="sourceLineNo">442</span>  @Beta<a name="line.442"></a>
-<span class="sourceLineNo">443</span>  public MapSplitter withKeyValueSeparator(char separator) {<a name="line.443"></a>
-<span class="sourceLineNo">444</span>    return withKeyValueSeparator(on(separator));<a name="line.444"></a>
-<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
-<span class="sourceLineNo">446</span><a name="line.446"></a>
-<span class="sourceLineNo">447</span>  /**<a name="line.447"></a>
-<span class="sourceLineNo">448</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.448"></a>
-<span class="sourceLineNo">449</span>   * into keys and values using the specified key-value splitter.<a name="line.449"></a>
-<span class="sourceLineNo">450</span>   *<a name="line.450"></a>
-<span class="sourceLineNo">451</span>   * &lt;p&gt;Note: Any configuration option configured on this splitter, such as {@link #trimResults},<a name="line.451"></a>
-<span class="sourceLineNo">452</span>   * does not change the behavior of the {@code keyValueSplitter}.<a name="line.452"></a>
-<span class="sourceLineNo">453</span>   *<a name="line.453"></a>
-<span class="sourceLineNo">454</span>   * &lt;p&gt;Example:<a name="line.454"></a>
+<span class="sourceLineNo">411</span>  public List&lt;String&gt; splitToList(CharSequence sequence) {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    checkNotNull(sequence);<a name="line.412"></a>
+<span class="sourceLineNo">413</span><a name="line.413"></a>
+<span class="sourceLineNo">414</span>    Iterator&lt;String&gt; iterator = splittingIterator(sequence);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    List&lt;String&gt; result = new ArrayList&lt;&gt;();<a name="line.415"></a>
+<span class="sourceLineNo">416</span><a name="line.416"></a>
+<span class="sourceLineNo">417</span>    while (iterator.hasNext()) {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      result.add(iterator.next());<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    }<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>    return Collections.unmodifiableList(result);<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  }<a name="line.422"></a>
+<span class="sourceLineNo">423</span><a name="line.423"></a>
+<span class="sourceLineNo">424</span>  /**<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * into keys and values using the specified separator.<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   *<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * @since 10.0<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   */<a name="line.429"></a>
+<span class="sourceLineNo">430</span>  @Beta<a name="line.430"></a>
+<span class="sourceLineNo">431</span>  public MapSplitter withKeyValueSeparator(String separator) {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>    return withKeyValueSeparator(on(separator));<a name="line.432"></a>
+<span class="sourceLineNo">433</span>  }<a name="line.433"></a>
+<span class="sourceLineNo">434</span><a name="line.434"></a>
+<span class="sourceLineNo">435</span>  /**<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * into keys and values using the specified separator.<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   *<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * @since 14.0<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   */<a name="line.440"></a>
+<span class="sourceLineNo">441</span>  @Beta<a name="line.441"></a>
+<span class="sourceLineNo">442</span>  public MapSplitter withKeyValueSeparator(char separator) {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>    return withKeyValueSeparator(on(separator));<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  }<a name="line.444"></a>
+<span class="sourceLineNo">445</span><a name="line.445"></a>
+<span class="sourceLineNo">446</span>  /**<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   * Returns a {@code MapSplitter} which splits entries based on this splitter, and splits entries<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * into keys and values using the specified key-value splitter.<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   *<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * &lt;p&gt;Note: Any configuration option configured on this splitter, such as {@link #trimResults},<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * does not change the behavior of the {@code keyValueSplitter}.<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   *<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * &lt;p&gt;Example:<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   *<a name="line.454"></a>
 <span class="sourceLineNo">455</span>   * &lt;pre&gt;{@code<a name="line.455"></a>
 <span class="sourceLineNo">456</span>   * String toSplit = " x -&gt; y, z-&gt; a ";<a name="line.456"></a>
 <span class="sourceLineNo">457</span>   * Splitter outerSplitter = Splitter.on(',').trimResults();<a name="line.457"></a>

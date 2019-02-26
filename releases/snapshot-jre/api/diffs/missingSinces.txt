@@ -22,7 +22,9 @@ OK: com.google.common.net.MediaType Field JOSE
 OK: com.google.common.net.MediaType Field JOSE_JSON
 OK: com.google.common.net.MediaType Field MICROSOFT_OUTLOOK
 MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field ORIGIN_TRIAL
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field REPORT_TO
 OK: com.google.common.net.HttpHeaders Field SEC_FETCH_DEST
 OK: com.google.common.net.HttpHeaders Field SEC_FETCH_MODE
 OK: com.google.common.net.HttpHeaders Field SEC_FETCH_SITE
 OK: com.google.common.net.HttpHeaders Field SEC_FETCH_USER
+OK: com.google.common.net.HttpHeaders Field SOURCE_MAP

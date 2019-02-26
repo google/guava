@@ -79,7 +79,7 @@
 <span class="sourceLineNo">071</span><a name="line.71"></a>
 <span class="sourceLineNo">072</span>  private EnumHashBiMap(Class&lt;K&gt; keyType) {<a name="line.72"></a>
 <span class="sourceLineNo">073</span>    super(<a name="line.73"></a>
-<span class="sourceLineNo">074</span>        WellBehavedMap.wrap(new EnumMap&lt;K, V&gt;(keyType)),<a name="line.74"></a>
+<span class="sourceLineNo">074</span>        new EnumMap&lt;K, V&gt;(keyType),<a name="line.74"></a>
 <span class="sourceLineNo">075</span>        Maps.&lt;V, K&gt;newHashMapWithExpectedSize(keyType.getEnumConstants().length));<a name="line.75"></a>
 <span class="sourceLineNo">076</span>    this.keyType = keyType;<a name="line.76"></a>
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>
@@ -125,14 +125,13 @@
 <span class="sourceLineNo">117</span>    stream.defaultReadObject();<a name="line.117"></a>
 <span class="sourceLineNo">118</span>    keyType = (Class&lt;K&gt;) stream.readObject();<a name="line.118"></a>
 <span class="sourceLineNo">119</span>    setDelegates(<a name="line.119"></a>
-<span class="sourceLineNo">120</span>        WellBehavedMap.wrap(new EnumMap&lt;K, V&gt;(keyType)),<a name="line.120"></a>
-<span class="sourceLineNo">121</span>        new HashMap&lt;V, K&gt;(keyType.getEnumConstants().length * 3 / 2));<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    Serialization.populateMap(this, stream);<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
-<span class="sourceLineNo">124</span><a name="line.124"></a>
-<span class="sourceLineNo">125</span>  @GwtIncompatible // only needed in emulated source.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  private static final long serialVersionUID = 0;<a name="line.126"></a>
-<span class="sourceLineNo">127</span>}<a name="line.127"></a>
+<span class="sourceLineNo">120</span>        new EnumMap&lt;K, V&gt;(keyType), new HashMap&lt;V, K&gt;(keyType.getEnumConstants().length * 3 / 2));<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    Serialization.populateMap(this, stream);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  @GwtIncompatible // only needed in emulated source.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  private static final long serialVersionUID = 0;<a name="line.125"></a>
+<span class="sourceLineNo">126</span>}<a name="line.126"></a>
 
 
 

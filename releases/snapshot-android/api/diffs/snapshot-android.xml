@@ -5634,6 +5634,7 @@
  does not change the behavior of the {@code keyValueSplitter}.
 
  <p>Example:
+
  <pre>{@code
  String toSplit = " x -> y, z-> a ";
  Splitter outerSplitter = Splitter.on(',').trimResults();
@@ -20219,9 +20220,7 @@
 
  <p>Because an inverse of a set multimap cannot contain multiple pairs with the same key and
  value, this method returns an {@code ImmutableSetMultimap} rather than the {@code
- ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
-
- @since 11.0]]>
+ ImmutableMultimap} specified in the {@code ImmutableMultimap} class.]]>
       </doc>
     </method>
     <method name="removeAll" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
@@ -25800,6 +25799,9 @@
 
  <p>The returned entry is serializable.
 
+ <p><b>Java 9 users:</b> consider using {@code java.util.Map.entry(key, value)} if the key and
+ value are non-null and the entry does not need to be serializable.
+
  @param key the key to be associated with the returned entry
  @param value the value to be associated with the returned entry]]>
       </doc>
@@ -27440,8 +27442,8 @@
       deprecated="not deprecated">
       <param name="expectedKeys" type="int"/>
       <doc>
-      <![CDATA[Uses a hash table to map keys to value collections, initialized to expect the specified
- number of keys.
+      <![CDATA[Uses a hash table to map keys to value collections, initialized to expect the specified number
+ of keys.
 
  @throws IllegalArgumentException if {@code expectedKeys < 0}]]>
       </doc>
@@ -27465,8 +27467,8 @@
       deprecated="not deprecated">
       <param name="expectedKeys" type="int"/>
       <doc>
-      <![CDATA[Uses an hash table to map keys to value collections, initialized to expect the
- specified number of keys.
+      <![CDATA[Uses an hash table to map keys to value collections, initialized to expect the specified number
+ of keys.
 
  <p>The collections returned by {@link Multimap#keySet()}, {@link Multimap#keys()}, and {@link
  Multimap#asMap()} will iterate through the keys in the order that they were first added to the
@@ -27634,8 +27636,8 @@
       deprecated="not deprecated">
       <param name="expectedValuesPerKey" type="int"/>
       <doc>
-      <![CDATA[Uses a hash-based {@code Set} to store value collections, initialized to expect the specified number
- of values per key.
+      <![CDATA[Uses a hash-based {@code Set} to store value collections, initialized to expect the specified
+ number of values per key.
 
  @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}]]>
       </doc>
@@ -27654,8 +27656,8 @@
       deprecated="not deprecated">
       <param name="expectedValuesPerKey" type="int"/>
       <doc>
-      <![CDATA[Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to expect the specified
- number of values per key.
+      <![CDATA[Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to
+ expect the specified number of values per key.
 
  @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}]]>
       </doc>
@@ -35930,8 +35932,8 @@
       deprecated="not deprecated">
       <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;?&gt;"/>
       <doc>
-      <![CDATA[Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible
- with the directionality of this graph.]]>
+      <![CDATA[Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible with
+ the directionality of this graph.]]>
       </doc>
     </method>
     <method name="isOrderingCompatible" return="boolean"
@@ -37228,8 +37230,8 @@
       <param name="nodeV" type="N"/>
       <param name="value" type="V"/>
       <doc>
-      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and
- sets a value for that edge to {@code value} (overwriting the existing value, if any).
+      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and sets
+ a value for that edge to {@code value} (overwriting the existing value, if any).
 
  <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
  undirected.
@@ -38389,9 +38391,8 @@
  based on your answers to the following questions:
 
  <ol>
-   <li>Is there only one path to any node that's reachable from any start node? (If so, the
-       graph to be traversed is a tree or forest even if it is a subgraph of a graph which is
-       neither.)
+   <li>Is there only one path to any node that's reachable from any start node? (If so, the graph
+       to be traversed is a tree or forest even if it is a subgraph of a graph which is neither.)
    <li>Are the node objects' implementations of {@code equals()}/{@code hashCode()} <a
        href="https://github.com/google/guava/wiki/GraphsExplained#non-recursiveness">recursive</a>?
  </ol>
@@ -48046,6 +48047,14 @@
       <![CDATA[The HTTP {@code Refresh} header field name. Non-standard header supported by most browsers.]]>
       </doc>
     </field>
+    <field name="REPORT_TO" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.]]>
+      </doc>
+    </field>
     <field name="RETRY_AFTER" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -48098,6 +48107,16 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP {@code Set-Cookie2} header field name.]]>
+      </doc>
+    </field>
+    <field name="SOURCE_MAP" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="http://goo.gl/Dxx19N">{@code SourceMap}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="STRICT_TRANSPORT_SECURITY" type="java.lang.String"
@@ -52644,8 +52663,8 @@
  <p>Advantages compared to {@code double[]}:
 
  <ul>
-   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
-       edition, Item 15).
+   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
+       edition, Item 17).
    <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
        #toString} behavior you expect.
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
@@ -53052,8 +53071,8 @@
  <p>Advantages compared to {@code int[]}:
 
  <ul>
-   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
-       edition, Item 15).
+   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
+       edition, Item 17).
    <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
        #toString} behavior you expect
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
@@ -53460,8 +53479,8 @@
  <p>Advantages compared to {@code long[]}:
 
  <ul>
-   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
-       edition, Item 15).
+   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
+       edition, Item 17).
    <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
        #toString} behavior you expect.
    <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
@@ -59237,8 +59256,8 @@
  convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is
  called multiple times.
 
- <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which
- is the external state observable by the caller of {@link #stopAsync}.
+ <p>When this method is called {@link #state()} will return {@link State#STOPPING}, which is the
+ external state observable by the caller of {@link #stopAsync}.
 
  @since 27.0]]>
       </doc>
@@ -62843,6 +62862,9 @@
  <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
  href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.
+
+ <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
+ after executing them.
 
  @param listener the listener to run when the computation is complete
  @param executor the executor to run the listener in

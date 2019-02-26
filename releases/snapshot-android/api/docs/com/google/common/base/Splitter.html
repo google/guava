@@ -574,8 +574,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>splitToList</h4>
-<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.412">splitToList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.411">splitToList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and returns them as an immutable list. If you
  want an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a> which may be lazily evaluated, use <a href="../../../../com/google/common/base/Splitter.html#split-java.lang.CharSequence-"><code>split(CharSequence)</code></a>.</div>
 <dl>
@@ -595,7 +594,7 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.ht
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.432">withKeyValueSeparator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.431">withKeyValueSeparator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -611,7 +610,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.htm
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.443">withKeyValueSeparator</a>(char&nbsp;separator)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.442">withKeyValueSeparator</a>(char&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -635,6 +634,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.htm
  does not change the behavior of the <code>keyValueSplitter</code>.
 
  <p>Example:
+
  <pre><code>
  String toSplit = " x -&gt; y, z-&gt; a ";
  Splitter outerSplitter = Splitter.on(',').trimResults();

@@ -109,9 +109,8 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
- <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public final class <a href="../../../../src-html/com/google/common/collect/Streams.html#line.56">Streams</a>
+<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public final class <a href="../../../../src-html/com/google/common/collect/Streams.html#line.55">Streams</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Static utility methods related to <code>Stream</code> instances.</div>
 <dl>
@@ -364,7 +363,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.61">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.60">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;iterable)</pre>
 <div class="block">Returns a sequential <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> of the contents of <code>iterable</code>, delegating to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util"><code>Collection.stream()</code></a> if possible.</div>
 </li>
 </ul>
@@ -374,7 +373,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
 public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.73">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;T&gt;&nbsp;collection)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">There is no reason to use this; just invoke <code>collection.stream()</code> directly.</span></div>
 <div class="block">Returns <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#stream--" title="class or interface in java.util"><code>Collection.stream()</code></a>.</div>
@@ -386,7 +386,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.81">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.82">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a sequential <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> of the remaining contents of <code>iterator</code>. Do not use
  <code>iterator</code> directly after passing it to this method.</div>
 </li>
@@ -397,7 +398,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.89">stream</a>(<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;optional)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.91">stream</a>(<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;optional)</pre>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.</div>
 </li>
@@ -408,7 +410,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.99">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&nbsp;optional)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.102">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&nbsp;optional)</pre>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.
 
@@ -421,7 +424,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.109">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalInt.html?is-external=true" title="class or interface in java.util">OptionalInt</a>&nbsp;optional)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.113">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalInt.html?is-external=true" title="class or interface in java.util">OptionalInt</a>&nbsp;optional)</pre>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.
 
@@ -434,7 +438,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.119">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalLong.html?is-external=true" title="class or interface in java.util">OptionalLong</a>&nbsp;optional)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.124">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalLong.html?is-external=true" title="class or interface in java.util">OptionalLong</a>&nbsp;optional)</pre>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.
 
@@ -447,7 +452,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>stream</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.129">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalDouble.html?is-external=true" title="class or interface in java.util">OptionalDouble</a>&nbsp;optional)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.135">stream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalDouble.html?is-external=true" title="class or interface in java.util">OptionalDouble</a>&nbsp;optional)</pre>
 <div class="block">If a value is present in <code>optional</code>, returns a stream containing only that element,
  otherwise returns an empty stream.
 
@@ -461,7 +467,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <li class="blockList">
 <h4>concat</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/SafeVarargs.html?is-external=true" title="class or interface in java.lang">@SafeVarargs</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.143">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;? extends T&gt;...&nbsp;streams)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.149">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;? extends T&gt;...&nbsp;streams)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a> containing the elements of the first stream, followed by the elements
  of the second stream, and so on.
 
@@ -479,7 +485,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.181">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>...&nbsp;streams)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.187">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>...&nbsp;streams)</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream"><code>IntStream</code></a> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -497,7 +503,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.195">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>...&nbsp;streams)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.201">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>...&nbsp;streams)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream"><code>LongStream</code></a> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -515,7 +521,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>concat</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.209">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>...&nbsp;streams)</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.215">concat</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>...&nbsp;streams)</pre>
 <div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream"><code>DoubleStream</code></a> containing the elements of the first stream, followed by the
  elements of the second stream, and so on.
 
@@ -533,9 +539,10 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>zip</h4>
-<pre>public static&nbsp;&lt;A,B,R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.239">zip</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;A&gt;&nbsp;streamA,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;B&gt;&nbsp;streamB,
-                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super A,? super B,R&gt;&nbsp;function)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;A,B,R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.246">zip</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;A&gt;&nbsp;streamA,
+                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;B&gt;&nbsp;streamB,
+                                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super A,? super B,R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream in which each element is the result of passing the corresponding elementY of
  each of <code>streamA</code> and <code>streamB</code> to <code>function</code>.
 
@@ -567,9 +574,10 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>forEachPair</h4>
-<pre>public static&nbsp;&lt;A,B&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.300">forEachPair</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;A&gt;&nbsp;streamA,
-                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;B&gt;&nbsp;streamB,
-                                     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super A,? super B&gt;&nbsp;consumer)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;A,B&gt;&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.308">forEachPair</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;A&gt;&nbsp;streamA,
+                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;B&gt;&nbsp;streamB,
+                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super A,? super B&gt;&nbsp;consumer)</pre>
 <div class="block">Invokes <code>consumer</code> once for each pair of <i>corresponding</i> elements in <code>streamA</code>
  and <code>streamB</code>. If one stream is longer than the other, the extra elements are silently
  ignored. Elements passed to the consumer are guaranteed to come from the same position in their
@@ -608,8 +616,9 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre>public static&nbsp;&lt;T,R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.348">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;stream,
-                                           <a href="../../../../com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a>&lt;? super T,? extends R&gt;&nbsp;function)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T,R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.357">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;stream,
+                                                 <a href="../../../../com/google/common/collect/Streams.FunctionWithIndex.html" title="interface in com.google.common.collect">Streams.FunctionWithIndex</a>&lt;? super T,? extends R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indices in the stream. For example,
 
@@ -638,8 +647,9 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre>public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.430">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream,
-                                         <a href="../../../../com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.440">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream,
+                                               <a href="../../../../com/google/common/collect/Streams.IntFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.IntFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
@@ -668,8 +678,9 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre>public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.508">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;stream,
-                                         <a href="../../../../com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.519">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;stream,
+                                               <a href="../../../../com/google/common/collect/Streams.LongFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.LongFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
@@ -698,8 +709,9 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>mapWithIndex</h4>
-<pre>public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.586">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;stream,
-                                         <a href="../../../../com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;R&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;R&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.598">mapWithIndex</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;stream,
+                                               <a href="../../../../com/google/common/collect/Streams.DoubleFunctionWithIndex.html" title="interface in com.google.common.collect">Streams.DoubleFunctionWithIndex</a>&lt;R&gt;&nbsp;function)</pre>
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
@@ -728,7 +740,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.751">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;stream)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.764">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;T&gt;&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Optional.html?is-external=true#empty--" title="class or interface in java.util"><code>Optional.empty()</code></a> if the
  stream is empty.
 
@@ -752,7 +765,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalInt.html?is-external=true" title="class or interface in java.util">OptionalInt</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.825">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalInt.html?is-external=true" title="class or interface in java.util">OptionalInt</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.839">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/IntStream.html?is-external=true" title="class or interface in java.util.stream">IntStream</a>&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalInt.html?is-external=true#empty--" title="class or interface in java.util"><code>OptionalInt.empty()</code></a> if the stream is
  empty.
 
@@ -774,7 +788,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockList">
 <li class="blockList">
 <h4>findLast</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalLong.html?is-external=true" title="class or interface in java.util">OptionalLong</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.843">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;stream)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalLong.html?is-external=true" title="class or interface in java.util">OptionalLong</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.858">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/LongStream.html?is-external=true" title="class or interface in java.util.stream">LongStream</a>&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalLong.html?is-external=true#empty--" title="class or interface in java.util"><code>OptionalLong.empty()</code></a> if the stream
  is empty.
 
@@ -796,7 +811,8 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs
 <ul class="blockListLast">
 <li class="blockList">
 <h4>findLast</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalDouble.html?is-external=true" title="class or interface in java.util">OptionalDouble</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.861">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;stream)</pre>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalDouble.html?is-external=true" title="class or interface in java.util">OptionalDouble</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Streams.html#line.877">findLast</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/DoubleStream.html?is-external=true" title="class or interface in java.util.stream">DoubleStream</a>&nbsp;stream)</pre>
 <div class="block">Returns the last element of the specified stream, or <a href="https://docs.oracle.com/javase/9/docs/api/java/util/OptionalDouble.html?is-external=true#empty--" title="class or interface in java.util"><code>OptionalDouble.empty()</code></a> if the stream
  is empty.
 

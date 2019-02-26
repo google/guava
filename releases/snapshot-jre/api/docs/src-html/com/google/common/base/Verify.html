@@ -127,7 +127,7 @@
 <span class="sourceLineNo">119</span>  public static void verify(<a name="line.119"></a>
 <span class="sourceLineNo">120</span>      boolean expression,<a name="line.120"></a>
 <span class="sourceLineNo">121</span>      @Nullable String errorMessageTemplate,<a name="line.121"></a>
-<span class="sourceLineNo">122</span>      @Nullable Object @Nullable... errorMessageArgs) {<a name="line.122"></a>
+<span class="sourceLineNo">122</span>      @Nullable Object @Nullable ... errorMessageArgs) {<a name="line.122"></a>
 <span class="sourceLineNo">123</span>    if (!expression) {<a name="line.123"></a>
 <span class="sourceLineNo">124</span>      throw new VerifyException(lenientFormat(errorMessageTemplate, errorMessageArgs));<a name="line.124"></a>
 <span class="sourceLineNo">125</span>    }<a name="line.125"></a>
@@ -504,7 +504,7 @@
 <span class="sourceLineNo">496</span>  public static &lt;T&gt; T verifyNotNull(<a name="line.496"></a>
 <span class="sourceLineNo">497</span>      @Nullable T reference,<a name="line.497"></a>
 <span class="sourceLineNo">498</span>      @Nullable String errorMessageTemplate,<a name="line.498"></a>
-<span class="sourceLineNo">499</span>      @Nullable Object @Nullable... errorMessageArgs) {<a name="line.499"></a>
+<span class="sourceLineNo">499</span>      @Nullable Object @Nullable ... errorMessageArgs) {<a name="line.499"></a>
 <span class="sourceLineNo">500</span>    verify(reference != null, errorMessageTemplate, errorMessageArgs);<a name="line.500"></a>
 <span class="sourceLineNo">501</span>    return reference;<a name="line.501"></a>
 <span class="sourceLineNo">502</span>  }<a name="line.502"></a>

@@ -955,43 +955,43 @@
 <span class="sourceLineNo">947</span>   * {@code A.is(B)} is defined as {@code Foo&lt;A&gt;.isSubtypeOf(Foo&lt;B&gt;)}.<a name="line.947"></a>
 <span class="sourceLineNo">948</span>   *<a name="line.948"></a>
 <span class="sourceLineNo">949</span>   * &lt;p&gt;Specifically, returns true if any of the following conditions is met:<a name="line.949"></a>
-<span class="sourceLineNo">950</span>   * &lt;ol&gt;<a name="line.950"></a>
-<span class="sourceLineNo">951</span>   *   &lt;li&gt;'this' and {@code formalType} are equal.<a name="line.951"></a>
-<span class="sourceLineNo">952</span>   *   &lt;li&gt;'this' and {@code formalType} have equal canonical form.<a name="line.952"></a>
-<span class="sourceLineNo">953</span>   *   &lt;li&gt;{@code formalType} is {@code &lt;? extends Foo&gt;} and 'this' is a subtype of {@code Foo}.<a name="line.953"></a>
-<span class="sourceLineNo">954</span>   *   &lt;li&gt;{@code formalType} is {@code &lt;? super Foo&gt;} and 'this' is a supertype of {@code Foo}.<a name="line.954"></a>
-<span class="sourceLineNo">955</span>   * &lt;/ol&gt;<a name="line.955"></a>
-<span class="sourceLineNo">956</span>   * Note that condition 2 isn't technically accurate under the context of a recursively<a name="line.956"></a>
-<span class="sourceLineNo">957</span>   * bounded type variables. For example, {@code Enum&lt;? extends Enum&lt;E&gt;&gt;} canonicalizes to<a name="line.957"></a>
-<span class="sourceLineNo">958</span>   * {@code Enum&lt;?&gt;} where {@code E} is the type variable declared on the {@code Enum} class<a name="line.958"></a>
-<span class="sourceLineNo">959</span>   * declaration. It's technically &lt;em&gt;not&lt;/em&gt; true that {@code Foo&lt;Enum&lt;? extends Enum&lt;E&gt;&gt;&gt;} is a<a name="line.959"></a>
-<span class="sourceLineNo">960</span>   * subtype of {@code Foo&lt;Enum&lt;?&gt;&gt;} according to JLS. See testRecursiveWildcardSubtypeBug() for<a name="line.960"></a>
-<span class="sourceLineNo">961</span>   * a real example.<a name="line.961"></a>
-<span class="sourceLineNo">962</span>   *<a name="line.962"></a>
-<span class="sourceLineNo">963</span>   * &lt;p&gt;It appears that properly handling recursive type bounds in the presence of implicit type<a name="line.963"></a>
-<span class="sourceLineNo">964</span>   * bounds is not easy. For now we punt, hoping that this defect should rarely cause issues in real<a name="line.964"></a>
-<span class="sourceLineNo">965</span>   * code.<a name="line.965"></a>
-<span class="sourceLineNo">966</span>   *<a name="line.966"></a>
-<span class="sourceLineNo">967</span>   * @param formalType is {@code Foo&lt;formalType&gt;} a supertype of {@code Foo&lt;T&gt;}?<a name="line.967"></a>
-<span class="sourceLineNo">968</span>   * @param declaration The type variable in the context of a parameterized type. Used to infer<a name="line.968"></a>
-<span class="sourceLineNo">969</span>   *        type bound when {@code formalType} is a wildcard with implicit upper bound.<a name="line.969"></a>
-<span class="sourceLineNo">970</span>   */<a name="line.970"></a>
-<span class="sourceLineNo">971</span>  private boolean is(Type formalType, TypeVariable&lt;?&gt; declaration) {<a name="line.971"></a>
-<span class="sourceLineNo">972</span>    if (runtimeType.equals(formalType)) {<a name="line.972"></a>
-<span class="sourceLineNo">973</span>      return true;<a name="line.973"></a>
-<span class="sourceLineNo">974</span>    }<a name="line.974"></a>
-<span class="sourceLineNo">975</span>    if (formalType instanceof WildcardType) {<a name="line.975"></a>
-<span class="sourceLineNo">976</span>      WildcardType your = canonicalizeWildcardType(declaration, (WildcardType) formalType);<a name="line.976"></a>
-<span class="sourceLineNo">977</span>      // if "formalType" is &lt;? extends Foo&gt;, "this" can be:<a name="line.977"></a>
-<span class="sourceLineNo">978</span>      // Foo, SubFoo, &lt;? extends Foo&gt;, &lt;? extends SubFoo&gt;, &lt;T extends Foo&gt; or<a name="line.978"></a>
-<span class="sourceLineNo">979</span>      // &lt;T extends SubFoo&gt;.<a name="line.979"></a>
-<span class="sourceLineNo">980</span>      // if "formalType" is &lt;? super Foo&gt;, "this" can be:<a name="line.980"></a>
-<span class="sourceLineNo">981</span>      // Foo, SuperFoo, &lt;? super Foo&gt; or &lt;? super SuperFoo&gt;.<a name="line.981"></a>
-<span class="sourceLineNo">982</span>      return every(your.getUpperBounds()).isSupertypeOf(runtimeType)<a name="line.982"></a>
-<span class="sourceLineNo">983</span>          &amp;&amp; every(your.getLowerBounds()).isSubtypeOf(runtimeType);<a name="line.983"></a>
-<span class="sourceLineNo">984</span>    }<a name="line.984"></a>
-<span class="sourceLineNo">985</span>    return canonicalizeWildcardsInType(runtimeType)<a name="line.985"></a>
-<span class="sourceLineNo">986</span>        .equals(canonicalizeWildcardsInType(formalType));<a name="line.986"></a>
+<span class="sourceLineNo">950</span>   *<a name="line.950"></a>
+<span class="sourceLineNo">951</span>   * &lt;ol&gt;<a name="line.951"></a>
+<span class="sourceLineNo">952</span>   *   &lt;li&gt;'this' and {@code formalType} are equal.<a name="line.952"></a>
+<span class="sourceLineNo">953</span>   *   &lt;li&gt;'this' and {@code formalType} have equal canonical form.<a name="line.953"></a>
+<span class="sourceLineNo">954</span>   *   &lt;li&gt;{@code formalType} is {@code &lt;? extends Foo&gt;} and 'this' is a subtype of {@code Foo}.<a name="line.954"></a>
+<span class="sourceLineNo">955</span>   *   &lt;li&gt;{@code formalType} is {@code &lt;? super Foo&gt;} and 'this' is a supertype of {@code Foo}.<a name="line.955"></a>
+<span class="sourceLineNo">956</span>   * &lt;/ol&gt;<a name="line.956"></a>
+<span class="sourceLineNo">957</span>   *<a name="line.957"></a>
+<span class="sourceLineNo">958</span>   * Note that condition 2 isn't technically accurate under the context of a recursively bounded<a name="line.958"></a>
+<span class="sourceLineNo">959</span>   * type variables. For example, {@code Enum&lt;? extends Enum&lt;E&gt;&gt;} canonicalizes to {@code Enum&lt;?&gt;}<a name="line.959"></a>
+<span class="sourceLineNo">960</span>   * where {@code E} is the type variable declared on the {@code Enum} class declaration. It's<a name="line.960"></a>
+<span class="sourceLineNo">961</span>   * technically &lt;em&gt;not&lt;/em&gt; true that {@code Foo&lt;Enum&lt;? extends Enum&lt;E&gt;&gt;&gt;} is a subtype of {@code<a name="line.961"></a>
+<span class="sourceLineNo">962</span>   * Foo&lt;Enum&lt;?&gt;&gt;} according to JLS. See testRecursiveWildcardSubtypeBug() for a real example.<a name="line.962"></a>
+<span class="sourceLineNo">963</span>   *<a name="line.963"></a>
+<span class="sourceLineNo">964</span>   * &lt;p&gt;It appears that properly handling recursive type bounds in the presence of implicit type<a name="line.964"></a>
+<span class="sourceLineNo">965</span>   * bounds is not easy. For now we punt, hoping that this defect should rarely cause issues in real<a name="line.965"></a>
+<span class="sourceLineNo">966</span>   * code.<a name="line.966"></a>
+<span class="sourceLineNo">967</span>   *<a name="line.967"></a>
+<span class="sourceLineNo">968</span>   * @param formalType is {@code Foo&lt;formalType&gt;} a supertype of {@code Foo&lt;T&gt;}?<a name="line.968"></a>
+<span class="sourceLineNo">969</span>   * @param declaration The type variable in the context of a parameterized type. Used to infer type<a name="line.969"></a>
+<span class="sourceLineNo">970</span>   *     bound when {@code formalType} is a wildcard with implicit upper bound.<a name="line.970"></a>
+<span class="sourceLineNo">971</span>   */<a name="line.971"></a>
+<span class="sourceLineNo">972</span>  private boolean is(Type formalType, TypeVariable&lt;?&gt; declaration) {<a name="line.972"></a>
+<span class="sourceLineNo">973</span>    if (runtimeType.equals(formalType)) {<a name="line.973"></a>
+<span class="sourceLineNo">974</span>      return true;<a name="line.974"></a>
+<span class="sourceLineNo">975</span>    }<a name="line.975"></a>
+<span class="sourceLineNo">976</span>    if (formalType instanceof WildcardType) {<a name="line.976"></a>
+<span class="sourceLineNo">977</span>      WildcardType your = canonicalizeWildcardType(declaration, (WildcardType) formalType);<a name="line.977"></a>
+<span class="sourceLineNo">978</span>      // if "formalType" is &lt;? extends Foo&gt;, "this" can be:<a name="line.978"></a>
+<span class="sourceLineNo">979</span>      // Foo, SubFoo, &lt;? extends Foo&gt;, &lt;? extends SubFoo&gt;, &lt;T extends Foo&gt; or<a name="line.979"></a>
+<span class="sourceLineNo">980</span>      // &lt;T extends SubFoo&gt;.<a name="line.980"></a>
+<span class="sourceLineNo">981</span>      // if "formalType" is &lt;? super Foo&gt;, "this" can be:<a name="line.981"></a>
+<span class="sourceLineNo">982</span>      // Foo, SuperFoo, &lt;? super Foo&gt; or &lt;? super SuperFoo&gt;.<a name="line.982"></a>
+<span class="sourceLineNo">983</span>      return every(your.getUpperBounds()).isSupertypeOf(runtimeType)<a name="line.983"></a>
+<span class="sourceLineNo">984</span>          &amp;&amp; every(your.getLowerBounds()).isSubtypeOf(runtimeType);<a name="line.984"></a>
+<span class="sourceLineNo">985</span>    }<a name="line.985"></a>
+<span class="sourceLineNo">986</span>    return canonicalizeWildcardsInType(runtimeType).equals(canonicalizeWildcardsInType(formalType));<a name="line.986"></a>
 <span class="sourceLineNo">987</span>  }<a name="line.987"></a>
 <span class="sourceLineNo">988</span><a name="line.988"></a>
 <span class="sourceLineNo">989</span>  /**<a name="line.989"></a>
@@ -999,459 +999,460 @@
 <span class="sourceLineNo">991</span>   * is defined as {@code Foo&lt;T extends String&gt;}. Thus directly calling {@code &lt;?&gt;.is(String.class)}<a name="line.991"></a>
 <span class="sourceLineNo">992</span>   * will return false. To mitigate, we canonicalize wildcards by enforcing the following<a name="line.992"></a>
 <span class="sourceLineNo">993</span>   * invariants:<a name="line.993"></a>
-<span class="sourceLineNo">994</span>   * &lt;ol&gt;<a name="line.994"></a>
-<span class="sourceLineNo">995</span>   * &lt;li&gt;{@code canonicalize(t)} always produces the equal result for equivalent types. For example<a name="line.995"></a>
-<span class="sourceLineNo">996</span>   *     both {@code Enum&lt;?&gt;} and {@code Enum&lt;? extends Enum&lt;?&gt;&gt;} canonicalize to<a name="line.996"></a>
-<span class="sourceLineNo">997</span>   *     {@code Enum&lt;? extends Enum&lt;E&gt;}.<a name="line.997"></a>
-<span class="sourceLineNo">998</span>   * &lt;li&gt;{@code canonicalize(t)} produces a "literal" supertype of t.<a name="line.998"></a>
-<span class="sourceLineNo">999</span>   *     For example: {@code Enum&lt;? extends Enum&lt;?&gt;&gt;} canonicalizes to {@code Enum&lt;?&gt;}, which is<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>   *     a supertype (if we disregard the upper bound is implicitly an Enum too).<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>   * &lt;li&gt;If {@code canonicalize(A) == canonicalize(B)}, then {@code Foo&lt;A&gt;.isSubtypeOf(Foo&lt;B&gt;)} and<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>   *     vice versa. i.e. {@code A.is(B)} and {@code B.is(A)}.<a name="line.1002"></a>
-<span class="sourceLineNo">1003</span>   * &lt;li&gt;{@code canonicalize(canonicalize(A)) == canonicalize(A)}.<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>   * &lt;/ol&gt;<a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>   */<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>  private static Type canonicalizeTypeArg(TypeVariable&lt;?&gt; declaration, Type typeArg) {<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>    return typeArg instanceof WildcardType<a name="line.1007"></a>
-<span class="sourceLineNo">1008</span>        ? canonicalizeWildcardType(declaration, ((WildcardType) typeArg))<a name="line.1008"></a>
-<span class="sourceLineNo">1009</span>        : canonicalizeWildcardsInType(typeArg);<a name="line.1009"></a>
-<span class="sourceLineNo">1010</span>  }<a name="line.1010"></a>
-<span class="sourceLineNo">1011</span><a name="line.1011"></a>
-<span class="sourceLineNo">1012</span>  private static Type canonicalizeWildcardsInType(Type type) {<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span>    if (type instanceof ParameterizedType) {<a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>      return canonicalizeWildcardsInParameterizedType((ParameterizedType) type);<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span>    }<a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>    if (type instanceof GenericArrayType) {<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>      return Types.newArrayType(<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>          canonicalizeWildcardsInType(((GenericArrayType) type).getGenericComponentType()));<a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>    }<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>    return type;<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>  }<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span><a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>  // WARNING: the returned type may have empty upper bounds, which may violate common expectations<a name="line.1023"></a>
-<span class="sourceLineNo">1024</span>  // by user code or even some of our own code. It's fine for the purpose of checking subtypes.<a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>  // Just don't ever let the user access it.<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span>  private static WildcardType canonicalizeWildcardType(<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>      TypeVariable&lt;?&gt; declaration, WildcardType type) {<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span>    Type[] declared = declaration.getBounds();<a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>    List&lt;Type&gt; upperBounds = new ArrayList&lt;&gt;();<a name="line.1029"></a>
-<span class="sourceLineNo">1030</span>    for (Type bound : type.getUpperBounds()) {<a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>      if (!any(declared).isSubtypeOf(bound)) {<a name="line.1031"></a>
-<span class="sourceLineNo">1032</span>        upperBounds.add(canonicalizeWildcardsInType(bound));<a name="line.1032"></a>
-<span class="sourceLineNo">1033</span>      }<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>    }<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>    return new Types.WildcardTypeImpl(type.getLowerBounds(), upperBounds.toArray(new Type[0]));<a name="line.1035"></a>
-<span class="sourceLineNo">1036</span>  }<a name="line.1036"></a>
-<span class="sourceLineNo">1037</span><a name="line.1037"></a>
-<span class="sourceLineNo">1038</span>  private static ParameterizedType canonicalizeWildcardsInParameterizedType(<a name="line.1038"></a>
-<span class="sourceLineNo">1039</span>      ParameterizedType type) {<a name="line.1039"></a>
-<span class="sourceLineNo">1040</span>    Class&lt;?&gt; rawType = (Class&lt;?&gt;) type.getRawType();<a name="line.1040"></a>
-<span class="sourceLineNo">1041</span>    TypeVariable&lt;?&gt;[] typeVars = rawType.getTypeParameters();<a name="line.1041"></a>
-<span class="sourceLineNo">1042</span>    Type[] typeArgs = type.getActualTypeArguments();<a name="line.1042"></a>
-<span class="sourceLineNo">1043</span>    for (int i = 0; i &lt; typeArgs.length; i++) {<a name="line.1043"></a>
-<span class="sourceLineNo">1044</span>      typeArgs[i] = canonicalizeTypeArg(typeVars[i], typeArgs[i]);<a name="line.1044"></a>
-<span class="sourceLineNo">1045</span>    }<a name="line.1045"></a>
-<span class="sourceLineNo">1046</span>    return Types.newParameterizedTypeWithOwner(type.getOwnerType(), rawType, typeArgs);<a name="line.1046"></a>
-<span class="sourceLineNo">1047</span>  }<a name="line.1047"></a>
-<span class="sourceLineNo">1048</span><a name="line.1048"></a>
-<span class="sourceLineNo">1049</span>  private static Bounds every(Type[] bounds) {<a name="line.1049"></a>
-<span class="sourceLineNo">1050</span>    // Every bound must match. On any false, result is false.<a name="line.1050"></a>
-<span class="sourceLineNo">1051</span>    return new Bounds(bounds, false);<a name="line.1051"></a>
-<span class="sourceLineNo">1052</span>  }<a name="line.1052"></a>
-<span class="sourceLineNo">1053</span><a name="line.1053"></a>
-<span class="sourceLineNo">1054</span>  private static Bounds any(Type[] bounds) {<a name="line.1054"></a>
-<span class="sourceLineNo">1055</span>    // Any bound matches. On any true, result is true.<a name="line.1055"></a>
-<span class="sourceLineNo">1056</span>    return new Bounds(bounds, true);<a name="line.1056"></a>
-<span class="sourceLineNo">1057</span>  }<a name="line.1057"></a>
-<span class="sourceLineNo">1058</span><a name="line.1058"></a>
-<span class="sourceLineNo">1059</span>  private static class Bounds {<a name="line.1059"></a>
-<span class="sourceLineNo">1060</span>    private final Type[] bounds;<a name="line.1060"></a>
-<span class="sourceLineNo">1061</span>    private final boolean target;<a name="line.1061"></a>
-<span class="sourceLineNo">1062</span><a name="line.1062"></a>
-<span class="sourceLineNo">1063</span>    Bounds(Type[] bounds, boolean target) {<a name="line.1063"></a>
-<span class="sourceLineNo">1064</span>      this.bounds = bounds;<a name="line.1064"></a>
-<span class="sourceLineNo">1065</span>      this.target = target;<a name="line.1065"></a>
-<span class="sourceLineNo">1066</span>    }<a name="line.1066"></a>
-<span class="sourceLineNo">1067</span><a name="line.1067"></a>
-<span class="sourceLineNo">1068</span>    boolean isSubtypeOf(Type supertype) {<a name="line.1068"></a>
-<span class="sourceLineNo">1069</span>      for (Type bound : bounds) {<a name="line.1069"></a>
-<span class="sourceLineNo">1070</span>        if (of(bound).isSubtypeOf(supertype) == target) {<a name="line.1070"></a>
-<span class="sourceLineNo">1071</span>          return target;<a name="line.1071"></a>
-<span class="sourceLineNo">1072</span>        }<a name="line.1072"></a>
-<span class="sourceLineNo">1073</span>      }<a name="line.1073"></a>
-<span class="sourceLineNo">1074</span>      return !target;<a name="line.1074"></a>
-<span class="sourceLineNo">1075</span>    }<a name="line.1075"></a>
-<span class="sourceLineNo">1076</span><a name="line.1076"></a>
-<span class="sourceLineNo">1077</span>    boolean isSupertypeOf(Type subtype) {<a name="line.1077"></a>
-<span class="sourceLineNo">1078</span>      TypeToken&lt;?&gt; type = of(subtype);<a name="line.1078"></a>
-<span class="sourceLineNo">1079</span>      for (Type bound : bounds) {<a name="line.1079"></a>
-<span class="sourceLineNo">1080</span>        if (type.isSubtypeOf(bound) == target) {<a name="line.1080"></a>
-<span class="sourceLineNo">1081</span>          return target;<a name="line.1081"></a>
-<span class="sourceLineNo">1082</span>        }<a name="line.1082"></a>
-<span class="sourceLineNo">1083</span>      }<a name="line.1083"></a>
-<span class="sourceLineNo">1084</span>      return !target;<a name="line.1084"></a>
-<span class="sourceLineNo">1085</span>    }<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>  }<a name="line.1086"></a>
-<span class="sourceLineNo">1087</span><a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>  private ImmutableSet&lt;Class&lt;? super T&gt;&gt; getRawTypes() {<a name="line.1088"></a>
-<span class="sourceLineNo">1089</span>    final ImmutableSet.Builder&lt;Class&lt;?&gt;&gt; builder = ImmutableSet.builder();<a name="line.1089"></a>
-<span class="sourceLineNo">1090</span>    new TypeVisitor() {<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>      @Override<a name="line.1091"></a>
-<span class="sourceLineNo">1092</span>      void visitTypeVariable(TypeVariable&lt;?&gt; t) {<a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>        visit(t.getBounds());<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span>      }<a name="line.1094"></a>
-<span class="sourceLineNo">1095</span><a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>      @Override<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>      void visitWildcardType(WildcardType t) {<a name="line.1097"></a>
-<span class="sourceLineNo">1098</span>        visit(t.getUpperBounds());<a name="line.1098"></a>
-<span class="sourceLineNo">1099</span>      }<a name="line.1099"></a>
-<span class="sourceLineNo">1100</span><a name="line.1100"></a>
-<span class="sourceLineNo">1101</span>      @Override<a name="line.1101"></a>
-<span class="sourceLineNo">1102</span>      void visitParameterizedType(ParameterizedType t) {<a name="line.1102"></a>
-<span class="sourceLineNo">1103</span>        builder.add((Class&lt;?&gt;) t.getRawType());<a name="line.1103"></a>
-<span class="sourceLineNo">1104</span>      }<a name="line.1104"></a>
-<span class="sourceLineNo">1105</span><a name="line.1105"></a>
-<span class="sourceLineNo">1106</span>      @Override<a name="line.1106"></a>
-<span class="sourceLineNo">1107</span>      void visitClass(Class&lt;?&gt; t) {<a name="line.1107"></a>
-<span class="sourceLineNo">1108</span>        builder.add(t);<a name="line.1108"></a>
-<span class="sourceLineNo">1109</span>      }<a name="line.1109"></a>
-<span class="sourceLineNo">1110</span><a name="line.1110"></a>
-<span class="sourceLineNo">1111</span>      @Override<a name="line.1111"></a>
-<span class="sourceLineNo">1112</span>      void visitGenericArrayType(GenericArrayType t) {<a name="line.1112"></a>
-<span class="sourceLineNo">1113</span>        builder.add(Types.getArrayClass(of(t.getGenericComponentType()).getRawType()));<a name="line.1113"></a>
-<span class="sourceLineNo">1114</span>      }<a name="line.1114"></a>
-<span class="sourceLineNo">1115</span>    }.visit(runtimeType);<a name="line.1115"></a>
-<span class="sourceLineNo">1116</span>    // Cast from ImmutableSet&lt;Class&lt;?&gt;&gt; to ImmutableSet&lt;Class&lt;? super T&gt;&gt;<a name="line.1116"></a>
-<span class="sourceLineNo">1117</span>    @SuppressWarnings({"unchecked", "rawtypes"})<a name="line.1117"></a>
-<span class="sourceLineNo">1118</span>    ImmutableSet&lt;Class&lt;? super T&gt;&gt; result = (ImmutableSet) builder.build();<a name="line.1118"></a>
-<span class="sourceLineNo">1119</span>    return result;<a name="line.1119"></a>
-<span class="sourceLineNo">1120</span>  }<a name="line.1120"></a>
-<span class="sourceLineNo">1121</span><a name="line.1121"></a>
-<span class="sourceLineNo">1122</span>  private boolean isOwnedBySubtypeOf(Type supertype) {<a name="line.1122"></a>
-<span class="sourceLineNo">1123</span>    for (TypeToken&lt;?&gt; type : getTypes()) {<a name="line.1123"></a>
-<span class="sourceLineNo">1124</span>      Type ownerType = type.getOwnerTypeIfPresent();<a name="line.1124"></a>
-<span class="sourceLineNo">1125</span>      if (ownerType != null &amp;&amp; of(ownerType).isSubtypeOf(supertype)) {<a name="line.1125"></a>
-<span class="sourceLineNo">1126</span>        return true;<a name="line.1126"></a>
-<span class="sourceLineNo">1127</span>      }<a name="line.1127"></a>
-<span class="sourceLineNo">1128</span>    }<a name="line.1128"></a>
-<span class="sourceLineNo">1129</span>    return false;<a name="line.1129"></a>
-<span class="sourceLineNo">1130</span>  }<a name="line.1130"></a>
-<span class="sourceLineNo">1131</span><a name="line.1131"></a>
-<span class="sourceLineNo">1132</span>  /**<a name="line.1132"></a>
-<span class="sourceLineNo">1133</span>   * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class}, or<a name="line.1133"></a>
-<span class="sourceLineNo">1134</span>   * null otherwise.<a name="line.1134"></a>
-<span class="sourceLineNo">1135</span>   */<a name="line.1135"></a>
-<span class="sourceLineNo">1136</span>  @NullableDecl<a name="line.1136"></a>
-<span class="sourceLineNo">1137</span>  private Type getOwnerTypeIfPresent() {<a name="line.1137"></a>
-<span class="sourceLineNo">1138</span>    if (runtimeType instanceof ParameterizedType) {<a name="line.1138"></a>
-<span class="sourceLineNo">1139</span>      return ((ParameterizedType) runtimeType).getOwnerType();<a name="line.1139"></a>
-<span class="sourceLineNo">1140</span>    } else if (runtimeType instanceof Class&lt;?&gt;) {<a name="line.1140"></a>
-<span class="sourceLineNo">1141</span>      return ((Class&lt;?&gt;) runtimeType).getEnclosingClass();<a name="line.1141"></a>
-<span class="sourceLineNo">1142</span>    } else {<a name="line.1142"></a>
-<span class="sourceLineNo">1143</span>      return null;<a name="line.1143"></a>
-<span class="sourceLineNo">1144</span>    }<a name="line.1144"></a>
-<span class="sourceLineNo">1145</span>  }<a name="line.1145"></a>
-<span class="sourceLineNo">1146</span><a name="line.1146"></a>
-<span class="sourceLineNo">1147</span>  /**<a name="line.1147"></a>
-<span class="sourceLineNo">1148</span>   * Returns the type token representing the generic type declaration of {@code cls}. For example:<a name="line.1148"></a>
-<span class="sourceLineNo">1149</span>   * {@code TypeToken.getGenericType(Iterable.class)} returns {@code Iterable&lt;T&gt;}.<a name="line.1149"></a>
-<span class="sourceLineNo">1150</span>   *<a name="line.1150"></a>
-<span class="sourceLineNo">1151</span>   * &lt;p&gt;If {@code cls} isn't parameterized and isn't a generic array, the type token of the class is<a name="line.1151"></a>
-<span class="sourceLineNo">1152</span>   * returned.<a name="line.1152"></a>
-<span class="sourceLineNo">1153</span>   */<a name="line.1153"></a>
-<span class="sourceLineNo">1154</span>  @VisibleForTesting<a name="line.1154"></a>
-<span class="sourceLineNo">1155</span>  static &lt;T&gt; TypeToken&lt;? extends T&gt; toGenericType(Class&lt;T&gt; cls) {<a name="line.1155"></a>
-<span class="sourceLineNo">1156</span>    if (cls.isArray()) {<a name="line.1156"></a>
-<span class="sourceLineNo">1157</span>      Type arrayOfGenericType =<a name="line.1157"></a>
-<span class="sourceLineNo">1158</span>          Types.newArrayType(<a name="line.1158"></a>
-<span class="sourceLineNo">1159</span>              // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1159"></a>
-<span class="sourceLineNo">1160</span>              toGenericType(cls.getComponentType()).runtimeType);<a name="line.1160"></a>
-<span class="sourceLineNo">1161</span>      @SuppressWarnings("unchecked") // array is covariant<a name="line.1161"></a>
-<span class="sourceLineNo">1162</span>      TypeToken&lt;? extends T&gt; result = (TypeToken&lt;? extends T&gt;) of(arrayOfGenericType);<a name="line.1162"></a>
-<span class="sourceLineNo">1163</span>      return result;<a name="line.1163"></a>
-<span class="sourceLineNo">1164</span>    }<a name="line.1164"></a>
-<span class="sourceLineNo">1165</span>    TypeVariable&lt;Class&lt;T&gt;&gt;[] typeParams = cls.getTypeParameters();<a name="line.1165"></a>
-<span class="sourceLineNo">1166</span>    Type ownerType =<a name="line.1166"></a>
-<span class="sourceLineNo">1167</span>        cls.isMemberClass() &amp;&amp; !Modifier.isStatic(cls.getModifiers())<a name="line.1167"></a>
-<span class="sourceLineNo">1168</span>            ? toGenericType(cls.getEnclosingClass()).runtimeType<a name="line.1168"></a>
-<span class="sourceLineNo">1169</span>            : null;<a name="line.1169"></a>
-<span class="sourceLineNo">1170</span><a name="line.1170"></a>
-<span class="sourceLineNo">1171</span>    if ((typeParams.length &gt; 0) || ((ownerType != null) &amp;&amp; ownerType != cls.getEnclosingClass())) {<a name="line.1171"></a>
-<span class="sourceLineNo">1172</span>      @SuppressWarnings("unchecked") // Like, it's Iterable&lt;T&gt; for Iterable.class<a name="line.1172"></a>
-<span class="sourceLineNo">1173</span>      TypeToken&lt;? extends T&gt; type =<a name="line.1173"></a>
-<span class="sourceLineNo">1174</span>          (TypeToken&lt;? extends T&gt;)<a name="line.1174"></a>
-<span class="sourceLineNo">1175</span>              of(Types.newParameterizedTypeWithOwner(ownerType, cls, typeParams));<a name="line.1175"></a>
-<span class="sourceLineNo">1176</span>      return type;<a name="line.1176"></a>
-<span class="sourceLineNo">1177</span>    } else {<a name="line.1177"></a>
-<span class="sourceLineNo">1178</span>      return of(cls);<a name="line.1178"></a>
-<span class="sourceLineNo">1179</span>    }<a name="line.1179"></a>
-<span class="sourceLineNo">1180</span>  }<a name="line.1180"></a>
-<span class="sourceLineNo">1181</span><a name="line.1181"></a>
-<span class="sourceLineNo">1182</span>  private TypeResolver getCovariantTypeResolver() {<a name="line.1182"></a>
-<span class="sourceLineNo">1183</span>    TypeResolver resolver = covariantTypeResolver;<a name="line.1183"></a>
-<span class="sourceLineNo">1184</span>    if (resolver == null) {<a name="line.1184"></a>
-<span class="sourceLineNo">1185</span>      resolver = (covariantTypeResolver = TypeResolver.covariantly(runtimeType));<a name="line.1185"></a>
-<span class="sourceLineNo">1186</span>    }<a name="line.1186"></a>
-<span class="sourceLineNo">1187</span>    return resolver;<a name="line.1187"></a>
-<span class="sourceLineNo">1188</span>  }<a name="line.1188"></a>
-<span class="sourceLineNo">1189</span><a name="line.1189"></a>
-<span class="sourceLineNo">1190</span>  private TypeResolver getInvariantTypeResolver() {<a name="line.1190"></a>
-<span class="sourceLineNo">1191</span>    TypeResolver resolver = invariantTypeResolver;<a name="line.1191"></a>
-<span class="sourceLineNo">1192</span>    if (resolver == null) {<a name="line.1192"></a>
-<span class="sourceLineNo">1193</span>      resolver = (invariantTypeResolver = TypeResolver.invariantly(runtimeType));<a name="line.1193"></a>
-<span class="sourceLineNo">1194</span>    }<a name="line.1194"></a>
-<span class="sourceLineNo">1195</span>    return resolver;<a name="line.1195"></a>
-<span class="sourceLineNo">1196</span>  }<a name="line.1196"></a>
-<span class="sourceLineNo">1197</span><a name="line.1197"></a>
-<span class="sourceLineNo">1198</span>  private TypeToken&lt;? super T&gt; getSupertypeFromUpperBounds(<a name="line.1198"></a>
-<span class="sourceLineNo">1199</span>      Class&lt;? super T&gt; supertype, Type[] upperBounds) {<a name="line.1199"></a>
-<span class="sourceLineNo">1200</span>    for (Type upperBound : upperBounds) {<a name="line.1200"></a>
-<span class="sourceLineNo">1201</span>      @SuppressWarnings("unchecked") // T's upperbound is &lt;? super T&gt;.<a name="line.1201"></a>
-<span class="sourceLineNo">1202</span>      TypeToken&lt;? super T&gt; bound = (TypeToken&lt;? super T&gt;) of(upperBound);<a name="line.1202"></a>
-<span class="sourceLineNo">1203</span>      if (bound.isSubtypeOf(supertype)) {<a name="line.1203"></a>
-<span class="sourceLineNo">1204</span>        @SuppressWarnings({"rawtypes", "unchecked"}) // guarded by the isSubtypeOf check.<a name="line.1204"></a>
-<span class="sourceLineNo">1205</span>        TypeToken&lt;? super T&gt; result = bound.getSupertype((Class) supertype);<a name="line.1205"></a>
-<span class="sourceLineNo">1206</span>        return result;<a name="line.1206"></a>
-<span class="sourceLineNo">1207</span>      }<a name="line.1207"></a>
-<span class="sourceLineNo">1208</span>    }<a name="line.1208"></a>
-<span class="sourceLineNo">1209</span>    throw new IllegalArgumentException(supertype + " isn't a super type of " + this);<a name="line.1209"></a>
-<span class="sourceLineNo">1210</span>  }<a name="line.1210"></a>
-<span class="sourceLineNo">1211</span><a name="line.1211"></a>
-<span class="sourceLineNo">1212</span>  private TypeToken&lt;? extends T&gt; getSubtypeFromLowerBounds(Class&lt;?&gt; subclass, Type[] lowerBounds) {<a name="line.1212"></a>
-<span class="sourceLineNo">1213</span>    for (Type lowerBound : lowerBounds) {<a name="line.1213"></a>
-<span class="sourceLineNo">1214</span>      @SuppressWarnings("unchecked") // T's lower bound is &lt;? extends T&gt;<a name="line.1214"></a>
-<span class="sourceLineNo">1215</span>      TypeToken&lt;? extends T&gt; bound = (TypeToken&lt;? extends T&gt;) of(lowerBound);<a name="line.1215"></a>
-<span class="sourceLineNo">1216</span>      // Java supports only one lowerbound anyway.<a name="line.1216"></a>
-<span class="sourceLineNo">1217</span>      return bound.getSubtype(subclass);<a name="line.1217"></a>
-<span class="sourceLineNo">1218</span>    }<a name="line.1218"></a>
-<span class="sourceLineNo">1219</span>    throw new IllegalArgumentException(subclass + " isn't a subclass of " + this);<a name="line.1219"></a>
-<span class="sourceLineNo">1220</span>  }<a name="line.1220"></a>
-<span class="sourceLineNo">1221</span><a name="line.1221"></a>
-<span class="sourceLineNo">1222</span>  private TypeToken&lt;? super T&gt; getArraySupertype(Class&lt;? super T&gt; supertype) {<a name="line.1222"></a>
-<span class="sourceLineNo">1223</span>    // with component type, we have lost generic type information<a name="line.1223"></a>
-<span class="sourceLineNo">1224</span>    // Use raw type so that compiler allows us to call getSupertype()<a name="line.1224"></a>
-<span class="sourceLineNo">1225</span>    @SuppressWarnings("rawtypes")<a name="line.1225"></a>
-<span class="sourceLineNo">1226</span>    TypeToken componentType =<a name="line.1226"></a>
-<span class="sourceLineNo">1227</span>        checkNotNull(getComponentType(), "%s isn't a super type of %s", supertype, this);<a name="line.1227"></a>
-<span class="sourceLineNo">1228</span>    // array is covariant. component type is super type, so is the array type.<a name="line.1228"></a>
-<span class="sourceLineNo">1229</span>    @SuppressWarnings("unchecked") // going from raw type back to generics<a name="line.1229"></a>
-<span class="sourceLineNo">1230</span>    TypeToken&lt;?&gt; componentSupertype = componentType.getSupertype(supertype.getComponentType());<a name="line.1230"></a>
-<span class="sourceLineNo">1231</span>    @SuppressWarnings("unchecked") // component type is super type, so is array type.<a name="line.1231"></a>
-<span class="sourceLineNo">1232</span>    TypeToken&lt;? super T&gt; result =<a name="line.1232"></a>
-<span class="sourceLineNo">1233</span>        (TypeToken&lt;? super T&gt;)<a name="line.1233"></a>
-<span class="sourceLineNo">1234</span>            // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1234"></a>
-<span class="sourceLineNo">1235</span>            of(newArrayClassOrGenericArrayType(componentSupertype.runtimeType));<a name="line.1235"></a>
-<span class="sourceLineNo">1236</span>    return result;<a name="line.1236"></a>
-<span class="sourceLineNo">1237</span>  }<a name="line.1237"></a>
-<span class="sourceLineNo">1238</span><a name="line.1238"></a>
-<span class="sourceLineNo">1239</span>  private TypeToken&lt;? extends T&gt; getArraySubtype(Class&lt;?&gt; subclass) {<a name="line.1239"></a>
-<span class="sourceLineNo">1240</span>    // array is covariant. component type is subtype, so is the array type.<a name="line.1240"></a>
-<span class="sourceLineNo">1241</span>    TypeToken&lt;?&gt; componentSubtype = getComponentType().getSubtype(subclass.getComponentType());<a name="line.1241"></a>
-<span class="sourceLineNo">1242</span>    @SuppressWarnings("unchecked") // component type is subtype, so is array type.<a name="line.1242"></a>
-<span class="sourceLineNo">1243</span>    TypeToken&lt;? extends T&gt; result =<a name="line.1243"></a>
-<span class="sourceLineNo">1244</span>        (TypeToken&lt;? extends T&gt;)<a name="line.1244"></a>
-<span class="sourceLineNo">1245</span>            // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1245"></a>
-<span class="sourceLineNo">1246</span>            of(newArrayClassOrGenericArrayType(componentSubtype.runtimeType));<a name="line.1246"></a>
-<span class="sourceLineNo">1247</span>    return result;<a name="line.1247"></a>
-<span class="sourceLineNo">1248</span>  }<a name="line.1248"></a>
-<span class="sourceLineNo">1249</span><a name="line.1249"></a>
-<span class="sourceLineNo">1250</span>  private Type resolveTypeArgsForSubclass(Class&lt;?&gt; subclass) {<a name="line.1250"></a>
-<span class="sourceLineNo">1251</span>    // If both runtimeType and subclass are not parameterized, return subclass<a name="line.1251"></a>
-<span class="sourceLineNo">1252</span>    // If runtimeType is not parameterized but subclass is, process subclass as a parameterized type<a name="line.1252"></a>
-<span class="sourceLineNo">1253</span>    // If runtimeType is a raw type (i.e. is a parameterized type specified as a Class&lt;?&gt;), we<a name="line.1253"></a>
-<span class="sourceLineNo">1254</span>    // return subclass as a raw type<a name="line.1254"></a>
-<span class="sourceLineNo">1255</span>    if (runtimeType instanceof Class<a name="line.1255"></a>
-<span class="sourceLineNo">1256</span>        &amp;&amp; ((subclass.getTypeParameters().length == 0)<a name="line.1256"></a>
-<span class="sourceLineNo">1257</span>            || (getRawType().getTypeParameters().length != 0))) {<a name="line.1257"></a>
-<span class="sourceLineNo">1258</span>      // no resolution needed<a name="line.1258"></a>
-<span class="sourceLineNo">1259</span>      return subclass;<a name="line.1259"></a>
-<span class="sourceLineNo">1260</span>    }<a name="line.1260"></a>
-<span class="sourceLineNo">1261</span>    // class Base&lt;A, B&gt; {}<a name="line.1261"></a>
-<span class="sourceLineNo">1262</span>    // class Sub&lt;X, Y&gt; extends Base&lt;X, Y&gt; {}<a name="line.1262"></a>
-<span class="sourceLineNo">1263</span>    // Base&lt;String, Integer&gt;.subtype(Sub.class):<a name="line.1263"></a>
-<span class="sourceLineNo">1264</span><a name="line.1264"></a>
-<span class="sourceLineNo">1265</span>    // Sub&lt;X, Y&gt;.getSupertype(Base.class) =&gt; Base&lt;X, Y&gt;<a name="line.1265"></a>
-<span class="sourceLineNo">1266</span>    // =&gt; X=String, Y=Integer<a name="line.1266"></a>
-<span class="sourceLineNo">1267</span>    // =&gt; Sub&lt;X, Y&gt;=Sub&lt;String, Integer&gt;<a name="line.1267"></a>
-<span class="sourceLineNo">1268</span>    TypeToken&lt;?&gt; genericSubtype = toGenericType(subclass);<a name="line.1268"></a>
-<span class="sourceLineNo">1269</span>    @SuppressWarnings({"rawtypes", "unchecked"}) // subclass isn't &lt;? extends T&gt;<a name="line.1269"></a>
-<span class="sourceLineNo">1270</span>    Type supertypeWithArgsFromSubtype =<a name="line.1270"></a>
-<span class="sourceLineNo">1271</span>        genericSubtype.getSupertype((Class) getRawType()).runtimeType;<a name="line.1271"></a>
-<span class="sourceLineNo">1272</span>    return new TypeResolver()<a name="line.1272"></a>
-<span class="sourceLineNo">1273</span>        .where(supertypeWithArgsFromSubtype, runtimeType)<a name="line.1273"></a>
-<span class="sourceLineNo">1274</span>        .resolveType(genericSubtype.runtimeType);<a name="line.1274"></a>
-<span class="sourceLineNo">1275</span>  }<a name="line.1275"></a>
-<span class="sourceLineNo">1276</span><a name="line.1276"></a>
-<span class="sourceLineNo">1277</span>  /**<a name="line.1277"></a>
-<span class="sourceLineNo">1278</span>   * Creates an array class if {@code componentType} is a class, or else, a {@link<a name="line.1278"></a>
-<span class="sourceLineNo">1279</span>   * GenericArrayType}. This is what Java7 does for generic array type parameters.<a name="line.1279"></a>
-<span class="sourceLineNo">1280</span>   */<a name="line.1280"></a>
-<span class="sourceLineNo">1281</span>  private static Type newArrayClassOrGenericArrayType(Type componentType) {<a name="line.1281"></a>
-<span class="sourceLineNo">1282</span>    return Types.JavaVersion.JAVA7.newArrayType(componentType);<a name="line.1282"></a>
-<span class="sourceLineNo">1283</span>  }<a name="line.1283"></a>
-<span class="sourceLineNo">1284</span><a name="line.1284"></a>
-<span class="sourceLineNo">1285</span>  private static final class SimpleTypeToken&lt;T&gt; extends TypeToken&lt;T&gt; {<a name="line.1285"></a>
-<span class="sourceLineNo">1286</span><a name="line.1286"></a>
-<span class="sourceLineNo">1287</span>    SimpleTypeToken(Type type) {<a name="line.1287"></a>
-<span class="sourceLineNo">1288</span>      super(type);<a name="line.1288"></a>
-<span class="sourceLineNo">1289</span>    }<a name="line.1289"></a>
-<span class="sourceLineNo">1290</span><a name="line.1290"></a>
-<span class="sourceLineNo">1291</span>    private static final long serialVersionUID = 0;<a name="line.1291"></a>
-<span class="sourceLineNo">1292</span>  }<a name="line.1292"></a>
-<span class="sourceLineNo">1293</span><a name="line.1293"></a>
-<span class="sourceLineNo">1294</span>  /**<a name="line.1294"></a>
-<span class="sourceLineNo">1295</span>   * Collects parent types from a sub type.<a name="line.1295"></a>
-<span class="sourceLineNo">1296</span>   *<a name="line.1296"></a>
-<span class="sourceLineNo">1297</span>   * @param &lt;K&gt; The type "kind". Either a TypeToken, or Class.<a name="line.1297"></a>
-<span class="sourceLineNo">1298</span>   */<a name="line.1298"></a>
-<span class="sourceLineNo">1299</span>  private abstract static class TypeCollector&lt;K&gt; {<a name="line.1299"></a>
-<span class="sourceLineNo">1300</span><a name="line.1300"></a>
-<span class="sourceLineNo">1301</span>    static final TypeCollector&lt;TypeToken&lt;?&gt;&gt; FOR_GENERIC_TYPE =<a name="line.1301"></a>
-<span class="sourceLineNo">1302</span>        new TypeCollector&lt;TypeToken&lt;?&gt;&gt;() {<a name="line.1302"></a>
-<span class="sourceLineNo">1303</span>          @Override<a name="line.1303"></a>
-<span class="sourceLineNo">1304</span>          Class&lt;?&gt; getRawType(TypeToken&lt;?&gt; type) {<a name="line.1304"></a>
-<span class="sourceLineNo">1305</span>            return type.getRawType();<a name="line.1305"></a>
-<span class="sourceLineNo">1306</span>          }<a name="line.1306"></a>
-<span class="sourceLineNo">1307</span><a name="line.1307"></a>
-<span class="sourceLineNo">1308</span>          @Override<a name="line.1308"></a>
-<span class="sourceLineNo">1309</span>          Iterable&lt;? extends TypeToken&lt;?&gt;&gt; getInterfaces(TypeToken&lt;?&gt; type) {<a name="line.1309"></a>
-<span class="sourceLineNo">1310</span>            return type.getGenericInterfaces();<a name="line.1310"></a>
-<span class="sourceLineNo">1311</span>          }<a name="line.1311"></a>
-<span class="sourceLineNo">1312</span><a name="line.1312"></a>
-<span class="sourceLineNo">1313</span>          @Override<a name="line.1313"></a>
-<span class="sourceLineNo">1314</span>          @NullableDecl<a name="line.1314"></a>
-<span class="sourceLineNo">1315</span>          TypeToken&lt;?&gt; getSuperclass(TypeToken&lt;?&gt; type) {<a name="line.1315"></a>
-<span class="sourceLineNo">1316</span>            return type.getGenericSuperclass();<a name="line.1316"></a>
-<span class="sourceLineNo">1317</span>          }<a name="line.1317"></a>
-<span class="sourceLineNo">1318</span>        };<a name="line.1318"></a>
-<span class="sourceLineNo">1319</span><a name="line.1319"></a>
-<span class="sourceLineNo">1320</span>    static final TypeCollector&lt;Class&lt;?&gt;&gt; FOR_RAW_TYPE =<a name="line.1320"></a>
-<span class="sourceLineNo">1321</span>        new TypeCollector&lt;Class&lt;?&gt;&gt;() {<a name="line.1321"></a>
-<span class="sourceLineNo">1322</span>          @Override<a name="line.1322"></a>
-<span class="sourceLineNo">1323</span>          Class&lt;?&gt; getRawType(Class&lt;?&gt; type) {<a name="line.1323"></a>
-<span class="sourceLineNo">1324</span>            return type;<a name="line.1324"></a>
-<span class="sourceLineNo">1325</span>          }<a name="line.1325"></a>
-<span class="sourceLineNo">1326</span><a name="line.1326"></a>
-<span class="sourceLineNo">1327</span>          @Override<a name="line.1327"></a>
-<span class="sourceLineNo">1328</span>          Iterable&lt;? extends Class&lt;?&gt;&gt; getInterfaces(Class&lt;?&gt; type) {<a name="line.1328"></a>
-<span class="sourceLineNo">1329</span>            return Arrays.asList(type.getInterfaces());<a name="line.1329"></a>
-<span class="sourceLineNo">1330</span>          }<a name="line.1330"></a>
-<span class="sourceLineNo">1331</span><a name="line.1331"></a>
-<span class="sourceLineNo">1332</span>          @Override<a name="line.1332"></a>
-<span class="sourceLineNo">1333</span>          @NullableDecl<a name="line.1333"></a>
-<span class="sourceLineNo">1334</span>          Class&lt;?&gt; getSuperclass(Class&lt;?&gt; type) {<a name="line.1334"></a>
-<span class="sourceLineNo">1335</span>            return type.getSuperclass();<a name="line.1335"></a>
-<span class="sourceLineNo">1336</span>          }<a name="line.1336"></a>
-<span class="sourceLineNo">1337</span>        };<a name="line.1337"></a>
-<span class="sourceLineNo">1338</span><a name="line.1338"></a>
-<span class="sourceLineNo">1339</span>    /** For just classes, we don't have to traverse interfaces. */<a name="line.1339"></a>
-<span class="sourceLineNo">1340</span>    final TypeCollector&lt;K&gt; classesOnly() {<a name="line.1340"></a>
-<span class="sourceLineNo">1341</span>      return new ForwardingTypeCollector&lt;K&gt;(this) {<a name="line.1341"></a>
-<span class="sourceLineNo">1342</span>        @Override<a name="line.1342"></a>
-<span class="sourceLineNo">1343</span>        Iterable&lt;? extends K&gt; getInterfaces(K type) {<a name="line.1343"></a>
-<span class="sourceLineNo">1344</span>          return ImmutableSet.of();<a name="line.1344"></a>
-<span class="sourceLineNo">1345</span>        }<a name="line.1345"></a>
-<span class="sourceLineNo">1346</span><a name="line.1346"></a>
-<span class="sourceLineNo">1347</span>        @Override<a name="line.1347"></a>
-<span class="sourceLineNo">1348</span>        ImmutableList&lt;K&gt; collectTypes(Iterable&lt;? extends K&gt; types) {<a name="line.1348"></a>
-<span class="sourceLineNo">1349</span>          ImmutableList.Builder&lt;K&gt; builder = ImmutableList.builder();<a name="line.1349"></a>
-<span class="sourceLineNo">1350</span>          for (K type : types) {<a name="line.1350"></a>
-<span class="sourceLineNo">1351</span>            if (!getRawType(type).isInterface()) {<a name="line.1351"></a>
-<span class="sourceLineNo">1352</span>              builder.add(type);<a name="line.1352"></a>
-<span class="sourceLineNo">1353</span>            }<a name="line.1353"></a>
-<span class="sourceLineNo">1354</span>          }<a name="line.1354"></a>
-<span class="sourceLineNo">1355</span>          return super.collectTypes(builder.build());<a name="line.1355"></a>
-<span class="sourceLineNo">1356</span>        }<a name="line.1356"></a>
-<span class="sourceLineNo">1357</span>      };<a name="line.1357"></a>
-<span class="sourceLineNo">1358</span>    }<a name="line.1358"></a>
-<span class="sourceLineNo">1359</span><a name="line.1359"></a>
-<span class="sourceLineNo">1360</span>    final ImmutableList&lt;K&gt; collectTypes(K type) {<a name="line.1360"></a>
-<span class="sourceLineNo">1361</span>      return collectTypes(ImmutableList.of(type));<a name="line.1361"></a>
-<span class="sourceLineNo">1362</span>    }<a name="line.1362"></a>
-<span class="sourceLineNo">1363</span><a name="line.1363"></a>
-<span class="sourceLineNo">1364</span>    ImmutableList&lt;K&gt; collectTypes(Iterable&lt;? extends K&gt; types) {<a name="line.1364"></a>
-<span class="sourceLineNo">1365</span>      // type -&gt; order number. 1 for Object, 2 for anything directly below, so on so forth.<a name="line.1365"></a>
-<span class="sourceLineNo">1366</span>      Map&lt;K, Integer&gt; map = Maps.newHashMap();<a name="line.1366"></a>
-<span class="sourceLineNo">1367</span>      for (K type : types) {<a name="line.1367"></a>
-<span class="sourceLineNo">1368</span>        collectTypes(type, map);<a name="line.1368"></a>
-<span class="sourceLineNo">1369</span>      }<a name="line.1369"></a>
-<span class="sourceLineNo">1370</span>      return sortKeysByValue(map, Ordering.natural().reverse());<a name="line.1370"></a>
-<span class="sourceLineNo">1371</span>    }<a name="line.1371"></a>
-<span class="sourceLineNo">1372</span><a name="line.1372"></a>
-<span class="sourceLineNo">1373</span>    /** Collects all types to map, and returns the total depth from T up to Object. */<a name="line.1373"></a>
-<span class="sourceLineNo">1374</span>    @CanIgnoreReturnValue<a name="line.1374"></a>
-<span class="sourceLineNo">1375</span>    private int collectTypes(K type, Map&lt;? super K, Integer&gt; map) {<a name="line.1375"></a>
-<span class="sourceLineNo">1376</span>      Integer existing = map.get(type);<a name="line.1376"></a>
-<span class="sourceLineNo">1377</span>      if (existing != null) {<a name="line.1377"></a>
-<span class="sourceLineNo">1378</span>        // short circuit: if set contains type it already contains its supertypes<a name="line.1378"></a>
-<span class="sourceLineNo">1379</span>        return existing;<a name="line.1379"></a>
-<span class="sourceLineNo">1380</span>      }<a name="line.1380"></a>
-<span class="sourceLineNo">1381</span>      // Interfaces should be listed before Object.<a name="line.1381"></a>
-<span class="sourceLineNo">1382</span>      int aboveMe = getRawType(type).isInterface() ? 1 : 0;<a name="line.1382"></a>
-<span class="sourceLineNo">1383</span>      for (K interfaceType : getInterfaces(type)) {<a name="line.1383"></a>
-<span class="sourceLineNo">1384</span>        aboveMe = Math.max(aboveMe, collectTypes(interfaceType, map));<a name="line.1384"></a>
-<span class="sourceLineNo">1385</span>      }<a name="line.1385"></a>
-<span class="sourceLineNo">1386</span>      K superclass = getSuperclass(type);<a name="line.1386"></a>
-<span class="sourceLineNo">1387</span>      if (superclass != null) {<a name="line.1387"></a>
-<span class="sourceLineNo">1388</span>        aboveMe = Math.max(aboveMe, collectTypes(superclass, map));<a name="line.1388"></a>
-<span class="sourceLineNo">1389</span>      }<a name="line.1389"></a>
-<span class="sourceLineNo">1390</span>      /*<a name="line.1390"></a>
-<span class="sourceLineNo">1391</span>       * TODO(benyu): should we include Object for interface? Also, CharSequence[] and Object[] for<a name="line.1391"></a>
-<span class="sourceLineNo">1392</span>       * String[]?<a name="line.1392"></a>
-<span class="sourceLineNo">1393</span>       *<a name="line.1393"></a>
-<span class="sourceLineNo">1394</span>       */<a name="line.1394"></a>
-<span class="sourceLineNo">1395</span>      map.put(type, aboveMe + 1);<a name="line.1395"></a>
-<span class="sourceLineNo">1396</span>      return aboveMe + 1;<a name="line.1396"></a>
-<span class="sourceLineNo">1397</span>    }<a name="line.1397"></a>
-<span class="sourceLineNo">1398</span><a name="line.1398"></a>
-<span class="sourceLineNo">1399</span>    private static &lt;K, V&gt; ImmutableList&lt;K&gt; sortKeysByValue(<a name="line.1399"></a>
-<span class="sourceLineNo">1400</span>        final Map&lt;K, V&gt; map, final Comparator&lt;? super V&gt; valueComparator) {<a name="line.1400"></a>
-<span class="sourceLineNo">1401</span>      Ordering&lt;K&gt; keyOrdering =<a name="line.1401"></a>
-<span class="sourceLineNo">1402</span>          new Ordering&lt;K&gt;() {<a name="line.1402"></a>
-<span class="sourceLineNo">1403</span>            @Override<a name="line.1403"></a>
-<span class="sourceLineNo">1404</span>            public int compare(K left, K right) {<a name="line.1404"></a>
-<span class="sourceLineNo">1405</span>              return valueComparator.compare(map.get(left), map.get(right));<a name="line.1405"></a>
-<span class="sourceLineNo">1406</span>            }<a name="line.1406"></a>
-<span class="sourceLineNo">1407</span>          };<a name="line.1407"></a>
-<span class="sourceLineNo">1408</span>      return keyOrdering.immutableSortedCopy(map.keySet());<a name="line.1408"></a>
-<span class="sourceLineNo">1409</span>    }<a name="line.1409"></a>
-<span class="sourceLineNo">1410</span><a name="line.1410"></a>
-<span class="sourceLineNo">1411</span>    abstract Class&lt;?&gt; getRawType(K type);<a name="line.1411"></a>
-<span class="sourceLineNo">1412</span><a name="line.1412"></a>
-<span class="sourceLineNo">1413</span>    abstract Iterable&lt;? extends K&gt; getInterfaces(K type);<a name="line.1413"></a>
-<span class="sourceLineNo">1414</span><a name="line.1414"></a>
-<span class="sourceLineNo">1415</span>    @NullableDecl<a name="line.1415"></a>
-<span class="sourceLineNo">1416</span>    abstract K getSuperclass(K type);<a name="line.1416"></a>
-<span class="sourceLineNo">1417</span><a name="line.1417"></a>
-<span class="sourceLineNo">1418</span>    private static class ForwardingTypeCollector&lt;K&gt; extends TypeCollector&lt;K&gt; {<a name="line.1418"></a>
-<span class="sourceLineNo">1419</span><a name="line.1419"></a>
-<span class="sourceLineNo">1420</span>      private final TypeCollector&lt;K&gt; delegate;<a name="line.1420"></a>
-<span class="sourceLineNo">1421</span><a name="line.1421"></a>
-<span class="sourceLineNo">1422</span>      ForwardingTypeCollector(TypeCollector&lt;K&gt; delegate) {<a name="line.1422"></a>
-<span class="sourceLineNo">1423</span>        this.delegate = delegate;<a name="line.1423"></a>
-<span class="sourceLineNo">1424</span>      }<a name="line.1424"></a>
-<span class="sourceLineNo">1425</span><a name="line.1425"></a>
-<span class="sourceLineNo">1426</span>      @Override<a name="line.1426"></a>
-<span class="sourceLineNo">1427</span>      Class&lt;?&gt; getRawType(K type) {<a name="line.1427"></a>
-<span class="sourceLineNo">1428</span>        return delegate.getRawType(type);<a name="line.1428"></a>
-<span class="sourceLineNo">1429</span>      }<a name="line.1429"></a>
-<span class="sourceLineNo">1430</span><a name="line.1430"></a>
-<span class="sourceLineNo">1431</span>      @Override<a name="line.1431"></a>
-<span class="sourceLineNo">1432</span>      Iterable&lt;? extends K&gt; getInterfaces(K type) {<a name="line.1432"></a>
-<span class="sourceLineNo">1433</span>        return delegate.getInterfaces(type);<a name="line.1433"></a>
-<span class="sourceLineNo">1434</span>      }<a name="line.1434"></a>
-<span class="sourceLineNo">1435</span><a name="line.1435"></a>
-<span class="sourceLineNo">1436</span>      @Override<a name="line.1436"></a>
-<span class="sourceLineNo">1437</span>      K getSuperclass(K type) {<a name="line.1437"></a>
-<span class="sourceLineNo">1438</span>        return delegate.getSuperclass(type);<a name="line.1438"></a>
-<span class="sourceLineNo">1439</span>      }<a name="line.1439"></a>
-<span class="sourceLineNo">1440</span>    }<a name="line.1440"></a>
-<span class="sourceLineNo">1441</span>  }<a name="line.1441"></a>
-<span class="sourceLineNo">1442</span><a name="line.1442"></a>
-<span class="sourceLineNo">1443</span>  // This happens to be the hash of the class as of now. So setting it makes a backward compatible<a name="line.1443"></a>
-<span class="sourceLineNo">1444</span>  // change. Going forward, if any incompatible change is added, we can change the UID back to 1.<a name="line.1444"></a>
-<span class="sourceLineNo">1445</span>  private static final long serialVersionUID = 3637540370352322684L;<a name="line.1445"></a>
-<span class="sourceLineNo">1446</span>}<a name="line.1446"></a>
+<span class="sourceLineNo">994</span>   *<a name="line.994"></a>
+<span class="sourceLineNo">995</span>   * &lt;ol&gt;<a name="line.995"></a>
+<span class="sourceLineNo">996</span>   *   &lt;li&gt;{@code canonicalize(t)} always produces the equal result for equivalent types. For<a name="line.996"></a>
+<span class="sourceLineNo">997</span>   *       example both {@code Enum&lt;?&gt;} and {@code Enum&lt;? extends Enum&lt;?&gt;&gt;} canonicalize to {@code<a name="line.997"></a>
+<span class="sourceLineNo">998</span>   *       Enum&lt;? extends Enum&lt;E&gt;}.<a name="line.998"></a>
+<span class="sourceLineNo">999</span>   *   &lt;li&gt;{@code canonicalize(t)} produces a "literal" supertype of t. For example: {@code Enum&lt;?<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>   *       extends Enum&lt;?&gt;&gt;} canonicalizes to {@code Enum&lt;?&gt;}, which is a supertype (if we disregard<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>   *       the upper bound is implicitly an Enum too).<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>   *   &lt;li&gt;If {@code canonicalize(A) == canonicalize(B)}, then {@code Foo&lt;A&gt;.isSubtypeOf(Foo&lt;B&gt;)}<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>   *       and vice versa. i.e. {@code A.is(B)} and {@code B.is(A)}.<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>   *   &lt;li&gt;{@code canonicalize(canonicalize(A)) == canonicalize(A)}.<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>   * &lt;/ol&gt;<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>   */<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>  private static Type canonicalizeTypeArg(TypeVariable&lt;?&gt; declaration, Type typeArg) {<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>    return typeArg instanceof WildcardType<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>        ? canonicalizeWildcardType(declaration, ((WildcardType) typeArg))<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>        : canonicalizeWildcardsInType(typeArg);<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>  }<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span><a name="line.1012"></a>
+<span class="sourceLineNo">1013</span>  private static Type canonicalizeWildcardsInType(Type type) {<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>    if (type instanceof ParameterizedType) {<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>      return canonicalizeWildcardsInParameterizedType((ParameterizedType) type);<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>    }<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>    if (type instanceof GenericArrayType) {<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>      return Types.newArrayType(<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>          canonicalizeWildcardsInType(((GenericArrayType) type).getGenericComponentType()));<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>    }<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>    return type;<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>  }<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span><a name="line.1023"></a>
+<span class="sourceLineNo">1024</span>  // WARNING: the returned type may have empty upper bounds, which may violate common expectations<a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>  // by user code or even some of our own code. It's fine for the purpose of checking subtypes.<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>  // Just don't ever let the user access it.<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>  private static WildcardType canonicalizeWildcardType(<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>      TypeVariable&lt;?&gt; declaration, WildcardType type) {<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>    Type[] declared = declaration.getBounds();<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span>    List&lt;Type&gt; upperBounds = new ArrayList&lt;&gt;();<a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>    for (Type bound : type.getUpperBounds()) {<a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>      if (!any(declared).isSubtypeOf(bound)) {<a name="line.1032"></a>
+<span class="sourceLineNo">1033</span>        upperBounds.add(canonicalizeWildcardsInType(bound));<a name="line.1033"></a>
+<span class="sourceLineNo">1034</span>      }<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>    }<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span>    return new Types.WildcardTypeImpl(type.getLowerBounds(), upperBounds.toArray(new Type[0]));<a name="line.1036"></a>
+<span class="sourceLineNo">1037</span>  }<a name="line.1037"></a>
+<span class="sourceLineNo">1038</span><a name="line.1038"></a>
+<span class="sourceLineNo">1039</span>  private static ParameterizedType canonicalizeWildcardsInParameterizedType(<a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>      ParameterizedType type) {<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>    Class&lt;?&gt; rawType = (Class&lt;?&gt;) type.getRawType();<a name="line.1041"></a>
+<span class="sourceLineNo">1042</span>    TypeVariable&lt;?&gt;[] typeVars = rawType.getTypeParameters();<a name="line.1042"></a>
+<span class="sourceLineNo">1043</span>    Type[] typeArgs = type.getActualTypeArguments();<a name="line.1043"></a>
+<span class="sourceLineNo">1044</span>    for (int i = 0; i &lt; typeArgs.length; i++) {<a name="line.1044"></a>
+<span class="sourceLineNo">1045</span>      typeArgs[i] = canonicalizeTypeArg(typeVars[i], typeArgs[i]);<a name="line.1045"></a>
+<span class="sourceLineNo">1046</span>    }<a name="line.1046"></a>
+<span class="sourceLineNo">1047</span>    return Types.newParameterizedTypeWithOwner(type.getOwnerType(), rawType, typeArgs);<a name="line.1047"></a>
+<span class="sourceLineNo">1048</span>  }<a name="line.1048"></a>
+<span class="sourceLineNo">1049</span><a name="line.1049"></a>
+<span class="sourceLineNo">1050</span>  private static Bounds every(Type[] bounds) {<a name="line.1050"></a>
+<span class="sourceLineNo">1051</span>    // Every bound must match. On any false, result is false.<a name="line.1051"></a>
+<span class="sourceLineNo">1052</span>    return new Bounds(bounds, false);<a name="line.1052"></a>
+<span class="sourceLineNo">1053</span>  }<a name="line.1053"></a>
+<span class="sourceLineNo">1054</span><a name="line.1054"></a>
+<span class="sourceLineNo">1055</span>  private static Bounds any(Type[] bounds) {<a name="line.1055"></a>
+<span class="sourceLineNo">1056</span>    // Any bound matches. On any true, result is true.<a name="line.1056"></a>
+<span class="sourceLineNo">1057</span>    return new Bounds(bounds, true);<a name="line.1057"></a>
+<span class="sourceLineNo">1058</span>  }<a name="line.1058"></a>
+<span class="sourceLineNo">1059</span><a name="line.1059"></a>
+<span class="sourceLineNo">1060</span>  private static class Bounds {<a name="line.1060"></a>
+<span class="sourceLineNo">1061</span>    private final Type[] bounds;<a name="line.1061"></a>
+<span class="sourceLineNo">1062</span>    private final boolean target;<a name="line.1062"></a>
+<span class="sourceLineNo">1063</span><a name="line.1063"></a>
+<span class="sourceLineNo">1064</span>    Bounds(Type[] bounds, boolean target) {<a name="line.1064"></a>
+<span class="sourceLineNo">1065</span>      this.bounds = bounds;<a name="line.1065"></a>
+<span class="sourceLineNo">1066</span>      this.target = target;<a name="line.1066"></a>
+<span class="sourceLineNo">1067</span>    }<a name="line.1067"></a>
+<span class="sourceLineNo">1068</span><a name="line.1068"></a>
+<span class="sourceLineNo">1069</span>    boolean isSubtypeOf(Type supertype) {<a name="line.1069"></a>
+<span class="sourceLineNo">1070</span>      for (Type bound : bounds) {<a name="line.1070"></a>
+<span class="sourceLineNo">1071</span>        if (of(bound).isSubtypeOf(supertype) == target) {<a name="line.1071"></a>
+<span class="sourceLineNo">1072</span>          return target;<a name="line.1072"></a>
+<span class="sourceLineNo">1073</span>        }<a name="line.1073"></a>
+<span class="sourceLineNo">1074</span>      }<a name="line.1074"></a>
+<span class="sourceLineNo">1075</span>      return !target;<a name="line.1075"></a>
+<span class="sourceLineNo">1076</span>    }<a name="line.1076"></a>
+<span class="sourceLineNo">1077</span><a name="line.1077"></a>
+<span class="sourceLineNo">1078</span>    boolean isSupertypeOf(Type subtype) {<a name="line.1078"></a>
+<span class="sourceLineNo">1079</span>      TypeToken&lt;?&gt; type = of(subtype);<a name="line.1079"></a>
+<span class="sourceLineNo">1080</span>      for (Type bound : bounds) {<a name="line.1080"></a>
+<span class="sourceLineNo">1081</span>        if (type.isSubtypeOf(bound) == target) {<a name="line.1081"></a>
+<span class="sourceLineNo">1082</span>          return target;<a name="line.1082"></a>
+<span class="sourceLineNo">1083</span>        }<a name="line.1083"></a>
+<span class="sourceLineNo">1084</span>      }<a name="line.1084"></a>
+<span class="sourceLineNo">1085</span>      return !target;<a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>    }<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>  }<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span><a name="line.1088"></a>
+<span class="sourceLineNo">1089</span>  private ImmutableSet&lt;Class&lt;? super T&gt;&gt; getRawTypes() {<a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>    final ImmutableSet.Builder&lt;Class&lt;?&gt;&gt; builder = ImmutableSet.builder();<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span>    new TypeVisitor() {<a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>      @Override<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>      void visitTypeVariable(TypeVariable&lt;?&gt; t) {<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>        visit(t.getBounds());<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>      }<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span><a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>      @Override<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span>      void visitWildcardType(WildcardType t) {<a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>        visit(t.getUpperBounds());<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>      }<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span><a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>      @Override<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>      void visitParameterizedType(ParameterizedType t) {<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>        builder.add((Class&lt;?&gt;) t.getRawType());<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>      }<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span><a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>      @Override<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>      void visitClass(Class&lt;?&gt; t) {<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>        builder.add(t);<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>      }<a name="line.1110"></a>
+<span class="sourceLineNo">1111</span><a name="line.1111"></a>
+<span class="sourceLineNo">1112</span>      @Override<a name="line.1112"></a>
+<span class="sourceLineNo">1113</span>      void visitGenericArrayType(GenericArrayType t) {<a name="line.1113"></a>
+<span class="sourceLineNo">1114</span>        builder.add(Types.getArrayClass(of(t.getGenericComponentType()).getRawType()));<a name="line.1114"></a>
+<span class="sourceLineNo">1115</span>      }<a name="line.1115"></a>
+<span class="sourceLineNo">1116</span>    }.visit(runtimeType);<a name="line.1116"></a>
+<span class="sourceLineNo">1117</span>    // Cast from ImmutableSet&lt;Class&lt;?&gt;&gt; to ImmutableSet&lt;Class&lt;? super T&gt;&gt;<a name="line.1117"></a>
+<span class="sourceLineNo">1118</span>    @SuppressWarnings({"unchecked", "rawtypes"})<a name="line.1118"></a>
+<span class="sourceLineNo">1119</span>    ImmutableSet&lt;Class&lt;? super T&gt;&gt; result = (ImmutableSet) builder.build();<a name="line.1119"></a>
+<span class="sourceLineNo">1120</span>    return result;<a name="line.1120"></a>
+<span class="sourceLineNo">1121</span>  }<a name="line.1121"></a>
+<span class="sourceLineNo">1122</span><a name="line.1122"></a>
+<span class="sourceLineNo">1123</span>  private boolean isOwnedBySubtypeOf(Type supertype) {<a name="line.1123"></a>
+<span class="sourceLineNo">1124</span>    for (TypeToken&lt;?&gt; type : getTypes()) {<a name="line.1124"></a>
+<span class="sourceLineNo">1125</span>      Type ownerType = type.getOwnerTypeIfPresent();<a name="line.1125"></a>
+<span class="sourceLineNo">1126</span>      if (ownerType != null &amp;&amp; of(ownerType).isSubtypeOf(supertype)) {<a name="line.1126"></a>
+<span class="sourceLineNo">1127</span>        return true;<a name="line.1127"></a>
+<span class="sourceLineNo">1128</span>      }<a name="line.1128"></a>
+<span class="sourceLineNo">1129</span>    }<a name="line.1129"></a>
+<span class="sourceLineNo">1130</span>    return false;<a name="line.1130"></a>
+<span class="sourceLineNo">1131</span>  }<a name="line.1131"></a>
+<span class="sourceLineNo">1132</span><a name="line.1132"></a>
+<span class="sourceLineNo">1133</span>  /**<a name="line.1133"></a>
+<span class="sourceLineNo">1134</span>   * Returns the owner type of a {@link ParameterizedType} or enclosing class of a {@link Class}, or<a name="line.1134"></a>
+<span class="sourceLineNo">1135</span>   * null otherwise.<a name="line.1135"></a>
+<span class="sourceLineNo">1136</span>   */<a name="line.1136"></a>
+<span class="sourceLineNo">1137</span>  @NullableDecl<a name="line.1137"></a>
+<span class="sourceLineNo">1138</span>  private Type getOwnerTypeIfPresent() {<a name="line.1138"></a>
+<span class="sourceLineNo">1139</span>    if (runtimeType instanceof ParameterizedType) {<a name="line.1139"></a>
+<span class="sourceLineNo">1140</span>      return ((ParameterizedType) runtimeType).getOwnerType();<a name="line.1140"></a>
+<span class="sourceLineNo">1141</span>    } else if (runtimeType instanceof Class&lt;?&gt;) {<a name="line.1141"></a>
+<span class="sourceLineNo">1142</span>      return ((Class&lt;?&gt;) runtimeType).getEnclosingClass();<a name="line.1142"></a>
+<span class="sourceLineNo">1143</span>    } else {<a name="line.1143"></a>
+<span class="sourceLineNo">1144</span>      return null;<a name="line.1144"></a>
+<span class="sourceLineNo">1145</span>    }<a name="line.1145"></a>
+<span class="sourceLineNo">1146</span>  }<a name="line.1146"></a>
+<span class="sourceLineNo">1147</span><a name="line.1147"></a>
+<span class="sourceLineNo">1148</span>  /**<a name="line.1148"></a>
+<span class="sourceLineNo">1149</span>   * Returns the type token representing the generic type declaration of {@code cls}. For example:<a name="line.1149"></a>
+<span class="sourceLineNo">1150</span>   * {@code TypeToken.getGenericType(Iterable.class)} returns {@code Iterable&lt;T&gt;}.<a name="line.1150"></a>
+<span class="sourceLineNo">1151</span>   *<a name="line.1151"></a>
+<span class="sourceLineNo">1152</span>   * &lt;p&gt;If {@code cls} isn't parameterized and isn't a generic array, the type token of the class is<a name="line.1152"></a>
+<span class="sourceLineNo">1153</span>   * returned.<a name="line.1153"></a>
+<span class="sourceLineNo">1154</span>   */<a name="line.1154"></a>
+<span class="sourceLineNo">1155</span>  @VisibleForTesting<a name="line.1155"></a>
+<span class="sourceLineNo">1156</span>  static &lt;T&gt; TypeToken&lt;? extends T&gt; toGenericType(Class&lt;T&gt; cls) {<a name="line.1156"></a>
+<span class="sourceLineNo">1157</span>    if (cls.isArray()) {<a name="line.1157"></a>
+<span class="sourceLineNo">1158</span>      Type arrayOfGenericType =<a name="line.1158"></a>
+<span class="sourceLineNo">1159</span>          Types.newArrayType(<a name="line.1159"></a>
+<span class="sourceLineNo">1160</span>              // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1160"></a>
+<span class="sourceLineNo">1161</span>              toGenericType(cls.getComponentType()).runtimeType);<a name="line.1161"></a>
+<span class="sourceLineNo">1162</span>      @SuppressWarnings("unchecked") // array is covariant<a name="line.1162"></a>
+<span class="sourceLineNo">1163</span>      TypeToken&lt;? extends T&gt; result = (TypeToken&lt;? extends T&gt;) of(arrayOfGenericType);<a name="line.1163"></a>
+<span class="sourceLineNo">1164</span>      return result;<a name="line.1164"></a>
+<span class="sourceLineNo">1165</span>    }<a name="line.1165"></a>
+<span class="sourceLineNo">1166</span>    TypeVariable&lt;Class&lt;T&gt;&gt;[] typeParams = cls.getTypeParameters();<a name="line.1166"></a>
+<span class="sourceLineNo">1167</span>    Type ownerType =<a name="line.1167"></a>
+<span class="sourceLineNo">1168</span>        cls.isMemberClass() &amp;&amp; !Modifier.isStatic(cls.getModifiers())<a name="line.1168"></a>
+<span class="sourceLineNo">1169</span>            ? toGenericType(cls.getEnclosingClass()).runtimeType<a name="line.1169"></a>
+<span class="sourceLineNo">1170</span>            : null;<a name="line.1170"></a>
+<span class="sourceLineNo">1171</span><a name="line.1171"></a>
+<span class="sourceLineNo">1172</span>    if ((typeParams.length &gt; 0) || ((ownerType != null) &amp;&amp; ownerType != cls.getEnclosingClass())) {<a name="line.1172"></a>
+<span class="sourceLineNo">1173</span>      @SuppressWarnings("unchecked") // Like, it's Iterable&lt;T&gt; for Iterable.class<a name="line.1173"></a>
+<span class="sourceLineNo">1174</span>      TypeToken&lt;? extends T&gt; type =<a name="line.1174"></a>
+<span class="sourceLineNo">1175</span>          (TypeToken&lt;? extends T&gt;)<a name="line.1175"></a>
+<span class="sourceLineNo">1176</span>              of(Types.newParameterizedTypeWithOwner(ownerType, cls, typeParams));<a name="line.1176"></a>
+<span class="sourceLineNo">1177</span>      return type;<a name="line.1177"></a>
+<span class="sourceLineNo">1178</span>    } else {<a name="line.1178"></a>
+<span class="sourceLineNo">1179</span>      return of(cls);<a name="line.1179"></a>
+<span class="sourceLineNo">1180</span>    }<a name="line.1180"></a>
+<span class="sourceLineNo">1181</span>  }<a name="line.1181"></a>
+<span class="sourceLineNo">1182</span><a name="line.1182"></a>
+<span class="sourceLineNo">1183</span>  private TypeResolver getCovariantTypeResolver() {<a name="line.1183"></a>
+<span class="sourceLineNo">1184</span>    TypeResolver resolver = covariantTypeResolver;<a name="line.1184"></a>
+<span class="sourceLineNo">1185</span>    if (resolver == null) {<a name="line.1185"></a>
+<span class="sourceLineNo">1186</span>      resolver = (covariantTypeResolver = TypeResolver.covariantly(runtimeType));<a name="line.1186"></a>
+<span class="sourceLineNo">1187</span>    }<a name="line.1187"></a>
+<span class="sourceLineNo">1188</span>    return resolver;<a name="line.1188"></a>
+<span class="sourceLineNo">1189</span>  }<a name="line.1189"></a>
+<span class="sourceLineNo">1190</span><a name="line.1190"></a>
+<span class="sourceLineNo">1191</span>  private TypeResolver getInvariantTypeResolver() {<a name="line.1191"></a>
+<span class="sourceLineNo">1192</span>    TypeResolver resolver = invariantTypeResolver;<a name="line.1192"></a>
+<span class="sourceLineNo">1193</span>    if (resolver == null) {<a name="line.1193"></a>
+<span class="sourceLineNo">1194</span>      resolver = (invariantTypeResolver = TypeResolver.invariantly(runtimeType));<a name="line.1194"></a>
+<span class="sourceLineNo">1195</span>    }<a name="line.1195"></a>
+<span class="sourceLineNo">1196</span>    return resolver;<a name="line.1196"></a>
+<span class="sourceLineNo">1197</span>  }<a name="line.1197"></a>
+<span class="sourceLineNo">1198</span><a name="line.1198"></a>
+<span class="sourceLineNo">1199</span>  private TypeToken&lt;? super T&gt; getSupertypeFromUpperBounds(<a name="line.1199"></a>
+<span class="sourceLineNo">1200</span>      Class&lt;? super T&gt; supertype, Type[] upperBounds) {<a name="line.1200"></a>
+<span class="sourceLineNo">1201</span>    for (Type upperBound : upperBounds) {<a name="line.1201"></a>
+<span class="sourceLineNo">1202</span>      @SuppressWarnings("unchecked") // T's upperbound is &lt;? super T&gt;.<a name="line.1202"></a>
+<span class="sourceLineNo">1203</span>      TypeToken&lt;? super T&gt; bound = (TypeToken&lt;? super T&gt;) of(upperBound);<a name="line.1203"></a>
+<span class="sourceLineNo">1204</span>      if (bound.isSubtypeOf(supertype)) {<a name="line.1204"></a>
+<span class="sourceLineNo">1205</span>        @SuppressWarnings({"rawtypes", "unchecked"}) // guarded by the isSubtypeOf check.<a name="line.1205"></a>
+<span class="sourceLineNo">1206</span>        TypeToken&lt;? super T&gt; result = bound.getSupertype((Class) supertype);<a name="line.1206"></a>
+<span class="sourceLineNo">1207</span>        return result;<a name="line.1207"></a>
+<span class="sourceLineNo">1208</span>      }<a name="line.1208"></a>
+<span class="sourceLineNo">1209</span>    }<a name="line.1209"></a>
+<span class="sourceLineNo">1210</span>    throw new IllegalArgumentException(supertype + " isn't a super type of " + this);<a name="line.1210"></a>
+<span class="sourceLineNo">1211</span>  }<a name="line.1211"></a>
+<span class="sourceLineNo">1212</span><a name="line.1212"></a>
+<span class="sourceLineNo">1213</span>  private TypeToken&lt;? extends T&gt; getSubtypeFromLowerBounds(Class&lt;?&gt; subclass, Type[] lowerBounds) {<a name="line.1213"></a>
+<span class="sourceLineNo">1214</span>    for (Type lowerBound : lowerBounds) {<a name="line.1214"></a>
+<span class="sourceLineNo">1215</span>      @SuppressWarnings("unchecked") // T's lower bound is &lt;? extends T&gt;<a name="line.1215"></a>
+<span class="sourceLineNo">1216</span>      TypeToken&lt;? extends T&gt; bound = (TypeToken&lt;? extends T&gt;) of(lowerBound);<a name="line.1216"></a>
+<span class="sourceLineNo">1217</span>      // Java supports only one lowerbound anyway.<a name="line.1217"></a>
+<span class="sourceLineNo">1218</span>      return bound.getSubtype(subclass);<a name="line.1218"></a>
+<span class="sourceLineNo">1219</span>    }<a name="line.1219"></a>
+<span class="sourceLineNo">1220</span>    throw new IllegalArgumentException(subclass + " isn't a subclass of " + this);<a name="line.1220"></a>
+<span class="sourceLineNo">1221</span>  }<a name="line.1221"></a>
+<span class="sourceLineNo">1222</span><a name="line.1222"></a>
+<span class="sourceLineNo">1223</span>  private TypeToken&lt;? super T&gt; getArraySupertype(Class&lt;? super T&gt; supertype) {<a name="line.1223"></a>
+<span class="sourceLineNo">1224</span>    // with component type, we have lost generic type information<a name="line.1224"></a>
+<span class="sourceLineNo">1225</span>    // Use raw type so that compiler allows us to call getSupertype()<a name="line.1225"></a>
+<span class="sourceLineNo">1226</span>    @SuppressWarnings("rawtypes")<a name="line.1226"></a>
+<span class="sourceLineNo">1227</span>    TypeToken componentType =<a name="line.1227"></a>
+<span class="sourceLineNo">1228</span>        checkNotNull(getComponentType(), "%s isn't a super type of %s", supertype, this);<a name="line.1228"></a>
+<span class="sourceLineNo">1229</span>    // array is covariant. component type is super type, so is the array type.<a name="line.1229"></a>
+<span class="sourceLineNo">1230</span>    @SuppressWarnings("unchecked") // going from raw type back to generics<a name="line.1230"></a>
+<span class="sourceLineNo">1231</span>    TypeToken&lt;?&gt; componentSupertype = componentType.getSupertype(supertype.getComponentType());<a name="line.1231"></a>
+<span class="sourceLineNo">1232</span>    @SuppressWarnings("unchecked") // component type is super type, so is array type.<a name="line.1232"></a>
+<span class="sourceLineNo">1233</span>    TypeToken&lt;? super T&gt; result =<a name="line.1233"></a>
+<span class="sourceLineNo">1234</span>        (TypeToken&lt;? super T&gt;)<a name="line.1234"></a>
+<span class="sourceLineNo">1235</span>            // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1235"></a>
+<span class="sourceLineNo">1236</span>            of(newArrayClassOrGenericArrayType(componentSupertype.runtimeType));<a name="line.1236"></a>
+<span class="sourceLineNo">1237</span>    return result;<a name="line.1237"></a>
+<span class="sourceLineNo">1238</span>  }<a name="line.1238"></a>
+<span class="sourceLineNo">1239</span><a name="line.1239"></a>
+<span class="sourceLineNo">1240</span>  private TypeToken&lt;? extends T&gt; getArraySubtype(Class&lt;?&gt; subclass) {<a name="line.1240"></a>
+<span class="sourceLineNo">1241</span>    // array is covariant. component type is subtype, so is the array type.<a name="line.1241"></a>
+<span class="sourceLineNo">1242</span>    TypeToken&lt;?&gt; componentSubtype = getComponentType().getSubtype(subclass.getComponentType());<a name="line.1242"></a>
+<span class="sourceLineNo">1243</span>    @SuppressWarnings("unchecked") // component type is subtype, so is array type.<a name="line.1243"></a>
+<span class="sourceLineNo">1244</span>    TypeToken&lt;? extends T&gt; result =<a name="line.1244"></a>
+<span class="sourceLineNo">1245</span>        (TypeToken&lt;? extends T&gt;)<a name="line.1245"></a>
+<span class="sourceLineNo">1246</span>            // If we are passed with int[].class, don't turn it to GenericArrayType<a name="line.1246"></a>
+<span class="sourceLineNo">1247</span>            of(newArrayClassOrGenericArrayType(componentSubtype.runtimeType));<a name="line.1247"></a>
+<span class="sourceLineNo">1248</span>    return result;<a name="line.1248"></a>
+<span class="sourceLineNo">1249</span>  }<a name="line.1249"></a>
+<span class="sourceLineNo">1250</span><a name="line.1250"></a>
+<span class="sourceLineNo">1251</span>  private Type resolveTypeArgsForSubclass(Class&lt;?&gt; subclass) {<a name="line.1251"></a>
+<span class="sourceLineNo">1252</span>    // If both runtimeType and subclass are not parameterized, return subclass<a name="line.1252"></a>
+<span class="sourceLineNo">1253</span>    // If runtimeType is not parameterized but subclass is, process subclass as a parameterized type<a name="line.1253"></a>
+<span class="sourceLineNo">1254</span>    // If runtimeType is a raw type (i.e. is a parameterized type specified as a Class&lt;?&gt;), we<a name="line.1254"></a>
+<span class="sourceLineNo">1255</span>    // return subclass as a raw type<a name="line.1255"></a>
+<span class="sourceLineNo">1256</span>    if (runtimeType instanceof Class<a name="line.1256"></a>
+<span class="sourceLineNo">1257</span>        &amp;&amp; ((subclass.getTypeParameters().length == 0)<a name="line.1257"></a>
+<span class="sourceLineNo">1258</span>            || (getRawType().getTypeParameters().length != 0))) {<a name="line.1258"></a>
+<span class="sourceLineNo">1259</span>      // no resolution needed<a name="line.1259"></a>
+<span class="sourceLineNo">1260</span>      return subclass;<a name="line.1260"></a>
+<span class="sourceLineNo">1261</span>    }<a name="line.1261"></a>
+<span class="sourceLineNo">1262</span>    // class Base&lt;A, B&gt; {}<a name="line.1262"></a>
+<span class="sourceLineNo">1263</span>    // class Sub&lt;X, Y&gt; extends Base&lt;X, Y&gt; {}<a name="line.1263"></a>
+<span class="sourceLineNo">1264</span>    // Base&lt;String, Integer&gt;.subtype(Sub.class):<a name="line.1264"></a>
+<span class="sourceLineNo">1265</span><a name="line.1265"></a>
+<span class="sourceLineNo">1266</span>    // Sub&lt;X, Y&gt;.getSupertype(Base.class) =&gt; Base&lt;X, Y&gt;<a name="line.1266"></a>
+<span class="sourceLineNo">1267</span>    // =&gt; X=String, Y=Integer<a name="line.1267"></a>
+<span class="sourceLineNo">1268</span>    // =&gt; Sub&lt;X, Y&gt;=Sub&lt;String, Integer&gt;<a name="line.1268"></a>
+<span class="sourceLineNo">1269</span>    TypeToken&lt;?&gt; genericSubtype = toGenericType(subclass);<a name="line.1269"></a>
+<span class="sourceLineNo">1270</span>    @SuppressWarnings({"rawtypes", "unchecked"}) // subclass isn't &lt;? extends T&gt;<a name="line.1270"></a>
+<span class="sourceLineNo">1271</span>    Type supertypeWithArgsFromSubtype =<a name="line.1271"></a>
+<span class="sourceLineNo">1272</span>        genericSubtype.getSupertype((Class) getRawType()).runtimeType;<a name="line.1272"></a>
+<span class="sourceLineNo">1273</span>    return new TypeResolver()<a name="line.1273"></a>
+<span class="sourceLineNo">1274</span>        .where(supertypeWithArgsFromSubtype, runtimeType)<a name="line.1274"></a>
+<span class="sourceLineNo">1275</span>        .resolveType(genericSubtype.runtimeType);<a name="line.1275"></a>
+<span class="sourceLineNo">1276</span>  }<a name="line.1276"></a>
+<span class="sourceLineNo">1277</span><a name="line.1277"></a>
+<span class="sourceLineNo">1278</span>  /**<a name="line.1278"></a>
+<span class="sourceLineNo">1279</span>   * Creates an array class if {@code componentType} is a class, or else, a {@link<a name="line.1279"></a>
+<span class="sourceLineNo">1280</span>   * GenericArrayType}. This is what Java7 does for generic array type parameters.<a name="line.1280"></a>
+<span class="sourceLineNo">1281</span>   */<a name="line.1281"></a>
+<span class="sourceLineNo">1282</span>  private static Type newArrayClassOrGenericArrayType(Type componentType) {<a name="line.1282"></a>
+<span class="sourceLineNo">1283</span>    return Types.JavaVersion.JAVA7.newArrayType(componentType);<a name="line.1283"></a>
+<span class="sourceLineNo">1284</span>  }<a name="line.1284"></a>
+<span class="sourceLineNo">1285</span><a name="line.1285"></a>
+<span class="sourceLineNo">1286</span>  private static final class SimpleTypeToken&lt;T&gt; extends TypeToken&lt;T&gt; {<a name="line.1286"></a>
+<span class="sourceLineNo">1287</span><a name="line.1287"></a>
+<span class="sourceLineNo">1288</span>    SimpleTypeToken(Type type) {<a name="line.1288"></a>
+<span class="sourceLineNo">1289</span>      super(type);<a name="line.1289"></a>
+<span class="sourceLineNo">1290</span>    }<a name="line.1290"></a>
+<span class="sourceLineNo">1291</span><a name="line.1291"></a>
+<span class="sourceLineNo">1292</span>    private static final long serialVersionUID = 0;<a name="line.1292"></a>
+<span class="sourceLineNo">1293</span>  }<a name="line.1293"></a>
+<span class="sourceLineNo">1294</span><a name="line.1294"></a>
+<span class="sourceLineNo">1295</span>  /**<a name="line.1295"></a>
+<span class="sourceLineNo">1296</span>   * Collects parent types from a sub type.<a name="line.1296"></a>
+<span class="sourceLineNo">1297</span>   *<a name="line.1297"></a>
+<span class="sourceLineNo">1298</span>   * @param &lt;K&gt; The type "kind". Either a TypeToken, or Class.<a name="line.1298"></a>
+<span class="sourceLineNo">1299</span>   */<a name="line.1299"></a>
+<span class="sourceLineNo">1300</span>  private abstract static class TypeCollector&lt;K&gt; {<a name="line.1300"></a>
+<span class="sourceLineNo">1301</span><a name="line.1301"></a>
+<span class="sourceLineNo">1302</span>    static final TypeCollector&lt;TypeToken&lt;?&gt;&gt; FOR_GENERIC_TYPE =<a name="line.1302"></a>
+<span class="sourceLineNo">1303</span>        new TypeCollector&lt;TypeToken&lt;?&gt;&gt;() {<a name="line.1303"></a>
+<span class="sourceLineNo">1304</span>          @Override<a name="line.1304"></a>
+<span class="sourceLineNo">1305</span>          Class&lt;?&gt; getRawType(TypeToken&lt;?&gt; type) {<a name="line.1305"></a>
+<span class="sourceLineNo">1306</span>            return type.getRawType();<a name="line.1306"></a>
+<span class="sourceLineNo">1307</span>          }<a name="line.1307"></a>
+<span class="sourceLineNo">1308</span><a name="line.1308"></a>
+<span class="sourceLineNo">1309</span>          @Override<a name="line.1309"></a>
+<span class="sourceLineNo">1310</span>          Iterable&lt;? extends TypeToken&lt;?&gt;&gt; getInterfaces(TypeToken&lt;?&gt; type) {<a name="line.1310"></a>
+<span class="sourceLineNo">1311</span>            return type.getGenericInterfaces();<a name="line.1311"></a>
+<span class="sourceLineNo">1312</span>          }<a name="line.1312"></a>
+<span class="sourceLineNo">1313</span><a name="line.1313"></a>
+<span class="sourceLineNo">1314</span>          @Override<a name="line.1314"></a>
+<span class="sourceLineNo">1315</span>          @NullableDecl<a name="line.1315"></a>
+<span class="sourceLineNo">1316</span>          TypeToken&lt;?&gt; getSuperclass(TypeToken&lt;?&gt; type) {<a name="line.1316"></a>
+<span class="sourceLineNo">1317</span>            return type.getGenericSuperclass();<a name="line.1317"></a>
+<span class="sourceLineNo">1318</span>          }<a name="line.1318"></a>
+<span class="sourceLineNo">1319</span>        };<a name="line.1319"></a>
+<span class="sourceLineNo">1320</span><a name="line.1320"></a>
+<span class="sourceLineNo">1321</span>    static final TypeCollector&lt;Class&lt;?&gt;&gt; FOR_RAW_TYPE =<a name="line.1321"></a>
+<span class="sourceLineNo">1322</span>        new TypeCollector&lt;Class&lt;?&gt;&gt;() {<a name="line.1322"></a>
+<span class="sourceLineNo">1323</span>          @Override<a name="line.1323"></a>
+<span class="sourceLineNo">1324</span>          Class&lt;?&gt; getRawType(Class&lt;?&gt; type) {<a name="line.1324"></a>
+<span class="sourceLineNo">1325</span>            return type;<a name="line.1325"></a>
+<span class="sourceLineNo">1326</span>          }<a name="line.1326"></a>
+<span class="sourceLineNo">1327</span><a name="line.1327"></a>
+<span class="sourceLineNo">1328</span>          @Override<a name="line.1328"></a>
+<span class="sourceLineNo">1329</span>          Iterable&lt;? extends Class&lt;?&gt;&gt; getInterfaces(Class&lt;?&gt; type) {<a name="line.1329"></a>
+<span class="sourceLineNo">1330</span>            return Arrays.asList(type.getInterfaces());<a name="line.1330"></a>
+<span class="sourceLineNo">1331</span>          }<a name="line.1331"></a>
+<span class="sourceLineNo">1332</span><a name="line.1332"></a>
+<span class="sourceLineNo">1333</span>          @Override<a name="line.1333"></a>
+<span class="sourceLineNo">1334</span>          @NullableDecl<a name="line.1334"></a>
+<span class="sourceLineNo">1335</span>          Class&lt;?&gt; getSuperclass(Class&lt;?&gt; type) {<a name="line.1335"></a>
+<span class="sourceLineNo">1336</span>            return type.getSuperclass();<a name="line.1336"></a>
+<span class="sourceLineNo">1337</span>          }<a name="line.1337"></a>
+<span class="sourceLineNo">1338</span>        };<a name="line.1338"></a>
+<span class="sourceLineNo">1339</span><a name="line.1339"></a>
+<span class="sourceLineNo">1340</span>    /** For just classes, we don't have to traverse interfaces. */<a name="line.1340"></a>
+<span class="sourceLineNo">1341</span>    final TypeCollector&lt;K&gt; classesOnly() {<a name="line.1341"></a>
+<span class="sourceLineNo">1342</span>      return new ForwardingTypeCollector&lt;K&gt;(this) {<a name="line.1342"></a>
+<span class="sourceLineNo">1343</span>        @Override<a name="line.1343"></a>
+<span class="sourceLineNo">1344</span>        Iterable&lt;? extends K&gt; getInterfaces(K type) {<a name="line.1344"></a>
+<span class="sourceLineNo">1345</span>          return ImmutableSet.of();<a name="line.1345"></a>
+<span class="sourceLineNo">1346</span>        }<a name="line.1346"></a>
+<span class="sourceLineNo">1347</span><a name="line.1347"></a>
+<span class="sourceLineNo">1348</span>        @Override<a name="line.1348"></a>
+<span class="sourceLineNo">1349</span>        ImmutableList&lt;K&gt; collectTypes(Iterable&lt;? extends K&gt; types) {<a name="line.1349"></a>
+<span class="sourceLineNo">1350</span>          ImmutableList.Builder&lt;K&gt; builder = ImmutableList.builder();<a name="line.1350"></a>
+<span class="sourceLineNo">1351</span>          for (K type : types) {<a name="line.1351"></a>
+<span class="sourceLineNo">1352</span>            if (!getRawType(type).isInterface()) {<a name="line.1352"></a>
+<span class="sourceLineNo">1353</span>              builder.add(type);<a name="line.1353"></a>
+<span class="sourceLineNo">1354</span>            }<a name="line.1354"></a>
+<span class="sourceLineNo">1355</span>          }<a name="line.1355"></a>
+<span class="sourceLineNo">1356</span>          return super.collectTypes(builder.build());<a name="line.1356"></a>
+<span class="sourceLineNo">1357</span>        }<a name="line.1357"></a>
+<span class="sourceLineNo">1358</span>      };<a name="line.1358"></a>
+<span class="sourceLineNo">1359</span>    }<a name="line.1359"></a>
+<span class="sourceLineNo">1360</span><a name="line.1360"></a>
+<span class="sourceLineNo">1361</span>    final ImmutableList&lt;K&gt; collectTypes(K type) {<a name="line.1361"></a>
+<span class="sourceLineNo">1362</span>      return collectTypes(ImmutableList.of(type));<a name="line.1362"></a>
+<span class="sourceLineNo">1363</span>    }<a name="line.1363"></a>
+<span class="sourceLineNo">1364</span><a name="line.1364"></a>
+<span class="sourceLineNo">1365</span>    ImmutableList&lt;K&gt; collectTypes(Iterable&lt;? extends K&gt; types) {<a name="line.1365"></a>
+<span class="sourceLineNo">1366</span>      // type -&gt; order number. 1 for Object, 2 for anything directly below, so on so forth.<a name="line.1366"></a>
+<span class="sourceLineNo">1367</span>      Map&lt;K, Integer&gt; map = Maps.newHashMap();<a name="line.1367"></a>
+<span class="sourceLineNo">1368</span>      for (K type : types) {<a name="line.1368"></a>
+<span class="sourceLineNo">1369</span>        collectTypes(type, map);<a name="line.1369"></a>
+<span class="sourceLineNo">1370</span>      }<a name="line.1370"></a>
+<span class="sourceLineNo">1371</span>      return sortKeysByValue(map, Ordering.natural().reverse());<a name="line.1371"></a>
+<span class="sourceLineNo">1372</span>    }<a name="line.1372"></a>
+<span class="sourceLineNo">1373</span><a name="line.1373"></a>
+<span class="sourceLineNo">1374</span>    /** Collects all types to map, and returns the total depth from T up to Object. */<a name="line.1374"></a>
+<span class="sourceLineNo">1375</span>    @CanIgnoreReturnValue<a name="line.1375"></a>
+<span class="sourceLineNo">1376</span>    private int collectTypes(K type, Map&lt;? super K, Integer&gt; map) {<a name="line.1376"></a>
+<span class="sourceLineNo">1377</span>      Integer existing = map.get(type);<a name="line.1377"></a>
+<span class="sourceLineNo">1378</span>      if (existing != null) {<a name="line.1378"></a>
+<span class="sourceLineNo">1379</span>        // short circuit: if set contains type it already contains its supertypes<a name="line.1379"></a>
+<span class="sourceLineNo">1380</span>        return existing;<a name="line.1380"></a>
+<span class="sourceLineNo">1381</span>      }<a name="line.1381"></a>
+<span class="sourceLineNo">1382</span>      // Interfaces should be listed before Object.<a name="line.1382"></a>
+<span class="sourceLineNo">1383</span>      int aboveMe = getRawType(type).isInterface() ? 1 : 0;<a name="line.1383"></a>
+<span class="sourceLineNo">1384</span>      for (K interfaceType : getInterfaces(type)) {<a name="line.1384"></a>
+<span class="sourceLineNo">1385</span>        aboveMe = Math.max(aboveMe, collectTypes(interfaceType, map));<a name="line.1385"></a>
+<span class="sourceLineNo">1386</span>      }<a name="line.1386"></a>
+<span class="sourceLineNo">1387</span>      K superclass = getSuperclass(type);<a name="line.1387"></a>
+<span class="sourceLineNo">1388</span>      if (superclass != null) {<a name="line.1388"></a>
+<span class="sourceLineNo">1389</span>        aboveMe = Math.max(aboveMe, collectTypes(superclass, map));<a name="line.1389"></a>
+<span class="sourceLineNo">1390</span>      }<a name="line.1390"></a>
+<span class="sourceLineNo">1391</span>      /*<a name="line.1391"></a>
+<span class="sourceLineNo">1392</span>       * TODO(benyu): should we include Object for interface? Also, CharSequence[] and Object[] for<a name="line.1392"></a>
+<span class="sourceLineNo">1393</span>       * String[]?<a name="line.1393"></a>
+<span class="sourceLineNo">1394</span>       *<a name="line.1394"></a>
+<span class="sourceLineNo">1395</span>       */<a name="line.1395"></a>
+<span class="sourceLineNo">1396</span>      map.put(type, aboveMe + 1);<a name="line.1396"></a>
+<span class="sourceLineNo">1397</span>      return aboveMe + 1;<a name="line.1397"></a>
+<span class="sourceLineNo">1398</span>    }<a name="line.1398"></a>
+<span class="sourceLineNo">1399</span><a name="line.1399"></a>
+<span class="sourceLineNo">1400</span>    private static &lt;K, V&gt; ImmutableList&lt;K&gt; sortKeysByValue(<a name="line.1400"></a>
+<span class="sourceLineNo">1401</span>        final Map&lt;K, V&gt; map, final Comparator&lt;? super V&gt; valueComparator) {<a name="line.1401"></a>
+<span class="sourceLineNo">1402</span>      Ordering&lt;K&gt; keyOrdering =<a name="line.1402"></a>
+<span class="sourceLineNo">1403</span>          new Ordering&lt;K&gt;() {<a name="line.1403"></a>
+<span class="sourceLineNo">1404</span>            @Override<a name="line.1404"></a>
+<span class="sourceLineNo">1405</span>            public int compare(K left, K right) {<a name="line.1405"></a>
+<span class="sourceLineNo">1406</span>              return valueComparator.compare(map.get(left), map.get(right));<a name="line.1406"></a>
+<span class="sourceLineNo">1407</span>            }<a name="line.1407"></a>
+<span class="sourceLineNo">1408</span>          };<a name="line.1408"></a>
+<span class="sourceLineNo">1409</span>      return keyOrdering.immutableSortedCopy(map.keySet());<a name="line.1409"></a>
+<span class="sourceLineNo">1410</span>    }<a name="line.1410"></a>
+<span class="sourceLineNo">1411</span><a name="line.1411"></a>
+<span class="sourceLineNo">1412</span>    abstract Class&lt;?&gt; getRawType(K type);<a name="line.1412"></a>
+<span class="sourceLineNo">1413</span><a name="line.1413"></a>
+<span class="sourceLineNo">1414</span>    abstract Iterable&lt;? extends K&gt; getInterfaces(K type);<a name="line.1414"></a>
+<span class="sourceLineNo">1415</span><a name="line.1415"></a>
+<span class="sourceLineNo">1416</span>    @NullableDecl<a name="line.1416"></a>
+<span class="sourceLineNo">1417</span>    abstract K getSuperclass(K type);<a name="line.1417"></a>
+<span class="sourceLineNo">1418</span><a name="line.1418"></a>
+<span class="sourceLineNo">1419</span>    private static class ForwardingTypeCollector&lt;K&gt; extends TypeCollector&lt;K&gt; {<a name="line.1419"></a>
+<span class="sourceLineNo">1420</span><a name="line.1420"></a>
+<span class="sourceLineNo">1421</span>      private final TypeCollector&lt;K&gt; delegate;<a name="line.1421"></a>
+<span class="sourceLineNo">1422</span><a name="line.1422"></a>
+<span class="sourceLineNo">1423</span>      ForwardingTypeCollector(TypeCollector&lt;K&gt; delegate) {<a name="line.1423"></a>
+<span class="sourceLineNo">1424</span>        this.delegate = delegate;<a name="line.1424"></a>
+<span class="sourceLineNo">1425</span>      }<a name="line.1425"></a>
+<span class="sourceLineNo">1426</span><a name="line.1426"></a>
+<span class="sourceLineNo">1427</span>      @Override<a name="line.1427"></a>
+<span class="sourceLineNo">1428</span>      Class&lt;?&gt; getRawType(K type) {<a name="line.1428"></a>
+<span class="sourceLineNo">1429</span>        return delegate.getRawType(type);<a name="line.1429"></a>
+<span class="sourceLineNo">1430</span>      }<a name="line.1430"></a>
+<span class="sourceLineNo">1431</span><a name="line.1431"></a>
+<span class="sourceLineNo">1432</span>      @Override<a name="line.1432"></a>
+<span class="sourceLineNo">1433</span>      Iterable&lt;? extends K&gt; getInterfaces(K type) {<a name="line.1433"></a>
+<span class="sourceLineNo">1434</span>        return delegate.getInterfaces(type);<a name="line.1434"></a>
+<span class="sourceLineNo">1435</span>      }<a name="line.1435"></a>
+<span class="sourceLineNo">1436</span><a name="line.1436"></a>
+<span class="sourceLineNo">1437</span>      @Override<a name="line.1437"></a>
+<span class="sourceLineNo">1438</span>      K getSuperclass(K type) {<a name="line.1438"></a>
+<span class="sourceLineNo">1439</span>        return delegate.getSuperclass(type);<a name="line.1439"></a>
+<span class="sourceLineNo">1440</span>      }<a name="line.1440"></a>
+<span class="sourceLineNo">1441</span>    }<a name="line.1441"></a>
+<span class="sourceLineNo">1442</span>  }<a name="line.1442"></a>
+<span class="sourceLineNo">1443</span><a name="line.1443"></a>
+<span class="sourceLineNo">1444</span>  // This happens to be the hash of the class as of now. So setting it makes a backward compatible<a name="line.1444"></a>
+<span class="sourceLineNo">1445</span>  // change. Going forward, if any incompatible change is added, we can change the UID back to 1.<a name="line.1445"></a>
+<span class="sourceLineNo">1446</span>  private static final long serialVersionUID = 3637540370352322684L;<a name="line.1446"></a>
+<span class="sourceLineNo">1447</span>}<a name="line.1447"></a>
 
 
 
