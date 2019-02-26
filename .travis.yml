@@ -14,7 +14,7 @@ addons:
 
 install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
 
-# https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
+# https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received
 script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 
 after_success:
