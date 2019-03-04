@@ -637,10 +637,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   static final double HASH_FLOODING_FPP = 0.001;
 
   // NB: yes, this is surprisingly high, but that's what the experiments said was necessary
-  static final int MAX_RUN_MULTIPLIER = 12;
+  // The higher it is, the worse constant factors we are willing to accept.
+  static final int MAX_RUN_MULTIPLIER = 13;
 
   /**
-   * Checks the whole hash table for poor hash distribution. Takes O(n).
+   * Checks the whole hash table for poor hash distribution. Takes O(n) in the worst case, O(n / log
+   * n) on average.
    *
    * <p>The online hash flooding detecting in RegularSetBuilderImpl.add can detect e.g. many exactly
    * matching hash codes, which would cause construction to take O(n^2), but can't detect e.g. hash
@@ -652,11 +654,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * <p>Note that for a RegularImmutableSet with elements with truly random hash codes, contains
    * operations take expected O(1) time but with high probability take O(log n) for at least some
    * element. (https://en.wikipedia.org/wiki/Linear_probing#Analysis)
+   *
+   * <p>This method may return {@code true} up to {@link #HASH_FLOODING_FPP} of the time even on
+   * truly random input.
+   *
+   * <p>If this method returns false, there are definitely no runs of length at least {@code
+   * maxRunBeforeFallback(hashTable.length)} nonnull elements. If there are no runs of length at
+   * least {@code maxRunBeforeFallback(hashTable.length) / 2} nonnull elements, this method
+   * definitely returns false. In between those constraints, the result of this method is undefined,
+   * subject to the above {@link #HASH_FLOODING_FPP} constraint.
    */
   static boolean hashFloodingDetected(Object[] hashTable) {
     int maxRunBeforeFallback = maxRunBeforeFallback(hashTable.length);
 
-    // Test for a run wrapping around the end of the table, then check for runs in the middle.
+    // Test for a run wrapping around the end of the table of length at least maxRunBeforeFallback.
     int endOfStartRun;
     for (endOfStartRun = 0; endOfStartRun < hashTable.length; ) {
       if (hashTable[endOfStartRun] == null) {
@@ -676,22 +687,28 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         return true;
       }
     }
-    for (int i = endOfStartRun + 1; i < startOfEndRun; i++) {
-      for (int runLength = 0; i < startOfEndRun && hashTable[i] != null; i++) {
-        runLength++;
-        if (runLength > maxRunBeforeFallback) {
-          return true;
+
+    // Now, break the remainder of the table into blocks of maxRunBeforeFallback/2 elements and
+    // check that each has at least one null.
+    int testBlockSize = maxRunBeforeFallback / 2;
+    blockLoop:
+    for (int i = endOfStartRun + 1; i + testBlockSize <= startOfEndRun; i += testBlockSize) {
+      for (int j = 0; j < testBlockSize; j++) {
+        if (hashTable[i + j] == null) {
+          continue blockLoop;
         }
       }
+      return true;
     }
     return false;
   }
 
   /**
    * If more than this many consecutive positions are filled in a table of the specified size,
-   * report probable hash flooding.
+   * report probable hash flooding. ({@link #hashFloodingDetected} may also report hash flooding if
+   * fewer consecutive positions are filled; see that method for details.)
    */
-  static int maxRunBeforeFallback(int tableSize) {
+  private static int maxRunBeforeFallback(int tableSize) {
     return MAX_RUN_MULTIPLIER * IntMath.log2(tableSize, RoundingMode.UNNECESSARY);
   }
 
