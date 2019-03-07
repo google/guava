@@ -98,26 +98,27 @@
 <span class="sourceLineNo">090</span>   * @throws IllegalArgumentException if the introduction of the edge would violate {@link<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  @CanIgnoreReturnValue<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  boolean addEdge(EndpointPair&lt;N&gt; endpoints, E edge);<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * @return {@code true} if the network was modified as a result of this call<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  @CanIgnoreReturnValue<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  boolean removeNode(N node);<a name="line.103"></a>
-<span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * Removes {@code edge} from this network, if it is present.<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   *<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * @return {@code true} if the network was modified as a result of this call<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   */<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  @CanIgnoreReturnValue<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  boolean removeEdge(E edge);<a name="line.111"></a>
-<span class="sourceLineNo">112</span>}<a name="line.112"></a>
+<span class="sourceLineNo">093</span>   * @since 27.1<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  @CanIgnoreReturnValue<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  boolean addEdge(EndpointPair&lt;N&gt; endpoints, E edge);<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   *<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * @return {@code true} if the network was modified as a result of this call<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  @CanIgnoreReturnValue<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  boolean removeNode(N node);<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * Removes {@code edge} from this network, if it is present.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * @return {@code true} if the network was modified as a result of this call<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  @CanIgnoreReturnValue<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  boolean removeEdge(E edge);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>}<a name="line.113"></a>
 
 
 

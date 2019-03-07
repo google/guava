@@ -36446,7 +36446,7 @@
  throw if the object cannot be present in the collection), and the desire to have this method's
  behavior be compatible with {@code edges().contains(endpoints)}.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -37040,7 +37040,8 @@
  @return {@code true} if the graph was modified as a result of this call
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsSelfLoops()}
- @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since 27.1]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -37077,7 +37078,8 @@
  <p>If this graph is directed, {@code endpoints} must be ordered.
 
  @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
- @return {@code true} if the graph was modified as a result of this call]]>
+ @return {@code true} if the graph was modified as a result of this call
+ @since 27.1]]>
       </doc>
     </method>
     <doc>
@@ -37167,7 +37169,8 @@
      other endpoint pair that is not equal to {@code endpoints}
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsParallelEdges()} or {@link #allowsSelfLoops()}
- @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since 27.1]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -37271,7 +37274,8 @@
      nodeV}, or null if there was no such edge.
  @throws IllegalArgumentException if the introduction of the edge would violate {@link
      #allowsSelfLoops()}
- @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+ @since 27.1]]>
       </doc>
     </method>
     <method name="removeNode" return="boolean"
@@ -37309,7 +37313,8 @@
  <p>If this graph is directed, {@code endpoints} must be ordered.
 
  @return the value previously associated with the edge connecting {@code endpoints}, or null if
-     there was no such edge.]]>
+     there was no such edge.
+ @since 27.1]]>
       </doc>
     </method>
     <doc>
@@ -37595,7 +37600,7 @@
 
  @throws IllegalArgumentException if either endpoint is not an element of this network
  @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="edgeConnectingOrNull" return="E"
@@ -37632,7 +37637,7 @@
      to {@code nodeV}
  @throws IllegalArgumentException if either endpoint is not an element of this network
  @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="hasEdgeConnecting" return="boolean"
@@ -37665,7 +37670,7 @@
  consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
  ValueGraph#hasEdgeConnecting(EndpointPair)}.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -38603,7 +38608,7 @@
  throw if the object cannot be present in the collection), and the desire to have this method's
  behavior be compatible with {@code edges().contains(endpoints)}.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="edgeValueOrDefault" return="V"
@@ -38638,7 +38643,7 @@
 
  @throws IllegalArgumentException if either endpoint is not an element of this graph
  @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </method>
     <method name="equals" return="boolean"
@@ -39875,9 +39880,7 @@
        these feats has become computationally feasible, the function is deemed "broken" and should
        no longer be used for secure purposes. (This is the likely eventual fate of <i>all</i>
        cryptographic hashes.)
-   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration. We have
-       published <a href="#noWeHaventYet">microbenchmark results</a> for many common hash
-       functions.
+   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
  </ul>
 
  <h3>Providing input to a hash function</h3>
@@ -48020,7 +48023,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
- header field name.]]>
+ header field name.
+
+ @since 27.1]]>
       </doc>
     </field>
     <field name="P3P" type="java.lang.String"
@@ -48052,7 +48057,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.]]>
+      <![CDATA[The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.
+
+ @since 27.1]]>
       </doc>
     </field>
     <field name="RETRY_AFTER" type="java.lang.String"
@@ -48116,7 +48123,7 @@
       <doc>
       <![CDATA[The HTTP <a href="http://goo.gl/Dxx19N">{@code SourceMap}</a> header field name.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="STRICT_TRANSPORT_SECURITY" type="java.lang.String"
@@ -48350,7 +48357,7 @@
       <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
  field name.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="SEC_FETCH_MODE" type="java.lang.String"
@@ -48361,7 +48368,7 @@
       <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
  field name.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="SEC_FETCH_SITE" type="java.lang.String"
@@ -48372,7 +48379,7 @@
       <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
  field name.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="SEC_FETCH_USER" type="java.lang.String"
@@ -48383,7 +48390,7 @@
       <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
  field name.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="SEC_METADATA" type="java.lang.String"
@@ -50134,7 +50141,7 @@
       <![CDATA[For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the Compact
  Serialization</a>.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="JOSE_JSON" type="com.google.common.net.MediaType"
@@ -50145,7 +50152,7 @@
       <![CDATA[For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the JSON
  Serialization</a>.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="JSON_UTF_8" type="com.google.common.net.MediaType"
@@ -50215,7 +50222,7 @@
       <doc>
       <![CDATA[<a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
 
- @since NEXT]]>
+ @since 27.1]]>
       </doc>
     </field>
     <field name="MICROSOFT_POWERPOINT" type="com.google.common.net.MediaType"

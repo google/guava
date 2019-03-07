@@ -88,38 +88,40 @@
 <span class="sourceLineNo">080</span>   * @throws IllegalArgumentException if the introduction of the edge would violate {@link<a name="line.80"></a>
 <span class="sourceLineNo">081</span>   *     #allowsSelfLoops()}<a name="line.81"></a>
 <span class="sourceLineNo">082</span>   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  @CanIgnoreReturnValue<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  V putEdgeValue(EndpointPair&lt;N&gt; endpoints, V value);<a name="line.85"></a>
-<span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>  /**<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   *<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * @return {@code true} if the graph was modified as a result of this call<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @CanIgnoreReturnValue<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  boolean removeNode(N node);<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   *<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * @return the value previously associated with the edge connecting {@code nodeU} to {@code<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   *     nodeV}, or null if there was no such edge.<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  @CanIgnoreReturnValue<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  V removeEdge(N nodeU, N nodeV);<a name="line.102"></a>
-<span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  /**<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * Removes the edge connecting {@code endpoints}, if it is present.<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   *<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * &lt;p&gt;If this graph is directed, {@code endpoints} must be ordered.<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   *<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   * @return the value previously associated with the edge connecting {@code endpoints}, or null if<a name="line.109"></a>
-<span class="sourceLineNo">110</span>   *     there was no such edge.<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  @CanIgnoreReturnValue<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  V removeEdge(EndpointPair&lt;N&gt; endpoints);<a name="line.113"></a>
-<span class="sourceLineNo">114</span>}<a name="line.114"></a>
+<span class="sourceLineNo">083</span>   * @since 27.1<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @CanIgnoreReturnValue<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  V putEdgeValue(EndpointPair&lt;N&gt; endpoints, V value);<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * Removes {@code node} if it is present; all edges incident to {@code node} will also be removed.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @return {@code true} if the graph was modified as a result of this call<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  @CanIgnoreReturnValue<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  boolean removeNode(N node);<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * Removes the edge connecting {@code nodeU} to {@code nodeV}, if it is present.<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   *<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * @return the value previously associated with the edge connecting {@code nodeU} to {@code<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   *     nodeV}, or null if there was no such edge.<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  @CanIgnoreReturnValue<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  V removeEdge(N nodeU, N nodeV);<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * Removes the edge connecting {@code endpoints}, if it is present.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * &lt;p&gt;If this graph is directed, {@code endpoints} must be ordered.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   *<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * @return the value previously associated with the edge connecting {@code endpoints}, or null if<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *     there was no such edge.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * @since 27.1<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  @CanIgnoreReturnValue<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  V removeEdge(EndpointPair&lt;N&gt; endpoints);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>}<a name="line.116"></a>
 
 
 
