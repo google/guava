@@ -80,7 +80,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    * @throws IllegalArgumentException if the introduction of the edge would violate {@link
    *     #allowsSelfLoops()}
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
-   * @since NEXT
+   * @since 27.1
    */
   @CanIgnoreReturnValue
   V putEdgeValue(EndpointPair<N> endpoints, V value);
@@ -109,7 +109,7 @@ public interface MutableValueGraph<N, V> extends ValueGraph<N, V> {
    *
    * @return the value previously associated with the edge connecting {@code endpoints}, or null if
    *     there was no such edge.
-   * @since NEXT
+   * @since 27.1
    */
   @CanIgnoreReturnValue
   V removeEdge(EndpointPair<N> endpoints);

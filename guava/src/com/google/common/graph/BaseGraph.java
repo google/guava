@@ -156,7 +156,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * present in the collection), and the desire to have this method's behavior be compatible with
    * {@code edges().contains(endpoints)}.
    *
-   * @since NEXT
+   * @since 27.1
    */
   boolean hasEdgeConnecting(EndpointPair<N> endpoints);
 }

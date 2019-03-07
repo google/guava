@@ -263,7 +263,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String ORIGIN_TRIAL = "Origin-Trial";
   /** The HTTP {@code P3P} header field name. Limited browser support. */
@@ -275,7 +275,7 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String REPORT_TO = "Report-To";
   /** The HTTP {@code Retry-After} header field name. */
@@ -304,7 +304,7 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="http://goo.gl/Dxx19N">{@code SourceMap}</a> header field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   @Beta public static final String SOURCE_MAP = "SourceMap";
 
@@ -415,28 +415,28 @@ public final class HttpHeaders {
    * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
   /**
    * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
   /**
    * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
   /**
    * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final String SEC_FETCH_USER = "Sec-Fetch-User";
   /**

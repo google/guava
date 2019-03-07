@@ -296,7 +296,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *
    * @throws IllegalArgumentException if either endpoint is not an element of this network
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
-   * @since NEXT
+   * @since 27.1
    */
   Set<E> edgesConnecting(EndpointPair<N> endpoints);
 
@@ -325,7 +325,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    *     to {@code nodeV}
    * @throws IllegalArgumentException if either endpoint is not an element of this network
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
-   * @since NEXT
+   * @since 27.1
    */
   @NullableDecl
   E edgeConnectingOrNull(EndpointPair<N> endpoints);
@@ -350,7 +350,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
    * ValueGraph#hasEdgeConnecting(EndpointPair)}.
    *
-   * @since NEXT
+   * @since 27.1
    */
   boolean hasEdgeConnecting(EndpointPair<N> endpoints);
 

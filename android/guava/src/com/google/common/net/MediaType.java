@@ -448,7 +448,7 @@ public final class MediaType {
    * For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the Compact
    * Serialization</a>.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final MediaType JOSE = createConstant(APPLICATION_TYPE, "jose");
 
@@ -456,7 +456,7 @@ public final class MediaType {
    * For <a href="https://tools.ietf.org/html/rfc7515">JWS or JWE objects using the JSON
    * Serialization</a>.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final MediaType JOSE_JSON = createConstant(APPLICATION_TYPE, "jose+json");
 
@@ -502,7 +502,7 @@ public final class MediaType {
   /**
    * <a href="http://goo.gl/XrTEqG">Microsoft Outlook</a> items.
    *
-   * @since NEXT
+   * @since 27.1
    */
   public static final MediaType MICROSOFT_OUTLOOK =
       createConstant(APPLICATION_TYPE, "vnd.ms-outlook");
