@@ -773,7 +773,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   /**
    * The serial form currently mimics Android's java.util.HashMap version, e.g. see
-   * http://omapzoom.org/?p=platform/libcore.git;a=blob;f=luni/src/main/java/java/util/HashMap.java
+   * https://android.googlesource.com/platform/libcore/+/fc28f29/luni/src/main/java/java/util/HashMap.java
    */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
