@@ -543,7 +543,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   /**
    * The serial form currently mimics Android's java.util.HashSet version, e.g. see
-   * http://omapzoom.org/?p=platform/libcore.git;a=blob;f=luni/src/main/java/java/util/HashSet.java
+   * https://android.googlesource.com/platform/libcore/+/fb0ec0e/luni/src/main/java/java/util/HashSet.java
    */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
