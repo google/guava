@@ -178,7 +178,7 @@ public class FilesSimplifyPathTest extends TestCase {
    * Some of the tests have queries and anchors that are a little silly here.
    */
 
-  /** http://gbiv.com/protocols/uri/rfc/rfc2396.html#rfc.section.C.1 */
+  // https://www.ietf.org/rfc/rfc2396.txt
   public void testRfc2396Normal() {
     assertEquals("/a/b/c/g", simplifyPath("/a/b/c/g"));
     assertEquals("/a/b/c/g", simplifyPath("/a/b/c/./g"));
@@ -200,7 +200,7 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("/a/g", simplifyPath("/a/b/c/../../g"));
   }
 
-  /** http://gbiv.com/protocols/uri/rfc/rfc2396.html#rfc.section.C.2 */
+  // https://www.ietf.org/rfc/rfc2396.txt
   public void testRfc2396Abnormal() {
     assertEquals("/a/b/c/g.", simplifyPath("/a/b/c/g."));
     assertEquals("/a/b/c/.g", simplifyPath("/a/b/c/.g"));
@@ -214,7 +214,7 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("/a/b/c/y", simplifyPath("/a/b/c/g;x=1/../y"));
   }
 
-  /** http://gbiv.com/protocols/uri/rfc/rfc3986.html#relative-normal */
+  // https://www.ietf.org/rfc/rfc3986.txt
   public void testRfc3986Normal() {
     assertEquals("/a/b/c/g", simplifyPath("/a/b/c/g"));
     assertEquals("/a/b/c/g", simplifyPath("/a/b/c/./g"));
@@ -237,7 +237,7 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("/a/g", simplifyPath("/a/b/c/../../g"));
   }
 
-  /** http://gbiv.com/protocols/uri/rfc/rfc3986.html#relative-abnormal */
+  // https://www.ietf.org/rfc/rfc3986.txt
   public void testRfc3986Abnormal() {
     assertEquals("/g", simplifyPath("/a/b/c/../../../g"));
     assertEquals("/g", simplifyPath("/a/b/c/../../../../g"));
