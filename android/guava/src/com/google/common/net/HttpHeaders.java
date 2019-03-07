@@ -262,6 +262,8 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
+   *
+   * @since NEXT
    */
   public static final String ORIGIN_TRIAL = "Origin-Trial";
   /** The HTTP {@code P3P} header field name. Limited browser support. */
@@ -272,6 +274,8 @@ public final class HttpHeaders {
   public static final String REFRESH = "Refresh";
   /**
    * The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.
+   *
+   * @since NEXT
    */
   public static final String REPORT_TO = "Report-To";
   /** The HTTP {@code Retry-After} header field name. */

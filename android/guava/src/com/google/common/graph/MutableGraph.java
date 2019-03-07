@@ -73,6 +73,7 @@ public interface MutableGraph<N> extends Graph<N> {
    * @throws IllegalArgumentException if the introduction of the edge would violate {@link
    *     #allowsSelfLoops()}
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since NEXT
    */
   @CanIgnoreReturnValue
   boolean putEdge(EndpointPair<N> endpoints);
@@ -100,6 +101,7 @@ public interface MutableGraph<N> extends Graph<N> {
    *
    * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
    * @return {@code true} if the graph was modified as a result of this call
+   * @since NEXT
    */
   @CanIgnoreReturnValue
   boolean removeEdge(EndpointPair<N> endpoints);
