@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.base.Objects;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Collection;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Iterator;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>/**<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * A collection which forwards all its method calls to another collection. Subclasses should<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * override one or more methods to modify the behavior of the backing collection as desired per the<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;a href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingCollection} forward &lt;b&gt;indiscriminately&lt;/b&gt; to<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * the methods of the delegate. For example, overriding {@link #add} alone &lt;b&gt;will not&lt;/b&gt; change<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * override {@code addAll} as well, either providing your own implementation, or delegating to the<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * provided {@code standardAddAll} method.<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * default} methods. Instead, it inherits their default implementations. When those implementations<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * invoke methods, they invoke methods on the {@code ForwardingCollection}.<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;p&gt;The {@code standard} methods are not guaranteed to be thread-safe, even when all of the<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * methods that they depend on are thread-safe.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * @author Kevin Bourrillion<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * @author Louis Wasserman<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * @since 2.0<a name="line.46"></a>
+<span class="sourceLineNo">047</span> */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>@GwtCompatible<a name="line.48"></a>
+<span class="sourceLineNo">049</span>public abstract class ForwardingCollection&lt;E&gt; extends ForwardingObject implements Collection&lt;E&gt; {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  // TODO(lowasser): identify places where thread safety is actually lost<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  /** Constructor for use by subclasses. */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  protected ForwardingCollection() {}<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  protected abstract Collection&lt;E&gt; delegate();<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Override<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  public Iterator&lt;E&gt; iterator() {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    return delegate().iterator();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Override<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public int size() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    return delegate().size();<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @CanIgnoreReturnValue<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  @Override<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  public boolean removeAll(Collection&lt;?&gt; collection) {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return delegate().removeAll(collection);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @Override<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public boolean isEmpty() {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    return delegate().isEmpty();<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  @Override<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  public boolean contains(Object object) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    return delegate().contains(object);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @CanIgnoreReturnValue<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @Override<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public boolean add(E element) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return delegate().add(element);<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  @CanIgnoreReturnValue<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  @Override<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public boolean remove(Object object) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    return delegate().remove(object);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  @Override<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public boolean containsAll(Collection&lt;?&gt; collection) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    return delegate().containsAll(collection);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  }<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  @CanIgnoreReturnValue<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  @Override<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public boolean addAll(Collection&lt;? extends E&gt; collection) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return delegate().addAll(collection);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  @CanIgnoreReturnValue<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  @Override<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public boolean retainAll(Collection&lt;?&gt; collection) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    return delegate().retainAll(collection);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  @Override<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  public void clear() {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    delegate().clear();<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  }<a name="line.116"></a>
+<span class="sourceLineNo">117</span><a name="line.117"></a>
+<span class="sourceLineNo">118</span>  @Override<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public Object[] toArray() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return delegate().toArray();<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  @CanIgnoreReturnValue<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  @Override<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public &lt;T&gt; T[] toArray(T[] array) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    return delegate().toArray(array);<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  /**<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * A sensible definition of {@link #contains} in terms of {@link #iterator}. If you override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * {@link #iterator}, you may wish to override {@link #contains} to forward to this<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * implementation.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   *<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * @since 7.0<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  protected boolean standardContains(@Nullable Object object) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    return Iterators.contains(iterator(), object);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  }<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>  /**<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * A sensible definition of {@link #containsAll} in terms of {@link #contains} . If you override<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * {@link #contains}, you may wish to override {@link #containsAll} to forward to this<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * implementation.<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   *<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * @since 7.0<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  protected boolean standardContainsAll(Collection&lt;?&gt; collection) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    return Collections2.containsAllImpl(this, collection);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * A sensible definition of {@link #addAll} in terms of {@link #add}. If you override {@link<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * #add}, you may wish to override {@link #addAll} to forward to this implementation.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   *<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * @since 7.0<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   */<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  protected boolean standardAddAll(Collection&lt;? extends E&gt; collection) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    return Iterators.addAll(this, collection.iterator());<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
+<span class="sourceLineNo">160</span><a name="line.160"></a>
+<span class="sourceLineNo">161</span>  /**<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * A sensible definition of {@link #remove} in terms of {@link #iterator}, using the iterator's<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * {@code remove} method. If you override {@link #iterator}, you may wish to override {@link<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * #remove} to forward to this implementation.<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   *<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * @since 7.0<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  protected boolean standardRemove(@Nullable Object object) {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    Iterator&lt;E&gt; iterator = iterator();<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    while (iterator.hasNext()) {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>      if (Objects.equal(iterator.next(), object)) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>        iterator.remove();<a name="line.172"></a>
+<span class="sourceLineNo">173</span>        return true;<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      }<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    }<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    return false;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  /**<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * A sensible definition of {@link #removeAll} in terms of {@link #iterator}, using the iterator's<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * {@code remove} method. If you override {@link #iterator}, you may wish to override {@link<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * #removeAll} to forward to this implementation.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   *<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * @since 7.0<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   */<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  protected boolean standardRemoveAll(Collection&lt;?&gt; collection) {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    return Iterators.removeAll(iterator(), collection);<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * A sensible definition of {@link #retainAll} in terms of {@link #iterator}, using the iterator's<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * {@code remove} method. If you override {@link #iterator}, you may wish to override {@link<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * #retainAll} to forward to this implementation.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   *<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * @since 7.0<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   */<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  protected boolean standardRetainAll(Collection&lt;?&gt; collection) {<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    return Iterators.retainAll(iterator(), collection);<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  }<a name="line.199"></a>
+<span class="sourceLineNo">200</span><a name="line.200"></a>
+<span class="sourceLineNo">201</span>  /**<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * A sensible definition of {@link #clear} in terms of {@link #iterator}, using the iterator's<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * {@code remove} method. If you override {@link #iterator}, you may wish to override {@link<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * #clear} to forward to this implementation.<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   *<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * @since 7.0<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   */<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  protected void standardClear() {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    Iterators.clear(iterator());<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * A sensible definition of {@link #isEmpty} as {@code !iterator().hasNext}. If you override<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * {@link #isEmpty}, you may wish to override {@link #isEmpty} to forward to this implementation.<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * Alternately, it may be more efficient to implement {@code isEmpty} as {@code size() == 0}.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   *<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * @since 7.0<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   */<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  protected boolean standardIsEmpty() {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    return !iterator().hasNext();<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  }<a name="line.221"></a>
+<span class="sourceLineNo">222</span><a name="line.222"></a>
+<span class="sourceLineNo">223</span>  /**<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * A sensible definition of {@link #toString} in terms of {@link #iterator}. If you override<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * {@link #iterator}, you may wish to override {@link #toString} to forward to this<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * implementation.<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   *<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * @since 7.0<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  protected String standardToString() {<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    return Collections2.toStringImpl(this);<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
+<span class="sourceLineNo">233</span><a name="line.233"></a>
+<span class="sourceLineNo">234</span>  /**<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * A sensible definition of {@link #toArray()} in terms of {@link #toArray(Object[])}. If you<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * override {@link #toArray(Object[])}, you may wish to override {@link #toArray} to forward to<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * this implementation.<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   *<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * @since 7.0<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   */<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  protected Object[] standardToArray() {<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    Object[] newArray = new Object[size()];<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    return toArray(newArray);<a name="line.243"></a>
+<span class="sourceLineNo">244</span>  }<a name="line.244"></a>
+<span class="sourceLineNo">245</span><a name="line.245"></a>
+<span class="sourceLineNo">246</span>  /**<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * A sensible definition of {@link #toArray(Object[])} in terms of {@link #size} and {@link<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * #iterator}. If you override either of these methods, you may wish to override {@link #toArray}<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * to forward to this implementation.<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   *<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * @since 7.0<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   */<a name="line.252"></a>
+<span class="sourceLineNo">253</span>  protected &lt;T&gt; T[] standardToArray(T[] array) {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>    return ObjectArrays.toArrayImpl(this, array);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  }<a name="line.255"></a>
+<span class="sourceLineNo">256</span>}<a name="line.256"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

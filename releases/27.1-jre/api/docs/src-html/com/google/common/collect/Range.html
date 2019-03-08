@@ -1,0 +1,786 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Equivalence;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Function;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.Predicate;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.io.Serializable;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Comparator;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.Iterator;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.NoSuchElementException;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.SortedSet;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>/**<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * A range (or "interval") defines the &lt;i&gt;boundaries&lt;/i&gt; around a contiguous span of values of some<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * {@code Comparable} type; for example, "integers from 1 to 100 inclusive." Note that it is not<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * possible to &lt;i&gt;iterate&lt;/i&gt; over these contained values. To do so, pass this range instance and an<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * appropriate {@link DiscreteDomain} to {@link ContiguousSet#create}.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;h3&gt;Types of ranges&lt;/h3&gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;p&gt;Each end of the range may be bounded or unbounded. If bounded, there is an associated<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;i&gt;endpoint&lt;/i&gt; value, and the range is considered to be either &lt;i&gt;open&lt;/i&gt; (does not include the<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * endpoint) or &lt;i&gt;closed&lt;/i&gt; (includes the endpoint) on that side. With three possibilities on each<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * side, this yields nine basic types of ranges, enumerated below. (Notation: a square bracket<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * ({@code [ ]}) indicates that the range is closed on that side; a parenthesis ({@code ( )}) means<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * it is either open or unbounded. The construct {@code {x | statement}} is read "the set of all<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * &lt;i&gt;x&lt;/i&gt; such that &lt;i&gt;statement&lt;/i&gt;.")<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * &lt;blockquote&gt;<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * &lt;table&gt;<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * &lt;caption&gt;Range Types&lt;/caption&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;tr&gt;&lt;th&gt;Notation        &lt;th&gt;Definition               &lt;th&gt;Factory method<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;tr&gt;&lt;td&gt;{@code (a..b)}  &lt;td&gt;{@code {x | a &lt; x &lt; b}}  &lt;td&gt;{@link Range#open open}<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * &lt;tr&gt;&lt;td&gt;{@code [a..b]}  &lt;td&gt;{@code {x | a &lt;= x &lt;= b}}&lt;td&gt;{@link Range#closed closed}<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;tr&gt;&lt;td&gt;{@code (a..b]}  &lt;td&gt;{@code {x | a &lt; x &lt;= b}} &lt;td&gt;{@link Range#openClosed openClosed}<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * &lt;tr&gt;&lt;td&gt;{@code [a..b)}  &lt;td&gt;{@code {x | a &lt;= x &lt; b}} &lt;td&gt;{@link Range#closedOpen closedOpen}<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * &lt;tr&gt;&lt;td&gt;{@code (a..+∞)} &lt;td&gt;{@code {x | x &gt; a}}      &lt;td&gt;{@link Range#greaterThan greaterThan}<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * &lt;tr&gt;&lt;td&gt;{@code [a..+∞)} &lt;td&gt;{@code {x | x &gt;= a}}     &lt;td&gt;{@link Range#atLeast atLeast}<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * &lt;tr&gt;&lt;td&gt;{@code (-∞..b)} &lt;td&gt;{@code {x | x &lt; b}}      &lt;td&gt;{@link Range#lessThan lessThan}<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * &lt;tr&gt;&lt;td&gt;{@code (-∞..b]} &lt;td&gt;{@code {x | x &lt;= b}}     &lt;td&gt;{@link Range#atMost atMost}<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * &lt;tr&gt;&lt;td&gt;{@code (-∞..+∞)}&lt;td&gt;{@code {x}}              &lt;td&gt;{@link Range#all all}<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * &lt;/table&gt;<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * &lt;/blockquote&gt;<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * &lt;p&gt;When both endpoints exist, the upper endpoint may not be less than the lower. The endpoints<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * may be equal only if at least one of the bounds is closed:<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;ul&gt;<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *   &lt;li&gt;{@code [a..a]} : a singleton range<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *   &lt;li&gt;{@code [a..a); (a..a]} : {@linkplain #isEmpty empty} ranges; also valid<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *   &lt;li&gt;{@code (a..a)} : &lt;b&gt;invalid&lt;/b&gt;; an exception will be thrown<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * &lt;/ul&gt;<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *<a name="line.74"></a>
+<span class="sourceLineNo">075</span> * &lt;h3&gt;Warnings&lt;/h3&gt;<a name="line.75"></a>
+<span class="sourceLineNo">076</span> *<a name="line.76"></a>
+<span class="sourceLineNo">077</span> * &lt;ul&gt;<a name="line.77"></a>
+<span class="sourceLineNo">078</span> *   &lt;li&gt;Use immutable value types only, if at all possible. If you must use a mutable type, &lt;b&gt;do<a name="line.78"></a>
+<span class="sourceLineNo">079</span> *       not&lt;/b&gt; allow the endpoint instances to mutate after the range is created!<a name="line.79"></a>
+<span class="sourceLineNo">080</span> *   &lt;li&gt;Your value type's comparison method should be {@linkplain Comparable consistent with<a name="line.80"></a>
+<span class="sourceLineNo">081</span> *       equals} if at all possible. Otherwise, be aware that concepts used throughout this<a name="line.81"></a>
+<span class="sourceLineNo">082</span> *       documentation such as "equal", "same", "unique" and so on actually refer to whether {@link<a name="line.82"></a>
+<span class="sourceLineNo">083</span> *       Comparable#compareTo compareTo} returns zero, not whether {@link Object#equals equals}<a name="line.83"></a>
+<span class="sourceLineNo">084</span> *       returns {@code true}.<a name="line.84"></a>
+<span class="sourceLineNo">085</span> *   &lt;li&gt;A class which implements {@code Comparable&lt;UnrelatedType&gt;} is very broken, and will cause<a name="line.85"></a>
+<span class="sourceLineNo">086</span> *       undefined horrible things to happen in {@code Range}. For now, the Range API does not<a name="line.86"></a>
+<span class="sourceLineNo">087</span> *       prevent its use, because this would also rule out all ungenerified (pre-JDK1.5) data types.<a name="line.87"></a>
+<span class="sourceLineNo">088</span> *       &lt;b&gt;This may change in the future.&lt;/b&gt;<a name="line.88"></a>
+<span class="sourceLineNo">089</span> * &lt;/ul&gt;<a name="line.89"></a>
+<span class="sourceLineNo">090</span> *<a name="line.90"></a>
+<span class="sourceLineNo">091</span> * &lt;h3&gt;Other notes&lt;/h3&gt;<a name="line.91"></a>
+<span class="sourceLineNo">092</span> *<a name="line.92"></a>
+<span class="sourceLineNo">093</span> * &lt;ul&gt;<a name="line.93"></a>
+<span class="sourceLineNo">094</span> *   &lt;li&gt;Instances of this type are obtained using the static factory methods in this class.<a name="line.94"></a>
+<span class="sourceLineNo">095</span> *   &lt;li&gt;Ranges are &lt;i&gt;convex&lt;/i&gt;: whenever two values are contained, all values in between them<a name="line.95"></a>
+<span class="sourceLineNo">096</span> *       must also be contained. More formally, for any {@code c1 &lt;= c2 &lt;= c3} of type {@code C},<a name="line.96"></a>
+<span class="sourceLineNo">097</span> *       {@code r.contains(c1) &amp;&amp; r.contains(c3)} implies {@code r.contains(c2)}). This means that a<a name="line.97"></a>
+<span class="sourceLineNo">098</span> *       {@code Range&lt;Integer&gt;} can never be used to represent, say, "all &lt;i&gt;prime&lt;/i&gt; numbers from<a name="line.98"></a>
+<span class="sourceLineNo">099</span> *       1 to 100."<a name="line.99"></a>
+<span class="sourceLineNo">100</span> *   &lt;li&gt;When evaluated as a {@link Predicate}, a range yields the same result as invoking {@link<a name="line.100"></a>
+<span class="sourceLineNo">101</span> *       #contains}.<a name="line.101"></a>
+<span class="sourceLineNo">102</span> *   &lt;li&gt;Terminology note: a range {@code a} is said to be the &lt;i&gt;maximal&lt;/i&gt; range having property<a name="line.102"></a>
+<span class="sourceLineNo">103</span> *       &lt;i&gt;P&lt;/i&gt; if, for all ranges {@code b} also having property &lt;i&gt;P&lt;/i&gt;, {@code a.encloses(b)}.<a name="line.103"></a>
+<span class="sourceLineNo">104</span> *       Likewise, {@code a} is &lt;i&gt;minimal&lt;/i&gt; when {@code b.encloses(a)} for all {@code b} having<a name="line.104"></a>
+<span class="sourceLineNo">105</span> *       property &lt;i&gt;P&lt;/i&gt;. See, for example, the definition of {@link #intersection intersection}.<a name="line.105"></a>
+<span class="sourceLineNo">106</span> * &lt;/ul&gt;<a name="line.106"></a>
+<span class="sourceLineNo">107</span> *<a name="line.107"></a>
+<span class="sourceLineNo">108</span> * &lt;h3&gt;Further reading&lt;/h3&gt;<a name="line.108"></a>
+<span class="sourceLineNo">109</span> *<a name="line.109"></a>
+<span class="sourceLineNo">110</span> * &lt;p&gt;See the Guava User Guide article on &lt;a<a name="line.110"></a>
+<span class="sourceLineNo">111</span> * href="https://github.com/google/guava/wiki/RangesExplained"&gt;{@code Range}&lt;/a&gt;.<a name="line.111"></a>
+<span class="sourceLineNo">112</span> *<a name="line.112"></a>
+<span class="sourceLineNo">113</span> * @author Kevin Bourrillion<a name="line.113"></a>
+<span class="sourceLineNo">114</span> * @author Gregory Kick<a name="line.114"></a>
+<span class="sourceLineNo">115</span> * @since 10.0<a name="line.115"></a>
+<span class="sourceLineNo">116</span> */<a name="line.116"></a>
+<span class="sourceLineNo">117</span>@GwtCompatible<a name="line.117"></a>
+<span class="sourceLineNo">118</span>@SuppressWarnings("rawtypes")<a name="line.118"></a>
+<span class="sourceLineNo">119</span>public final class Range&lt;C extends Comparable&gt; extends RangeGwtSerializationDependencies<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    implements Predicate&lt;C&gt;, Serializable {<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  static class LowerBoundFn implements Function&lt;Range, Cut&gt; {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    static final LowerBoundFn INSTANCE = new LowerBoundFn();<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>    @Override<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    public Cut apply(Range range) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      return range.lowerBound;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  static class UpperBoundFn implements Function&lt;Range, Cut&gt; {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    static final UpperBoundFn INSTANCE = new UpperBoundFn();<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>    @Override<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    public Cut apply(Range range) {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      return range.upperBound;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    }<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  }<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>  @SuppressWarnings("unchecked")<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Function&lt;Range&lt;C&gt;, Cut&lt;C&gt;&gt; lowerBoundFn() {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return (Function) LowerBoundFn.INSTANCE;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  @SuppressWarnings("unchecked")<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Function&lt;Range&lt;C&gt;, Cut&lt;C&gt;&gt; upperBoundFn() {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    return (Function) UpperBoundFn.INSTANCE;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Ordering&lt;Range&lt;C&gt;&gt; rangeLexOrdering() {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    return (Ordering&lt;Range&lt;C&gt;&gt;) (Ordering) RangeLexOrdering.INSTANCE;<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>  static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; create(Cut&lt;C&gt; lowerBound, Cut&lt;C&gt; upperBound) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    return new Range&lt;C&gt;(lowerBound, upperBound);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  }<a name="line.156"></a>
+<span class="sourceLineNo">157</span><a name="line.157"></a>
+<span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * Returns a range that contains all values strictly greater than {@code lower} and strictly less<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * than {@code upper}.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * @throws IllegalArgumentException if {@code lower} is greater than &lt;i&gt;or equal to&lt;/i&gt; {@code<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   *     upper}<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * @since 14.0<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   */<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; open(C lower, C upper) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return create(Cut.aboveValue(lower), Cut.belowValue(upper));<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * Returns a range that contains all values greater than or equal to {@code lower} and less than<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * or equal to {@code upper}.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   *<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * @since 14.0<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; closed(C lower, C upper) {<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    return create(Cut.belowValue(lower), Cut.aboveValue(upper));<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
+<span class="sourceLineNo">182</span><a name="line.182"></a>
+<span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * Returns a range that contains all values greater than or equal to {@code lower} and strictly<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * less than {@code upper}.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   *<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * @since 14.0<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; closedOpen(C lower, C upper) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    return create(Cut.belowValue(lower), Cut.belowValue(upper));<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * Returns a range that contains all values strictly greater than {@code lower} and less than or<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * equal to {@code upper}.<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   *<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * @since 14.0<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   */<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; openClosed(C lower, C upper) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    return create(Cut.aboveValue(lower), Cut.aboveValue(upper));<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>  /**<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * Returns a range that contains any value from {@code lower} to {@code upper}, where each<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * endpoint may be either inclusive (closed) or exclusive (open).<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   *<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * @since 14.0<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   */<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; range(<a name="line.215"></a>
+<span class="sourceLineNo">216</span>      C lower, BoundType lowerType, C upper, BoundType upperType) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    checkNotNull(lowerType);<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    checkNotNull(upperType);<a name="line.218"></a>
+<span class="sourceLineNo">219</span><a name="line.219"></a>
+<span class="sourceLineNo">220</span>    Cut&lt;C&gt; lowerBound =<a name="line.220"></a>
+<span class="sourceLineNo">221</span>        (lowerType == BoundType.OPEN) ? Cut.aboveValue(lower) : Cut.belowValue(lower);<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    Cut&lt;C&gt; upperBound =<a name="line.222"></a>
+<span class="sourceLineNo">223</span>        (upperType == BoundType.OPEN) ? Cut.belowValue(upper) : Cut.aboveValue(upper);<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return create(lowerBound, upperBound);<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>  /**<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * Returns a range that contains all values strictly less than {@code endpoint}.<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   *<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * @since 14.0<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   */<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; lessThan(C endpoint) {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    return create(Cut.&lt;C&gt;belowAll(), Cut.belowValue(endpoint));<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  }<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>  /**<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * Returns a range that contains all values less than or equal to {@code endpoint}.<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   *<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * @since 14.0<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   */<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; atMost(C endpoint) {<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    return create(Cut.&lt;C&gt;belowAll(), Cut.aboveValue(endpoint));<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  }<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  /**<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * Returns a range with no lower bound up to the given endpoint, which may be either inclusive<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * (closed) or exclusive (open).<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   *<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * @since 14.0<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; upTo(C endpoint, BoundType boundType) {<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    switch (boundType) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>      case OPEN:<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        return lessThan(endpoint);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      case CLOSED:<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        return atMost(endpoint);<a name="line.256"></a>
+<span class="sourceLineNo">257</span>      default:<a name="line.257"></a>
+<span class="sourceLineNo">258</span>        throw new AssertionError();<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    }<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  }<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>  /**<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * Returns a range that contains all values strictly greater than {@code endpoint}.<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   *<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * @since 14.0<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; greaterThan(C endpoint) {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    return create(Cut.aboveValue(endpoint), Cut.&lt;C&gt;aboveAll());<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  }<a name="line.269"></a>
+<span class="sourceLineNo">270</span><a name="line.270"></a>
+<span class="sourceLineNo">271</span>  /**<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * Returns a range that contains all values greater than or equal to {@code endpoint}.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   *<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @since 14.0<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; atLeast(C endpoint) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    return create(Cut.belowValue(endpoint), Cut.&lt;C&gt;aboveAll());<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * Returns a range from the given endpoint, which may be either inclusive (closed) or exclusive<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * (open), with no upper bound.<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   *<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * @since 14.0<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; downTo(C endpoint, BoundType boundType) {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    switch (boundType) {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      case OPEN:<a name="line.288"></a>
+<span class="sourceLineNo">289</span>        return greaterThan(endpoint);<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      case CLOSED:<a name="line.290"></a>
+<span class="sourceLineNo">291</span>        return atLeast(endpoint);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      default:<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        throw new AssertionError();<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    }<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  }<a name="line.295"></a>
+<span class="sourceLineNo">296</span><a name="line.296"></a>
+<span class="sourceLineNo">297</span>  private static final Range&lt;Comparable&gt; ALL = new Range&lt;&gt;(Cut.belowAll(), Cut.aboveAll());<a name="line.297"></a>
+<span class="sourceLineNo">298</span><a name="line.298"></a>
+<span class="sourceLineNo">299</span>  /**<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * Returns a range that contains every value of type {@code C}.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   *<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * @since 14.0<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   */<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  @SuppressWarnings("unchecked")<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; all() {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    return (Range) ALL;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>  /**<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * Returns a range that {@linkplain Range#contains(Comparable) contains} only the given value. The<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * returned range is {@linkplain BoundType#CLOSED closed} on both ends.<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   *<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * @since 14.0<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   */<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; singleton(C value) {<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    return closed(value, value);<a name="line.316"></a>
+<span class="sourceLineNo">317</span>  }<a name="line.317"></a>
+<span class="sourceLineNo">318</span><a name="line.318"></a>
+<span class="sourceLineNo">319</span>  /**<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   * Returns the minimal range that {@linkplain Range#contains(Comparable) contains} all of the<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * given values. The returned range is {@linkplain BoundType#CLOSED closed} on both ends.<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   *<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * @throws ClassCastException if the values are not mutually comparable<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * @throws NoSuchElementException if {@code values} is empty<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * @throws NullPointerException if any of {@code values} is null<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * @since 14.0<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; Range&lt;C&gt; encloseAll(Iterable&lt;C&gt; values) {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    checkNotNull(values);<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    if (values instanceof SortedSet) {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>      SortedSet&lt;? extends C&gt; set = cast(values);<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      Comparator&lt;?&gt; comparator = set.comparator();<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      if (Ordering.natural().equals(comparator) || comparator == null) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>        return closed(set.first(), set.last());<a name="line.334"></a>
+<span class="sourceLineNo">335</span>      }<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    }<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    Iterator&lt;C&gt; valueIterator = values.iterator();<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    C min = checkNotNull(valueIterator.next());<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    C max = min;<a name="line.339"></a>
+<span class="sourceLineNo">340</span>    while (valueIterator.hasNext()) {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>      C value = checkNotNull(valueIterator.next());<a name="line.341"></a>
+<span class="sourceLineNo">342</span>      min = Ordering.natural().min(min, value);<a name="line.342"></a>
+<span class="sourceLineNo">343</span>      max = Ordering.natural().max(max, value);<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    }<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    return closed(min, max);<a name="line.345"></a>
+<span class="sourceLineNo">346</span>  }<a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>  final Cut&lt;C&gt; lowerBound;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>  final Cut&lt;C&gt; upperBound;<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>  private Range(Cut&lt;C&gt; lowerBound, Cut&lt;C&gt; upperBound) {<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    this.lowerBound = checkNotNull(lowerBound);<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    this.upperBound = checkNotNull(upperBound);<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    if (lowerBound.compareTo(upperBound) &gt; 0<a name="line.354"></a>
+<span class="sourceLineNo">355</span>        || lowerBound == Cut.&lt;C&gt;aboveAll()<a name="line.355"></a>
+<span class="sourceLineNo">356</span>        || upperBound == Cut.&lt;C&gt;belowAll()) {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>      throw new IllegalArgumentException("Invalid range: " + toString(lowerBound, upperBound));<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    }<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  }<a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /** Returns {@code true} if this range has a lower endpoint. */<a name="line.361"></a>
+<span class="sourceLineNo">362</span>  public boolean hasLowerBound() {<a name="line.362"></a>
+<span class="sourceLineNo">363</span>    return lowerBound != Cut.belowAll();<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  }<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>  /**<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * Returns the lower endpoint of this range.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   *<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * @throws IllegalStateException if this range is unbounded below (that is, {@link<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   *     #hasLowerBound()} returns {@code false})<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  public C lowerEndpoint() {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    return lowerBound.endpoint();<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  }<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>  /**<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   * Returns the type of this range's lower bound: {@link BoundType#CLOSED} if the range includes<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * its lower endpoint, {@link BoundType#OPEN} if it does not.<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   *<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * @throws IllegalStateException if this range is unbounded below (that is, {@link<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   *     #hasLowerBound()} returns {@code false})<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   */<a name="line.382"></a>
+<span class="sourceLineNo">383</span>  public BoundType lowerBoundType() {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    return lowerBound.typeAsLowerBound();<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>  /** Returns {@code true} if this range has an upper endpoint. */<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  public boolean hasUpperBound() {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return upperBound != Cut.aboveAll();<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  }<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>  /**<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * Returns the upper endpoint of this range.<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   *<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   * @throws IllegalStateException if this range is unbounded above (that is, {@link<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   *     #hasUpperBound()} returns {@code false})<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   */<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  public C upperEndpoint() {<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    return upperBound.endpoint();<a name="line.399"></a>
+<span class="sourceLineNo">400</span>  }<a name="line.400"></a>
+<span class="sourceLineNo">401</span><a name="line.401"></a>
+<span class="sourceLineNo">402</span>  /**<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * Returns the type of this range's upper bound: {@link BoundType#CLOSED} if the range includes<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * its upper endpoint, {@link BoundType#OPEN} if it does not.<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   *<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * @throws IllegalStateException if this range is unbounded above (that is, {@link<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   *     #hasUpperBound()} returns {@code false})<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   */<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  public BoundType upperBoundType() {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    return upperBound.typeAsUpperBound();<a name="line.410"></a>
+<span class="sourceLineNo">411</span>  }<a name="line.411"></a>
+<span class="sourceLineNo">412</span><a name="line.412"></a>
+<span class="sourceLineNo">413</span>  /**<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   * Returns {@code true} if this range is of the form {@code [v..v)} or {@code (v..v]}. (This does<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * not encompass ranges of the form {@code (v..v)}, because such ranges are &lt;i&gt;invalid&lt;/i&gt; and<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   * can't be constructed at all.)<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   *<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * &lt;p&gt;Note that certain discrete ranges such as the integer range {@code (3..4)} are &lt;b&gt;not&lt;/b&gt;<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * considered empty, even though they contain no actual values. In these cases, it may be helpful<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   * to preprocess ranges with {@link #canonical(DiscreteDomain)}.<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   */<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  public boolean isEmpty() {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    return lowerBound.equals(upperBound);<a name="line.423"></a>
+<span class="sourceLineNo">424</span>  }<a name="line.424"></a>
+<span class="sourceLineNo">425</span><a name="line.425"></a>
+<span class="sourceLineNo">426</span>  /**<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   * Returns {@code true} if {@code value} is within the bounds of this range. For example, on the<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * range {@code [0..2)}, {@code contains(1)} returns {@code true}, while {@code contains(2)}<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * returns {@code false}.<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   */<a name="line.430"></a>
+<span class="sourceLineNo">431</span>  public boolean contains(C value) {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>    checkNotNull(value);<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    // let this throw CCE if there is some trickery going on<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    return lowerBound.isLessThan(value) &amp;&amp; !upperBound.isLessThan(value);<a name="line.434"></a>
+<span class="sourceLineNo">435</span>  }<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>  /**<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #contains}<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   *     instead.<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   */<a name="line.440"></a>
+<span class="sourceLineNo">441</span>  @Deprecated<a name="line.441"></a>
+<span class="sourceLineNo">442</span>  @Override<a name="line.442"></a>
+<span class="sourceLineNo">443</span>  public boolean apply(C input) {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    return contains(input);<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
+<span class="sourceLineNo">446</span><a name="line.446"></a>
+<span class="sourceLineNo">447</span>  /**<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * Returns {@code true} if every element in {@code values} is {@linkplain #contains contained} in<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   * this range.<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   */<a name="line.450"></a>
+<span class="sourceLineNo">451</span>  public boolean containsAll(Iterable&lt;? extends C&gt; values) {<a name="line.451"></a>
+<span class="sourceLineNo">452</span>    if (Iterables.isEmpty(values)) {<a name="line.452"></a>
+<span class="sourceLineNo">453</span>      return true;<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    }<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>    // this optimizes testing equality of two range-backed sets<a name="line.456"></a>
+<span class="sourceLineNo">457</span>    if (values instanceof SortedSet) {<a name="line.457"></a>
+<span class="sourceLineNo">458</span>      SortedSet&lt;? extends C&gt; set = cast(values);<a name="line.458"></a>
+<span class="sourceLineNo">459</span>      Comparator&lt;?&gt; comparator = set.comparator();<a name="line.459"></a>
+<span class="sourceLineNo">460</span>      if (Ordering.natural().equals(comparator) || comparator == null) {<a name="line.460"></a>
+<span class="sourceLineNo">461</span>        return contains(set.first()) &amp;&amp; contains(set.last());<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      }<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    }<a name="line.463"></a>
+<span class="sourceLineNo">464</span><a name="line.464"></a>
+<span class="sourceLineNo">465</span>    for (C value : values) {<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      if (!contains(value)) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>        return false;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      }<a name="line.468"></a>
+<span class="sourceLineNo">469</span>    }<a name="line.469"></a>
+<span class="sourceLineNo">470</span>    return true;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>  }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>  /**<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   * Returns {@code true} if the bounds of {@code other} do not extend outside the bounds of this<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * range. Examples:<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   *<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * &lt;ul&gt;<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..5]}<a name="line.478"></a>
+<span class="sourceLineNo">479</span>   *   &lt;li&gt;{@code (3..6)} encloses {@code (3..6)}<a name="line.479"></a>
+<span class="sourceLineNo">480</span>   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..4)} (even though the latter is empty)<a name="line.480"></a>
+<span class="sourceLineNo">481</span>   *   &lt;li&gt;{@code (3..6]} does not enclose {@code [3..6]}<a name="line.481"></a>
+<span class="sourceLineNo">482</span>   *   &lt;li&gt;{@code [4..5]} does not enclose {@code (3..6)} (even though it contains every value<a name="line.482"></a>
+<span class="sourceLineNo">483</span>   *       contained by the latter range)<a name="line.483"></a>
+<span class="sourceLineNo">484</span>   *   &lt;li&gt;{@code [3..6]} does not enclose {@code (1..1]} (even though it contains every value<a name="line.484"></a>
+<span class="sourceLineNo">485</span>   *       contained by the latter range)<a name="line.485"></a>
+<span class="sourceLineNo">486</span>   * &lt;/ul&gt;<a name="line.486"></a>
+<span class="sourceLineNo">487</span>   *<a name="line.487"></a>
+<span class="sourceLineNo">488</span>   * &lt;p&gt;Note that if {@code a.encloses(b)}, then {@code b.contains(v)} implies {@code<a name="line.488"></a>
+<span class="sourceLineNo">489</span>   * a.contains(v)}, but as the last two examples illustrate, the converse is not always true.<a name="line.489"></a>
+<span class="sourceLineNo">490</span>   *<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   * &lt;p&gt;Being reflexive, antisymmetric and transitive, the {@code encloses} relation defines a<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   * &lt;i&gt;partial order&lt;/i&gt; over ranges. There exists a unique {@linkplain Range#all maximal} range<a name="line.492"></a>
+<span class="sourceLineNo">493</span>   * according to this relation, and also numerous {@linkplain #isEmpty minimal} ranges. Enclosure<a name="line.493"></a>
+<span class="sourceLineNo">494</span>   * also implies {@linkplain #isConnected connectedness}.<a name="line.494"></a>
+<span class="sourceLineNo">495</span>   */<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  public boolean encloses(Range&lt;C&gt; other) {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    return lowerBound.compareTo(other.lowerBound) &lt;= 0<a name="line.497"></a>
+<span class="sourceLineNo">498</span>        &amp;&amp; upperBound.compareTo(other.upperBound) &gt;= 0;<a name="line.498"></a>
+<span class="sourceLineNo">499</span>  }<a name="line.499"></a>
+<span class="sourceLineNo">500</span><a name="line.500"></a>
+<span class="sourceLineNo">501</span>  /**<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * Returns {@code true} if there exists a (possibly empty) range which is {@linkplain #encloses<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * enclosed} by both this range and {@code other}.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   *<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * &lt;p&gt;For example,<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   *<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   * &lt;ul&gt;<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   *   &lt;li&gt;{@code [2, 4)} and {@code [5, 7)} are not connected<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   *   &lt;li&gt;{@code [2, 4)} and {@code [3, 5)} are connected, because both enclose {@code [3, 4)}<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   *   &lt;li&gt;{@code [2, 4)} and {@code [4, 6)} are connected, because both enclose the empty range<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   *       {@code [4, 4)}<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   * &lt;/ul&gt;<a name="line.512"></a>
+<span class="sourceLineNo">513</span>   *<a name="line.513"></a>
+<span class="sourceLineNo">514</span>   * &lt;p&gt;Note that this range and {@code other} have a well-defined {@linkplain #span union} and<a name="line.514"></a>
+<span class="sourceLineNo">515</span>   * {@linkplain #intersection intersection} (as a single, possibly-empty range) if and only if this<a name="line.515"></a>
+<span class="sourceLineNo">516</span>   * method returns {@code true}.<a name="line.516"></a>
+<span class="sourceLineNo">517</span>   *<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   * &lt;p&gt;The connectedness relation is both reflexive and symmetric, but does not form an {@linkplain<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   * Equivalence equivalence relation} as it is not transitive.<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   *<a name="line.520"></a>
+<span class="sourceLineNo">521</span>   * &lt;p&gt;Note that certain discrete ranges are not considered connected, even though there are no<a name="line.521"></a>
+<span class="sourceLineNo">522</span>   * elements "between them." For example, {@code [3, 5]} is not considered connected to {@code [6,<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   * 10]}. In these cases, it may be desirable for both input ranges to be preprocessed with {@link<a name="line.523"></a>
+<span class="sourceLineNo">524</span>   * #canonical(DiscreteDomain)} before testing for connectedness.<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   */<a name="line.525"></a>
+<span class="sourceLineNo">526</span>  public boolean isConnected(Range&lt;C&gt; other) {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    return lowerBound.compareTo(other.upperBound) &lt;= 0<a name="line.527"></a>
+<span class="sourceLineNo">528</span>        &amp;&amp; other.lowerBound.compareTo(upperBound) &lt;= 0;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>  }<a name="line.529"></a>
+<span class="sourceLineNo">530</span><a name="line.530"></a>
+<span class="sourceLineNo">531</span>  /**<a name="line.531"></a>
+<span class="sourceLineNo">532</span>   * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code<a name="line.532"></a>
+<span class="sourceLineNo">533</span>   * connectedRange}, if such a range exists.<a name="line.533"></a>
+<span class="sourceLineNo">534</span>   *<a name="line.534"></a>
+<span class="sourceLineNo">535</span>   * &lt;p&gt;For example, the intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The<a name="line.535"></a>
+<span class="sourceLineNo">536</span>   * resulting range may be empty; for example, {@code [1..5)} intersected with {@code [5..7)}<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   * yields the empty range {@code [5..5)}.<a name="line.537"></a>
+<span class="sourceLineNo">538</span>   *<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   * &lt;p&gt;The intersection exists if and only if the two ranges are {@linkplain #isConnected<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * connected}.<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   *<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   * &lt;p&gt;The intersection operation is commutative, associative and idempotent, and its identity<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * element is {@link Range#all}).<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   *<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   */<a name="line.546"></a>
+<span class="sourceLineNo">547</span>  public Range&lt;C&gt; intersection(Range&lt;C&gt; connectedRange) {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    int lowerCmp = lowerBound.compareTo(connectedRange.lowerBound);<a name="line.548"></a>
+<span class="sourceLineNo">549</span>    int upperCmp = upperBound.compareTo(connectedRange.upperBound);<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {<a name="line.550"></a>
+<span class="sourceLineNo">551</span>      return this;<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    } else if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {<a name="line.552"></a>
+<span class="sourceLineNo">553</span>      return connectedRange;<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    } else {<a name="line.554"></a>
+<span class="sourceLineNo">555</span>      Cut&lt;C&gt; newLower = (lowerCmp &gt;= 0) ? lowerBound : connectedRange.lowerBound;<a name="line.555"></a>
+<span class="sourceLineNo">556</span>      Cut&lt;C&gt; newUpper = (upperCmp &lt;= 0) ? upperBound : connectedRange.upperBound;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>      return create(newLower, newUpper);<a name="line.557"></a>
+<span class="sourceLineNo">558</span>    }<a name="line.558"></a>
+<span class="sourceLineNo">559</span>  }<a name="line.559"></a>
+<span class="sourceLineNo">560</span><a name="line.560"></a>
+<span class="sourceLineNo">561</span>  /**<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * Returns the maximal range lying between this range and {@code otherRange}, if such a range<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   *<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * &lt;p&gt;For example, the gap of {@code [1..5]} and {@code (7..10)} is {@code (5..7]}. The resulting<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   * range may be empty; for example, the gap between {@code [1..5)} {@code [5..7)} yields the empty<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * range {@code [5..5)}.<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   *<a name="line.568"></a>
+<span class="sourceLineNo">569</span>   * &lt;p&gt;The gap exists if and only if the two ranges are either disconnected or immediately adjacent<a name="line.569"></a>
+<span class="sourceLineNo">570</span>   * (any intersection must be an empty range).<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   *<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   * &lt;p&gt;The gap operation is commutative.<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   *<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   *     intersection<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   * @since 27.0<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   */<a name="line.577"></a>
+<span class="sourceLineNo">578</span>  public Range&lt;C&gt; gap(Range&lt;C&gt; otherRange) {<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) &lt; 0;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    Range&lt;C&gt; firstRange = isThisFirst ? this : otherRange;<a name="line.580"></a>
+<span class="sourceLineNo">581</span>    Range&lt;C&gt; secondRange = isThisFirst ? otherRange : this;<a name="line.581"></a>
+<span class="sourceLineNo">582</span>    return create(firstRange.upperBound, secondRange.lowerBound);<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  }<a name="line.583"></a>
+<span class="sourceLineNo">584</span><a name="line.584"></a>
+<span class="sourceLineNo">585</span>  /**<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * Returns the minimal range that {@linkplain #encloses encloses} both this range and {@code<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   * other}. For example, the span of {@code [1..3]} and {@code (5..7)} is {@code [1..7)}.<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   *<a name="line.588"></a>
+<span class="sourceLineNo">589</span>   * &lt;p&gt;&lt;i&gt;If&lt;/i&gt; the input ranges are {@linkplain #isConnected connected}, the returned range can<a name="line.589"></a>
+<span class="sourceLineNo">590</span>   * also be called their &lt;i&gt;union&lt;/i&gt;. If they are not, note that the span might contain values<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * that are not contained in either input range.<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   *<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * &lt;p&gt;Like {@link #intersection(Range) intersection}, this operation is commutative, associative<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * and idempotent. Unlike it, it is always well-defined for any two input ranges.<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   */<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  public Range&lt;C&gt; span(Range&lt;C&gt; other) {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>    int lowerCmp = lowerBound.compareTo(other.lowerBound);<a name="line.597"></a>
+<span class="sourceLineNo">598</span>    int upperCmp = upperBound.compareTo(other.upperBound);<a name="line.598"></a>
+<span class="sourceLineNo">599</span>    if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {<a name="line.599"></a>
+<span class="sourceLineNo">600</span>      return this;<a name="line.600"></a>
+<span class="sourceLineNo">601</span>    } else if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>      return other;<a name="line.602"></a>
+<span class="sourceLineNo">603</span>    } else {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>      Cut&lt;C&gt; newLower = (lowerCmp &lt;= 0) ? lowerBound : other.lowerBound;<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      Cut&lt;C&gt; newUpper = (upperCmp &gt;= 0) ? upperBound : other.upperBound;<a name="line.605"></a>
+<span class="sourceLineNo">606</span>      return create(newLower, newUpper);<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    }<a name="line.607"></a>
+<span class="sourceLineNo">608</span>  }<a name="line.608"></a>
+<span class="sourceLineNo">609</span><a name="line.609"></a>
+<span class="sourceLineNo">610</span>  /**<a name="line.610"></a>
+<span class="sourceLineNo">611</span>   * Returns the canonical form of this range in the given domain. The canonical form has the<a name="line.611"></a>
+<span class="sourceLineNo">612</span>   * following properties:<a name="line.612"></a>
+<span class="sourceLineNo">613</span>   *<a name="line.613"></a>
+<span class="sourceLineNo">614</span>   * &lt;ul&gt;<a name="line.614"></a>
+<span class="sourceLineNo">615</span>   *   &lt;li&gt;equivalence: {@code a.canonical().contains(v) == a.contains(v)} for all {@code v} (in<a name="line.615"></a>
+<span class="sourceLineNo">616</span>   *       other words, {@code ContiguousSet.create(a.canonical(domain), domain).equals(<a name="line.616"></a>
+<span class="sourceLineNo">617</span>   *       ContiguousSet.create(a, domain))}<a name="line.617"></a>
+<span class="sourceLineNo">618</span>   *   &lt;li&gt;uniqueness: unless {@code a.isEmpty()}, {@code ContiguousSet.create(a,<a name="line.618"></a>
+<span class="sourceLineNo">619</span>   *       domain).equals(ContiguousSet.create(b, domain))} implies {@code<a name="line.619"></a>
+<span class="sourceLineNo">620</span>   *       a.canonical(domain).equals(b.canonical(domain))}<a name="line.620"></a>
+<span class="sourceLineNo">621</span>   *   &lt;li&gt;idempotence: {@code a.canonical(domain).canonical(domain).equals(a.canonical(domain))}<a name="line.621"></a>
+<span class="sourceLineNo">622</span>   * &lt;/ul&gt;<a name="line.622"></a>
+<span class="sourceLineNo">623</span>   *<a name="line.623"></a>
+<span class="sourceLineNo">624</span>   * &lt;p&gt;Furthermore, this method guarantees that the range returned will be one of the following<a name="line.624"></a>
+<span class="sourceLineNo">625</span>   * canonical forms:<a name="line.625"></a>
+<span class="sourceLineNo">626</span>   *<a name="line.626"></a>
+<span class="sourceLineNo">627</span>   * &lt;ul&gt;<a name="line.627"></a>
+<span class="sourceLineNo">628</span>   *   &lt;li&gt;[start..end)<a name="line.628"></a>
+<span class="sourceLineNo">629</span>   *   &lt;li&gt;[start..+∞)<a name="line.629"></a>
+<span class="sourceLineNo">630</span>   *   &lt;li&gt;(-∞..end) (only if type {@code C} is unbounded below)<a name="line.630"></a>
+<span class="sourceLineNo">631</span>   *   &lt;li&gt;(-∞..+∞) (only if type {@code C} is unbounded below)<a name="line.631"></a>
+<span class="sourceLineNo">632</span>   * &lt;/ul&gt;<a name="line.632"></a>
+<span class="sourceLineNo">633</span>   */<a name="line.633"></a>
+<span class="sourceLineNo">634</span>  public Range&lt;C&gt; canonical(DiscreteDomain&lt;C&gt; domain) {<a name="line.634"></a>
+<span class="sourceLineNo">635</span>    checkNotNull(domain);<a name="line.635"></a>
+<span class="sourceLineNo">636</span>    Cut&lt;C&gt; lower = lowerBound.canonical(domain);<a name="line.636"></a>
+<span class="sourceLineNo">637</span>    Cut&lt;C&gt; upper = upperBound.canonical(domain);<a name="line.637"></a>
+<span class="sourceLineNo">638</span>    return (lower == lowerBound &amp;&amp; upper == upperBound) ? this : create(lower, upper);<a name="line.638"></a>
+<span class="sourceLineNo">639</span>  }<a name="line.639"></a>
+<span class="sourceLineNo">640</span><a name="line.640"></a>
+<span class="sourceLineNo">641</span>  /**<a name="line.641"></a>
+<span class="sourceLineNo">642</span>   * Returns {@code true} if {@code object} is a range having the same endpoints and bound types as<a name="line.642"></a>
+<span class="sourceLineNo">643</span>   * this range. Note that discrete ranges such as {@code (1..4)} and {@code [2..3]} are &lt;b&gt;not&lt;/b&gt;<a name="line.643"></a>
+<span class="sourceLineNo">644</span>   * equal to one another, despite the fact that they each contain precisely the same set of values.<a name="line.644"></a>
+<span class="sourceLineNo">645</span>   * Similarly, empty ranges are not equal unless they have exactly the same representation, so<a name="line.645"></a>
+<span class="sourceLineNo">646</span>   * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.<a name="line.646"></a>
+<span class="sourceLineNo">647</span>   */<a name="line.647"></a>
+<span class="sourceLineNo">648</span>  @Override<a name="line.648"></a>
+<span class="sourceLineNo">649</span>  public boolean equals(@Nullable Object object) {<a name="line.649"></a>
+<span class="sourceLineNo">650</span>    if (object instanceof Range) {<a name="line.650"></a>
+<span class="sourceLineNo">651</span>      Range&lt;?&gt; other = (Range&lt;?&gt;) object;<a name="line.651"></a>
+<span class="sourceLineNo">652</span>      return lowerBound.equals(other.lowerBound) &amp;&amp; upperBound.equals(other.upperBound);<a name="line.652"></a>
+<span class="sourceLineNo">653</span>    }<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    return false;<a name="line.654"></a>
+<span class="sourceLineNo">655</span>  }<a name="line.655"></a>
+<span class="sourceLineNo">656</span><a name="line.656"></a>
+<span class="sourceLineNo">657</span>  /** Returns a hash code for this range. */<a name="line.657"></a>
+<span class="sourceLineNo">658</span>  @Override<a name="line.658"></a>
+<span class="sourceLineNo">659</span>  public int hashCode() {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>    return lowerBound.hashCode() * 31 + upperBound.hashCode();<a name="line.660"></a>
+<span class="sourceLineNo">661</span>  }<a name="line.661"></a>
+<span class="sourceLineNo">662</span><a name="line.662"></a>
+<span class="sourceLineNo">663</span>  /**<a name="line.663"></a>
+<span class="sourceLineNo">664</span>   * Returns a string representation of this range, such as {@code "[3..5)"} (other examples are<a name="line.664"></a>
+<span class="sourceLineNo">665</span>   * listed in the class documentation).<a name="line.665"></a>
+<span class="sourceLineNo">666</span>   */<a name="line.666"></a>
+<span class="sourceLineNo">667</span>  @Override<a name="line.667"></a>
+<span class="sourceLineNo">668</span>  public String toString() {<a name="line.668"></a>
+<span class="sourceLineNo">669</span>    return toString(lowerBound, upperBound);<a name="line.669"></a>
+<span class="sourceLineNo">670</span>  }<a name="line.670"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {<a name="line.672"></a>
+<span class="sourceLineNo">673</span>    StringBuilder sb = new StringBuilder(16);<a name="line.673"></a>
+<span class="sourceLineNo">674</span>    lowerBound.describeAsLowerBound(sb);<a name="line.674"></a>
+<span class="sourceLineNo">675</span>    sb.append("..");<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    upperBound.describeAsUpperBound(sb);<a name="line.676"></a>
+<span class="sourceLineNo">677</span>    return sb.toString();<a name="line.677"></a>
+<span class="sourceLineNo">678</span>  }<a name="line.678"></a>
+<span class="sourceLineNo">679</span><a name="line.679"></a>
+<span class="sourceLineNo">680</span>  /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */<a name="line.680"></a>
+<span class="sourceLineNo">681</span>  private static &lt;T&gt; SortedSet&lt;T&gt; cast(Iterable&lt;T&gt; iterable) {<a name="line.681"></a>
+<span class="sourceLineNo">682</span>    return (SortedSet&lt;T&gt;) iterable;<a name="line.682"></a>
+<span class="sourceLineNo">683</span>  }<a name="line.683"></a>
+<span class="sourceLineNo">684</span><a name="line.684"></a>
+<span class="sourceLineNo">685</span>  Object readResolve() {<a name="line.685"></a>
+<span class="sourceLineNo">686</span>    if (this.equals(ALL)) {<a name="line.686"></a>
+<span class="sourceLineNo">687</span>      return all();<a name="line.687"></a>
+<span class="sourceLineNo">688</span>    } else {<a name="line.688"></a>
+<span class="sourceLineNo">689</span>      return this;<a name="line.689"></a>
+<span class="sourceLineNo">690</span>    }<a name="line.690"></a>
+<span class="sourceLineNo">691</span>  }<a name="line.691"></a>
+<span class="sourceLineNo">692</span><a name="line.692"></a>
+<span class="sourceLineNo">693</span>  @SuppressWarnings("unchecked") // this method may throw CCE<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  static int compareOrThrow(Comparable left, Comparable right) {<a name="line.694"></a>
+<span class="sourceLineNo">695</span>    return left.compareTo(right);<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  }<a name="line.696"></a>
+<span class="sourceLineNo">697</span><a name="line.697"></a>
+<span class="sourceLineNo">698</span>  /** Needed to serialize sorted collections of Ranges. */<a name="line.698"></a>
+<span class="sourceLineNo">699</span>  private static class RangeLexOrdering extends Ordering&lt;Range&lt;?&gt;&gt; implements Serializable {<a name="line.699"></a>
+<span class="sourceLineNo">700</span>    static final Ordering&lt;Range&lt;?&gt;&gt; INSTANCE = new RangeLexOrdering();<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>    @Override<a name="line.702"></a>
+<span class="sourceLineNo">703</span>    public int compare(Range&lt;?&gt; left, Range&lt;?&gt; right) {<a name="line.703"></a>
+<span class="sourceLineNo">704</span>      return ComparisonChain.start()<a name="line.704"></a>
+<span class="sourceLineNo">705</span>          .compare(left.lowerBound, right.lowerBound)<a name="line.705"></a>
+<span class="sourceLineNo">706</span>          .compare(left.upperBound, right.upperBound)<a name="line.706"></a>
+<span class="sourceLineNo">707</span>          .result();<a name="line.707"></a>
+<span class="sourceLineNo">708</span>    }<a name="line.708"></a>
+<span class="sourceLineNo">709</span><a name="line.709"></a>
+<span class="sourceLineNo">710</span>    private static final long serialVersionUID = 0;<a name="line.710"></a>
+<span class="sourceLineNo">711</span>  }<a name="line.711"></a>
+<span class="sourceLineNo">712</span><a name="line.712"></a>
+<span class="sourceLineNo">713</span>  private static final long serialVersionUID = 0;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>}<a name="line.714"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

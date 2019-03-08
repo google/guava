@@ -1,0 +1,691 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2017 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.primitives;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Preconditions;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.errorprone.annotations.CheckReturnValue;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.errorprone.annotations.Immutable;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.io.Serializable;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.AbstractList;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Arrays;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.Collection;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.List;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.RandomAccess;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.Spliterator;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.Spliterators;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.function.IntConsumer;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.stream.IntStream;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>/**<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * An immutable array of {@code int} values, with an API resembling {@link List}.<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;p&gt;Advantages compared to {@code int[]}:<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * &lt;ul&gt;<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *   &lt;li&gt;All the many well-known advantages of immutability (read &lt;i&gt;Effective Java&lt;/i&gt;, third<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *       edition, Item 17).<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *   &lt;li&gt;Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *       #toString} behavior you expect.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *   &lt;li&gt;Offers useful operations beyond just {@code get} and {@code length}, so you don't have to<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *       hunt through classes like {@link Arrays} and {@link Ints} for them.<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;Supports a copy-free {@link #subArray} view, so methods that accept this type don't need to<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *       add overloads that accept start and end indexes.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *   &lt;li&gt;Can be streamed without "breaking the chain": {@code foo.getBarInts().stream()...}.<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *   &lt;li&gt;Access to all collection-based utilities via {@link #asList} (though at the cost of<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *       allocating garbage).<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;/ul&gt;<a name="line.55"></a>
+<span class="sourceLineNo">056</span> *<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * &lt;p&gt;Disadvantages compared to {@code int[]}:<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * &lt;ul&gt;<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *   &lt;li&gt;Memory footprint has a fixed overhead (about 24 bytes per instance).<a name="line.60"></a>
+<span class="sourceLineNo">061</span> *   &lt;li&gt;&lt;i&gt;Some&lt;/i&gt; construction use cases force the data to be copied (though several construction<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *       APIs are offered that don't).<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *   &lt;li&gt;Can't be passed directly to methods that expect {@code int[]} (though the most common<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *       utilities do have replacements here).<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *   &lt;li&gt;Dependency on {@code com.google.common} / Guava.<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * &lt;/ul&gt;<a name="line.66"></a>
+<span class="sourceLineNo">067</span> *<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * &lt;p&gt;Advantages compared to {@link com.google.common.collect.ImmutableList ImmutableList}{@code<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;Integer&gt;}:<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * &lt;ul&gt;<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *   &lt;li&gt;Improved memory compactness and locality.<a name="line.72"></a>
+<span class="sourceLineNo">073</span> *   &lt;li&gt;Can be queried without allocating garbage.<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *   &lt;li&gt;Access to {@code IntStream} features (like {@link IntStream#sum}) using {@code stream()}<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *       instead of the awkward {@code stream().mapToInt(v -&gt; v)}.<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * &lt;/ul&gt;<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * &lt;p&gt;Disadvantages compared to {@code ImmutableList&lt;Integer&gt;}:<a name="line.78"></a>
+<span class="sourceLineNo">079</span> *<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * &lt;ul&gt;<a name="line.80"></a>
+<span class="sourceLineNo">081</span> *   &lt;li&gt;Can't be passed directly to methods that expect {@code Iterable}, {@code Collection}, or<a name="line.81"></a>
+<span class="sourceLineNo">082</span> *       {@code List} (though the most common utilities do have replacements here, and there is a<a name="line.82"></a>
+<span class="sourceLineNo">083</span> *       lazy {@link #asList} view).<a name="line.83"></a>
+<span class="sourceLineNo">084</span> * &lt;/ul&gt;<a name="line.84"></a>
+<span class="sourceLineNo">085</span> *<a name="line.85"></a>
+<span class="sourceLineNo">086</span> * @since 22.0<a name="line.86"></a>
+<span class="sourceLineNo">087</span> */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>@Beta<a name="line.88"></a>
+<span class="sourceLineNo">089</span>@GwtCompatible<a name="line.89"></a>
+<span class="sourceLineNo">090</span>@Immutable<a name="line.90"></a>
+<span class="sourceLineNo">091</span>public final class ImmutableIntArray implements Serializable {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  private static final ImmutableIntArray EMPTY = new ImmutableIntArray(new int[0]);<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /** Returns the empty array. */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public static ImmutableIntArray of() {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    return EMPTY;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>  /** Returns an immutable array containing a single value. */<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public static ImmutableIntArray of(int e0) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    return new ImmutableIntArray(new int[] {e0});<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  public static ImmutableIntArray of(int e0, int e1) {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    return new ImmutableIntArray(new int[] {e0, e1});<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  public static ImmutableIntArray of(int e0, int e1, int e2) {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    return new ImmutableIntArray(new int[] {e0, e1, e2});<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public static ImmutableIntArray of(int e0, int e1, int e2, int e3) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return new ImmutableIntArray(new int[] {e0, e1, e2, e3});<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4});<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public static ImmutableIntArray of(int e0, int e1, int e2, int e3, int e4, int e5) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    return new ImmutableIntArray(new int[] {e0, e1, e2, e3, e4, e5});<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  // TODO(kevinb): go up to 11?<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Returns an immutable array containing the given values, in order.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   *<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * &lt;p&gt;The array {@code rest} must not be longer than {@code Integer.MAX_VALUE - 1}.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  // Use (first, rest) so that `of(someIntArray)` won't compile (they should use copyOf), which is<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  // okay since we have to copy the just-created array anyway.<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public static ImmutableIntArray of(int first, int... rest) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    checkArgument(<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        rest.length &lt;= Integer.MAX_VALUE - 1, "the total number of elements must fit in an int");<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    int[] array = new int[rest.length + 1];<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    array[0] = first;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    System.arraycopy(rest, 0, array, 1, rest.length);<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    return new ImmutableIntArray(array);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public static ImmutableIntArray copyOf(int[] values) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    return values.length == 0 ? EMPTY : new ImmutableIntArray(Arrays.copyOf(values, values.length));<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  /** Returns an immutable array containing the given values, in order. */<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public static ImmutableIntArray copyOf(Collection&lt;Integer&gt; values) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    return values.isEmpty() ? EMPTY : new ImmutableIntArray(Ints.toArray(values));<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * Returns an immutable array containing the given values, in order.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   *<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; this method delegates to {@link #copyOf(Collection)} if {@code<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * values} is a {@link Collection}. Otherwise it creates a {@link #builder} and uses {@link<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * Builder#addAll(Iterable)}, with all the performance implications associated with that.<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  public static ImmutableIntArray copyOf(Iterable&lt;Integer&gt; values) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    if (values instanceof Collection) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>      return copyOf((Collection&lt;Integer&gt;) values);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    }<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return builder().addAll(values).build();<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /** Returns an immutable array containing all the values from {@code stream}, in order. */<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  public static ImmutableIntArray copyOf(IntStream stream) {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    // Note this uses very different growth behavior from copyOf(Iterable) and the builder.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    int[] array = stream.toArray();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    return (array.length == 0) ? EMPTY : new ImmutableIntArray(array);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  }<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * Returns a new, empty builder for {@link ImmutableIntArray} instances, sized to hold up to<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * {@code initialCapacity} values without resizing. The returned builder is not thread-safe.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   *<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; When feasible, {@code initialCapacity} should be the exact number<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * of values that will be added, if that knowledge is readily available. It is better to guess a<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * value slightly too high than slightly too low. If the value is not exact, the {@link<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * ImmutableIntArray} that is built will very likely occupy more memory than strictly necessary;<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * to trim memory usage, build using {@code builder.build().trimmed()}.<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   */<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  public static Builder builder(int initialCapacity) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    checkArgument(initialCapacity &gt;= 0, "Invalid initialCapacity: %s", initialCapacity);<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return new Builder(initialCapacity);<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * Returns a new, empty builder for {@link ImmutableIntArray} instances, with a default initial<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * capacity. The returned builder is not thread-safe.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   *<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; The {@link ImmutableIntArray} that is built will very likely occupy<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * more memory than necessary; to trim memory usage, build using {@code<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * builder.build().trimmed()}.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   */<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  public static Builder builder() {<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    return new Builder(10);<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  }<a name="line.203"></a>
+<span class="sourceLineNo">204</span><a name="line.204"></a>
+<span class="sourceLineNo">205</span>  /**<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * A builder for {@link ImmutableIntArray} instances; obtained using {@link<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * ImmutableIntArray#builder}.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  @CanIgnoreReturnValue<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  public static final class Builder {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    private int[] array;<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    private int count = 0; // &lt;= array.length<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>    Builder(int initialCapacity) {<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      array = new int[initialCapacity];<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    }<a name="line.216"></a>
+<span class="sourceLineNo">217</span><a name="line.217"></a>
+<span class="sourceLineNo">218</span>    /**<a name="line.218"></a>
+<span class="sourceLineNo">219</span>     * Appends {@code value} to the end of the values the built {@link ImmutableIntArray} will<a name="line.219"></a>
+<span class="sourceLineNo">220</span>     * contain.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>     */<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    public Builder add(int value) {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>      ensureRoomFor(1);<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      array[count] = value;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      count += 1;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      return this;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>    /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>     * Appends {@code values}, in order, to the end of the values the built {@link<a name="line.230"></a>
+<span class="sourceLineNo">231</span>     * ImmutableIntArray} will contain.<a name="line.231"></a>
+<span class="sourceLineNo">232</span>     */<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    public Builder addAll(int[] values) {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      ensureRoomFor(values.length);<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      System.arraycopy(values, 0, array, count, values.length);<a name="line.235"></a>
+<span class="sourceLineNo">236</span>      count += values.length;<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      return this;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    }<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>    /**<a name="line.240"></a>
+<span class="sourceLineNo">241</span>     * Appends {@code values}, in order, to the end of the values the built {@link<a name="line.241"></a>
+<span class="sourceLineNo">242</span>     * ImmutableIntArray} will contain.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>     */<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    public Builder addAll(Iterable&lt;Integer&gt; values) {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      if (values instanceof Collection) {<a name="line.245"></a>
+<span class="sourceLineNo">246</span>        return addAll((Collection&lt;Integer&gt;) values);<a name="line.246"></a>
+<span class="sourceLineNo">247</span>      }<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      for (Integer value : values) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>        add(value);<a name="line.249"></a>
+<span class="sourceLineNo">250</span>      }<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      return this;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>    /**<a name="line.254"></a>
+<span class="sourceLineNo">255</span>     * Appends {@code values}, in order, to the end of the values the built {@link<a name="line.255"></a>
+<span class="sourceLineNo">256</span>     * ImmutableIntArray} will contain.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>     */<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    public Builder addAll(Collection&lt;Integer&gt; values) {<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      ensureRoomFor(values.size());<a name="line.259"></a>
+<span class="sourceLineNo">260</span>      for (Integer value : values) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>        array[count++] = value;<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      }<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      return this;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    }<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>    /**<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * Appends all values from {@code stream}, in order, to the end of the values the built {@link<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     * ImmutableIntArray} will contain.<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     */<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    public Builder addAll(IntStream stream) {<a name="line.270"></a>
+<span class="sourceLineNo">271</span>      Spliterator.OfInt spliterator = stream.spliterator();<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      long size = spliterator.getExactSizeIfKnown();<a name="line.272"></a>
+<span class="sourceLineNo">273</span>      if (size &gt; 0) { // known *and* nonempty<a name="line.273"></a>
+<span class="sourceLineNo">274</span>        ensureRoomFor(Ints.saturatedCast(size));<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      }<a name="line.275"></a>
+<span class="sourceLineNo">276</span>      spliterator.forEachRemaining((IntConsumer) this::add);<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      return this;<a name="line.277"></a>
+<span class="sourceLineNo">278</span>    }<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>    /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>     * Appends {@code values}, in order, to the end of the values the built {@link<a name="line.281"></a>
+<span class="sourceLineNo">282</span>     * ImmutableIntArray} will contain.<a name="line.282"></a>
+<span class="sourceLineNo">283</span>     */<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    public Builder addAll(ImmutableIntArray values) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      ensureRoomFor(values.length());<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      System.arraycopy(values.array, values.start, array, count, values.length());<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      count += values.length();<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      return this;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>    private void ensureRoomFor(int numberToAdd) {<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?<a name="line.292"></a>
+<span class="sourceLineNo">293</span>      if (newCount &gt; array.length) {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>        int[] newArray = new int[expandedCapacity(array.length, newCount)];<a name="line.294"></a>
+<span class="sourceLineNo">295</span>        System.arraycopy(array, 0, newArray, 0, count);<a name="line.295"></a>
+<span class="sourceLineNo">296</span>        this.array = newArray;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      }<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    }<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>    // Unfortunately this is pasted from ImmutableCollection.Builder.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    private static int expandedCapacity(int oldCapacity, int minCapacity) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      if (minCapacity &lt; 0) {<a name="line.302"></a>
+<span class="sourceLineNo">303</span>        throw new AssertionError("cannot store more than MAX_VALUE elements");<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      }<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      // careful of overflow!<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1) + 1;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      if (newCapacity &lt; minCapacity) {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>        newCapacity = Integer.highestOneBit(minCapacity - 1) &lt;&lt; 1;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      }<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      if (newCapacity &lt; 0) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>        newCapacity = Integer.MAX_VALUE; // guaranteed to be &gt;= newCapacity<a name="line.311"></a>
+<span class="sourceLineNo">312</span>      }<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return newCapacity;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>    /**<a name="line.316"></a>
+<span class="sourceLineNo">317</span>     * Returns a new immutable array. The builder can continue to be used after this call, to append<a name="line.317"></a>
+<span class="sourceLineNo">318</span>     * more values and build again.<a name="line.318"></a>
+<span class="sourceLineNo">319</span>     *<a name="line.319"></a>
+<span class="sourceLineNo">320</span>     * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; the returned array is backed by the same array as the builder, so<a name="line.320"></a>
+<span class="sourceLineNo">321</span>     * no data is copied as part of this step, but this may occupy more memory than strictly<a name="line.321"></a>
+<span class="sourceLineNo">322</span>     * necessary. To copy the data to a right-sized backing array, use {@code .build().trimmed()}.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>     */<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    @CheckReturnValue<a name="line.324"></a>
+<span class="sourceLineNo">325</span>    public ImmutableIntArray build() {<a name="line.325"></a>
+<span class="sourceLineNo">326</span>      return count == 0 ? EMPTY : new ImmutableIntArray(array, 0, count);<a name="line.326"></a>
+<span class="sourceLineNo">327</span>    }<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  }<a name="line.328"></a>
+<span class="sourceLineNo">329</span><a name="line.329"></a>
+<span class="sourceLineNo">330</span>  // Instance stuff here<a name="line.330"></a>
+<span class="sourceLineNo">331</span><a name="line.331"></a>
+<span class="sourceLineNo">332</span>  // The array is never mutated after storing in this field and the construction strategies ensure<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  // it doesn't escape this class<a name="line.333"></a>
+<span class="sourceLineNo">334</span>  @SuppressWarnings("Immutable")<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  private final int[] array;<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>  /*<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * TODO(kevinb): evaluate the trade-offs of going bimorphic to save these two fields from most<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   * instances. Note that the instances that would get smaller are the right set to care about<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   * optimizing, because the rest have the option of calling `trimmed`.<a name="line.340"></a>
+<span class="sourceLineNo">341</span>   */<a name="line.341"></a>
+<span class="sourceLineNo">342</span><a name="line.342"></a>
+<span class="sourceLineNo">343</span>  private final transient int start; // it happens that we only serialize instances where this is 0<a name="line.343"></a>
+<span class="sourceLineNo">344</span>  private final int end; // exclusive<a name="line.344"></a>
+<span class="sourceLineNo">345</span><a name="line.345"></a>
+<span class="sourceLineNo">346</span>  private ImmutableIntArray(int[] array) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>    this(array, 0, array.length);<a name="line.347"></a>
+<span class="sourceLineNo">348</span>  }<a name="line.348"></a>
+<span class="sourceLineNo">349</span><a name="line.349"></a>
+<span class="sourceLineNo">350</span>  private ImmutableIntArray(int[] array, int start, int end) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    this.array = array;<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    this.start = start;<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    this.end = end;<a name="line.353"></a>
+<span class="sourceLineNo">354</span>  }<a name="line.354"></a>
+<span class="sourceLineNo">355</span><a name="line.355"></a>
+<span class="sourceLineNo">356</span>  /** Returns the number of values in this array. */<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  public int length() {<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    return end - start;<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  }<a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /** Returns {@code true} if there are no values in this array ({@link #length} is zero). */<a name="line.361"></a>
+<span class="sourceLineNo">362</span>  public boolean isEmpty() {<a name="line.362"></a>
+<span class="sourceLineNo">363</span>    return end == start;<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  }<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>  /**<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * Returns the {@code int} value present at the given index.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   *<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * @throws IndexOutOfBoundsException if {@code index} is negative, or greater than or equal to<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   *     {@link #length}<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   */<a name="line.371"></a>
+<span class="sourceLineNo">372</span>  public int get(int index) {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    Preconditions.checkElementIndex(index, length());<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    return array[start + index];<a name="line.374"></a>
+<span class="sourceLineNo">375</span>  }<a name="line.375"></a>
+<span class="sourceLineNo">376</span><a name="line.376"></a>
+<span class="sourceLineNo">377</span>  /**<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * Returns the smallest index for which {@link #get} returns {@code target}, or {@code -1} if no<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * such index exists. Equivalent to {@code asList().indexOf(target)}.<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   */<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  public int indexOf(int target) {<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    for (int i = start; i &lt; end; i++) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      if (array[i] == target) {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        return i - start;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      }<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    return -1;<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  }<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span>  /**<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   * Returns the largest index for which {@link #get} returns {@code target}, or {@code -1} if no<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * such index exists. Equivalent to {@code asList().lastIndexOf(target)}.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   */<a name="line.393"></a>
+<span class="sourceLineNo">394</span>  public int lastIndexOf(int target) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    for (int i = end - 1; i &gt;= start; i--) {<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      if (array[i] == target) {<a name="line.396"></a>
+<span class="sourceLineNo">397</span>        return i - start;<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      }<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    }<a name="line.399"></a>
+<span class="sourceLineNo">400</span>    return -1;<a name="line.400"></a>
+<span class="sourceLineNo">401</span>  }<a name="line.401"></a>
+<span class="sourceLineNo">402</span><a name="line.402"></a>
+<span class="sourceLineNo">403</span>  /**<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * Returns {@code true} if {@code target} is present at any index in this array. Equivalent to<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   * {@code asList().contains(target)}.<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   */<a name="line.406"></a>
+<span class="sourceLineNo">407</span>  public boolean contains(int target) {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    return indexOf(target) &gt;= 0;<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  }<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>  /** Invokes {@code consumer} for each value contained in this array, in order. */<a name="line.411"></a>
+<span class="sourceLineNo">412</span>  public void forEach(IntConsumer consumer) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    checkNotNull(consumer);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    for (int i = start; i &lt; end; i++) {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      consumer.accept(array[i]);<a name="line.415"></a>
+<span class="sourceLineNo">416</span>    }<a name="line.416"></a>
+<span class="sourceLineNo">417</span>  }<a name="line.417"></a>
+<span class="sourceLineNo">418</span><a name="line.418"></a>
+<span class="sourceLineNo">419</span>  /** Returns a stream over the values in this array, in order. */<a name="line.419"></a>
+<span class="sourceLineNo">420</span>  public IntStream stream() {<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    return Arrays.stream(array, start, end);<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  }<a name="line.422"></a>
+<span class="sourceLineNo">423</span><a name="line.423"></a>
+<span class="sourceLineNo">424</span>  /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */<a name="line.424"></a>
+<span class="sourceLineNo">425</span>  public int[] toArray() {<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    return Arrays.copyOfRange(array, start, end);<a name="line.426"></a>
+<span class="sourceLineNo">427</span>  }<a name="line.427"></a>
+<span class="sourceLineNo">428</span><a name="line.428"></a>
+<span class="sourceLineNo">429</span>  /**<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   * Returns a new immutable array containing the values in the specified range.<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   *<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; The returned array has the same full memory footprint as this one<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * does (no actual copying is performed). To reduce memory usage, use {@code subArray(start,<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * end).trimmed()}.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   */<a name="line.435"></a>
+<span class="sourceLineNo">436</span>  public ImmutableIntArray subArray(int startIndex, int endIndex) {<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    Preconditions.checkPositionIndexes(startIndex, endIndex, length());<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    return startIndex == endIndex<a name="line.438"></a>
+<span class="sourceLineNo">439</span>        ? EMPTY<a name="line.439"></a>
+<span class="sourceLineNo">440</span>        : new ImmutableIntArray(array, start + startIndex, start + endIndex);<a name="line.440"></a>
+<span class="sourceLineNo">441</span>  }<a name="line.441"></a>
+<span class="sourceLineNo">442</span><a name="line.442"></a>
+<span class="sourceLineNo">443</span>  private Spliterator.OfInt spliterator() {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    return Spliterators.spliterator(array, start, end, Spliterator.IMMUTABLE | Spliterator.ORDERED);<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
+<span class="sourceLineNo">446</span><a name="line.446"></a>
+<span class="sourceLineNo">447</span>  /**<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * Returns an immutable &lt;i&gt;view&lt;/i&gt; of this array's values as a {@code List}; note that {@code<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   * int} values are boxed into {@link Integer} instances on demand, which can be very expensive.<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * The returned list should be used once and discarded. For any usages beyond that, pass the<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * returned list to {@link com.google.common.collect.ImmutableList#copyOf(Collection)<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   * ImmutableList.copyOf} and use that list instead.<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  public List&lt;Integer&gt; asList() {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    /*<a name="line.455"></a>
+<span class="sourceLineNo">456</span>     * Typically we cache this kind of thing, but much repeated use of this view is a performance<a name="line.456"></a>
+<span class="sourceLineNo">457</span>     * anti-pattern anyway. If we cache, then everyone pays a price in memory footprint even if<a name="line.457"></a>
+<span class="sourceLineNo">458</span>     * they never use this method.<a name="line.458"></a>
+<span class="sourceLineNo">459</span>     */<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    return new AsList(this);<a name="line.460"></a>
+<span class="sourceLineNo">461</span>  }<a name="line.461"></a>
+<span class="sourceLineNo">462</span><a name="line.462"></a>
+<span class="sourceLineNo">463</span>  static class AsList extends AbstractList&lt;Integer&gt; implements RandomAccess, Serializable {<a name="line.463"></a>
+<span class="sourceLineNo">464</span>    private final ImmutableIntArray parent;<a name="line.464"></a>
+<span class="sourceLineNo">465</span><a name="line.465"></a>
+<span class="sourceLineNo">466</span>    private AsList(ImmutableIntArray parent) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>      this.parent = parent;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>    }<a name="line.468"></a>
+<span class="sourceLineNo">469</span><a name="line.469"></a>
+<span class="sourceLineNo">470</span>    // inherit: isEmpty, containsAll, toArray x2, iterator, listIterator, stream, forEach, mutations<a name="line.470"></a>
+<span class="sourceLineNo">471</span><a name="line.471"></a>
+<span class="sourceLineNo">472</span>    @Override<a name="line.472"></a>
+<span class="sourceLineNo">473</span>    public int size() {<a name="line.473"></a>
+<span class="sourceLineNo">474</span>      return parent.length();<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
+<span class="sourceLineNo">476</span><a name="line.476"></a>
+<span class="sourceLineNo">477</span>    @Override<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    public Integer get(int index) {<a name="line.478"></a>
+<span class="sourceLineNo">479</span>      return parent.get(index);<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    }<a name="line.480"></a>
+<span class="sourceLineNo">481</span><a name="line.481"></a>
+<span class="sourceLineNo">482</span>    @Override<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    public boolean contains(Object target) {<a name="line.483"></a>
+<span class="sourceLineNo">484</span>      return indexOf(target) &gt;= 0;<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    }<a name="line.485"></a>
+<span class="sourceLineNo">486</span><a name="line.486"></a>
+<span class="sourceLineNo">487</span>    @Override<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    public int indexOf(Object target) {<a name="line.488"></a>
+<span class="sourceLineNo">489</span>      return target instanceof Integer ? parent.indexOf((Integer) target) : -1;<a name="line.489"></a>
+<span class="sourceLineNo">490</span>    }<a name="line.490"></a>
+<span class="sourceLineNo">491</span><a name="line.491"></a>
+<span class="sourceLineNo">492</span>    @Override<a name="line.492"></a>
+<span class="sourceLineNo">493</span>    public int lastIndexOf(Object target) {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>      return target instanceof Integer ? parent.lastIndexOf((Integer) target) : -1;<a name="line.494"></a>
+<span class="sourceLineNo">495</span>    }<a name="line.495"></a>
+<span class="sourceLineNo">496</span><a name="line.496"></a>
+<span class="sourceLineNo">497</span>    @Override<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    public List&lt;Integer&gt; subList(int fromIndex, int toIndex) {<a name="line.498"></a>
+<span class="sourceLineNo">499</span>      return parent.subArray(fromIndex, toIndex).asList();<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    }<a name="line.500"></a>
+<span class="sourceLineNo">501</span><a name="line.501"></a>
+<span class="sourceLineNo">502</span>    // The default List spliterator is not efficiently splittable<a name="line.502"></a>
+<span class="sourceLineNo">503</span>    @Override<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    public Spliterator&lt;Integer&gt; spliterator() {<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      return parent.spliterator();<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    }<a name="line.506"></a>
+<span class="sourceLineNo">507</span><a name="line.507"></a>
+<span class="sourceLineNo">508</span>    @Override<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    public boolean equals(@Nullable Object object) {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      if (object instanceof AsList) {<a name="line.510"></a>
+<span class="sourceLineNo">511</span>        AsList that = (AsList) object;<a name="line.511"></a>
+<span class="sourceLineNo">512</span>        return this.parent.equals(that.parent);<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      }<a name="line.513"></a>
+<span class="sourceLineNo">514</span>      // We could delegate to super now but it would still box too much<a name="line.514"></a>
+<span class="sourceLineNo">515</span>      if (!(object instanceof List)) {<a name="line.515"></a>
+<span class="sourceLineNo">516</span>        return false;<a name="line.516"></a>
+<span class="sourceLineNo">517</span>      }<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      List&lt;?&gt; that = (List&lt;?&gt;) object;<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      if (this.size() != that.size()) {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>        return false;<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      }<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      int i = parent.start;<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      // Since `that` is very likely RandomAccess we could avoid allocating this iterator...<a name="line.523"></a>
+<span class="sourceLineNo">524</span>      for (Object element : that) {<a name="line.524"></a>
+<span class="sourceLineNo">525</span>        if (!(element instanceof Integer) || parent.array[i++] != (Integer) element) {<a name="line.525"></a>
+<span class="sourceLineNo">526</span>          return false;<a name="line.526"></a>
+<span class="sourceLineNo">527</span>        }<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      }<a name="line.528"></a>
+<span class="sourceLineNo">529</span>      return true;<a name="line.529"></a>
+<span class="sourceLineNo">530</span>    }<a name="line.530"></a>
+<span class="sourceLineNo">531</span><a name="line.531"></a>
+<span class="sourceLineNo">532</span>    // Because we happen to use the same formula. If that changes, just don't override this.<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    @Override<a name="line.533"></a>
+<span class="sourceLineNo">534</span>    public int hashCode() {<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      return parent.hashCode();<a name="line.535"></a>
+<span class="sourceLineNo">536</span>    }<a name="line.536"></a>
+<span class="sourceLineNo">537</span><a name="line.537"></a>
+<span class="sourceLineNo">538</span>    @Override<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    public String toString() {<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      return parent.toString();<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    }<a name="line.541"></a>
+<span class="sourceLineNo">542</span>  }<a name="line.542"></a>
+<span class="sourceLineNo">543</span><a name="line.543"></a>
+<span class="sourceLineNo">544</span>  /**<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * Returns {@code true} if {@code object} is an {@code ImmutableIntArray} containing the same<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * values as this one, in the same order.<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   */<a name="line.547"></a>
+<span class="sourceLineNo">548</span>  @Override<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  public boolean equals(@Nullable Object object) {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>    if (object == this) {<a name="line.550"></a>
+<span class="sourceLineNo">551</span>      return true;<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    }<a name="line.552"></a>
+<span class="sourceLineNo">553</span>    if (!(object instanceof ImmutableIntArray)) {<a name="line.553"></a>
+<span class="sourceLineNo">554</span>      return false;<a name="line.554"></a>
+<span class="sourceLineNo">555</span>    }<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    ImmutableIntArray that = (ImmutableIntArray) object;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    if (this.length() != that.length()) {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>      return false;<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    }<a name="line.559"></a>
+<span class="sourceLineNo">560</span>    for (int i = 0; i &lt; length(); i++) {<a name="line.560"></a>
+<span class="sourceLineNo">561</span>      if (this.get(i) != that.get(i)) {<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        return false;<a name="line.562"></a>
+<span class="sourceLineNo">563</span>      }<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    }<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    return true;<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  /** Returns an unspecified hash code for the contents of this immutable array. */<a name="line.568"></a>
+<span class="sourceLineNo">569</span>  @Override<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  public int hashCode() {<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    int hash = 1;<a name="line.571"></a>
+<span class="sourceLineNo">572</span>    for (int i = start; i &lt; end; i++) {<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      hash *= 31;<a name="line.573"></a>
+<span class="sourceLineNo">574</span>      hash += Ints.hashCode(array[i]);<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    }<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    return hash;<a name="line.576"></a>
+<span class="sourceLineNo">577</span>  }<a name="line.577"></a>
+<span class="sourceLineNo">578</span><a name="line.578"></a>
+<span class="sourceLineNo">579</span>  /**<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * Returns a string representation of this array in the same form as {@link<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * Arrays#toString(int[])}, for example {@code "[1, 2, 3]"}.<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   */<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  @Override<a name="line.583"></a>
+<span class="sourceLineNo">584</span>  public String toString() {<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    if (isEmpty()) {<a name="line.585"></a>
+<span class="sourceLineNo">586</span>      return "[]";<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    }<a name="line.587"></a>
+<span class="sourceLineNo">588</span>    StringBuilder builder = new StringBuilder(length() * 5); // rough estimate is fine<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    builder.append('[').append(array[start]);<a name="line.589"></a>
+<span class="sourceLineNo">590</span><a name="line.590"></a>
+<span class="sourceLineNo">591</span>    for (int i = start + 1; i &lt; end; i++) {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      builder.append(", ").append(array[i]);<a name="line.592"></a>
+<span class="sourceLineNo">593</span>    }<a name="line.593"></a>
+<span class="sourceLineNo">594</span>    builder.append(']');<a name="line.594"></a>
+<span class="sourceLineNo">595</span>    return builder.toString();<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  }<a name="line.596"></a>
+<span class="sourceLineNo">597</span><a name="line.597"></a>
+<span class="sourceLineNo">598</span>  /**<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   * Returns an immutable array containing the same values as {@code this} array. This is logically<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   * a no-op, and in some circumstances {@code this} itself is returned. However, if this instance<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * is a {@link #subArray} view of a larger array, this method will copy only the appropriate range<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   * of values, resulting in an equivalent array with a smaller memory footprint.<a name="line.602"></a>
+<span class="sourceLineNo">603</span>   */<a name="line.603"></a>
+<span class="sourceLineNo">604</span>  public ImmutableIntArray trimmed() {<a name="line.604"></a>
+<span class="sourceLineNo">605</span>    return isPartialView() ? new ImmutableIntArray(toArray()) : this;<a name="line.605"></a>
+<span class="sourceLineNo">606</span>  }<a name="line.606"></a>
+<span class="sourceLineNo">607</span><a name="line.607"></a>
+<span class="sourceLineNo">608</span>  private boolean isPartialView() {<a name="line.608"></a>
+<span class="sourceLineNo">609</span>    return start &gt; 0 || end &lt; array.length;<a name="line.609"></a>
+<span class="sourceLineNo">610</span>  }<a name="line.610"></a>
+<span class="sourceLineNo">611</span><a name="line.611"></a>
+<span class="sourceLineNo">612</span>  Object writeReplace() {<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    return trimmed();<a name="line.613"></a>
+<span class="sourceLineNo">614</span>  }<a name="line.614"></a>
+<span class="sourceLineNo">615</span><a name="line.615"></a>
+<span class="sourceLineNo">616</span>  Object readResolve() {<a name="line.616"></a>
+<span class="sourceLineNo">617</span>    return isEmpty() ? EMPTY : this;<a name="line.617"></a>
+<span class="sourceLineNo">618</span>  }<a name="line.618"></a>
+<span class="sourceLineNo">619</span>}<a name="line.619"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

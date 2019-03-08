@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtCompatible;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>/**<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * A time source; returns a time value representing the number of nanoseconds elapsed since some<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * fixed but arbitrary point in time. Note that most users should use {@link Stopwatch} instead of<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * interacting with this class directly.<a name="line.22"></a>
+<span class="sourceLineNo">023</span> *<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this interface can only be used to measure elapsed time, not wall time.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * @author Kevin Bourrillion<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * @since 10.0 (&lt;a href="https://github.com/google/guava/wiki/Compatibility"&gt;mostly<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *     source-compatible&lt;/a&gt; since 9.0)<a name="line.28"></a>
+<span class="sourceLineNo">029</span> */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>@GwtCompatible<a name="line.30"></a>
+<span class="sourceLineNo">031</span>public abstract class Ticker {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  /** Constructor for use by subclasses. */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  protected Ticker() {}<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>  /** Returns the number of nanoseconds elapsed since this ticker's fixed point of reference. */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  public abstract long read();<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * A ticker that reads the current time using {@link System#nanoTime}.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * @since 10.0<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  public static Ticker systemTicker() {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    return SYSTEM_TICKER;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  }<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private static final Ticker SYSTEM_TICKER =<a name="line.47"></a>
+<span class="sourceLineNo">048</span>      new Ticker() {<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        @Override<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        public long read() {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>          return Platform.systemNanoTime();<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        }<a name="line.52"></a>
+<span class="sourceLineNo">053</span>      };<a name="line.53"></a>
+<span class="sourceLineNo">054</span>}<a name="line.54"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

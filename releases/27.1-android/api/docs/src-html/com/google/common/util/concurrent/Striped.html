@@ -1,0 +1,659 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.Beta;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.common.annotations.GwtIncompatible;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.VisibleForTesting;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.base.MoreObjects;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.base.Preconditions;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Supplier;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.collect.ImmutableList;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.collect.Iterables;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.collect.MapMaker;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.math.IntMath;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.primitives.Ints;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.lang.ref.Reference;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.lang.ref.ReferenceQueue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.lang.ref.WeakReference;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.math.RoundingMode;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.Arrays;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.Collections;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.List;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.concurrent.ConcurrentMap;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.concurrent.Semaphore;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.concurrent.atomic.AtomicReferenceArray;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.util.concurrent.locks.Condition;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.util.concurrent.locks.Lock;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.concurrent.locks.ReadWriteLock;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.concurrent.locks.ReentrantLock;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>import java.util.concurrent.locks.ReentrantReadWriteLock;<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>/**<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * A striped {@code Lock/Semaphore/ReadWriteLock}. This offers the underlying lock striping similar<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * to that of {@code ConcurrentHashMap} in a reusable form, and extends it for semaphores and<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * read-write locks. Conceptually, lock striping is the technique of dividing a lock into many<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * &lt;i&gt;stripes&lt;/i&gt;, increasing the granularity of a single lock and allowing independent operations<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * to lock different stripes and proceed concurrently, instead of creating contention for a single<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * lock.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;p&gt;The guarantee provided by this class is that equal keys lead to the same lock (or semaphore),<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * i.e. {@code if (key1.equals(key2))} then {@code striped.get(key1) == striped.get(key2)} (assuming<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * {@link Object#hashCode()} is correctly implemented for the keys). Note that if {@code key1} is<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;strong&gt;not&lt;/strong&gt; equal to {@code key2}, it is &lt;strong&gt;not&lt;/strong&gt; guaranteed that {@code<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * striped.get(key1) != striped.get(key2)}; the elements might nevertheless be mapped to the same<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * lock. The lower the number of stripes, the higher the probability of this happening.<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * &lt;p&gt;There are three flavors of this class: {@code Striped&lt;Lock&gt;}, {@code Striped&lt;Semaphore&gt;}, and<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * {@code Striped&lt;ReadWriteLock&gt;}. For each type, two implementations are offered: {@linkplain<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * #lock(int) strong} and {@linkplain #lazyWeakLock(int) weak} {@code Striped&lt;Lock&gt;}, {@linkplain<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * #semaphore(int, int) strong} and {@linkplain #lazyWeakSemaphore(int, int) weak} {@code<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * Striped&lt;Semaphore&gt;}, and {@linkplain #readWriteLock(int) strong} and {@linkplain<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * #lazyWeakReadWriteLock(int) weak} {@code Striped&lt;ReadWriteLock&gt;}. &lt;i&gt;Strong&lt;/i&gt; means that all<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * stripes (locks/semaphores) are initialized eagerly, and are not reclaimed unless {@code Striped}<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * itself is reclaimable. &lt;i&gt;Weak&lt;/i&gt; means that locks/semaphores are created lazily, and they are<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * allowed to be reclaimed if nobody is holding on to them. This is useful, for example, if one<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * wants to create a {@code Striped&lt;Lock&gt;} of many locks, but worries that in most cases only a<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * small portion of these would be in use.<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * &lt;p&gt;Prior to this class, one might be tempted to use {@code Map&lt;K, Lock&gt;}, where {@code K}<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * represents the task. This maximizes concurrency by having each unique key mapped to a unique<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * lock, but also maximizes memory footprint. On the other extreme, one could use a single lock for<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * all tasks, which minimizes memory footprint but also minimizes concurrency. Instead of choosing<a name="line.74"></a>
+<span class="sourceLineNo">075</span> * either of these extremes, {@code Striped} allows the user to trade between required concurrency<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * and memory footprint. For example, if a set of tasks are CPU-bound, one could easily create a<a name="line.76"></a>
+<span class="sourceLineNo">077</span> * very compact {@code Striped&lt;Lock&gt;} of {@code availableProcessors() * 4} stripes, instead of<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * possibly thousands of locks which could be created in a {@code Map&lt;K, Lock&gt;} structure.<a name="line.78"></a>
+<span class="sourceLineNo">079</span> *<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * @author Dimitris Andreou<a name="line.80"></a>
+<span class="sourceLineNo">081</span> * @since 13.0<a name="line.81"></a>
+<span class="sourceLineNo">082</span> */<a name="line.82"></a>
+<span class="sourceLineNo">083</span>@Beta<a name="line.83"></a>
+<span class="sourceLineNo">084</span>@GwtIncompatible<a name="line.84"></a>
+<span class="sourceLineNo">085</span>public abstract class Striped&lt;L&gt; {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * smaller than a large array. (This assumes that in the lazy case, most stripes are unused. As<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * always, if many stripes are in use, a non-lazy striped makes more sense.)<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  private static final int LARGE_LAZY_CUTOFF = 1024;<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  private Striped() {}<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * Returns the stripe that corresponds to the passed key. It is always guaranteed that if {@code<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * key1.equals(key2)}, then {@code get(key1) == get(key2)}.<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   *<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * @param key an arbitrary, non-null key<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * @return the stripe that the passed key corresponds to<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  public abstract L get(Object key);<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  /**<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * Returns the stripe at the specified index. Valid indexes are 0, inclusively, to {@code size()},<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * exclusively.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * @param index the index of the stripe to return; must be in {@code [0...size())}<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * @return the stripe at the specified index<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  public abstract L getAt(int index);<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * Returns the index to which the given key is mapped, so that getAt(indexFor(key)) == get(key).<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  abstract int indexFor(Object key);<a name="line.116"></a>
+<span class="sourceLineNo">117</span><a name="line.117"></a>
+<span class="sourceLineNo">118</span>  /** Returns the total number of stripes in this instance. */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public abstract int size();<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * Returns the stripes that correspond to the passed objects, in ascending (as per {@link<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * #getAt(int)}) order. Thus, threads that use the stripes in the order returned by this method<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * are guaranteed to not deadlock each other.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   *<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * &lt;p&gt;It should be noted that using a {@code Striped&lt;L&gt;} with relatively few stripes, and {@code<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * bulkGet(keys)} with a relative large number of keys can cause an excessive number of shared<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * stripes (much like the birthday paradox, where much fewer than anticipated birthdays are needed<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * for a pair of them to match). Please consider carefully the implications of the number of<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * stripes, the intended concurrency level, and the typical number of keys used in a {@code<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * bulkGet(keys)} operation. See &lt;a href="http://www.mathpages.com/home/kmath199.htm"&gt;Balls in<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Bins model&lt;/a&gt; for mathematical formulas that can be used to estimate the probability of<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * collisions.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * @param keys arbitrary non-null keys<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * @return the stripes corresponding to the objects (one per each object, derived by delegating to<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   *     {@link #get(Object)}; may contain duplicates), in an increasing index order.<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  public Iterable&lt;L&gt; bulkGet(Iterable&lt;?&gt; keys) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    // Initially using the array to store the keys, then reusing it to store the respective L's<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    final Object[] array = Iterables.toArray(keys, Object.class);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    if (array.length == 0) {<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      return ImmutableList.of();<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    }<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    int[] stripes = new int[array.length];<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    for (int i = 0; i &lt; array.length; i++) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      stripes[i] = indexFor(array[i]);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    Arrays.sort(stripes);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    // optimize for runs of identical stripes<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    int previousStripe = stripes[0];<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    array[0] = getAt(previousStripe);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>      int currentStripe = stripes[i];<a name="line.154"></a>
+<span class="sourceLineNo">155</span>      if (currentStripe == previousStripe) {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>        array[i] = array[i - 1];<a name="line.156"></a>
+<span class="sourceLineNo">157</span>      } else {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        array[i] = getAt(currentStripe);<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        previousStripe = currentStripe;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      }<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    }<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    /*<a name="line.162"></a>
+<span class="sourceLineNo">163</span>     * Note that the returned Iterable holds references to the returned stripes, to avoid<a name="line.163"></a>
+<span class="sourceLineNo">164</span>     * error-prone code like:<a name="line.164"></a>
+<span class="sourceLineNo">165</span>     *<a name="line.165"></a>
+<span class="sourceLineNo">166</span>     * Striped&lt;Lock&gt; stripedLock = Striped.lazyWeakXXX(...)'<a name="line.166"></a>
+<span class="sourceLineNo">167</span>     * Iterable&lt;Lock&gt; locks = stripedLock.bulkGet(keys);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>     * for (Lock lock : locks) {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>     *   lock.lock();<a name="line.169"></a>
+<span class="sourceLineNo">170</span>     * }<a name="line.170"></a>
+<span class="sourceLineNo">171</span>     * operation();<a name="line.171"></a>
+<span class="sourceLineNo">172</span>     * for (Lock lock : locks) {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>     *   lock.unlock();<a name="line.173"></a>
+<span class="sourceLineNo">174</span>     * }<a name="line.174"></a>
+<span class="sourceLineNo">175</span>     *<a name="line.175"></a>
+<span class="sourceLineNo">176</span>     * If we only held the int[] stripes, translating it on the fly to L's, the original locks might<a name="line.176"></a>
+<span class="sourceLineNo">177</span>     * be garbage collected after locking them, ending up in a huge mess.<a name="line.177"></a>
+<span class="sourceLineNo">178</span>     */<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    @SuppressWarnings("unchecked") // we carefully replaced all keys with their respective L's<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    List&lt;L&gt; asList = (List&lt;L&gt;) Arrays.asList(array);<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    return Collections.unmodifiableList(asList);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  // Static factories<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>  /**<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * Creates a {@code Striped&lt;L&gt;} with eagerly initialized, strongly referenced locks. Every lock is<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * obtained from the passed supplier.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   *<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * @param stripes the minimum number of stripes (locks) required<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * @param supplier a {@code Supplier&lt;L&gt;} object to obtain locks from<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * @return a new {@code Striped&lt;L&gt;}<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  static &lt;L&gt; Striped&lt;L&gt; custom(int stripes, Supplier&lt;L&gt; supplier) {<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    return new CompactStriped&lt;&gt;(stripes, supplier);<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  }<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>  /**<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * Creates a {@code Striped&lt;Lock&gt;} with eagerly initialized, strongly referenced locks. Every lock<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * is reentrant.<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   *<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * @param stripes the minimum number of stripes (locks) required<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * @return a new {@code Striped&lt;Lock&gt;}<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   */<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  public static Striped&lt;Lock&gt; lock(int stripes) {<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    return custom(<a name="line.206"></a>
+<span class="sourceLineNo">207</span>        stripes,<a name="line.207"></a>
+<span class="sourceLineNo">208</span>        new Supplier&lt;Lock&gt;() {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>          @Override<a name="line.209"></a>
+<span class="sourceLineNo">210</span>          public Lock get() {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>            return new PaddedLock();<a name="line.211"></a>
+<span class="sourceLineNo">212</span>          }<a name="line.212"></a>
+<span class="sourceLineNo">213</span>        });<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  }<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>  /**<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * Creates a {@code Striped&lt;Lock&gt;} with lazily initialized, weakly referenced locks. Every lock is<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * reentrant.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * @param stripes the minimum number of stripes (locks) required<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * @return a new {@code Striped&lt;Lock&gt;}<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   */<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  public static Striped&lt;Lock&gt; lazyWeakLock(int stripes) {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return lazy(<a name="line.224"></a>
+<span class="sourceLineNo">225</span>        stripes,<a name="line.225"></a>
+<span class="sourceLineNo">226</span>        new Supplier&lt;Lock&gt;() {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>          @Override<a name="line.227"></a>
+<span class="sourceLineNo">228</span>          public Lock get() {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>            return new ReentrantLock(false);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>          }<a name="line.230"></a>
+<span class="sourceLineNo">231</span>        });<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
+<span class="sourceLineNo">233</span><a name="line.233"></a>
+<span class="sourceLineNo">234</span>  private static &lt;L&gt; Striped&lt;L&gt; lazy(int stripes, Supplier&lt;L&gt; supplier) {<a name="line.234"></a>
+<span class="sourceLineNo">235</span>    return stripes &lt; LARGE_LAZY_CUTOFF<a name="line.235"></a>
+<span class="sourceLineNo">236</span>        ? new SmallLazyStriped&lt;L&gt;(stripes, supplier)<a name="line.236"></a>
+<span class="sourceLineNo">237</span>        : new LargeLazyStriped&lt;L&gt;(stripes, supplier);<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  }<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>  /**<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * Creates a {@code Striped&lt;Semaphore&gt;} with eagerly initialized, strongly referenced semaphores,<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * with the specified number of permits.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   *<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * @param stripes the minimum number of stripes (semaphores) required<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @param permits the number of permits in each semaphore<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * @return a new {@code Striped&lt;Semaphore&gt;}<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   */<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  public static Striped&lt;Semaphore&gt; semaphore(int stripes, final int permits) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    return custom(<a name="line.249"></a>
+<span class="sourceLineNo">250</span>        stripes,<a name="line.250"></a>
+<span class="sourceLineNo">251</span>        new Supplier&lt;Semaphore&gt;() {<a name="line.251"></a>
+<span class="sourceLineNo">252</span>          @Override<a name="line.252"></a>
+<span class="sourceLineNo">253</span>          public Semaphore get() {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>            return new PaddedSemaphore(permits);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>          }<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        });<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  }<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  /**<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * Creates a {@code Striped&lt;Semaphore&gt;} with lazily initialized, weakly referenced semaphores,<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * with the specified number of permits.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * @param stripes the minimum number of stripes (semaphores) required<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * @param permits the number of permits in each semaphore<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * @return a new {@code Striped&lt;Semaphore&gt;}<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  public static Striped&lt;Semaphore&gt; lazyWeakSemaphore(int stripes, final int permits) {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    return lazy(<a name="line.268"></a>
+<span class="sourceLineNo">269</span>        stripes,<a name="line.269"></a>
+<span class="sourceLineNo">270</span>        new Supplier&lt;Semaphore&gt;() {<a name="line.270"></a>
+<span class="sourceLineNo">271</span>          @Override<a name="line.271"></a>
+<span class="sourceLineNo">272</span>          public Semaphore get() {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>            return new Semaphore(permits, false);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>          }<a name="line.274"></a>
+<span class="sourceLineNo">275</span>        });<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  }<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>  /**<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * Creates a {@code Striped&lt;ReadWriteLock&gt;} with eagerly initialized, strongly referenced<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * read-write locks. Every lock is reentrant.<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   *<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * @param stripes the minimum number of stripes (locks) required<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * @return a new {@code Striped&lt;ReadWriteLock&gt;}<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  public static Striped&lt;ReadWriteLock&gt; readWriteLock(int stripes) {<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    return custom(stripes, READ_WRITE_LOCK_SUPPLIER);<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  }<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>  /**<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * Creates a {@code Striped&lt;ReadWriteLock&gt;} with lazily initialized, weakly referenced read-write<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   * locks. Every lock is reentrant.<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   *<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * @param stripes the minimum number of stripes (locks) required<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * @return a new {@code Striped&lt;ReadWriteLock&gt;}<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   */<a name="line.295"></a>
+<span class="sourceLineNo">296</span>  public static Striped&lt;ReadWriteLock&gt; lazyWeakReadWriteLock(int stripes) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    return lazy(stripes, WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER);<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  }<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>  private static final Supplier&lt;ReadWriteLock&gt; READ_WRITE_LOCK_SUPPLIER =<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      new Supplier&lt;ReadWriteLock&gt;() {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>        @Override<a name="line.302"></a>
+<span class="sourceLineNo">303</span>        public ReadWriteLock get() {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>          return new ReentrantReadWriteLock();<a name="line.304"></a>
+<span class="sourceLineNo">305</span>        }<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      };<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  private static final Supplier&lt;ReadWriteLock&gt; WEAK_SAFE_READ_WRITE_LOCK_SUPPLIER =<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      new Supplier&lt;ReadWriteLock&gt;() {<a name="line.309"></a>
+<span class="sourceLineNo">310</span>        @Override<a name="line.310"></a>
+<span class="sourceLineNo">311</span>        public ReadWriteLock get() {<a name="line.311"></a>
+<span class="sourceLineNo">312</span>          return new WeakSafeReadWriteLock();<a name="line.312"></a>
+<span class="sourceLineNo">313</span>        }<a name="line.313"></a>
+<span class="sourceLineNo">314</span>      };<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>  /**<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   * ReadWriteLock implementation whose read and write locks retain a reference back to this lock.<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   * the {@code ReadWriteLock} is retained.<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   */<a name="line.320"></a>
+<span class="sourceLineNo">321</span>  private static final class WeakSafeReadWriteLock implements ReadWriteLock {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>    private final ReadWriteLock delegate;<a name="line.322"></a>
+<span class="sourceLineNo">323</span><a name="line.323"></a>
+<span class="sourceLineNo">324</span>    WeakSafeReadWriteLock() {<a name="line.324"></a>
+<span class="sourceLineNo">325</span>      this.delegate = new ReentrantReadWriteLock();<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    }<a name="line.326"></a>
+<span class="sourceLineNo">327</span><a name="line.327"></a>
+<span class="sourceLineNo">328</span>    @Override<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    public Lock readLock() {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      return new WeakSafeLock(delegate.readLock(), this);<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    }<a name="line.331"></a>
+<span class="sourceLineNo">332</span><a name="line.332"></a>
+<span class="sourceLineNo">333</span>    @Override<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    public Lock writeLock() {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>      return new WeakSafeLock(delegate.writeLock(), this);<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    }<a name="line.336"></a>
+<span class="sourceLineNo">337</span>  }<a name="line.337"></a>
+<span class="sourceLineNo">338</span><a name="line.338"></a>
+<span class="sourceLineNo">339</span>  /** Lock object that ensures a strong reference is retained to a specified object. */<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  private static final class WeakSafeLock extends ForwardingLock {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    private final Lock delegate;<a name="line.341"></a>
+<span class="sourceLineNo">342</span><a name="line.342"></a>
+<span class="sourceLineNo">343</span>    @SuppressWarnings("unused")<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    private final WeakSafeReadWriteLock strongReference;<a name="line.344"></a>
+<span class="sourceLineNo">345</span><a name="line.345"></a>
+<span class="sourceLineNo">346</span>    WeakSafeLock(Lock delegate, WeakSafeReadWriteLock strongReference) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>      this.delegate = delegate;<a name="line.347"></a>
+<span class="sourceLineNo">348</span>      this.strongReference = strongReference;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>    @Override<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    Lock delegate() {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      return delegate;<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    }<a name="line.354"></a>
+<span class="sourceLineNo">355</span><a name="line.355"></a>
+<span class="sourceLineNo">356</span>    @Override<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    public Condition newCondition() {<a name="line.357"></a>
+<span class="sourceLineNo">358</span>      return new WeakSafeCondition(delegate.newCondition(), strongReference);<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    }<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  /** Condition object that ensures a strong reference is retained to a specified object. */<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  private static final class WeakSafeCondition extends ForwardingCondition {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    private final Condition delegate;<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>    @SuppressWarnings("unused")<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    private final WeakSafeReadWriteLock strongReference;<a name="line.367"></a>
+<span class="sourceLineNo">368</span><a name="line.368"></a>
+<span class="sourceLineNo">369</span>    WeakSafeCondition(Condition delegate, WeakSafeReadWriteLock strongReference) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      this.delegate = delegate;<a name="line.370"></a>
+<span class="sourceLineNo">371</span>      this.strongReference = strongReference;<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    }<a name="line.372"></a>
+<span class="sourceLineNo">373</span><a name="line.373"></a>
+<span class="sourceLineNo">374</span>    @Override<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    Condition delegate() {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      return delegate;<a name="line.376"></a>
+<span class="sourceLineNo">377</span>    }<a name="line.377"></a>
+<span class="sourceLineNo">378</span>  }<a name="line.378"></a>
+<span class="sourceLineNo">379</span><a name="line.379"></a>
+<span class="sourceLineNo">380</span>  private abstract static class PowerOfTwoStriped&lt;L&gt; extends Striped&lt;L&gt; {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    /** Capacity (power of two) minus one, for fast mod evaluation */<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    final int mask;<a name="line.382"></a>
+<span class="sourceLineNo">383</span><a name="line.383"></a>
+<span class="sourceLineNo">384</span>    PowerOfTwoStriped(int stripes) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      Preconditions.checkArgument(stripes &gt; 0, "Stripes must be positive");<a name="line.385"></a>
+<span class="sourceLineNo">386</span>      this.mask = stripes &gt; Ints.MAX_POWER_OF_TWO ? ALL_SET : ceilToPowerOfTwo(stripes) - 1;<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    }<a name="line.387"></a>
+<span class="sourceLineNo">388</span><a name="line.388"></a>
+<span class="sourceLineNo">389</span>    @Override<a name="line.389"></a>
+<span class="sourceLineNo">390</span>    final int indexFor(Object key) {<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      int hash = smear(key.hashCode());<a name="line.391"></a>
+<span class="sourceLineNo">392</span>      return hash &amp; mask;<a name="line.392"></a>
+<span class="sourceLineNo">393</span>    }<a name="line.393"></a>
+<span class="sourceLineNo">394</span><a name="line.394"></a>
+<span class="sourceLineNo">395</span>    @Override<a name="line.395"></a>
+<span class="sourceLineNo">396</span>    public final L get(Object key) {<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      return getAt(indexFor(key));<a name="line.397"></a>
+<span class="sourceLineNo">398</span>    }<a name="line.398"></a>
+<span class="sourceLineNo">399</span>  }<a name="line.399"></a>
+<span class="sourceLineNo">400</span><a name="line.400"></a>
+<span class="sourceLineNo">401</span>  /**<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * Implementation of Striped where 2^k stripes are represented as an array of the same length,<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * eagerly initialized.<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   */<a name="line.404"></a>
+<span class="sourceLineNo">405</span>  private static class CompactStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {<a name="line.405"></a>
+<span class="sourceLineNo">406</span>    /** Size is a power of two. */<a name="line.406"></a>
+<span class="sourceLineNo">407</span>    private final Object[] array;<a name="line.407"></a>
+<span class="sourceLineNo">408</span><a name="line.408"></a>
+<span class="sourceLineNo">409</span>    private CompactStriped(int stripes, Supplier&lt;L&gt; supplier) {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>      super(stripes);<a name="line.410"></a>
+<span class="sourceLineNo">411</span>      Preconditions.checkArgument(stripes &lt;= Ints.MAX_POWER_OF_TWO, "Stripes must be &lt;= 2^30)");<a name="line.411"></a>
+<span class="sourceLineNo">412</span><a name="line.412"></a>
+<span class="sourceLineNo">413</span>      this.array = new Object[mask + 1];<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      for (int i = 0; i &lt; array.length; i++) {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>        array[i] = supplier.get();<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      }<a name="line.416"></a>
+<span class="sourceLineNo">417</span>    }<a name="line.417"></a>
+<span class="sourceLineNo">418</span><a name="line.418"></a>
+<span class="sourceLineNo">419</span>    @SuppressWarnings("unchecked") // we only put L's in the array<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    @Override<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    public L getAt(int index) {<a name="line.421"></a>
+<span class="sourceLineNo">422</span>      return (L) array[index];<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    }<a name="line.423"></a>
+<span class="sourceLineNo">424</span><a name="line.424"></a>
+<span class="sourceLineNo">425</span>    @Override<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    public int size() {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      return array.length;<a name="line.427"></a>
+<span class="sourceLineNo">428</span>    }<a name="line.428"></a>
+<span class="sourceLineNo">429</span>  }<a name="line.429"></a>
+<span class="sourceLineNo">430</span><a name="line.430"></a>
+<span class="sourceLineNo">431</span>  /**<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * Implementation of Striped where up to 2^k stripes can be represented, using an<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * AtomicReferenceArray of size 2^k. To map a user key into a stripe, we take a k-bit slice of the<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   */<a name="line.435"></a>
+<span class="sourceLineNo">436</span>  @VisibleForTesting<a name="line.436"></a>
+<span class="sourceLineNo">437</span>  static class SmallLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    final AtomicReferenceArray&lt;ArrayReference&lt;? extends L&gt;&gt; locks;<a name="line.438"></a>
+<span class="sourceLineNo">439</span>    final Supplier&lt;L&gt; supplier;<a name="line.439"></a>
+<span class="sourceLineNo">440</span>    final int size;<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    final ReferenceQueue&lt;L&gt; queue = new ReferenceQueue&lt;L&gt;();<a name="line.441"></a>
+<span class="sourceLineNo">442</span><a name="line.442"></a>
+<span class="sourceLineNo">443</span>    SmallLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      super(stripes);<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      this.locks = new AtomicReferenceArray&lt;&gt;(size);<a name="line.446"></a>
+<span class="sourceLineNo">447</span>      this.supplier = supplier;<a name="line.447"></a>
+<span class="sourceLineNo">448</span>    }<a name="line.448"></a>
+<span class="sourceLineNo">449</span><a name="line.449"></a>
+<span class="sourceLineNo">450</span>    @Override<a name="line.450"></a>
+<span class="sourceLineNo">451</span>    public L getAt(int index) {<a name="line.451"></a>
+<span class="sourceLineNo">452</span>      if (size != Integer.MAX_VALUE) {<a name="line.452"></a>
+<span class="sourceLineNo">453</span>        Preconditions.checkElementIndex(index, size());<a name="line.453"></a>
+<span class="sourceLineNo">454</span>      } // else no check necessary, all index values are valid<a name="line.454"></a>
+<span class="sourceLineNo">455</span>      ArrayReference&lt;? extends L&gt; existingRef = locks.get(index);<a name="line.455"></a>
+<span class="sourceLineNo">456</span>      L existing = existingRef == null ? null : existingRef.get();<a name="line.456"></a>
+<span class="sourceLineNo">457</span>      if (existing != null) {<a name="line.457"></a>
+<span class="sourceLineNo">458</span>        return existing;<a name="line.458"></a>
+<span class="sourceLineNo">459</span>      }<a name="line.459"></a>
+<span class="sourceLineNo">460</span>      L created = supplier.get();<a name="line.460"></a>
+<span class="sourceLineNo">461</span>      ArrayReference&lt;L&gt; newRef = new ArrayReference&lt;L&gt;(created, index, queue);<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      while (!locks.compareAndSet(index, existingRef, newRef)) {<a name="line.462"></a>
+<span class="sourceLineNo">463</span>        // we raced, we need to re-read and try again<a name="line.463"></a>
+<span class="sourceLineNo">464</span>        existingRef = locks.get(index);<a name="line.464"></a>
+<span class="sourceLineNo">465</span>        existing = existingRef == null ? null : existingRef.get();<a name="line.465"></a>
+<span class="sourceLineNo">466</span>        if (existing != null) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>          return existing;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>        }<a name="line.468"></a>
+<span class="sourceLineNo">469</span>      }<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      drainQueue();<a name="line.470"></a>
+<span class="sourceLineNo">471</span>      return created;<a name="line.471"></a>
+<span class="sourceLineNo">472</span>    }<a name="line.472"></a>
+<span class="sourceLineNo">473</span><a name="line.473"></a>
+<span class="sourceLineNo">474</span>    // N.B. Draining the queue is only necessary to ensure that we don't accumulate empty references<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    // in the array. We could skip this if we decide we don't care about holding on to Reference<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    // objects indefinitely.<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    private void drainQueue() {<a name="line.477"></a>
+<span class="sourceLineNo">478</span>      Reference&lt;? extends L&gt; ref;<a name="line.478"></a>
+<span class="sourceLineNo">479</span>      while ((ref = queue.poll()) != null) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>        // We only ever register ArrayReferences with the queue so this is always safe.<a name="line.480"></a>
+<span class="sourceLineNo">481</span>        ArrayReference&lt;? extends L&gt; arrayRef = (ArrayReference&lt;? extends L&gt;) ref;<a name="line.481"></a>
+<span class="sourceLineNo">482</span>        // Try to clear out the array slot, n.b. if we fail that is fine, in either case the<a name="line.482"></a>
+<span class="sourceLineNo">483</span>        // arrayRef will be out of the array after this step.<a name="line.483"></a>
+<span class="sourceLineNo">484</span>        locks.compareAndSet(arrayRef.index, arrayRef, null);<a name="line.484"></a>
+<span class="sourceLineNo">485</span>      }<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
+<span class="sourceLineNo">487</span><a name="line.487"></a>
+<span class="sourceLineNo">488</span>    @Override<a name="line.488"></a>
+<span class="sourceLineNo">489</span>    public int size() {<a name="line.489"></a>
+<span class="sourceLineNo">490</span>      return size;<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    }<a name="line.491"></a>
+<span class="sourceLineNo">492</span><a name="line.492"></a>
+<span class="sourceLineNo">493</span>    private static final class ArrayReference&lt;L&gt; extends WeakReference&lt;L&gt; {<a name="line.493"></a>
+<span class="sourceLineNo">494</span>      final int index;<a name="line.494"></a>
+<span class="sourceLineNo">495</span><a name="line.495"></a>
+<span class="sourceLineNo">496</span>      ArrayReference(L referent, int index, ReferenceQueue&lt;L&gt; queue) {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>        super(referent, queue);<a name="line.497"></a>
+<span class="sourceLineNo">498</span>        this.index = index;<a name="line.498"></a>
+<span class="sourceLineNo">499</span>      }<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    }<a name="line.500"></a>
+<span class="sourceLineNo">501</span>  }<a name="line.501"></a>
+<span class="sourceLineNo">502</span><a name="line.502"></a>
+<span class="sourceLineNo">503</span>  /**<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   * Implementation of Striped where up to 2^k stripes can be represented, using a ConcurrentMap<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * where the key domain is [0..2^k). To map a user key into a stripe, we take a k-bit slice of the<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   */<a name="line.507"></a>
+<span class="sourceLineNo">508</span>  @VisibleForTesting<a name="line.508"></a>
+<span class="sourceLineNo">509</span>  static class LargeLazyStriped&lt;L&gt; extends PowerOfTwoStriped&lt;L&gt; {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>    final ConcurrentMap&lt;Integer, L&gt; locks;<a name="line.510"></a>
+<span class="sourceLineNo">511</span>    final Supplier&lt;L&gt; supplier;<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    final int size;<a name="line.512"></a>
+<span class="sourceLineNo">513</span><a name="line.513"></a>
+<span class="sourceLineNo">514</span>    LargeLazyStriped(int stripes, Supplier&lt;L&gt; supplier) {<a name="line.514"></a>
+<span class="sourceLineNo">515</span>      super(stripes);<a name="line.515"></a>
+<span class="sourceLineNo">516</span>      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;<a name="line.516"></a>
+<span class="sourceLineNo">517</span>      this.supplier = supplier;<a name="line.517"></a>
+<span class="sourceLineNo">518</span>      this.locks = new MapMaker().weakValues().makeMap();<a name="line.518"></a>
+<span class="sourceLineNo">519</span>    }<a name="line.519"></a>
+<span class="sourceLineNo">520</span><a name="line.520"></a>
+<span class="sourceLineNo">521</span>    @Override<a name="line.521"></a>
+<span class="sourceLineNo">522</span>    public L getAt(int index) {<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      if (size != Integer.MAX_VALUE) {<a name="line.523"></a>
+<span class="sourceLineNo">524</span>        Preconditions.checkElementIndex(index, size());<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      } // else no check necessary, all index values are valid<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      L existing = locks.get(index);<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      if (existing != null) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>        return existing;<a name="line.528"></a>
+<span class="sourceLineNo">529</span>      }<a name="line.529"></a>
+<span class="sourceLineNo">530</span>      L created = supplier.get();<a name="line.530"></a>
+<span class="sourceLineNo">531</span>      existing = locks.putIfAbsent(index, created);<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      return MoreObjects.firstNonNull(existing, created);<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    }<a name="line.533"></a>
+<span class="sourceLineNo">534</span><a name="line.534"></a>
+<span class="sourceLineNo">535</span>    @Override<a name="line.535"></a>
+<span class="sourceLineNo">536</span>    public int size() {<a name="line.536"></a>
+<span class="sourceLineNo">537</span>      return size;<a name="line.537"></a>
+<span class="sourceLineNo">538</span>    }<a name="line.538"></a>
+<span class="sourceLineNo">539</span>  }<a name="line.539"></a>
+<span class="sourceLineNo">540</span><a name="line.540"></a>
+<span class="sourceLineNo">541</span>  /** A bit mask were all bits are set. */<a name="line.541"></a>
+<span class="sourceLineNo">542</span>  private static final int ALL_SET = ~0;<a name="line.542"></a>
+<span class="sourceLineNo">543</span><a name="line.543"></a>
+<span class="sourceLineNo">544</span>  private static int ceilToPowerOfTwo(int x) {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    return 1 &lt;&lt; IntMath.log2(x, RoundingMode.CEILING);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>  }<a name="line.546"></a>
+<span class="sourceLineNo">547</span><a name="line.547"></a>
+<span class="sourceLineNo">548</span>  /*<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * This method was written by Doug Lea with assistance from members of JCP JSR-166 Expert Group<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   * and released to the public domain, as explained at<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   * http://creativecommons.org/licenses/publicdomain<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   *<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * As of 2010/06/11, this method is identical to the (package private) hash method in OpenJDK 7's<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * java.util.HashMap class.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   */<a name="line.555"></a>
+<span class="sourceLineNo">556</span>  // Copied from java/com/google/common/collect/Hashing.java<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  private static int smear(int hashCode) {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>    hashCode ^= (hashCode &gt;&gt;&gt; 20) ^ (hashCode &gt;&gt;&gt; 12);<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    return hashCode ^ (hashCode &gt;&gt;&gt; 7) ^ (hashCode &gt;&gt;&gt; 4);<a name="line.559"></a>
+<span class="sourceLineNo">560</span>  }<a name="line.560"></a>
+<span class="sourceLineNo">561</span><a name="line.561"></a>
+<span class="sourceLineNo">562</span>  private static class PaddedLock extends ReentrantLock {<a name="line.562"></a>
+<span class="sourceLineNo">563</span>    /*<a name="line.563"></a>
+<span class="sourceLineNo">564</span>     * Padding from 40 into 64 bytes, same size as cache line. Might be beneficial to add a fourth<a name="line.564"></a>
+<span class="sourceLineNo">565</span>     * long here, to minimize chance of interference between consecutive locks, but I couldn't<a name="line.565"></a>
+<span class="sourceLineNo">566</span>     * observe any benefit from that.<a name="line.566"></a>
+<span class="sourceLineNo">567</span>     */<a name="line.567"></a>
+<span class="sourceLineNo">568</span>    long unused1;<a name="line.568"></a>
+<span class="sourceLineNo">569</span>    long unused2;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>    long unused3;<a name="line.570"></a>
+<span class="sourceLineNo">571</span><a name="line.571"></a>
+<span class="sourceLineNo">572</span>    PaddedLock() {<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      super(false);<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    }<a name="line.574"></a>
+<span class="sourceLineNo">575</span>  }<a name="line.575"></a>
+<span class="sourceLineNo">576</span><a name="line.576"></a>
+<span class="sourceLineNo">577</span>  private static class PaddedSemaphore extends Semaphore {<a name="line.577"></a>
+<span class="sourceLineNo">578</span>    // See PaddedReentrantLock comment<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    long unused1;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    long unused2;<a name="line.580"></a>
+<span class="sourceLineNo">581</span>    long unused3;<a name="line.581"></a>
+<span class="sourceLineNo">582</span><a name="line.582"></a>
+<span class="sourceLineNo">583</span>    PaddedSemaphore(int permits) {<a name="line.583"></a>
+<span class="sourceLineNo">584</span>      super(permits, false);<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    }<a name="line.585"></a>
+<span class="sourceLineNo">586</span>  }<a name="line.586"></a>
+<span class="sourceLineNo">587</span>}<a name="line.587"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.collect.CollectPreconditions.checkNonnegative;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Supplier;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.io.Serializable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.LinkedHashMap;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Map;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>/**<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * Implementation of {@link Table} using linked hash tables. This guarantees predictable iteration<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * order of the various views.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;p&gt;The views returned by {@link #column}, {@link #columnKeySet()}, and {@link #columnMap()} have<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * iterators that don't support {@code remove()}. Otherwise, all optional operations are supported.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * Null row keys, columns keys, and values are not supported.<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * &lt;p&gt;Lookups by row key are often faster than lookups by column key, because the data is stored in<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * a {@code Map&lt;R, Map&lt;C, V&gt;&gt;}. A method call like {@code column(columnKey).get(rowKey)} still runs<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * quickly, since the row key is provided. However, {@code column(columnKey).size()} takes longer,<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * since an iteration across all row keys occurs.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;Note that this implementation is not synchronized. If multiple threads access this table<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * concurrently and one of the threads modifies the table, it must be synchronized externally.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#table"&gt; {@code Table}&lt;/a&gt;.<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * @author Jared Levy<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * @since 7.0<a name="line.49"></a>
+<span class="sourceLineNo">050</span> */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>@GwtCompatible(serializable = true)<a name="line.51"></a>
+<span class="sourceLineNo">052</span>public class HashBasedTable&lt;R, C, V&gt; extends StandardTable&lt;R, C, V&gt; {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private static class Factory&lt;C, V&gt; implements Supplier&lt;Map&lt;C, V&gt;&gt;, Serializable {<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    final int expectedSize;<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>    Factory(int expectedSize) {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      this.expectedSize = expectedSize;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    }<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>    @Override<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    public Map&lt;C, V&gt; get() {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      return Maps.newLinkedHashMapWithExpectedSize(expectedSize);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    }<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>    private static final long serialVersionUID = 0;<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /** Creates an empty {@code HashBasedTable}. */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public static &lt;R, C, V&gt; HashBasedTable&lt;R, C, V&gt; create() {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    return new HashBasedTable&lt;&gt;(new LinkedHashMap&lt;R, Map&lt;C, V&gt;&gt;(), new Factory&lt;C, V&gt;(0));<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  /**<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * Creates an empty {@code HashBasedTable} with the specified map sizes.<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * @param expectedRows the expected number of distinct row keys<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * @param expectedCellsPerRow the expected number of column key / value mappings in each row<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @throws IllegalArgumentException if {@code expectedRows} or {@code expectedCellsPerRow} is<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *     negative<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public static &lt;R, C, V&gt; HashBasedTable&lt;R, C, V&gt; create(<a name="line.81"></a>
+<span class="sourceLineNo">082</span>      int expectedRows, int expectedCellsPerRow) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    checkNonnegative(expectedCellsPerRow, "expectedCellsPerRow");<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    Map&lt;R, Map&lt;C, V&gt;&gt; backingMap = Maps.newLinkedHashMapWithExpectedSize(expectedRows);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    return new HashBasedTable&lt;&gt;(backingMap, new Factory&lt;C, V&gt;(expectedCellsPerRow));<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * Creates a {@code HashBasedTable} with the same mappings as the specified table.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @param table the table to copy<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * @throws NullPointerException if any of the row keys, column keys, or values in {@code table} is<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   *     null<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public static &lt;R, C, V&gt; HashBasedTable&lt;R, C, V&gt; create(<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      Table&lt;? extends R, ? extends C, ? extends V&gt; table) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    HashBasedTable&lt;R, C, V&gt; result = create();<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    result.putAll(table);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    return result;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  HashBasedTable(Map&lt;R, Map&lt;C, V&gt;&gt; backingMap, Factory&lt;C, V&gt; factory) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    super(backingMap, factory);<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  // Overriding so NullPointerTester test passes.<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  @Override<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    return super.contains(rowKey, columnKey);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  @Override<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  public boolean containsColumn(@Nullable Object columnKey) {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    return super.containsColumn(columnKey);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  }<a name="line.116"></a>
+<span class="sourceLineNo">117</span><a name="line.117"></a>
+<span class="sourceLineNo">118</span>  @Override<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public boolean containsRow(@Nullable Object rowKey) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return super.containsRow(rowKey);<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  @Override<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  public boolean containsValue(@Nullable Object value) {<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    return super.containsValue(value);<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  }<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>  @Override<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    return super.get(rowKey, columnKey);<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  }<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>  @Override<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  public boolean equals(@Nullable Object obj) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    return super.equals(obj);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  @CanIgnoreReturnValue<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  @Override<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    return super.remove(rowKey, columnKey);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>  private static final long serialVersionUID = 0;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>}<a name="line.145"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
