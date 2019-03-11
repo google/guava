@@ -27,6 +27,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -174,20 +175,40 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * @param capacity the initial capacity of this {@code CompactHashMap}.
    */
   CompactHashMap(int capacity) {
-    this(capacity, DEFAULT_LOAD_FACTOR);
+    init(capacity, DEFAULT_LOAD_FACTOR);
   }
 
-  CompactHashMap(int expectedSize, float loadFactor) {
-    init(expectedSize, loadFactor);
+  /**
+   * Constructs a new instance of {@code CompactHashMap} with the specified capacity and load
+   * factor.
+   *
+   * @param capacity the initial capacity of this {@code CompactHashMap}.
+   * @param loadFactor the load factor of this {@code CompactHashMap}.
+   */
+  CompactHashMap(int capacity, float loadFactor) {
+    init(capacity, loadFactor);
   }
 
   /** Pseudoconstructor for serialization support. */
   void init(int expectedSize, float loadFactor) {
     Preconditions.checkArgument(expectedSize >= 0, "Initial capacity must be non-negative");
     Preconditions.checkArgument(loadFactor > 0, "Illegal load factor");
+    this.loadFactor = loadFactor;
+    this.threshold = Math.max(1, expectedSize); // Save expectedSize for use in allocArrays()
+  }
+
+  /** Returns whether arrays need to be allocated. */
+  boolean needsAllocArrays() {
+    return table == null;
+  }
+
+  /** Handle lazy allocation of arrays. */
+  void allocArrays() {
+    Preconditions.checkState(needsAllocArrays(), "Arrays already allocated");
+
+    int expectedSize = threshold;
     int buckets = Hashing.closedTableSize(expectedSize, loadFactor);
     this.table = newTable(buckets);
-    this.loadFactor = loadFactor;
 
     this.keys = new Object[expectedSize];
     this.values = new Object[expectedSize];
@@ -237,6 +258,9 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   @CanIgnoreReturnValue
   @Override
   public @Nullable V put(@Nullable K key, @Nullable V value) {
+    if (needsAllocArrays()) {
+      allocArrays();
+    }
     long[] entries = this.entries;
     Object[] keys = this.keys;
     Object[] values = this.values;
@@ -289,7 +313,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     this.values[entryIndex] = value;
   }
 
-  /** Returns currentSize + 1, after resizing the entries storage if necessary. */
+  /** Resizes the entries storage if necessary. */
   private void resizeMeMaybe(int newSize) {
     int entriesSize = entries.length;
     if (newSize > entriesSize) {
@@ -345,6 +369,9 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   private int indexOf(@Nullable Object key) {
+    if (needsAllocArrays()) {
+      return -1;
+    }
     int hash = smearedHash(key);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -373,6 +400,9 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   @CanIgnoreReturnValue
   @Override
   public @Nullable V remove(@Nullable Object key) {
+    if (needsAllocArrays()) {
+      return null;
+    }
     return remove(key, smearedHash(key));
   }
 
@@ -542,11 +572,20 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
     @Override
     public Object[] toArray() {
+      if (needsAllocArrays()) {
+        return new Object[0];
+      }
       return ObjectArrays.copyAsObjectArray(keys, 0, size);
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
+      if (needsAllocArrays()) {
+        if (a.length > 0) {
+          a[0] = null;
+        }
+        return a;
+      }
       return ObjectArrays.toArrayImpl(keys, 0, size, a);
     }
 
@@ -568,6 +607,9 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
     @Override
     public Spliterator<K> spliterator() {
+      if (needsAllocArrays()) {
+        return Spliterators.spliterator(new Object[0], Spliterator.DISTINCT | Spliterator.ORDERED);
+      }
       return Spliterators.spliterator(keys, 0, size, Spliterator.DISTINCT | Spliterator.ORDERED);
     }
 
@@ -758,16 +800,28 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
     @Override
     public Spliterator<V> spliterator() {
+      if (needsAllocArrays()) {
+        return Spliterators.spliterator(new Object[0], Spliterator.ORDERED);
+      }
       return Spliterators.spliterator(values, 0, size, Spliterator.ORDERED);
     }
 
     @Override
     public Object[] toArray() {
+      if (needsAllocArrays()) {
+        return new Object[0];
+      }
       return ObjectArrays.copyAsObjectArray(values, 0, size);
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
+      if (needsAllocArrays()) {
+        if (a.length > 0) {
+          a[0] = null;
+        }
+        return a;
+      }
       return ObjectArrays.toArrayImpl(values, 0, size, a);
     }
   }
@@ -787,6 +841,9 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
    * current size.
    */
   public void trimToSize() {
+    if (needsAllocArrays()) {
+      return;
+    }
     int size = this.size;
     if (size < entries.length) {
       resizeEntries(size);
@@ -810,11 +867,14 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @Override
   public void clear() {
+    if (needsAllocArrays()) {
+      return;
+    }
     modCount++;
     Arrays.fill(keys, 0, size, null);
     Arrays.fill(values, 0, size, null);
     Arrays.fill(table, UNSET);
-    Arrays.fill(entries, UNSET);
+    Arrays.fill(entries, 0, size, UNSET);
     this.size = 0;
   }
 
@@ -825,7 +885,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size);
-    for (int i = 0; i < size; i++) {
+    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
       stream.writeObject(keys[i]);
       stream.writeObject(values[i]);
     }
@@ -834,9 +894,12 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    init(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR);
     int elementCount = stream.readInt();
-    for (int i = elementCount; --i >= 0; ) {
+    if (elementCount < 0) {
+      throw new InvalidObjectException("Invalid size: " + elementCount);
+    }
+    init(elementCount, DEFAULT_LOAD_FACTOR);
+    for (int i = 0; i < elementCount; i++) {
       K key = (K) stream.readObject();
       V value = (V) stream.readObject();
       put(key, value);
