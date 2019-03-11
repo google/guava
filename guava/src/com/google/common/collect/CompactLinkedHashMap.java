@@ -110,6 +110,12 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     super.init(expectedSize, loadFactor);
     firstEntry = ENDPOINT;
     lastEntry = ENDPOINT;
+  }
+
+  @Override
+  void allocArrays() {
+    super.allocArrays();
+    int expectedSize = keys.length; // allocated size may be different than initial capacity
     links = new long[expectedSize];
     Arrays.fill(links, UNSET);
   }
@@ -173,13 +179,18 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
+    links[srcIndex] = UNSET;
     super.moveLastEntry(dstIndex);
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
+    int oldCapacity = links.length;
     links = Arrays.copyOf(links, newCapacity);
+    if (oldCapacity < newCapacity) {
+      Arrays.fill(links, oldCapacity, newCapacity, UNSET);
+    }
   }
 
   @Override
@@ -274,8 +285,12 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
 
   @Override
   public void clear() {
-    super.clear();
+    if (needsAllocArrays()) {
+      return;
+    }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
+    Arrays.fill(links, 0, size(), UNSET);
+    super.clear();
   }
 }

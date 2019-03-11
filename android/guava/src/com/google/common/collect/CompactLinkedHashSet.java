@@ -122,13 +122,19 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   @Override
   void init(int expectedSize, float loadFactor) {
     super.init(expectedSize, loadFactor);
+    firstEntry = ENDPOINT;
+    lastEntry = ENDPOINT;
+  }
+
+  @Override
+  void allocArrays() {
+    super.allocArrays();
+    int expectedSize = elements.length; // allocated size may be different than initial capacity
     this.predecessor = new int[expectedSize];
     this.successor = new int[expectedSize];
 
     Arrays.fill(predecessor, UNSET);
     Arrays.fill(successor, UNSET);
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
   }
 
   private void succeeds(int pred, int succ) {
@@ -168,11 +174,14 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
 
   @Override
   public void clear() {
-    super.clear();
+    if (needsAllocArrays()) {
+      return;
+    }
     firstEntry = ENDPOINT;
     lastEntry = ENDPOINT;
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
+    Arrays.fill(predecessor, 0, size(), UNSET);
+    Arrays.fill(successor, 0, size(), UNSET);
+    super.clear();
   }
 
   @Override

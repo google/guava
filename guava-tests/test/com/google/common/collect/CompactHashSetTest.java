@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -83,7 +85,26 @@ public class CompactHashSetTest extends TestCase {
     return suite;
   }
 
-  public void testDummyMethod() {
-    // Just make sure the test runner doesn't complain about no test methods.
+  public void testAllocArraysDefault() {
+    CompactHashSet<Integer> set = CompactHashSet.create();
+    assertThat(set.needsAllocArrays()).isTrue();
+    assertThat(set.elements).isNull();
+
+    set.add(1);
+    assertThat(set.needsAllocArrays()).isFalse();
+    assertThat(set.elements).hasLength(CompactHashSet.DEFAULT_SIZE);
+  }
+
+  public void testAllocArraysExpectedSize() {
+    for (int i = 0; i <= CompactHashSet.DEFAULT_SIZE; i++) {
+      CompactHashSet<Integer> set = CompactHashSet.createWithExpectedSize(i);
+      assertThat(set.needsAllocArrays()).isTrue();
+      assertThat(set.elements).isNull();
+
+      set.add(1);
+      assertThat(set.needsAllocArrays()).isFalse();
+      int expectedSize = Math.max(1, i);
+      assertThat(set.elements).hasLength(expectedSize);
+    }
   }
 }

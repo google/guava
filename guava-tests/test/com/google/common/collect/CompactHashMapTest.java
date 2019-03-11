@@ -85,4 +85,35 @@ public class CompactHashMapTest extends TestCase {
     entry.setValue("one");
     assertThat(map).containsEntry(1, "one");
   }
+
+  public void testAllocArraysDefault() {
+    CompactHashMap<Integer, String> map = CompactHashMap.create();
+    assertThat(map.needsAllocArrays()).isTrue();
+    assertThat(map.entries).isNull();
+    assertThat(map.keys).isNull();
+    assertThat(map.values).isNull();
+
+    map.put(1, "1");
+    assertThat(map.needsAllocArrays()).isFalse();
+    assertThat(map.entries).hasLength(CompactHashMap.DEFAULT_SIZE);
+    assertThat(map.keys).hasLength(CompactHashMap.DEFAULT_SIZE);
+    assertThat(map.values).hasLength(CompactHashMap.DEFAULT_SIZE);
+  }
+
+  public void testAllocArraysExpectedSize() {
+    for (int i = 0; i <= CompactHashMap.DEFAULT_SIZE; i++) {
+      CompactHashMap<Integer, String> map = CompactHashMap.createWithExpectedSize(i);
+      assertThat(map.needsAllocArrays()).isTrue();
+      assertThat(map.entries).isNull();
+      assertThat(map.keys).isNull();
+      assertThat(map.values).isNull();
+
+      map.put(1, "1");
+      assertThat(map.needsAllocArrays()).isFalse();
+      int expectedSize = Math.max(1, i);
+      assertThat(map.entries).hasLength(expectedSize);
+      assertThat(map.keys).hasLength(expectedSize);
+      assertThat(map.values).hasLength(expectedSize);
+    }
+  }
 }

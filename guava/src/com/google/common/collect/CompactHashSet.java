@@ -21,10 +21,12 @@ import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static com.google.common.collect.Hashing.smearedHash;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -127,7 +129,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   private static final long HASH_MASK = ~NEXT_MASK;
 
   // TODO(user): decide default size
-  private static final int DEFAULT_SIZE = 3;
+  @VisibleForTesting static final int DEFAULT_SIZE = 3;
 
   static final int UNSET = -1;
 
@@ -186,10 +188,25 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   void init(int expectedSize, float loadFactor) {
     Preconditions.checkArgument(expectedSize >= 0, "Initial capacity must be non-negative");
     Preconditions.checkArgument(loadFactor > 0, "Illegal load factor");
+    this.loadFactor = loadFactor;
+    this.threshold = Math.max(1, expectedSize); // Save expectedSize for use in allocArrays()
+  }
+
+  /** Returns whether arrays need to be allocated. */
+  boolean needsAllocArrays() {
+    return table == null;
+  }
+
+  /** Handle lazy allocation of arrays. */
+  void allocArrays() {
+    Preconditions.checkState(needsAllocArrays(), "Arrays already allocated");
+
+    int expectedSize = threshold;
     int buckets = Hashing.closedTableSize(expectedSize, loadFactor);
     this.table = newTable(buckets);
-    this.loadFactor = loadFactor;
+
     this.elements = new Object[expectedSize];
+
     this.entries = newEntries(expectedSize);
     this.threshold = Math.max(1, (int) (buckets * loadFactor));
   }
@@ -227,6 +244,9 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   @CanIgnoreReturnValue
   @Override
   public boolean add(@Nullable E object) {
+    if (needsAllocArrays()) {
+      allocArrays();
+    }
     long[] entries = this.entries;
     Object[] elements = this.elements;
     int hash = smearedHash(object);
@@ -270,7 +290,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     this.elements[entryIndex] = object;
   }
 
-  /** Returns currentSize + 1, after resizing the entries storage if necessary. */
+  /** Resizes the entries storage if necessary. */
   private void resizeMeMaybe(int newSize) {
     int entriesSize = entries.length;
     if (newSize > entriesSize) {
@@ -326,6 +346,9 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @Override
   public boolean contains(@Nullable Object object) {
+    if (needsAllocArrays()) {
+      return false;
+    }
     int hash = smearedHash(object);
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
@@ -341,6 +364,9 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object object) {
+    if (needsAllocArrays()) {
+      return false;
+    }
     return remove(object, smearedHash(object));
   }
 
@@ -474,6 +500,9 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @Override
   public Spliterator<E> spliterator() {
+    if (needsAllocArrays()) {
+      return Spliterators.spliterator(new Object[0], Spliterator.DISTINCT | Spliterator.ORDERED);
+    }
     return Spliterators.spliterator(elements, 0, size, Spliterator.DISTINCT | Spliterator.ORDERED);
   }
 
@@ -497,12 +526,21 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @Override
   public Object[] toArray() {
+    if (needsAllocArrays()) {
+      return new Object[0];
+    }
     return Arrays.copyOf(elements, size);
   }
 
   @CanIgnoreReturnValue
   @Override
   public <T> T[] toArray(T[] a) {
+    if (needsAllocArrays()) {
+      if (a.length > 0) {
+        a[0] = null;
+      }
+      return a;
+    }
     return ObjectArrays.toArrayImpl(elements, 0, size, a);
   }
 
@@ -511,6 +549,9 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    * current size.
    */
   public void trimToSize() {
+    if (needsAllocArrays()) {
+      return;
+    }
     int size = this.size;
     if (size < entries.length) {
       resizeEntries(size);
@@ -534,10 +575,13 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @Override
   public void clear() {
+    if (needsAllocArrays()) {
+      return;
+    }
     modCount++;
     Arrays.fill(elements, 0, size, null);
     Arrays.fill(table, UNSET);
-    Arrays.fill(entries, UNSET);
+    Arrays.fill(entries, 0, size, UNSET);
     this.size = 0;
   }
 
@@ -548,17 +592,20 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size);
-    for (E e : this) {
-      stream.writeObject(e);
+    for (int i = firstEntryIndex(); i >= 0; i = getSuccessor(i)) {
+      stream.writeObject(elements[i]);
     }
   }
 
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    init(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR);
     int elementCount = stream.readInt();
-    for (int i = elementCount; --i >= 0; ) {
+    if (elementCount < 0) {
+      throw new InvalidObjectException("Invalid size: " + elementCount);
+    }
+    init(elementCount, DEFAULT_LOAD_FACTOR);
+    for (int i = 0; i < elementCount; i++) {
       E element = (E) stream.readObject();
       add(element);
     }
