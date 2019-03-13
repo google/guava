@@ -38,6 +38,7 @@ import com.google.errorprone.annotations.Immutable;
  * @author James Sexton
  * @author Joshua O'Madadhain
  * @author Omar Darwish
+ * @author Jens Nyman
  * @param <N> Node parameter type
  * @since 20.0
  */
