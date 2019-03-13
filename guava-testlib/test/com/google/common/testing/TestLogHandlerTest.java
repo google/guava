@@ -42,6 +42,8 @@ public class TestLogHandlerTest extends TestCase {
 
     ExampleClassUnderTest.logger.setUseParentHandlers(false); // optional
 
+    ExampleClassUnderTest.logger.setLevel(Level.ALL); // log all messages.
+
     stack.addTearDown(
         new TearDown() {
           @Override
