@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -124,6 +126,17 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since NEXT
+   */
+  @Deprecated
+  public static <V> FluentFuture<V> from(FluentFuture<V> future) {
+    return checkNotNull(future);
   }
 
   /**
