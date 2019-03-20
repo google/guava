@@ -70,4 +70,66 @@ public class ImmutableGraphTest {
 
     assertThat(graph2).isSameAs(graph1);
   }
+
+  @Test
+  public void immutableGraphBuilder_appliesGraphBuilderConfig() {
+    ImmutableGraph<String> emptyGraph =
+        GraphBuilder.directed()
+            .allowsSelfLoops(true)
+            .nodeOrder(ElementOrder.<String>natural())
+            .immutable()
+            .build();
+
+    assertThat(emptyGraph.isDirected()).isTrue();
+    assertThat(emptyGraph.allowsSelfLoops()).isTrue();
+    assertThat(emptyGraph.nodeOrder()).isEqualTo(ElementOrder.<String>natural());
+  }
+
+  /**
+   * Tests that the ImmutableGraph.Builder doesn't change when the creating GraphBuilder changes.
+   */
+  @Test
+  @SuppressWarnings("CheckReturnValue")
+  public void immutableGraphBuilder_copiesGraphBuilder() {
+    GraphBuilder<String> graphBuilder =
+        GraphBuilder.directed()
+            .allowsSelfLoops(true)
+            .<String>nodeOrder(ElementOrder.<String>natural());
+    ImmutableGraph.Builder<String> immutableGraphBuilder = graphBuilder.immutable();
+
+    // Update GraphBuilder, but this shouldn't impact immutableGraphBuilder
+    graphBuilder.allowsSelfLoops(false).nodeOrder(ElementOrder.<String>unordered());
+
+    ImmutableGraph<String> emptyGraph = immutableGraphBuilder.build();
+
+    assertThat(emptyGraph.isDirected()).isTrue();
+    assertThat(emptyGraph.allowsSelfLoops()).isTrue();
+    assertThat(emptyGraph.nodeOrder()).isEqualTo(ElementOrder.<String>natural());
+  }
+
+  @Test
+  public void immutableGraphBuilder_addNode() {
+    ImmutableGraph<String> graph = GraphBuilder.directed().<String>immutable().addNode("A").build();
+
+    assertThat(graph.nodes()).containsExactly("A");
+    assertThat(graph.edges()).isEmpty();
+  }
+
+  @Test
+  public void immutableGraphBuilder_putEdgeFromNodes() {
+    ImmutableGraph<String> graph =
+        GraphBuilder.directed().<String>immutable().putEdge("A", "B").build();
+
+    assertThat(graph.nodes()).containsExactly("A", "B");
+    assertThat(graph.edges()).containsExactly(EndpointPair.ordered("A", "B"));
+  }
+
+  @Test
+  public void immutableGraphBuilder_putEdgeFromEndpointPair() {
+    ImmutableGraph<String> graph =
+        GraphBuilder.directed().<String>immutable().putEdge(EndpointPair.ordered("A", "B")).build();
+
+    assertThat(graph.nodes()).containsExactly("A", "B");
+    assertThat(graph.edges()).containsExactly(EndpointPair.ordered("A", "B"));
+  }
 }
