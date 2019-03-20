@@ -44,6 +44,11 @@ public class FluentFutureTest extends TestCase {
     assertThat(FluentFuture.from(f)).isSameAs(f);
   }
 
+  public void testFromFluentFuturePassingAsNonFluent() {
+    ListenableFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
+    assertThat(FluentFuture.from(f)).isSameAs(f);
+  }
+
   public void testFromNonFluentFuture() throws Exception {
     ListenableFuture<String> f =
         new SimpleForwardingListenableFuture<String>(immediateFuture("a")) {};
