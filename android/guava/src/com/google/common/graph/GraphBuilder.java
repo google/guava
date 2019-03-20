@@ -80,6 +80,18 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   }
 
   /**
+   * Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+   *
+   * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
+   *
+   * @since NEXT
+   */
+  public <N1 extends N> ImmutableGraph.Builder<N1> immutable() {
+    GraphBuilder<N1> castBuilder = cast();
+    return new ImmutableGraph.Builder<N1>(castBuilder);
+  }
+
+  /**
    * Specifies whether the graph will allow self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a graph that does not allow them will throw an {@link
    * UnsupportedOperationException}.
