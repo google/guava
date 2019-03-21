@@ -30,7 +30,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();
 
-  private final transient int[] keyHashTable;
+  private final transient Object keyHashTable;
   @VisibleForTesting final transient Object[] alternatingKeysAndValues;
   private final transient int keyOffset; // 0 for K-to-V, 1 for V-to-K
   private final transient int size;
@@ -54,7 +54,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     int tableSize = (size >= 2) ? ImmutableSet.chooseTableSize(size) : 0;
     this.keyHashTable =
         RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 0);
-    int[] valueHashTable =
+    Object valueHashTable =
         RegularImmutableMap.createHashTable(alternatingKeysAndValues, size, tableSize, 1);
     this.inverse =
         new RegularImmutableBiMap<V, K>(valueHashTable, alternatingKeysAndValues, size, this);
@@ -62,7 +62,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   /** V-to-K constructor. */
   private RegularImmutableBiMap(
-      int[] valueHashTable,
+      Object valueHashTable,
       Object[] alternatingKeysAndValues,
       int size,
       RegularImmutableBiMap<V, K> inverse) {
