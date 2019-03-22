@@ -85,6 +85,19 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   }
 
   /**
+   * Returns an {@link ImmutableValueGraph#Builder} with the properties of this {@link
+   * ValueGraphBuilder}.
+   *
+   * <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
+   *
+   * @since NEXT
+   */
+  public <N1 extends N, V1 extends V> ImmutableValueGraph.Builder<N1, V1> immutable() {
+    ValueGraphBuilder<N1, V1> castBuilder = cast();
+    return new ImmutableValueGraph.Builder<>(castBuilder);
+  }
+
+  /**
    * Specifies whether the graph will allow self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a graph that does not allow them will throw an {@link
    * UnsupportedOperationException}.

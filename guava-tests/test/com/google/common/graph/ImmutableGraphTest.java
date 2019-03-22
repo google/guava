@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for {@link ImmutableGraph} and {@link ImmutableValueGraph} . */
+/** Tests for {@link ImmutableGraph}. */
 @RunWith(JUnit4.class)
 public class ImmutableGraphTest {
 
@@ -40,33 +40,9 @@ public class ImmutableGraphTest {
   }
 
   @Test
-  public void immutableValueGraph() {
-    MutableValueGraph<String, Integer> mutableValueGraph = ValueGraphBuilder.directed().build();
-    mutableValueGraph.addNode("A");
-    ImmutableValueGraph<String, Integer> immutableValueGraph =
-        ImmutableValueGraph.copyOf(mutableValueGraph);
-
-    assertThat(immutableValueGraph.asGraph()).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableValueGraph).isNotInstanceOf(MutableValueGraph.class);
-    assertThat(immutableValueGraph).isEqualTo(mutableValueGraph);
-
-    mutableValueGraph.addNode("B");
-    assertThat(immutableValueGraph).isNotEqualTo(mutableValueGraph);
-  }
-
-  @Test
   public void copyOfImmutableGraph_optimized() {
     Graph<String> graph1 = ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
     Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
-
-    assertThat(graph2).isSameAs(graph1);
-  }
-
-  @Test
-  public void copyOfImmutableValueGraph_optimized() {
-    ValueGraph<String, Integer> graph1 =
-        ImmutableValueGraph.copyOf(ValueGraphBuilder.directed().<String, Integer>build());
-    ValueGraph<String, Integer> graph2 = ImmutableValueGraph.copyOf(graph1);
 
     assertThat(graph2).isSameAs(graph1);
   }

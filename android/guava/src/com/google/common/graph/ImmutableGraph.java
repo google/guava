@@ -103,9 +103,9 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    * graphs. Example:
    *
    * <pre>{@code
-   * public static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
+   * static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
    *     GraphBuilder.undirected()
-   *         .<Country> immutable()
+   *         .<Country>immutable()
    *         .putEdge(FRANCE, GERMANY)
    *         .putEdge(FRANCE, BELGIUM)
    *         .putEdge(GERMANY, BELGIUM)
