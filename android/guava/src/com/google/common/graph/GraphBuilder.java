@@ -88,7 +88,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    */
   public <N1 extends N> ImmutableGraph.Builder<N1> immutable() {
     GraphBuilder<N1> castBuilder = cast();
-    return new ImmutableGraph.Builder<N1>(castBuilder);
+    return new ImmutableGraph.Builder<>(castBuilder);
   }
 
   /**
