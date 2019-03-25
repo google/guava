@@ -54,7 +54,7 @@ This must be done on a CSE machine, which has access to the necessary passwords.
 # Then, set this variable to the same version.
 # If it's not the same as the upstream version, then also edit pom.xml and guava/pom.xml.
 
-PACKAGE=guava-27.0.1-jre
+PACKAGE=guava-27.1-jre
 
 cd guava
 
