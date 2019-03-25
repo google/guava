@@ -32,10 +32,12 @@ import org.junit.Ignore;
 public class AbstractListMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 
+  @Override
   protected void assertGet(K key, V... values) {
     assertGet(key, Arrays.asList(values));
   }
 
+  @Override
   protected void assertGet(K key, Collection<V> values) {
     assertEqualInOrder(values, multimap().get(key));
 

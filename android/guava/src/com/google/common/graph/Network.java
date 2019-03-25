@@ -271,7 +271,7 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<E> adjacentEdges(E edge);
 
   /**
-   * Returns the set of edges directly connecting {@code nodeU} to {@code nodeV}.
+   * Returns the set of edges that each directly connect {@code nodeU} to {@code nodeV}.
    *
    * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
@@ -285,8 +285,24 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   Set<E> edgesConnecting(N nodeU, N nodeV);
 
   /**
-   * Returns the single edge directly connecting {@code nodeU} to {@code nodeV}, if one is present,
-   * or {@code null} if no such edge exists.
+   * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
+   * specified by {@code endpoints}).
+   *
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
+   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
+   * will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).
+   *
+   * <p>If this network is directed, {@code endpoints} must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this network
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  Set<E> edgesConnecting(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+   * present, or {@code null} if no such edge exists.
    *
    * <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
    *
@@ -300,7 +316,22 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   E edgeConnectingOrNull(N nodeU, N nodeV);
 
   /**
-   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+   * specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if either endpoint is not an element of this network
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  @NullableDecl
+  E edgeConnectingOrNull(EndpointPair<N> endpoints);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
    * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
    * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
    *
@@ -309,6 +340,19 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * @since 23.0
    */
   boolean hasEdgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+   * any, specified by {@code endpoints}).
+   *
+   * <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+   * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
+   * ValueGraph#hasEdgeConnecting(EndpointPair)}.
+   *
+   * @since 27.1
+   */
+  boolean hasEdgeConnecting(EndpointPair<N> endpoints);
 
   //
   // Network identity

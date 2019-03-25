@@ -100,6 +100,13 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   @Override
   @CanIgnoreReturnValue
+  public V putEdgeValue(EndpointPair<N> endpoints, V value) {
+    validateEndpoints(endpoints);
+    return putEdgeValue(endpoints.nodeU(), endpoints.nodeV(), value);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
   public boolean removeNode(N node) {
     checkNotNull(node, "node");
 
@@ -149,6 +156,13 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
       checkNonNegative(--edgeCount);
     }
     return previousValue;
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  public V removeEdge(EndpointPair<N> endpoints) {
+    validateEndpoints(endpoints);
+    return removeEdge(endpoints.nodeU(), endpoints.nodeV());
   }
 
   private GraphConnections<N, V> newConnections() {

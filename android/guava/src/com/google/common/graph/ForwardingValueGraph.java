@@ -95,8 +95,19 @@ abstract class ForwardingValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    return delegate().hasEdgeConnecting(endpoints);
+  }
+
+  @Override
   @NullableDecl
   public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {
     return delegate().edgeValueOrDefault(nodeU, nodeV, defaultValue);
+  }
+
+  @Override
+  @NullableDecl
+  public V edgeValueOrDefault(EndpointPair<N> endpoints, @NullableDecl V defaultValue) {
+    return delegate().edgeValueOrDefault(endpoints, defaultValue);
   }
 }

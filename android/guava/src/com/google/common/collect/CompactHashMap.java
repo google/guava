@@ -61,8 +61,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *
  * <p>This class should not be assumed to be universally superior to {@code java.util.HashMap}.
  * Generally speaking, this class reduces object allocation and memory consumption at the price of
- * moderately increased constant factors of CPU.  Only use this class when there is a specific
- * reason to prioritize memory over CPU.
+ * moderately increased constant factors of CPU. Only use this class when there is a specific reason
+ * to prioritize memory over CPU.
  *
  * @author Louis Wasserman
  */

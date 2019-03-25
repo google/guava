@@ -259,6 +259,13 @@ public final class Graphs {
     return new TransposedNetwork<>(network);
   }
 
+  static <N> EndpointPair<N> transpose(EndpointPair<N> endpoints) {
+    if (endpoints.isOrdered()) {
+      return EndpointPair.ordered(endpoints.target(), endpoints.source());
+    }
+    return endpoints;
+  }
+
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractGraph) derives its behavior from calling successors().
   private static class TransposedGraph<N> extends ForwardingGraph<N> {
@@ -296,6 +303,11 @@ public final class Graphs {
     @Override
     public boolean hasEdgeConnecting(N nodeU, N nodeV) {
       return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+      return delegate().hasEdgeConnecting(transpose(endpoints));
     }
   }
 
@@ -339,13 +351,28 @@ public final class Graphs {
     }
 
     @Override
+    public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+      return delegate().hasEdgeConnecting(transpose(endpoints));
+    }
+
+    @Override
     public Optional<V> edgeValue(N nodeU, N nodeV) {
       return delegate().edgeValue(nodeV, nodeU); // transpose
     }
 
     @Override
+    public Optional<V> edgeValue(EndpointPair<N> endpoints) {
+      return delegate().edgeValue(transpose(endpoints));
+    }
+
+    @Override
     public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
+    }
+
+    @Override
+    public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
+      return delegate().edgeValueOrDefault(transpose(endpoints), defaultValue);
     }
   }
 
@@ -403,8 +430,18 @@ public final class Graphs {
     }
 
     @Override
+    public Set<E> edgesConnecting(EndpointPair<N> endpoints) {
+      return delegate().edgesConnecting(transpose(endpoints));
+    }
+
+    @Override
     public Optional<E> edgeConnecting(N nodeU, N nodeV) {
       return delegate().edgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public Optional<E> edgeConnecting(EndpointPair<N> endpoints) {
+      return delegate().edgeConnecting(transpose(endpoints));
     }
 
     @Override
@@ -413,8 +450,18 @@ public final class Graphs {
     }
 
     @Override
+    public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+      return delegate().edgeConnectingOrNull(transpose(endpoints));
+    }
+
+    @Override
     public boolean hasEdgeConnecting(N nodeU, N nodeV) {
       return delegate().hasEdgeConnecting(nodeV, nodeU); // transpose
+    }
+
+    @Override
+    public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+      return delegate().hasEdgeConnecting(transpose(endpoints));
     }
   }
 

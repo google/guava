@@ -184,7 +184,6 @@ public final class Sets {
    *
    * @since 21.0
    */
-  @Beta
   public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
     return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
   }
@@ -873,7 +872,7 @@ public final class Sets {
 
       @Override
       public boolean isEmpty() {
-        return Collections.disjoint(set1, set2);
+        return Collections.disjoint(set2, set1);
       }
 
       @Override

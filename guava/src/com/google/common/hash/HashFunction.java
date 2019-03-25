@@ -74,9 +74,7 @@ import java.nio.charset.Charset;
  *       these feats has become computationally feasible, the function is deemed "broken" and should
  *       no longer be used for secure purposes. (This is the likely eventual fate of <i>all</i>
  *       cryptographic hashes.)
- *   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration. We have
- *       published <a href="#noWeHaventYet">microbenchmark results</a> for many common hash
- *       functions.
+ *   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
  * </ul>
  *
  * <h3>Providing input to a hash function</h3>

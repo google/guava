@@ -166,7 +166,7 @@ public final class Preconditions {
   public static void checkArgument(
       boolean expression,
       @Nullable String errorMessageTemplate,
-      Object @Nullable... errorMessageArgs) {
+      Object @Nullable ... errorMessageArgs) {
     if (!expression) {
       throw new IllegalArgumentException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
@@ -556,7 +556,7 @@ public final class Preconditions {
   public static void checkState(
       boolean expression,
       @Nullable String errorMessageTemplate,
-      @Nullable Object @Nullable... errorMessageArgs) {
+      @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
       throw new IllegalStateException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
@@ -948,7 +948,7 @@ public final class Preconditions {
   @CanIgnoreReturnValue
   @Pure
   public static <T extends @NonNull Object> T checkNotNull(
-      T reference, @Nullable String errorMessageTemplate, Object @Nullable... errorMessageArgs) {
+      T reference, @Nullable String errorMessageTemplate, Object @Nullable ... errorMessageArgs) {
     if (reference == null) {
       throw new NullPointerException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }

@@ -51,6 +51,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
     setDistinctValues(NetworkBuilder.class, NETWORK_BUILDER_A, NETWORK_BUILDER_B);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
+    setDefault(EndpointPair.class, EndpointPair.ordered("A", "B"));
   }
 
   @Override
@@ -59,7 +60,9 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
       super.testNulls();
     } catch (AssertionFailedError e) {
       assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
-          .that(e.getCause().getMessage())
+          .that(e)
+          .hasCauseThat()
+          .hasMessageThat()
           .contains(ERROR_ELEMENT_NOT_IN_GRAPH);
     }
   }

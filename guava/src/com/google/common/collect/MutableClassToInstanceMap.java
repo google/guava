@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
@@ -41,6 +42,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
 @AnnotatedFor({"nullness"})
 public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>

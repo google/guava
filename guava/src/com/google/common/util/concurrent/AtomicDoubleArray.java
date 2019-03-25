@@ -206,6 +206,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    *
    * @return the String representation of the current values of array
    */
+  @Override
   public String toString() {
     int iMax = length() - 1;
     if (iMax == -1) {

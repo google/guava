@@ -468,6 +468,7 @@ public final class ArbitraryInstances {
   // Compare by toString() to satisfy 2 properties:
   // 1. compareTo(null) should throw NullPointerException
   // 2. the order is deterministic and easy to understand, for debugging purpose.
+  @SuppressWarnings("ComparableType")
   private static final class ByToString implements Comparable<Object>, Serializable {
     private static final ByToString INSTANCE = new ByToString();
 

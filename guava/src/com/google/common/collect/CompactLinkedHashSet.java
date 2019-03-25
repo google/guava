@@ -51,16 +51,14 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 @GwtIncompatible // not worth using in GWT for now
 class CompactLinkedHashSet<E> extends CompactHashSet<E> {
 
-  /**
-   * Creates an empty {@code CompactLinkedHashSet} instance.
-   */
+  /** Creates an empty {@code CompactLinkedHashSet} instance. */
   public static <E> CompactLinkedHashSet<E> create() {
     return new CompactLinkedHashSet<E>();
   }
 
   /**
-   * Creates a <i>mutable</i> {@code CompactLinkedHashSet} instance containing the elements
-   * of the given collection in the order returned by the collection's iterator.
+   * Creates a <i>mutable</i> {@code CompactLinkedHashSet} instance containing the elements of the
+   * given collection in the order returned by the collection's iterator.
    *
    * @param collection the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
@@ -72,8 +70,8 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   /**
-   * Creates a {@code CompactLinkedHashSet} instance containing the given elements in
-   * unspecified order.
+   * Creates a {@code CompactLinkedHashSet} instance containing the given elements in unspecified
+   * order.
    *
    * @param elements the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
@@ -85,13 +83,12 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   /**
-   * Creates a {@code CompactLinkedHashSet} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without rebuilding internal
-   * data structures.
+   * Creates a {@code CompactLinkedHashSet} instance, with a high enough "initial capacity" that it
+   * <i>should</i> hold {@code expectedSize} elements without rebuilding internal data structures.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code CompactLinkedHashSet} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E> CompactLinkedHashSet<E> createWithExpectedSize(int expectedSize) {
@@ -221,11 +218,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     return successor[entryIndex];
   }
 
-  @Override public Spliterator<E> spliterator() {
+  @Override
+  public Spliterator<E> spliterator() {
     return Spliterators.spliterator(this, Spliterator.ORDERED | Spliterator.DISTINCT);
   }
 
-  @Override public void forEach(Consumer<? super E> action) {
+  @Override
+  public void forEach(Consumer<? super E> action) {
     checkNotNull(action);
     for (int i = firstEntry; i != ENDPOINT; i = successor[i]) {
       action.accept((E) elements[i]);

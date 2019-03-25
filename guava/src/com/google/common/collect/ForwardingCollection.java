@@ -96,16 +96,14 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
 
   @CanIgnoreReturnValue
   @Override
-  @SuppressWarnings("nullness")
-  // Suppressed due to the annotations on ConcurrentMap
+  @SuppressWarnings("nullness") // Suppressed due to the annotations on ConcurrentMap
   public boolean remove(@Nullable Object object) {
     return delegate().remove(object);
   }
 
   @Pure
   @Override
-  @SuppressWarnings("nullness")
-  // Suppressed due to the containsAll method in Collection
+  @SuppressWarnings("nullness") // Suppressed due to the containsAll method in Collection
   public boolean containsAll(Collection<?> collection) {
     return delegate().containsAll(collection);
   }
@@ -118,8 +116,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
 
   @CanIgnoreReturnValue
   @Override
-  @SuppressWarnings("nullness")
-  // Suppressed due to the containsAll method in Collection
+  @SuppressWarnings("nullness") // Suppressed due to the containsAll method in Collection
   public boolean retainAll(Collection<?> collection) {
     return delegate().retainAll(collection);
   }
@@ -130,8 +127,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
   }
 
   @Override
-  @SuppressWarnings("nullness")
-  // Suppressed due to annotations of toArray
+  @SuppressWarnings("nullness") // Suppressed due to annotations of toArray
   public @Nullable Object[] toArray() {
     return delegate().toArray();
   }

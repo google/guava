@@ -125,12 +125,27 @@ abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
+  public Set<E> edgesConnecting(EndpointPair<N> endpoints) {
+    return delegate().edgesConnecting(endpoints);
+  }
+
+  @Override
   public E edgeConnectingOrNull(N nodeU, N nodeV) {
     return delegate().edgeConnectingOrNull(nodeU, nodeV);
   }
 
   @Override
+  public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+    return delegate().edgeConnectingOrNull(endpoints);
+  }
+
+  @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
     return delegate().hasEdgeConnecting(nodeU, nodeV);
+  }
+
+  @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    return delegate().hasEdgeConnecting(endpoints);
   }
 }

@@ -60,7 +60,10 @@ public final class CacheStats {
   private final long missCount;
   private final long loadSuccessCount;
   private final long loadExceptionCount;
+
+  @SuppressWarnings("GoodTime") // should be a java.time.Duration
   private final long totalLoadTime;
+
   private final long evictionCount;
 
   /**
@@ -69,6 +72,7 @@ public final class CacheStats {
    * <p>Five parameters of the same type in a row is a bad thing, but this class is not constructed
    * by end users and is too fine-grained for a builder.
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public CacheStats(
       long hitCount,
       long missCount,
@@ -190,6 +194,7 @@ public final class CacheStats {
    * used to calculate the miss penalty. This value is increased every time {@code loadSuccessCount}
    * or {@code loadExceptionCount} is incremented.
    */
+  @SuppressWarnings("GoodTime") // should return a java.time.Duration
   public long totalLoadTime() {
     return totalLoadTime;
   }

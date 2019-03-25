@@ -120,7 +120,7 @@ public final class Verify {
   public static void verify(
       boolean expression,
       @Nullable String errorMessageTemplate,
-      @Nullable Object @Nullable... errorMessageArgs) {
+      @Nullable Object @Nullable ... errorMessageArgs) {
     if (!expression) {
       throw new VerifyException(lenientFormat(errorMessageTemplate, errorMessageArgs));
     }
@@ -497,7 +497,7 @@ public final class Verify {
   public static <T extends @NonNull Object> T verifyNotNull(
       T reference,
       @Nullable String errorMessageTemplate,
-      @Nullable Object @Nullable... errorMessageArgs) {
+      @Nullable Object @Nullable ... errorMessageArgs) {
     verify(reference != null, errorMessageTemplate, errorMessageArgs);
     return reference;
   }

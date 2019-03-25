@@ -139,7 +139,6 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  @Beta
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -1243,6 +1242,9 @@ public final class Maps {
    *
    * <p>The returned entry is serializable.
    *
+   * <p><b>Java 9 users:</b> consider using {@code java.util.Map.entry(key, value)} if the key and
+   * value are non-null and the entry does not need to be serializable.
+   *
    * @param key the key to be associated with the returned entry
    * @param value the value to be associated with the returned entry
    */
@@ -1363,7 +1365,6 @@ public final class Maps {
    *
    * @since 16.0
    */
-  @Beta
   public static <A, B> Converter<A, B> asConverter(final BiMap<A, B> bimap) {
     return new BiMapConverter<>(bimap);
   }

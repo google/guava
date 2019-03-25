@@ -35,22 +35,28 @@ import junit.framework.TestSuite;
 public class CompactLinkedHashMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
-        @Override
-        protected Map<String, String> create(Entry<String, String>[] entries) {
-          Map<String, String> map = CompactLinkedHashMap.create();
-          for (Entry<String, String> entry : entries) {
-            map.put(entry.getKey(), entry.getValue());
-          }
-          return map;
-        }
-      }).named("CompactLinkedHashMap").withFeatures(CollectionSize.ANY,
-          CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-          MapFeature.GENERAL_PURPOSE,
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER).createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    Map<String, String> map = CompactLinkedHashMap.create();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactLinkedHashMap")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
     suite.addTestSuite(CompactLinkedHashMapTest.class);
     return suite;
   }
@@ -119,8 +125,7 @@ public class CompactLinkedHashMapTest extends TestCase {
     testHasMapEntriesInOrder(map, 1, "a", 4, "b", 3, "d", 2, "c");
   }
 
-  private void testHasMapEntriesInOrder(Map<?, ?> map,
-      Object... alternatingKeysAndValues) {
+  private void testHasMapEntriesInOrder(Map<?, ?> map, Object... alternatingKeysAndValues) {
     List<? extends Entry<?, ?>> entries = Lists.newArrayList(map.entrySet());
     List<Object> keys = Lists.newArrayList(map.keySet());
     List<Object> values = Lists.newArrayList(map.values());
@@ -130,8 +135,7 @@ public class CompactLinkedHashMapTest extends TestCase {
     for (int i = 0; i < map.size(); i++) {
       Object expectedKey = alternatingKeysAndValues[2 * i];
       Object expectedValue = alternatingKeysAndValues[2 * i + 1];
-      Entry<Object, Object> expectedEntry = Maps.immutableEntry(
-          expectedKey, expectedValue);
+      Entry<Object, Object> expectedEntry = Maps.immutableEntry(expectedKey, expectedValue);
       assertEquals(expectedEntry, entries.get(i));
       assertEquals(expectedKey, keys.get(i));
       assertEquals(expectedValue, values.get(i));

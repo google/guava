@@ -36,7 +36,7 @@ final class ImmutableEnumMap<K, V> extends ForwardingImmutableMap<K, V> {
     return new ImmutableEnumMap<K, V>(map);
   }
 
-  ImmutableEnumMap(Map<? extends K, ? extends V> delegate) {
-    super(WellBehavedMap.wrap(delegate));
+  private ImmutableEnumMap(Map<? extends K, ? extends V> delegate) {
+    super(delegate);
   }
 }

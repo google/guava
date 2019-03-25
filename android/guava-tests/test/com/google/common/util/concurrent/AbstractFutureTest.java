@@ -78,8 +78,8 @@ public class AbstractFutureTest extends TestCase {
     // Ensure we get a unique execution exception on each get
     assertNotSame(ee1, ee2);
 
-    assertSame(failure, ee1.getCause());
-    assertSame(failure, ee2.getCause());
+    assertThat(ee1).hasCauseThat().isSameAs(failure);
+    assertThat(ee2).hasCauseThat().isSameAs(failure);
 
     checkStackTrace(ee1);
     checkStackTrace(ee2);
@@ -97,7 +97,7 @@ public class AbstractFutureTest extends TestCase {
       fail("Expected CancellationException");
     } catch (CancellationException e) {
       // See AbstractFutureCancellationCauseTest for how to set causes
-      assertNull(e.getCause());
+      assertThat(e).hasCauseThat().isNull();
     }
   }
 
@@ -113,7 +113,7 @@ public class AbstractFutureTest extends TestCase {
       fail("Expected CancellationException");
     } catch (CancellationException e) {
       // See AbstractFutureCancellationCauseTest for how to set causes
-      assertNull(e.getCause());
+      assertThat(e).hasCauseThat().isNull();
     }
   }
 
@@ -155,7 +155,7 @@ public class AbstractFutureTest extends TestCase {
       normalFuture.get();
       fail();
     } catch (ExecutionException e) {
-      assertSame(exception, e.getCause());
+      assertThat(e).hasCauseThat().isSameAs(exception);
     }
   }
 

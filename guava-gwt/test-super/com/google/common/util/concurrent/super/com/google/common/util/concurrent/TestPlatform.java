@@ -33,7 +33,7 @@ final class TestPlatform {
       fail();
     } catch (Exception e) {
       assertThat(e).isInstanceOf(IllegalStateException.class);
-      assertThat(e).hasMessage("Cannot get() on a pending future.");
+      assertThat(e).hasMessageThat().isEqualTo("Cannot get() on a pending future.");
     }
   }
 
@@ -43,7 +43,7 @@ final class TestPlatform {
       fail();
     } catch (Exception e) {
       assertThat(e).isInstanceOf(IllegalStateException.class);
-      assertThat(e).hasMessage("Cannot get() on a pending future.");
+      assertThat(e).hasMessageThat().isEqualTo("Cannot get() on a pending future.");
     }
   }
 

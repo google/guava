@@ -26,7 +26,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
-import com.google.common.io.ByteSource.AsCharSource;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
@@ -283,8 +282,9 @@ public final class MoreFiles {
    * created by this traverser if an {@link IOException} is thrown by a call to {@link
    * #listFiles(Path)}.
    *
-   * <p>Example: {@code MoreFiles.fileTraverser().breadthFirst("/")} may return files with the
-   * following paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   * <p>Example: {@code MoreFiles.fileTraverser().depthFirstPreOrder(Paths.get("/"))} may return the
+   * following paths: {@code ["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "/home/alice",
+   * ...]}
    *
    * @since 23.5
    */
@@ -391,6 +391,7 @@ public final class MoreFiles {
    * Like the unix command of the same name, creates an empty file or updates the last modified
    * timestamp of the existing file at the given path to the current system time.
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   public static void touch(Path path) throws IOException {
     checkNotNull(path);
 

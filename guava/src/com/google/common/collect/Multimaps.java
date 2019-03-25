@@ -1223,7 +1223,7 @@ public final class Multimaps {
     public Set<Entry<K, V>> entries() {
       return map.entrySet();
     }
-    
+
     @Override
     Collection<Entry<K, V>> createEntries() {
       throw new AssertionError("unreachable");
@@ -1498,7 +1498,7 @@ public final class Multimaps {
     public boolean containsKey(Object key) {
       return fromMultimap.containsKey(key);
     }
-    
+
     @Override
     Collection<Entry<K, V2>> createEntries() {
       return new Entries();

@@ -27,7 +27,7 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 /** An ordering that uses the reverse of the natural order of the values. */
 @AnnotatedFor({"nullness"})
 @GwtCompatible(serializable = true)
-@SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
+@SuppressWarnings({"unchecked", "rawtypes"}) // TODO(kevinb): the right way to explain this??
 final class ReverseNaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final ReverseNaturalOrdering INSTANCE = new ReverseNaturalOrdering();
 

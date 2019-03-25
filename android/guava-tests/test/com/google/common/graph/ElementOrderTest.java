@@ -239,6 +239,7 @@ public final class ElementOrderTest {
     }
   }
 
+  @SuppressWarnings("ComparableType")
   private static class ComparableSubClass extends NonComparableSuperClass
       implements Comparable<NonComparableSuperClass> {
 

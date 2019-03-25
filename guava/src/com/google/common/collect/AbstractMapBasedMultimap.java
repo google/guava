@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.AbstractMultimap.Entries;
-import com.google.common.collect.AbstractMultimap.EntrySet;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -899,7 +897,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   Set<K> createKeySet() {
     return new KeySet(map);
   }
-  
+
   final Set<K> createMaybeNavigableKeySet() {
     if (map instanceof NavigableMap) {
       return new NavigableKeySet((NavigableMap<K, Collection<V>>) map);
@@ -1219,7 +1217,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   public Collection<Entry<K, V>> entries() {
     return super.entries();
   }
-  
+
   @Override
   Collection<Entry<K, V>> createEntries() {
     if (this instanceof SetMultimap) {
@@ -1272,7 +1270,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   Map<K, Collection<V>> createAsMap() {
     return new AsMap(map);
   }
-  
+
   final Map<K, Collection<V>> createMaybeNavigableAsMap() {
     if (map instanceof NavigableMap) {
       return new NavigableAsMap((NavigableMap<K, Collection<V>>) map);

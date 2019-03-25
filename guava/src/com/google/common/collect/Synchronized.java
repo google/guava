@@ -437,7 +437,6 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible("List.subList")
     @SideEffectFree
     @Override
     public void replaceAll(UnaryOperator<E> operator) {

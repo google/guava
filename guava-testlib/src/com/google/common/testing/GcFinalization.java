@@ -264,6 +264,7 @@ public final class GcFinalization {
   public static void awaitClear(final WeakReference<?> ref) {
     awaitDone(
         new FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return ref.get() == null;
           }

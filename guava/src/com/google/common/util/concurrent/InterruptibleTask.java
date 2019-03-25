@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.LockSupport;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
@@ -27,6 +28,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // instead of using an AtomicReferenceFieldUpdater. This reference stores Thread instances
 // and DONE/INTERRUPTED - they have a common ancestor of Runnable.
 abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements Runnable {
+  static {
+    // Prevent rare disastrous classloading in first call to LockSupport.park.
+    // See: https://bugs.openjdk.java.net/browse/JDK-8074773
+    @SuppressWarnings("unused")
+    Class<?> ensureLoaded = LockSupport.class;
+  }
+
   private static final class DoNothingRunnable implements Runnable {
     @Override
     public void run() {}
@@ -35,7 +43,11 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   // interrupting sets DONE when it has finished interrupting.
   private static final Runnable DONE = new DoNothingRunnable();
   private static final Runnable INTERRUPTING = new DoNothingRunnable();
+  private static final Runnable PARKED = new DoNothingRunnable();
+  // Why 1000?  WHY NOT!
+  private static final int MAX_BUSY_WAIT_SPINS = 1000;
 
+  @SuppressWarnings("ThreadPriorityCheck") // The cow told me to
   @Override
   public final void run() {
     /*
@@ -67,8 +79,49 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
         // Note: We don't reset the interrupted bit, just wait for it to be set.
         // If this is a thread pool thread, the thread pool will reset it for us. Otherwise, the
         // interrupted bit may have been intended for something else, so don't clear it.
-        while (get() == INTERRUPTING) {
-          Thread.yield();
+        boolean restoreInterruptedBit = false;
+        int spinCount = 0;
+        // Interrupting Cow Says:
+        //  ______
+        // < Spin >
+        //  ------
+        //        \   ^__^
+        //         \  (oo)\_______
+        //            (__)\       )\/\
+        //                ||----w |
+        //                ||     ||
+        Runnable state = get();
+        while (state == INTERRUPTING || state == PARKED) {
+          spinCount++;
+          if (spinCount > MAX_BUSY_WAIT_SPINS) {
+            // If we have spun a lot just park ourselves.
+            // This will save CPU while we wait for a slow interrupting thread.  In theory
+            // interruptTask() should be very fast but due to InterruptibleChannel and
+            // JavaLangAccess.blockedOn(Thread, Interruptible), it isn't predictable what work might
+            // be done.  (e.g. close a file and flush buffers to disk).  To protect ourselve from
+            // this we park ourselves and tell our interrupter that we did so.
+            if (state == PARKED || compareAndSet(INTERRUPTING, PARKED)) {
+              // Interrupting Cow Says:
+              //  ______
+              // < Park >
+              //  ------
+              //        \   ^__^
+              //         \  (oo)\_______
+              //            (__)\       )\/\
+              //                ||----w |
+              //                ||     ||
+              // We need to clear the interrupted bit prior to calling park and maintain it in case
+              // we wake up spuriously.
+              restoreInterruptedBit = Thread.interrupted() || restoreInterruptedBit;
+              LockSupport.park(this);
+            }
+          } else {
+            Thread.yield();
+          }
+          state = get();
+        }
+        if (restoreInterruptedBit) {
+          currentThread.interrupt();
         }
         /*
          * TODO(cpovirk): Clear interrupt status here? We currently don't, which means that an
@@ -100,14 +153,28 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
    */
   abstract void afterRanInterruptibly(@Nullable T result, @Nullable Throwable error);
 
+  /**
+   * Interrupts the running task. Because this internally calls {@link Thread#interrupt()} which can
+   * in turn invoke arbitrary code it is not safe to call while holding a lock.
+   */
   final void interruptTask() {
     // Since the Thread is replaced by DONE before run() invokes listeners or returns, if we succeed
     // in this CAS, there's no risk of interrupting the wrong thread or interrupting a thread that
     // isn't currently executing this task.
     Runnable currentRunner = get();
     if (currentRunner instanceof Thread && compareAndSet(currentRunner, INTERRUPTING)) {
-      ((Thread) currentRunner).interrupt();
-      set(DONE);
+      // Thread.interrupt can throw aribitrary exceptions due to the nio InterruptibleChannel API
+      // This will make sure that tasks don't get stuck busy waiting.
+      // Some of this is fixed in jdk11 (see https://bugs.openjdk.java.net/browse/JDK-8198692) but
+      // not all.  See the test cases for examples on how this can happen.
+      try {
+        ((Thread) currentRunner).interrupt();
+      } finally {
+        Runnable prev = getAndSet(DONE);
+        if (prev == PARKED) {
+          LockSupport.unpark((Thread) currentRunner);
+        }
+      }
     }
   }
 

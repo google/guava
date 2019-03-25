@@ -160,6 +160,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     void recordLoadSuccess(long loadTime);
 
     /**
@@ -170,6 +171,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value prior to an exception being thrown
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     void recordLoadException(long loadTime);
 
     /**
@@ -214,12 +216,14 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       missCount.add(count);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadSuccess(long loadTime) {
       loadSuccessCount.increment();
       totalLoadTime.add(loadTime);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadException(long loadTime) {
       loadExceptionCount.increment();

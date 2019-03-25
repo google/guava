@@ -469,7 +469,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
       getDoneFromTimeoutOverload(future);
       fail();
     } catch (ExecutionException e) {
-      assertThat(e.getCause()).isSameAs(expectedException);
+      assertThat(e).hasCauseThat().isSameAs(expectedException);
     }
   }
 

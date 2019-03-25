@@ -103,6 +103,13 @@ public abstract class AbstractGraphTest {
     return graph.putEdge(n1, n2);
   }
 
+  @CanIgnoreReturnValue
+  protected boolean putEdge(EndpointPair<Integer> endpoints) {
+    graph.addNode(endpoints.nodeU());
+    graph.addNode(endpoints.nodeV());
+    return graph.putEdge(endpoints);
+  }
+
   @Before
   public void init() {
     graph = createGraph();

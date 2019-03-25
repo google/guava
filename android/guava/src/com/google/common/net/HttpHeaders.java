@@ -259,12 +259,25 @@ public final class HttpHeaders {
   public static final String LINK = "Link";
   /** The HTTP {@code Location} header field name. */
   public static final String LOCATION = "Location";
+  /**
+   * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
+   * header field name.
+   *
+   * @since 27.1
+   */
+  public static final String ORIGIN_TRIAL = "Origin-Trial";
   /** The HTTP {@code P3P} header field name. Limited browser support. */
   public static final String P3P = "P3P";
   /** The HTTP {@code Proxy-Authenticate} header field name. */
   public static final String PROXY_AUTHENTICATE = "Proxy-Authenticate";
   /** The HTTP {@code Refresh} header field name. Non-standard header supported by most browsers. */
   public static final String REFRESH = "Refresh";
+  /**
+   * The HTTP <a href="https://www.w3.org/TR/reporting/">{@code Report-To}</a> header field name.
+   *
+   * @since 27.1
+   */
+  public static final String REPORT_TO = "Report-To";
   /** The HTTP {@code Retry-After} header field name. */
   public static final String RETRY_AFTER = "Retry-After";
   /** The HTTP {@code Server} header field name. */
@@ -287,6 +300,14 @@ public final class HttpHeaders {
   public static final String SET_COOKIE = "Set-Cookie";
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
+
+  /**
+   * The HTTP <a href="http://goo.gl/Dxx19N">{@code SourceMap}</a> header field name.
+   *
+   * @since 27.1
+   */
+  @Beta public static final String SOURCE_MAP = "SourceMap";
+
   /**
    * The HTTP <a href="http://tools.ietf.org/html/rfc6797#section-6.1">{@code
    * Strict-Transport-Security}</a> header field name.
@@ -365,8 +386,7 @@ public final class HttpHeaders {
    *
    * @since 24.1
    */
-  @Beta
-  public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
+  @Beta public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";
   /** The HTTP {@code X-XSS-Protection} header field name. */
   public static final String X_XSS_PROTECTION = "X-XSS-Protection";
   /**
@@ -392,7 +412,35 @@ public final class HttpHeaders {
   public static final String PING_TO = "Ping-To";
 
   /**
-   * The HTTP <a href="https://github.com/mikewest/sec-metadata">{@code Sec-Metadata}</a> header
+   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
+   * field name.
+   *
+   * @since 27.1
+   */
+  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
+  /**
+   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
+   * field name.
+   *
+   * @since 27.1
+   */
+  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
+  /**
+   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
+   * field name.
+   *
+   * @since 27.1
+   */
+  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
+  /**
+   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
+   * field name.
+   *
+   * @since 27.1
+   */
+  public static final String SEC_FETCH_USER = "Sec-Fetch-User";
+  /**
+   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
    * field name.
    *
    * @since 26.0

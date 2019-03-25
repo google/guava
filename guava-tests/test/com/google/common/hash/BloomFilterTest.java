@@ -295,7 +295,9 @@ public class BloomFilterTest extends TestCase {
           BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
       fail("we can't represent such a large BF!");
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("Could not create BloomFilter of 3327428144502 bits");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("Could not create BloomFilter of 3327428144502 bits");
     }
   }
 

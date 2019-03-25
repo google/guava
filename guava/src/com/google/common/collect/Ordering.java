@@ -547,7 +547,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
@@ -574,7 +573,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(Iterable<E> iterable) {
     return min(iterable.iterator());
   }
@@ -594,7 +592,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(@Nullable E a, @Nullable E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
@@ -613,7 +610,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
@@ -639,7 +635,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
@@ -666,7 +661,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(Iterable<E> iterable) {
     return max(iterable.iterator());
   }
@@ -686,7 +680,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@Nullable E a, @Nullable E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
@@ -705,7 +698,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
@@ -848,7 +840,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * calling {@link Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
@@ -872,7 +863,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this before internal migration
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }

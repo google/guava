@@ -52,6 +52,8 @@ import org.checkerframework.framework.qual.AnnotatedFor;
 @GwtCompatible
 @SuppressWarnings("nullness:generic.argument")
 public abstract class ForwardingMapEntry<K, V> extends ForwardingObject implements Map.Entry<K, V> {
+  // TODO(lowasser): identify places where thread safety is actually lost
+
   /** Constructor for use by subclasses. */
   protected ForwardingMapEntry() {}
 

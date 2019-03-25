@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>27.0.1-jre</version>
+  <version>27.1-jre</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
@@ -20,7 +20,7 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>0.42</truth.version>
     <animal.sniffer.version>1.17</animal.sniffer.version>
-    <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -62,6 +62,7 @@
   </ciManagement>
   <modules>
     <module>guava</module>
+    <module>guava-bom</module>
     <module>guava-gwt</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
@@ -96,7 +97,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.8.0</version>
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
@@ -162,6 +163,7 @@
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
             <linksource>true</linksource>
+            <source>8</source>
           </configuration>
           <executions>
             <execution>

@@ -120,6 +120,8 @@ public abstract class AbstractNetworkTest {
    * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
    * method.
    *
+   * <p>TODO(user): remove the addNode() calls, that's now contractually guaranteed
+   *
    * @return {@code true} iff the graph was modified as a result of this call
    */
   @CanIgnoreReturnValue
@@ -127,6 +129,12 @@ public abstract class AbstractNetworkTest {
     network.addNode(n1);
     network.addNode(n2);
     return network.addEdge(n1, n2, e);
+  }
+
+  protected boolean addEdge(EndpointPair<Integer> endpoints, String e) {
+    network.addNode(endpoints.nodeU());
+    network.addNode(endpoints.nodeV());
+    return network.addEdge(endpoints, e);
   }
 
   @Before

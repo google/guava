@@ -51,8 +51,8 @@ import org.checkerframework.dataflow.qual.Pure;
  * <p>Advantages compared to {@code int[]}:
  *
  * <ul>
- *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
- *       edition, Item 15).
+ *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
+ *       edition, Item 17).
  *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
  *       #toString} behavior you expect.
  *   <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
@@ -148,8 +148,7 @@ public final class ImmutableIntArray implements Serializable {
   @SuppressWarnings("upperbound:array.access.unsafe.high.constant") // https://github.com/kelloggm/checker-framework/issues/182
   public static ImmutableIntArray of(int first, int... rest) {
     checkArgument(
-        rest.length <= Integer.MAX_VALUE - 1,
-        "the total number of elements must fit in an int");
+        rest.length <= Integer.MAX_VALUE - 1, "the total number of elements must fit in an int");
     int[] array = new int[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);

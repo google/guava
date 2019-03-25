@@ -80,6 +80,7 @@ public class SerializableTesterTest extends TestCase {
   private static class ClassWhichIsAlwaysEqualButHasDifferentHashcodes implements Serializable {
     private static final long serialVersionUID = 2L;
 
+    @SuppressWarnings("EqualsHashCode")
     @Override
     public boolean equals(Object other) {
       return (other instanceof ClassWhichIsAlwaysEqualButHasDifferentHashcodes);

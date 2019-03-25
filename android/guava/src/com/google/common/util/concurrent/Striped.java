@@ -184,8 +184,8 @@ public abstract class Striped<L> {
   // Static factories
 
   /**
-   * Creates a {@code Striped<L>} with eagerly initialized, strongly referenced locks. Every lock
-   * is obtained from the passed supplier.
+   * Creates a {@code Striped<L>} with eagerly initialized, strongly referenced locks. Every lock is
+   * obtained from the passed supplier.
    *
    * @param stripes the minimum number of stripes (locks) required
    * @param supplier a {@code Supplier<L>} object to obtain locks from
@@ -203,12 +203,14 @@ public abstract class Striped<L> {
    * @return a new {@code Striped<Lock>}
    */
   public static Striped<Lock> lock(int stripes) {
-    return custom(stripes, new Supplier<Lock>() {
-      @Override
-      public Lock get() {
-        return new PaddedLock();
-      }
-    });
+    return custom(
+        stripes,
+        new Supplier<Lock>() {
+          @Override
+          public Lock get() {
+            return new PaddedLock();
+          }
+        });
   }
 
   /**

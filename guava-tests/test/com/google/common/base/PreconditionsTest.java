@@ -71,7 +71,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkArgument(false, null);
       fail("no exception thrown");
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasMessage("null");
+      assertThat(expected).hasMessageThat().isEqualTo("null");
     }
   }
 
@@ -172,7 +172,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkState(false, null);
       fail("no exception thrown");
     } catch (IllegalStateException expected) {
-      assertThat(expected).hasMessage("null");
+      assertThat(expected).hasMessageThat().isEqualTo("null");
     }
   }
 
@@ -253,7 +253,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
     }
   }
 
@@ -262,7 +262,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (1) must be less than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("index (1) must be less than size (1)");
     }
   }
 
@@ -271,7 +271,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
     }
   }
 
@@ -280,7 +280,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkElementIndex(1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (1) must be less than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (1) must be less than size (1)");
     }
   }
 
@@ -305,7 +305,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("index (-1) must not be negative");
     }
   }
 
@@ -314,7 +314,9 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("index (2) must not be greater than size (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("index (2) must not be greater than size (1)");
     }
   }
 
@@ -323,7 +325,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(-1, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (-1) must not be negative");
     }
   }
 
@@ -332,7 +334,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndex(2, 1, "foo");
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("foo (2) must not be greater than size (1)");
+      assertThat(expected).hasMessageThat().isEqualTo("foo (2) must not be greater than size (1)");
     }
   }
 
@@ -356,7 +358,7 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(-1, 1, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("start index (-1) must not be negative");
+      assertThat(expected).hasMessageThat().isEqualTo("start index (-1) must not be negative");
     }
   }
 
@@ -365,7 +367,9 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(0, 2, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("end index (2) must not be greater than size (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("end index (2) must not be greater than size (1)");
     }
   }
 
@@ -374,7 +378,9 @@ public class PreconditionsTest extends TestCase {
       Preconditions.checkPositionIndexes(1, 0, 1);
       fail();
     } catch (IndexOutOfBoundsException expected) {
-      assertThat(expected).hasMessage("end index (0) must not be less than start index (1)");
+      assertThat(expected)
+          .hasMessageThat()
+          .isEqualTo("end index (0) must not be less than start index (1)");
     }
   }
 
@@ -438,12 +444,13 @@ public class PreconditionsTest extends TestCase {
       Throwable throwable, Class<? extends Throwable> clazz, Object[] params) {
     assertThat(throwable).isInstanceOf(clazz);
     if (params.length == 1) {
-      assertThat(throwable).hasMessage(null);
+      assertThat(throwable).hasMessageThat().isNull();
     } else if (params.length == 2) {
-      assertThat(throwable).hasMessage("");
+      assertThat(throwable).hasMessageThat().isEmpty();
     } else {
       assertThat(throwable)
-          .hasMessage(Strings.lenientFormat("", Arrays.copyOfRange(params, 2, params.length)));
+          .hasMessageThat()
+          .isEqualTo(Strings.lenientFormat("", Arrays.copyOfRange(params, 2, params.length)));
     }
   }
 
@@ -558,10 +565,10 @@ public class PreconditionsTest extends TestCase {
   private static final String FORMAT = "I ate %s pies.";
 
   private static void verifySimpleMessage(Exception e) {
-    assertThat(e).hasMessage("A message");
+    assertThat(e).hasMessageThat().isEqualTo("A message");
   }
 
   private static void verifyComplexMessage(Exception e) {
-    assertThat(e).hasMessage("I ate 5 pies.");
+    assertThat(e).hasMessageThat().isEqualTo("I ate 5 pies.");
   }
 }

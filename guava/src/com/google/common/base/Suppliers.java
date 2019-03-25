@@ -215,6 +215,7 @@ public final class Suppliers {
   }
 
   @VisibleForTesting
+  @SuppressWarnings("GoodTime") // lots of violations
   static class ExpiringMemoizingSupplier<T> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;

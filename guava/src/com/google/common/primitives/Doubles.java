@@ -545,11 +545,11 @@ public final class Doubles {
       this.end = end;
     }
 
-     @Override
-     @SuppressWarnings({
-              "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
-              "upperbound:return.type.incompatible"}) // custom coll. with size end-start
-      public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
+    @Override
+    @SuppressWarnings({
+             "lowerbound:return.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/158
+             "upperbound:return.type.incompatible"}) // custom coll. with size end-start
+    public @Positive @LTLengthOf(value = {"this","array"}, offset={"0","start - 1"}) int size() { // INDEX: Annotation on a public method refers to private member.
       return end - start;
     }
 
