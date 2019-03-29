@@ -723,6 +723,14 @@
 <dd>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableNetwork.Builder.html#addEdge-N-N-E-">addEdge(N, N, E)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph">ImmutableNetwork.Builder</a></dt>
+<dd>
+<div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableNetwork.Builder.html#addEdge-com.google.common.graph.EndpointPair-E-">addEdge(EndpointPair&lt;N&gt;, E)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph">ImmutableNetwork.Builder</a></dt>
+<dd>
+<div class="block">Adds <code>edge</code> connecting <code>endpoints</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableNetwork.html#addEdge-N-N-E-">addEdge(N, N, E)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
 <dd>
 <div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>.</div>
@@ -780,6 +788,18 @@
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#addListener-com.google.common.util.concurrent.ServiceManager.Listener-">addListener(ServiceManager.Listener)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
 <dd>
 <div class="block">Registers a <a href="com/google/common/util/concurrent/ServiceManager.Listener.html" title="class in com.google.common.util.concurrent"><code>ServiceManager.Listener</code></a> to be run when this <a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> changes state.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.Builder.html#addNode-N-">addNode(N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds <code>node</code> if it is not already present.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableNetwork.Builder.html#addNode-N-">addNode(N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph">ImmutableNetwork.Builder</a></dt>
+<dd>
+<div class="block">Adds <code>node</code> if it is not already present.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableValueGraph.Builder.html#addNode-N-">addNode(N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds <code>node</code> if it is not already present.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableGraph.html#addNode-N-">addNode(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
@@ -2006,6 +2026,18 @@
 <dt><span class="memberNameLink"><a href="com/google/common/graph/GraphBuilder.html#build--">build()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
 <div class="block">Returns an empty <a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with the properties of this <a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.Builder.html#build--">build()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a></dt>
+<dd>
+<div class="block">Returns a newly-created <code>ImmutableGraph</code> based on the contents of this <code>Builder</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableNetwork.Builder.html#build--">build()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph">ImmutableNetwork.Builder</a></dt>
+<dd>
+<div class="block">Returns a newly-created <code>ImmutableNetwork</code> based on the contents of this <code>Builder</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableValueGraph.Builder.html#build--">build()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a></dt>
+<dd>
+<div class="block">Returns a newly-created <code>ImmutableValueGraph</code> based on the contents of this <code>Builder</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/NetworkBuilder.html#build--">build()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
@@ -7362,6 +7394,12 @@
 <dd>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.FluentFuture-">from(FluentFuture&lt;V&gt;)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></dt>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">no need to use this</span></div>
+</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/math/PairedStats.html#fromByteArray-byte:A-">fromByteArray(byte[])</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/PairedStats.html" title="class in com.google.common.math">PairedStats</a></dt>
 <dd>
 <div class="block">Creates a <a href="com/google/common/math/PairedStats.html" title="class in com.google.common.math"><code>PairedStats</code></a> instance from the given byte representation which was obtained by
@@ -8970,6 +9008,18 @@
 <dd>
 <div class="block">Creates a <code>ListenableFuture</code> which has its value set immediately upon construction.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/GraphBuilder.html#immutable--">immutable()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
+<dd>
+<div class="block">Returns an <code>ImmutableGraph#Builder</code> with the properties of this <a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/NetworkBuilder.html#immutable--">immutable()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
+<dd>
+<div class="block">Returns an <code>ImmutableNetwork#Builder</code> with the properties of this <a href="com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraphBuilder.html#immutable--">immutable()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Returns an <code>ImmutableValueGraph#Builder</code> with the properties of this <a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.</div>
+</dd>
 <dt><a href="com/google/common/collect/ImmutableBiMap.html" title="class in com.google.common.collect"><span class="typeNameLink">ImmutableBiMap</span></a>&lt;<a href="com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">K</a>,<a href="com/google/common/collect/ImmutableBiMap.html" title="type parameter in ImmutableBiMap">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
 <div class="block">A <a href="com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> whose contents will never change, with many other important properties detailed
@@ -9037,6 +9087,11 @@
 <dt><a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableGraph</span></a>&lt;<a href="com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A <a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change.</div>
+</dd>
+<dt><a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableGraph.Builder</span></a>&lt;<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A builder for creating <a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> instances, especially <code>static final</code>
+ graphs.</div>
 </dd>
 <dt><a href="com/google/common/primitives/ImmutableIntArray.html" title="class in com.google.common.primitives"><span class="typeNameLink">ImmutableIntArray</span></a> - Class in <a href="com/google/common/primitives/package-summary.html">com.google.common.primitives</a></dt>
 <dd>
@@ -9107,6 +9162,11 @@
 <dt><a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableNetwork</span></a>&lt;<a href="com/google/common/graph/ImmutableNetwork.html" title="type parameter in ImmutableNetwork">N</a>,<a href="com/google/common/graph/ImmutableNetwork.html" title="type parameter in ImmutableNetwork">E</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose elements and structural relationships will never change.</div>
+</dd>
+<dt><a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableNetwork.Builder</span></a>&lt;<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="type parameter in ImmutableNetwork.Builder">N</a>,<a href="com/google/common/graph/ImmutableNetwork.Builder.html" title="type parameter in ImmutableNetwork.Builder">E</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A builder for creating <a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> instances, especially <code>static final</code>
+ networks.</div>
 </dd>
 <dt><a href="com/google/common/collect/ImmutableRangeMap.html" title="class in com.google.common.collect"><span class="typeNameLink">ImmutableRangeMap</span></a>&lt;<a href="com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">K</a> extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;?&gt;,<a href="com/google/common/collect/ImmutableRangeMap.html" title="type parameter in ImmutableRangeMap">V</a>&gt; - Class in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
@@ -9200,6 +9260,11 @@
 <dt><a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableValueGraph</span></a>&lt;<a href="com/google/common/graph/ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">N</a>,<a href="com/google/common/graph/ImmutableValueGraph.html" title="type parameter in ImmutableValueGraph">V</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">A <a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> whose elements and structural relationships will never change.</div>
+</dd>
+<dt><a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="class in com.google.common.graph"><span class="typeNameLink">ImmutableValueGraph.Builder</span></a>&lt;<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="type parameter in ImmutableValueGraph.Builder">N</a>,<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="type parameter in ImmutableValueGraph.Builder">V</a>&gt; - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A builder for creating <a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a> instances, especially <code>static final</code>
+ graphs.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Predicates.html#in-java.util.Collection-">in(Collection&lt;? extends T&gt;)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Predicates.html" title="class in com.google.common.base">Predicates</a></dt>
 <dd>
@@ -13622,6 +13687,11 @@
 <dd>
 <div class="block">Returns the <a href="com/google/common/net/InternetDomainName.html#isPublicSuffix--">public suffix</a> portion of the domain name, or <code>null</code> if no public suffix is present.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#PURPOSE">PURPOSE</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"><code>Purpose</code></a> header field name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingDeque.html#push-E-">push(E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/cache/AbstractCache.html#put-K-V-">put(K, V)</a></span> - Method in class com.google.common.cache.<a href="com/google/common/cache/AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a></dt>
@@ -14024,6 +14094,14 @@
 <dd>
 <div class="block">Puts a double into this sink.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.Builder.html#putEdge-N-N-">putEdge(N, N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.Builder.html#putEdge-com.google.common.graph.EndpointPair-">putEdge(EndpointPair&lt;N&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>endpoints</code> (in the order, if any, specified by <code>endpoints</code>) if one is not already present.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableGraph.html#putEdge-N-N-">putEdge(N, N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present.</div>
@@ -14031,6 +14109,16 @@
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableGraph.html#putEdge-com.google.common.graph.EndpointPair-">putEdge(EndpointPair&lt;N&gt;)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
 <dd>
 <div class="block">Adds an edge connecting <code>endpoints</code> (in the order, if any, specified by <code>endpoints</code>) if one is not already present.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableValueGraph.Builder.html#putEdgeValue-N-N-V-">putEdgeValue(N, N, V)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present, and
+ sets a value for that edge to <code>value</code> (overwriting the existing value, if any).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableValueGraph.Builder.html#putEdgeValue-com.google.common.graph.EndpointPair-V-">putEdgeValue(EndpointPair&lt;N&gt;, V)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.Builder.html" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a></dt>
+<dd>
+<div class="block">Adds an edge connecting <code>endpoints</code> if one is not already present, and sets a value for
+ that edge to <code>value</code> (overwriting the existing value, if any).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/MutableValueGraph.html#putEdgeValue-N-N-V-">putEdgeValue(N, N, V)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
 <dd>
@@ -19655,9 +19743,19 @@ the order they are declared.</div>
 <dd>
 <div class="block">The HTTP <code>X-Frame-Options</code> header field name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_MOZ">X_MOZ</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"><code>X-Moz</code></a> header field name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_POWERED_BY">X_POWERED_BY</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>
 <div class="block">The HTTP <code>X-Powered-By</code> header field name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_PURPOSE">X_PURPOSE</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
+<dd>
+<div class="block">The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"><code>X-Purpose</code></a> header field name.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/net/HttpHeaders.html#X_REQUESTED_WITH">X_REQUESTED_WITH</a></span> - Static variable in class com.google.common.net.<a href="com/google/common/net/HttpHeaders.html" title="class in com.google.common.net">HttpHeaders</a></dt>
 <dd>

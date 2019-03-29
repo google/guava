@@ -50,7 +50,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/google/common/graph/Graphs.html" title="class in com.google.common.graph"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/ImmutableGraph.html" target="_top">Frames</a></li>
@@ -74,7 +74,7 @@ var activeTableTab = "activeTableTab";
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -124,7 +124,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  @Immutable(containerOf="N")
-public class <a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.46">ImmutableGraph</a>&lt;N&gt;
+public class <a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.48">ImmutableGraph</a>&lt;N&gt;
 extends <a href="../../../../com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N&gt;</pre>
 <div class="block">A <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change. Instances of this
  class may be obtained with <a href="../../../../com/google/common/graph/ImmutableGraph.html#copyOf-com.google.common.graph.Graph-"><code>copyOf(Graph)</code></a>.
@@ -137,7 +137,7 @@ extends <a href="../../../../com/google/common/graph/AbstractGraph.html" title="
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>20.0</dd>
 <dt><span class="simpleTagLabel">Author:</span></dt>
-<dd>James Sexton, Joshua O'Madadhain, Omar Darwish</dd>
+<dd>James Sexton, Joshua O'Madadhain, Omar Darwish, Jens Nyman</dd>
 </dl>
 </li>
 </ul>
@@ -145,6 +145,28 @@ extends <a href="../../../../com/google/common/graph/AbstractGraph.html" title="
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a>&lt;<a href="../../../../com/google/common/graph/ImmutableGraph.Builder.html" title="type parameter in ImmutableGraph.Builder">N</a>&gt;</span></code>
+<div class="block">A builder for creating <a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> instances, especially <code>static final</code>
+ graphs.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
 <!-- ========== METHOD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="method.summary">
@@ -326,7 +348,7 @@ extends <a href="../../../../com/google/common/graph/AbstractGraph.html" title="
 <ul class="blockList">
 <li class="blockList">
 <h4>copyOf</h4>
-<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.55">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
+<pre>public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.57">copyOf</a>(<a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </li>
 </ul>
@@ -337,7 +359,7 @@ extends <a href="../../../../com/google/common/graph/AbstractGraph.html" title="
 <li class="blockList">
 <h4>copyOf</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.69">copyOf</a>(<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</pre>
+public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.71">copyOf</a>(<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
 <div class="block">Simply returns its argument.</div>
 </li>
@@ -348,7 +370,7 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/I
 <ul class="blockList">
 <li class="blockList">
 <h4>delegate</h4>
-<pre>protected&nbsp;com.google.common.graph.BaseGraph&lt;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.95">delegate</a>()</pre>
+<pre>protected&nbsp;com.google.common.graph.BaseGraph&lt;<a href="../../../../com/google/common/graph/ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line.97">delegate</a>()</pre>
 </li>
 </ul>
 <a name="nodes--">
@@ -630,7 +652,7 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/I
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../com/google/common/graph/Graphs.html" title="class in com.google.common.graph"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?com/google/common/graph/ImmutableGraph.html" target="_top">Frames</a></li>
@@ -654,7 +676,7 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/I
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

@@ -36600,6 +36600,18 @@
  are not set in the new builder.]]>
       </doc>
     </method>
+    <method name="immutable" return="com.google.common.graph.ImmutableGraph.Builder&lt;N1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+
+ <p>The returned builder can be used for populating an {@link ImmutableGraph}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -36883,11 +36895,104 @@
  @author James Sexton
  @author Joshua O'Madadhain
  @author Omar Darwish
+ @author Jens Nyman
  @param <N> Node parameter type
  @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableGraph -->
+  <!-- start class com.google.common.graph.ImmutableGraph.Builder -->
+  <class name="ImmutableGraph.Builder" extends="java.lang.Object"
+    abstract="false"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="addNode" return="com.google.common.graph.ImmutableGraph.Builder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code node} if it is not already present.
+
+ <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
+
+ @return this {@code Builder} object]]>
+      </doc>
+    </method>
+    <method name="putEdge" return="com.google.common.graph.ImmutableGraph.Builder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present.
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
+
+ <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
+ silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="putEdge" return="com.google.common.graph.ImmutableGraph.Builder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code endpoints} (in the order, if any, specified by {@code
+ endpoints}) if one is not already present.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered and the added edge will be
+ directed; if it is undirected, the added edge will be undirected.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ <p>If either or both endpoints are not already present in this graph, this method will
+ silently {@link #addNode(Object) add} each missing endpoint to the graph.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
+      </doc>
+    </method>
+    <method name="build" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created {@code ImmutableGraph} based on the contents of this {@code Builder}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A builder for creating {@link ImmutableGraph} instances, especially {@code static final}
+ graphs. Example:
+
+ <pre>{@code
+ static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
+     GraphBuilder.undirected()
+         .<Country>immutable()
+         .putEdge(FRANCE, GERMANY)
+         .putEdge(FRANCE, BELGIUM)
+         .putEdge(GERMANY, BELGIUM)
+         .addNode(ICELAND)
+         .build();
+ }</pre>
+
+ <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+ multiple graphs in series. Each new graph contains all the elements of the ones created before
+ it.
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ImmutableGraph.Builder -->
   <!-- start class com.google.common.graph.ImmutableNetwork -->
   <class name="ImmutableNetwork" extends="com.google.common.graph.ConfigurableNetwork&lt;N, E&gt;"
     abstract="false"
@@ -36930,12 +37035,126 @@
  @author James Sexton
  @author Joshua O'Madadhain
  @author Omar Darwish
+ @author Jens Nyman
  @param <N> Node parameter type
  @param <E> Edge parameter type
  @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork -->
+  <!-- start class com.google.common.graph.ImmutableNetwork.Builder -->
+  <class name="ImmutableNetwork.Builder" extends="java.lang.Object"
+    abstract="false"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="addNode" return="com.google.common.graph.ImmutableNetwork.Builder&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code node} if it is not already present.
+
+ <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
+
+ @return this {@code Builder} object]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="com.google.common.graph.ImmutableNetwork.Builder&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <param name="edge" type="E"/>
+      <doc>
+      <![CDATA[Adds {@code edge} connecting {@code nodeU} to {@code nodeV}.
+
+ <p>If the network is directed, {@code edge} will be directed in this network; otherwise, it
+ will be undirected.
+
+ <p><b>{@code edge} must be unique to this network</b>, just as a {@code Map} key must be. It
+ must also be non-null.
+
+ <p>If {@code nodeU} and {@code nodeV} are not already present in this network, this method
+ will silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the network.
+
+ <p>If {@code edge} already connects {@code nodeU} to {@code nodeV} (in the specified order if
+ this network {@link #isDirected()}, else in any order), then this method will have no effect.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if {@code edge} already exists in the network and does not
+     connect {@code nodeU} to {@code nodeV}
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsParallelEdges()} or {@link #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="addEdge" return="com.google.common.graph.ImmutableNetwork.Builder&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <param name="edge" type="E"/>
+      <doc>
+      <![CDATA[Adds {@code edge} connecting {@code endpoints}. In an undirected network, {@code edge} will
+ also connect {@code nodeV} to {@code nodeU}.
+
+ <p>If this network is directed, {@code edge} will be directed in this network; if it is
+ undirected, {@code edge} will be undirected in this network.
+
+ <p>If this network is directed, {@code endpoints} must be ordered.
+
+ <p><b>{@code edge} must be unique to this network</b>, just as a {@code Map} key must be. It
+ must also be non-null.
+
+ <p>If either or both endpoints are not already present in this network, this method will
+ silently {@link #addNode(Object) add} each missing endpoint to the network.
+
+ <p>If {@code edge} already connects an endpoint pair equal to {@code endpoints}, then this
+ method will have no effect.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if {@code edge} already exists in the network and connects
+     some other endpoint pair that is not equal to {@code endpoints}
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsParallelEdges()} or {@link #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the network is directed]]>
+      </doc>
+    </method>
+    <method name="build" return="com.google.common.graph.ImmutableNetwork&lt;N, E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created {@code ImmutableNetwork} based on the contents of this {@code
+ Builder}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}
+ networks. Example:
+
+ <pre>{@code
+ static final ImmutableNetwork<City, Train> TRAIN_NETWORK =
+     NetworkBuilder.undirected()
+         .allowsParallelEdges(true)
+         .<City, Train>immutable()
+         .addEdge(PARIS, BRUSSELS, Thalys.trainNumber("1111"))
+         .addEdge(PARIS, BRUSSELS, RegionalTrain.trainNumber("2222"))
+         .addEdge(LONDON, PARIS, Eurostar.trainNumber("3333"))
+         .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))
+         .addNode(REYKJAVIK)
+         .build();
+ }</pre>
+
+ <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+ multiple networks in series. Each new network contains all the elements of the ones created
+ before it.
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ImmutableNetwork.Builder -->
   <!-- start class com.google.common.graph.ImmutableValueGraph -->
   <class name="ImmutableValueGraph" extends="com.google.common.graph.ConfigurableValueGraph&lt;N, V&gt;"
     abstract="false"
@@ -36976,12 +37195,113 @@
  provided by this class.
 
  @author James Sexton
+ @author Jens Nyman
  @param <N> Node parameter type
  @param <V> Value parameter type
  @since 20.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableValueGraph -->
+  <!-- start class com.google.common.graph.ImmutableValueGraph.Builder -->
+  <class name="ImmutableValueGraph.Builder" extends="java.lang.Object"
+    abstract="false"
+    static="true" final="false" visibility="public"
+    deprecated="not deprecated">
+    <method name="addNode" return="com.google.common.graph.ImmutableValueGraph.Builder&lt;N, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="node" type="N"/>
+      <doc>
+      <![CDATA[Adds {@code node} if it is not already present.
+
+ <p><b>Nodes must be unique</b>, just as {@code Map} keys must be. They must also be non-null.
+
+ @return this {@code Builder} object]]>
+      </doc>
+    </method>
+    <method name="putEdgeValue" return="com.google.common.graph.ImmutableValueGraph.Builder&lt;N, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="nodeU" type="N"/>
+      <param name="nodeV" type="N"/>
+      <param name="value" type="V"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code nodeU} to {@code nodeV} if one is not already present, and
+ sets a value for that edge to {@code value} (overwriting the existing value, if any).
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
+
+ <p>Values do not have to be unique. However, values must be non-null.
+
+ <p>If {@code nodeU} and {@code nodeV} are not already present in this graph, this method will
+ silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the graph.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}]]>
+      </doc>
+    </method>
+    <method name="putEdgeValue" return="com.google.common.graph.ImmutableValueGraph.Builder&lt;N, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="endpoints" type="com.google.common.graph.EndpointPair&lt;N&gt;"/>
+      <param name="value" type="V"/>
+      <doc>
+      <![CDATA[Adds an edge connecting {@code endpoints} if one is not already present, and sets a value for
+ that edge to {@code value} (overwriting the existing value, if any).
+
+ <p>If the graph is directed, the resultant edge will be directed; otherwise, it will be
+ undirected.
+
+ <p>If this graph is directed, {@code endpoints} must be ordered.
+
+ <p>Values do not have to be unique. However, values must be non-null.
+
+ <p>If either or both endpoints are not already present in this graph, this method will
+ silently {@link #addNode(Object) add} each missing endpoint to the graph.
+
+ @return this {@code Builder} object
+ @throws IllegalArgumentException if the introduction of the edge would violate {@link
+     #allowsSelfLoops()}
+ @throws IllegalArgumentException if the endpoints are unordered and the graph is directed]]>
+      </doc>
+    </method>
+    <method name="build" return="com.google.common.graph.ImmutableValueGraph&lt;N, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a newly-created {@code ImmutableValueGraph} based on the contents of this {@code
+ Builder}.]]>
+      </doc>
+    </method>
+    <doc>
+    <![CDATA[A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
+ graphs. Example:
+
+ <pre>{@code
+ static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =
+     ValueGraphBuilder.undirected()
+         .<City, Distance>immutable()
+         .putEdgeValue(PARIS, BERLIN, kilometers(1060))
+         .putEdgeValue(PARIS, BRUSSELS, kilometers(317))
+         .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
+         .addNode(REYKJAVIK)
+         .build();
+ }</pre>
+
+ <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
+ multiple graphs in series. Each new graph contains all the elements of the ones created before
+ it.
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.ImmutableValueGraph.Builder -->
   <!-- start interface com.google.common.graph.MutableGraph -->
   <interface name="MutableGraph"    abstract="true"
     static="false" final="false" visibility="public"
@@ -37826,6 +38146,18 @@
  <p>The "queryable" properties are those that are exposed through the {@link Network} interface,
  such as {@link Network#isDirected()}. Other properties, such as {@link
  #expectedNodeCount(int)}, are not set in the new builder.]]>
+      </doc>
+    </method>
+    <method name="immutable" return="com.google.common.graph.ImmutableNetwork.Builder&lt;N1, E1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an {@link ImmutableNetwork#Builder} with the properties of this {@link NetworkBuilder}.
+
+ <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="allowsParallelEdges" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
@@ -38804,6 +39136,19 @@
  <p>The "queryable" properties are those that are exposed through the {@link ValueGraph}
  interface, such as {@link ValueGraph#isDirected()}. Other properties, such as {@link
  #expectedNodeCount(int)}, are not set in the new builder.]]>
+      </doc>
+    </method>
+    <method name="immutable" return="com.google.common.graph.ImmutableValueGraph.Builder&lt;N1, V1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an {@link ImmutableValueGraph#Builder} with the properties of this {@link
+ ValueGraphBuilder}.
+
+ <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"
@@ -48347,6 +48692,42 @@
  {@code Ping-To}</a> header field name.
 
  @since 19.0]]>
+      </doc>
+    </field>
+    <field name="PURPOSE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+ Purpose}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="X_PURPOSE" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+ X-Purpose}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="X_MOZ" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a
+ href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+ X-Moz}</a> header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -60876,6 +61257,18 @@
  <p>If the given {@code ListenableFuture} is already a {@code FluentFuture}, it is returned
  directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the
  original {@code ListenableFuture}.]]>
+      </doc>
+    </method>
+    <method name="from" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="no need to use this">
+      <param name="future" type="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Simply returns its argument.
+
+ @deprecated no need to use this
+ @since NEXT]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"

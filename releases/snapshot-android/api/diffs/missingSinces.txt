@@ -1,0 +1,10 @@
+OK: com.google.common.graph.ImmutableGraph.Builder Class
+OK: com.google.common.graph.ImmutableNetwork.Builder Class
+OK: com.google.common.graph.ImmutableValueGraph.Builder Class
+OK: com.google.common.util.concurrent.FluentFuture Method from(com.google.common.util.concurrent.FluentFuture<V>)
+OK: com.google.common.graph.GraphBuilder Method immutable()
+OK: com.google.common.graph.NetworkBuilder Method immutable()
+OK: com.google.common.graph.ValueGraphBuilder Method immutable()
+OK: com.google.common.net.HttpHeaders Field PURPOSE
+OK: com.google.common.net.HttpHeaders Field X_MOZ
+OK: com.google.common.net.HttpHeaders Field X_PURPOSE

@@ -18,8 +18,8 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10,"i5":10,"i6":10};
-var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":41,"i4":9,"i5":10,"i6":10,"i7":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -125,7 +125,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.71">FluentFuture</a>&lt;V&gt;
+public abstract class <a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.73">FluentFuture</a>&lt;V&gt;
 extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</pre>
 <div class="block">A <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that supports fluent chains of operations. For example:
 
@@ -180,7 +180,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t6" class="tableTab"><span><a href="javascript:show(32);">Deprecated Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -212,18 +212,26 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.FluentFuture-">from</a></span>(<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">no need to use this</span></div>
+</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static &lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#from-com.google.common.util.concurrent.ListenableFuture-">from</a></span>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</code>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#transform-com.google.common.base.Function-java.util.concurrent.Executor-">transform</a></span>(<a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#transformAsync-com.google.common.util.concurrent.AsyncFunction-java.util.concurrent.Executor-">transformAsync</a></span>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</code>
@@ -231,7 +239,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
  <code>Future</code>.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/FluentFuture.html#withTimeout-long-java.util.concurrent.TimeUnit-java.util.concurrent.ScheduledExecutorService-">withTimeout</a></span>(long&nbsp;timeout,
            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit,
@@ -274,12 +282,28 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <ul class="blockList">
 <li class="blockList">
 <h4>from</h4>
-<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.123">from</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<pre>public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.125">from</a>(<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;&nbsp;future)</pre>
 <div class="block">Converts the given <code>ListenableFuture</code> to an equivalent <code>FluentFuture</code>.
 
  <p>If the given <code>ListenableFuture</code> is already a <code>FluentFuture</code>, it is returned
  directly. If not, it is wrapped in a <code>FluentFuture</code> that delegates all calls to the
  original <code>ListenableFuture</code>.</div>
+</li>
+</ul>
+<a name="from-com.google.common.util.concurrent.FluentFuture-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>from</h4>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public static&nbsp;&lt;V&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.138">from</a>(<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;V&gt;&nbsp;future)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
+<div class="block">Simply returns its argument.</div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 <a name="catching-java.lang.Class-com.google.common.base.Function-java.util.concurrent.Executor-">
@@ -289,7 +313,7 @@ extends <a href="../../../../../com/google/common/util/concurrent/AbstractFuture
 <li class="blockList">
 <h4>catching</h4>
 <pre>@Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.167">catching</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
+public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.180">catching</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                            <a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super X,? extends <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
                                                                                                                                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>. <a href="../../../../../com/google/common/base/Function.html#apply-F-"><code>Function.apply(F)</code></a> is not invoked until the primary input has failed, so if the
@@ -334,7 +358,7 @@ public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/a
 <li class="blockList">
 <h4>catchingAsync</h4>
 <pre>@Partially.GwtIncompatible(value="AVAILABLE but requires exceptionType to be Throwable.class")
-public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.231">catchingAsync</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
+public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a>&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.244">catchingAsync</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;X&gt;&nbsp;exceptionType,
                                                                                                                                                                 <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super X,? extends <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;fallback,
                                                                                                                                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a <code>Future</code> whose result is taken from this <code>Future</code> or, if this <code>Future</code> fails with the given <code>exceptionType</code>, from the result provided by the <code>fallback</code>. <a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html#apply-I-"><code>AsyncFunction.apply(I)</code></a> is not invoked until the primary input has failed, so if
@@ -399,7 +423,7 @@ public final&nbsp;&lt;X extends <a href="https://docs.oracle.com/javase/9/docs/a
 <li class="blockList">
 <h4>withTimeout</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.248">withTimeout</a>(long&nbsp;timeout,
+public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.261">withTimeout</a>(long&nbsp;timeout,
                                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit,
                                                           <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;scheduledExecutor)</pre>
 <div class="block">Returns a future that delegates to this future but will finish early (via a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeoutException.html?is-external=true" title="class or interface in java.util.concurrent"><code>TimeoutException</code></a> wrapped in an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutionException.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutionException</code></a>) if the specified timeout expires.
@@ -419,7 +443,7 @@ public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Flue
 <ul class="blockList">
 <li class="blockList">
 <h4>transformAsync</h4>
-<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.292">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
+<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.305">transformAsync</a>(<a href="../../../../../com/google/common/util/concurrent/AsyncFunction.html" title="interface in com.google.common.util.concurrent">AsyncFunction</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of this
  <code>Future</code>. If the input <code>Future</code> fails, the returned <code>Future</code> fails with the
@@ -467,7 +491,7 @@ public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Flue
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.329">transform</a>(<a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
+<pre>public final&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.342">transform</a>(<a href="../../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>,T&gt;&nbsp;function,
                                            <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of this <code>Future</code>. If
  this input <code>Future</code> fails, the returned <code>Future</code> fails with the same exception (and
@@ -509,7 +533,7 @@ public final&nbsp;<a href="../../../../../com/google/common/util/concurrent/Flue
 <ul class="blockListLast">
 <li class="blockList">
 <h4>addCallback</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.370">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/FluentFuture.html#line.383">addCallback</a>(<a href="../../../../../com/google/common/util/concurrent/FutureCallback.html" title="interface in com.google.common.util.concurrent">FutureCallback</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/FluentFuture.html" title="type parameter in FluentFuture">V</a>&gt;&nbsp;callback,
                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;executor)</pre>
 <div class="block">Registers separate success and failure callbacks to be run when this <code>Future</code>'s
  computation is <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent">complete</a> or, if the
