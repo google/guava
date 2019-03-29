@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -25,8 +24,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
@@ -60,7 +57,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
 
   /**
    * Creates a {@code CompactLinkedHashMap} instance, with a high enough "initial capacity" that it
-   * <i>should</i> hold {@code expectedSize} elements without growth.
+   * <i>should</i> hold {@code expectedSize} elements without rebuilding internal data structures.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code CompactLinkedHashMap} with enough capacity to hold {@code
@@ -97,26 +94,26 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   CompactLinkedHashMap(int expectedSize) {
-    this(expectedSize, DEFAULT_LOAD_FACTOR, false);
+    this(expectedSize, false);
   }
 
-  CompactLinkedHashMap(int expectedSize, float loadFactor, boolean accessOrder) {
-    super(expectedSize, loadFactor);
+  CompactLinkedHashMap(int expectedSize, boolean accessOrder) {
+    super(expectedSize);
     this.accessOrder = accessOrder;
   }
 
   @Override
-  void init(int expectedSize, float loadFactor) {
-    super.init(expectedSize, loadFactor);
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
+  void init(int expectedSize) {
+    super.init(expectedSize);
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
   }
 
   @Override
   void allocArrays() {
     super.allocArrays();
     int expectedSize = keys.length; // allocated size may be different than initial capacity
-    links = new long[expectedSize];
+    this.links = new long[expectedSize];
     Arrays.fill(links, UNSET);
   }
 
@@ -145,6 +142,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     } else {
       setSuccessor(pred, succ);
     }
+
     if (succ == ENDPOINT) {
       lastEntry = pred;
     } else {
@@ -174,13 +172,14 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   @Override
   void moveLastEntry(int dstIndex) {
     int srcIndex = size() - 1;
+    super.moveLastEntry(dstIndex);
+
     setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
     if (dstIndex < srcIndex) {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
     links[srcIndex] = UNSET;
-    super.moveLastEntry(dstIndex);
   }
 
   @Override
@@ -201,14 +200,6 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   @Override
   int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
     return (indexBeforeRemove >= size()) ? indexRemoved : indexBeforeRemove;
-  }
-
-  @Override
-  public void forEach(BiConsumer<? super K, ? super V> action) {
-    checkNotNull(action);
-    for (int i = firstEntry; i != ENDPOINT; i = getSuccessor(i)) {
-      action.accept((K) keys[i], (V) values[i]);
-    }
   }
 
   @Override
@@ -241,14 +232,6 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       public Spliterator<K> spliterator() {
         return Spliterators.spliterator(this, Spliterator.ORDERED | Spliterator.DISTINCT);
       }
-
-      @Override
-      public void forEach(Consumer<? super K> action) {
-        checkNotNull(action);
-        for (int i = firstEntry; i != ENDPOINT; i = getSuccessor(i)) {
-          action.accept((K) keys[i]);
-        }
-      }
     }
     return new KeySetImpl();
   }
@@ -270,14 +253,6 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       @Override
       public Spliterator<V> spliterator() {
         return Spliterators.spliterator(this, Spliterator.ORDERED);
-      }
-
-      @Override
-      public void forEach(Consumer<? super V> action) {
-        checkNotNull(action);
-        for (int i = firstEntry; i != ENDPOINT; i = getSuccessor(i)) {
-          action.accept((V) values[i]);
-        }
       }
     }
     return new ValuesImpl();
