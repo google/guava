@@ -158,7 +158,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   /**
    * Constructs a new instance of {@code CompactHashMap} with the specified capacity.
    *
-   * @param capacity the initial capacity of this {@code CompactHashMap}.
+   * @param expectedSize the initial capacity of this {@code CompactHashMap}.
    */
   CompactHashMap(int expectedSize) {
     init(expectedSize);
@@ -166,7 +166,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   /** Pseudoconstructor for serialization support. */
   void init(int expectedSize) {
-    Preconditions.checkArgument(expectedSize >= 0, "Initial capacity must be non-negative");
+    Preconditions.checkArgument(expectedSize >= 0, "Expected size must be non-negative");
     this.modCount = Math.max(1, expectedSize); // Save expectedSize for use in allocArrays()
   }
 
