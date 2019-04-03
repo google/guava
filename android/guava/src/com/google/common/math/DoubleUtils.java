@@ -84,6 +84,10 @@ final class DoubleUtils {
     return longBitsToDouble(significand | ONE_BITS);
   }
 
+  /**
+   * @deprecated use java.math.BigInteger.doubleValue() instead
+   */
+  @Deprecated
   static double bigToDouble(BigInteger x) {
     // This is an extremely fast implementation of BigInteger.doubleValue(). JDK patch pending.
     BigInteger absX = x.abs();

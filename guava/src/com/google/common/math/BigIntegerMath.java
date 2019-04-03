@@ -14,24 +14,21 @@
 
 package com.google.common.math;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.math.MathPreconditions.checkNonNegative;
-import static com.google.common.math.MathPreconditions.checkPositive;
-import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
-import static java.math.RoundingMode.CEILING;
-import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_EVEN;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.math.MathPreconditions.*;
+import static java.math.RoundingMode.*;
 
 /**
  * A class for arithmetic on values of type {@code BigInteger}.
@@ -303,7 +300,7 @@ public final class BigIntegerMath {
 
   @GwtIncompatible // TODO
   private static BigInteger sqrtApproxWithDoubles(BigInteger x) {
-    return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);
+    return DoubleMath.roundToBigInteger(Math.sqrt(x.doubleValue()), HALF_EVEN);
   }
 
   /**
