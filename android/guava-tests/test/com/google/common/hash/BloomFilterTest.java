@@ -304,7 +304,7 @@ public class BloomFilterTest extends TestCase {
   public void testLargeNumberOfInsertions() {
     // We use horrible FPPs here to keep Java from OOM'ing
     BloomFilter<String> unused =
-        BloomFilter.create(Funnels.unencodedCharsFunnel(), Integer.MAX_VALUE / 2, 0.29);
+        BloomFilter.create(Funnels.unencodedCharsFunnel(), Integer.MAX_VALUE / 2, 0.30);
     unused = BloomFilter.create(Funnels.unencodedCharsFunnel(), 45L * Integer.MAX_VALUE, 0.99);
   }
 
