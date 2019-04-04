@@ -56,7 +56,7 @@ public class TestLogHandlerTest extends TestCase {
     assertTrue(handler.getStoredLogRecords().isEmpty());
     ExampleClassUnderTest.foo();
     LogRecord record = handler.getStoredLogRecords().get(0);
-    assertEquals(Level.INFO, record.getLevel());
+    assertEquals(Level.FINEST, record.getLevel());
     assertEquals("message", record.getMessage());
     assertSame(EXCEPTION, record.getThrown());
   }
