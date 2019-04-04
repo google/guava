@@ -61,7 +61,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     Set<Feature<?>> features = Helpers.copyToSet(getFeatures());
     List<Class<? extends AbstractTester>> testers = getTesters();
 
-    logger.fine(" Testing: " + name);
+    logger.finest(" Testing: " + name);
 
     // Split out all the specified sizes.
     Set<Feature<?>> sizesToTest = Helpers.<Feature<?>>copyToSet(CollectionSize.values());
@@ -72,7 +72,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     sizesToTest.retainAll(
         Arrays.asList(CollectionSize.ZERO, CollectionSize.ONE, CollectionSize.SEVERAL));
 
-    logger.fine("   Sizes: " + formatFeatureSet(sizesToTest));
+    logger.finest("   Sizes: " + formatFeatureSet(sizesToTest));
 
     if (sizesToTest.isEmpty()) {
       throw new IllegalStateException(
