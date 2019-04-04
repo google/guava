@@ -16,13 +16,12 @@
 
 package com.google.common.math;
 
-import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
-import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
-import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
+import junit.framework.TestCase;
 
 import java.lang.reflect.Method;
-import java.math.BigInteger;
-import junit.framework.TestCase;
+
+import static com.google.common.math.MathTesting.FINITE_DOUBLE_CANDIDATES;
+import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDATES;
 
 /**
  * Tests for {@link DoubleUtils}.
@@ -43,17 +42,6 @@ public class DoubleUtilsTest extends TestCase {
       return Math.class.getMethod("nextDown", double.class);
     } catch (NoSuchMethodException expectedBeforeJava8) {
       return Class.forName("sun.misc.FpUtils").getMethod("nextDown", double.class);
-    }
-  }
-
-  @AndroidIncompatible // TODO(cpovirk): File bug for BigDecimal.doubleValue().
-  public void testBigToDouble() {
-    for (BigInteger b : ALL_BIGINTEGER_CANDIDATES) {
-      if (b.doubleValue() != DoubleUtils.bigToDouble(b)) {
-        failFormat(
-            "Converting %s to double: expected doubleValue %s but got bigToDouble %s",
-            b, b.doubleValue(), DoubleUtils.bigToDouble(b));
-      }
     }
   }
 
