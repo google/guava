@@ -116,8 +116,8 @@ public final class Bytes {
     }
 
     outer:
-    for (int i = 0; i < array.length - target.length + 1; i++) {
-      for (int j = 0; j < target.length; j++) {
+    for (int i = 0, arr_length = array.length, target_length = target.length; i < arr_length - target_length + 1; i++) {
+      for (int j = 0; j < target_length; j++) {
         if (array[i + j] != target[j]) {
           continue outer;
         }
