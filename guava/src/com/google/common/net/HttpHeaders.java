@@ -492,4 +492,39 @@ public final class HttpHeaders {
    * @since 25.1
    */
   public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
+   * field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-Websocket-Accept";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-Websocket-Extensions";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
+   * field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_WEBSOCKET_KEY = "Sec-Websocket-Key";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-Websocket-Protocol";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Versions}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_WEBSOCKET_VERSIONS = "Sec-Websocket-Versions";
 }
