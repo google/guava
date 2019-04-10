@@ -51011,6 +51011,61 @@
  @since 25.1]]>
       </doc>
     </field>
+    <field name="SEC_WEBSOCKET_ACCEPT" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_WEBSOCKET_EXTENSIONS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_WEBSOCKET_KEY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
+ field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_WEBSOCKET_PROTOCOL" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="SEC_WEBSOCKET_VERSIONS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Versions}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <doc>
     <![CDATA[Contains constant definitions for the HTTP header field names. See:
 
