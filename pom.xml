@@ -4,11 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>9</version>
-  </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
   <version>HEAD-jre-SNAPSHOT</version>
@@ -208,6 +203,16 @@
     </pluginManagement>
   </build>
   <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <site>
       <id>guava-site</id>
       <name>Guava Documentation Site</name>
@@ -301,4 +306,53 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <profiles>
+    <profile>
+        <id>sonatype-oss-release</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.1.2</version>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                  <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                      <goal>jar</goal>
+                    </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.1</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
