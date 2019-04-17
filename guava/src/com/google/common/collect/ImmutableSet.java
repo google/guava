@@ -90,7 +90,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return construct(2, e1, e2);
+    return construct(2, 2, e1, e2);
   }
 
   /**
@@ -99,7 +99,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return construct(3, e1, e2, e3);
+    return construct(3, 3, e1, e2, e3);
   }
 
   /**
@@ -108,7 +108,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return construct(4, e1, e2, e3, e4);
+    return construct(4, 4, e1, e2, e3, e4);
   }
 
   /**
@@ -117,7 +117,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * the first are ignored.
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return construct(5, e1, e2, e3, e4, e5);
+    return construct(5, 5, e1, e2, e3, e4, e5);
   }
 
   /**
@@ -142,7 +142,32 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     elements[4] = e5;
     elements[5] = e6;
     System.arraycopy(others, 0, elements, paramCount, others.length);
-    return construct(elements.length, elements);
+    return construct(elements.length, elements.length, elements);
+  }
+
+  /**
+   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array,
+   * which we have no particular reason to believe does or does not contain duplicates. If {@code k}
+   * is the size of the returned {@code ImmutableSet}, then the unique elements of {@code elements}
+   * will be in the first {@code k} positions, and {@code elements[i] == null} for {@code k <= i <
+   * n}.
+   *
+   * <p>This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code
+   * elements} contains no duplicates, {@code elements} may be used without copying in the returned
+   * {@code ImmutableSet}, in which case the caller must not modify it.
+   *
+   * <p>{@code elements} may contain only values of type {@code E}.
+   *
+   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
+   */
+  private static <E> ImmutableSet<E> constructUnknownDuplication(int n, Object... elements) {
+    // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
+    return construct(
+        n,
+        Math.max(
+            ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,
+            IntMath.sqrt(n, RoundingMode.CEILING)),
+        elements);
   }
 
   /**
@@ -159,7 +184,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
-  private static <E> ImmutableSet<E> construct(int n, Object... elements) {
+  private static <E> ImmutableSet<E> construct(int n, int expectedSize, Object... elements) {
     switch (n) {
       case 0:
         return of();
@@ -168,8 +193,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         E elem = (E) elements[0];
         return of(elem);
       default:
-        SetBuilderImpl<E> builder =
-            new RegularSetBuilderImpl<E>(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
+        SetBuilderImpl<E> builder = new RegularSetBuilderImpl<E>(expectedSize);
         for (int i = 0; i < n; i++) {
           @SuppressWarnings("unchecked")
           E e = (E) checkNotNull(elements[i]);
@@ -207,7 +231,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return copyOfEnumSet((EnumSet) elements);
     }
     Object[] array = elements.toArray();
-    return construct(array.length, array);
+    if (elements instanceof Set) {
+      // assume probably no duplicates (though it might be using different equality semantics)
+      return construct(array.length, array.length, array);
+    } else {
+      return constructUnknownDuplication(array.length, array);
+    }
   }
 
   /**
@@ -261,7 +290,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       case 1:
         return of(elements[0]);
       default:
-        return construct(elements.length, elements.clone());
+        return constructUnknownDuplication(elements.length, elements.clone());
     }
   }
 
