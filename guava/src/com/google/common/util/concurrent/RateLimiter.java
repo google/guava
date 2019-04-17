@@ -421,6 +421,18 @@ public abstract class RateLimiter {
     return true;
   }
 
+  public long microsToNextPermit() {
+    return queryEarliestAvailable(stopwatch.readMicros());
+  }
+
+  public boolean canAcquire() {
+    return canAcquire(stopwatch.readMicros(), 0);
+  }
+
+  public boolean canAcquire(long timeoutMicros) {
+    return canAcquire(stopwatch.readMicros(), timeoutMicros);
+  }
+
   private boolean canAcquire(long nowMicros, long timeoutMicros) {
     return queryEarliestAvailable(nowMicros) - timeoutMicros <= nowMicros;
   }
