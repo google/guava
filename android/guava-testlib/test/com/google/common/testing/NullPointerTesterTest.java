@@ -339,21 +339,25 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Two-arg method with no Nullable params. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNormal(String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the second param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNullable(String first, @NullableDecl Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the first param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNormal(@NullableDecl String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the both params Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNullable(@NullableDecl String first, @NullableDecl Integer second) {
       reactToNullParameters(first, second);
     }
