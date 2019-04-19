@@ -521,10 +521,10 @@ public final class HttpHeaders {
    */
   public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-Websocket-Protocol";
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Versions}</a>
-   * header field name.
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
+   * field name.
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_VERSIONS = "Sec-Websocket-Versions";
+  public static final String SEC_WEBSOCKET_VERSION = "Sec-Websocket-Version";
 }
