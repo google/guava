@@ -96,6 +96,7 @@ public class CharStreamsCopyBenchmark {
     data = sb.toString();
   }
 
+  @SuppressWarnings("GoodTime") // b/130759882
   @Benchmark
   public long timeCopy(int reps) throws IOException {
     long r = 0;
