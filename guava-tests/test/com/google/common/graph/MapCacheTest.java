@@ -83,7 +83,7 @@ public final class MapCacheTest {
   public void testRemoveEqualKeyWithDifferentReference() {
     String fooReference1 = new String("foo");
     String fooReference2 = new String("foo");
-    assertThat(fooReference1).isNotSameAs(fooReference2);
+    assertThat(fooReference1).isNotSameInstanceAs(fooReference2);
 
     assertThat(mapCache.put(fooReference1, "bar")).isNull();
     assertThat(mapCache.get(fooReference1)).isEqualTo("bar"); // ensure first reference is cached
