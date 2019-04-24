@@ -13,7 +13,7 @@
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>0.42</truth.version>
+    <truth.version>0.44</truth.version>
     <animal.sniffer.version>1.17</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
   </properties>
