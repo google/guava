@@ -53,6 +53,11 @@ public void testConcat() throws Exception {
   testCase.testConcat();
 }
 
+public void testConstrainToRange() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testConstrainToRange();
+}
+
 public void testContains() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testContains();
@@ -126,6 +131,26 @@ public void testMin() throws Exception {
 public void testMin_noArgs() throws Exception {
   com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
   testCase.testMin_noArgs();
+}
+
+public void testReverse() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testReverse();
+}
+
+public void testReverseIndexed() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testReverseIndexed();
+}
+
+public void testSortDescending() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testSortDescending();
+}
+
+public void testSortDescendingIndexed() throws Exception {
+  com.google.common.primitives.LongsTest testCase = new com.google.common.primitives.LongsTest();
+  testCase.testSortDescendingIndexed();
 }
 
 public void testStringConverter_convert() throws Exception {

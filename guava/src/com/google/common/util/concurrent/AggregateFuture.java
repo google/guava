@@ -20,14 +20,15 @@ import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableCollection;
+import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A future made up of a collection of sub-futures.
@@ -39,39 +40,50 @@ import javax.annotation.Nullable;
 abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFuture<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 
-  private RunningState runningState;
+  /*
+   * In certain circumstances, this field might theoretically not be visible to an afterDone() call
+   * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
+   */
+  private @Nullable RunningState runningState;
 
   @Override
   protected final void afterDone() {
     super.afterDone();
-    // Must get a reference to the futures before we cancel, as they'll be cleared out.
     RunningState localRunningState = runningState;
     if (localRunningState != null) {
       // Let go of the memory held by the running state
       this.runningState = null;
       ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures =
           localRunningState.futures;
+      boolean wasInterrupted = wasInterrupted();
+
+      if (wasInterrupted) {
+        localRunningState.interruptTask();
+      }
+
       if (isCancelled() & futures != null) {
-        boolean mayInterruptIfRunning = wasInterrupted();
         for (ListenableFuture<?> future : futures) {
-          future.cancel(mayInterruptIfRunning);
+          future.cancel(wasInterrupted);
         }
       }
     }
   }
 
-  @GwtIncompatible // Interruption not supported
   @Override
-  protected final void interruptTask() {
+  protected String pendingToString() {
     RunningState localRunningState = runningState;
-    if (localRunningState != null) {
-      localRunningState.interruptTask();
+    if (localRunningState == null) {
+      return null;
     }
+    ImmutableCollection<? extends ListenableFuture<? extends InputT>> localFutures =
+        localRunningState.futures;
+    if (localFutures != null) {
+      return "futures=[" + localFutures + "]";
+    }
+    return null;
   }
 
-  /**
-   * Must be called at the end of each sub-class's constructor.
-   */
+  /** Must be called at the end of each sub-class's constructor. */
   final void init(RunningState runningState) {
     this.runningState = runningState;
     runningState.init();
@@ -188,13 +200,11 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
     final void addInitialException(Set<Throwable> seen) {
       if (!isCancelled()) {
         // TODO(cpovirk): Think about whether we could/should use Verify to check this.
-        boolean unused = addCausalChain(seen, trustedGetException());
+        boolean unused = addCausalChain(seen, tryInternalFastPathGetFailure());
       }
     }
 
-    /**
-     * Handles the input at the given index completing.
-     */
+    /** Handles the input at the given index completing. */
     private void handleOneInputDone(int index, Future<? extends InputT> future) {
       // The only cases in which this Future should already be done are (a) if it was cancelled or
       // (b) if an input failed and we propagated that immediately because of allMustSucceed.
@@ -254,8 +264,10 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
      * reference to {@link RunningState}, which should free all associated memory when all the
      * futures complete and the listeners are released.
      *
-     * TODO(user): Write tests for memory retention
+     * <p>TODO(user): Write tests for memory retention
      */
+    @ForOverride
+    @OverridingMethodsMustInvokeSuper
     void releaseResourcesAfterFailure() {
       this.futures = null;
     }

@@ -16,14 +16,19 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
-
-import javax.annotation.Nullable;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serializable;
+import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
@@ -34,25 +39,50 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
+  @SuppressWarnings("unchecked")
+  static final ImmutableMap<Object, Object> EMPTY =
+      new RegularImmutableMap<>((Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
+
+  /**
+   * Closed addressing tends to perform well even with high load factors. Being conservative here
+   * ensures that the table is still likely to be relatively sparse (hence it misses fast) while
+   * saving space.
+   */
+  @VisibleForTesting static final double MAX_LOAD_FACTOR = 1.2;
+
+  /**
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
+   */
+  @VisibleForTesting static final double HASH_FLOODING_FPP = 0.001;
+
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
+   * implementation. Experimentally determined.
+   */
+  @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 8;
 
   // entries in insertion order
-  private final transient Entry<K, V>[] entries;
+  @VisibleForTesting final transient Entry<K, V>[] entries;
   // array of linked lists of entries
   private final transient ImmutableMapEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
 
-  static <K, V> RegularImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
+  static <K, V> ImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
     return fromEntryArray(entries.length, entries);
   }
 
   /**
-   * Creates a RegularImmutableMap from the first n entries in entryArray.  This implementation
-   * may replace the entries in entryArray with its own entry objects (though they will have the
-   * same key/value contents), and may take ownership of entryArray.
+   * Creates an ImmutableMap from the first n entries in entryArray. This implementation may replace
+   * the entries in entryArray with its own entry objects (though they will have the same key/value
+   * contents), and may take ownership of entryArray.
    */
-  static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
+    if (n == 0) {
+      return (RegularImmutableMap<K, V>) EMPTY;
+    }
     Entry<K, V>[] entries;
     if (n == entryArray.length) {
       entries = entryArray;
@@ -70,20 +100,32 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
       @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
-      ImmutableMapEntry<K, V> newEntry;
-      if (existing == null) {
-        boolean reusable =
-            entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
-        newEntry =
-            reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
-      } else {
-        newEntry = new NonTerminalImmutableMapEntry<K, V>(key, value, existing);
-      }
+      ImmutableMapEntry<K, V> newEntry =
+          (existing == null)
+              ? makeImmutable(entry, key, value)
+              : new NonTerminalImmutableMapEntry<K, V>(key, value, existing);
       table[tableIndex] = newEntry;
       entries[entryIndex] = newEntry;
-      checkNoConflictInKeyBucket(key, newEntry, existing);
+      int bucketSize = checkNoConflictInKeyBucket(key, newEntry, existing);
+      if (bucketSize > MAX_HASH_BUCKET_LENGTH) {
+        // probable hash flooding attack, fall back to j.u.HM based implementation and use its
+        // implementation of hash flooding protection
+        return JdkBackedImmutableMap.create(n, entryArray);
+      }
     }
-    return new RegularImmutableMap<K, V>(entries, table, mask);
+    return new RegularImmutableMap<>(entries, table, mask);
+  }
+
+  /** Makes an entry usable internally by a new ImmutableMap without rereading its contents. */
+  static <K, V> ImmutableMapEntry<K, V> makeImmutable(Entry<K, V> entry, K key, V value) {
+    boolean reusable =
+        entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
+    return reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
+  }
+
+  /** Makes an entry usable internally by a new ImmutableMap. */
+  static <K, V> ImmutableMapEntry<K, V> makeImmutable(Entry<K, V> entry) {
+    return makeImmutable(entry, entry.getKey(), entry.getValue());
   }
 
   private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table, int mask) {
@@ -92,28 +134,29 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     this.mask = mask;
   }
 
-  static void checkNoConflictInKeyBucket(
+  /**
+   * @return number of entries in this bucket
+   * @throws IllegalArgumentException if another entry in the bucket has the same key
+   */
+  @CanIgnoreReturnValue
+  static int checkNoConflictInKeyBucket(
       Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+    int bucketSize = 0;
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
       checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
+      bucketSize++;
     }
+    return bucketSize;
   }
-
-  /**
-   * Closed addressing tends to perform well even with high load factors.
-   * Being conservative here ensures that the table is still likely to be
-   * relatively sparse (hence it misses fast) while saving space.
-   */
-  private static final double MAX_LOAD_FACTOR = 1.2;
 
   @Override
   public V get(@Nullable Object key) {
     return get(key, table, mask);
   }
 
-  @Nullable
-  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
-    if (key == null) {
+  static <V> @Nullable V get(
+      @Nullable Object key, ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
+    if (key == null || keyTable == null) {
       return null;
     }
     int index = Hashing.smear(key.hashCode()) & mask;
@@ -136,6 +179,14 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action);
+    for (Entry<K, V> entry : entries) {
+      action.accept(entry.getKey(), entry.getValue());
+    }
+  }
+
+  @Override
   public int size() {
     return entries.length;
   }
@@ -147,7 +198,112 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
+  }
+
+  @Override
+  ImmutableSet<K> createKeySet() {
+    return new KeySet<>(this);
+  }
+
+  @GwtCompatible(emulated = true)
+  private static final class KeySet<K, V> extends IndexedImmutableSet<K> {
+    private final RegularImmutableMap<K, V> map;
+
+    KeySet(RegularImmutableMap<K, V> map) {
+      this.map = map;
+    }
+
+    @Override
+    K get(int index) {
+      return map.entries[index].getKey();
+    }
+
+    @Override
+    public boolean contains(Object object) {
+      return map.containsKey(object);
+    }
+
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
+
+    @Override
+    public int size() {
+      return map.size();
+    }
+
+    @GwtIncompatible // serialization
+    @Override
+    Object writeReplace() {
+      return new SerializedForm<K>(map);
+    }
+
+    @GwtIncompatible // serialization
+    private static class SerializedForm<K> implements Serializable {
+      final ImmutableMap<K, ?> map;
+
+      SerializedForm(ImmutableMap<K, ?> map) {
+        this.map = map;
+      }
+
+      Object readResolve() {
+        return map.keySet();
+      }
+
+      private static final long serialVersionUID = 0;
+    }
+  }
+
+  @Override
+  ImmutableCollection<V> createValues() {
+    return new Values<>(this);
+  }
+
+  @GwtCompatible(emulated = true)
+  private static final class Values<K, V> extends ImmutableList<V> {
+    final RegularImmutableMap<K, V> map;
+
+    Values(RegularImmutableMap<K, V> map) {
+      this.map = map;
+    }
+
+    @Override
+    public V get(int index) {
+      return map.entries[index].getValue();
+    }
+
+    @Override
+    public int size() {
+      return map.size();
+    }
+
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
+
+    @GwtIncompatible // serialization
+    @Override
+    Object writeReplace() {
+      return new SerializedForm<V>(map);
+    }
+
+    @GwtIncompatible // serialization
+    private static class SerializedForm<V> implements Serializable {
+      final ImmutableMap<?, V> map;
+
+      SerializedForm(ImmutableMap<?, V> map) {
+        this.map = map;
+      }
+
+      Object readResolve() {
+        return map.values();
+      }
+
+      private static final long serialVersionUID = 0;
+    }
   }
 
   // This class is never actually serialized directly, but we have to make the

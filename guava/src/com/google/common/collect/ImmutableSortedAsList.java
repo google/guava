@@ -16,10 +16,9 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-
 import java.util.Comparator;
-
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * List returned by {@code ImmutableSortedSet.asList()} when the set isn't empty.
@@ -83,5 +82,14 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
     ImmutableList<E> parentSubList = super.subListUnchecked(fromIndex, toIndex);
     return new RegularImmutableSortedSet<E>(parentSubList, comparator()).asList();
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return CollectSpliterators.indexed(
+        size(),
+        ImmutableList.SPLITERATOR_CHARACTERISTICS | Spliterator.SORTED | Spliterator.DISTINCT,
+        delegateList()::get,
+        comparator());
   }
 }

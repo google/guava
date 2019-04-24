@@ -20,22 +20,24 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Generates a test suite covering the {@link Queue} implementations in the
- * {@link java.util} package. Can be subclassed to specify tests that should
- * be suppressed.
+ * Generates a test suite covering the {@link Queue} implementations in the {@link java.util}
+ * package. Can be subclassed to specify tests that should be suppressed.
  *
  * @author Jared Levy
  */
@@ -47,13 +49,25 @@ public class TestsForQueuesInJavaUtil {
 
   public Test allTests() {
     TestSuite suite = new TestSuite();
+    suite.addTest(testsForArrayDeque());
     suite.addTest(testsForLinkedList());
     suite.addTest(testsForArrayBlockingQueue());
+    suite.addTest(testsForCheckedQueue());
+    suite.addTest(testsForConcurrentLinkedDeque());
     suite.addTest(testsForConcurrentLinkedQueue());
+    suite.addTest(testsForLinkedBlockingDeque());
     suite.addTest(testsForLinkedBlockingQueue());
     suite.addTest(testsForPriorityBlockingQueue());
     suite.addTest(testsForPriorityQueue());
     return suite;
+  }
+
+  protected Collection<Method> suppressForCheckedQueue() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForArrayDeque() {
+    return Collections.emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
@@ -64,7 +78,15 @@ public class TestsForQueuesInJavaUtil {
     return Collections.emptySet();
   }
 
+  protected Collection<Method> suppressForConcurrentLinkedDeque() {
+    return Collections.emptySet();
+  }
+
   protected Collection<Method> suppressForConcurrentLinkedQueue() {
+    return Collections.emptySet();
+  }
+
+  protected Collection<Method> suppressForLinkedBlockingDeque() {
     return Collections.emptySet();
   }
 
@@ -80,12 +102,48 @@ public class TestsForQueuesInJavaUtil {
     return Collections.emptySet();
   }
 
+  public Test testsForCheckedQueue() {
+    return QueueTestSuiteBuilder.using(
+            new TestStringQueueGenerator() {
+              @Override
+              public Queue<String> create(String[] elements) {
+                Queue<String> queue = new LinkedList<>(MinimalCollection.of(elements));
+                return Collections.checkedQueue(queue, String.class);
+              }
+            })
+        .named("checkedQueue/LinkedList")
+        .withFeatures(
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.RESTRICTS_ELEMENTS,
+            CollectionSize.ANY)
+        // don't skip collection tests since checkedQueue() is not tested by TestsForListsInJavaUtil
+        .suppressing(suppressForCheckedQueue())
+        .createTestSuite();
+  }
+
+  public Test testsForArrayDeque() {
+    return QueueTestSuiteBuilder.using(
+            new TestStringQueueGenerator() {
+              @Override
+              public Queue<String> create(String[] elements) {
+                return new ArrayDeque<>(MinimalCollection.of(elements));
+              }
+            })
+        .named("ArrayDeque")
+        .withFeatures(
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.KNOWN_ORDER, CollectionSize.ANY)
+        .suppressing(suppressForArrayDeque())
+        .createTestSuite();
+  }
+
   public Test testsForLinkedList() {
     return QueueTestSuiteBuilder.using(
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new LinkedList<String>(MinimalCollection.of(elements));
+                return new LinkedList<>(MinimalCollection.of(elements));
               }
             })
         .named("LinkedList")
@@ -104,7 +162,7 @@ public class TestsForQueuesInJavaUtil {
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new ArrayBlockingQueue<String>(100, false, MinimalCollection.of(elements));
+                return new ArrayBlockingQueue<>(100, false, MinimalCollection.of(elements));
               }
             })
         .named("ArrayBlockingQueue")
@@ -114,12 +172,27 @@ public class TestsForQueuesInJavaUtil {
         .createTestSuite();
   }
 
+  public Test testsForConcurrentLinkedDeque() {
+    return QueueTestSuiteBuilder.using(
+            new TestStringQueueGenerator() {
+              @Override
+              public Queue<String> create(String[] elements) {
+                return new ConcurrentLinkedDeque<>(MinimalCollection.of(elements));
+              }
+            })
+        .named("ConcurrentLinkedDeque")
+        .withFeatures(
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.KNOWN_ORDER, CollectionSize.ANY)
+        .suppressing(suppressForConcurrentLinkedDeque())
+        .createTestSuite();
+  }
+
   public Test testsForConcurrentLinkedQueue() {
     return QueueTestSuiteBuilder.using(
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new ConcurrentLinkedQueue<String>(MinimalCollection.of(elements));
+                return new ConcurrentLinkedQueue<>(MinimalCollection.of(elements));
               }
             })
         .named("ConcurrentLinkedQueue")
@@ -129,12 +202,27 @@ public class TestsForQueuesInJavaUtil {
         .createTestSuite();
   }
 
+  public Test testsForLinkedBlockingDeque() {
+    return QueueTestSuiteBuilder.using(
+            new TestStringQueueGenerator() {
+              @Override
+              public Queue<String> create(String[] elements) {
+                return new LinkedBlockingDeque<>(MinimalCollection.of(elements));
+              }
+            })
+        .named("LinkedBlockingDeque")
+        .withFeatures(
+            CollectionFeature.GENERAL_PURPOSE, CollectionFeature.KNOWN_ORDER, CollectionSize.ANY)
+        .suppressing(suppressForLinkedBlockingDeque())
+        .createTestSuite();
+  }
+
   public Test testsForLinkedBlockingQueue() {
     return QueueTestSuiteBuilder.using(
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new LinkedBlockingQueue<String>(MinimalCollection.of(elements));
+                return new LinkedBlockingQueue<>(MinimalCollection.of(elements));
               }
             })
         .named("LinkedBlockingQueue")
@@ -154,7 +242,7 @@ public class TestsForQueuesInJavaUtil {
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new PriorityBlockingQueue<String>(MinimalCollection.of(elements));
+                return new PriorityBlockingQueue<>(MinimalCollection.of(elements));
               }
             })
         .named("PriorityBlockingQueue")
@@ -168,7 +256,7 @@ public class TestsForQueuesInJavaUtil {
             new TestStringQueueGenerator() {
               @Override
               public Queue<String> create(String[] elements) {
-                return new PriorityQueue<String>(MinimalCollection.of(elements));
+                return new PriorityQueue<>(MinimalCollection.of(elements));
               }
             })
         .named("PriorityQueue")

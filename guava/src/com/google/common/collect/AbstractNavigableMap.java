@@ -18,15 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
-
 import java.util.Iterator;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -38,30 +36,25 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
     implements NavigableMap<K, V> {
 
   @Override
-  @Nullable
-  public abstract V get(@Nullable Object key);
+  public abstract @Nullable V get(@Nullable Object key);
 
   @Override
-  @Nullable
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return Iterators.getNext(entryIterator(), null);
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return Iterators.getNext(descendingEntryIterator(), null);
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return Iterators.pollNext(entryIterator());
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return Iterators.pollNext(descendingEntryIterator());
   }
 
@@ -86,26 +79,22 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  @Nullable
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
@@ -148,7 +137,7 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @Override
   public NavigableSet<K> navigableKeySet() {
-    return new Maps.NavigableKeySet<K, V>(this);
+    return new Maps.NavigableKeySet<>(this);
   }
 
   @Override

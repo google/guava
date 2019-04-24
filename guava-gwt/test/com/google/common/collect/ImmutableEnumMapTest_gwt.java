@@ -27,4 +27,24 @@ public void testImmutableEnumMapOrdering() throws Exception {
   com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
   testCase.testImmutableEnumMapOrdering();
 }
+
+public void testIteratesOnce() throws Exception {
+  com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
+  testCase.testIteratesOnce();
+}
+
+public void testToImmutableEnumMap() throws Exception {
+  com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
+  testCase.testToImmutableEnumMap();
+}
+
+public void testToImmutableMapMerging() throws Exception {
+  com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
+  testCase.testToImmutableMapMerging();
+}
+
+public void testToImmutableMap_exceptionOnDuplicateKey() throws Exception {
+  com.google.common.collect.ImmutableEnumMapTest testCase = new com.google.common.collect.ImmutableEnumMapTest();
+  testCase.testToImmutableMap_exceptionOnDuplicateKey();
+}
 }

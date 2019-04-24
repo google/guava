@@ -38,6 +38,7 @@ import com.google.common.collect.testing.testers.ListListIteratorTester;
 import com.google.common.collect.testing.testers.ListRemoveAllTester;
 import com.google.common.collect.testing.testers.ListRemoveAtIndexTester;
 import com.google.common.collect.testing.testers.ListRemoveTester;
+import com.google.common.collect.testing.testers.ListReplaceAllTester;
 import com.google.common.collect.testing.testers.ListRetainAllTester;
 import com.google.common.collect.testing.testers.ListSetTester;
 import com.google.common.collect.testing.testers.ListSubListTester;
@@ -51,8 +52,8 @@ import java.util.Set;
 import junit.framework.TestSuite;
 
 /**
- * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a List implementation.
+ * Creates, based on your criteria, a JUnit test suite that exhaustively tests a List
+ * implementation.
  *
  * @author George van den Driessche
  */
@@ -82,6 +83,7 @@ public final class ListTestSuiteBuilder<E>
     testers.add(ListRemoveAllTester.class);
     testers.add(ListRemoveAtIndexTester.class);
     testers.add(ListRemoveTester.class);
+    testers.add(ListReplaceAllTester.class);
     testers.add(ListRetainAllTester.class);
     testers.add(ListSetTester.class);
     testers.add(ListSubListTester.class);
@@ -90,8 +92,8 @@ public final class ListTestSuiteBuilder<E>
   }
 
   /**
-   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since
-   * lists have an iteration ordering corresponding to the insertion order.
+   * Specifies {@link CollectionFeature#KNOWN_ORDER} for all list tests, since lists have an
+   * iteration ordering corresponding to the insertion order.
    */
   @Override
   public TestSuite createTestSuite() {
@@ -103,8 +105,7 @@ public final class ListTestSuiteBuilder<E>
   protected List<TestSuite> createDerivedSuites(
       FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder) {
-    List<TestSuite> derivedSuites =
-        new ArrayList<TestSuite>(super.createDerivedSuites(parentBuilder));
+    List<TestSuite> derivedSuites = new ArrayList<>(super.createDerivedSuites(parentBuilder));
 
     if (parentBuilder.getFeatures().contains(SERIALIZABLE)) {
       derivedSuites.add(
@@ -147,7 +148,7 @@ public final class ListTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeReserializedCollectionFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    Set<Feature<?>> derivedFeatures = new HashSet<>();
     derivedFeatures.addAll(features);
     derivedFeatures.remove(SERIALIZABLE);
     derivedFeatures.remove(SERIALIZABLE_INCLUDING_VIEWS);

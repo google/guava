@@ -17,13 +17,11 @@ package com.google.common.io;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * File name filter that only accepts files matching a regular expression. This class is thread-safe
@@ -42,7 +40,6 @@ public final class PatternFilenameFilter implements FilenameFilter {
    * Constructs a pattern file name filter object.
    *
    * @param patternStr the pattern string on which to filter file names
-   *
    * @throws PatternSyntaxException if pattern compilation fails (runtime)
    */
   public PatternFilenameFilter(String patternStr) {

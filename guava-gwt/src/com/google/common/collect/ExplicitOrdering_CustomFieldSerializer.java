@@ -32,7 +32,7 @@ public class ExplicitOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static ExplicitOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new ExplicitOrdering<Object>((ImmutableMap<Object, Integer>) reader.readObject());
+    return new ExplicitOrdering<>((ImmutableMap<Object, Integer>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, ExplicitOrdering<?> instance)

@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * An object that can receive a notification when an entry is removed from a cache. The removal
- * resulting in notification could have occured to an entry being manually removed or replaced, or
+ * resulting in notification could have occurred to an entry being manually removed or replaced, or
  * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.
  *
  * <p>An instance may be called concurrently by multiple threads to process different entries.
@@ -27,12 +27,13 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @param <K> the most general type of keys this listener can listen for; for example {@code Object}
  *     if any key is acceptable
- * @param <V> the most general type of values this listener can listen for; for example
- *     {@code Object} if any key is acceptable
+ * @param <V> the most general type of values this listener can listen for; for example {@code
+ *     Object} if any key is acceptable
  * @author Charles Fry
  * @since 10.0
  */
 @GwtCompatible
+@FunctionalInterface
 public interface RemovalListener<K, V> {
   /**
    * Notifies the listener that a removal occurred at some point in the past.

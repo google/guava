@@ -32,7 +32,7 @@ public class NullsLastOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static NullsLastOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return new NullsLastOrdering<Object>((Ordering<Object>) reader.readObject());
+    return new NullsLastOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(SerializationStreamWriter writer, NullsLastOrdering<?> instance)

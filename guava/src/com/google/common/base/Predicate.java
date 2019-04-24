@@ -16,48 +16,43 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Determines a true or false value for a given input; a pre-Java-8 version of {@code
- * java.util.function.Predicate}.
+ * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
+ * true or false value for a given input.
  *
- * <p>The {@link Predicates} class provides common predicates and related utilities.
- *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code
- * Predicate}</a>.
- *
- * <h3>For Java 8+ users</h3>
+ * <p>As this interface extends {@code java.util.function.Predicate}, an instance of this type may
+ * be used as a {@code Predicate} directly. To use a {@code java.util.function.Predicate} where a
+ * {@code com.google.common.base.Predicate} is expected, use the method reference {@code
+ * predicate::test}.
  *
  * <p>This interface is now a legacy type. Use {@code java.util.function.Predicate} (or the
  * appropriate primitive specialization such as {@code IntPredicate}) instead whenever possible.
  * Otherwise, at least reduce <i>explicit</i> dependencies on this type by using lambda expressions
  * or method references instead of classes, leaving your code easier to migrate in the future.
  *
- * <p>To use a reference of this type (say, named {@code guavaPredicate}) in a context where {@code
- * java.util.function.Predicate} is expected, use the method reference {@code
- * guavaPredicate::apply}. For the other direction, use {@code javaUtilPredicate::test}. A future
- * version of this interface will be made to <i>extend</i> {@code java.util.function.Predicate}, so
- * that conversion will be necessary in only one direction. At that time, this interface will be
- * officially discouraged.
+ * <p>The {@link Predicates} class provides common predicates and related utilities.
+ *
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/FunctionalExplained">the use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@FunctionalInterface
 @GwtCompatible
-public interface Predicate<T> {
+public interface Predicate<T> extends java.util.function.Predicate<T> {
   /**
    * Returns the result of applying this predicate to {@code input} (Java 8 users, see notes in the
    * class documentation above). This method is <i>generally expected</i>, but not absolutely
    * required, to have the following properties:
    *
    * <ul>
-   * <li>Its execution does not cause any observable side effects.
-   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
-   *     predicate.apply(b))}.
+   *   <li>Its execution does not cause any observable side effects.
+   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *       Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+   *       predicate.apply(b))}.
    * </ul>
    *
    * @throws NullPointerException if {@code input} is null and this predicate does not accept null
@@ -78,4 +73,9 @@ public interface Predicate<T> {
    */
   @Override
   boolean equals(@Nullable Object object);
+
+  @Override
+  default boolean test(@Nullable T input) {
+    return apply(input);
+  }
 }

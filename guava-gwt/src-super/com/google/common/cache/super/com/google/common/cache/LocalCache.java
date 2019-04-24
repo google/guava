@@ -16,7 +16,7 @@
 
 package com.google.common.cache;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -26,7 +26,6 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -40,8 +39,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * LocalCache emulation for GWT.
@@ -71,13 +69,14 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
     /* Implements size-capped LinkedHashMap */
     final long maximumSize = builder.maximumSize;
-    this.cachingHashMap = new CapacityEnforcingLinkedHashMap<K, V>(
-        builder.getInitialCapacity(),
-        0.75f,
-        (builder.maximumSize != UNSET_INT),
-        builder.maximumSize,
-        statsCounter,
-        removalListener);
+    this.cachingHashMap =
+        new CapacityEnforcingLinkedHashMap<K, V>(
+            builder.getInitialCapacity(),
+            0.75f,
+            (builder.maximumSize != UNSET_INT),
+            builder.maximumSize,
+            statsCounter,
+            removalListener);
 
     this.ticker = firstNonNull(builder.ticker, Ticker.systemTicker());
   }
@@ -143,7 +142,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
   @Override
   public void putAll(Map<? extends K, ? extends V> m) {
-    for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
+    for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -151,7 +150,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   @Override
   public void clear() {
     if (removalListener != null) {
-      for (Map.Entry<K, Timestamped<V>> entry : cachingHashMap.entrySet()) {
+      for (Entry<K, Timestamped<V>> entry : cachingHashMap.entrySet()) {
         alertListenerIfPresent(entry.getKey(), entry.getValue().getValue(), RemovalCause.EXPLICIT);
       }
     }
@@ -242,6 +241,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private V load(Object key) throws ExecutionException {
     long startTime = ticker.read();
     V calculatedValue;
@@ -293,7 +293,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
-  private V getOrLoad(K key) throws ExecutionException{
+  private V getOrLoad(K key) throws ExecutionException {
     V value = get(key);
     if (value != null) {
       return value;
@@ -301,6 +301,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return load(key);
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private static class Timestamped<V> {
     private final V value;
     private final Ticker ticker;
@@ -352,8 +353,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       this(builder, null);
     }
 
-    protected LocalManualCache(CacheBuilder<? super K, ? super V> builder,
-        CacheLoader<? super K, V> loader) {
+    protected LocalManualCache(
+        CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
       this.localCache = new LocalCache<K, V>(builder, loader);
     }
 
@@ -414,11 +415,11 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
    * @param <K> the base key type
    * @param <V> the base value type
    */
-  public static class LocalLoadingCache<K, V>
-      extends LocalManualCache<K, V> implements LoadingCache<K, V> {
+  public static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
+      implements LoadingCache<K, V> {
 
-    LocalLoadingCache(CacheBuilder<? super K, ? super V> builder,
-        CacheLoader<? super K, V> loader) {
+    LocalLoadingCache(
+        CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
       super(builder, checkNotNull(loader));
     }
 
@@ -459,8 +460,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   }
 
   /**
-   * LinkedHashMap that enforces it's maximum size and logs events in a StatsCounter object
-   * and an optional RemovalListener.
+   * LinkedHashMap that enforces it's maximum size and logs events in a StatsCounter object and an
+   * optional RemovalListener.
    *
    * @param <K> the base key type
    * @param <V> the base value type
@@ -485,13 +486,12 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    protected boolean removeEldestEntry(Map.Entry<K, Timestamped<V>> ignored) {
+    protected boolean removeEldestEntry(Entry<K, Timestamped<V>> ignored) {
       boolean removal = (maximumSize == UNSET_INT) ? false : (size() > maximumSize);
       if ((removalListener != null) && removal) {
-        removalListener.onRemoval(RemovalNotification.create(
-            ignored.getKey(),
-            ignored.getValue().getValue(),
-            RemovalCause.SIZE));
+        removalListener.onRemoval(
+            RemovalNotification.create(
+                ignored.getKey(), ignored.getValue().getValue(), RemovalCause.SIZE));
       }
       statsCounter.recordEviction();
       return removal;
@@ -533,7 +533,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   }
 
   /**
-   * <p>Implementation for the EntryIterator, which is used to build Key and Value iterators.
+   * Implementation for the EntryIterator, which is used to build Key and Value iterators.
    *
    * <p>Expiration is only checked on hasNext(), so as to ensure that a next() call never returns
    * null when hasNext() has already been called.
@@ -585,9 +585,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
-  /**
-   * KeyIterator build on top of EntryIterator.
-   */
+  /** KeyIterator build on top of EntryIterator. */
   final class KeyIterator implements Iterator<K> {
     private EntryIterator iterator;
 
@@ -611,9 +609,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
-  /**
-   * ValueIterator build on top of EntryIterator.
-   */
+  /** ValueIterator build on top of EntryIterator. */
   final class ValueIterator implements Iterator<V> {
     private EntryIterator iterator;
 
@@ -665,8 +661,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   }
 
   /**
-   * Custom Entry class used by EntryIterator.next(), that relays setValue changes to the
-   * underlying map.
+   * Custom Entry class used by EntryIterator.next(), that relays setValue changes to the underlying
+   * map.
    */
   private final class WriteThroughEntry implements Entry<K, V> {
     final K key;

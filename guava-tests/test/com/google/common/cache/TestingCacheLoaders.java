@@ -21,11 +21,9 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility {@link CacheLoader} implementations intended for use in testing.
@@ -58,23 +56,17 @@ class TestingCacheLoaders {
     };
   }
 
-  /**
-   * Returns a {@link CacheLoader} that returns the given {@code constant} for every request.
-   */
+  /** Returns a {@link CacheLoader} that returns the given {@code constant} for every request. */
   static <K, V> ConstantLoader<K, V> constantLoader(@Nullable V constant) {
-    return new ConstantLoader<K, V>(constant);
+    return new ConstantLoader<>(constant);
   }
 
-  /**
-   * Returns a {@link CacheLoader} that returns the given {@code constant} for every request.
-   */
+  /** Returns a {@link CacheLoader} that returns the given {@code constant} for every request. */
   static IncrementingLoader incrementingLoader() {
     return new IncrementingLoader();
   }
 
-  /**
-   * Returns a {@link CacheLoader} that throws the given error for every request.
-   */
+  /** Returns a {@link CacheLoader} that throws the given error for every request. */
   static <K, V> CacheLoader<K, V> errorLoader(final Error e) {
     checkNotNull(e);
     return new CacheLoader<K, V>() {
@@ -85,9 +77,7 @@ class TestingCacheLoaders {
     };
   }
 
-  /**
-   * Returns a {@link CacheLoader} that throws the given exception for every request.
-   */
+  /** Returns a {@link CacheLoader} that throws the given exception for every request. */
   static <K, V> CacheLoader<K, V> exceptionLoader(final Exception e) {
     checkNotNull(e);
     return new CacheLoader<K, V>() {
@@ -98,9 +88,7 @@ class TestingCacheLoaders {
     };
   }
 
-  /**
-   * Returns a {@link CacheLoader} that returns the key for every request.
-   */
+  /** Returns a {@link CacheLoader} that returns the key for every request. */
   static <T> IdentityLoader<T> identityLoader() {
     return new IdentityLoader<T>();
   }

@@ -16,12 +16,9 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -32,9 +29,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public enum CaseFormat {
-  /**
-   * Hyphenated variable naming convention, e.g., "lower-hyphen".
-   */
+  /** Hyphenated variable naming convention, e.g., "lower-hyphen". */
   LOWER_HYPHEN(CharMatcher.is('-'), "-") {
     @Override
     String normalizeWord(String word) {
@@ -53,9 +48,7 @@ public enum CaseFormat {
     }
   },
 
-  /**
-   * C++ variable naming convention, e.g., "lower_underscore".
-   */
+  /** C++ variable naming convention, e.g., "lower_underscore". */
   LOWER_UNDERSCORE(CharMatcher.is('_'), "_") {
     @Override
     String normalizeWord(String word) {
@@ -74,9 +67,7 @@ public enum CaseFormat {
     }
   },
 
-  /**
-   * Java variable naming convention, e.g., "lowerCamel".
-   */
+  /** Java variable naming convention, e.g., "lowerCamel". */
   LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {
     @Override
     String normalizeWord(String word) {
@@ -84,9 +75,7 @@ public enum CaseFormat {
     }
   },
 
-  /**
-   * Java and C++ class naming convention, e.g., "UpperCamel".
-   */
+  /** Java and C++ class naming convention, e.g., "UpperCamel". */
   UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {
     @Override
     String normalizeWord(String word) {
@@ -94,9 +83,7 @@ public enum CaseFormat {
     }
   },
 
-  /**
-   * Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE".
-   */
+  /** Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE". */
   UPPER_UNDERSCORE(CharMatcher.is('_'), "_") {
     @Override
     String normalizeWord(String word) {
@@ -134,9 +121,7 @@ public enum CaseFormat {
     return (format == this) ? str : convert(format, str);
   }
 
-  /**
-   * Enum values can override for performance reasons.
-   */
+  /** Enum values can override for performance reasons. */
   String convert(CaseFormat format, String s) {
     // deal with camel conversion
     StringBuilder out = null;
@@ -163,7 +148,6 @@ public enum CaseFormat {
    *
    * @since 16.0
    */
-  @Beta
   public Converter<String, String> converterTo(CaseFormat targetFormat) {
     return new StringConverter(this, targetFormat);
   }
@@ -218,11 +202,8 @@ public enum CaseFormat {
   }
 
   private static String firstCharOnlyToUpper(String word) {
-    return (word.isEmpty())
+    return word.isEmpty()
         ? word
-        : new StringBuilder(word.length())
-            .append(Ascii.toUpperCase(word.charAt(0)))
-            .append(Ascii.toLowerCase(word.substring(1)))
-            .toString();
+        : Ascii.toUpperCase(word.charAt(0)) + Ascii.toLowerCase(word.substring(1));
   }
 }

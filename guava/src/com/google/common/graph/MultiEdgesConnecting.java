@@ -24,13 +24,13 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class to represent the set of edges connecting an (implicit) origin node to a target node.
  *
- * <p>The {@link #outEdgeToNode} map allows this class to work on networks with parallel edges.
- * See {@link EdgesConnecting} for a class that is more efficient but forbids parallel edges.
+ * <p>The {@link #outEdgeToNode} map allows this class to work on networks with parallel edges. See
+ * {@link EdgesConnecting} for a class that is more efficient but forbids parallel edges.
  *
  * @author James Sexton
  * @param <E> Edge parameter type

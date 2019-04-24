@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -32,14 +32,13 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
- * <p>See the Guava User Guide entry on
- * <a href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
+ * <p>See the Guava User Guide entry on <a
+ * href="https://github.com/google/guava/wiki/ThrowablesExplained">Throwables</a>.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
@@ -94,8 +93,8 @@ public final class Throwables {
    * }
    * </pre>
    *
-   * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior
-   *     but rejects {@code null}. This method is scheduled to be removed in July 2018.
+   * @deprecated Use {@link #throwIfInstanceOf}, which has the same behavior but rejects {@code
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible // throwIfInstanceOf
@@ -136,8 +135,8 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException} or {@link Error}. Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException} or {@link Error}. Example usage:
    *
    * <pre>
    * try {
@@ -150,8 +149,8 @@ public final class Throwables {
    * }
    * </pre>
    *
-   * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects
-   *     {@code null}. This method is scheduled to be removed in July 2018.
+   * @deprecated Use {@link #throwIfUnchecked}, which has the same behavior but rejects {@code
+   *     null}.
    */
   @Deprecated
   @GwtIncompatible
@@ -162,8 +161,8 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException}, {@link Error}, or {@code declaredType}. Example usage:
    *
    * <pre>
    * try {
@@ -187,11 +186,11 @@ public final class Throwables {
   }
 
   /**
-   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of
-   * {@link RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In
-   * the unlikely case that you have three or more declared checked exception types, you can handle
-   * them all by invoking these methods repeatedly. See usage example in
-   * {@link #propagateIfPossible(Throwable, Class)}.
+   * Propagates {@code throwable} exactly as-is, if and only if it is an instance of {@link
+   * RuntimeException}, {@link Error}, {@code declaredType1}, or {@code declaredType2}. In the
+   * unlikely case that you have three or more declared checked exception types, you can handle them
+   * all by invoking these methods repeatedly. See usage example in {@link
+   * #propagateIfPossible(Throwable, Class)}.
    *
    * @param throwable the Throwable to possibly propagate
    * @param declaredType1 any checked exception type declared by the calling method
@@ -207,9 +206,8 @@ public final class Throwables {
   }
 
   /**
-   * <p>Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or
-   * {@link Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then
-   * propagates.
+   * Propagates {@code throwable} as-is if it is an instance of {@link RuntimeException} or {@link
+   * Error}, or else as a last resort, wraps it in a {@code RuntimeException} and then propagates.
    *
    * <p>This method always throws an exception. The {@code RuntimeException} return type allows
    * client code to signal to the compiler that statements after the call are unreachable. Example
@@ -231,8 +229,9 @@ public final class Throwables {
    * @return nothing will ever be returned; this return type is only for your convenience, as
    *     illustrated in the example above
    * @deprecated Use {@code throw e} or {@code throw new RuntimeException(e)} directly, or use a
-   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. This
-   *     method is scheduled to be removed in July 2018.
+   *     combination of {@link #throwIfUnchecked} and {@code throw new RuntimeException(e)}. For
+   *     background on the deprecation, read <a href="https://goo.gl/Ivn2kc">Why we deprecated
+   *     {@code Throwables.propagate}</a>.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible
@@ -249,11 +248,26 @@ public final class Throwables {
    * <pre>
    * assertEquals("Unable to assign a customer id", Throwables.getRootCause(e).getMessage());
    * </pre>
+   *
+   * @throws IllegalArgumentException if there is a loop in the causal chain
    */
   public static Throwable getRootCause(Throwable throwable) {
+    // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches
+    // the slower pointer, then there's a loop.
+    Throwable slowPointer = throwable;
+    boolean advanceSlowPointer = false;
+
     Throwable cause;
     while ((cause = throwable.getCause()) != null) {
       throwable = cause;
+
+      if (throwable == slowPointer) {
+        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);
+      }
+      if (advanceSlowPointer) {
+        slowPointer = slowPointer.getCause();
+      }
+      advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
     }
     return throwable;
   }
@@ -272,16 +286,58 @@ public final class Throwables {
    *
    * @param throwable the non-null {@code Throwable} to extract causes from
    * @return an unmodifiable list containing the cause chain starting with {@code throwable}
+   * @throws IllegalArgumentException if there is a loop in the causal chain
    */
   @Beta // TODO(kevinb): decide best return type
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
-    List<Throwable> causes = new ArrayList<Throwable>(4);
-    while (throwable != null) {
+    List<Throwable> causes = new ArrayList<>(4);
+    causes.add(throwable);
+
+    // Keep a second pointer that slowly walks the causal chain. If the fast pointer ever catches
+    // the slower pointer, then there's a loop.
+    Throwable slowPointer = throwable;
+    boolean advanceSlowPointer = false;
+
+    Throwable cause;
+    while ((cause = throwable.getCause()) != null) {
+      throwable = cause;
       causes.add(throwable);
-      throwable = throwable.getCause();
+
+      if (throwable == slowPointer) {
+        throw new IllegalArgumentException("Loop in causal chain detected.", throwable);
+      }
+      if (advanceSlowPointer) {
+        slowPointer = slowPointer.getCause();
+      }
+      advanceSlowPointer = !advanceSlowPointer; // only advance every other iteration
     }
     return Collections.unmodifiableList(causes);
+  }
+
+  /**
+   * Returns {@code throwable}'s cause, cast to {@code expectedCauseType}.
+   *
+   * <p>Prefer this method instead of manually casting an exception's cause. For example, {@code
+   * (IOException) e.getCause()} throws a {@link ClassCastException} that discards the original
+   * exception {@code e} if the cause is not an {@link IOException}, but {@code
+   * Throwables.getCauseAs(e, IOException.class)} keeps {@code e} as the {@link
+   * ClassCastException}'s cause.
+   *
+   * @throws ClassCastException if the cause cannot be cast to the expected type. The {@code
+   *     ClassCastException}'s cause is {@code throwable}.
+   * @since 22.0
+   */
+  @Beta
+  @GwtIncompatible // Class.cast(Object)
+  public static <X extends Throwable> X getCauseAs(
+      Throwable throwable, Class<X> expectedCauseType) {
+    try {
+      return expectedCauseType.cast(throwable.getCause());
+    } catch (ClassCastException e) {
+      e.initCause(throwable);
+      throw e;
+    }
   }
 
   /**
@@ -311,10 +367,11 @@ public final class Throwables {
    * by delaying the per-stack-frame work until each element is accessed. Roughly speaking:
    *
    * <ul>
-   * <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
-   * retrieve each element of the returned list.
-   * <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time to
-   * retrieve each element of the returned list (probably slightly more than {@code 1/stackSize}).
+   *   <li>{@code getStackTrace} takes {@code stackSize} time to return but then negligible time to
+   *       retrieve each element of the returned list.
+   *   <li>{@code lazyStackTrace} takes negligible time to return but then {@code 1/stackSize} time
+   *       to retrieve each element of the returned list (probably slightly more than {@code
+   *       1/stackSize}).
    * </ul>
    *
    * <p>Note: The special implementation does not respect calls to {@link Throwable#setStackTrace
@@ -342,7 +399,7 @@ public final class Throwables {
   @Beta
   @GwtIncompatible // getStackTraceElementMethod
   public static boolean lazyStackTraceIsLazy() {
-    return getStackTraceElementMethod != null & getStackTraceDepthMethod != null;
+    return getStackTraceElementMethod != null && getStackTraceDepthMethod != null;
   }
 
   @GwtIncompatible // invokeAccessibleNonThrowingMethod
@@ -391,32 +448,30 @@ public final class Throwables {
 
   /** Access to some fancy internal JVM internals. */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static final Object jla = getJLA();
+  private static final @Nullable Object jla = getJLA();
 
   /**
    * The "getStackTraceElementMethod" method, only available on some JDKs so we use reflection to
    * find it when available. When this is null, use the slow way.
    */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static final Method getStackTraceElementMethod = (jla == null) ? null : getGetMethod();
+  private static final @Nullable Method getStackTraceElementMethod =
+      (jla == null) ? null : getGetMethod();
 
   /**
    * The "getStackTraceDepth" method, only available on some JDKs so we use reflection to find it
    * when available. When this is null, use the slow way.
    */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static final Method getStackTraceDepthMethod = (jla == null) ? null : getSizeMethod();
+  private static final @Nullable Method getStackTraceDepthMethod =
+      (jla == null) ? null : getSizeMethod();
 
   /**
-   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not whitelisted for
+   * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in
    * AppEngine, and not present in non-Sun JDKs.
    */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static Object getJLA() {
+  private static @Nullable Object getJLA() {
     try {
       /*
        * We load sun.misc.* classes using reflection since Android doesn't support these classes and
@@ -429,7 +484,7 @@ public final class Throwables {
       throw death;
     } catch (Throwable t) {
       /*
-       * This is not one of AppEngine's whitelisted classes, so even in Sun JDKs, this can fail with
+       * This is not one of AppEngine's allowed classes, so even in Sun JDKs, this can fail with
        * a NoClassDefFoundError. Other apps might deny access to sun.misc packages.
        */
       return null;
@@ -441,24 +496,36 @@ public final class Throwables {
    * method cannot be found (it is only to be found in fairly recent JDKs).
    */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static Method getGetMethod() {
+  private static @Nullable Method getGetMethod() {
     return getJlaMethod("getStackTraceElement", Throwable.class, int.class);
   }
 
   /**
    * Returns the Method that can be used to return the size of a stack, or null if that method
-   * cannot be found (it is only to be found in fairly recent JDKs).
+   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@link
+   * sun.misc.JavaLangAccess#getStackTraceDepth(Throwable)} getStackTraceDepth} prior to return it
+   * (might fail some JDKs).
+   *
+   * <p>See <a href="https://github.com/google/guava/issues/2887">Throwables#lazyStackTrace throws
+   * UnsupportedOperationException</a>.
    */
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static Method getSizeMethod() {
-    return getJlaMethod("getStackTraceDepth", Throwable.class);
+  private static @Nullable Method getSizeMethod() {
+    try {
+      Method getStackTraceDepth = getJlaMethod("getStackTraceDepth", Throwable.class);
+      if (getStackTraceDepth == null) {
+        return null;
+      }
+      getStackTraceDepth.invoke(getJLA(), new Throwable());
+      return getStackTraceDepth;
+    } catch (UnsupportedOperationException | IllegalAccessException | InvocationTargetException e) {
+      return null;
+    }
   }
 
   @GwtIncompatible // java.lang.reflect
-  @Nullable
-  private static Method getJlaMethod(String name, Class<?>... parameterTypes) throws ThreadDeath {
+  private static @Nullable Method getJlaMethod(String name, Class<?>... parameterTypes)
+      throws ThreadDeath {
     try {
       return Class.forName(JAVA_LANG_ACCESS_CLASSNAME, false, null).getMethod(name, parameterTypes);
     } catch (ThreadDeath death) {

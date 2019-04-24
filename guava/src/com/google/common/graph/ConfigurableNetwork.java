@@ -27,28 +27,20 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Configurable implementation of {@link Network} that supports the options supplied by
- * {@link NetworkBuilder}.
+ * Configurable implementation of {@link Network} that supports the options supplied by {@link
+ * NetworkBuilder}.
  *
- * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains
- * a map of edges to reference nodes. The reference node is defined to be the edge's source node
- * on directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
+ * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains a
+ * map of edges to reference nodes. The reference node is defined to be the edge's source node on
+ * directed graphs, and an arbitrary endpoint of the edge on undirected graphs.
  *
- * <p>{@code Set}-returning accessors return unmodifiable views: the view returned will reflect
+ * <p>Collection-returning accessors return unmodifiable views: the view returned will reflect
  * changes to the graph (if the graph is mutable) but may not be modified by the user.
- * The behavior of the returned view is undefined in the following cases:
- * <ul>
- * <li>Removing the element on which the accessor is called (e.g.:
- *     <pre>{@code
- *     Set<N> adjacentNodes = adjacentNodes(node);
- *     graph.removeNode(node);}</pre>
- *     At this point, the contents of {@code adjacentNodes} are undefined.
- * </ul>
  *
- * <p>The time complexity of all {@code Set}-returning accessors is O(1), since views are returned.
+ * <p>The time complexity of all collection-returning accessors is O(1), since views are returned.
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -65,27 +57,25 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
 
   protected final MapIteratorCache<N, NetworkConnections<N, E>> nodeConnections;
 
-  // We could make this a Map<E, Endpoints<N>>. It would make incidentNodes(edge) slightly faster,
-  // but it would also make Networks consume 5 to 20+% (increasing with average degree) more memory.
+  // We could make this a Map<E, EndpointPair<N>>. It would make incidentNodes(edge) slightly
+  // faster, but also make Networks consume 5 to 20+% (increasing with average degree) more memory.
   protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
-  /**
-   * Constructs a graph with the properties specified in {@code builder}.
-   */
+  /** Constructs a graph with the properties specified in {@code builder}. */
   ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
         builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
             builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
-        builder.edgeOrder.<E, N>createMap(
-            builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
+        builder.edgeOrder.<E, N>createMap(builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
   }
 
   /**
-   * Constructs a graph with the properties specified in {@code builder}, initialized with
-   * the given node and edge maps.
+   * Constructs a graph with the properties specified in {@code builder}, initialized with the given
+   * node and edge maps.
    */
-  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder,
+  ConfigurableNetwork(
+      NetworkBuilder<? super N, ? super E> builder,
       Map<N, NetworkConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {
     this.isDirected = builder.directed;
@@ -95,10 +85,11 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     this.edgeOrder = builder.edgeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
     // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
-    this.nodeConnections = (nodeConnections instanceof TreeMap)
-        ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
-        : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
-    this.edgeToReferenceNode = new MapIteratorCache<E, N>(edgeToReferenceNode);
+    this.nodeConnections =
+        (nodeConnections instanceof TreeMap)
+            ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
+            : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
+    this.edgeToReferenceNode = new MapIteratorCache<>(edgeToReferenceNode);
   }
 
   @Override
@@ -137,71 +128,75 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public Set<E> incidentEdges(Object node) {
+  public Set<E> incidentEdges(N node) {
     return checkedConnections(node).incidentEdges();
   }
 
   @Override
-  public Endpoints<N> incidentNodes(Object edge) {
-    N nodeA = checkedReferenceNode(edge);
-    N nodeB = nodeConnections.get(nodeA).oppositeNode(edge);
-    return Endpoints.of(this, nodeA, nodeB);
+  public EndpointPair<N> incidentNodes(E edge) {
+    N nodeU = checkedReferenceNode(edge);
+    N nodeV = nodeConnections.get(nodeU).adjacentNode(edge);
+    return EndpointPair.of(this, nodeU, nodeV);
   }
 
   @Override
-  public Set<N> adjacentNodes(Object node) {
+  public Set<N> adjacentNodes(N node) {
     return checkedConnections(node).adjacentNodes();
   }
 
   @Override
-  public Set<E> edgesConnecting(Object nodeA, Object nodeB) {
-    NetworkConnections<N, E> connectionsA = checkedConnections(nodeA);
-    if (!allowsSelfLoops && nodeA.equals(nodeB)) {
+  public Set<E> edgesConnecting(N nodeU, N nodeV) {
+    NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);
+    if (!allowsSelfLoops && nodeU == nodeV) { // just an optimization, only check reference equality
       return ImmutableSet.of();
     }
-    checkArgument(containsNode(nodeB), NODE_NOT_IN_GRAPH, nodeB);
-    return connectionsA.edgesConnecting(nodeB);
+    checkArgument(containsNode(nodeV), NODE_NOT_IN_GRAPH, nodeV);
+    return connectionsU.edgesConnecting(nodeV);
   }
 
   @Override
-  public Set<E> inEdges(Object node) {
+  public Set<E> inEdges(N node) {
     return checkedConnections(node).inEdges();
   }
 
   @Override
-  public Set<E> outEdges(Object node) {
+  public Set<E> outEdges(N node) {
     return checkedConnections(node).outEdges();
   }
 
   @Override
-  public Set<N> predecessors(Object node) {
+  public Set<N> predecessors(N node) {
     return checkedConnections(node).predecessors();
   }
 
   @Override
-  public Set<N> successors(Object node) {
+  public Set<N> successors(N node) {
     return checkedConnections(node).successors();
   }
 
-  protected final NetworkConnections<N, E> checkedConnections(Object node) {
-    checkNotNull(node, "node");
+  protected final NetworkConnections<N, E> checkedConnections(N node) {
     NetworkConnections<N, E> connections = nodeConnections.get(node);
-    checkArgument(connections != null, NODE_NOT_IN_GRAPH, node);
+    if (connections == null) {
+      checkNotNull(node);
+      throw new IllegalArgumentException(String.format(NODE_NOT_IN_GRAPH, node));
+    }
     return connections;
   }
 
-  protected final N checkedReferenceNode(Object edge) {
-    checkNotNull(edge, "edge");
+  protected final N checkedReferenceNode(E edge) {
     N referenceNode = edgeToReferenceNode.get(edge);
-    checkArgument(referenceNode != null, EDGE_NOT_IN_GRAPH, edge);
+    if (referenceNode == null) {
+      checkNotNull(edge);
+      throw new IllegalArgumentException(String.format(EDGE_NOT_IN_GRAPH, edge));
+    }
     return referenceNode;
   }
 
-  protected final boolean containsNode(@Nullable Object node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected final boolean containsEdge(@Nullable Object edge) {
+  protected final boolean containsEdge(@Nullable E edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

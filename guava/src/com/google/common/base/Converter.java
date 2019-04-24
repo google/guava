@@ -16,14 +16,14 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
+import com.google.errorprone.annotations.ForOverride;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -38,9 +38,9 @@ import javax.annotation.Nullable;
  * example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
- * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
- * <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
- * <i>not</i> the same string ({@code "1.00"}) we started with
+ *   <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
+ *   <li>{@code stringConverter().reverse().convert(1.0)} returns the string {@code "1.0"} --
+ *       <i>not</i> the same string ({@code "1.00"}) we started with
  * </ol>
  *
  * <p>Note that it should still be the case that the round-tripped and original objects are
@@ -61,28 +61,30 @@ import javax.annotation.Nullable;
  * <p>Getting a converter:
  *
  * <ul>
- * <li>Use a provided converter implementation, such as {@link Enums#stringConverter},
- *     {@link com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the
- *     {@linkplain #reverse reverse} views of these.
- * <li>Convert between specific preset values using
- *     {@link com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
- *     create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
- *     the {@code Converter} type using a mocking framework.
- * <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- * <li>If using Java 8, you may prefer to pass two lambda expressions or method references to the
- *     {@link #from from} factory method.
+ *   <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
+ *       com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
+ *       #reverse reverse} views of these.
+ *   <li>Convert between specific preset values using {@link
+ *       com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
+ *       create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
+ *       the {@code Converter} type using a mocking framework.
+ *   <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
+ *   <li><b>Java 8 users:</b> you may prefer to pass two lambda expressions or method references to
+ *       the {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
  *
  * <ul>
- * <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
- * <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
- * <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
- *     converter.reverse().convertAll(bs)}.
- * <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link Function} is accepted
- * <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to be
- *     overridden.
+ *   <li>Convert one instance in the "forward" direction using {@code converter.convert(a)}.
+ *   <li>Convert multiple instances "forward" using {@code converter.convertAll(as)}.
+ *   <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
+ *       converter.reverse().convertAll(bs)}.
+ *   <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
+ *       java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
+ *       Stream.map}).
+ *   <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to
+ *       be overridden.
  * </ul>
  *
  * <h3>Example</h3>
@@ -98,32 +100,32 @@ import javax.annotation.Nullable;
  *     }
  *   };</pre>
  *
- * <p>An alternative using Java 8:<pre>   {@code
- *   return Converter.from(
- *       Integer::toHexString,
- *       s -> parseUnsignedInt(s, 16));}</pre>
+ * <p>An alternative using Java 8:
+ *
+ * <pre>{@code
+ * return Converter.from(
+ *     Integer::toHexString,
+ *     s -> parseUnsignedInt(s, 16));
+ * }</pre>
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever
  * @author Gregory Kick
  * @since 16.0
  */
-@Beta
 @GwtCompatible
 public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
-  private transient Converter<B, A> reverse;
+  @LazyInit private transient @MonotonicNonNull Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
   protected Converter() {
     this(true);
   }
 
-  /**
-   * Constructor used only by {@code LegacyConverter} to suspend automatic null-handling.
-   */
+  /** Constructor used only by {@code LegacyConverter} to suspend automatic null-handling. */
   Converter(boolean handleNullAutomatically) {
     this.handleNullAutomatically = handleNullAutomatically;
   }
@@ -137,6 +139,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @param a the instance to convert; will never be null
    * @return the converted instance; <b>must not</b> be null
    */
+  @ForOverride
   protected abstract B doForward(A a);
 
   /**
@@ -151,6 +154,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *     then this is not logically a {@code Converter} at all, and should just implement {@link
    *     Function}.
    */
+  @ForOverride
   protected abstract A doBackward(B b);
 
   // API (consumer-side) methods
@@ -160,9 +164,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
-  @Nullable
   @CanIgnoreReturnValue
-  public final B convert(@Nullable A a) {
+  public final @Nullable B convert(@Nullable A a) {
     return correctedDoForward(a);
   }
 
@@ -227,12 +230,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * value roughly equivalent to {@code a}.
    *
    * <p>The returned converter is serializable if {@code this} converter is.
+   *
+   * <p><b>Note:</b> you should not override this method. It is non-final for legacy reasons.
    */
-  // TODO(kak): Make this method final
   @CanIgnoreReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
-    return (result == null) ? reverse = new ReverseConverter<A, B>(this) : result;
+    return (result == null) ? reverse = new ReverseConverter<>(this) : result;
   }
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
@@ -310,11 +314,9 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return doAndThen(secondConverter);
   }
 
-  /**
-   * Package-private non-final implementation of andThen() so only we can override it.
-   */
+  /** Package-private non-final implementation of andThen() so only we can override it. */
   <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
-    return new ConverterComposition<A, B, C>(this, checkNotNull(secondConverter));
+    return new ConverterComposition<>(this, checkNotNull(secondConverter));
   }
 
   private static final class ConverterComposition<A, B, C> extends Converter<A, C>
@@ -383,9 +385,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
    */
   @Deprecated
   @Override
-  @Nullable
   @CanIgnoreReturnValue
-  public final B apply(@Nullable A a) {
+  public final @Nullable B apply(@Nullable A a) {
     return convert(a);
   }
 
@@ -408,10 +409,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   // Static converters
 
   /**
-   * Returns a converter based on <i>existing</i> forward and backward functions. Note that it is
-   * unnecessary to create <i>new</i> classes implementing {@code Function} just to pass them in
-   * here. Instead, simply subclass {@code Converter} and implement its {@link #doForward} and
-   * {@link #doBackward} methods directly.
+   * Returns a converter based on separate forward and backward functions. This is useful if the
+   * function instances already exist, or so that you can supply lambda expressions. If those
+   * circumstances don't apply, you probably don't need to use this; subclass {@code Converter} and
+   * implement its {@link #doForward} and {@link #doBackward} methods directly.
    *
    * <p>These functions will never be passed {@code null} and must not under any circumstances
    * return {@code null}. If a value cannot be converted, the function should throw an unchecked
@@ -424,7 +425,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   public static <A, B> Converter<A, B> from(
       Function<? super A, ? extends B> forwardFunction,
       Function<? super B, ? extends A> backwardFunction) {
-    return new FunctionBasedConverter<A, B>(forwardFunction, backwardFunction);
+    return new FunctionBasedConverter<>(forwardFunction, backwardFunction);
   }
 
   private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
@@ -470,9 +471,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
   }
 
-  /**
-   * Returns a serializable converter that always converts or reverses an object to itself.
-   */
+  /** Returns a serializable converter that always converts or reverses an object to itself. */
   @SuppressWarnings("unchecked") // implementation is "fully variant"
   public static <T> Converter<T, T> identity() {
     return (IdentityConverter<T>) IdentityConverter.INSTANCE;

@@ -20,19 +20,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map-like data structure that wraps a backing map and caches values while iterating through
- * {@link #unmodifiableKeySet()}. By design, the cache is cleared when this structure is mutated.
- * If this structure is never mutated, it provides a thread-safe view of the backing map.
+ * {@link #unmodifiableKeySet()}. By design, the cache is cleared when this structure is mutated. If
+ * this structure is never mutated, it provides a thread-safe view of the backing map.
  *
  * <p>The {@link MapIteratorCache} assumes ownership of the backing map, and cannot guarantee
  * correctness in the face of external mutations to the backing map. As such, it is <b>strongly</b>
@@ -49,7 +47,7 @@ class MapIteratorCache<K, V> {
   // Per JDK: "the behavior of a map entry is undefined if the backing map has been modified after
   // the entry was returned by the iterator, except through the setValue operation on the map entry"
   // As such, this field must be cleared before every map mutation.
-  @Nullable private transient Entry<K, V> entrySetCache;
+  private transient @Nullable Entry<K, V> entrySetCache;
 
   MapIteratorCache(Map<K, V> backingMap) {
     this.backingMap = checkNotNull(backingMap);

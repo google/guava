@@ -18,8 +18,9 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-
-import javax.annotation.Nullable;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -30,7 +31,7 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
-      new RegularImmutableSet<Object>(ObjectArrays.EMPTY_ARRAY, 0, null, 0);
+      new RegularImmutableSet<>(new Object[0], 0, null, 0);
 
   private final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)
@@ -68,10 +69,29 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
     return elements.length;
   }
 
-  @SuppressWarnings("unchecked") // all elements are E's
   @Override
   public UnmodifiableIterator<E> iterator() {
     return (UnmodifiableIterator<E>) Iterators.forArray(elements);
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return Spliterators.spliterator(elements, SPLITERATOR_CHARACTERISTICS);
+  }
+
+  @Override
+  Object[] internalArray() {
+    return elements;
+  }
+
+  @Override
+  int internalArrayStart() {
+    return 0;
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return elements.length;
   }
 
   @Override

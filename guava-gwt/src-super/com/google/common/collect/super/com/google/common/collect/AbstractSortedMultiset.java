@@ -17,19 +17,17 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@link SortedMultiset} interface.
  *
  * <p>The {@link #count} and {@link #size} implementations all iterate across the set returned by
- * {@link Multiset#entrySet()}, as do many methods acting on the set returned by
- * {@link #elementSet()}. Override those methods for better performance.
+ * {@link Multiset#entrySet()}, as do many methods acting on the set returned by {@link
+ * #elementSet()}. Override those methods for better performance.
  *
  * @author Louis Wasserman
  */
@@ -99,8 +97,11 @@ abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements 
   }
 
   @Override
-  public SortedMultiset<E> subMultiset(@Nullable E fromElement, BoundType fromBoundType,
-      @Nullable E toElement, BoundType toBoundType) {
+  public SortedMultiset<E> subMultiset(
+      @Nullable E fromElement,
+      BoundType fromBoundType,
+      @Nullable E toElement,
+      BoundType toBoundType) {
     // These are checked elsewhere, but NullPointerTester wants them checked eagerly.
     checkNotNull(fromBoundType);
     checkNotNull(toBoundType);

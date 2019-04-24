@@ -36,5 +36,4 @@ class LongAdder implements LongAddable {
   public long sum() {
     return value;
   }
-
 }

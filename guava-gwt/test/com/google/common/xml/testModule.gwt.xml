@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+   
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.junit.JUnit"/>
   <inherits name="com.google.common.annotations.Annotations"/>
   <inherits name="com.google.common.escape.Escape"/>
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.xml.Xml"/>
+  <inherits name="com.google.common.truth.Truth"/>
   <entry-point class="com.google.common.xml.TestModuleEntryPoint"/>
    
   <source path=""/>

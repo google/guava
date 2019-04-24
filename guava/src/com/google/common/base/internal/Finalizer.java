@@ -18,14 +18,16 @@ import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Thread that finalizes referents. All references should implement
- * {@code com.google.common.base.FinalizableReference}.
+ * Thread that finalizes referents. All references should implement {@code
+ * com.google.common.base.FinalizableReference}.
  *
  * <p>While this class is public, we consider it to be *internal* and not part of our published API.
  * It is public so we can access it reflectively across class loaders in secure environments.
@@ -74,8 +76,23 @@ public class Finalizer implements Runnable {
     }
 
     Finalizer finalizer = new Finalizer(finalizableReferenceClass, queue, frqReference);
-    Thread thread = new Thread(finalizer);
-    thread.setName(Finalizer.class.getName());
+    String threadName = Finalizer.class.getName();
+    Thread thread = null;
+    if (bigThreadConstructor != null) {
+      try {
+        boolean inheritThreadLocals = false;
+        long defaultStackSize = 0;
+        thread =
+            bigThreadConstructor.newInstance(
+                (ThreadGroup) null, finalizer, threadName, defaultStackSize, inheritThreadLocals);
+      } catch (Throwable t) {
+        logger.log(
+            Level.INFO, "Failed to create a thread without inherited thread-local values", t);
+      }
+    }
+    if (thread == null) {
+      thread = new Thread((ThreadGroup) null, finalizer, threadName);
+    }
     thread.setDaemon(true);
 
     try {
@@ -96,7 +113,14 @@ public class Finalizer implements Runnable {
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
 
-  private static final Field inheritableThreadLocals = getInheritableThreadLocalsField();
+  // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
+  // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
+  // is created, by accessing a private field.
+  private static final @Nullable Constructor<Thread> bigThreadConstructor =
+      getBigThreadConstructor();
+
+  private static final @Nullable Field inheritableThreadLocals =
+      (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
   /** Constructs a new finalizer thread. */
   private Finalizer(
@@ -112,9 +136,7 @@ public class Finalizer implements Runnable {
     this.frqReference = frqReference;
   }
 
-  /**
-   * Loops continuously, pulling references off the queue and cleaning them up.
-   */
+  /** Loops continuously, pulling references off the queue and cleaning them up. */
   @SuppressWarnings("InfiniteLoopStatement")
   @Override
   public void run() {
@@ -168,10 +190,8 @@ public class Finalizer implements Runnable {
     return true;
   }
 
-  /**
-   * Looks up FinalizableReference.finalizeReferent() method.
-   */
-  private Method getFinalizeReferentMethod() {
+  /** Looks up FinalizableReference.finalizeReferent() method. */
+  private @Nullable Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
       /*
@@ -189,7 +209,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  public static Field getInheritableThreadLocalsField() {
+  private static @Nullable Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);
@@ -199,6 +219,16 @@ public class Finalizer implements Runnable {
           Level.INFO,
           "Couldn't access Thread.inheritableThreadLocals. Reference finalizer threads will "
               + "inherit thread local values.");
+      return null;
+    }
+  }
+
+  private static @Nullable Constructor<Thread> getBigThreadConstructor() {
+    try {
+      return Thread.class.getConstructor(
+          ThreadGroup.class, Runnable.class, String.class, long.class, boolean.class);
+    } catch (Throwable t) {
+      // Probably pre Java 9. We'll fall back to Thread.inheritableThreadLocals.
       return null;
     }
   }

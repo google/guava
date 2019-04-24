@@ -585,6 +585,60 @@ public void testAllAsList_singleFailure() throws Exception {
   }
 }
 
+public void testCancellingADelegatePropagates() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCancellingADelegatePropagates();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testCancellingAllDelegatesIsNotQuadratic() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCancellingAllDelegatesIsNotQuadratic();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
 public void testCatchingAsync_ErrorAfterCancellation() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
@@ -807,6 +861,33 @@ public void testCatchingAsync_fallbackReturnsRuntimeException() throws Exception
   Throwable failure = null;
   try {
     testCase.testCatchingAsync_fallbackReturnsRuntimeException();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testCatchingAsync_futureToString() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testCatchingAsync_futureToString();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1422,12 +1503,12 @@ public void testCatching_resultInterruptedBeforeFallback() throws Exception {
   }
 }
 
-public void testDereference_genericsHierarchy() throws Exception {
+public void testCompletionOrder() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testDereference_genericsHierarchy();
+    testCase.testCompletionOrder();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1449,12 +1530,12 @@ public void testDereference_genericsHierarchy() throws Exception {
   }
 }
 
-public void testDereference_genericsWildcard() throws Exception {
+public void testCompletionOrderExceptionThrown() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testDereference_genericsWildcard();
+    testCase.testCompletionOrderExceptionThrown();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1476,12 +1557,12 @@ public void testDereference_genericsWildcard() throws Exception {
   }
 }
 
-public void testDereference_innerCancelsResult() throws Exception {
+public void testCompletionOrderFutureCancelled() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testDereference_innerCancelsResult();
+    testCase.testCompletionOrderFutureCancelled();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1503,12 +1584,12 @@ public void testDereference_innerCancelsResult() throws Exception {
   }
 }
 
-public void testDereference_outerCancelsResult() throws Exception {
+public void testCompletionOrderFutureInterruption() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testDereference_outerCancelsResult();
+    testCase.testCompletionOrderFutureInterruption();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1530,39 +1611,12 @@ public void testDereference_outerCancelsResult() throws Exception {
   }
 }
 
-public void testDereference_resultCancelsInner() throws Exception {
+public void testCompletionOrderMixedBagOTypes() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();
   Throwable failure = null;
   try {
-    testCase.testDereference_resultCancelsInner();
-  } catch (Throwable t) {
-    failure = t;
-  }
-  try {
-    testCase.tearDown();
-  } catch (Throwable t) {
-    if (failure == null) {
-      failure = t;
-    }
-  }
-  if (failure instanceof Exception) {
-    throw (Exception) failure;
-  }
-  if (failure instanceof Error) {
-    throw (Error) failure;
-  }
-  if (failure != null) {
-    throw new RuntimeException(failure);
-  }
-}
-
-public void testDereference_resultCancelsOuter() throws Exception {
-  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
-  testCase.setUp();
-  Throwable failure = null;
-  try {
-    testCase.testDereference_resultCancelsOuter();
+    testCase.testCompletionOrderMixedBagOTypes();
   } catch (Throwable t) {
     failure = t;
   }
@@ -1779,6 +1833,60 @@ public void testNonCancellationPropagating_successful() throws Exception {
   Throwable failure = null;
   try {
     testCase.testNonCancellationPropagating_successful();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testSubmitAsync_asyncCallable_error() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testSubmitAsync_asyncCallable_error();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testSubmitAsync_asyncCallable_nullInsteadOfFuture() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testSubmitAsync_asyncCallable_nullInsteadOfFuture();
   } catch (Throwable t) {
     failure = t;
   }
@@ -2832,6 +2940,87 @@ public void testWhenAllComplete_asyncResult() throws Exception {
   Throwable failure = null;
   try {
     testCase.testWhenAllComplete_asyncResult();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testWhenAllComplete_runnableError() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testWhenAllComplete_runnableError();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testWhenAllComplete_runnableResult() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testWhenAllComplete_runnableResult();
+  } catch (Throwable t) {
+    failure = t;
+  }
+  try {
+    testCase.tearDown();
+  } catch (Throwable t) {
+    if (failure == null) {
+      failure = t;
+    }
+  }
+  if (failure instanceof Exception) {
+    throw (Exception) failure;
+  }
+  if (failure instanceof Error) {
+    throw (Error) failure;
+  }
+  if (failure != null) {
+    throw new RuntimeException(failure);
+  }
+}
+
+public void testWhenAllComplete_wildcard() throws Exception {
+  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
+  testCase.setUp();
+  Throwable failure = null;
+  try {
+    testCase.testWhenAllComplete_wildcard();
   } catch (Throwable t) {
     failure = t;
   }

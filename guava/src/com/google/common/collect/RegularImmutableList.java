@@ -17,60 +17,62 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Preconditions;
+import com.google.common.annotations.VisibleForTesting;
+import java.util.Spliterator;
+import java.util.Spliterators;
 
 /**
- * Implementation of {@link ImmutableList} used for 0 or 2+ elements (not 1).
+ * Implementation of {@link ImmutableList} backed by a simple array.
  *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableList<E> extends ImmutableList<E> {
-  static final ImmutableList<Object> EMPTY =
-      new RegularImmutableList<Object>(ObjectArrays.EMPTY_ARRAY);
+  static final ImmutableList<Object> EMPTY = new RegularImmutableList<>(new Object[0]);
 
-  private final transient int offset;
-  private final transient int size;
-  private final transient Object[] array;
-
-  RegularImmutableList(Object[] array, int offset, int size) {
-    this.offset = offset;
-    this.size = size;
-    this.array = array;
-  }
+  @VisibleForTesting final transient Object[] array;
 
   RegularImmutableList(Object[] array) {
-    this(array, 0, array.length);
+    this.array = array;
   }
 
   @Override
   public int size() {
-    return size;
+    return array.length;
   }
 
   @Override
   boolean isPartialView() {
-    return size != array.length;
+    return false;
+  }
+
+  @Override
+  Object[] internalArray() {
+    return array;
+  }
+
+  @Override
+  int internalArrayStart() {
+    return 0;
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return array.length;
   }
 
   @Override
   int copyIntoArray(Object[] dst, int dstOff) {
-    System.arraycopy(array, offset, dst, dstOff, size);
-    return dstOff + size;
+    System.arraycopy(array, 0, dst, dstOff, array.length);
+    return dstOff + array.length;
   }
 
   // The fake cast to E is safe because the creation methods only allow E's
   @Override
   @SuppressWarnings("unchecked")
   public E get(int index) {
-    Preconditions.checkElementIndex(index, size);
-    return (E) array[index + offset];
-  }
-
-  @Override
-  ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableList<E>(array, offset + fromIndex, toIndex - fromIndex);
+    return (E) array[index];
   }
 
   @SuppressWarnings("unchecked")
@@ -78,7 +80,12 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   public UnmodifiableListIterator<E> listIterator(int index) {
     // for performance
     // The fake cast to E is safe because the creation methods only allow E's
-    return (UnmodifiableListIterator<E>) Iterators.forArray(array, offset, size, index);
+    return (UnmodifiableListIterator<E>) Iterators.forArray(array, 0, array.length, index);
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return Spliterators.spliterator(array, SPLITERATOR_CHARACTERISTICS);
   }
 
   // TODO(lowasser): benchmark optimizations for equals() and see if they're worthwhile

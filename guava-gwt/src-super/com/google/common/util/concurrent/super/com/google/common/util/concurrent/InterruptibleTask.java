@@ -16,17 +16,31 @@
 
 package com.google.common.util.concurrent;
 
-/**
- * Emulation for InterruptibleTask in GWT.
- */
-abstract class InterruptibleTask implements Runnable {
-  @Override public void run() {
-    runInterruptibly();
+/** Emulation for InterruptibleTask in GWT. */
+abstract class InterruptibleTask<V> implements Runnable {
+
+  @Override
+  public void run() {
+    V result = null;
+    Throwable error = null;
+    if (isDone()) {
+      return;
+    }
+    try {
+      result = runInterruptibly();
+    } catch (Throwable t) {
+      error = t;
+    }
+    afterRanInterruptibly(result, error);
   }
 
-  abstract void runInterruptibly();
+  abstract boolean isDone();
 
-  abstract boolean wasInterrupted();
+  abstract V runInterruptibly() throws Exception;
+
+  abstract void afterRanInterruptibly(V result, Throwable error);
 
   final void interruptTask() {}
+
+  abstract String toPendingString();
 }

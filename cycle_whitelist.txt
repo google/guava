@@ -8,7 +8,7 @@ NAMESPACE com.google.common.io
 NAMESPACE com.google.common.net
 NAMESPACE com.google.common.testing
 
-# Whitelist our dependencies for now.
+# Allow our dependencies for now.
 NAMESPACE junit.framework
 NAMESPACE org.junit
 
@@ -36,13 +36,13 @@ FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
 FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
 FIELD com.google.common.collect.TreeTraverser.PreOrderIterator.stack
-FIELD com.google.common.util.concurrent.AbstractFuture.Listener.task
+FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor.$
 FIELD com.google.common.util.concurrent.AbstractService.listeners
 # Real cycle, but the runningState field is null'ed on completion of the future.
 FIELD com.google.common.util.concurrent.AggregateFuture.runningState
 FIELD java.util.AbstractMap.keySet com.google.common.collect.AbstractMapBasedMultimap.NavigableKeySet
 FIELD java.util.AbstractMap.keySet com.google.common.collect.Maps.FilteredEntryNavigableMap.navigableKeySet.$
 FIELD java.util.AbstractMap.keySet com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.keySet.$
-FIELD java.util.AbstractMap.valuesCollection com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
+FIELD java.util.AbstractMap.values com.google.common.collect.TreeRangeMap.SubRangeMap.SubRangeMapAsMap.values.$
 OUTER com.google.common.collect.StandardTable.Row
 OUTER com.google.common.collect.TreeBasedTable.TreeRow

@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
+import java.util.Collections;
+import java.util.Spliterator;
 
 /**
  * Implementation of {@link ImmutableList} with exactly one element.
@@ -48,6 +50,11 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override
+  public Spliterator<E> spliterator() {
+    return Collections.singleton(element).spliterator();
+  }
+
+  @Override
   public int size() {
     return 1;
   }
@@ -60,12 +67,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
 
   @Override
   public String toString() {
-    String elementToString = element.toString();
-    return new StringBuilder(elementToString.length() + 2)
-        .append('[')
-        .append(elementToString)
-        .append(']')
-        .toString();
+    return '[' + element.toString() + ']';
   }
 
   @Override

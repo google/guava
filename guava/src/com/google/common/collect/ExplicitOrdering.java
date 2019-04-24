@@ -17,11 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.List;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that compares objects according to a given order. */
 @GwtCompatible(serializable = true)

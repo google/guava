@@ -17,12 +17,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides default values for all Java types, as defined by the JLS.
@@ -34,36 +29,35 @@ import javax.annotation.Nullable;
 public final class Defaults {
   private Defaults() {}
 
-  private static final Map<Class<?>, Object> DEFAULTS;
-
-  static {
-    // Only add to this map via put(Map, Class<T>, T)
-    Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
-    put(map, boolean.class, false);
-    put(map, char.class, '\0');
-    put(map, byte.class, (byte) 0);
-    put(map, short.class, (short) 0);
-    put(map, int.class, 0);
-    put(map, long.class, 0L);
-    put(map, float.class, 0f);
-    put(map, double.class, 0d);
-    DEFAULTS = Collections.unmodifiableMap(map);
-  }
-
-  private static <T> void put(Map<Class<?>, Object> map, Class<T> type, T value) {
-    map.put(type, value);
-  }
+  private static final Double DOUBLE_DEFAULT = Double.valueOf(0d);
+  private static final Float FLOAT_DEFAULT = Float.valueOf(0f);
 
   /**
    * Returns the default value of {@code type} as defined by JLS --- {@code 0} for numbers, {@code
    * false} for {@code boolean} and {@code '\0'} for {@code char}. For non-primitive types and
    * {@code void}, {@code null} is returned.
    */
-  @Nullable
-  public static <T> T defaultValue(Class<T> type) {
-    // Primitives.wrap(type).cast(...) would avoid the warning, but we can't use that from here
-    @SuppressWarnings("unchecked") // the put method enforces this key-value relationship
-    T t = (T) DEFAULTS.get(checkNotNull(type));
-    return t;
+  @SuppressWarnings("unchecked")
+  public static <T> @Nullable T defaultValue(Class<T> type) {
+    checkNotNull(type);
+    if (type == boolean.class) {
+      return (T) Boolean.FALSE;
+    } else if (type == char.class) {
+      return (T) Character.valueOf('\0');
+    } else if (type == byte.class) {
+      return (T) Byte.valueOf((byte) 0);
+    } else if (type == short.class) {
+      return (T) Short.valueOf((short) 0);
+    } else if (type == int.class) {
+      return (T) Integer.valueOf(0);
+    } else if (type == long.class) {
+      return (T) Long.valueOf(0L);
+    } else if (type == float.class) {
+      return (T) FLOAT_DEFAULT;
+    } else if (type == double.class) {
+      return (T) DOUBLE_DEFAULT;
+    } else {
+      return null;
+    }
   }
 }

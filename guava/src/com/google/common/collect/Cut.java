@@ -18,24 +18,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
-
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Implementation detail for the internal structure of {@link Range} instances. Represents
- * a unique way of "cutting" a "number line" (actually of instances of type {@code C}, not
- * necessarily "numbers") into two sections; this can be done below a certain value, above
- * a certain value, below all values or above all values. With this object defined in this
- * way, an interval can always be represented by a pair of {@code Cut} instances.
+ * Implementation detail for the internal structure of {@link Range} instances. Represents a unique
+ * way of "cutting" a "number line" (actually of instances of type {@code C}, not necessarily
+ * "numbers") into two sections; this can be done below a certain value, above a certain value,
+ * below all values or above all values. With this object defined in this way, an interval can
+ * always be represented by a pair of {@code Cut} instances.
  *
  * @author Kevin Bourrillion
  */
 @GwtCompatible
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
-  final C endpoint;
+  final @Nullable C endpoint;
 
   Cut(@Nullable C endpoint) {
     this.endpoint = endpoint;
@@ -67,7 +65,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     return this;
   }
 
-  // note: overriden by {BELOW,ABOVE}_ALL
+  // note: overridden by {BELOW,ABOVE}_ALL
   @Override
   public int compareTo(Cut<C> that) {
     if (that == belowAll()) {
@@ -102,6 +100,10 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
     return false;
   }
+
+  // Prevent "missing hashCode" warning by explicitly forcing subclasses implement it
+  @Override
+  public abstract int hashCode();
 
   /*
    * The implementation neither produces nor consumes any non-null instance of type C, so
@@ -188,6 +190,11 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
+    }
+
+    @Override
     public String toString() {
       return "-\u221e";
     }
@@ -270,6 +277,11 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     @Override
     public int compareTo(Cut<Comparable<?>> o) {
       return (o == this) ? 0 : 1;
+    }
+
+    @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
     }
 
     @Override

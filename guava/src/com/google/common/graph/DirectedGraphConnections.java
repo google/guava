@@ -33,7 +33,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for directed graphs.
@@ -50,10 +50,11 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   private static final class PredAndSucc {
     private final Object successorValue;
 
-    PredAndSucc(Object userValue) {
-      this.successorValue = userValue;
+    PredAndSucc(Object successorValue) {
+      this.successorValue = successorValue;
     }
   }
+
   private static final Object PRED = new Object();
 
   // Every value in this map must either be an instance of PredAndSucc with a successorValue of
@@ -65,23 +66,24 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   private DirectedGraphConnections(
       Map<N, Object> adjacentNodeValues, int predecessorCount, int successorCount) {
-    this.adjacentNodeValues = checkNotNull(adjacentNodeValues, "adjacentNodeValues");
+    this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
     this.predecessorCount = checkNonNegative(predecessorCount);
     this.successorCount = checkNonNegative(successorCount);
-    checkState(predecessorCount <= adjacentNodeValues.size()
-        && successorCount <= adjacentNodeValues.size());
+    checkState(
+        predecessorCount <= adjacentNodeValues.size()
+            && successorCount <= adjacentNodeValues.size());
   }
 
   static <N, V> DirectedGraphConnections<N, V> of() {
     // We store predecessors and successors in the same map, so double the initial capacity.
     int initialCapacity = INNER_CAPACITY * 2;
-    return new DirectedGraphConnections<N, V>(
+    return new DirectedGraphConnections<>(
         new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR), 0, 0);
   }
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(
       Set<N> predecessors, Map<N, V> successorValues) {
-    Map<N, Object> adjacentNodeValues = new HashMap<N, Object>();
+    Map<N, Object> adjacentNodeValues = new HashMap<>();
     adjacentNodeValues.putAll(successorValues);
     for (N predecessor : predecessors) {
       Object value = adjacentNodeValues.put(predecessor, PRED);
@@ -89,8 +91,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
         adjacentNodeValues.put(predecessor, new PredAndSucc(value));
       }
     }
-    return new DirectedGraphConnections<N, V>(ImmutableMap.copyOf(adjacentNodeValues),
-        predecessors.size(), successorValues.size());
+    return new DirectedGraphConnections<>(
+        ImmutableMap.copyOf(adjacentNodeValues), predecessors.size(), successorValues.size());
   }
 
   @Override
@@ -164,7 +166,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V value(Object node) {
+  public V value(N node) {
     Object value = adjacentNodeValues.get(node);
     if (value == PRED) {
       return null;
@@ -177,7 +179,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void removePredecessor(Object node) {
+  public void removePredecessor(N node) {
     Object previousValue = adjacentNodeValues.get(node);
     if (previousValue == PRED) {
       adjacentNodeValues.remove(node);

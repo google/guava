@@ -21,31 +21,30 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
-
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.annotation.Nullable;
+import java.util.stream.Stream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
  * comparator. "Top" can mean the greatest or the lowest elements, specified in the factory used to
  * create the {@code TopKSelector} instance.
  *
- * <p>If your input data is available as an {@link Iterable} or {@link Iterator}, prefer
- * {@link Ordering#leastOf(Iterable, int)}, which provides the same implementation with an
- * interface tailored to that use case.
+ * <p>If your input data is available as a {@link Stream}, prefer passing {@link
+ * Comparators#least(int)} to {@link Stream#collect(java.util.stream.Collector)}. If it is available
+ * as an {@link Iterable} or {@link Iterator}, prefer {@link Ordering#leastOf(Iterable, int)}.
  *
  * <p>This uses the same efficient implementation as {@link Ordering#leastOf(Iterable, int)},
- * offering expected O(n + k log k) performance (worst case O(n log k)) for n calls to
- * {@link #offer} and a call to {@link #topK}, with O(k) memory. In comparison, quickselect has the
- * same asymptotics but requires O(n) memory, and a {@code PriorityQueue} implementation takes O(n
- * log k). In benchmarks, this implementation performs at least as well as either implementation,
- * and degrades more gracefully for worst-case input.
+ * offering expected O(n + k log k) performance (worst case O(n log k)) for n calls to {@link
+ * #offer} and a call to {@link #topK}, with O(k) memory. In comparison, quickselect has the same
+ * asymptotics but requires O(n) memory, and a {@code PriorityQueue} implementation takes O(n log
+ * k). In benchmarks, this implementation performs at least as well as either implementation, and
+ * degrades more gracefully for worst-case input.
  *
  * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
  * equivalent elements are added to it, it is undefined which will come first in the output.
@@ -66,6 +65,16 @@ import javax.annotation.Nullable;
   }
 
   /**
+   * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
+   * relative to the specified comparator, and returns them via {@link #topK} in ascending order.
+   *
+   * @throws IllegalArgumentException if {@code k < 0}
+   */
+  public static <T> TopKSelector<T> least(int k, Comparator<? super T> comparator) {
+    return new TopKSelector<T>(comparator, k);
+  }
+
+  /**
    * Returns a {@code TopKSelector} that collects the greatest {@code k} elements added to it,
    * relative to the natural ordering of the elements, and returns them via {@link #topK} in
    * descending order.
@@ -74,16 +83,6 @@ import javax.annotation.Nullable;
    */
   public static <T extends Comparable<? super T>> TopKSelector<T> greatest(int k) {
     return greatest(k, Ordering.natural());
-  }
-
-  /**
-   * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
-   * relative to the specified comparator, and returns them via {@link #topK} in ascending order.
-   *
-   * @throws IllegalArgumentException if {@code k < 0}
-   */
-  public static <T> TopKSelector<T> least(int k, Comparator<? super T> comparator) {
-    return new TopKSelector<T>(comparator, k);
   }
 
   /**
@@ -109,9 +108,9 @@ import javax.annotation.Nullable;
 
   /**
    * The largest of the lowest k elements we've seen so far relative to this comparator. If
-   * bufferSize >= k, then we can ignore any elements greater than this value.
+   * bufferSize ≥ k, then we can ignore any elements greater than this value.
    */
-  private T threshold;
+  private @Nullable T threshold;
 
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");
@@ -123,8 +122,8 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes
-   * amortized O(1) time.
+   * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes amortized
+   * O(1) time.
    */
   public void offer(@Nullable T elem) {
     if (k == 0) {
@@ -148,8 +147,8 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Quickselects the top k elements from the 2k elements in the buffer.  O(k) expected time,
-   * O(k log k) worst case.
+   * Quickselects the top k elements from the 2k elements in the buffer. O(k) expected time, O(k log
+   * k) worst case.
    */
   private void trim() {
     int left = 0;
@@ -194,8 +193,8 @@ import javax.annotation.Nullable;
   /**
    * Partitions the contents of buffer in the range [left, right] around the pivot element
    * previously stored in buffer[pivotValue]. Returns the new index of the pivot element,
-   * pivotNewIndex, so that everything in [left, pivotNewIndex] is <= pivotValue and everything in
-   * (pivotNewIndex, right] is > pivotValue.
+   * pivotNewIndex, so that everything in [left, pivotNewIndex] is ≤ pivotValue and everything in
+   * (pivotNewIndex, right] is greater than pivotValue.
    */
   private int partition(int left, int right, int pivotIndex) {
     T pivotValue = buffer[pivotIndex];
@@ -219,13 +218,19 @@ import javax.annotation.Nullable;
     buffer[j] = tmp;
   }
 
+  TopKSelector<T> combine(TopKSelector<T> other) {
+    for (int i = 0; i < other.bufferSize; i++) {
+      this.offer(other.buffer[i]);
+    }
+    return this;
+  }
+
   /**
    * Adds each member of {@code elements} as a candidate for the top {@code k} elements. This
    * operation takes amortized linear time in the length of {@code elements}.
    *
-   * <p>If all input data to this {@code TopKSelector} is in a single {@code Iterable},
-   * prefer {@link Ordering#leastOf(Iterable, int)}, which provides a simpler API for that use
-   * case.
+   * <p>If all input data to this {@code TopKSelector} is in a single {@code Iterable}, prefer
+   * {@link Ordering#leastOf(Iterable, int)}, which provides a simpler API for that use case.
    */
   public void offerAll(Iterable<? extends T> elements) {
     offerAll(elements.iterator());
@@ -236,9 +241,8 @@ import javax.annotation.Nullable;
    * operation takes amortized linear time in the length of {@code elements}. The iterator is
    * consumed after this operation completes.
    *
-   * <p>If all input data to this {@code TopKSelector} is in a single {@code Iterator},
-   * prefer {@link Ordering#leastOf(Iterator, int)}, which provides a simpler API for that use
-   * case.
+   * <p>If all input data to this {@code TopKSelector} is in a single {@code Iterator}, prefer
+   * {@link Ordering#leastOf(Iterator, int)}, which provides a simpler API for that use case.
    */
   public void offerAll(Iterator<? extends T> elements) {
     while (elements.hasNext()) {

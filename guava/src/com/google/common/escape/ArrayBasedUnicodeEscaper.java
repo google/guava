@@ -18,10 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 import java.util.Map;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given
@@ -155,21 +153,6 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
     return s;
   }
 
-  /* Overridden for performance. */
-  @Override
-  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {
-    while (index < end) {
-      char c = csq.charAt(index);
-      if ((c < replacementsLength && replacements[c] != null)
-          || c > safeMaxChar
-          || c < safeMinChar) {
-        break;
-      }
-      index++;
-    }
-    return index;
-  }
-
   /**
    * Escapes a single Unicode code point using the replacement array and safe range values. If the
    * given character does not have an explicit replacement and lies outside the safe range then
@@ -187,6 +170,21 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
       return null;
     }
     return escapeUnsafe(cp);
+  }
+
+  /* Overridden for performance. */
+  @Override
+  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {
+    while (index < end) {
+      char c = csq.charAt(index);
+      if ((c < replacementsLength && replacements[c] != null)
+          || c > safeMaxChar
+          || c < safeMinChar) {
+        break;
+      }
+      index++;
+    }
+    return index;
   }
 
   /**

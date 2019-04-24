@@ -4,23 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>20.0-SNAPSHOT</version>
+  <version>HEAD-jre-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>https://github.com/google/guava</url>
   <properties>
-    <gpg.skip>true</gpg.skip>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
-    <test.include>**/*Test.java</test.include>
-    <truth.version>0.28</truth.version>
-    <animal.sniffer.version>1.14</animal.sniffer.version>
+    <test.include>%regex[.*.class]</test.include>
+    <truth.version>0.42</truth.version>
+    <animal.sniffer.version>1.17</animal.sniffer.version>
+    <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -62,6 +57,7 @@
   </ciManagement>
   <modules>
     <module>guava</module>
+    <module>guava-bom</module>
     <module>guava-gwt</module>
     <module>guava-testlib</module>
     <module>guava-tests</module>
@@ -86,33 +82,25 @@
         </excludes>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals><goal>sign</goal></goals>
-          </execution>
-        </executions>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
       </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
+          <version>3.8.0</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.3.1</version>
+          <version>3.0.2</version>
           <configuration>
             <excludes>
               <exclude>**/ForceGuavaCompilation*</exclude>
@@ -142,8 +130,8 @@
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
-              <artifactId>java16-sun</artifactId>
-              <version>1.10</version>
+              <artifactId>java18</artifactId>
+              <version>1.0</version>
             </signature>
           </configuration>
           <executions>
@@ -158,9 +146,19 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.8</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <configuration>
+            <quiet>true</quiet>
             <notimestamp>true</notimestamp>
+            <encoding>UTF-8</encoding>
+            <docencoding>UTF-8</docencoding>
+            <charset>UTF-8</charset>
+            <additionalOptions>
+              <additionalOption>-XDignore.symbol.file</additionalOption>
+              <additionalOption>-Xdoclint:-html</additionalOption>
+            </additionalOptions>
+            <linksource>true</linksource>
+            <source>8</source>
           </configuration>
           <executions>
             <execution>
@@ -185,12 +183,36 @@
             <includes>
               <include>${test.include}</include>
             </includes>
+            <!-- By having our own entries here, we also override the default exclusion filter, which excludes all nested classes. -->
+            <excludes>
+              <!-- https://github.com/google/guava/issues/2840 -->
+              <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
+              <!-- FeatureUtilTest.*ExampleDerivedInterfaceTester, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
+              <exclude>%regex[.*Tester.class]</exclude>
+              <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
+              <exclude>%regex[.*[$]\d+.class]</exclude>
+            </excludes>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <runOrder>alphabetical</runOrder>
+            <!-- Set max heap for tests. -->
+            <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
   <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
     <site>
       <id>guava-site</id>
       <name>Guava Documentation Site</name>
@@ -202,12 +224,17 @@
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
-        <version>1.3.9</version>
+        <version>3.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>2.5.2</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.0.2</version>
+        <version>2.3.2</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
@@ -217,7 +244,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.8.2</version>
+        <version>4.12</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -229,12 +256,31 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>1.8.5</version>
+        <version>2.19.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.jimfs</groupId>
+        <artifactId>jimfs</artifactId>
+        <version>1.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.google.truth</groupId>
         <artifactId>truth</artifactId>
+        <version>${truth.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <!-- use the guava we're building. -->
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.google.truth.extensions</groupId>
+        <artifactId>truth-java8-extension</artifactId>
         <version>${truth.version}</version>
         <scope>test</scope>
         <exclusions>
@@ -262,61 +308,50 @@
   </dependencyManagement>
   <profiles>
     <profile>
-      <id>jdk7</id>
-      <activation>
-        <jdk>1.7</jdk>
-      </activation>
-      <!-- Set custom stylesheet under JDK7 -->
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <stylesheetfile>javadoc-stylesheet.css</stylesheetfile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>jdk8</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <!-- Disable doclint under JDK 8 -->
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalparam>-Xdoclint:none</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
+        <id>sonatype-oss-release</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.1.2</version>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                  <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                      <goal>jar</goal>
+                    </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.1</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
       </build>
     </profile>
   </profiles>

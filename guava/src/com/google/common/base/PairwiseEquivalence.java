@@ -15,11 +15,9 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
 import java.util.Iterator;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(serializable = true)
 final class PairwiseEquivalence<T> extends Equivalence<Iterable<T>> implements Serializable {

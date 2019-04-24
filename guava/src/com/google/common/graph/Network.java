@@ -17,77 +17,83 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import java.util.ConcurrentModificationException;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>
- * data structures. A graph is composed of a set of nodes (sometimes called vertices) and a set of
- * edges connecting pairs of nodes. Graphs are useful for modeling many kinds of relations. If the
- * relation to be modeled is symmetric (such as "distance between cities"), that can be represented
- * with an undirected graph, where an edge that connects node A to node B also connects node B to
- * node A. If the relation to be modeled is asymmetric (such as "employees managed"), that can be
- * represented with a directed graph, where edges are strictly one-way.
+ * An interface for <a
+ * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
+ * whose edges are unique objects.
  *
- * <p>There are three main interfaces provided to represent graphs. In order of increasing
- * complexity they are: {@link BasicGraph}, {@link Graph}, and {@link Network}. You should generally
- * prefer the simplest interface that satisfies your use case.
+ * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
- * <ol>
- * <li>Do you have data (objects) that you wish to associate with edges?
- *     <p>Yes: Go to question 2. No: Use {@link BasicGraph}.
- * <li>Are the objects you wish to associate with edges unique within the scope of a graph? That is,
- *     no two objects would be {@link Object#equals(Object) equal} to each other. A common example
- *     where this would <i>not</i> be the case is with weighted graphs.
- *     <p>Yes: Go to question 3. No: Use {@link Graph}.
- * <li>Do you need to be able to query the graph for an edge associated with a particular object?
- *     For example, do you need to query what nodes an edge associated with a particular object
- *     connects, or whether an edge associated with that object exists in the graph?
- *     <p>Yes: Use {@link Network}. No: Go to question 4.
- * <li>Do you need explicit support for parallel edges? For example, do you need to remove one edge
- *     connecting a pair of nodes while leaving other edges connecting those same nodes intact?
- *     <p>Yes: Use {@link Network}. No: Use {@link Graph}.
- * </ol>
+ * <p>There are three primary interfaces provided to represent graphs. In order of increasing
+ * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally
+ * prefer the simplest interface that satisfies your use case. See the <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
+ * "Choosing the right graph type"</a> section of the Guava User Guide for more details.
  *
- * <p>Although {@link MutableGraph} and {@link MutableNetwork} both require users to provide objects
- * to associate with edges when adding them, the differentiating factor is that in {@link Graph}s,
- * these objects can be any arbitrary data. Like the values in a {@link Map}, they do not have to be
- * unique, and can be mutated while in the graph. In a {@link Network}, these objects serve as keys
- * into the data structure. Like the keys in a {@link Map}, they must be unique, and cannot be
- * mutated in a way that affects their equals/hashcode or the data structure will become corrupted.
+ * <h3>Capabilities</h3>
  *
- * <p>In all three interfaces, nodes have all the same requirements as keys in a {@link Map}.
+ * <p>{@code Network} supports the following use cases (<a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
+ * terms</a>):
  *
- * <p>All mutation methods live on the subinterface {@link MutableNetwork}. If you do not need to
- * mutate a network (e.g. if you write a method than runs a read-only algorithm on the network), you
- * should prefer the non-mutating {@link Network} interface.
+ * <ul>
+ *   <li>directed graphs
+ *   <li>undirected graphs
+ *   <li>graphs that do/don't allow parallel edges
+ *   <li>graphs that do/don't allow self-loops
+ *   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
+ *   <li>graphs whose edges are unique objects
+ * </ul>
  *
- * <p>We provide an efficient implementation of this interface via {@link NetworkBuilder}. When
- * using the implementation provided, all {@link Set}-returning methods provide live, unmodifiable
- * views of the network. In other words, you cannot add an element to the {@link Set}, but if an
- * element is added to the {@link Network} that would affect the result of that set, it will be
- * updated automatically. This also means that you cannot modify a {@link Network} in a way that
- * would affect a {#link Set} while iterating over that set. For example, you cannot remove the
- * nodes from a {@link Network} while iterating over {@link #nodes} (unless you first make a copy of
- * the nodes), just as you could not remove the keys from a {@link Map} while iterating over its
- * {@link Map#keySet()}. This will either throw a {@link ConcurrentModificationException} or risk
- * undefined behavior.
+ * <h3>Building a {@code Network}</h3>
  *
- * <p>Example of use:
+ * <p>The implementation classes that {@code common.graph} provides are not public, by design. To
+ * create an instance of one of the built-in implementations of {@code Network}, use the {@link
+ * NetworkBuilder} class:
  *
- * <pre><code>
- * MutableNetwork<String, String> roadNetwork = NetworkBuilder.undirected().build();
- * roadNetwork.addEdge("Springfield", "Shelbyville", "Monorail");
- * roadNetwork.addEdge("New York", "New New York", "Applied Cryogenics");
- * roadNetwork.addEdge("Springfield", "New New York", "Secret Wormhole");
- * String roadToQuery = "Secret Wormhole";
- * if (roadNetwork.edges().contains(roadToQuery)) {
- *   Endpoints<String> cities = roadNetwork.incidentNodes(roadToQuery);
- *   System.out.format("%s and %s connected via %s", cities.nodeA(), cities.nodeB(), roadToQuery);
- * }
- * </code></pre>
+ * <pre>{@code
+ * MutableNetwork<Integer, MyEdge> graph = NetworkBuilder.directed().build();
+ * }</pre>
+ *
+ * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
+ * subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
+ * do not need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the
+ * graph), you should use the non-mutating {@link Network} interface, or an {@link
+ * ImmutableNetwork}.
+ *
+ * <p>You can create an immutable copy of an existing {@code Network} using {@link
+ * ImmutableNetwork#copyOf(Network)}:
+ *
+ * <pre>{@code
+ * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(graph);
+ * }</pre>
+ *
+ * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
+ * are contractually guaranteed to be unmodifiable and thread-safe.
+ *
+ * <p>The Guava User Guide has <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
+ * information on (and examples of) building graphs</a>.
+ *
+ * <h3>Additional documentation</h3>
+ *
+ * <p>See the Guava User Guide for the {@code common.graph} package (<a
+ * href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
+ * additional documentation, including:
+ *
+ * <ul>
+ *   <li><a
+ *       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence">
+ *       {@code equals()}, {@code hashCode()}, and graph equivalence</a>
+ *   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization">
+ *       Synchronization policy</a>
+ *   <li><a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">Notes
+ *       for implementors</a>
+ * </ul>
  *
  * @author James Sexton
  * @author Joshua O'Madadhain
@@ -96,7 +102,7 @@ import javax.annotation.Nullable;
  * @since 20.0
  */
 @Beta
-public interface Network<N, E> {
+public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   //
   // Network-level accessors
   //
@@ -109,16 +115,13 @@ public interface Network<N, E> {
 
   /**
    * Returns a live view of this network as a {@link Graph}. The resulting {@link Graph} will have
-   * an edge connecting node A to node B iff this {@link Network} has an edge connecting A to B.
+   * an edge connecting node A to node B if this {@link Network} has an edge connecting A to B.
    *
-   * <p>{@link Graph#edgeValue(Object, Object)} will return the set of edges connecting node A to
-   * node B if the set is non-empty, otherwise, it will throw {@link IllegalArgumentException}.
-   *
-   * <p>If this network {@link #allowsParallelEdges()}, parallel edges will treated as if collapsed
-   * into a single edge. For example, the {@link #degree(Object)} of a node in the {@link Graph}
-   * view may be less than the degree of the same node in this {@link Network}.
+   * <p>If this network {@link #allowsParallelEdges() allows parallel edges}, parallel edges will be
+   * treated as if collapsed into a single edge. For example, the {@link #degree(Object)} of a node
+   * in the {@link Graph} view may be less than the degree of the same node in this {@link Network}.
    */
-  Graph<N, Set<E>> asGraph();
+  Graph<N> asGraph();
 
   //
   // Network properties
@@ -126,21 +129,21 @@ public interface Network<N, E> {
 
   /**
    * Returns true if the edges in this network are directed. Directed edges connect a {@link
-   * Endpoints#source() source node} to a {@link Endpoints#target() target node}, while undirected
-   * edges connect a pair of nodes to each other.
+   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
+   * undirected edges connect a pair of nodes to each other.
    */
   boolean isDirected();
 
   /**
    * Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
-   * network that does not allow them will throw an {@link UnsupportedOperationException}.
+   * network that does not allow them will throw an {@link IllegalArgumentException}.
    */
   boolean allowsParallelEdges();
 
   /**
    * Returns true if this network allows self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a network that does not allow them will throw an {@link
-   * UnsupportedOperationException}.
+   * IllegalArgumentException}.
    */
   boolean allowsSelfLoops();
 
@@ -159,7 +162,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> adjacentNodes(Object node);
+  Set<N> adjacentNodes(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -169,7 +172,8 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> predecessors(Object node);
+  @Override
+  Set<N> predecessors(N node);
 
   /**
    * Returns all nodes in this network adjacent to {@code node} which can be reached by traversing
@@ -182,7 +186,8 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<N> successors(Object node);
+  @Override
+  Set<N> successors(N node);
 
   /**
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
@@ -190,27 +195,31 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> incidentEdges(Object node);
+  Set<E> incidentEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
    * to end at {@code node}.
    *
+   * <p>In a directed network, an incoming edge's {@link EndpointPair#target()} equals {@code node}.
+   *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> inEdges(Object node);
+  Set<E> inEdges(N node);
 
   /**
    * Returns all edges in this network which can be traversed in the direction (if any) of the edge
    * starting from {@code node}.
    *
+   * <p>In a directed network, an outgoing edge's {@link EndpointPair#source()} equals {@code node}.
+   *
    * <p>In an undirected network, this is equivalent to {@link #incidentEdges(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  Set<E> outEdges(Object node);
+  Set<E> outEdges(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #incidentEdges(Object) incident edges}, counting
@@ -225,7 +234,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int degree(Object node);
+  int degree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #inEdges(Object) incoming edges} in a directed
@@ -235,7 +244,7 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int inDegree(Object node);
+  int inDegree(N node);
 
   /**
    * Returns the count of {@code node}'s {@link #outEdges(Object) outgoing edges} in a directed
@@ -245,14 +254,14 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-  int outDegree(Object node);
+  int outDegree(N node);
 
   /**
    * Returns the nodes which are the endpoints of {@code edge} in this network.
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Endpoints<N> incidentNodes(Object edge);
+  EndpointPair<N> incidentNodes(E edge);
 
   /**
    * Returns the edges which have an {@link #incidentNodes(Object) incident node} in common with
@@ -260,17 +269,120 @@ public interface Network<N, E> {
    *
    * @throws IllegalArgumentException if {@code edge} is not an element of this network
    */
-  Set<E> adjacentEdges(Object edge);
+  Set<E> adjacentEdges(E edge);
 
   /**
-   * Returns the set of edges that connect {@code nodeA} to {@code nodeB}.
+   * Returns the set of edges that each directly connect {@code nodeU} to {@code nodeV}.
    *
-   * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeB, nodeA)}.
+   * <p>In an undirected network, this is equal to {@code edgesConnecting(nodeV, nodeU)}.
    *
-   * @throws IllegalArgumentException if {@code nodeA} or {@code nodeB} is not an element of this
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
+   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
+   * will contain at most one edge (equivalent to {@code edgeConnecting(nodeU, nodeV).asSet()}).
+   *
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     network
    */
-  Set<E> edgesConnecting(Object nodeA, Object nodeB);
+  Set<E> edgesConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns the set of edges that each directly connect {@code endpoints} (in the order, if any,
+   * specified by {@code endpoints}).
+   *
+   * <p>The resulting set of edges will be parallel (i.e. have equal {@link #incidentNodes(Object)}.
+   * If this network does not {@link #allowsParallelEdges() allow parallel edges}, the resulting set
+   * will contain at most one edge (equivalent to {@code edgeConnecting(endpoints).asSet()}).
+   *
+   * <p>If this network is directed, {@code endpoints} must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this network
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  Set<E> edgesConnecting(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+   * present, or {@code Optional.empty()} if no such edge exists.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnecting(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  Optional<E> edgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+   * specified by {@code endpoints}), if one is present, or {@code Optional.empty()} if no such edge
+   * exists.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if either endpoint is not an element of this network
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  Optional<E> edgeConnecting(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+   * present, or {@code null} if no such edge exists.
+   *
+   * <p>In an undirected network, this is equal to {@code edgeConnectingOrNull(nodeV, nodeU)}.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
+   *     network
+   * @since 23.0
+   */
+  @Nullable
+  E edgeConnectingOrNull(N nodeU, N nodeV);
+
+  /**
+   * Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+   * specified by {@code endpoints}), if one is present, or {@code null} if no such edge exists.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if there are multiple parallel edges connecting {@code nodeU}
+   *     to {@code nodeV}
+   * @throws IllegalArgumentException if either endpoint is not an element of this network
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  @Nullable
+  E edgeConnectingOrNull(EndpointPair<N> endpoints);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
+   * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}, and to
+   * {@code edgeConnectingOrNull(nodeU, nodeV) != null}.
+   *
+   * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
+   *
+   * @since 23.0
+   */
+  boolean hasEdgeConnecting(N nodeU, N nodeV);
+
+  /**
+   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+   * any, specified by {@code endpoints}).
+   *
+   * <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+   * consistency with {@link Graph#hasEdgeConnecting(EndpointPair)} and {@link
+   * ValueGraph#hasEdgeConnecting(EndpointPair)}.
+   *
+   * @since 27.1
+   */
+  boolean hasEdgeConnecting(EndpointPair<N> endpoints);
 
   //
   // Network identity
@@ -283,10 +395,10 @@ public interface Network<N, E> {
    * <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
    *
    * <ul>
-   * <li>A and B have equal {@link #isDirected() directedness}.
-   * <li>A and B have equal {@link #nodes() node sets}.
-   * <li>A and B have equal {@link #edges() edge sets}.
-   * <li>Every edge in A and B connects the same nodes in the same direction (if any).
+   *   <li>A and B have equal {@link #isDirected() directedness}.
+   *   <li>A and B have equal {@link #nodes() node sets}.
+   *   <li>A and B have equal {@link #edges() edge sets}.
+   *   <li>Every edge in A and B connects the same nodes in the same direction (if any).
    * </ul>
    *
    * <p>Network properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.

@@ -21,10 +21,10 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@link HashFunction} implementation of SipHash-c-d.
@@ -33,7 +33,10 @@ import javax.annotation.Nullable;
  * @author Jean-Philippe Aumasson
  * @author Daniel J. Bernstein
  */
-final class SipHashFunction extends AbstractStreamingHashFunction implements Serializable {
+@Immutable
+final class SipHashFunction extends AbstractHashFunction implements Serializable {
+  static final HashFunction SIP_HASH_24 =
+      new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
 
   // The number of compression rounds.
   private final int c;
@@ -81,10 +84,7 @@ final class SipHashFunction extends AbstractStreamingHashFunction implements Ser
   public boolean equals(@Nullable Object object) {
     if (object instanceof SipHashFunction) {
       SipHashFunction other = (SipHashFunction) object;
-      return (c == other.c)
-          && (d == other.d)
-          && (k0 == other.k0)
-          && (k1 == other.k1);
+      return (c == other.c) && (d == other.d) && (k0 == other.k0) && (k1 == other.k1);
     }
     return false;
   }

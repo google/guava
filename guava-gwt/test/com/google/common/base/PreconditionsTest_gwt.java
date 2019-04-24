@@ -28,6 +28,21 @@ public void testCheckArgument_complexMessage_success() throws Exception {
   testCase.testCheckArgument_complexMessage_success();
 }
 
+public void testCheckArgument_notEnoughArgs_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_notEnoughArgs_failure();
+}
+
+public void testCheckArgument_nullArgs_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_nullArgs_failure();
+}
+
+public void testCheckArgument_nullMessageWithArgs_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_nullMessageWithArgs_failure();
+}
+
 public void testCheckArgument_nullMessage_failure() throws Exception {
   com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
   testCase.testCheckArgument_nullMessage_failure();
@@ -51,6 +66,21 @@ public void testCheckArgument_simple_failure() throws Exception {
 public void testCheckArgument_simple_success() throws Exception {
   com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
   testCase.testCheckArgument_simple_success();
+}
+
+public void testCheckArgument_singleNullArg_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_singleNullArg_failure();
+}
+
+public void testCheckArgument_singleNullArray_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_singleNullArray_failure();
+}
+
+public void testCheckArgument_tooManyArgs_failure() throws Exception {
+  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
+  testCase.testCheckArgument_tooManyArgs_failure();
 }
 
 public void testCheckElementIndex_badSize() throws Exception {
@@ -201,10 +231,5 @@ public void testCheckState_simple_failure() throws Exception {
 public void testCheckState_simple_success() throws Exception {
   com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
   testCase.testCheckState_simple_success();
-}
-
-public void testFormat() throws Exception {
-  com.google.common.base.PreconditionsTest testCase = new com.google.common.base.PreconditionsTest();
-  testCase.testFormat();
 }
 }

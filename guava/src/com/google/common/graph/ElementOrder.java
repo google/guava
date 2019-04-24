@@ -16,41 +16,49 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.errorprone.annotations.Immutable;
 import java.util.Comparator;
 import java.util.Map;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Used to represent the order of elements in a data structure that supports different options
- * for iteration order guarantees.
+ * Used to represent the order of elements in a data structure that supports different options for
+ * iteration order guarantees.
  *
  * <p>Example usage:
- * <pre><code>
- *   MutableBasicGraph<Integer> graph
- *       = BasicGraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- * </code></pre>
+ *
+ * <pre>{@code
+ * MutableGraph<Integer> graph =
+ *     GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
+ * }</pre>
  *
  * @author Joshua O'Madadhain
  * @since 20.0
  */
 @Beta
+@Immutable
 public final class ElementOrder<T> {
   private final Type type;
-  @Nullable private final Comparator<T> comparator;
+
+  @SuppressWarnings("Immutable") // Hopefully the comparator provided is immutable!
+  private final @Nullable Comparator<T> comparator;
 
   /**
    * The type of ordering that this object specifies.
+   *
    * <ul>
-   * <li>UNORDERED: no order is guaranteed.
-   * <li>INSERTION: insertion ordering is guaranteed.
-   * <li>SORTED: ordering according to a supplied comparator is guaranteed.
+   *   <li>UNORDERED: no order is guaranteed.
+   *   <li>INSERTION: insertion ordering is guaranteed.
+   *   <li>SORTED: ordering according to a supplied comparator is guaranteed.
    * </ul>
    */
   public enum Type {
@@ -60,22 +68,17 @@ public final class ElementOrder<T> {
   }
 
   private ElementOrder(Type type, @Nullable Comparator<T> comparator) {
-    this.type = Preconditions.checkNotNull(type);
-    Preconditions.checkArgument((type == Type.SORTED) == (comparator != null),
-        "if the type is SORTED, the comparator should be non-null; otherwise, it should be null");
+    this.type = checkNotNull(type);
     this.comparator = comparator;
+    checkState((type == Type.SORTED) == (comparator != null));
   }
 
-  /**
-   * Returns an instance which specifies that no ordering is guaranteed.
-   */
+  /** Returns an instance which specifies that no ordering is guaranteed. */
   public static <S> ElementOrder<S> unordered() {
     return new ElementOrder<S>(Type.UNORDERED, null);
   }
 
-  /**
-   * Returns an instance which specifies that insertion ordering is guaranteed.
-   */
+  /** Returns an instance which specifies that insertion ordering is guaranteed. */
   public static <S> ElementOrder<S> insertion() {
     return new ElementOrder<S>(Type.INSERTION, null);
   }
@@ -95,9 +98,7 @@ public final class ElementOrder<T> {
     return new ElementOrder<S>(Type.SORTED, comparator);
   }
 
-  /**
-   * Returns the type of ordering used.
-   */
+  /** Returns the type of ordering used. */
   public Type type() {
     return type;
   }
@@ -105,17 +106,17 @@ public final class ElementOrder<T> {
   /**
    * Returns the {@link Comparator} used.
    *
-   * @throws IllegalStateException if no comparator is defined
+   * @throws UnsupportedOperationException if comparator is not defined
    */
   public Comparator<T> comparator() {
     if (comparator != null) {
       return comparator;
     }
-    throw new IllegalStateException("This ordering does not define a comparator");
+    throw new UnsupportedOperationException("This ordering does not define a comparator.");
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }
@@ -124,27 +125,24 @@ public final class ElementOrder<T> {
     }
 
     ElementOrder<?> other = (ElementOrder<?>) obj;
-    return other.type == this.type
-        && Objects.equal(other.comparator, this.comparator);
+    return (type == other.type) && Objects.equal(comparator, other.comparator);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.type, this.comparator);
+    return Objects.hashCode(type, comparator);
   }
 
   @Override
   public String toString() {
-    ToStringHelper helper = MoreObjects.toStringHelper(this).add("type", this.type);
-    if (this.comparator != null) {
-      helper.add("comparator", this.comparator);
+    ToStringHelper helper = MoreObjects.toStringHelper(this).add("type", type);
+    if (comparator != null) {
+      helper.add("comparator", comparator);
     }
     return helper.toString();
   }
 
-  /**
-   * Returns an empty mutable map whose keys will respect this {@link ElementOrder}.
-   */
+  /** Returns an empty mutable map whose keys will respect this {@link ElementOrder}. */
   <K extends T, V> Map<K, V> createMap(int expectedSize) {
     switch (type) {
       case UNORDERED:
@@ -154,7 +152,7 @@ public final class ElementOrder<T> {
       case SORTED:
         return Maps.newTreeMap(comparator());
       default:
-        throw new IllegalArgumentException("Unrecognized ElementOrder type");
+        throw new AssertionError();
     }
   }
 

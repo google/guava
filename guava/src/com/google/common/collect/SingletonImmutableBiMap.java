@@ -16,12 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-
-import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
@@ -59,6 +61,11 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
+    checkNotNull(action).accept(singleKey, singleValue);
+  }
+
+  @Override
   public boolean containsKey(@Nullable Object key) {
     return singleKey.equals(key);
   }
@@ -83,15 +90,14 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return ImmutableSet.of(singleKey);
   }
 
-  @RetainedWith
-  transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith transient ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
     // racy single-check idiom
     ImmutableBiMap<V, K> result = inverse;
     if (result == null) {
-      return inverse = new SingletonImmutableBiMap<V, K>(singleValue, singleKey, this);
+      return inverse = new SingletonImmutableBiMap<>(singleValue, singleKey, this);
     } else {
       return result;
     }

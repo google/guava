@@ -19,17 +19,17 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
-@SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
+@SuppressWarnings({"unchecked", "rawtypes"}) // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
-  private transient Ordering<Comparable> nullsFirst;
-  private transient Ordering<Comparable> nullsLast;
+  private transient @MonotonicNonNull Ordering<Comparable> nullsFirst;
+  private transient @MonotonicNonNull Ordering<Comparable> nullsLast;
 
   @Override
   public int compare(Comparable left, Comparable right) {

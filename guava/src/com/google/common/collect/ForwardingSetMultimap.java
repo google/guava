@@ -18,17 +18,18 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * A set multimap which forwards all its method calls to another set multimap.
- * Subclasses should override one or more methods to modify the behavior of
- * the backing multimap as desired per the <a
+ * A set multimap which forwards all its method calls to another set multimap. Subclasses should
+ * override one or more methods to modify the behavior of the backing multimap as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingSetMultimap}.
  *
  * @author Kurt Alfred Kluever
  * @since 3.0

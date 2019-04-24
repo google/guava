@@ -19,18 +19,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nullable;
-
-/**
- * Implementations of {@code Futures.immediate*}.
- */
+/** Implementations of {@code Futures.immediate*}. */
 @GwtCompatible(emulated = true)
 abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
@@ -76,9 +72,8 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   }
 
   static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
-    static final ImmediateSuccessfulFuture<Object> NULL =
-        new ImmediateSuccessfulFuture<Object>(null);
-    @Nullable private final V value;
+    static final ImmediateSuccessfulFuture<Object> NULL = new ImmediateSuccessfulFuture<>(null);
+    private final @Nullable V value;
 
     ImmediateSuccessfulFuture(@Nullable V value) {
       this.value = value;
@@ -89,12 +84,18 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     public V get() {
       return value;
     }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
+    }
   }
 
   @GwtIncompatible // TODO
   static class ImmediateSuccessfulCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
       implements CheckedFuture<V, X> {
-    @Nullable private final V value;
+    private final @Nullable V value;
 
     ImmediateSuccessfulCheckedFuture(@Nullable V value) {
       this.value = value;
@@ -114,6 +115,12 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     public V checkedGet(long timeout, TimeUnit unit) {
       checkNotNull(unit);
       return value;
+    }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
     }
   }
 
@@ -152,6 +159,12 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     public V checkedGet(long timeout, TimeUnit unit) throws X {
       checkNotNull(unit);
       throw thrown;
+    }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=FAILURE, cause=[" + thrown + "]]";
     }
   }
 }
