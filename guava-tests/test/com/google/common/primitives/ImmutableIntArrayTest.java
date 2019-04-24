@@ -433,7 +433,7 @@ public class ImmutableIntArrayTest extends TestCase {
 
   private static void assertActuallyTrims(ImmutableIntArray iia) {
     ImmutableIntArray trimmed = iia.trimmed();
-    assertThat(trimmed).isNotSameAs(iia);
+    assertThat(trimmed).isNotSameInstanceAs(iia);
 
     // Yes, this is apparently how you check array equality in Truth
     assertThat(trimmed.toArray()).isEqualTo(iia.toArray());
