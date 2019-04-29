@@ -10,6 +10,6 @@ OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_ACCEPT
 OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_EXTENSIONS
 OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_KEY
 OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_PROTOCOL
-OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_VERSIONS
+OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_VERSION
 OK: com.google.common.net.HttpHeaders Field X_MOZ
 OK: com.google.common.net.HttpHeaders Field X_PURPOSE
