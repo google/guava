@@ -467,7 +467,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       future.get();
       fail("Expected ExecutionException");
     } catch (ExecutionException e) {
-      assertThat(e).hasCauseThat().isSameAs(expectedCause);
+      assertThat(e).hasCauseThat().isSameInstanceAs(expectedCause);
     }
   }
 

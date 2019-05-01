@@ -387,8 +387,8 @@ class StatsTesting {
         .of(x1 + xDelta);
     assertThat(transformation.slope()).isWithin(ALLOWED_ERROR).of(yDelta / xDelta);
     assertThat(transformation.inverse().slope()).isWithin(ALLOWED_ERROR).of(xDelta / yDelta);
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -415,8 +415,8 @@ class StatsTesting {
       fail("Expected IllegalStateException");
     } catch (IllegalStateException expected) {
     }
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -443,8 +443,8 @@ class StatsTesting {
     } catch (IllegalStateException expected) {
     }
     assertThat(transformation.inverse().slope()).isWithin(ALLOWED_ERROR).of(0.0);
-    assertThat(transformation.inverse()).isSameAs(transformation.inverse());
-    assertThat(transformation.inverse().inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation.inverse());
+    assertThat(transformation.inverse().inverse()).isSameInstanceAs(transformation);
   }
 
   /**
@@ -456,7 +456,7 @@ class StatsTesting {
     assertThat(transformation.isVertical()).isFalse();
     assertThat(transformation.slope()).isNaN();
     assertThat(transformation.transform(0.0)).isNaN();
-    assertThat(transformation.inverse()).isSameAs(transformation);
+    assertThat(transformation.inverse()).isSameInstanceAs(transformation);
   }
 
   /**
