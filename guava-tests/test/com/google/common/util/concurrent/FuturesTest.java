@@ -995,7 +995,7 @@ public class FuturesTest extends TestCase {
             new AsyncFunction<Throwable, Integer>() {
               @Override
               public ListenableFuture<Integer> apply(Throwable t) throws Exception {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return immediateFuture(20);
               }
             });
@@ -1128,7 +1128,7 @@ public class FuturesTest extends TestCase {
             new AsyncFunction<Throwable, Integer>() {
               @Override
               public ListenableFuture<Integer> apply(Throwable t) throws Exception {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return secondary;
               }
             });
@@ -1284,7 +1284,7 @@ public class FuturesTest extends TestCase {
             new Function<Throwable, Integer>() {
               @Override
               public Integer apply(Throwable t) {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return 20;
               }
             });
@@ -2484,7 +2484,7 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
       assertThat(getOnlyElement(aggregateFutureLogHandler.getStoredLogRecords()).getThrown())
-          .isSameAs(subsequentFailure);
+          .isSameInstanceAs(subsequentFailure);
     }
   }
 

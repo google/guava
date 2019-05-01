@@ -44,7 +44,7 @@ public class ImmutableGraphTest {
     Graph<String> graph1 = ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
     Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
 
-    assertThat(graph2).isSameAs(graph1);
+    assertThat(graph2).isSameInstanceAs(graph1);
   }
 
   @Test

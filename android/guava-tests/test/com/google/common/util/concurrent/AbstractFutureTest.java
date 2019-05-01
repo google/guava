@@ -78,8 +78,8 @@ public class AbstractFutureTest extends TestCase {
     // Ensure we get a unique execution exception on each get
     assertNotSame(ee1, ee2);
 
-    assertThat(ee1).hasCauseThat().isSameAs(failure);
-    assertThat(ee2).hasCauseThat().isSameAs(failure);
+    assertThat(ee1).hasCauseThat().isSameInstanceAs(failure);
+    assertThat(ee2).hasCauseThat().isSameInstanceAs(failure);
 
     checkStackTrace(ee1);
     checkStackTrace(ee2);
@@ -155,7 +155,7 @@ public class AbstractFutureTest extends TestCase {
       normalFuture.get();
       fail();
     } catch (ExecutionException e) {
-      assertThat(e).hasCauseThat().isSameAs(exception);
+      assertThat(e).hasCauseThat().isSameInstanceAs(exception);
     }
   }
 

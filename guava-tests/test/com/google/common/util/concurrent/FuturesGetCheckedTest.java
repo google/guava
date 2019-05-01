@@ -160,7 +160,7 @@ public class FuturesGetCheckedTest extends TestCase {
       getChecked(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithGoodAndBadConstructor.class);
       fail();
     } catch (ExceptionWithGoodAndBadConstructor expected) {
-      assertThat(expected).hasCauseThat().isSameAs(CHECKED_EXCEPTION);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(CHECKED_EXCEPTION);
     }
   }
 
@@ -287,7 +287,7 @@ public class FuturesGetCheckedTest extends TestCase {
           TimeUnit.SECONDS);
       fail();
     } catch (ExceptionWithGoodAndBadConstructor expected) {
-      assertThat(expected).hasCauseThat().isSameAs(CHECKED_EXCEPTION);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(CHECKED_EXCEPTION);
     }
   }
 
