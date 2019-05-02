@@ -17,7 +17,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -92,38 +91,6 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
     }
   }
 
-  @GwtIncompatible // TODO
-  static class ImmediateSuccessfulCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
-      implements CheckedFuture<V, X> {
-    private final @Nullable V value;
-
-    ImmediateSuccessfulCheckedFuture(@Nullable V value) {
-      this.value = value;
-    }
-
-    @Override
-    public V get() {
-      return value;
-    }
-
-    @Override
-    public V checkedGet() {
-      return value;
-    }
-
-    @Override
-    public V checkedGet(long timeout, TimeUnit unit) {
-      checkNotNull(unit);
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      // Behaviour analogous to AbstractFuture#toString().
-      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
-    }
-  }
-
   static final class ImmediateFailedFuture<V> extends TrustedFuture<V> {
     ImmediateFailedFuture(Throwable thrown) {
       setException(thrown);
@@ -133,38 +100,6 @@ abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   static final class ImmediateCancelledFuture<V> extends TrustedFuture<V> {
     ImmediateCancelledFuture() {
       cancel(false);
-    }
-  }
-
-  @GwtIncompatible // TODO
-  static class ImmediateFailedCheckedFuture<V, X extends Exception> extends ImmediateFuture<V>
-      implements CheckedFuture<V, X> {
-    private final X thrown;
-
-    ImmediateFailedCheckedFuture(X thrown) {
-      this.thrown = thrown;
-    }
-
-    @Override
-    public V get() throws ExecutionException {
-      throw new ExecutionException(thrown);
-    }
-
-    @Override
-    public V checkedGet() throws X {
-      throw thrown;
-    }
-
-    @Override
-    public V checkedGet(long timeout, TimeUnit unit) throws X {
-      checkNotNull(unit);
-      throw thrown;
-    }
-
-    @Override
-    public String toString() {
-      // Behaviour analogous to AbstractFuture#toString().
-      return super.toString() + "[status=FAILURE, cause=[" + thrown + "]]";
     }
   }
 }
