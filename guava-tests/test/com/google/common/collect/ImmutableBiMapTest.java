@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -840,11 +841,11 @@ public class ImmutableBiMapTest extends TestCase {
         long largeOps = largeCounter.total();
 
         double ratio = (double) largeOps / smallOps;
-        assertThat(ratio)
-            .named(
+        assertWithMessage(
                 "ratio of equals/hashCode/compareTo operations to build an ImmutableBiMap with %s"
                     + " via %s with %s entries versus %s entries",
                 adversary, pathway, largeSize, smallSize)
+            .that(ratio)
             .isAtMost(2 * (largeSize * Math.log(largeSize)) / (smallSize * Math.log(smallSize)));
         // allow up to 2x wobble in the constant factors
       }
@@ -875,11 +876,11 @@ public class ImmutableBiMapTest extends TestCase {
       }
 
       double ratio = (double) largeOps / smallOps;
-      assertThat(ratio)
-          .named(
+      assertWithMessage(
               "Ratio of worst case get operations for an ImmutableBiMap with %s of size "
                   + "%s versus %s",
               adversary, largeSize, smallSize)
+          .that(ratio)
           .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
       // allow up to 2x wobble in the constant factors
     }
@@ -908,11 +909,11 @@ public class ImmutableBiMapTest extends TestCase {
         continue; // no queries on the CHCAE objects
       }
       double ratio = (double) largeOps / smallOps;
-      assertThat(ratio)
-          .named(
+      assertWithMessage(
               "Ratio of worst case get operations for an ImmutableBiMap with %s of size "
                   + "%s versus %s",
               adversary, largeSize, smallSize)
+          .that(ratio)
           .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
       // allow up to 2x wobble in the constant factors
     }
