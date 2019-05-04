@@ -1,12 +1,13 @@
 # Guava Testlib: Google Testing Libraries for Java
 
-Guava Testlib is a set of utilities for writing JUnit tests.
+Guava testlib is a set of Java classes for more convenient
+unit testing.
 
 ## Adding Guava Testlib to your build
 
-Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava-testlib`.
+Guava testlib's Maven group ID is `com.google.guava` and its artifact ID is `guava-testlib`.
 
-To add a dependency on Guava using Maven, use the following:
+To add a dependency on Guava testlib using Maven, use the following:
 
 ```xml
 <dependency>
