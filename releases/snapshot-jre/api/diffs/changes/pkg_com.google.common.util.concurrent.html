@@ -36,7 +36,7 @@ com.google.common.util.concurrent
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="pkg_com.google.common.util.concurrent.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell3"><FONT SIZE="-2"> DETAIL: &nbsp;
-REMOVED&nbsp;|&nbsp;
+<a href="#Removed">REMOVED</a>&nbsp;|&nbsp;
 ADDED&nbsp;|&nbsp;
 <a href="#Changed">CHANGED</a>
   </FONT></TD>
@@ -47,6 +47,44 @@ ADDED&nbsp;|&nbsp;
 <H2>
 Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.html" target="_top"><tt>com.google.common.util.concurrent</tt></A>
 </H2>
+<p>
+<a NAME="Removed"></a>
+<TABLE summary="Removed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Removed Classes and Interfaces</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractCheckedFuture"></A>
+  <nobr><A HREF="../../../../27.1-jre/api/docs/com/google/common/util/concurrent/AbstractCheckedFuture.html" target="_top"><tt>AbstractCheckedFuture</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A delegating wrapper around a <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that adds support for the <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet()"><TT>.checkedGet()</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractCheckedFuture/.html#checkedGet(long, TimeUnit)"><TT>.checkedGet(long, TimeUnit)</TT></A> methods.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="CheckedFuture"></A>
+  <nobr><A HREF="../../../../27.1-jre/api/docs/com/google/common/util/concurrent/CheckedFuture.html" target="_top"><tt><I>CheckedFuture</I></tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A {@code CheckedFuture} is a <A HREF="../../docs/com/google/common/util/concurrent/CheckedFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that includes versions of the {@code get}
+ methods that can throw a checked exception.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingCheckedFuture"></A>
+  <nobr><A HREF="../../../../27.1-jre/api/docs/com/google/common/util/concurrent/ForwardingCheckedFuture.html" target="_top"><tt>ForwardingCheckedFuture</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A future which forwards all its method calls to another future.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingCheckedFuture.SimpleForwardingCheckedFuture"></A>
+  <nobr><A HREF="../../../../27.1-jre/api/docs/com/google/common/util/concurrent/ForwardingCheckedFuture.SimpleForwardingCheckedFuture.html" target="_top"><tt>ForwardingCheckedFuture.<br>SimpleForwardingCheckedFuture</tt></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A simplified version of <A HREF="../../docs/com/google/common/util/concurrent/ForwardingCheckedFuture/SimpleForwardingCheckedFuture/ForwardingCheckedFuture.html"><TT>ForwardingCheckedFuture</TT></A> where subclasses can pass in an already
+ constructed <A HREF="../../docs/com/google/common/util/concurrent/ForwardingCheckedFuture/SimpleForwardingCheckedFuture/CheckedFuture.html"><TT>CheckedFuture</TT></A> as the delegate.</TD>
+</TR>
+</TABLE>
+&nbsp;
 <p>
 <a NAME="Changed"></a>
 <TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
@@ -59,6 +97,13 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   <nobr><A HREF="com.google.common.util.concurrent.FluentFuture.html">FluentFuture</A></nobr>
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/util/concurrent/FluentFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A> that supports fluent chains of operations.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Futures"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.Futures.html">Futures</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Static utility methods pertaining to the <A HREF="../../docs/com/google/common/util/concurrent/Futures/Future.html"><TT>Future</TT></A> interface.</TD>
 </TR>
 </TABLE>
 &nbsp;
