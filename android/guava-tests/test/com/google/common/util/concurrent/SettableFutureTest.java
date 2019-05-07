@@ -112,7 +112,7 @@ public class SettableFutureTest extends TestCase {
       future.get();
       fail("Expected ExecutionException");
     } catch (ExecutionException ee) {
-      assertThat(ee).hasCauseThat().isSameAs(e);
+      assertThat(ee).hasCauseThat().isSameInstanceAs(e);
     }
   }
 

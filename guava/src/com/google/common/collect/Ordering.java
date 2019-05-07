@@ -620,9 +620,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned. The iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. Use {@code
-   * Streams.stream(iterator).max(thisComparator).get()} instead (but note that it does not
-   * guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param iterator the iterator whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty

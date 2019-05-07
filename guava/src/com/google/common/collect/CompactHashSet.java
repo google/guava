@@ -559,10 +559,6 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     this.size = 0;
   }
 
-  /**
-   * The serial form currently mimics Android's java.util.HashSet version, e.g. see
-   * http://omapzoom.org/?p=platform/libcore.git;a=blob;f=luni/src/main/java/java/util/HashSet.java
-   */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size);

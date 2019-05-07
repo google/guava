@@ -170,7 +170,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.10</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>

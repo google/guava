@@ -692,9 +692,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * which result will be mapped to that key in the returned map.
    *
    * <p><b>{@code Stream} equivalent:</b> use {@code stream.collect(ImmutableMap.toImmutableMap(k ->
-   * k, valueFunction))}. Before then you can use {@code
-   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))}, but be aware
-   * that this may not preserve the order of entries.
+   * k, valueFunction))}. {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k,
+   * valueFunction)))} behaves similarly, but may not preserve the order of entries.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
@@ -715,7 +714,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
    * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
-   * the order of entries).
+   * the order of entries.
    *
    * @param keyFunction the function used to produce the key for each value
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
@@ -745,9 +744,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * index}.
    *
    * <p><b>{@code Stream} equivalent:</b> use {@code
-   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. Before then you can use
-   * {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be
-   * aware that this may not preserve the order of entries.
+   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. {@code
+   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be aware that
+   * this may not preserve the order of entries.
    *
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code keyFunction} on each value
