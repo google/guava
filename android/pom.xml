@@ -233,7 +233,7 @@
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-compat-qual</artifactId>
-        <version>2.5.2</version>
+        <version>2.5.5</version>
       </dependency>
       <dependency>
         <groupId>com.google.errorprone</groupId>
@@ -243,7 +243,7 @@
       <dependency>
         <groupId>com.google.j2objc</groupId>
         <artifactId>j2objc-annotations</artifactId>
-        <version>1.1</version>
+        <version>1.3</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
