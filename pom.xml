@@ -16,6 +16,7 @@
     <truth.version>0.44</truth.version>
     <animal.sniffer.version>1.17</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -109,7 +110,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -314,7 +315,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-source-plugin</artifactId>
-              <version>2.1.2</version>
+              <version>${maven-source-plugin.version}</version>
               <executions>
                 <execution>
                   <id>attach-sources</id>
