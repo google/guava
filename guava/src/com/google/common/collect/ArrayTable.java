@@ -121,8 +121,8 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, V> table) {
     return (table instanceof ArrayTable<?, ?, ?>)
-        ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)
-        : new ArrayTable<R, C, V>(table);
+        ? new ArrayTable<>((ArrayTable<R, C, V>) table)
+        : new ArrayTable<>(table);
   }
 
   private final ImmutableList<R> rowList;
@@ -142,7 +142,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
      * TODO(jlevy): Support only one of rowKey / columnKey being empty? If we
      * do, when columnKeys is empty but rowKeys isn't, rowKeyList() can contain
      * elements but rowKeySet() will be empty and containsRow() won't
-     * acknolwedge them.
+     * acknowledge them.
      */
     rowKeyToIndex = Maps.indexMap(rowList);
     columnKeyToIndex = Maps.indexMap(columnList);
@@ -501,7 +501,39 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return set(rowIndex, columnIndex, null);
   }
 
-  // TODO(jlevy): Add eraseRow and eraseColumn methods?
+  /**
+   * Associates the value {@code null} with the entire row for the specified key, assuming key is valid. If
+   * key is null or isn't among the keys provided during construction, this method has no effect.
+   *
+   * @param rowKey row key of row to be erased
+   * @since NEXT
+   */
+  public void eraseRow(@Nullable Object rowKey) {
+    Integer rowIndex = rowKeyToIndex.get(rowKey);
+    if (rowIndex == null) {
+      return;
+    }
+    checkElementIndex(rowIndex, rowList.size());
+    Arrays.fill(array[rowIndex], null);
+  }
+
+  /**
+   * Associates the value {@code null} with the entire column for the specified key, assuming key is valid. If
+   * key is null or isn't among the keys provided during construction, this method has no effect.
+   *
+   * @param columnKey column key of column to be erased
+   * @since NEXT
+   */
+  public void eraseColumn(@Nullable Object columnKey) {
+    Integer columnIndex = columnKeyToIndex.get(columnKey);
+    if (columnIndex == null) {
+      return;
+    }
+    checkElementIndex(columnIndex, columnList.size());
+    for (int i = 0; i < rowList.size(); i++) {
+      set(i, columnIndex, null);
+    }
+  }
 
   @Override
   public int size() {
@@ -583,7 +615,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   public Map<R, V> column(C columnKey) {
     checkNotNull(columnKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
-    return (columnIndex == null) ? ImmutableMap.<R, V>of() : new Column(columnIndex);
+    return (columnIndex == null) ? ImmutableMap.of() : new Column(columnIndex);
   }
 
   private class Column extends ArrayMap<R, V> {
@@ -671,7 +703,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   public Map<C, V> row(R rowKey) {
     checkNotNull(rowKey);
     Integer rowIndex = rowKeyToIndex.get(rowKey);
-    return (rowIndex == null) ? ImmutableMap.<C, V>of() : new Row(rowIndex);
+    return (rowIndex == null) ? ImmutableMap.of() : new Row(rowIndex);
   }
 
   private class Row extends ArrayMap<C, V> {

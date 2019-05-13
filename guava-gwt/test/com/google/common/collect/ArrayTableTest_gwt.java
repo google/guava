@@ -180,6 +180,18 @@ public void testEraseAll() throws Exception {
   testCase.testEraseAll();
 }
 
+public void testEraseRow() throws Exception {
+    com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
+    testCase.setUp();
+    testCase.testEraseRow();
+  }
+
+public void testEraseColumn() throws Exception {
+    com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
+    testCase.setUp();
+    testCase.testEraseColumn();
+  }
+
 public void testGet() throws Exception {
   com.google.common.collect.ArrayTableTest testCase = new com.google.common.collect.ArrayTableTest();
   testCase.setUp();
