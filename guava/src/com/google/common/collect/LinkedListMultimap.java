@@ -195,7 +195,7 @@ public class LinkedListMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   private LinkedListMultimap(int expectedKeys) {
-    keyToKeyList = Platform.newHashMapWithExpectedSize(expectedKeys);
+    keyToKeyList = Platform.newLinkedHashMapWithExpectedSize(expectedKeys);
   }
 
   private LinkedListMultimap(Multimap<? extends K, ? extends V> multimap) {
