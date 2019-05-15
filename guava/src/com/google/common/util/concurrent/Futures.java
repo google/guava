@@ -705,7 +705,13 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       ListenableFuture<V> localDelegate = delegate;
       if (localDelegate != null) {
         setFuture(localDelegate);
+        delegate = null;
       }
+    }
+
+    @Override
+    protected void afterEarlyCancellation() {
+      delegate = null;
     }
 
     @Override
@@ -715,11 +721,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         return "delegate=[" + localDelegate + "]";
       }
       return null;
-    }
-
-    @Override
-    protected void afterDone() {
-      delegate = null;
     }
   }
 
@@ -964,19 +965,25 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   }
 
   /** See {@link #addCallback(ListenableFuture, FutureCallback, Executor)} for behavioral notes. */
-  private static final class CallbackListener<V> implements Runnable {
-    final Future<V> future;
-    final FutureCallback<? super V> callback;
+  static final class CallbackListener<V> implements Runnable {
+    // non-final so that it can be changed if the listener is relocated by AbstractFuture
+    private Future<? extends V> future;
+    private final FutureCallback<? super V> callback;
 
     CallbackListener(Future<V> future, FutureCallback<? super V> callback) {
       this.future = future;
       this.callback = callback;
     }
 
+    void setFuture(Future<? extends V> newTarget) {
+      this.future = newTarget;
+    }
+
     @Override
     public void run() {
       final V value;
       try {
+        //njhill: we know we are done here, why not getUninterruptibly(...) 
         value = getDone(future);
       } catch (ExecutionException e) {
         callback.onFailure(e.getCause());
@@ -1028,6 +1035,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
      * exception as Futures.getDone(fluentFuture).
      */
     checkState(future.isDone(), "Future was expected to be done: %s", future);
+    //njhill: why not impl'd as get(0) and catch timeout?
     return getUninterruptibly(future);
   }
 

@@ -20,20 +20,20 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
 
 /**
- * Tests for {@link AbstractFuture} that use a {@link TrustedFuture} for {@link
+ * Tests for {@link AbstractFuture} that use a non-{@link TrustedFuture} for {@link
  * AbstractFuture#setFuture} calls.
  */
 @GwtCompatible
-public class TrustedInputFutureTest extends AbstractAbstractFutureTest {
+public class PassiveUntrustedInputFutureTest extends AbstractAbstractFutureTest {
   @Override
   AbstractFuture<Integer> newDelegate() {
-    AbstractFuture<Integer> future = new TrustedFuture<Integer>() {
+    AbstractFuture<Integer> future = new AbstractFuture<Integer>() {
       @Override
       protected boolean requiresAfterDoneCallback() {
-        return true;
+        return false;
       }
     };
-    assertTrue(future instanceof TrustedFuture); // sanity check
+    assertFalse(future instanceof TrustedFuture); // sanity check
     return future;
   }
 }

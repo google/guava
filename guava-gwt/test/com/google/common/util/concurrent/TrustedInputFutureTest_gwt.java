@@ -174,11 +174,11 @@ public void testSetFutureDelegateLaterCancelled() throws Exception {
   testCase.testSetFutureDelegateLaterCancelled();
 }
 
-public void testSetFutureDelegateLaterInterrupted() throws Exception {
-  com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();
-  testCase.setUp();
-  testCase.testSetFutureDelegateLaterInterrupted();
-}
+//public void testSetFutureDelegateLaterInterrupted() throws Exception {
+//  com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();
+//  testCase.setUp();
+//  testCase.testSetFutureDelegateLaterInterrupted();
+//}
 
 public void testSetFutureDelegateLaterSuccessful() throws Exception {
   com.google.common.util.concurrent.TrustedInputFutureTest testCase = new com.google.common.util.concurrent.TrustedInputFutureTest();

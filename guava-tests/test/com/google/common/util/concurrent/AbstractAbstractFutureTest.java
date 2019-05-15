@@ -135,14 +135,15 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
-  public void testSetFutureDelegateLaterInterrupted() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
-    delegate.cancel(
-        true
-        /** mayInterruptIfRunning */
-        );
-    assertCancelled(future, /* expectWasInterrupted= */ false);
-  }
+  // this does not apply given the new interruption semantics
+//  public void testSetFutureDelegateLaterInterrupted() throws Exception {
+//    assertThat(future.setFuture(delegate)).isTrue();
+//    delegate.cancel(
+//        true
+//        /** mayInterruptIfRunning */
+//        );
+//    assertCancelled(future, /* expectWasInterrupted= */ false);
+//  }
 
   public void testListenLaterSuccessful() {
     CountingRunnable listener = new CountingRunnable();

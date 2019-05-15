@@ -58,6 +58,18 @@ public class SingleThreadAbstractFutureBenchmark {
   }
 
   @Benchmark
+  public boolean timeSetFutures_Normal(int reps) {
+    Facade<String> orig = impl.newFacade(), prev = orig;
+    for (int i = 0; i < reps; i++) {
+      Facade<String> curr = impl.newFacade();
+      prev.setFuture(curr);
+      prev = curr;
+    }
+    prev.set("done"); // prev represents the 'innermost' future
+    return orig.isDone();
+  }
+
+  @Benchmark
   public long timeComplete_Failure(int reps) throws Exception {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);

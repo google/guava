@@ -54,9 +54,9 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  @Nullable ListenableFuture<? extends V> inputFuture;
-  @Nullable Class<X> exceptionType;
-  @Nullable F fallback;
+  private @Nullable ListenableFuture<? extends V> inputFuture;
+  private @Nullable Class<X> exceptionType;
+  private @Nullable F fallback;
 
   AbstractCatchingFuture(
       ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
@@ -91,12 +91,16 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
 
     if (throwable == null) {
       set(sourceResult);
+      exceptionType = null;
+      fallback = null;
       return;
     }
 
     if (!isInstanceOfThrowableClass(throwable, localExceptionType)) {
       setFuture(localInputFuture);
       // TODO(cpovirk): Test that fallback is not run in this case.
+      exceptionType = null;
+      fallback = null;
       return;
     }
 
@@ -148,9 +152,12 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
   abstract void setResult(@Nullable T result);
 
   @Override
-  protected final void afterDone() {
-    maybePropagateCancellationTo(inputFuture);
-    this.inputFuture = null;
+  protected final void afterEarlyCancellation() {
+    final ListenableFuture<? extends V> inputFuture = this.inputFuture;
+    if (inputFuture != null) {
+      inputFuture.cancel(wasInterrupted());
+      this.inputFuture = null;
+    }
     this.exceptionType = null;
     this.fallback = null;
   }

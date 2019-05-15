@@ -112,11 +112,15 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
        * even with the above null checks.)
        */
       timeoutFutureRef = null;
+      ScheduledFuture<?> timer = timeoutFuture.timer;
       if (delegate.isDone()) {
         timeoutFuture.setFuture(delegate);
+        if (timer != null) {
+          timer.cancel(false);
+        }
+        timeoutFuture.clearFields();
       } else {
         try {
-          ScheduledFuture<?> timer = timeoutFuture.timer;
           String message = "Timed out";
           if (timer != null) {
             long overDelayMs = Math.abs(timer.getDelay(TimeUnit.MILLISECONDS));
@@ -128,6 +132,7 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
           timeoutFuture.setException(new TimeoutFutureException(message + ": " + delegate));
         } finally {
           delegate.cancel(true);
+          timeoutFuture.clearFields();
         }
       }
     }
@@ -164,9 +169,11 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   }
 
   @Override
-  protected void afterDone() {
-    maybePropagateCancellationTo(delegateRef);
-
+  protected void afterEarlyCancellation() {
+    final ListenableFuture<V> delegate = this.delegateRef;
+    if (delegate != null) {
+      cancel(wasInterrupted());
+    }
     Future<?> localTimer = timer;
     // Try to cancel the timer as an optimization.
     // timer may be null if this call to run was by the timer task since there is no happens-before
@@ -175,6 +182,10 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
       localTimer.cancel(false);
     }
 
+    clearFields();
+  }
+
+  private void clearFields() {
     delegateRef = null;
     timer = null;
   }
