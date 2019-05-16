@@ -498,33 +498,39 @@ public final class HttpHeaders {
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-Websocket-Accept";
+  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
    * header field name.
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-Websocket-Extensions";
+  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
    * field name.
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_KEY = "Sec-Websocket-Key";
+  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
    * header field name.
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-Websocket-Protocol";
+  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
   /**
-   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Versions}</a>
-   * header field name.
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
+   * field name.
    *
    * @since NEXT
    */
-  public static final String SEC_WEBSOCKET_VERSIONS = "Sec-Websocket-Versions";
+  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CDN_LOOP = "CDN-Loop";
 }

@@ -47,7 +47,7 @@ public class ImmutableValueGraphTest {
         ImmutableValueGraph.copyOf(ValueGraphBuilder.directed().<String, Integer>build());
     ValueGraph<String, Integer> graph2 = ImmutableValueGraph.copyOf(graph1);
 
-    assertThat(graph2).isSameAs(graph1);
+    assertThat(graph2).isSameInstanceAs(graph1);
   }
 
   @Test

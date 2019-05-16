@@ -29,13 +29,10 @@ import static com.google.common.util.concurrent.Futures.catching;
 import static com.google.common.util.concurrent.Futures.catchingAsync;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
-import static com.google.common.util.concurrent.Futures.immediateCheckedFuture;
-import static com.google.common.util.concurrent.Futures.immediateFailedCheckedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.inCompletionOrder;
 import static com.google.common.util.concurrent.Futures.lazyTransform;
-import static com.google.common.util.concurrent.Futures.makeChecked;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.Futures.scheduleAsync;
 import static com.google.common.util.concurrent.Futures.submitAsync;
@@ -231,49 +228,6 @@ public class FuturesTest extends TestCase {
   }
 
   private static class MyException extends Exception {}
-
-  @GwtIncompatible // immediateCheckedFuture
-  public void testImmediateCheckedFuture() throws Exception {
-    CheckedFuture<String, MyException> future = immediateCheckedFuture(DATA1);
-    assertThat(future.toString()).endsWith("[status=SUCCESS, result=[" + DATA1 + "]]");
-
-    // Verify that the proper object is returned without waiting
-    assertSame(DATA1, future.get(0L, MILLISECONDS));
-    assertSame(DATA1, future.checkedGet(0L, MILLISECONDS));
-  }
-
-  @GwtIncompatible // immediateCheckedFuture
-  public void testMultipleImmediateCheckedFutures() throws Exception {
-    CheckedFuture<String, MyException> future1 = immediateCheckedFuture(DATA1);
-    CheckedFuture<String, MyException> future2 = immediateCheckedFuture(DATA2);
-
-    // Verify that the proper objects are returned without waiting
-    assertSame(DATA1, future1.get(0L, MILLISECONDS));
-    assertSame(DATA1, future1.checkedGet(0L, MILLISECONDS));
-    assertSame(DATA2, future2.get(0L, MILLISECONDS));
-    assertSame(DATA2, future2.checkedGet(0L, MILLISECONDS));
-  }
-
-  @GwtIncompatible // immediateFailedCheckedFuture
-  public void testImmediateFailedCheckedFuture() throws Exception {
-    MyException exception = new MyException();
-    CheckedFuture<String, MyException> future = immediateFailedCheckedFuture(exception);
-    assertThat(future.toString()).endsWith("[status=FAILURE, cause=[" + exception + "]]");
-
-    try {
-      future.get(0L, MILLISECONDS);
-      fail();
-    } catch (ExecutionException expected) {
-      assertSame(exception, expected.getCause());
-    }
-
-    try {
-      future.checkedGet(0L, MILLISECONDS);
-      fail();
-    } catch (MyException expected) {
-      assertSame(exception, expected);
-    }
-  }
 
   // Class hierarchy for generics sanity checks
   private static class Foo {}
@@ -995,7 +949,7 @@ public class FuturesTest extends TestCase {
             new AsyncFunction<Throwable, Integer>() {
               @Override
               public ListenableFuture<Integer> apply(Throwable t) throws Exception {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return immediateFuture(20);
               }
             });
@@ -1128,7 +1082,7 @@ public class FuturesTest extends TestCase {
             new AsyncFunction<Throwable, Integer>() {
               @Override
               public ListenableFuture<Integer> apply(Throwable t) throws Exception {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return secondary;
               }
             });
@@ -1284,7 +1238,7 @@ public class FuturesTest extends TestCase {
             new Function<Throwable, Integer>() {
               @Override
               public Integer apply(Throwable t) {
-                assertThat(t).isSameAs(raisedException);
+                assertThat(t).isSameInstanceAs(raisedException);
                 return 20;
               }
             });
@@ -2484,7 +2438,7 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (CancellationException expected) {
       assertThat(getOnlyElement(aggregateFutureLogHandler.getStoredLogRecords()).getThrown())
-          .isSameAs(subsequentFailure);
+          .isSameInstanceAs(subsequentFailure);
     }
   }
 
@@ -3550,217 +3504,6 @@ public class FuturesTest extends TestCase {
           }
         }
       };
-
-  @GwtIncompatible // makeChecked
-  public void testMakeChecked_mapsExecutionExceptions() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked = makeChecked(future, mapper);
-
-    future.setException(new IOException("checked"));
-
-    assertTrue(checked.isDone());
-    assertFalse(checked.isCancelled());
-
-    try {
-      checked.get();
-      fail();
-    } catch (ExecutionException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IOException.class);
-    }
-
-    try {
-      checked.get(5, SECONDS);
-      fail();
-    } catch (ExecutionException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IOException.class);
-    }
-
-    try {
-      checked.checkedGet();
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IOException.class);
-    }
-
-    try {
-      checked.checkedGet(5, SECONDS);
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IOException.class);
-    }
-  }
-
-  @GwtIncompatible // makeChecked
-  public void testMakeChecked_mapsInterruption() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked = makeChecked(future, mapper);
-
-    currentThread().interrupt();
-
-    try {
-      checked.get();
-      fail();
-    } catch (InterruptedException expected) {
-    }
-
-    currentThread().interrupt();
-
-    try {
-      checked.get(5, SECONDS);
-      fail();
-    } catch (InterruptedException expected) {
-    }
-
-    currentThread().interrupt();
-
-    try {
-      checked.checkedGet();
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
-    }
-
-    currentThread().interrupt();
-
-    try {
-      checked.checkedGet(5, SECONDS);
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(InterruptedException.class);
-    }
-  }
-
-  @GwtIncompatible // makeChecked
-  public void testMakeChecked_mapsCancellation() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked = makeChecked(future, mapper);
-
-    assertTrue(future.cancel(true)); // argument is ignored
-
-    try {
-      checked.get();
-      fail();
-    } catch (CancellationException expected) {
-    }
-
-    try {
-      checked.get(5, SECONDS);
-      fail();
-    } catch (CancellationException expected) {
-    }
-
-    try {
-      checked.checkedGet();
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(CancellationException.class);
-    }
-
-    try {
-      checked.checkedGet(5, SECONDS);
-      fail();
-    } catch (TestException expected) {
-      assertThat(expected.getCause()).isInstanceOf(CancellationException.class);
-    }
-  }
-
-  @GwtIncompatible // makeChecked
-  public void testMakeChecked_propagatesFailedMappers() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked =
-        makeChecked(
-            future,
-            new Function<Exception, TestException>() {
-              @Override
-              public TestException apply(Exception from) {
-                throw new NullPointerException();
-              }
-            });
-
-    future.setException(new Exception("failed"));
-
-    try {
-      checked.checkedGet();
-      fail();
-    } catch (NullPointerException expected) {
-    }
-
-    try {
-      checked.checkedGet(5, SECONDS);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-  }
-
-  @GwtIncompatible // makeChecked
-
-  public void testMakeChecked_listenersRunOnceCompleted() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked =
-        makeChecked(
-            future,
-            new Function<Exception, TestException>() {
-              @Override
-              public TestException apply(Exception from) {
-                throw new NullPointerException();
-              }
-            });
-
-    ListenableFutureTester tester = new ListenableFutureTester(checked);
-    tester.setUp();
-    future.set(DATA1);
-    tester.testCompletedFuture(DATA1);
-    tester.tearDown();
-  }
-
-  @GwtIncompatible // makeChecked
-
-  public void testMakeChecked_listenersRunOnCancel() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked =
-        makeChecked(
-            future,
-            new Function<Exception, TestException>() {
-              @Override
-              public TestException apply(Exception from) {
-                throw new NullPointerException();
-              }
-            });
-
-    ListenableFutureTester tester = new ListenableFutureTester(checked);
-    tester.setUp();
-    future.cancel(true); // argument is ignored
-    tester.testCancelledFuture();
-    tester.tearDown();
-  }
-
-  @GwtIncompatible // makeChecked
-
-  public void testMakeChecked_listenersRunOnFailure() throws Exception {
-    SettableFuture<String> future = SettableFuture.create();
-
-    CheckedFuture<String, TestException> checked =
-        makeChecked(
-            future,
-            new Function<Exception, TestException>() {
-              @Override
-              public TestException apply(Exception from) {
-                throw new NullPointerException();
-              }
-            });
-
-    ListenableFutureTester tester = new ListenableFutureTester(checked);
-    tester.setUp();
-    future.setException(new Exception("failed"));
-    tester.testFailedFuture("failed");
-    tester.tearDown();
-  }
 
   @GwtIncompatible // used only in GwtIncompatible tests
   private interface MapperFunction extends Function<Throwable, Exception> {}

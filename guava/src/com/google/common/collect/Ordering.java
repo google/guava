@@ -534,9 +534,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned. The iterator will be left exhausted: its {@code
    * hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).min(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied minimum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).min(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param iterator the iterator whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -560,8 +559,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.min(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied minimum element is returned)
    *
@@ -622,9 +620,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned. The iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).max(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param iterator the iterator whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -648,8 +645,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.max(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied maximum element is returned)
    *
@@ -749,8 +745,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.least(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.least(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
    *     order
@@ -809,8 +805,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.greatest(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
    *     <i>descending order</i>

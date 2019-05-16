@@ -206,7 +206,7 @@ public class GraphsTest {
     MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().build();
     undirectedGraph.putEdge(N1, N2);
 
-    assertThat(transpose(undirectedGraph)).isSameAs(undirectedGraph);
+    assertThat(transpose(undirectedGraph)).isSameInstanceAs(undirectedGraph);
   }
 
   @Test
@@ -227,12 +227,12 @@ public class GraphsTest {
 
     Graph<Integer> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
-    assertThat(transpose(transpose)).isSameAs(directedGraph);
+    assertThat(transpose(transpose)).isSameInstanceAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose);
 
     for (Integer node : directedGraph.nodes()) {
-      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
-      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+      assertThat(directedGraph.inDegree(node)).isSameInstanceAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameInstanceAs(transpose.inDegree(node));
     }
 
     assertThat(transpose.successors(N1)).doesNotContain(N2);
@@ -247,7 +247,7 @@ public class GraphsTest {
     MutableValueGraph<Integer, String> undirectedGraph = ValueGraphBuilder.undirected().build();
     undirectedGraph.putEdgeValue(N1, N2, E12);
 
-    assertThat(transpose(undirectedGraph)).isSameAs(undirectedGraph);
+    assertThat(transpose(undirectedGraph)).isSameInstanceAs(undirectedGraph);
   }
 
   @Test
@@ -270,13 +270,13 @@ public class GraphsTest {
 
     ValueGraph<Integer, String> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
-    assertThat(transpose(transpose)).isSameAs(directedGraph);
+    assertThat(transpose(transpose)).isSameInstanceAs(directedGraph);
     AbstractGraphTest.validateGraph(transpose.asGraph());
 
     assertThat(transpose.edgeValueOrDefault(N1, N2, null)).isNull();
     for (Integer node : directedGraph.nodes()) {
-      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
-      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+      assertThat(directedGraph.inDegree(node)).isSameInstanceAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameInstanceAs(transpose.inDegree(node));
     }
 
     directedGraph.putEdgeValue(N2, N1, E21);
@@ -290,7 +290,7 @@ public class GraphsTest {
     MutableNetwork<Integer, String> undirectedGraph = NetworkBuilder.undirected().build();
     undirectedGraph.addEdge(N1, N2, E12);
 
-    assertThat(transpose(undirectedGraph)).isSameAs(undirectedGraph);
+    assertThat(transpose(undirectedGraph)).isSameInstanceAs(undirectedGraph);
   }
 
   @Test
@@ -315,7 +315,7 @@ public class GraphsTest {
 
     Network<Integer, String> transpose = transpose(directedGraph);
     assertThat(transpose).isEqualTo(expectedTranspose);
-    assertThat(transpose(transpose)).isSameAs(directedGraph);
+    assertThat(transpose(transpose)).isSameInstanceAs(directedGraph);
     AbstractNetworkTest.validateNetwork(transpose);
 
     assertThat(transpose.edgesConnecting(N1, N2)).isEmpty();
@@ -323,8 +323,8 @@ public class GraphsTest {
     assertThat(transpose.edgeConnectingOrNull(N1, N2)).isNull();
 
     for (Integer node : directedGraph.nodes()) {
-      assertThat(directedGraph.inDegree(node)).isSameAs(transpose.outDegree(node));
-      assertThat(directedGraph.outDegree(node)).isSameAs(transpose.inDegree(node));
+      assertThat(directedGraph.inDegree(node)).isSameInstanceAs(transpose.outDegree(node));
+      assertThat(directedGraph.outDegree(node)).isSameInstanceAs(transpose.inDegree(node));
     }
 
     directedGraph.addEdge(N2, N1, E21);

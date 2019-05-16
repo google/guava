@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.errorprone.annotations.RequiredModifiers;
 import java.lang.annotation.ElementType;
@@ -84,11 +85,11 @@ abstract class SubtypeTester implements Cloneable {
     Type returnType = method.getGenericReturnType();
     Type paramType = getOnlyParameterType();
     TestSubtype spec = method.getAnnotation(TestSubtype.class);
-    assertThat(TypeToken.of(paramType).isSubtypeOf(returnType))
-        .named("%s is subtype of %s", paramType, returnType)
+    assertWithMessage("%s is subtype of %s", paramType, returnType)
+        .that(TypeToken.of(paramType).isSubtypeOf(returnType))
         .isTrue();
-    assertThat(TypeToken.of(returnType).isSupertypeOf(paramType))
-        .named("%s is supertype of %s", returnType, paramType)
+    assertWithMessage("%s is supertype of %s", returnType, paramType)
+        .that(TypeToken.of(returnType).isSupertypeOf(paramType))
         .isTrue();
     if (!spec.suppressGetSubtype()) {
       assertThat(getSubtype(returnType, TypeToken.of(paramType).getRawType())).isEqualTo(paramType);
@@ -108,11 +109,11 @@ abstract class SubtypeTester implements Cloneable {
     Type returnType = method.getGenericReturnType();
     Type paramType = getOnlyParameterType();
     TestSubtype spec = method.getAnnotation(TestSubtype.class);
-    assertThat(TypeToken.of(paramType).isSubtypeOf(returnType))
-        .named("%s is subtype of %s", paramType, returnType)
+    assertWithMessage("%s is subtype of %s", paramType, returnType)
+        .that(TypeToken.of(paramType).isSubtypeOf(returnType))
         .isFalse();
-    assertThat(TypeToken.of(returnType).isSupertypeOf(paramType))
-        .named("%s is supertype of %s", returnType, paramType)
+    assertWithMessage("%s is supertype of %s", returnType, paramType)
+        .that(TypeToken.of(returnType).isSupertypeOf(paramType))
         .isFalse();
     if (!spec.suppressGetSubtype()) {
       try {
