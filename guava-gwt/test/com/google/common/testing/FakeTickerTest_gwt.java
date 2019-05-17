@@ -18,11 +18,6 @@ public class FakeTickerTest_gwt extends com.google.gwt.junit.client.GWTTestCase 
 @Override public String getModuleName() {
   return "com.google.common.testing.testModule";
 }
-public void testAdvance() throws Exception {
-  com.google.common.testing.FakeTickerTest testCase = new com.google.common.testing.FakeTickerTest();
-  testCase.testAdvance();
-}
-
 public void testAutoIncrementStep_millis() throws Exception {
   com.google.common.testing.FakeTickerTest testCase = new com.google.common.testing.FakeTickerTest();
   testCase.testAutoIncrementStep_millis();

@@ -37,6 +37,7 @@ public class HttpHeadersTest extends TestCase {
     // Special case some of the weird HTTP Header names...
     ImmutableBiMap<String, String> specialCases =
         ImmutableBiMap.<String, String>builder()
+            .put("CDN_LOOP", "CDN-Loop")
             .put("ETAG", "ETag")
             .put("SOURCE_MAP", "SourceMap")
             .put("SEC_WEBSOCKET_ACCEPT", "Sec-WebSocket-Accept")

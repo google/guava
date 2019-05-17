@@ -41,6 +41,7 @@ public class FakeTickerTest extends TestCase {
     tester.testAllPublicInstanceMethods(new FakeTicker());
   }
 
+  @GwtIncompatible // java.time.Duration
   public void testAdvance() {
     FakeTicker ticker = new FakeTicker();
     assertEquals(0, ticker.read());
@@ -48,6 +49,8 @@ public class FakeTickerTest extends TestCase {
     assertEquals(10, ticker.read());
     ticker.advance(1, TimeUnit.MILLISECONDS);
     assertEquals(1000010L, ticker.read());
+    ticker.advance(java.time.Duration.ofMillis(1));
+    assertEquals(2000010L, ticker.read());
   }
 
   public void testAutoIncrementStep_returnsSameInstance() {
@@ -74,6 +77,14 @@ public class FakeTickerTest extends TestCase {
     assertEquals(0, ticker.read());
     assertEquals(3000000000L, ticker.read());
     assertEquals(6000000000L, ticker.read());
+  }
+
+  @GwtIncompatible // java.time.Duration
+  public void testAutoIncrementStep_duration() {
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(java.time.Duration.ofMillis(1));
+    assertEquals(0, ticker.read());
+    assertEquals(1000000, ticker.read());
+    assertEquals(2000000, ticker.read());
   }
 
   public void testAutoIncrementStep_resetToZero() {
