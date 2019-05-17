@@ -527,4 +527,10 @@ public final class HttpHeaders {
    * @since NEXT
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CDN_LOOP = "CDN-Loop";
 }
