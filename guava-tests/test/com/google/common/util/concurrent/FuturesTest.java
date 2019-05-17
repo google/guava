@@ -3717,6 +3717,10 @@ public class FuturesTest extends TestCase {
   // Simulate a timeout that fires before the call the SES.schedule returns but the future is
   // already completed.
 
+  // This test covers a bug where an Error thrown from a callback could cause the TimeoutFuture to
+  // never complete when timing out.  Notably, nothing would get logged since the Error would get
+  // stuck in the ScheduledFuture inside of TimeoutFuture and nothing ever calls get on it.
+
   private static final Executor REJECTING_EXECUTOR =
       new Executor() {
         @Override
