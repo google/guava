@@ -46,7 +46,6 @@ import static com.google.common.util.concurrent.TestPlatform.clearInterrupt;
 import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
-import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
