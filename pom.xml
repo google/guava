@@ -16,7 +16,7 @@
     <truth.version>0.44</truth.version>
     <animal.sniffer.version>1.17</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
