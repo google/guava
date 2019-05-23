@@ -74,6 +74,13 @@ public final class HttpHeaders {
   /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
   /**
+   * The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+   * Cross-Origin-Resource-Policy}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
    * name.
    *
