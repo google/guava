@@ -104,7 +104,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Returns an {@link ImmutableNetwork#Builder} with the properties of this {@link NetworkBuilder}.
+   * Returns an {@link ImmutableNetwork.Builder} with the properties of this {@link NetworkBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
    *
