@@ -117,15 +117,21 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
       } else {
         try {
           ScheduledFuture<?> timer = timeoutFuture.timer;
-          String message = "Timed out";
-          if (timer != null) {
-            long overDelayMs = Math.abs(timer.getDelay(TimeUnit.MILLISECONDS));
-            if (overDelayMs > 10) { // Not all timing drift is worth reporting
-              message += " (timeout delayed by " + overDelayMs + " ms after scheduled time)";
-            }
-          }
           timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
-          timeoutFuture.setException(new TimeoutFutureException(message + ": " + delegate));
+          String message = "Timed out";
+          // This try-finally block ensures that we complete the timeout future, even if attempting
+          // to produce the message throws (probably StackOverflowError from delegate.toString())
+          try {
+            if (timer != null) {
+              long overDelayMs = Math.abs(timer.getDelay(TimeUnit.MILLISECONDS));
+              if (overDelayMs > 10) { // Not all timing drift is worth reporting
+                message += " (timeout delayed by " + overDelayMs + " ms after scheduled time)";
+              }
+            }
+            message += ": " + delegate;
+          } finally {
+            timeoutFuture.setException(new TimeoutFutureException(message));
+          }
         } finally {
           delegate.cancel(true);
         }

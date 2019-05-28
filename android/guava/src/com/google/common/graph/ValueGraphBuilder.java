@@ -97,7 +97,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Returns an {@link ImmutableValueGraph#Builder} with the properties of this {@link
+   * Returns an {@link ImmutableValueGraph.Builder} with the properties of this {@link
    * ValueGraphBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
