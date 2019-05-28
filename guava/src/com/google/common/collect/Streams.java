@@ -218,7 +218,7 @@ public final class Streams {
   }
 
   /**
-   * Returns a stream in which each element is the result of passing the corresponding elementY of
+   * Returns a stream in which each element is the result of passing the corresponding element of
    * each of {@code streamA} and {@code streamB} to {@code function}.
    *
    * <p>For example:
