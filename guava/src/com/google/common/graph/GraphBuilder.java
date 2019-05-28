@@ -92,7 +92,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+   * Returns an {@link ImmutableGraph.Builder} with the properties of this {@link GraphBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
    *
