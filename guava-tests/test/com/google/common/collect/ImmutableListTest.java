@@ -288,14 +288,6 @@ public class ImmutableListTest extends TestCase {
       }
     }
 
-    public void testCopyOf_collectionNull() {
-      try {
-        ImmutableList.copyOf((Collection<String>) null);
-        fail();
-      } catch (NullPointerException expected) {
-      }
-    }
-
     public void testCopyOf_iterator_empty() {
       Iterator<String> iterator = Iterators.emptyIterator();
       List<String> list = ImmutableList.copyOf(iterator);
@@ -341,14 +333,6 @@ public class ImmutableListTest extends TestCase {
           assertEquals(expected, ImmutableList.copyOf(misleading));
           assertEquals(expected, ImmutableList.copyOf((Iterable<String>) misleading));
         }
-      }
-    }
-
-    public void testCopyOf_iterableNull() {
-      try {
-        ImmutableList.copyOf((Iterable<String>) null);
-        fail();
-      } catch (NullPointerException expected) {
       }
     }
 
