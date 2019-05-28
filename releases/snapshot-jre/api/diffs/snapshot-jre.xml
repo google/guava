@@ -2460,7 +2460,7 @@
  set. See also {@link #forMap(Map)}, which throws an exception in this case.
 
  <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
- map.getWithDefault(k, defaultValue)} instead.
+ map.getOrDefault(k, defaultValue)} instead.
 
  @param map source map that determines the function behavior
  @param defaultValue the value to return for inputs that aren't map keys
@@ -34535,7 +34535,7 @@
       <param name="streamB" type="java.util.stream.Stream&lt;B&gt;"/>
       <param name="function" type="java.util.function.BiFunction&lt;? super A, ? super B, R&gt;"/>
       <doc>
-      <![CDATA[Returns a stream in which each element is the result of passing the corresponding elementY of
+      <![CDATA[Returns a stream in which each element is the result of passing the corresponding element of
  each of {@code streamA} and {@code streamB} to {@code function}.
 
  <p>For example:
@@ -38287,7 +38287,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+      <![CDATA[Returns an {@link ImmutableGraph.Builder} with the properties of this {@link GraphBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableGraph}.
 
@@ -39885,7 +39885,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableNetwork#Builder} with the properties of this {@link NetworkBuilder}.
+      <![CDATA[Returns an {@link ImmutableNetwork.Builder} with the properties of this {@link NetworkBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
 
@@ -40919,7 +40919,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableValueGraph#Builder} with the properties of this {@link
+      <![CDATA[Returns an {@link ImmutableValueGraph.Builder} with the properties of this {@link
  ValueGraphBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
@@ -50201,6 +50201,17 @@
       <![CDATA[The HTTP {@code Cookie} header field name.]]>
       </doc>
     </field>
+    <field name="CROSS_ORIGIN_RESOURCE_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+ Cross-Origin-Resource-Policy}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="EARLY_DATA" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -52820,6 +52831,17 @@
  {@link #OCTET_STREAM} for binary data that is not being served to a browser.
 
  @since 14.0]]>
+      </doc>
+    </field>
+    <field name="GEO_JSON" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
+ geospatial data interchange format based on JSON.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="GZIP" type="com.google.common.net.MediaType"
@@ -61909,6 +61931,22 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="delay" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Returns a {@link Scheduler} that schedules the task using the {@link
+ ScheduledExecutorService#scheduleWithFixedDelay} method.
+
+ @param initialDelay the time to delay first execution
+ @param delay the delay between the termination of one execution and the commencement of the
+     next
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="newFixedDelaySchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="initialDelay" type="long"/>
       <param name="delay" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
@@ -61920,6 +61958,21 @@
  @param delay the delay between the termination of one execution and the commencement of the
      next
  @param unit the time unit of the initialDelay and delay parameters]]>
+      </doc>
+    </method>
+    <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="period" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Returns a {@link Scheduler} that schedules the task using the {@link
+ ScheduledExecutorService#scheduleAtFixedRate} method.
+
+ @param initialDelay the time to delay first execution
+ @param period the period between successive executions of the task
+ @since NEXT]]>
       </doc>
     </method>
     <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
@@ -63730,6 +63783,23 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <param name="scheduledExecutor" type="java.util.concurrent.ScheduledExecutorService"/>
+      <doc>
+      <![CDATA[Returns a future that delegates to this future but will finish early (via a {@link
+ TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.
+ If the timeout expires, not only will the output future finish, but also the input future
+ ({@code this}) will be cancelled and interrupted.
+
+ @param timeout when to time out the future
+ @param scheduledExecutor The executor service to enforce the timeout.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="withTimeout" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <param name="scheduledExecutor" type="java.util.concurrent.ScheduledExecutorService"/>
@@ -64549,6 +64619,20 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="callable" type="com.google.common.util.concurrent.AsyncCallable&lt;O&gt;"/>
+      <param name="delay" type="java.time.Duration"/>
+      <param name="executorService" type="java.util.concurrent.ScheduledExecutorService"/>
+      <doc>
+      <![CDATA[Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
+
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="scheduleAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="com.google.common.util.concurrent.AsyncCallable&lt;O&gt;"/>
       <param name="delay" type="long"/>
       <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
       <param name="executorService" type="java.util.concurrent.ScheduledExecutorService"/>
@@ -64672,6 +64756,25 @@
      {@code get()} throws a different kind of exception, that exception itself.
  @param executor the executor that runs {@code fallback} if {@code input} fails
  @since 19.0 (similar functionality in 14.0 as {@code withFallback})]]>
+      </doc>
+    </method>
+    <method name="withTimeout" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="delegate" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
+      <param name="time" type="java.time.Duration"/>
+      <param name="scheduledExecutor" type="java.util.concurrent.ScheduledExecutorService"/>
+      <doc>
+      <![CDATA[Returns a future that delegates to another but will finish early (via a {@link
+ TimeoutException} wrapped in an {@link ExecutionException}) if the specified duration expires.
+
+ <p>The delegate future is interrupted and cancelled if it times out.
+
+ @param delegate The future to delegate to.
+ @param time when to timeout the future
+ @param scheduledExecutor The executor service to enforce the timeout.
+ @since NEXT]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -65091,6 +65194,58 @@
  @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
      does not have a suitable constructor
  @since 19.0 (in 10.0 as {@code get})]]>
+      </doc>
+    </method>
+    <method name="getChecked" return="V"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="future" type="java.util.concurrent.Future&lt;V&gt;"/>
+      <param name="exceptionClass" type="java.lang.Class&lt;X&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="Exception" type="java.lang.Exception"/>
+      <doc>
+      <![CDATA[Returns the result of {@link Future#get(long, TimeUnit)}, converting most exceptions to a new
+ instance of the given checked exception type. This reduces boilerplate for a common use of
+ {@code Future} in which it is unnecessary to programmatically distinguish between exception
+ types or to extract other information from the exception instance.
+
+ <p>Exceptions from {@code Future.get} are treated as follows:
+
+ <ul>
+   <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an {@code X} if the cause
+       is a checked exception, an {@link UncheckedExecutionException} if the cause is a {@code
+       RuntimeException}, or an {@link ExecutionError} if the cause is an {@code Error}.
+   <li>Any {@link InterruptedException} is wrapped in an {@code X} (after restoring the
+       interrupt).
+   <li>Any {@link TimeoutException} is wrapped in an {@code X}.
+   <li>Any {@link CancellationException} is propagated untouched, as is any other {@link
+       RuntimeException} (though {@code get} implementations are discouraged from throwing such
+       exceptions).
+ </ul>
+
+ <p>The overall principle is to continue to treat every checked exception as a checked
+ exception, every unchecked exception as an unchecked exception, and every error as an error. In
+ addition, the cause of any {@code ExecutionException} is wrapped in order to ensure that the
+ new stack trace matches that of the current thread.
+
+ <p>Instances of {@code exceptionClass} are created by choosing an arbitrary public constructor
+ that accepts zero or more arguments, all of type {@code String} or {@code Throwable}
+ (preferring constructors with at least one {@code String}) and calling the constructor via
+ reflection. If the exception did not already have a cause, one is set by calling {@link
+ Throwable#initCause(Throwable)} on it. If no such constructor exists, an {@code
+ IllegalArgumentException} is thrown.
+
+ @throws X if {@code get} throws any checked exception except for an {@code ExecutionException}
+     whose cause is not itself a checked exception
+ @throws UncheckedExecutionException if {@code get} throws an {@code ExecutionException} with a
+     {@code RuntimeException} as its cause
+ @throws ExecutionError if {@code get} throws an {@code ExecutionException} with an {@code
+     Error} as its cause
+ @throws CancellationException if {@code get} throws a {@code CancellationException}
+ @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
+     does not have a suitable constructor
+ @since NEXT]]>
       </doc>
     </method>
     <method name="getChecked" return="V"
@@ -65794,6 +65949,18 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="time" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Enters this monitor. Blocks at most the given time.
+
+ @return whether the monitor was entered
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="enter" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="time" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -65811,6 +65978,20 @@
       <![CDATA[Enters this monitor. Blocks indefinitely, but may be interrupted.
 
  @throws InterruptedException if interrupted while waiting]]>
+      </doc>
+    </method>
+    <method name="enterInterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="time" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Enters this monitor. Blocks at most the given time, and may be interrupted.
+
+ @return whether the monitor was entered
+ @throws InterruptedException if interrupted while waiting
+ @since NEXT]]>
       </doc>
     </method>
     <method name="enterInterruptibly" return="boolean"
@@ -65856,6 +66037,23 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
+ the time to acquire the lock and the time to wait for the guard to be satisfied, and may be
+ interrupted.
+
+ @return whether the monitor was entered, which guarantees that the guard is now satisfied
+ @throws InterruptedException if interrupted while waiting
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="enterWhen" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
       <param name="time" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
@@ -65875,6 +66073,20 @@
       <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
       <doc>
       <![CDATA[Enters this monitor when the guard is satisfied. Blocks indefinitely.]]>
+      </doc>
+    </method>
+    <method name="enterWhenUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
+ the time to acquire the lock and the time to wait for the guard to be satisfied.
+
+ @return whether the monitor was entered, which guarantees that the guard is now satisfied
+ @since NEXT]]>
       </doc>
     </method>
     <method name="enterWhenUninterruptibly" return="boolean"
@@ -65908,6 +66120,20 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
+ lock, but does not wait for the guard to be satisfied.
+
+ @return whether the monitor was entered, which guarantees that the guard is now satisfied
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="enterIf" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
       <param name="time" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -65929,6 +66155,21 @@
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
  @throws InterruptedException if interrupted while waiting]]>
+      </doc>
+    </method>
+    <method name="enterIfInterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
+ lock, but does not wait for the guard to be satisfied, and may be interrupted.
+
+ @return whether the monitor was entered, which guarantees that the guard is now satisfied
+ @since NEXT]]>
       </doc>
     </method>
     <method name="enterIfInterruptibly" return="boolean"
@@ -65978,6 +66219,22 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Waits for the guard to be satisfied. Waits at most the given time, and may be interrupted. May
+ be called only by a thread currently occupying this monitor.
+
+ @return whether the guard is now satisfied
+ @throws InterruptedException if interrupted while waiting
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="waitFor" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
       <param name="time" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="InterruptedException" type="java.lang.InterruptedException"/>
@@ -65997,6 +66254,20 @@
       <doc>
       <![CDATA[Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
  currently occupying this monitor.]]>
+      </doc>
+    </method>
+    <method name="waitForUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="guard" type="com.google.common.util.concurrent.Monitor.Guard"/>
+      <param name="time" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
+ thread currently occupying this monitor.
+
+ @return whether the guard is now satisfied
+ @since NEXT]]>
       </doc>
     </method>
     <method name="waitForUninterruptibly" return="boolean"
@@ -66369,6 +66640,26 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="executor" type="java.util.concurrent.ScheduledThreadPoolExecutor"/>
+      <param name="terminationTimeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+ the application is complete. It does so by using daemon threads and adding a shutdown hook to
+ wait for their completion.
+
+ <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
+
+ @param executor the executor to modify to make sure it exits when the application is finished
+ @param terminationTimeout how long to wait for the executor to finish before terminating the
+     JVM
+ @return an unmodifiable version of the input which will not hang the JVM
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="executor" type="java.util.concurrent.ScheduledThreadPoolExecutor"/>
       <param name="terminationTimeout" type="long"/>
       <param name="timeUnit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -66402,6 +66693,24 @@
 
  @param executor the executor to modify to make sure it exits when the application is finished
  @return an unmodifiable version of the input which will not hang the JVM]]>
+      </doc>
+    </method>
+    <method name="addDelayedShutdownHook"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="service" type="java.util.concurrent.ExecutorService"/>
+      <param name="terminationTimeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
+ This is useful if the given service uses daemon threads, and we want to keep the JVM from
+ exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+ normally.
+
+ @param service ExecutorService which uses daemon threads
+ @param terminationTimeout how long to wait for the executor to finish before terminating the
+     JVM
+ @since NEXT]]>
       </doc>
     </method>
     <method name="addDelayedShutdownHook"
@@ -66586,6 +66895,36 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="service" type="java.util.concurrent.ExecutorService"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Shuts down the given executor service gradually, first disabling new submissions and later, if
+ necessary, cancelling remaining tasks.
+
+ <p>The method takes the following steps:
+
+ <ol>
+   <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
+   <li>awaits executor service termination for half of the specified timeout.
+   <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling
+       pending tasks and interrupting running tasks.
+   <li>awaits executor service termination for the other half of the specified timeout.
+ </ol>
+
+ <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
+ ExecutorService#shutdownNow()} and returns.
+
+ @param service the {@code ExecutorService} to shut down
+ @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
+ @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
+     if the call timed out or was interrupted
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="shutdownAndAwaitTermination" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="service" type="java.util.concurrent.ExecutorService"/>
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -66648,6 +66987,37 @@
  @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
      permits become available per second
  @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero]]>
+      </doc>
+    </method>
+    <method name="create" return="com.google.common.util.concurrent.RateLimiter"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="permitsPerSecond" type="double"/>
+      <param name="warmupPeriod" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
+ second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+ during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum
+ rate at the end of the period (as long as there are enough requests to saturate it). Similarly,
+ if the {@code RateLimiter} is left <i>unused</i> for a duration of {@code warmupPeriod}, it
+ will gradually return to its "cold" state, i.e. it will go through the same warming up process
+ as when it was first created.
+
+ <p>The returned {@code RateLimiter} is intended for cases where the resource that actually
+ fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being
+ immediately accessed at the stable (maximum) rate.
+
+ <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will
+ follow), and if it is left unused for long enough, it will return to that state.
+
+ @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
+     permits become available per second
+ @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
+     before reaching its stable (maximum) rate
+ @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
+     warmupPeriod} is negative
+ @since NEXT]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.util.concurrent.RateLimiter"
@@ -66750,6 +67120,24 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Acquires a permit from this {@code RateLimiter} if it can be obtained without exceeding the
+ specified {@code timeout}, or returns {@code false} immediately (without waiting) if the permit
+ would not have been granted before the timeout expired.
+
+ <p>This method is equivalent to {@code tryAcquire(1, timeout)}.
+
+ @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
+ @return {@code true} if the permit was acquired, {@code false} otherwise
+ @throws IllegalArgumentException if the requested number of permits is negative or zero
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="tryAcquire" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -66793,6 +67181,24 @@
 
  @return {@code true} if the permit was acquired, {@code false} otherwise
  @since 14.0]]>
+      </doc>
+    </method>
+    <method name="tryAcquire" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="permits" type="int"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Acquires the given number of permits from this {@code RateLimiter} if it can be obtained
+ without exceeding the specified {@code timeout}, or returns {@code false} immediately (without
+ waiting) if the permits would not have been granted before the timeout expired.
+
+ @param permits the number of permits to acquire
+ @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
+ @return {@code true} if the permits were acquired, {@code false} otherwise
+ @throws IllegalArgumentException if the requested number of permits is negative or zero
+ @since NEXT]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -66960,6 +67366,24 @@
       </doc>
     </method>
     <method name="awaitRunning"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no more
+ than the given time.
+
+ @param timeout the maximum time to wait
+ @throws TimeoutException if the service has not reached the given state within the deadline
+ @throws IllegalStateException if the service reaches a state from which it is not possible to
+     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
+     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="awaitRunning"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -66988,6 +67412,22 @@
 
  @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
  @since 15.0]]>
+      </doc>
+    </method>
+    <method name="awaitTerminated"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED
+ terminated} or {@link Service.State#FAILED failed}) for no more than the given time.
+
+ @param timeout the maximum time to wait
+ @throws TimeoutException if the service has not reached the given state within the deadline
+ @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
+ @since NEXT]]>
       </doc>
     </method>
     <method name="awaitTerminated"
@@ -67291,6 +67731,24 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Waits for the {@link ServiceManager} to become {@linkplain #isHealthy() healthy} for no more
+ than the given time. The manager will become healthy after all the component services have
+ reached the {@linkplain State#RUNNING running} state.
+
+ @param timeout the maximum time to wait
+ @throws TimeoutException if not all of the services have finished starting within the deadline
+ @throws IllegalStateException if the service manager reaches a state from which it cannot
+     become {@linkplain #isHealthy() healthy}.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="awaitHealthy"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
@@ -67325,6 +67783,22 @@
       <![CDATA[Waits for the all the services to reach a terminal state. After this method returns all
  services will either be {@linkplain Service.State#TERMINATED terminated} or {@linkplain
  Service.State#FAILED failed}.]]>
+      </doc>
+    </method>
+    <method name="awaitStopped"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Waits for the all the services to reach a terminal state for no more than the given time. After
+ this method returns all services will either be {@linkplain Service.State#TERMINATED
+ terminated} or {@linkplain Service.State#FAILED failed}.
+
+ @param timeout the maximum time to wait
+ @throws TimeoutException if not all of the services have stopped within the deadline
+ @since NEXT]]>
       </doc>
     </method>
     <method name="awaitStopped"
@@ -68222,11 +68696,37 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="latch" type="java.util.concurrent.CountDownLatch"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
+ uninterruptibly.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="awaitUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="latch" type="java.util.concurrent.CountDownLatch"/>
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
       <![CDATA[Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.]]>
+      </doc>
+    </method>
+    <method name="awaitUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="condition" type="java.util.concurrent.locks.Condition"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
+ uninterruptibly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -68250,6 +68750,19 @@
       <param name="toJoin" type="java.lang.Thread"/>
       <doc>
       <![CDATA[Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly.]]>
+      </doc>
+    </method>
+    <method name="joinUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="toJoin" type="java.lang.Thread"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
+ uninterruptibly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="joinUninterruptibly"
@@ -68286,6 +68799,34 @@
 
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled]]>
+      </doc>
+    </method>
+    <method name="getUninterruptibly" return="V"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="future" type="java.util.concurrent.Future&lt;V&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Invokes {@code future.}{@link Future#get(long, TimeUnit) get(timeout, unit)} uninterruptibly.
+
+ <p>Similar methods:
+
+ <ul>
+   <li>To retrieve a result from a {@code Future} that is already done, use {@link
+       Futures#getDone Futures.getDone}.
+   <li>To treat {@link InterruptedException} uniformly with other exceptions, use {@link
+       Futures#getChecked(Future, Class, long, TimeUnit) Futures.getChecked}.
+   <li>To get uninterruptibility and remove checked exceptions, use {@link
+       Futures#getUnchecked}.
+ </ul>
+
+ @throws ExecutionException if the computation threw an exception
+ @throws CancellationException if the computation was cancelled
+ @throws TimeoutException if the wait timed out
+ @since NEXT]]>
       </doc>
     </method>
     <method name="getUninterruptibly" return="V"
@@ -68344,10 +68885,34 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="sleepFor" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="sleepUninterruptibly"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="sleepFor" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.]]>
+      </doc>
+    </method>
+    <method name="tryAcquireUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="semaphore" type="java.util.concurrent.Semaphore"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
+ timeout, unit)} uninterruptibly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -68362,6 +68927,20 @@
  timeout, unit)} uninterruptibly.
 
  @since 18.0]]>
+      </doc>
+    </method>
+    <method name="tryAcquireUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="semaphore" type="java.util.concurrent.Semaphore"/>
+      <param name="permits" type="int"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
+ timeout, unit)} uninterruptibly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"

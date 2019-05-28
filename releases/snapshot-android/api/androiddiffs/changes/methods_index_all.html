@@ -86,6 +86,8 @@ Method Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.primitives.ImmutableLongArray.Builder.html#com.google.common.primitives.ImmutableLongArray.Builder.addAll_removed(java.util.stream.LongStream)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
 (<code>LongStream</code>)</strike>&nbsp;in&nbsp;com.google.common.primitives.ImmutableLongArray.Builder
 </A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.addDelayedShutdownHook_removed(java.util.concurrent.ExecutorService, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>addDelayedShutdownHook</strike>
+(<code>ExecutorService, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.base.MoreObjects.ToStringHelper.html#com.google.common.base.MoreObjects.ToStringHelper.addValue_changed(java.lang.Object)" class="hiddenlink" target="rightframe">addValue
 (<code>Object</code>)</A></nobr><br>
 <i>appendTo</i><br>
@@ -100,6 +102,21 @@ Method Differences Index
 </A></nobr><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.base.Joiner.html#com.google.common.base.Joiner.appendTo_added(java.lang.StringBuilder, java.lang.Object, java.lang.Object, java.lang.Object[])" class="hiddenlink" target="rightframe">type&nbsp;<b>
 (<code>StringBuilder, Object, Object, Object[]</code>)</b>&nbsp;in&nbsp;com.google.common.base.Joiner
+</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.ServiceManager.html#com.google.common.util.concurrent.ServiceManager.awaitHealthy_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>awaitHealthy</strike>
+(<code>Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Service.html#com.google.common.util.concurrent.Service.awaitRunning_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>awaitRunning</strike>
+(<code>Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.ServiceManager.html#com.google.common.util.concurrent.ServiceManager.awaitStopped_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>awaitStopped</strike>
+(<code>Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Service.html#com.google.common.util.concurrent.Service.awaitTerminated_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>awaitTerminated</strike>
+(<code>Duration</code>)</A></nobr><br>
+<i>awaitUninterruptibly</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly_removed(java.util.concurrent.CountDownLatch, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>CountDownLatch, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly_removed(java.util.concurrent.locks.Condition, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Condition, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
 </A></nobr><br>
 <A NAME="C"></A>
 <br><font size="+2">C</font>&nbsp;
@@ -722,8 +739,13 @@ Method Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeMultiset.html#com.google.common.collect.TreeMultiset.count_changed(java.lang.Object)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>Object</code>)&nbsp;in&nbsp;com.google.common.collect.TreeMultiset
 </A></nobr><br>
-<nobr><A HREF="com.google.common.collect.TreeMultiset.html#com.google.common.collect.TreeMultiset.create_changed(java.util.Comparator<? super E>)" class="hiddenlink" target="rightframe">create
-(<code>Comparator&lt;? super E&gt;</code>)</A></nobr><br>
+<i>create</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeMultiset.html#com.google.common.collect.TreeMultiset.create_changed(java.util.Comparator<? super E>)" class="hiddenlink" target="rightframe">type&nbsp;
+(<code>Comparator&lt;? super E&gt;</code>)&nbsp;in&nbsp;com.google.common.collect.TreeMultiset
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.RateLimiter.html#com.google.common.util.concurrent.RateLimiter.create_removed(double, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>double, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.RateLimiter
+</A></nobr><br>
 <A NAME="D"></A>
 <br><font size="+2">D</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -806,6 +828,18 @@ Method Differences Index
 (<code>String</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.RangeSet.html#com.google.common.collect.RangeSet.enclosesAll_changed(java.lang.Iterable<com.google.common.collect.Range<C>>)" class="hiddenlink" target="rightframe">enclosesAll
 (<code>Iterable&lt;Range&lt;C&gt;&gt;</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enter_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enter</strike>
+(<code>Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enterIf_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enterIf</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enterIfInterruptibly_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enterIfInterruptibly</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enterInterruptibly_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enterInterruptibly</strike>
+(<code>Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enterWhen_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enterWhen</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.enterWhenUninterruptibly_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>enterWhenUninterruptibly</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.HashBiMap.html#com.google.common.collect.HashBiMap.entrySet_added()" class="hiddenlink" target="rightframe"><b>entrySet</b>
 ()</A></nobr><br>
 <nobr><A HREF="com.google.common.base.Objects.html#com.google.common.base.Objects.equal_changed(java.lang.Object, java.lang.Object)" class="hiddenlink" target="rightframe">equal
@@ -1109,6 +1143,8 @@ Method Differences Index
 ()</A></nobr><br>
 <nobr><A HREF="com.google.common.reflect.Parameter.html#com.google.common.reflect.Parameter.getAnnotatedType_removed()" class="hiddenlink" target="rightframe"><strike>getAnnotatedType</strike>
 ()</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.getChecked_removed(java.util.concurrent.Future<V>, java.lang.Class<X>, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>getChecked</strike>
+(<code>Future&lt;V&gt;, Class&lt;X&gt;, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.reflect.TypeToken.html#com.google.common.reflect.TypeToken.getComponentType_changed()" class="hiddenlink" target="rightframe">getComponentType
 ()</A></nobr><br>
 <i>getEntry</i><br>
@@ -1121,8 +1157,12 @@ Method Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.TreeRangeMap.html#com.google.common.collect.TreeRangeMap.getEntry_changed(K extends java.lang.Comparable)" class="hiddenlink" target="rightframe">type&nbsp;
 (<code>K extends Comparable</code>)&nbsp;in&nbsp;com.google.common.collect.TreeRangeMap
 </A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.getExitingScheduledExecutorService_removed(java.util.concurrent.ScheduledThreadPoolExecutor, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>getExitingScheduledExecutorService</strike>
+(<code>ScheduledThreadPoolExecutor, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableMap.html#com.google.common.collect.ImmutableMap.getOrDefault_changed(java.lang.Object, V)" class="hiddenlink" target="rightframe">getOrDefault
 (<code>Object, V</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly_removed(java.util.concurrent.Future<V>, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>getUninterruptibly</strike>
+(<code>Future&lt;V&gt;, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Comparators.html#com.google.common.collect.Comparators.greatest_removed(int, java.util.Comparator<? super T>)" class="hiddenlink" target="rightframe"><strike>greatest</strike>
 (<code>int, Comparator&lt;? super T&gt;</code>)</A></nobr><br>
 <A NAME="I"></A>
@@ -1173,6 +1213,8 @@ Method Differences Index
 <br>
 <nobr><A HREF="com.google.common.base.Joiner.html#com.google.common.base.Joiner.join_changed(java.lang.Object, java.lang.Object, java.lang.Object[])" class="hiddenlink" target="rightframe">join
 (<code>Object, Object, Object[]</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly_removed(java.lang.Thread, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>joinUninterruptibly</strike>
+(<code>Thread, Duration</code>)</A></nobr><br>
 <A NAME="L"></A>
 <br><font size="+2">L</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -1246,6 +1288,10 @@ Method Differences Index
 <a href="#W"><font size="-2">W</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.AbstractScheduledService.Scheduler.html#com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedDelaySchedule_removed(java.time.Duration, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>newFixedDelaySchedule</strike>
+(<code>Duration, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.AbstractScheduledService.Scheduler.html#com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedRateSchedule_removed(java.time.Duration, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>newFixedRateSchedule</strike>
+(<code>Duration, Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.newGuard_removed(java.util.function.BooleanSupplier)" class="hiddenlink" target="rightframe"><strike>newGuard</strike>
 (<code>BooleanSupplier</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.Maps.html#com.google.common.collect.Maps.newTreeMap_changed(java.util.Comparator<C>)" class="hiddenlink" target="rightframe">newTreeMap
@@ -1446,8 +1492,14 @@ Method Differences Index
 <a href="#W"><font size="-2">W</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.scheduleAsync_removed(com.google.common.util.concurrent.AsyncCallable<O>, java.time.Duration, java.util.concurrent.ScheduledExecutorService)" class="hiddenlink" target="rightframe"><strike>scheduleAsync</strike>
+(<code>AsyncCallable&lt;O&gt;, Duration, ScheduledExecutorService</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.escape.Escapers.Builder.html#com.google.common.escape.Escapers.Builder.setUnsafeReplacement_changed(java.lang.String)" class="hiddenlink" target="rightframe">setUnsafeReplacement
 (<code>String</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination_removed(java.util.concurrent.ExecutorService, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>shutdownAndAwaitTermination</strike>
+(<code>ExecutorService, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly_removed(java.time.Duration)" class="hiddenlink" target="rightframe"><strike>sleepUninterruptibly</strike>
+(<code>Duration</code>)</A></nobr><br>
 <nobr><A HREF="com.google.common.collect.ImmutableList.html#com.google.common.collect.ImmutableList.sort_removed(java.util.Comparator<? super E>)" class="hiddenlink" target="rightframe"><strike>sort</strike>
 (<code>Comparator&lt;? super E&gt;</code>)</A></nobr><br>
 <i>spliterator</i><br>
@@ -1639,6 +1691,20 @@ Method Differences Index
 </A></nobr><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.collect.Tables.html#com.google.common.collect.Tables.toTable_removed(java.util.function.Function<? super T, ? extends R>, java.util.function.Function<? super T, ? extends C>, java.util.function.Function<? super T, ? extends V>, java.util.function.Supplier<I>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
 (<code>Function&lt;? super T, ? extends R&gt;, Function&lt;? super T, ? extends C&gt;, Function&lt;? super T, ? extends V&gt;, Supplier&lt;I&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.collect.Tables
+</A></nobr><br>
+<i>tryAcquire</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.RateLimiter.html#com.google.common.util.concurrent.RateLimiter.tryAcquire_removed(int, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>int, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.RateLimiter
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.RateLimiter.html#com.google.common.util.concurrent.RateLimiter.tryAcquire_removed(java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.RateLimiter
+</A></nobr><br>
+<i>tryAcquireUninterruptibly</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly_removed(java.util.concurrent.Semaphore, int, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Semaphore, int, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly_removed(java.util.concurrent.Semaphore, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Semaphore, Duration</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
 </A></nobr><br>
 <nobr><A HREF="com.google.common.util.concurrent.AbstractFuture.html#com.google.common.util.concurrent.AbstractFuture.tryInternalFastPathGetFailure_changed()" class="hiddenlink" target="rightframe">tryInternalFastPathGetFailure
 ()</A></nobr><br>
@@ -1869,6 +1935,17 @@ Method Differences Index
 <a href="#V"><font size="-2">V</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.waitFor_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>waitFor</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
+<nobr><A HREF="com.google.common.util.concurrent.Monitor.html#com.google.common.util.concurrent.Monitor.waitForUninterruptibly_removed(com.google.common.util.concurrent.Monitor.Guard, java.time.Duration)" class="hiddenlink" target="rightframe"><strike>waitForUninterruptibly</strike>
+(<code>Guard, Duration</code>)</A></nobr><br>
+<i>withTimeout</i><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.FluentFuture.html#com.google.common.util.concurrent.FluentFuture.withTimeout_removed(java.time.Duration, java.util.concurrent.ScheduledExecutorService)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>Duration, ScheduledExecutorService</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.FluentFuture
+</A></nobr><br>
+&nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.withTimeout_removed(com.google.common.util.concurrent.ListenableFuture<V>, java.time.Duration, java.util.concurrent.ScheduledExecutorService)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
+(<code>ListenableFuture&lt;V&gt;, Duration, ScheduledExecutorService</code>)</strike>&nbsp;in&nbsp;com.google.common.util.concurrent.Futures
+</A></nobr><br>
 <i>writeLines</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.io.CharSink.html#com.google.common.io.CharSink.writeLines_removed(java.util.stream.Stream<? extends java.lang.CharSequence>)" class="hiddenlink" target="rightframe">type&nbsp;<strike>
 (<code>Stream&lt;? extends CharSequence&gt;</code>)</strike>&nbsp;in&nbsp;com.google.common.io.CharSink

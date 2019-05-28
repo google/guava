@@ -6,6 +6,8 @@ OK: com.google.common.graph.GraphBuilder Method immutable()
 OK: com.google.common.graph.NetworkBuilder Method immutable()
 OK: com.google.common.graph.ValueGraphBuilder Method immutable()
 OK: com.google.common.net.HttpHeaders Field CDN_LOOP
+OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_RESOURCE_POLICY
+OK: com.google.common.net.MediaType Field GEO_JSON
 OK: com.google.common.net.HttpHeaders Field PURPOSE
 OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_ACCEPT
 OK: com.google.common.net.HttpHeaders Field SEC_WEBSOCKET_EXTENSIONS

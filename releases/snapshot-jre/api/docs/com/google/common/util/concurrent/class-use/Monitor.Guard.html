@@ -127,15 +127,29 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterIf-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">enterIf</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+       <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterIf-com.google.common.util.concurrent.Monitor.Guard-long-java.util.concurrent.TimeUnit-">enterIf</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
        long&nbsp;time,
        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterIfInterruptibly-com.google.common.util.concurrent.Monitor.Guard-">enterIfInterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code>
+<div class="block">Enters this monitor if the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterIfInterruptibly-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">enterIfInterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                    <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
 <div class="block">Enters this monitor if the guard is satisfied.</div>
 </td>
 </tr>
@@ -155,15 +169,29 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterWhen-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">enterWhen</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+         <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterWhen-com.google.common.util.concurrent.Monitor.Guard-long-java.util.concurrent.TimeUnit-">enterWhen</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
          long&nbsp;time,
          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterWhenUninterruptibly-com.google.common.util.concurrent.Monitor.Guard-">enterWhenUninterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code>
+<div class="block">Enters this monitor when the guard is satisfied.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#enterWhenUninterruptibly-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">enterWhenUninterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                        <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
 <div class="block">Enters this monitor when the guard is satisfied.</div>
 </td>
 </tr>
@@ -201,15 +229,29 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#waitFor-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">waitFor</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+       <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
+<div class="block">Waits for the guard to be satisfied.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#waitFor-com.google.common.util.concurrent.Monitor.Guard-long-java.util.concurrent.TimeUnit-">waitFor</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
        long&nbsp;time,
        <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#waitForUninterruptibly-com.google.common.util.concurrent.Monitor.Guard-">waitForUninterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</code>
+<div class="block">Waits for the guard to be satisfied.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><span class="typeNameLabel">Monitor.</span><code><span class="memberNameLink"><a href="../../../../../../com/google/common/util/concurrent/Monitor.html#waitForUninterruptibly-com.google.common.util.concurrent.Monitor.Guard-java.time.Duration-">waitForUninterruptibly</a></span>(<a href="../../../../../../com/google/common/util/concurrent/Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+                      <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;time)</code>
 <div class="block">Waits for the guard to be satisfied.</div>
 </td>
 </tr>

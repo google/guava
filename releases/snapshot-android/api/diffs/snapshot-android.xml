@@ -2465,7 +2465,7 @@
  set. See also {@link #forMap(Map)}, which throws an exception in this case.
 
  <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
- map.getWithDefault(k, defaultValue)} instead.
+ map.getOrDefault(k, defaultValue)} instead.
 
  @param map source map that determines the function behavior
  @param defaultValue the value to return for inputs that aren't map keys
@@ -36596,7 +36596,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+      <![CDATA[Returns an {@link ImmutableGraph.Builder} with the properties of this {@link GraphBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableGraph}.
 
@@ -38156,7 +38156,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableNetwork#Builder} with the properties of this {@link NetworkBuilder}.
+      <![CDATA[Returns an {@link ImmutableNetwork.Builder} with the properties of this {@link NetworkBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
 
@@ -39158,7 +39158,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns an {@link ImmutableValueGraph#Builder} with the properties of this {@link
+      <![CDATA[Returns an {@link ImmutableValueGraph.Builder} with the properties of this {@link
  ValueGraphBuilder}.
 
  <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
@@ -47959,6 +47959,17 @@
       <![CDATA[The HTTP {@code Cookie} header field name.]]>
       </doc>
     </field>
+    <field name="CROSS_ORIGIN_RESOURCE_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+ Cross-Origin-Resource-Policy}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="EARLY_DATA" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -50578,6 +50589,17 @@
  {@link #OCTET_STREAM} for binary data that is not being served to a browser.
 
  @since 14.0]]>
+      </doc>
+    </field>
+    <field name="GEO_JSON" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
+ geospatial data interchange format based on JSON.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="GZIP" type="com.google.common.net.MediaType"
