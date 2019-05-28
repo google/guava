@@ -121,7 +121,7 @@ public final class Functions {
    * set. See also {@link #forMap(Map)}, which throws an exception in this case.
    *
    * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
-   * map.getWithDefault(k, defaultValue)} instead.
+   * map.getOrDefault(k, defaultValue)} instead.
    *
    * @param map source map that determines the function behavior
    * @param defaultValue the value to return for inputs that aren't map keys
