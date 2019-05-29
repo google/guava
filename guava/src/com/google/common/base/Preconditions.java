@@ -1401,7 +1401,7 @@ public final class Preconditions {
   }
 
   /**
-   * Ensures that {@code start} and {@code end} specify a valid <i>positions</i> in an array, list
+   * Ensures that {@code start} and {@code end} specify valid <i>positions</i> in an array, list
    * or string of size {@code size}, and are in order. A position index may range from zero to
    * {@code size}, inclusive.
    *
