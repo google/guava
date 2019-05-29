@@ -50,8 +50,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>so that a hypothetical bad caller of this method, such as:
  *
  * <pre>{@code
- *   void exampleBadCaller() {
- *     double d = sqrt(-1.0);
+ * void exampleBadCaller() {
+ *   double d = sqrt(-1.0);
  * }
  * }</pre>
  *
