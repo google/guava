@@ -1120,9 +1120,6 @@ class MapMakerInternalMap<
       return null;
     }
     V value = entry.getValue();
-    if (value == null) {
-      return null;
-    }
     return value;
   }
 
