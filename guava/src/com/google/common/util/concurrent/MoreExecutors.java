@@ -76,6 +76,27 @@ public final class MoreExecutors {
    * @param executor the executor to modify to make sure it exits when the application is finished
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
+   * @return an unmodifiable version of the input which will not hang the JVM
+   * @since NEXT
+   */
+  @Beta
+  @GwtIncompatible // TODO
+  public static ExecutorService getExitingExecutorService(
+      ThreadPoolExecutor executor, Duration terminationTimeout) {
+    return getExitingExecutorService(
+        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+   * is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+   * completion.
+   *
+   * <p>This is mainly for fixed thread pools. See {@link Executors#newFixedThreadPool(int)}.
+   *
+   * @param executor the executor to modify to make sure it exits when the application is finished
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
