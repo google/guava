@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -168,6 +168,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-java.time.Duration-">getExitingExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
+                         <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;terminationTimeout)</code>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">getExitingExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
                          long&nbsp;terminationTimeout,
                          <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</code>
@@ -175,14 +183,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  is complete.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-">getExitingScheduledExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</code>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-java.time.Duration-">getExitingScheduledExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;terminationTimeout)</code>
@@ -190,7 +198,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  the application is complete.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#getExitingScheduledExecutorService-java.util.concurrent.ScheduledThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">getExitingScheduledExecutorService</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                   long&nbsp;terminationTimeout,
@@ -199,41 +207,41 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  the application is complete.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator-java.util.concurrent.ExecutorService-">listeningDecorator</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</code>
 <div class="block">Creates an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#listeningDecorator-java.util.concurrent.ScheduledExecutorService-">listeningDecorator</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</code>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#newDirectExecutorService--">newDirectExecutorService</a></span>()</code>
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>execute/submit</code>, as in <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
  tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#newSequentialExecutor-java.util.concurrent.Executor-">newSequentialExecutor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</code>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
  are running concurrently.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#platformThreadFactory--">platformThreadFactory</a></span>()</code>
 <div class="block">Returns a default thread factory used to create new threads.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination-java.util.concurrent.ExecutorService-java.time.Duration-">shutdownAndAwaitTermination</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                            <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;timeout)</code>
@@ -241,7 +249,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  necessary, cancelling remaining tasks.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/MoreExecutors.html#shutdownAndAwaitTermination-java.util.concurrent.ExecutorService-long-java.util.concurrent.TimeUnit-">shutdownAndAwaitTermination</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                            long&nbsp;timeout,
@@ -272,6 +280,33 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-java.time.Duration-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExitingExecutorService</h4>
+<pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+ <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.84">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
+                                                                                <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;terminationTimeout)</pre>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+ completion.
+
+ <p>This is mainly for fixed thread pools. See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true#newFixedThreadPool-int-" title="class or interface in java.util.concurrent"><code>Executors.newFixedThreadPool(int)</code></a>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>executor</code> - the executor to modify to make sure it exits when the application is finished</dd>
+<dd><code>terminationTimeout</code> - how long to wait for the executor to finish before terminating the
+     JVM</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an unmodifiable version of the input which will not hang the JVM</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a name="getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">
 <!--   -->
 </a>
@@ -280,7 +315,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <h4>getExitingExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.85">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.106">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor,
                                                                                 long&nbsp;terminationTimeout,
                                                                                 <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
@@ -307,7 +342,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.105">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.126">getExitingExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ThreadPoolExecutor</a>&nbsp;executor)</pre>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
  is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
  completion.
@@ -332,7 +367,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingScheduledExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.124">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.145">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;terminationTimeout)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete. It does so by using daemon threads and adding a shutdown hook to
@@ -359,7 +394,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingScheduledExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.146">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.167">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor,
                                                                                                   long&nbsp;terminationTimeout,
                                                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
@@ -386,7 +421,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>getExitingScheduledExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.167">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.188">getExitingScheduledExecutorService</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledThreadPoolExecutor</a>&nbsp;executor)</pre>
 <div class="block">Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
  the application is complete. It does so by using daemon threads and adding a shutdown hook to
  wait for their completion.
@@ -411,7 +446,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <h4>addDelayedShutdownHook</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.185">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.206">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;terminationTimeout)</pre>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.
  This is useful if the given service uses daemon threads, and we want to keep the JVM from
@@ -435,7 +470,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <h4>addDelayedShutdownHook</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.203">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.224">addDelayedShutdownHook</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                   long&nbsp;terminationTimeout,
                                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;timeUnit)</pre>
 <div class="block">Add a shutdown hook to wait for thread completion in the given <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>service</code></a>.
@@ -458,7 +493,7 @@ public static&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/
 <li class="blockList">
 <h4>newDirectExecutorService</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.407">newDirectExecutorService</a>()</pre>
+public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.428">newDirectExecutorService</a>()</pre>
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>execute/submit</code>, as in <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
  tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>. In the
  latter case, tasks will run serially on the calling thread. Tasks are run to completion before
@@ -489,7 +524,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <ul class="blockList">
 <li class="blockList">
 <h4>directExecutor</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.431">directExecutor</a>()</pre>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.452">directExecutor</a>()</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true#execute-java.lang.Runnable-" title="class or interface in java.util.concurrent"><code>execute</code></a>, as in <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html?is-external=true" title="class or interface in java.util.concurrent"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a>.
 
  <p>This instance is equivalent to:
@@ -518,7 +553,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <h4>newSequentialExecutor</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.478">newSequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.499">newSequentialExecutor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent">Executor</a>&nbsp;delegate)</pre>
 <div class="block">Returns an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executor.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executor</code></a> that runs each task executed sequentially, such that no two tasks
  are running concurrently. Submitted tasks have a happens-before order as defined in the Java
  Language Specification.
@@ -566,7 +601,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.498">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.519">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods submit
  <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as well
  as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>delegate.execute</code>. All other methods are forwarded unchanged to the delegate. This implies that
@@ -588,7 +623,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <li class="blockList">
 <h4>listeningDecorator</h4>
 <pre><a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.523">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</pre>
+public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListeningScheduledExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningScheduledExecutorService</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.544">listeningDecorator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ScheduledExecutorService</a>&nbsp;delegate)</pre>
 <div class="block">Creates a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledExecutorService.html?is-external=true" title="class or interface in java.util.concurrent"><code>ScheduledExecutorService</code></a> whose <code>submit</code> and <code>invokeAll</code> methods
  submit <a href="../../../../../com/google/common/util/concurrent/ListenableFutureTask.html" title="class in com.google.common.util.concurrent"><code>ListenableFutureTask</code></a> instances to the given delegate executor. Those methods, as
  well as <code>execute</code> and <code>invokeAny</code>, are implemented in terms of calls to <code>delegate.execute</code>. All other methods are forwarded unchanged to the delegate. This implies that
@@ -611,7 +646,7 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <h4>platformThreadFactory</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.803">platformThreadFactory</a>()</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.824">platformThreadFactory</a>()</pre>
 <div class="block">Returns a default thread factory used to create new threads.
 
  <p>On AppEngine, returns <code>ThreadManager.currentRequestThreadFactory()</code>. Otherwise,
@@ -631,7 +666,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.987">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1008">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;timeout)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
  necessary, cancelling remaining tasks.
@@ -668,7 +703,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1019">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1040">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                                                  long&nbsp;timeout,
                                                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if

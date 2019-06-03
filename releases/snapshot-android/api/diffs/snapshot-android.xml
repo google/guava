@@ -3525,6 +3525,8 @@
  possibleFoo.ifPresent(foo -> doSomethingWith(foo));
  }</pre>
 
+ <p><b>Java 9 users:</b> some use cases can be written with calls to {@code optional.stream()}.
+
  @since 11.0]]>
       </doc>
     </method>
@@ -3593,6 +3595,8 @@
  <p><b>Comparison to {@code java.util.Optional}:</b> this method has no equivalent in Java 8's
  {@code Optional} class; use {@code
  optionals.stream().filter(Optional::isPresent).map(Optional::get)} instead.
+
+ <p><b>Java 9 users:</b> use {@code optionals.stream().flatMap(Optional::stream)} instead.
 
  @since 11.0 (generics widened in 13.0)]]>
       </doc>
@@ -4971,9 +4975,9 @@
       <param name="end" type="int"/>
       <param name="size" type="int"/>
       <doc>
-      <![CDATA[Ensures that {@code start} and {@code end} specify a valid <i>positions</i> in an array, list
- or string of size {@code size}, and are in order. A position index may range from zero to
- {@code size}, inclusive.
+      <![CDATA[Ensures that {@code start} and {@code end} specify valid <i>positions</i> in an array, list or
+ string of size {@code size}, and are in order. A position index may range from zero to {@code
+ size}, inclusive.
 
  @param start a user-supplied index identifying a starting position in an array, list or string
  @param end a user-supplied index identifying a ending position in an array, list or string
@@ -5012,8 +5016,8 @@
  <p>so that a hypothetical bad caller of this method, such as:
 
  <pre>{@code
-   void exampleBadCaller() {
-     double d = sqrt(-1.0);
+ void exampleBadCaller() {
+   double d = sqrt(-1.0);
  }
  }</pre>
 
@@ -61483,7 +61487,7 @@
  debugging, and cancellation. Examples of frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -62790,7 +62794,7 @@
  monitoring, debugging, and cancellation. Examples of frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
@@ -63034,7 +63038,7 @@
  frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will

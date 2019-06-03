@@ -2397,11 +2397,19 @@
 <dd>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#callUninterruptiblyWithTimeout-java.util.concurrent.Callable-java.time.Duration-">callUninterruptiblyWithTimeout(Callable&lt;T&gt;, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
+<dd>
+<div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FakeTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-long-java.util.concurrent.TimeUnit-">callWithTimeout(Callable&lt;T&gt;, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
+<dd>
+<div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#callWithTimeout-java.util.concurrent.Callable-java.time.Duration-">callWithTimeout(Callable&lt;T&gt;, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
 <dd>
 <div class="block">Invokes a specified Callable, timing out after the specified time limit.</div>
 </dd>
@@ -2863,8 +2871,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Preconditions.html#checkPositionIndexes-int-int-int-">checkPositionIndexes(int, int, int)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Preconditions.html" title="class in com.google.common.base">Preconditions</a></dt>
 <dd>
-<div class="block">Ensures that <code>start</code> and <code>end</code> specify a valid <i>positions</i> in an array, list
- or string of size <code>size</code>, and are in order.</div>
+<div class="block">Ensures that <code>start</code> and <code>end</code> specify valid <i>positions</i> in an array, list or
+ string of size <code>size</code>, and are in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/base/Preconditions.html#checkState-boolean-">checkState(boolean)</a></span> - Static method in class com.google.common.base.<a href="com/google/common/base/Preconditions.html" title="class in com.google.common.base">Preconditions</a></dt>
 <dd>
@@ -7911,6 +7919,11 @@
 <dd>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-java.time.Duration-">getExitingExecutorService(ThreadPoolExecutor, Duration)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
+<dd>
+<div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/MoreExecutors.html#getExitingExecutorService-java.util.concurrent.ThreadPoolExecutor-long-java.util.concurrent.TimeUnit-">getExitingExecutorService(ThreadPoolExecutor, long, TimeUnit)</a></span> - Static method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/MoreExecutors.html" title="class in com.google.common.util.concurrent">MoreExecutors</a></dt>
 <dd>
 <div class="block">Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
@@ -12008,6 +12021,10 @@
 <dd>
 <div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>target</code> object, enforcing the specified time limit on each call.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#newProxy-T-java.lang.Class-java.time.Duration-">newProxy(T, Class&lt;T&gt;, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
+<dd>
+<div class="block">Returns an instance of <code>interfaceType</code> that delegates all method calls to the <code>target</code> object, enforcing the specified time limit on each call.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/io/Files.html#newReader-java.io.File-java.nio.charset.Charset-">newReader(File, Charset)</a></span> - Static method in class com.google.common.io.<a href="com/google/common/io/Files.html" title="class in com.google.common.io">Files</a></dt>
 <dd>
 <div class="block">Returns a buffered reader that reads from a file using the given character set.</div>
@@ -15404,11 +15421,19 @@
 <dd>
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#runUninterruptiblyWithTimeout-java.lang.Runnable-java.time.Duration-">runUninterruptiblyWithTimeout(Runnable, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
+<dd>
+<div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/FakeTimeLimiter.html#runWithTimeout-java.lang.Runnable-long-java.util.concurrent.TimeUnit-">runWithTimeout(Runnable, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/FakeTimeLimiter.html" title="class in com.google.common.util.concurrent">FakeTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/SimpleTimeLimiter.html#runWithTimeout-java.lang.Runnable-long-java.util.concurrent.TimeUnit-">runWithTimeout(Runnable, long, TimeUnit)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SimpleTimeLimiter.html" title="class in com.google.common.util.concurrent">SimpleTimeLimiter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#runWithTimeout-java.lang.Runnable-long-java.util.concurrent.TimeUnit-">runWithTimeout(Runnable, long, TimeUnit)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
+<dd>
+<div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/TimeLimiter.html#runWithTimeout-java.lang.Runnable-java.time.Duration-">runWithTimeout(Runnable, Duration)</a></span> - Method in interface com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/TimeLimiter.html" title="interface in com.google.common.util.concurrent">TimeLimiter</a></dt>
 <dd>
 <div class="block">Invokes a specified Runnable, timing out after the specified time limit.</div>
 </dd>

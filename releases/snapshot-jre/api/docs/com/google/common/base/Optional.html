@@ -553,7 +553,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>asSet</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.272">asSet</a>()</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.274">asSet</a>()</pre>
 <div class="block">Returns an immutable singleton <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> whose only element is the contained instance if it
  is present; an empty immutable <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util"><code>Set</code></a> otherwise.
 
@@ -570,7 +570,9 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 
  <pre><code>
  possibleFoo.ifPresent(foo -&gt; doSomethingWith(foo));
- </code></pre></div>
+ </code></pre>
+
+ <p><b>Java 9 users:</b> some use cases can be written with calls to <code>optional.stream()</code>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -583,7 +585,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>transform</h4>
-<pre>public abstract&nbsp;&lt;V&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.285">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>,V&gt;&nbsp;function)</pre>
+<pre>public abstract&nbsp;&lt;V&gt;&nbsp;<a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.287">transform</a>(<a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="../../../../com/google/common/base/Optional.html" title="type parameter in Optional">T</a>,V&gt;&nbsp;function)</pre>
 <div class="block">If the instance is present, it is transformed with the given <a href="../../../../com/google/common/base/Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="../../../../com/google/common/base/Optional.html#absent--"><code>absent()</code></a> is returned.
 
@@ -603,7 +605,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.295">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+<pre>public abstract&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.297">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equal</a> to each other or both are absent.
  Note that <code>Optional</code> instances of differing parameterized types can be equal.
@@ -629,7 +631,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.304">hashCode</a>()</pre>
+<pre>public abstract&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.306">hashCode</a>()</pre>
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
@@ -651,7 +653,7 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.313">toString</a>()</pre>
+<pre>public abstract&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.315">toString</a>()</pre>
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
@@ -671,13 +673,15 @@ public abstract&nbsp;<a href="../../../../com/google/common/base/Optional.html" 
 <li class="blockList">
 <h4>presentInstances</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.327">presentInstances</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Optional.html#line.331">presentInstances</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</pre>
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="../../../../com/google/common/base/Optional.html#absent--"><code>absent()</code></a>. Iterators are unmodifiable and are
  evaluated lazily.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
- <code>Optional</code> class; use <code>optionals.stream().filter(Optional::isPresent).map(Optional::get)</code> instead.</div>
+ <code>Optional</code> class; use <code>optionals.stream().filter(Optional::isPresent).map(Optional::get)</code> instead.
+
+ <p><b>Java 9 users:</b> use <code>optionals.stream().flatMap(Optional::stream)</code> instead.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0 (generics widened in 13.0)</dd>

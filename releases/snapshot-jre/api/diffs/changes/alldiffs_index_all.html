@@ -97,7 +97,7 @@ All Differences Index
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly_added(java.util.concurrent.locks.Condition, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<b>
 (<code>Condition, Duration</code>)</b>&nbsp;in&nbsp;com.google.common.util.concurrent.Uninterruptibles
 </A></nobr><br>
-<!-- Field CDN_LOOP -->
+<!-- Method callUninterruptiblyWithTimeout -->
 <A NAME="C"></A>
 <br><font size="+2">C</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -121,6 +121,12 @@ All Differences Index
 <a href="#X"><font size="-2">X</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html#com.google.common.util.concurrent.TimeLimiter.callUninterruptiblyWithTimeout_added(java.util.concurrent.Callable<T>, java.time.Duration)" class="hiddenlink" target="rightframe"><b>callUninterruptiblyWithTimeout</b>
+(<code>Callable&lt;T&gt;, Duration</code>)</A></nobr><br>
+<!-- Method callWithTimeout -->
+<nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html#com.google.common.util.concurrent.TimeLimiter.callWithTimeout_added(java.util.concurrent.Callable<T>, java.time.Duration)" class="hiddenlink" target="rightframe"><b>callWithTimeout</b>
+(<code>Callable&lt;T&gt;, Duration</code>)</A></nobr><br>
+<!-- Field CDN_LOOP -->
 <nobr><A HREF="com.google.common.net.HttpHeaders.html#com.google.common.net.HttpHeaders.CDN_LOOP" class="hiddenlink" target="rightframe">CDN_LOOP</A>
 </nobr><br>
 <!-- Class CheckedFuture -->
@@ -272,6 +278,9 @@ All Differences Index
 <!-- Method getChecked -->
 <nobr><A HREF="com.google.common.util.concurrent.Futures.html#com.google.common.util.concurrent.Futures.getChecked_added(java.util.concurrent.Future<V>, java.lang.Class<X>, java.time.Duration)" class="hiddenlink" target="rightframe"><b>getChecked</b>
 (<code>Future&lt;V&gt;, Class&lt;X&gt;, Duration</code>)</A></nobr><br>
+<!-- Method getExitingExecutorService -->
+<nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.getExitingExecutorService_added(java.util.concurrent.ThreadPoolExecutor, java.time.Duration)" class="hiddenlink" target="rightframe"><b>getExitingExecutorService</b>
+(<code>ThreadPoolExecutor, Duration</code>)</A></nobr><br>
 <!-- Method getExitingScheduledExecutorService -->
 <nobr><A HREF="com.google.common.util.concurrent.MoreExecutors.html#com.google.common.util.concurrent.MoreExecutors.getExitingScheduledExecutorService_added(java.util.concurrent.ScheduledThreadPoolExecutor, java.time.Duration)" class="hiddenlink" target="rightframe"><b>getExitingScheduledExecutorService</b>
 (<code>ScheduledThreadPoolExecutor, Duration</code>)</A></nobr><br>
@@ -442,6 +451,9 @@ All Differences Index
 <!-- Method newFixedRateSchedule -->
 <nobr><A HREF="com.google.common.util.concurrent.AbstractScheduledService.Scheduler.html#com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedRateSchedule_added(java.time.Duration, java.time.Duration)" class="hiddenlink" target="rightframe"><b>newFixedRateSchedule</b>
 (<code>Duration, Duration</code>)</A></nobr><br>
+<!-- Method newProxy -->
+<nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html#com.google.common.util.concurrent.TimeLimiter.newProxy_added(T, java.lang.Class<T>, java.time.Duration)" class="hiddenlink" target="rightframe"><b>newProxy</b>
+(<code>T, Class&lt;T&gt;, Duration</code>)</A></nobr><br>
 <!-- Field PURPOSE -->
 <A NAME="P"></A>
 <br><font size="+2">P</font>&nbsp;
@@ -518,6 +530,12 @@ All Differences Index
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
 <A HREF="com.google.common.util.concurrent.RateLimiter.html" class="hiddenlink" target="rightframe">RateLimiter</A><br>
+<!-- Method runUninterruptiblyWithTimeout -->
+<nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html#com.google.common.util.concurrent.TimeLimiter.runUninterruptiblyWithTimeout_added(java.lang.Runnable, java.time.Duration)" class="hiddenlink" target="rightframe"><b>runUninterruptiblyWithTimeout</b>
+(<code>Runnable, Duration</code>)</A></nobr><br>
+<!-- Method runWithTimeout -->
+<nobr><A HREF="com.google.common.util.concurrent.TimeLimiter.html#com.google.common.util.concurrent.TimeLimiter.runWithTimeout_added(java.lang.Runnable, java.time.Duration)" class="hiddenlink" target="rightframe"><b>runWithTimeout</b>
+(<code>Runnable, Duration</code>)</A></nobr><br>
 <!-- Method scheduleAsync -->
 <A NAME="S"></A>
 <br><font size="+2">S</font>&nbsp;
@@ -569,7 +587,7 @@ All Differences Index
 <!-- Method sleepUninterruptibly -->
 <nobr><A HREF="com.google.common.util.concurrent.Uninterruptibles.html#com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly_added(java.time.Duration)" class="hiddenlink" target="rightframe"><b>sleepUninterruptibly</b>
 (<code>Duration</code>)</A></nobr><br>
-<!-- Method tryAcquire -->
+<!-- Class TimeLimiter -->
 <A NAME="T"></A>
 <br><font size="+2">T</font>&nbsp;
 <a href="#A"><font size="-2">A</font></a> 
@@ -593,6 +611,8 @@ All Differences Index
 <a href="#X"><font size="-2">X</font></a> 
  <a href="#topheader"><font size="-2">TOP</font></a>
 <br>
+<A HREF="com.google.common.util.concurrent.TimeLimiter.html" class="hiddenlink" target="rightframe"><i>TimeLimiter</i></A><br>
+<!-- Method tryAcquire -->
 <i>tryAcquire</i><br>
 &nbsp;&nbsp;<nobr><A HREF="com.google.common.util.concurrent.RateLimiter.html#com.google.common.util.concurrent.RateLimiter.tryAcquire_added(int, java.time.Duration)" class="hiddenlink" target="rightframe">type&nbsp;<b>
 (<code>int, Duration</code>)</b>&nbsp;in&nbsp;com.google.common.util.concurrent.RateLimiter

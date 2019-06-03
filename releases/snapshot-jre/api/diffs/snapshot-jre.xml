@@ -3565,6 +3565,8 @@
  possibleFoo.ifPresent(foo -> doSomethingWith(foo));
  }</pre>
 
+ <p><b>Java 9 users:</b> some use cases can be written with calls to {@code optional.stream()}.
+
  @since 11.0]]>
       </doc>
     </method>
@@ -3633,6 +3635,8 @@
  <p><b>Comparison to {@code java.util.Optional}:</b> this method has no equivalent in Java 8's
  {@code Optional} class; use {@code
  optionals.stream().filter(Optional::isPresent).map(Optional::get)} instead.
+
+ <p><b>Java 9 users:</b> use {@code optionals.stream().flatMap(Optional::stream)} instead.
 
  @since 11.0 (generics widened in 13.0)]]>
       </doc>
@@ -5011,9 +5015,9 @@
       <param name="end" type="int"/>
       <param name="size" type="int"/>
       <doc>
-      <![CDATA[Ensures that {@code start} and {@code end} specify a valid <i>positions</i> in an array, list
- or string of size {@code size}, and are in order. A position index may range from zero to
- {@code size}, inclusive.
+      <![CDATA[Ensures that {@code start} and {@code end} specify valid <i>positions</i> in an array, list or
+ string of size {@code size}, and are in order. A position index may range from zero to {@code
+ size}, inclusive.
 
  @param start a user-supplied index identifying a starting position in an array, list or string
  @param end a user-supplied index identifying a ending position in an array, list or string
@@ -5052,8 +5056,8 @@
  <p>so that a hypothetical bad caller of this method, such as:
 
  <pre>{@code
-   void exampleBadCaller() {
-     double d = sqrt(-1.0);
+ void exampleBadCaller() {
+   double d = sqrt(-1.0);
  }
  }</pre>
 
@@ -63963,7 +63967,7 @@
  debugging, and cancellation. Examples of frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -65355,7 +65359,7 @@
  monitoring, debugging, and cancellation. Examples of frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
@@ -65599,7 +65603,7 @@
  frameworks include:
 
  <ul>
-   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
  <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
@@ -66595,6 +66599,26 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="executor" type="java.util.concurrent.ThreadPoolExecutor"/>
+      <param name="terminationTimeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+ is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+ completion.
+
+ <p>This is mainly for fixed thread pools. See {@link Executors#newFixedThreadPool(int)}.
+
+ @param executor the executor to modify to make sure it exits when the application is finished
+ @param terminationTimeout how long to wait for the executor to finish before terminating the
+     JVM
+ @return an unmodifiable version of the input which will not hang the JVM
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -68447,6 +68471,53 @@
      annotation type, rather than an interface]]>
       </doc>
     </method>
+    <method name="newProxy" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="target" type="T"/>
+      <param name="interfaceType" type="java.lang.Class&lt;T&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Returns an instance of {@code interfaceType} that delegates all method calls to the {@code
+ target} object, enforcing the specified time limit on each call. This time-limited delegation
+ is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and {@link
+ Object#toString}.
+
+ <p>If the target method call finishes before the limit is reached, the return value or
+ exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
+ reached, the proxy will attempt to abort the call to the target, and will throw an {@link
+ UncheckedTimeoutException} to the caller.
+
+ <p>It is important to note that the primary purpose of the proxy object is to return control to
+ the caller when the timeout elapses; aborting the target method call is of secondary concern.
+ The particular nature and strength of the guarantees made by the proxy is
+ implementation-dependent. However, it is important that each of the methods on the target
+ object behaves appropriately when its thread is interrupted.
+
+ <p>For example, to return the value of {@code target.someMethod()}, but substitute {@code
+ DEFAULT_VALUE} if this method call takes over 50 ms, you can use this code:
+
+ <pre>
+   TimeLimiter limiter = . . .;
+   TargetType proxy = limiter.newProxy(target, TargetType.class, Duration.ofMillis(50));
+   try {
+     return proxy.someMethod();
+   } catch (UncheckedTimeoutException e) {
+     return DEFAULT_VALUE;
+   }
+ </pre>
+
+ @param target the object to proxy
+ @param interfaceType the interface you wish the returned proxy to implement
+ @param timeout the maximum length of time that callers are willing to wait on each method call
+     to the proxy
+ @return a time-limiting proxy
+ @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
+     annotation type, rather than an interface
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="callWithTimeout" return="T"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -68473,6 +68544,32 @@
  @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code callable} throws an {@code Error}
  @since 22.0]]>
+      </doc>
+    </method>
+    <method name="callWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <doc>
+      <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
+ call finishes before the limit is reached, the return value or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+ the target, and throw a {@link TimeoutException} to the caller.
+
+ @param callable the Callable to execute
+ @param timeout the maximum length of time to wait
+ @return the result returned by the Callable
+ @throws TimeoutException if the time limit is reached
+ @throws InterruptedException if the current thread was interrupted during execution
+ @throws ExecutionException if {@code callable} throws a checked exception
+ @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code callable} throws an {@code Error}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="callUninterruptiblyWithTimeout" return="T"
@@ -68504,6 +68601,33 @@
  @since 22.0]]>
       </doc>
     </method>
+    <method name="callUninterruptiblyWithTimeout" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;T&gt;"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>
+      <doc>
+      <![CDATA[Invokes a specified Callable, timing out after the specified time limit. If the target method
+ call finishes before the limit is reached, the return value or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+ the target, and throw a {@link TimeoutException} to the caller.
+
+ <p>The difference with {@link #callWithTimeout(Callable, Duration)} is that this method will
+ ignore interrupts on the current thread.
+
+ @param callable the Callable to execute
+ @param timeout the maximum length of time to wait
+ @return the result returned by the Callable
+ @throws TimeoutException if the time limit is reached
+ @throws ExecutionException if {@code callable} throws a checked exception
+ @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code callable} throws an {@code Error}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="runWithTimeout"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -68527,6 +68651,29 @@
  @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code runnable} throws an {@code Error}
  @since 22.0]]>
+      </doc>
+    </method>
+    <method name="runWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <exception name="InterruptedException" type="java.lang.InterruptedException"/>
+      <doc>
+      <![CDATA[Invokes a specified Runnable, timing out after the specified time limit. If the target method
+ run finishes before the limit is reached, this method returns or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+ throw a {@link TimeoutException} to the caller.
+
+ @param runnable the Runnable to execute
+ @param timeout the maximum length of time to wait
+ @throws TimeoutException if the time limit is reached
+ @throws InterruptedException if the current thread was interrupted during execution
+ @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code runnable} throws an {@code Error}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="runUninterruptiblyWithTimeout"
@@ -68553,6 +68700,30 @@
  @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code runnable} throws an {@code Error}
  @since 22.0]]>
+      </doc>
+    </method>
+    <method name="runUninterruptiblyWithTimeout"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[Invokes a specified Runnable, timing out after the specified time limit. If the target method
+ run finishes before the limit is reached, this method returns or a wrapped exception is
+ propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+ throw a {@link TimeoutException} to the caller.
+
+ <p>The difference with {@link #runWithTimeout(Runnable, Duration)} is that this method will
+ ignore interrupts on the current thread.
+
+ @param runnable the Runnable to execute
+ @param timeout the maximum length of time to wait
+ @throws TimeoutException if the time limit is reached
+ @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+ @throws ExecutionError if {@code runnable} throws an {@code Error}
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
