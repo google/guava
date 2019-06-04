@@ -35,7 +35,6 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
-import com.google.common.cache.LocalCache.AbstractCacheSet;
 import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -67,7 +66,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
@@ -1764,10 +1762,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     if (expiresAfterAccess() && (now - entry.getAccessTime() >= expireAfterAccessNanos)) {
       return true;
     }
-    if (expiresAfterWrite() && (now - entry.getWriteTime() >= expireAfterWriteNanos)) {
-      return true;
-    }
-    return false;
+    return expiresAfterWrite() && (now - entry.getWriteTime() >= expireAfterWriteNanos);
   }
 
   // queues
@@ -2111,7 +2106,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
                     entryKey, hash, value, valueReference.getWeight(), RemovalCause.COLLECTED);
               } else if (map.isExpired(e, now)) {
                 // This is a duplicate check, as preWriteCleanup already purged expired
-                // entries, but let's accomodate an incorrect expiration queue.
+                // entries, but let's accommodate an incorrect expiration queue.
                 enqueueNotification(
                     entryKey, hash, value, valueReference.getWeight(), RemovalCause.EXPIRED);
               } else {
@@ -2856,7 +2851,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
        * We eliminate unnecessary node creation by catching cases where old nodes can be reused
        * because their next fields won't change. Statistically, at the default threshold, only about
        * one-sixth of them need cloning when a table doubles. The nodes they replace will be garbage
-       * collectable as soon as they are no longer referenced by any reader thread that may be in
+       * collectible as soon as they are no longer referenced by any reader thread that may be in
        * the midst of traversing table right now.
        */
 
@@ -3918,9 +3913,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         }
         sum -= segments[i].modCount;
       }
-      if (sum != 0L) {
-        return false;
-      }
+      return sum == 0L;
     }
     return true;
   }
