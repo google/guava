@@ -2768,7 +2768,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
        * We eliminate unnecessary node creation by catching cases where old nodes can be reused
        * because their next fields won't change. Statistically, at the default threshold, only about
        * one-sixth of them need cloning when a table doubles. The nodes they replace will be garbage
-       * collectible as soon as they are no longer referenced by any reader thread that may be in
+       * collectable as soon as they are no longer referenced by any reader thread that may be in
        * the midst of traversing table right now.
        */
 
