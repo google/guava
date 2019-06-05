@@ -192,6 +192,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
    * Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
    * {@code node}.
    *
+   * <p>This is equal to the union of {@link #inEdges(Object)} and {@link #outEdges(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   Set<E> incidentEdges(N node);

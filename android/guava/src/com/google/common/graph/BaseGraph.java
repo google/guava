@@ -95,6 +95,8 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   /**
    * Returns the edges in this graph whose endpoints include {@code node}.
    *
+   * <p>This is equal to the union of incoming and outgoing edges.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    * @since 24.0
    */
