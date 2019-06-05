@@ -160,6 +160,8 @@ public interface Network<N, E> extends SuccessorsFunction<N>, PredecessorsFuncti
   /**
    * Returns the nodes which have an incident edge in common with {@code node} in this network.
    *
+   * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
   Set<N> adjacentNodes(N node);
