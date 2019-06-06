@@ -40,7 +40,7 @@ import java.util.concurrent.RejectedExecutionException;
  * frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will

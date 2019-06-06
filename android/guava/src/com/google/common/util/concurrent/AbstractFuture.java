@@ -777,7 +777,6 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    *     cancelled or set.
    * @since 19.0
    */
-  @Beta
   @CanIgnoreReturnValue
   protected boolean setFuture(ListenableFuture<? extends V> future) {
     checkNotNull(future);

@@ -208,7 +208,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * {@link Collection}, this method behaves exactly as {@link #copyOf(Collection)}; otherwise, it
    * behaves exactly as {@code copyOf(elements.iterator()}.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
     checkNotNull(elements); // TODO(kevinb): is this here only for GWT?
@@ -232,7 +232,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
    * collection that is currently being modified by another thread.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableCollection) {
@@ -246,7 +246,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E> ImmutableList<E> copyOf(Iterator<? extends E> elements) {
     // We special-case for 0 or 1 elements, but going further is madness.
@@ -264,7 +264,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    * @since 3.0
    */
   public static <E> ImmutableList<E> copyOf(E[] elements) {
