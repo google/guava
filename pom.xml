@@ -31,9 +31,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <prerequisites>
-    <maven>3.0.3</maven>
-  </prerequisites>
   <scm>
     <connection>scm:git:https://github.com/google/guava.git</connection>
     <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
@@ -85,6 +82,28 @@
       </testResource>
     </testResources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0.5</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.8.0</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
@@ -200,6 +219,11 @@
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
             <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M2</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -342,7 +366,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>1.1</version>
+              <version>1.6</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>
