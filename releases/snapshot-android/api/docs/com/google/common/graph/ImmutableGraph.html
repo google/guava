@@ -440,7 +440,9 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/I
 <h4>adjacentNodes</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;N&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ForwardingGraph.html#line.61">adjacentNodes</a>(N&nbsp;node)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Graph.html#adjacentNodes-N-">Graph</a></code></span></div>
-<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.</div>
+<div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.
+
+ <p>This is equal to the union of <a href="../../../../com/google/common/graph/Graph.html#predecessors-N-"><code>Graph.predecessors(Object)</code></a> and <a href="../../../../com/google/common/graph/Graph.html#successors-N-"><code>Graph.successors(Object)</code></a>.</div>
 </li>
 </ul>
 <a name="predecessors-java.lang.Object-">
@@ -600,7 +602,9 @@ public static&nbsp;&lt;N&gt;&nbsp;<a href="../../../../com/google/common/graph/I
 <li class="blockList">
 <h4>incidentEdges</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;N&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractBaseGraph.html#line.101">incidentEdges</a>(N&nbsp;node)</pre>
-<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
+<div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.
+
+ <p>This is equal to the union of incoming and outgoing edges.</div>
 </li>
 </ul>
 <a name="validateEndpoints-com.google.common.graph.EndpointPair-">

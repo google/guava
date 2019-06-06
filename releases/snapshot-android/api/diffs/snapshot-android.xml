@@ -17270,7 +17270,7 @@
  {@link Collection}, this method behaves exactly as {@link #copyOf(Collection)}; otherwise, it
  behaves exactly as {@code copyOf(elements.iterator()}.
 
- @throws NullPointerException if any of {@code elements} is null]]>
+ @throws NullPointerException if {@code elements} contains a null element]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -17293,7 +17293,7 @@
  <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
  collection that is currently being modified by another thread.
 
- @throws NullPointerException if any of {@code elements} is null]]>
+ @throws NullPointerException if {@code elements} contains a null element]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -17304,7 +17304,7 @@
       <doc>
       <![CDATA[Returns an immutable list containing the given elements, in order.
 
- @throws NullPointerException if any of {@code elements} is null]]>
+ @throws NullPointerException if {@code elements} contains a null element]]>
       </doc>
     </method>
     <method name="copyOf" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -17315,7 +17315,7 @@
       <doc>
       <![CDATA[Returns an immutable list containing the given elements, in order.
 
- @throws NullPointerException if any of {@code elements} is null
+ @throws NullPointerException if {@code elements} contains a null element
  @since 3.0]]>
       </doc>
     </method>
@@ -36317,6 +36317,8 @@
       <doc>
       <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
 
+ <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
@@ -36358,6 +36360,8 @@
       <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
+
+ <p>This is equal to the union of incoming and outgoing edges.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph
  @since 24.0]]>
@@ -37743,6 +37747,8 @@
       <doc>
       <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this network.
 
+ <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+
  @throws IllegalArgumentException if {@code node} is not an element of this network]]>
       </doc>
     </method>
@@ -37785,6 +37791,8 @@
       <doc>
       <![CDATA[Returns the edges whose {@link #incidentNodes(Object) incident nodes} in this network include
  {@code node}.
+
+ <p>This is equal to the union of {@link #inEdges(Object)} and {@link #outEdges(Object)}.
 
  @throws IllegalArgumentException if {@code node} is not an element of this network]]>
       </doc>
@@ -38835,6 +38843,8 @@
       <doc>
       <![CDATA[Returns the nodes which have an incident edge in common with {@code node} in this graph.
 
+ <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+
  @throws IllegalArgumentException if {@code node} is not an element of this graph]]>
       </doc>
     </method>
@@ -38876,6 +38886,8 @@
       <param name="node" type="N"/>
       <doc>
       <![CDATA[Returns the edges in this graph whose endpoints include {@code node}.
+
+ <p>This is equal to the union of incoming and outgoing edges.
 
  @throws IllegalArgumentException if {@code node} is not an element of this graph
  @since 24.0]]>

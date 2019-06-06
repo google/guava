@@ -231,7 +231,7 @@
 <span class="sourceLineNo">223</span>   * {@link Collection}, this method behaves exactly as {@link #copyOf(Collection)}; otherwise, it<a name="line.223"></a>
 <span class="sourceLineNo">224</span>   * behaves exactly as {@code copyOf(elements.iterator()}.<a name="line.224"></a>
 <span class="sourceLineNo">225</span>   *<a name="line.225"></a>
-<span class="sourceLineNo">226</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.226"></a>
+<span class="sourceLineNo">226</span>   * @throws NullPointerException if {@code elements} contains a null element<a name="line.226"></a>
 <span class="sourceLineNo">227</span>   */<a name="line.227"></a>
 <span class="sourceLineNo">228</span>  public static &lt;E&gt; ImmutableList&lt;E&gt; copyOf(Iterable&lt;? extends E&gt; elements) {<a name="line.228"></a>
 <span class="sourceLineNo">229</span>    checkNotNull(elements); // TODO(kevinb): is this here only for GWT?<a name="line.229"></a>
@@ -255,7 +255,7 @@
 <span class="sourceLineNo">247</span>   * &lt;p&gt;This method is safe to use even when {@code elements} is a synchronized or concurrent<a name="line.247"></a>
 <span class="sourceLineNo">248</span>   * collection that is currently being modified by another thread.<a name="line.248"></a>
 <span class="sourceLineNo">249</span>   *<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.250"></a>
+<span class="sourceLineNo">250</span>   * @throws NullPointerException if {@code elements} contains a null element<a name="line.250"></a>
 <span class="sourceLineNo">251</span>   */<a name="line.251"></a>
 <span class="sourceLineNo">252</span>  public static &lt;E&gt; ImmutableList&lt;E&gt; copyOf(Collection&lt;? extends E&gt; elements) {<a name="line.252"></a>
 <span class="sourceLineNo">253</span>    if (elements instanceof ImmutableCollection) {<a name="line.253"></a>
@@ -269,7 +269,7 @@
 <span class="sourceLineNo">261</span>  /**<a name="line.261"></a>
 <span class="sourceLineNo">262</span>   * Returns an immutable list containing the given elements, in order.<a name="line.262"></a>
 <span class="sourceLineNo">263</span>   *<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.264"></a>
+<span class="sourceLineNo">264</span>   * @throws NullPointerException if {@code elements} contains a null element<a name="line.264"></a>
 <span class="sourceLineNo">265</span>   */<a name="line.265"></a>
 <span class="sourceLineNo">266</span>  public static &lt;E&gt; ImmutableList&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {<a name="line.266"></a>
 <span class="sourceLineNo">267</span>    // We special-case for 0 or 1 elements, but going further is madness.<a name="line.267"></a>
@@ -287,7 +287,7 @@
 <span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
 <span class="sourceLineNo">280</span>   * Returns an immutable list containing the given elements, in order.<a name="line.280"></a>
 <span class="sourceLineNo">281</span>   *<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.282"></a>
+<span class="sourceLineNo">282</span>   * @throws NullPointerException if {@code elements} contains a null element<a name="line.282"></a>
 <span class="sourceLineNo">283</span>   * @since 3.0<a name="line.283"></a>
 <span class="sourceLineNo">284</span>   */<a name="line.284"></a>
 <span class="sourceLineNo">285</span>  public static &lt;E&gt; ImmutableList&lt;E&gt; copyOf(E[] elements) {<a name="line.285"></a>
