@@ -234,7 +234,7 @@ public class EventBus {
     }
 
     private static Logger logger(SubscriberExceptionContext context) {
-      return Logger.getLogger(EventBus.class.getName() + "." + context.getEventBus().identifier());
+      return Logger.getLogger(EventBus.class.getName() + '.' + context.getEventBus().identifier());
     }
 
     private static String message(SubscriberExceptionContext context) {
