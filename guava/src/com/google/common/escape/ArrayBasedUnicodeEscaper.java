@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.checkerframework.checker.index.qual.GTENegativeOne;
 import org.checkerframework.checker.index.qual.IndexOrHigh;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -50,10 +51,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
   private final char[][] replacements;
   // The number of elements in the replacement array.
   private final @LengthOf("replacements") int replacementsLength;
-  // The first code point in the safe range.
+  // The first code point in the safe range; Integer.MAX_VALUE if no code points are in safe range.
   private final int safeMin;
-  // The last code point in the safe range.
-  private final int safeMax;
+  // The last code point in the safe range, or -1 if no code points are in the safe range.
+  private final @GTENegativeOne int safeMax;
 
   // Cropped values used in the fast path range checks.
   private final char safeMinChar;
@@ -74,8 +75,8 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    */
   protected ArrayBasedUnicodeEscaper(
       Map<Character, String> replacementMap,
-      int safeMin,
-      int safeMax,
+      @NonNegative int safeMin,
+      @NonNegative int safeMax,
       @Nullable String unsafeReplacement) {
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);
   }
@@ -95,10 +96,11 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @param unsafeReplacement the default replacement for unsafe characters or null if no default
    *     replacement is required
    */
+  @SuppressWarnings("index:assignment.type.incompatible") // implementation sets formal parameter
   protected ArrayBasedUnicodeEscaper(
       ArrayBasedEscaperMap escaperMap,
-      int safeMin,
-      int safeMax,
+      @NonNegative int safeMin,
+      @NonNegative int safeMax,
       @Nullable String unsafeReplacement) {
     checkNotNull(escaperMap); // GWT specific check (do not optimize)
     this.replacements = escaperMap.getReplacementArray();

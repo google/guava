@@ -404,6 +404,7 @@ public final class Ascii {
    * characters} have been converted to lowercase. All other characters are copied without
    * modification.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   public static String toLowerCase(String string) {
     int length = string.length();
     for (int i = 0; i < length; i++) {
@@ -443,6 +444,7 @@ public final class Ascii {
    * If the argument is an {@linkplain #isUpperCase(char) uppercase ASCII character} returns the
    * lowercase equivalent. Otherwise returns the argument.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   public static char toLowerCase(char c) {
     return isUpperCase(c) ? (char) (c ^ CASE_MASK) : c;
   }
@@ -452,6 +454,7 @@ public final class Ascii {
    * characters} have been converted to uppercase. All other characters are copied without
    * modification.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   public static String toUpperCase(String string) {
     int length = string.length();
     for (int i = 0; i < length; i++) {
@@ -491,6 +494,7 @@ public final class Ascii {
    * If the argument is a {@linkplain #isLowerCase(char) lowercase ASCII character} returns the
    * uppercase equivalent. Otherwise returns the argument.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   public static char toUpperCase(char c) {
     return isLowerCase(c) ? (char) (c ^ CASE_MASK) : c;
   }
@@ -643,6 +647,7 @@ public final class Ascii {
    * Returns the non-negative index value of the alpha character {@code c}, regardless of case. Ie,
    * 'a'/'A' returns 0 and 'z'/'Z' returns 25. Non-alpha characters return a value of 26 or greater.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   private static int getAlphaIndex(char c) {
     // Fold upper-case ASCII to lower-case and make zero-indexed and unsigned (by casting to char).
     return (char) ((c | CASE_MASK) - 'a');

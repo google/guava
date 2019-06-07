@@ -32,7 +32,7 @@ abstract class CommonMatcher {
 
   public abstract String replaceAll(String replacement);
 
-  public @NonNegative abstract int end();
+  public abstract @NonNegative int end();
 
   public abstract @NonNegative int start();
 }

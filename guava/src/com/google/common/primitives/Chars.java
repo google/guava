@@ -338,6 +338,7 @@ public final class Chars {
    *
    * @since 7.0
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   @GwtIncompatible // doesn't work
   public static char fromBytes(byte b1, byte b2) {
     return (char) ((b1 << 8) | (b2 & 0xFF));

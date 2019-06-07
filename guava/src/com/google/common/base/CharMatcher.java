@@ -453,6 +453,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Helper method for {@link #precomputedInternal} that doesn't test if the negation is cheaper.
    */
+  @SuppressWarnings("index")  // table has bits if totalCharacters is sufficiently large
   @GwtIncompatible // SmallCharMatcher
   private static CharMatcher precomputedPositive(
       int totalCharacters, BitSet table, String description) {
@@ -976,6 +977,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns the Java Unicode escape sequence for the given {@code char}, in the form "\u12AB" where
    * "12AB" is the four hexadecimal digits representing the 16-bit code unit.
    */
+  @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
   private static String showCharacter(char c) {
     String hex = "0123456789ABCDEF";
     char[] tmp = {'\\', 'u', '\0', '\0', '\0', '\0'};
@@ -1404,6 +1406,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return ZEROES.toCharArray();
     }
 
+    @SuppressWarnings("index") // https://github.com/typetools/checker-framework/issues/2540
     private static char @SameLen("ZEROES")[] nines() {
       char[] nines = new char[ZEROES.length()];
       for (int i = 0; i < ZEROES.length(); i++) {
