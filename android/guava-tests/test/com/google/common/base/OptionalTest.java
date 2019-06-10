@@ -246,7 +246,7 @@ public final class OptionalTest extends TestCase {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).containsExactly(2).inOrder();
+    assertThat(onlyPresent).containsExactly(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {
