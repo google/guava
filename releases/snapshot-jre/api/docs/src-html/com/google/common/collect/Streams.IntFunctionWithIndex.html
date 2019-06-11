@@ -97,7 +97,7 @@
 <span class="sourceLineNo">089</span>   */<a name="line.89"></a>
 <span class="sourceLineNo">090</span>  @Beta<a name="line.90"></a>
 <span class="sourceLineNo">091</span>  public static &lt;T&gt; Stream&lt;T&gt; stream(com.google.common.base.Optional&lt;T&gt; optional) {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();<a name="line.92"></a>
+<span class="sourceLineNo">092</span>    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  }<a name="line.93"></a>
 <span class="sourceLineNo">094</span><a name="line.94"></a>
 <span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
@@ -108,7 +108,7 @@
 <span class="sourceLineNo">100</span>   */<a name="line.100"></a>
 <span class="sourceLineNo">101</span>  @Beta<a name="line.101"></a>
 <span class="sourceLineNo">102</span>  public static &lt;T&gt; Stream&lt;T&gt; stream(java.util.Optional&lt;T&gt; optional) {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();<a name="line.103"></a>
+<span class="sourceLineNo">103</span>    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  }<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  /**<a name="line.106"></a>

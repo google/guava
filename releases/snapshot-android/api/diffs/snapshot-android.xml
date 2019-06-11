@@ -34430,7 +34430,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     lEsS_tHaNp>This class is scheduled to be removed in January 2019.">
+     lEsS_tHaNp>This class is scheduled to be removed in October 2019.">
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -34553,7 +34553,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     <p>This class is scheduled to be removed in January 2019.]]>
+     <p>This class is scheduled to be removed in October 2019.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.TreeTraverser -->
@@ -36608,7 +36608,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableGraph}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
@@ -37000,7 +37000,7 @@
  multiple graphs in series. Each new graph contains all the elements of the ones created before
  it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableGraph.Builder -->
@@ -37162,7 +37162,7 @@
  multiple networks in series. Each new network contains all the elements of the ones created
  before it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork.Builder -->
@@ -37309,7 +37309,7 @@
  multiple graphs in series. Each new graph contains all the elements of the ones created before
  it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableValueGraph.Builder -->
@@ -38172,7 +38172,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsParallelEdges" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
@@ -39179,7 +39179,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"
@@ -43654,7 +43654,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43667,7 +43667,7 @@
  @return a string containing all the characters from the file
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="write"
@@ -43692,7 +43692,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43706,7 +43706,7 @@
      helpful predefined constants
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="copy"
@@ -43758,7 +43758,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.">
+     be removed in October 2019.">
       <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="to" type="java.lang.Appendable"/>
@@ -43772,14 +43772,14 @@
  @param to the appendable object
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.]]>
+     be removed in October 2019.]]>
       </doc>
     </method>
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.">
+     method is scheduled to be removed in October 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -43793,7 +43793,7 @@
      helpful predefined constants
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.]]>
+     method is scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -43887,7 +43887,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.">
+     scheduled to be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43901,7 +43901,7 @@
  @return the first line, or null if the file is empty
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.]]>
+     scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="readLines" return="java.util.List&lt;java.lang.String&gt;"
@@ -43932,7 +43932,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.">
+     scheduled to be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="callback" type="com.google.common.io.LineProcessor&lt;T&gt;"/>
@@ -43948,14 +43948,14 @@
  @return the output of processing the lines
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.]]>
+     scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="readBytes" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="processor" type="com.google.common.io.ByteProcessor&lt;T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43969,14 +43969,14 @@
  @return the result of the byte processor
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="hash" return="com.google.common.hash.HashCode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.">
+     be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="hashFunction" type="com.google.common.hash.HashFunction"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -43989,7 +43989,7 @@
  @throws IOException if an I/O error occurs
  @since 12.0
  @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.]]>
+     be removed in October 2019.]]>
       </doc>
     </method>
     <method name="map" return="java.nio.MappedByteBuffer"
@@ -47983,7 +47983,7 @@
       <![CDATA[The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
  Cross-Origin-Resource-Policy}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="EARLY_DATA" type="java.lang.String"
@@ -48757,7 +48757,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  Purpose}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="X_PURPOSE" type="java.lang.String"
@@ -48769,7 +48769,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  X-Purpose}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="X_MOZ" type="java.lang.String"
@@ -48781,7 +48781,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  X-Moz}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -48880,7 +48880,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_EXTENSIONS" type="java.lang.String"
@@ -48891,7 +48891,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
  header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_KEY" type="java.lang.String"
@@ -48902,7 +48902,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_PROTOCOL" type="java.lang.String"
@@ -48913,7 +48913,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
  header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_VERSION" type="java.lang.String"
@@ -48924,7 +48924,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="CDN_LOOP" type="java.lang.String"
@@ -48934,7 +48934,7 @@
       <doc>
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <doc>
@@ -50615,7 +50615,7 @@
       <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
  geospatial data interchange format based on JSON.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="GZIP" type="com.google.common.net.MediaType"
@@ -61218,7 +61218,7 @@
       <![CDATA[Simply returns its argument.
 
  @deprecated no need to use this
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"

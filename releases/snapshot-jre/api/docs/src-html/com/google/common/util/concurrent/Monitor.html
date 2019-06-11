@@ -395,7 +395,7 @@
 <span class="sourceLineNo">387</span>   * Enters this monitor. Blocks at most the given time.<a name="line.387"></a>
 <span class="sourceLineNo">388</span>   *<a name="line.388"></a>
 <span class="sourceLineNo">389</span>   * @return whether the monitor was entered<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * @since NEXT<a name="line.390"></a>
+<span class="sourceLineNo">390</span>   * @since 28.0<a name="line.390"></a>
 <span class="sourceLineNo">391</span>   */<a name="line.391"></a>
 <span class="sourceLineNo">392</span>  public boolean enter(Duration time) {<a name="line.392"></a>
 <span class="sourceLineNo">393</span>    return enter(saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.393"></a>
@@ -445,7 +445,7 @@
 <span class="sourceLineNo">437</span>   *<a name="line.437"></a>
 <span class="sourceLineNo">438</span>   * @return whether the monitor was entered<a name="line.438"></a>
 <span class="sourceLineNo">439</span>   * @throws InterruptedException if interrupted while waiting<a name="line.439"></a>
-<span class="sourceLineNo">440</span>   * @since NEXT<a name="line.440"></a>
+<span class="sourceLineNo">440</span>   * @since 28.0<a name="line.440"></a>
 <span class="sourceLineNo">441</span>   */<a name="line.441"></a>
 <span class="sourceLineNo">442</span>  public boolean enterInterruptibly(Duration time) throws InterruptedException {<a name="line.442"></a>
 <span class="sourceLineNo">443</span>    return enterInterruptibly(saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.443"></a>
@@ -506,7 +506,7 @@
 <span class="sourceLineNo">498</span>   *<a name="line.498"></a>
 <span class="sourceLineNo">499</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.499"></a>
 <span class="sourceLineNo">500</span>   * @throws InterruptedException if interrupted while waiting<a name="line.500"></a>
-<span class="sourceLineNo">501</span>   * @since NEXT<a name="line.501"></a>
+<span class="sourceLineNo">501</span>   * @since 28.0<a name="line.501"></a>
 <span class="sourceLineNo">502</span>   */<a name="line.502"></a>
 <span class="sourceLineNo">503</span>  public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {<a name="line.503"></a>
 <span class="sourceLineNo">504</span>    return enterWhen(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.504"></a>
@@ -599,7 +599,7 @@
 <span class="sourceLineNo">591</span>   * the time to acquire the lock and the time to wait for the guard to be satisfied.<a name="line.591"></a>
 <span class="sourceLineNo">592</span>   *<a name="line.592"></a>
 <span class="sourceLineNo">593</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.593"></a>
-<span class="sourceLineNo">594</span>   * @since NEXT<a name="line.594"></a>
+<span class="sourceLineNo">594</span>   * @since 28.0<a name="line.594"></a>
 <span class="sourceLineNo">595</span>   */<a name="line.595"></a>
 <span class="sourceLineNo">596</span>  public boolean enterWhenUninterruptibly(Guard guard, Duration time) {<a name="line.596"></a>
 <span class="sourceLineNo">597</span>    return enterWhenUninterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.597"></a>
@@ -700,7 +700,7 @@
 <span class="sourceLineNo">692</span>   * lock, but does not wait for the guard to be satisfied.<a name="line.692"></a>
 <span class="sourceLineNo">693</span>   *<a name="line.693"></a>
 <span class="sourceLineNo">694</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.694"></a>
-<span class="sourceLineNo">695</span>   * @since NEXT<a name="line.695"></a>
+<span class="sourceLineNo">695</span>   * @since 28.0<a name="line.695"></a>
 <span class="sourceLineNo">696</span>   */<a name="line.696"></a>
 <span class="sourceLineNo">697</span>  public boolean enterIf(Guard guard, Duration time) {<a name="line.697"></a>
 <span class="sourceLineNo">698</span>    return enterIf(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.698"></a>
@@ -760,7 +760,7 @@
 <span class="sourceLineNo">752</span>   * lock, but does not wait for the guard to be satisfied, and may be interrupted.<a name="line.752"></a>
 <span class="sourceLineNo">753</span>   *<a name="line.753"></a>
 <span class="sourceLineNo">754</span>   * @return whether the monitor was entered, which guarantees that the guard is now satisfied<a name="line.754"></a>
-<span class="sourceLineNo">755</span>   * @since NEXT<a name="line.755"></a>
+<span class="sourceLineNo">755</span>   * @since 28.0<a name="line.755"></a>
 <span class="sourceLineNo">756</span>   */<a name="line.756"></a>
 <span class="sourceLineNo">757</span>  public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {<a name="line.757"></a>
 <span class="sourceLineNo">758</span>    return enterIfInterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.758"></a>
@@ -841,7 +841,7 @@
 <span class="sourceLineNo">833</span>   *<a name="line.833"></a>
 <span class="sourceLineNo">834</span>   * @return whether the guard is now satisfied<a name="line.834"></a>
 <span class="sourceLineNo">835</span>   * @throws InterruptedException if interrupted while waiting<a name="line.835"></a>
-<span class="sourceLineNo">836</span>   * @since NEXT<a name="line.836"></a>
+<span class="sourceLineNo">836</span>   * @since 28.0<a name="line.836"></a>
 <span class="sourceLineNo">837</span>   */<a name="line.837"></a>
 <span class="sourceLineNo">838</span>  public boolean waitFor(Guard guard, Duration time) throws InterruptedException {<a name="line.838"></a>
 <span class="sourceLineNo">839</span>    return waitFor(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.839"></a>
@@ -887,7 +887,7 @@
 <span class="sourceLineNo">879</span>   * thread currently occupying this monitor.<a name="line.879"></a>
 <span class="sourceLineNo">880</span>   *<a name="line.880"></a>
 <span class="sourceLineNo">881</span>   * @return whether the guard is now satisfied<a name="line.881"></a>
-<span class="sourceLineNo">882</span>   * @since NEXT<a name="line.882"></a>
+<span class="sourceLineNo">882</span>   * @since 28.0<a name="line.882"></a>
 <span class="sourceLineNo">883</span>   */<a name="line.883"></a>
 <span class="sourceLineNo">884</span>  public boolean waitForUninterruptibly(Guard guard, Duration time) {<a name="line.884"></a>
 <span class="sourceLineNo">885</span>    return waitForUninterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.885"></a>

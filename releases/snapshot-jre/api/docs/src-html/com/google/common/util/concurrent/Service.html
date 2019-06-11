@@ -114,7 +114,7 @@
 <span class="sourceLineNo">106</span>   * @throws IllegalStateException if the service reaches a state from which it is not possible to<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code<a name="line.107"></a>
 <span class="sourceLineNo">108</span>   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   * @since NEXT<a name="line.109"></a>
+<span class="sourceLineNo">109</span>   * @since 28.0<a name="line.109"></a>
 <span class="sourceLineNo">110</span>   */<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  default void awaitRunning(Duration timeout) throws TimeoutException {<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    awaitRunning(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.112"></a>
@@ -150,7 +150,7 @@
 <span class="sourceLineNo">142</span>   * @param timeout the maximum time to wait<a name="line.142"></a>
 <span class="sourceLineNo">143</span>   * @throws TimeoutException if the service has not reached the given state within the deadline<a name="line.143"></a>
 <span class="sourceLineNo">144</span>   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * @since NEXT<a name="line.145"></a>
+<span class="sourceLineNo">145</span>   * @since 28.0<a name="line.145"></a>
 <span class="sourceLineNo">146</span>   */<a name="line.146"></a>
 <span class="sourceLineNo">147</span>  default void awaitTerminated(Duration timeout) throws TimeoutException {<a name="line.147"></a>
 <span class="sourceLineNo">148</span>    awaitTerminated(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>

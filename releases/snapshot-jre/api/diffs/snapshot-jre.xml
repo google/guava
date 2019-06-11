@@ -31676,7 +31676,7 @@
  @param timeout how long to wait before giving up
  @return the number of elements transferred
  @throws InterruptedException if interrupted while waiting
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="drain" return="int"
@@ -31721,7 +31721,7 @@
  @param numElements the number of elements to be waited for
  @param timeout how long to wait before giving up
  @return the number of elements transferred
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="drainUninterruptibly" return="int"
@@ -36095,7 +36095,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     lEsS_tHaNp>This class is scheduled to be removed in January 2019.">
+     lEsS_tHaNp>This class is scheduled to be removed in October 2019.">
     <constructor name="TreeTraverser"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -36218,7 +36218,7 @@
      their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.
-     <p>This class is scheduled to be removed in January 2019.]]>
+     <p>This class is scheduled to be removed in October 2019.]]>
     </doc>
   </class>
   <!-- end class com.google.common.collect.TreeTraverser -->
@@ -38299,7 +38299,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableGraph}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
@@ -38691,7 +38691,7 @@
  multiple graphs in series. Each new graph contains all the elements of the ones created before
  it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableGraph.Builder -->
@@ -38853,7 +38853,7 @@
  multiple networks in series. Each new network contains all the elements of the ones created
  before it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork.Builder -->
@@ -39000,7 +39000,7 @@
  multiple graphs in series. Each new graph contains all the elements of the ones created before
  it.
 
- @since NEXT]]>
+ @since 28.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.ImmutableValueGraph.Builder -->
@@ -39901,7 +39901,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsParallelEdges" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
@@ -40940,7 +40940,7 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"
@@ -45555,7 +45555,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -45568,7 +45568,7 @@
  @return a string containing all the characters from the file
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="write"
@@ -45593,7 +45593,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -45607,7 +45607,7 @@
      helpful predefined constants
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="copy"
@@ -45659,7 +45659,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.">
+     be removed in October 2019.">
       <param name="from" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="to" type="java.lang.Appendable"/>
@@ -45673,14 +45673,14 @@
  @param to the appendable object
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-     be removed in January 2019.]]>
+     be removed in October 2019.]]>
       </doc>
     </method>
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.">
+     method is scheduled to be removed in October 2019.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -45694,7 +45694,7 @@
      helpful predefined constants
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in January 2019.]]>
+     method is scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
@@ -45788,7 +45788,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.">
+     scheduled to be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -45802,7 +45802,7 @@
  @return the first line, or null if the file is empty
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-     scheduled to be removed in January 2019.]]>
+     scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="readLines" return="java.util.List&lt;java.lang.String&gt;"
@@ -45833,7 +45833,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.">
+     scheduled to be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
       <param name="callback" type="com.google.common.io.LineProcessor&lt;T&gt;"/>
@@ -45849,14 +45849,14 @@
  @return the output of processing the lines
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-     scheduled to be removed in January 2019.]]>
+     scheduled to be removed in October 2019.]]>
       </doc>
     </method>
     <method name="readBytes" return="T"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.">
+     removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="processor" type="com.google.common.io.ByteProcessor&lt;T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -45870,14 +45870,14 @@
  @return the result of the byte processor
  @throws IOException if an I/O error occurs
  @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-     removed in January 2019.]]>
+     removed in October 2019.]]>
       </doc>
     </method>
     <method name="hash" return="com.google.common.hash.HashCode"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.">
+     be removed in October 2019.">
       <param name="file" type="java.io.File"/>
       <param name="hashFunction" type="com.google.common.hash.HashFunction"/>
       <exception name="IOException" type="java.io.IOException"/>
@@ -45890,7 +45890,7 @@
  @throws IOException if an I/O error occurs
  @since 12.0
  @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-     be removed in January 2019.]]>
+     be removed in October 2019.]]>
       </doc>
     </method>
     <method name="map" return="java.nio.MappedByteBuffer"
@@ -50225,7 +50225,7 @@
       <![CDATA[The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
  Cross-Origin-Resource-Policy}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="EARLY_DATA" type="java.lang.String"
@@ -50999,7 +50999,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  Purpose}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="X_PURPOSE" type="java.lang.String"
@@ -51011,7 +51011,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  X-Purpose}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="X_MOZ" type="java.lang.String"
@@ -51023,7 +51023,7 @@
  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
  X-Moz}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
@@ -51122,7 +51122,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_EXTENSIONS" type="java.lang.String"
@@ -51133,7 +51133,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
  header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_KEY" type="java.lang.String"
@@ -51144,7 +51144,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_PROTOCOL" type="java.lang.String"
@@ -51155,7 +51155,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
  header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="SEC_WEBSOCKET_VERSION" type="java.lang.String"
@@ -51166,7 +51166,7 @@
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
  field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="CDN_LOOP" type="java.lang.String"
@@ -51176,7 +51176,7 @@
       <doc>
       <![CDATA[The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <doc>
@@ -52857,7 +52857,7 @@
       <![CDATA[Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
  geospatial data interchange format based on JSON.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </field>
     <field name="GZIP" type="com.google.common.net.MediaType"
@@ -61956,7 +61956,7 @@
  @param initialDelay the time to delay first execution
  @param delay the delay between the termination of one execution and the commencement of the
      next
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="newFixedDelaySchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
@@ -61988,7 +61988,7 @@
 
  @param initialDelay the time to delay first execution
  @param period the period between successive executions of the task
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="newFixedRateSchedule" return="com.google.common.util.concurrent.AbstractScheduledService.Scheduler"
@@ -63681,7 +63681,7 @@
       <![CDATA[Simply returns its argument.
 
  @deprecated no need to use this
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="catching" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
@@ -63809,7 +63809,7 @@
 
  @param timeout when to time out the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.FluentFuture&lt;V&gt;"
@@ -64641,7 +64641,7 @@
       <![CDATA[Schedules {@code callable} on the specified {@code executor}, returning a {@code Future}.
 
  @throws RejectedExecutionException if the task cannot be scheduled for execution
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="scheduleAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
@@ -64790,7 +64790,7 @@
  @param delegate The future to delegate to.
  @param time when to timeout the future
  @param scheduledExecutor The executor service to enforce the timeout.
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="withTimeout" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -65261,7 +65261,7 @@
  @throws CancellationException if {@code get} throws a {@code CancellationException}
  @throws IllegalArgumentException if {@code exceptionClass} extends {@code RuntimeException} or
      does not have a suitable constructor
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="getChecked" return="V"
@@ -65970,7 +65970,7 @@
       <![CDATA[Enters this monitor. Blocks at most the given time.
 
  @return whether the monitor was entered
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enter" return="boolean"
@@ -66007,7 +66007,7 @@
 
  @return whether the monitor was entered
  @throws InterruptedException if interrupted while waiting
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enterInterruptibly" return="boolean"
@@ -66062,7 +66062,7 @@
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enterWhen" return="boolean"
@@ -66102,7 +66102,7 @@
  the time to acquire the lock and the time to wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enterWhenUninterruptibly" return="boolean"
@@ -66142,7 +66142,7 @@
  lock, but does not wait for the guard to be satisfied.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enterIf" return="boolean"
@@ -66185,7 +66185,7 @@
  lock, but does not wait for the guard to be satisfied, and may be interrupted.
 
  @return whether the monitor was entered, which guarantees that the guard is now satisfied
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="enterIfInterruptibly" return="boolean"
@@ -66243,7 +66243,7 @@
 
  @return whether the guard is now satisfied
  @throws InterruptedException if interrupted while waiting
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="waitFor" return="boolean"
@@ -66283,7 +66283,7 @@
  thread currently occupying this monitor.
 
  @return whether the guard is now satisfied
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="waitForUninterruptibly" return="boolean"
@@ -66628,7 +66628,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="getExitingExecutorService" return="java.util.concurrent.ExecutorService"
@@ -66688,7 +66688,7 @@
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
  @return an unmodifiable version of the input which will not hang the JVM
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="getExitingScheduledExecutorService" return="java.util.concurrent.ScheduledExecutorService"
@@ -66746,7 +66746,7 @@
  @param service ExecutorService which uses daemon threads
  @param terminationTimeout how long to wait for the executor to finish before terminating the
      JVM
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="addDelayedShutdownHook"
@@ -66953,7 +66953,7 @@
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
  @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
      if the call timed out or was interrupted
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="shutdownAndAwaitTermination" return="boolean"
@@ -67053,7 +67053,7 @@
      before reaching its stable (maximum) rate
  @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
      warmupPeriod} is negative
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="create" return="com.google.common.util.concurrent.RateLimiter"
@@ -67167,7 +67167,7 @@
  @param timeout the maximum time to wait for the permit. Negative values are treated as zero.
  @return {@code true} if the permit was acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -67234,7 +67234,7 @@
  @param timeout the maximum time to wait for the permits. Negative values are treated as zero.
  @return {@code true} if the permits were acquired, {@code false} otherwise
  @throws IllegalArgumentException if the requested number of permits is negative or zero
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="tryAcquire" return="boolean"
@@ -67416,7 +67416,7 @@
  @throws IllegalStateException if the service reaches a state from which it is not possible to
      enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
      State#TERMINATED} when this method is called then this will throw an IllegalStateException.
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitRunning"
@@ -67463,7 +67463,7 @@
  @param timeout the maximum time to wait
  @throws TimeoutException if the service has not reached the given state within the deadline
  @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitTerminated"
@@ -67778,7 +67778,7 @@
  @throws TimeoutException if not all of the services have finished starting within the deadline
  @throws IllegalStateException if the service manager reaches a state from which it cannot
      become {@linkplain #isHealthy() healthy}.
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitHealthy"
@@ -67834,7 +67834,7 @@
 
  @param timeout the maximum time to wait
  @throws TimeoutException if not all of the services have stopped within the deadline
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitStopped"
@@ -68527,7 +68527,7 @@
  @return a time-limiting proxy
  @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
      annotation type, rather than an interface
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="callWithTimeout" return="T"
@@ -68581,7 +68581,7 @@
  @throws ExecutionException if {@code callable} throws a checked exception
  @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code callable} throws an {@code Error}
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="callUninterruptiblyWithTimeout" return="T"
@@ -68637,7 +68637,7 @@
  @throws ExecutionException if {@code callable} throws a checked exception
  @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code callable} throws an {@code Error}
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="runWithTimeout"
@@ -68685,7 +68685,7 @@
  @throws InterruptedException if the current thread was interrupted during execution
  @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code runnable} throws an {@code Error}
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="runUninterruptiblyWithTimeout"
@@ -68735,7 +68735,7 @@
  @throws TimeoutException if the time limit is reached
  @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
  @throws ExecutionError if {@code runnable} throws an {@code Error}
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <doc>
@@ -68884,7 +68884,7 @@
       <![CDATA[Invokes {@code latch.}{@link CountDownLatch#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -68909,7 +68909,7 @@
       <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
  uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="awaitUninterruptibly" return="boolean"
@@ -68945,7 +68945,7 @@
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#timedJoin(Thread, long) timedJoin(toJoin, timeout)}
  uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="joinUninterruptibly"
@@ -69009,7 +69009,7 @@
  @throws ExecutionException if the computation threw an exception
  @throws CancellationException if the computation was cancelled
  @throws TimeoutException if the wait timed out
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="getUninterruptibly" return="V"
@@ -69072,7 +69072,7 @@
       <doc>
       <![CDATA[Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="sleepUninterruptibly"
@@ -69095,7 +69095,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(1,
  timeout, unit)} uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"
@@ -69123,7 +69123,7 @@
       <![CDATA[Invokes {@code semaphore.}{@link Semaphore#tryAcquire(int, long, TimeUnit) tryAcquire(permits,
  timeout, unit)} uninterruptibly.
 
- @since NEXT]]>
+ @since 28.0]]>
       </doc>
     </method>
     <method name="tryAcquireUninterruptibly" return="boolean"

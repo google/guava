@@ -333,7 +333,7 @@
 <span class="sourceLineNo">325</span>   * @throws TimeoutException if not all of the services have finished starting within the deadline<a name="line.325"></a>
 <span class="sourceLineNo">326</span>   * @throws IllegalStateException if the service manager reaches a state from which it cannot<a name="line.326"></a>
 <span class="sourceLineNo">327</span>   *     become {@linkplain #isHealthy() healthy}.<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * @since NEXT<a name="line.328"></a>
+<span class="sourceLineNo">328</span>   * @since 28.0<a name="line.328"></a>
 <span class="sourceLineNo">329</span>   */<a name="line.329"></a>
 <span class="sourceLineNo">330</span>  public void awaitHealthy(Duration timeout) throws TimeoutException {<a name="line.330"></a>
 <span class="sourceLineNo">331</span>    awaitHealthy(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.331"></a>
@@ -385,7 +385,7 @@
 <span class="sourceLineNo">377</span>   *<a name="line.377"></a>
 <span class="sourceLineNo">378</span>   * @param timeout the maximum time to wait<a name="line.378"></a>
 <span class="sourceLineNo">379</span>   * @throws TimeoutException if not all of the services have stopped within the deadline<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   * @since NEXT<a name="line.380"></a>
+<span class="sourceLineNo">380</span>   * @since 28.0<a name="line.380"></a>
 <span class="sourceLineNo">381</span>   */<a name="line.381"></a>
 <span class="sourceLineNo">382</span>  public void awaitStopped(Duration timeout) throws TimeoutException {<a name="line.382"></a>
 <span class="sourceLineNo">383</span>    awaitStopped(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.383"></a>

@@ -166,7 +166,7 @@
 <span class="sourceLineNo">158</span>   *     before reaching its stable (maximum) rate<a name="line.158"></a>
 <span class="sourceLineNo">159</span>   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   *     warmupPeriod} is negative<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * @since NEXT<a name="line.161"></a>
+<span class="sourceLineNo">161</span>   * @since 28.0<a name="line.161"></a>
 <span class="sourceLineNo">162</span>   */<a name="line.162"></a>
 <span class="sourceLineNo">163</span>  public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {<a name="line.163"></a>
 <span class="sourceLineNo">164</span>    return create(permitsPerSecond, saturatedToNanos(warmupPeriod), TimeUnit.NANOSECONDS);<a name="line.164"></a>
@@ -336,7 +336,7 @@
 <span class="sourceLineNo">328</span>   * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.<a name="line.328"></a>
 <span class="sourceLineNo">329</span>   * @return {@code true} if the permit was acquired, {@code false} otherwise<a name="line.329"></a>
 <span class="sourceLineNo">330</span>   * @throws IllegalArgumentException if the requested number of permits is negative or zero<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   * @since NEXT<a name="line.331"></a>
+<span class="sourceLineNo">331</span>   * @since 28.0<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   */<a name="line.332"></a>
 <span class="sourceLineNo">333</span>  public boolean tryAcquire(Duration timeout) {<a name="line.333"></a>
 <span class="sourceLineNo">334</span>    return tryAcquire(1, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.334"></a>
@@ -395,7 +395,7 @@
 <span class="sourceLineNo">387</span>   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.<a name="line.387"></a>
 <span class="sourceLineNo">388</span>   * @return {@code true} if the permits were acquired, {@code false} otherwise<a name="line.388"></a>
 <span class="sourceLineNo">389</span>   * @throws IllegalArgumentException if the requested number of permits is negative or zero<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * @since NEXT<a name="line.390"></a>
+<span class="sourceLineNo">390</span>   * @since 28.0<a name="line.390"></a>
 <span class="sourceLineNo">391</span>   */<a name="line.391"></a>
 <span class="sourceLineNo">392</span>  public boolean tryAcquire(int permits, Duration timeout) {<a name="line.392"></a>
 <span class="sourceLineNo">393</span>    return tryAcquire(permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.393"></a>
