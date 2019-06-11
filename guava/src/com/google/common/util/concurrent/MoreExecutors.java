@@ -77,7 +77,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since NEXT
+   * @since 28.0
    */
   @Beta
   @GwtIncompatible // TODO
@@ -138,7 +138,7 @@ public final class MoreExecutors {
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
    * @return an unmodifiable version of the input which will not hang the JVM
-   * @since NEXT
+   * @since 28.0
    */
   @Beta
   @GwtIncompatible // java.time.Duration
@@ -199,7 +199,7 @@ public final class MoreExecutors {
    * @param service ExecutorService which uses daemon threads
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
-   * @since NEXT
+   * @since 28.0
    */
   @Beta
   @GwtIncompatible // java.time.Duration
@@ -1000,7 +1000,7 @@ public final class MoreExecutors {
    * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
    * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
    *     if the call timed out or was interrupted
-   * @since NEXT
+   * @since 28.0
    */
   @Beta
   @CanIgnoreReturnValue

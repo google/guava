@@ -102,7 +102,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public <N1 extends N, V1 extends V> ImmutableValueGraph.Builder<N1, V1> immutable() {
     ValueGraphBuilder<N1, V1> castBuilder = cast();

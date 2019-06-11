@@ -132,7 +132,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since NEXT
+   * @since 28.0
    */
   @Deprecated
   public static <V> FluentFuture<V> from(FluentFuture<V> future) {

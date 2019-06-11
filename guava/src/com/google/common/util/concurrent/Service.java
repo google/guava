@@ -106,7 +106,7 @@ public interface Service {
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
    *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
    *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
-   * @since NEXT
+   * @since 28.0
    */
   default void awaitRunning(Duration timeout) throws TimeoutException {
     awaitRunning(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
@@ -142,7 +142,7 @@ public interface Service {
    * @param timeout the maximum time to wait
    * @throws TimeoutException if the service has not reached the given state within the deadline
    * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
-   * @since NEXT
+   * @since 28.0
    */
   default void awaitTerminated(Duration timeout) throws TimeoutException {
     awaitTerminated(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);

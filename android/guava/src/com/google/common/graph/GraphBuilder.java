@@ -96,7 +96,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public <N1 extends N> ImmutableGraph.Builder<N1> immutable() {
     GraphBuilder<N1> castBuilder = cast();

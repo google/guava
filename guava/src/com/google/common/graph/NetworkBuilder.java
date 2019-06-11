@@ -108,7 +108,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    *
    * <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public <N1 extends N, E1 extends E> ImmutableNetwork.Builder<N1, E1> immutable() {
     NetworkBuilder<N1, E1> castBuilder = cast();
