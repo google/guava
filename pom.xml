@@ -9,6 +9,7 @@
   <version>28.0-jre</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
+  <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
