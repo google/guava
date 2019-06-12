@@ -9,6 +9,7 @@
   <version>HEAD-jre-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
+  <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
   <properties>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
@@ -16,7 +17,7 @@
     <truth.version>0.44</truth.version>
     <animal.sniffer.version>1.17</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <issueManagement>
     <system>GitHub Issues</system>
