@@ -113,6 +113,8 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * Specifies whether the graph will allow self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a graph that does not allow them will throw an {@link
    * UnsupportedOperationException}.
+   *
+   * <p>The default value is {@code false}.
    */
   public ValueGraphBuilder<N, V> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
@@ -129,7 +131,11 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
     return this;
   }
 
-  /** Specifies the order of iteration for the elements of {@link Graph#nodes()}. */
+  /**
+   * Specifies the order of iteration for the elements of {@link Graph#nodes()}.
+   *
+   * <p>The default value is {@link ElementOrder#insertion() insertion order}.
+   */
   public <N1 extends N> ValueGraphBuilder<N1, V> nodeOrder(ElementOrder<N1> nodeOrder) {
     ValueGraphBuilder<N1, V> newBuilder = cast();
     newBuilder.nodeOrder = checkNotNull(nodeOrder);
