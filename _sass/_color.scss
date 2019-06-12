@@ -1,0 +1,326 @@
+/*
+ * Copyright (C) 2018 Google LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// *********  GOOGLE RED
+
+$googred50:                 #fbe9e7;
+$googred100:                #f4c7c3;
+$googred200:                #eda29b;
+$googred300:                #e67c73;
+$googred400:                #e06055;
+$googred500:                #db4437;
+$googred600:                #d23f31;
+$googred700:                #c53929;
+$googred800:                #b93221;
+$googred900:                #a52714;
+$googredA100:               #ff8a80;
+$googredA200:               #ff5252;
+$googredA400:               #ff1744;
+$googredA700:               #d50000;
+
+// *********  PINK
+
+$pink50:                    #fce4ec;
+$pink100:                   #f8bbd0;
+$pink200:                   #f48fb1;
+$pink300:                   #f06292;
+$pink400:                   #ec407a;
+$pink500:                   #e91e63;
+$pink600:                   #d81b60;
+$pink700:                   #c2185b;
+$pink800:                   #ad1457;
+$pink900:                   #880e4f;
+$pinkA100:                  #ff80ab;
+$pinkA200:                  #ff4081;
+$pinkA400:                  #f50057;
+$pinkA700:                  #c51162;
+
+// *********  PURPLE
+
+$purple50:                  #f3e5f5;
+$purple100:                 #e1bee7;
+$purple200:                 #ce93d8;
+$purple300:                 #ba68c8;
+$purple400:                 #ab47bc;
+$purple500:                 #9c27b0;
+$purple600:                 #8e24aa;
+$purple700:                 #7b1fa2;
+$purple800:                 #6A1b9a;
+$purple900:                 #4A148c;
+$purpleA100:                #ea80fc;
+$purpleA200:                #e040fb;
+$purpleA400:                #d500f9;
+$purpleA700:                #aa00ff;
+
+// *********  DEEP PURPLE
+
+$deeppurple50:              #ede7f6;
+$deeppurple100:             #d1c4e9;
+$deeppurple200:             #b39ddb;
+$deeppurple300:             #9575cd;
+$deeppurple400:             #7e57c2;
+$deeppurple500:             #673ab7;
+$deeppurple600:             #5e35b1;
+$deeppurple700:             #512da8;
+$deeppurple800:             #4527a0;
+$deeppurple900:             #311b92;
+$deeppurpleA100:            #b388ff;
+$deeppurpleA200:            #7c4dff;
+$deeppurpleA400:            #651fff;
+$deeppurpleA700:            #6200ea;
+
+// *********  INDIGO
+
+$indigo50:                  #e8eaf6;
+$indigo100:                 #c5cae9;
+$indigo200:                 #9fa8da;
+$indigo300:                 #7986cb;
+$indigo400:                 #5c6bc0;
+$indigo500:                 #3f51b5;
+$indigo600:                 #3949ab;
+$indigo700:                 #303f9f;
+$indigo800:                 #283593;
+$indigo900:                 #1a237e;
+$indigoA100:                #8c9eff;
+$indigoA200:                #536dfe;
+$indigoA400:                #3d5afe;
+$indigoA700:                #304ffe;
+
+// *********  GOOGLE BLUE
+
+$googblue50:                #e8f0fe;
+$googblue100:               #c6dafc;
+$googblue200:               #A1c2fa;
+$googblue300:               #7baaf7;
+$googblue400:               #5e97f6;
+$googblue500:               #4285f4;
+$googblue600:               #3b78e7;
+$googblue700:               #3367d6;
+$googblue800:               #2a56c6;
+$googblue900:               #1c3aa9;
+$googblueA100:              #82b1ff;
+$googblueA200:              #448aff;
+$googblueA400:              #2979ff;
+$googblueA700:              #2962ff;
+
+// *********  LIGHT BLUE
+
+$lightblue50:               #e1f5fe;
+$lightblue100:              #b3e5fc;
+$lightblue200:              #81d4fa;
+$lightblue300:              #4fc3f7;
+$lightblue400:              #29b6f6;
+$lightblue500:              #03a9f4;
+$lightblue600:              #039be5;
+$lightblue700:              #0288d1;
+$lightblue800:              #0277bd;
+$lightblue900:              #01579b;
+$lightblueA100:             #80d8ff;
+$lightblueA200:             #40c4ff;
+$lightblueA400:             #00b0ff;
+$lightblueA700:             #0091ea;
+
+// *********  CYAN
+
+$cyan50:                    #e0f7fa;
+$cyan100:                   #b2ebf2;
+$cyan200:                   #80deea;
+$cyan300:                   #4dd0e1;
+$cyan400:                   #26c6da;
+$cyan500:                   #00bcd4;
+$cyan600:                   #00acc1;
+$cyan700:                   #0097a7;
+$cyan800:                   #00838f;
+$cyan900:                   #006064;
+$cyanA100:                  #84ffff;
+$cyanA200:                  #18ffff;
+$cyanA400:                  #00e5ff;
+$cyanA700:                  #00b8d4;
+
+// *********  TEAL
+
+$teal50:                    #e0f2f1;
+$teal100:                   #b2dfdb;
+$teal200:                   #80cbc4;
+$teal300:                   #4db6ac;
+$teal400:                   #26a69a;
+$teal500:                   #009688;
+$teal600:                   #00897b;
+$teal700:                   #00796b;
+$teal800:                   #00695c;
+$teal900:                   #004d40;
+$tealA100:                  #a7ffeb;
+$tealA200:                  #64ffda;
+$tealA400:                  #1de9b6;
+$tealA700:                  #00bfa5;
+
+// *********  GOOGLE GREEN
+
+$googgreen50:               #e2f3eb;
+$googgreen100:              #b7e1cd;
+$googgreen200:              #87ceac;
+$googgreen300:              #57bb8a;
+$googgreen400:              #33ac71;
+$googgreen500:              #0f9d58;
+$googgreen600:              #0d904f;
+$googgreen700:              #0b8043;
+$googgreen800:              #097138;
+$googgreen900:              #055524;
+$googgreenA100:             #b9f6ca;
+$googgreenA200:             #69f0ae;
+$googgreenA400:             #00e676;
+$googgreenA700:             #00c853;
+
+// *********  LIGHT GREEN
+
+$lightgreen50:              #f1f8e9;
+$lightgreen100:             #dcedc8;
+$lightgreen200:             #c5e1a5;
+$lightgreen300:             #aed581;
+$lightgreen400:             #9ccc65;
+$lightgreen500:             #8bc34a;
+$lightgreen600:             #7cb342;
+$lightgreen700:             #689f38;
+$lightgreen800:             #558b2f;
+$lightgreen900:             #33691e;
+$lightgreenA100:            #ccff90;
+$lightgreenA200:            #b2ff59;
+$lightgreenA400:            #76ff03;
+$lightgreenA700:            #64dd17;
+
+// *********  LIME
+
+$lime50:                    #f9fbe7;
+$lime100:                   #f0f4c3;
+$lime200:                   #e6ee9c;
+$lime300:                   #dce775;
+$lime400:                   #d4e157;
+$lime500:                   #cddc39;
+$lime600:                   #c0ca33;
+$lime700:                   #afb42b;
+$lime800:                   #9e9d24;
+$lime900:                   #827717;
+$limeA100:                  #f4ff81;
+$limeA200:                  #eeff41;
+$limeA400:                  #c6ff00;
+$limeA700:                  #aeea00;
+
+// *********  YELLOW
+
+$yellow50:                  #fffde7;
+$yellow100:                 #fff9c4;
+$yellow200:                 #fff59d;
+$yellow300:                 #fff176;
+$yellow400:                 #ffee58;
+$yellow500:                 #ffeb3b;
+$yellow600:                 #fdd835;
+$yellow700:                 #fbc02d;
+$yellow800:                 #f9a825;
+$yellow900:                 #f57f17;
+$yellowA100:                #ffff8d;
+$yellowA200:                #ffff00;
+$yellowA400:                #ffea00;
+$yellowA700:                #ffd600;
+
+// *********  GOOGLE YELLOW
+
+$googyellow50:              #fef6e0;
+$googyellow100:             #fce8b2;
+$googyellow200:             #fada80;
+$googyellow300:             #f7cb4d;
+$googyellow400:             #f6bf26;
+$googyellow500:             #f4b400;
+$googyellow600:             #f2a600;
+$googyellow700:             #f09300;
+$googyellow800:             #ee8100;
+$googyellow900:             #ea6100;
+$googyellowA100:            #ffde80;
+$googyellowA200:            #ffcd40;
+$googyellowA400:            #ffbc00;
+$googyellowA700:            #ff9e00;
+
+// *********  ORANGE
+
+$orange50:                  #fff3e0;
+$orange100:                 #ffe0b2;
+$orange200:                 #ffcc80;
+$orange300:                 #ffb74d;
+$orange400:                 #ffa726;
+$orange500:                 #ff9800;
+$orange600:                 #fb8c00;
+$orange700:                 #f57c00;
+$orange800:                 #ef6c00;
+$orange900:                 #e65100;
+$orangeA100:                #ffd180;
+$orangeA200:                #ffab40;
+$orangeA400:                #ff9100;
+$orangeA700:                #ff6d00;
+
+// *********  DEEP ORANGE
+
+$deeporange50:              #fbe9e7;
+$deeporange100:             #ffccbc;
+$deeporange200:             #ffab91;
+$deeporange300:             #ff8a65;
+$deeporange400:             #ff7043;
+$deeporange500:             #ff5722;
+$deeporange600:             #f4511e;
+$deeporange700:             #e64A19;
+$deeporange800:             #d84315;
+$deeporange900:             #bf360c;
+$deeporangeA100:            #ff9e80;
+$deeporangeA200:            #ff6e40;
+$deeporangeA400:            #ff3d00;
+$deeporangeA700:            #dd2c00;
+
+// *********  BROWN
+
+$brown50:                   #efebe9;
+$brown100:                  #d7ccc8;
+$brown200:                  #bcaaa4;
+$brown300:                  #A1887f;
+$brown400:                  #8d6e63;
+$brown500:                  #795548;
+$brown600:                  #6d4c41;
+$brown700:                  #5d4037;
+$brown800:                  #4e342e;
+$brown900:                  #3e2723;
+
+// *********  GREY
+
+$grey50:                    #fafafa;
+$grey100:                   #f5f5f5;
+$grey200:                   #eeeeee;
+$grey300:                   #e0e0e0;
+$grey400:                   #bdbdbd;
+$grey500:                   #9e9e9e;
+$grey600:                   #757575;
+$grey700:                   #616161;
+$grey800:                   #424242;
+$grey900:                   #212121;
+
+// *********  BLUE GREY
+
+$bluegrey50:                #eceff1;
+$bluegrey100:               #cfd8dc;
+$bluegrey200:               #b0bec5;
+$bluegrey300:               #90a4ae;
+$bluegrey400:               #78909c;
+$bluegrey500:               #607d8b;
+$bluegrey600:               #546e7a;
+$bluegrey700:               #455a64;
+$bluegrey800:               #37474f;
+$bluegrey900:               #263238;

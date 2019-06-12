@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) 2018 Google LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* ==========================================================================
+   Archives
+   ========================================================================== */
+
+.c-archives {
+  margin-bottom: 10rem;
+}
+
+.c-archives__year {
+  margin-bottom: 2.5rem;
+  @include fs--heading-1;
+}
+
+.c-archives__list {
+  margin-bottom: 2.5rem;
+  list-style: none;
+}
+
+.c-archives__item {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-top: 1px solid #EFF1F3;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+
+  h3 {
+    @include fs--body;
+  }
+
+  p {
+    @include fs--body;
+    color: #515862;
+  }
+}

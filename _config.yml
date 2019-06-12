@@ -6,6 +6,8 @@ baseurl: /guava
 url: http://google.github.io
 permalink: /news/:year/:month/:day/:title/
 
+themeColor: red
+
 exclude:
 - "Gemfile*"
 - "README.md"

@@ -1,0 +1,44 @@
+/*
+ * Copyright (C) 2018 Google LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.c-header {
+  padding-top: 14.1rem; // 75px
+  padding-bottom: 7.5rem; // 75px
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+  background: $t-theme;
+}
+
+.c-header__title {
+  position: relative;
+  @include ff--mono(500);
+  @include fs--title;
+  color: $c__white;
+
+  &:after {
+    margin-left: .5rem;
+    color: rgba(#fff, .5);
+    content: '¬';
+  }
+
+  span {
+    color: rgba(#fff, .5);
+  }
+}

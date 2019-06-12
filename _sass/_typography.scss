@@ -1,0 +1,158 @@
+/*
+ * Copyright (C) 2018 Google LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700|Roboto:500,400italic,700italic,300,700,500italic,300italic,400);
+
+$type:                         'Roboto', sans-serif;
+$type-monospace:               'Inconsolata', monospace;
+
+$text-primary-dark:             rgba(0,0,0,.87);
+$text-primary-light:            rgba(255,255,255,.87);
+$text-secondary-dark:           rgba(0,0,0,.54);
+$text-secondary-light:          rgba(255,255,255,.54);
+$text-hint-dark:                rgba(0,0,0,.26);
+$text-hint-light:               rgba(255,255,255,.26);
+
+%font-md-dark{
+  color: $text-primary-dark;
+}
+%font-md-light{
+  color: $text-primary-light;
+}
+%font-md-medium-dark{
+  color: $text-secondary-dark;
+}
+%font-md-medium-light{
+  color: $text-secondary-light;
+}
+
+@mixin type-display4($color) {
+  font-family: $type;
+  font-size: 112px;
+  font-weight: 300;
+  line-height: normal;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-display3($color) {
+  font-family: $type;
+  font-size: 56px;
+  font-weight: normal;
+  line-height: normal;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-display2($color) {
+  font-family: $type;
+  font-size: 45px;
+  font-weight: normal;
+  line-height: 48px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-display1($color) {
+  font-family: $type;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 40px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-headline($color) {
+  font-family: $type;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 32px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-title($color) {
+  font-family: $type;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-subhead2($color) {
+  font-family: $type;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 28px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-subhead1($color) {
+  font-family: $type;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 24px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-body2($color) {
+  font-family: $type;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-body1($color) {
+  font-family: $type;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 20px;
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-caption($color) {
+  font-family: $type;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;/**/
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-menu($color) {
+  font-family: $type;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;/**/
+  text-rendering: optimizeLegibility;
+  @extend %font-md-#{$color};
+}
+
+@mixin type-button($color) {
+  font-family: $type;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;/**/
+  text-rendering: optimizeLegibility;
+  text-transform: uppercase;
+  @extend %font-md-#{$color};
+}

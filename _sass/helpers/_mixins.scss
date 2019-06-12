@@ -1,0 +1,56 @@
+/*
+ * Copyright (C) 2018 Google LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* ==========================================================================
+   Mixins
+   ========================================================================== */
+
+// Font families
+@mixin ff--sans-serif($font-weight: normal) {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: $font-weight;
+}
+
+@mixin ff--mono($font-weight: normal) {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: $font-weight;
+}
+
+// Font sizing
+@mixin fs--title {
+  line-height: 1.5;
+  font-size: 4rem; // 40px
+}
+
+@mixin fs--heading-1 {
+  line-height: 1.25;
+  font-size: 3.5rem; // 35px
+}
+
+@mixin fs--heading-2 {
+  line-height: 1.25;
+  font-size: 3rem; // 30px
+}
+
+@mixin fs--body {
+  line-height: 1.5;
+  font-size: 1.8rem; // 18px
+}
+
+@mixin fs--meta {
+  line-height: 1;
+  font-size: 1.6rem; // 16px
+}
