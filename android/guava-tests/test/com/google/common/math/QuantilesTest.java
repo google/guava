@@ -20,6 +20,7 @@ import static com.google.common.math.Quantiles.median;
 import static com.google.common.math.Quantiles.percentiles;
 import static com.google.common.math.Quantiles.quartiles;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -35,6 +36,7 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,20 +89,17 @@ public class QuantilesTest extends TestCase {
    * each other or identical non-finite values.
    */
   private static final Correspondence<Double, Double> QUANTILE_CORRESPONDENCE =
-      new Correspondence<Double, Double>() {
-
-        @Override
-        public boolean compare(@NullableDecl Double actual, @NullableDecl Double expected) {
-          // Test for equality to allow non-finite values to match; otherwise, use the finite test.
-          return actual.equals(expected)
-              || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
-        }
-
-        @Override
-        public String toString() {
-          return "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE;
-        }
-      };
+      Correspondence.from(
+          new BinaryPredicate<Double, Double>() {
+            @Override
+            public boolean apply(@NullableDecl Double actual, @NullableDecl Double expected) {
+              // Test for equality to allow non-finite values to match; otherwise, use the finite
+              // test.
+              return actual.equals(expected)
+                  || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
+            }
+          },
+          "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE);
 
   // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
 
@@ -509,8 +508,8 @@ public class QuantilesTest extends TestCase {
 
   public void testPercentiles_index_compute_doubleCollection() {
     for (int index = 0; index <= 100; index++) {
-      assertThat(percentiles().index(index).compute(PSEUDORANDOM_DATASET))
-          .named("quantile at index " + index)
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).compute(PSEUDORANDOM_DATASET))
           .isWithin(ALLOWED_ERROR)
           .of(expectedLargeDatasetPercentile(index));
     }
@@ -521,8 +520,8 @@ public class QuantilesTest extends TestCase {
     // Assert that the computation gives the correct result for all possible percentiles.
     for (int index = 0; index <= 100; index++) {
       double[] dataset = Doubles.toArray(PSEUDORANDOM_DATASET);
-      assertThat(percentiles().index(index).computeInPlace(dataset))
-          .named("quantile at index " + index)
+      assertWithMessage("quantile at index " + index)
+          .that(percentiles().index(index).computeInPlace(dataset))
           .isWithin(ALLOWED_ERROR)
           .of(expectedLargeDatasetPercentile(index));
     }

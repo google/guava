@@ -141,4 +141,39 @@ public class CompactLinkedHashMapTest extends TestCase {
       assertEquals(expectedValue, values.get(i));
     }
   }
+
+  public void testAllocArraysDefault() {
+    CompactLinkedHashMap<Integer, String> map = CompactLinkedHashMap.create();
+    assertThat(map.needsAllocArrays()).isTrue();
+    assertThat(map.entries).isNull();
+    assertThat(map.keys).isNull();
+    assertThat(map.values).isNull();
+    assertThat(map.links).isNull();
+
+    map.put(1, Integer.toString(1));
+    assertThat(map.needsAllocArrays()).isFalse();
+    assertThat(map.entries).hasLength(CompactLinkedHashMap.DEFAULT_SIZE);
+    assertThat(map.keys).hasLength(CompactLinkedHashMap.DEFAULT_SIZE);
+    assertThat(map.values).hasLength(CompactLinkedHashMap.DEFAULT_SIZE);
+    assertThat(map.links).hasLength(CompactLinkedHashMap.DEFAULT_SIZE);
+  }
+
+  public void testAllocArraysExpectedSize() {
+    for (int i = 0; i <= CompactLinkedHashMap.DEFAULT_SIZE; i++) {
+      CompactLinkedHashMap<Integer, String> map = CompactLinkedHashMap.createWithExpectedSize(i);
+      assertThat(map.needsAllocArrays()).isTrue();
+      assertThat(map.entries).isNull();
+      assertThat(map.keys).isNull();
+      assertThat(map.values).isNull();
+      assertThat(map.links).isNull();
+
+      map.put(1, Integer.toString(1));
+      assertThat(map.needsAllocArrays()).isFalse();
+      int expectedSize = Math.max(1, i);
+      assertThat(map.entries).hasLength(expectedSize);
+      assertThat(map.keys).hasLength(expectedSize);
+      assertThat(map.values).hasLength(expectedSize);
+      assertThat(map.links).hasLength(expectedSize);
+    }
+  }
 }

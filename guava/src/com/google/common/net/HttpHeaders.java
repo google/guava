@@ -74,6 +74,13 @@ public final class HttpHeaders {
   /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
   /**
+   * The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+   * Cross-Origin-Resource-Policy}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
    * name.
    *
@@ -412,6 +419,31 @@ public final class HttpHeaders {
   public static final String PING_TO = "Ping-To";
 
   /**
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+   * Purpose}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String PURPOSE = "Purpose";
+  /**
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+   * X-Purpose}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String X_PURPOSE = "X-Purpose";
+  /**
+   * The HTTP <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
+   * X-Moz}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String X_MOZ = "X-Moz";
+
+  /**
    * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
    * field name.
    *
@@ -467,4 +499,45 @@ public final class HttpHeaders {
    * @since 25.1
    */
   public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
+   * header field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
+   * header field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
+   * field name.
+   *
+   * @since 28.0
+   */
+  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+  /**
+   * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String CDN_LOOP = "CDN-Loop";
 }

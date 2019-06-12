@@ -123,6 +123,7 @@ public class ByteSourceAsCharSourceReadBenchmark {
     data = ByteSource.wrap(string.getBytes(charset));
   }
 
+  @SuppressWarnings("GoodTime") // b/130759882
   @Benchmark
   public int timeCopy(int reps) throws IOException {
     int r = 0;

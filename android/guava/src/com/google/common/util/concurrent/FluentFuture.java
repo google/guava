@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -45,7 +47,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -124,6 +126,17 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since 28.0
+   */
+  @Deprecated
+  public static <V> FluentFuture<V> from(FluentFuture<V> future) {
+    return checkNotNull(future);
   }
 
   /**

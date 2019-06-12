@@ -226,6 +226,8 @@ public abstract class Optional<T> implements Serializable {
    * possibleFoo.ifPresent(foo -> doSomethingWith(foo));
    * }</pre>
    *
+   * <p><b>Java 9 users:</b> some use cases can be written with calls to {@code optional.stream()}.
+   *
    * @since 11.0
    */
   public abstract Set<T> asSet();
@@ -279,6 +281,8 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method has no equivalent in Java 8's
    * {@code Optional} class; use {@code
    * optionals.stream().filter(Optional::isPresent).map(Optional::get)} instead.
+   *
+   * <p><b>Java 9 users:</b> use {@code optionals.stream().flatMap(Optional::stream)} instead.
    *
    * @since 11.0 (generics widened in 13.0)
    */

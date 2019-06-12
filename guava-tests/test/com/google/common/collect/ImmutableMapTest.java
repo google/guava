@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -1023,11 +1024,11 @@ public class ImmutableMapTest extends TestCase {
       long largeOps = largeCounter.total();
 
       double ratio = (double) largeOps / smallOps;
-      assertThat(ratio)
-          .named(
+      assertWithMessage(
               "ratio of equals/hashCode/compareTo operations to build an ImmutableMap via %s"
                   + " with %s entries versus %s entries",
               pathway, largeSize, smallSize)
+          .that(ratio)
           .isAtMost(2 * (largeSize * Math.log(largeSize)) / (smallSize * Math.log(smallSize)));
       // allow up to 2x wobble in the constant factors
     }
@@ -1052,10 +1053,10 @@ public class ImmutableMapTest extends TestCase {
     long worstCaseQueryLarge = worstCaseQueryOperations(largeMap, largeCounter);
 
     double ratio = (double) worstCaseQueryLarge / worstCaseQuerySmall;
-    assertThat(ratio)
-        .named(
+    assertWithMessage(
             "Ratio of worst case query operations for an ImmutableMap of size %s versus %s",
             largeSize, smallSize)
+        .that(ratio)
         .isAtMost(2 * Math.log(largeSize) / Math.log(smallSize));
     // allow up to 2x wobble in the constant factors
   }

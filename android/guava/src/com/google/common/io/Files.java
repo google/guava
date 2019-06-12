@@ -246,7 +246,7 @@ public final class Files {
    * @return a string containing all the characters from the file
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSource(file, charset).read()}. This method is scheduled to be
-   *     removed in January 2019.
+   *     removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -278,7 +278,7 @@ public final class Files {
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSink(to, charset).write(from)}. This method is scheduled to be
-   *     removed in January 2019.
+   *     removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -335,7 +335,7 @@ public final class Files {
    * @param to the appendable object
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSource(from, charset).copyTo(to)}. This method is scheduled to
-   *     be removed in January 2019.
+   *     be removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -353,7 +353,7 @@ public final class Files {
    *     helpful predefined constants
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-   *     method is scheduled to be removed in January 2019.
+   *     method is scheduled to be removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -513,7 +513,7 @@ public final class Files {
    * @return the first line, or null if the file is empty
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSource(file, charset).readFirstLine()}. This method is
-   *     scheduled to be removed in January 2019.
+   *     scheduled to be removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -571,7 +571,7 @@ public final class Files {
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asCharSource(file, charset).readLines(callback)}. This method is
-   *     scheduled to be removed in January 2019.
+   *     scheduled to be removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -591,7 +591,7 @@ public final class Files {
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
    * @deprecated Prefer {@code asByteSource(file).read(processor)}. This method is scheduled to be
-   *     removed in January 2019.
+   *     removed in October 2019.
    */
   @Beta
   @Deprecated
@@ -610,7 +610,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    * @since 12.0
    * @deprecated Prefer {@code asByteSource(file).hash(hashFunction)}. This method is scheduled to
-   *     be removed in January 2019.
+   *     be removed in October 2019.
    */
   @Beta
   @Deprecated

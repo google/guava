@@ -89,7 +89,7 @@ public final class Streams {
    */
   @Beta
   public static <T> Stream<T> stream(com.google.common.base.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }
 
   /**
@@ -100,7 +100,7 @@ public final class Streams {
    */
   @Beta
   public static <T> Stream<T> stream(java.util.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }
 
   /**
@@ -218,7 +218,7 @@ public final class Streams {
   }
 
   /**
-   * Returns a stream in which each element is the result of passing the corresponding elementY of
+   * Returns a stream in which each element is the result of passing the corresponding element of
    * each of {@code streamA} and {@code streamB} to {@code function}.
    *
    * <p>For example:

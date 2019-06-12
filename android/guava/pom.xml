@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>27.1-android</version>
+    <version>HEAD-android-SNAPSHOT</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
@@ -128,7 +128,11 @@
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
 
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
-          <excludePackageNames>com.google.common.base.internal,com.google.thirdparty.publicsuffix,com.oracle,com.sun,java,javax,jdk,org,sun</excludePackageNames>
+          <!-- excludePackageNames requires specification of packages separately from "all subpackages".
+               https://issues.apache.org/jira/browse/MJAVADOC-584 -->
+          <excludePackageNames>
+            com.google.common.base.internal,com.google.common.base.internal.*,com.google.thirdparty.publicsuffix,com.google.thirdparty.publicsuffix.*,com.oracle.*,com.sun.*,java.*,javax.*,jdk,jdk.*,org.*,sun.*
+          </excludePackageNames>
 
           <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
           <!-- We add the link ourselves, both so that we can choose Java 9 over the version that -source suggests and so that we can solve the JSR305 problem described below. -->

@@ -39,7 +39,7 @@ To update to a newer version of the upstream library
 Pull in the latest Guava version; for example:
 ```
 git fetch --tags https://github.com/google/guava
-git pull https://github.com/google/guava v26.0
+git pull https://github.com/google/guava v28.0
 ```
 
 Use the latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.

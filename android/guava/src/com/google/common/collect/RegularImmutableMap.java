@@ -34,7 +34,14 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
-  private static final int ABSENT = -1;
+  private static final byte ABSENT = -1;
+
+  // Max size is halved due to indexing into double-sized alternatingKeysAndValues
+  private static final int BYTE_MAX_SIZE = 1 << (Byte.SIZE - 1); // 2^7 = 128
+  private static final int SHORT_MAX_SIZE = 1 << (Short.SIZE - 1); // 2^15 = 32_768
+
+  private static final int BYTE_MASK = (1 << Byte.SIZE) - 1; // 2^8 - 1 = 255
+  private static final int SHORT_MASK = (1 << Short.SIZE) - 1; // 2^16 - 1 = 65_535
 
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =
@@ -51,13 +58,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * double the index of the entry in entrySet.asList.)
    *
    * The basic data structure is described in https://en.wikipedia.org/wiki/Open_addressing.
-   * The pointer to a key is stored in hashTable[Hashing.smear(key.hashCode())] % table.length,
+   * The pointer to a key is stored in hashTable[Hashing.smear(key.hashCode()) % table.length],
    * save that if that location is already full, we try the next index, and the next, until we
    * find an empty table position.  Since the table has a power-of-two size, we use
    * & (table.length - 1) instead of % table.length, though.
    */
 
-  private final transient int[] hashTable;
+  private final transient Object hashTable;
   @VisibleForTesting final transient Object[] alternatingKeysAndValues;
   private final transient int size;
 
@@ -71,7 +78,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     checkPositionIndex(n, alternatingKeysAndValues.length >> 1);
     int tableSize = ImmutableSet.chooseTableSize(n);
-    int[] hashTable = createHashTable(alternatingKeysAndValues, n, tableSize, 0);
+    Object hashTable = createHashTable(alternatingKeysAndValues, n, tableSize, 0);
     return new RegularImmutableMap<K, V>(hashTable, alternatingKeysAndValues, n);
   }
 
@@ -79,7 +86,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * Returns a hash table for the specified keys and values, and ensures that neither keys nor
    * values are null.
    */
-  static int[] createHashTable(
+  static Object createHashTable(
       Object[] alternatingKeysAndValues, int n, int tableSize, int keyOffset) {
     if (n == 1) {
       // for n=1 we don't create a hash table, but we need to do the checkEntryNotNull check!
@@ -88,35 +95,101 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return null;
     }
     int mask = tableSize - 1;
-    int[] hashTable = new int[tableSize];
-    Arrays.fill(hashTable, ABSENT);
-    for (int i = 0; i < n; i++) {
-      Object key = alternatingKeysAndValues[2 * i + keyOffset];
-      Object value = alternatingKeysAndValues[2 * i + (keyOffset ^ 1)];
-      checkEntryNotNull(key, value);
-      for (int h = Hashing.smear(key.hashCode()); ; h++) {
-        h &= mask;
-        int previous = hashTable[h];
-        if (previous == ABSENT) {
-          hashTable[h] = 2 * i + keyOffset;
-          break;
-        } else if (alternatingKeysAndValues[previous].equals(key)) {
-          throw new IllegalArgumentException(
-              "Multiple entries with same key: "
-                  + key
-                  + "="
-                  + value
-                  + " and "
-                  + alternatingKeysAndValues[previous]
-                  + "="
-                  + alternatingKeysAndValues[previous ^ 1]);
+    if (tableSize <= BYTE_MAX_SIZE) {
+      /*
+       * Use 8 bits per entry. The value is unsigned to allow use up to a size of 2^8.
+       *
+       * The absent indicator of -1 signed becomes 2^8 - 1 unsigned, which reduces the actual max
+       * size to 2^8 - 1. However, due to a load factor < 1 the limit is never approached.
+       */
+      byte[] hashTable = new byte[tableSize];
+      Arrays.fill(hashTable, ABSENT);
+
+      for (int i = 0; i < n; i++) {
+        int keyIndex = 2 * i + keyOffset;
+        Object key = alternatingKeysAndValues[keyIndex];
+        Object value = alternatingKeysAndValues[keyIndex ^ 1];
+        checkEntryNotNull(key, value);
+        for (int h = Hashing.smear(key.hashCode()); ; h++) {
+          h &= mask;
+          int previousKeyIndex = hashTable[h] & BYTE_MASK; // unsigned read
+          if (previousKeyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
+            hashTable[h] = (byte) keyIndex;
+            break;
+          } else if (alternatingKeysAndValues[previousKeyIndex].equals(key)) {
+            throw duplicateKeyException(key, value, alternatingKeysAndValues, previousKeyIndex);
+          }
         }
       }
+      return hashTable;
+    } else if (tableSize <= SHORT_MAX_SIZE) {
+      /*
+       * Use 16 bits per entry. The value is unsigned to allow use up to a size of 2^16.
+       *
+       * The absent indicator of -1 signed becomes 2^16 - 1 unsigned, which reduces the actual max
+       * size to 2^16 - 1. However, due to a load factor < 1 the limit is never approached.
+       */
+      short[] hashTable = new short[tableSize];
+      Arrays.fill(hashTable, ABSENT);
+
+      for (int i = 0; i < n; i++) {
+        int keyIndex = 2 * i + keyOffset;
+        Object key = alternatingKeysAndValues[keyIndex];
+        Object value = alternatingKeysAndValues[keyIndex ^ 1];
+        checkEntryNotNull(key, value);
+        for (int h = Hashing.smear(key.hashCode()); ; h++) {
+          h &= mask;
+          int previousKeyIndex = hashTable[h] & SHORT_MASK; // unsigned read
+          if (previousKeyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
+            hashTable[h] = (short) keyIndex;
+            break;
+          } else if (alternatingKeysAndValues[previousKeyIndex].equals(key)) {
+            throw duplicateKeyException(key, value, alternatingKeysAndValues, previousKeyIndex);
+          }
+        }
+      }
+      return hashTable;
+    } else {
+      /*
+       * Use 32 bits per entry.
+       */
+      int[] hashTable = new int[tableSize];
+      Arrays.fill(hashTable, ABSENT);
+
+      for (int i = 0; i < n; i++) {
+        int keyIndex = 2 * i + keyOffset;
+        Object key = alternatingKeysAndValues[keyIndex];
+        Object value = alternatingKeysAndValues[keyIndex ^ 1];
+        checkEntryNotNull(key, value);
+        for (int h = Hashing.smear(key.hashCode()); ; h++) {
+          h &= mask;
+          int previousKeyIndex = hashTable[h];
+          if (previousKeyIndex == ABSENT) {
+            hashTable[h] = keyIndex;
+            break;
+          } else if (alternatingKeysAndValues[previousKeyIndex].equals(key)) {
+            throw duplicateKeyException(key, value, alternatingKeysAndValues, previousKeyIndex);
+          }
+        }
+      }
+      return hashTable;
     }
-    return hashTable;
   }
 
-  private RegularImmutableMap(int[] hashTable, Object[] alternatingKeysAndValues, int size) {
+  private static IllegalArgumentException duplicateKeyException(
+      Object key, Object value, Object[] alternatingKeysAndValues, int previousKeyIndex) {
+    return new IllegalArgumentException(
+        "Multiple entries with same key: "
+            + key
+            + "="
+            + value
+            + " and "
+            + alternatingKeysAndValues[previousKeyIndex]
+            + "="
+            + alternatingKeysAndValues[previousKeyIndex ^ 1]);
+  }
+
+  private RegularImmutableMap(Object hashTable, Object[] alternatingKeysAndValues, int size) {
     this.hashTable = hashTable;
     this.alternatingKeysAndValues = alternatingKeysAndValues;
     this.size = size;
@@ -135,7 +208,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   static Object get(
-      @NullableDecl int[] hashTable,
+      @NullableDecl Object hashTableObject,
       @NullableDecl Object[] alternatingKeysAndValues,
       int size,
       int keyOffset,
@@ -146,17 +219,44 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return alternatingKeysAndValues[keyOffset].equals(key)
           ? alternatingKeysAndValues[keyOffset ^ 1]
           : null;
-    } else if (hashTable == null) {
+    } else if (hashTableObject == null) {
       return null;
     }
-    int mask = hashTable.length - 1;
-    for (int h = Hashing.smear(key.hashCode()); ; h++) {
-      h &= mask;
-      int index = hashTable[h];
-      if (index == ABSENT) {
-        return null;
-      } else if (alternatingKeysAndValues[index].equals(key)) {
-        return alternatingKeysAndValues[index ^ 1];
+    if (hashTableObject instanceof byte[]) {
+      byte[] hashTable = (byte[]) hashTableObject;
+      int mask = hashTable.length - 1;
+      for (int h = Hashing.smear(key.hashCode()); ; h++) {
+        h &= mask;
+        int keyIndex = hashTable[h] & BYTE_MASK; // unsigned read
+        if (keyIndex == BYTE_MASK) { // -1 signed becomes 255 unsigned
+          return null;
+        } else if (alternatingKeysAndValues[keyIndex].equals(key)) {
+          return alternatingKeysAndValues[keyIndex ^ 1];
+        }
+      }
+    } else if (hashTableObject instanceof short[]) {
+      short[] hashTable = (short[]) hashTableObject;
+      int mask = hashTable.length - 1;
+      for (int h = Hashing.smear(key.hashCode()); ; h++) {
+        h &= mask;
+        int keyIndex = hashTable[h] & SHORT_MASK; // unsigned read
+        if (keyIndex == SHORT_MASK) { // -1 signed becomes 65_535 unsigned
+          return null;
+        } else if (alternatingKeysAndValues[keyIndex].equals(key)) {
+          return alternatingKeysAndValues[keyIndex ^ 1];
+        }
+      }
+    } else {
+      int[] hashTable = (int[]) hashTableObject;
+      int mask = hashTable.length - 1;
+      for (int h = Hashing.smear(key.hashCode()); ; h++) {
+        h &= mask;
+        int keyIndex = hashTable[h];
+        if (keyIndex == ABSENT) {
+          return null;
+        } else if (alternatingKeysAndValues[keyIndex].equals(key)) {
+          return alternatingKeysAndValues[keyIndex ^ 1];
+        }
       }
     }
   }

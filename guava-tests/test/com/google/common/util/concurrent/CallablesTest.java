@@ -82,7 +82,7 @@ public class CallablesTest extends TestCase {
       future.get();
       fail("Expected exception to be thrown");
     } catch (ExecutionException e) {
-      assertThat(e).hasCauseThat().isSameAs(expected);
+      assertThat(e).hasCauseThat().isSameInstanceAs(expected);
     }
   }
 

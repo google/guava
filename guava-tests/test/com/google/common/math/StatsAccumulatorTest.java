@@ -44,6 +44,7 @@ import static com.google.common.math.StatsTesting.TWO_VALUES_MEAN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_MIN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.sqrt;
 
 import com.google.common.collect.ImmutableList;
@@ -224,25 +225,28 @@ public class StatsAccumulatorTest extends TestCase {
       double mean = accumulator.mean();
       double meanByAddAllStats = accumulatorByAddAllStats.mean();
       if (values.hasAnyNaN()) {
-        assertThat(mean).named("mean of " + values).isNaN();
-        assertThat(meanByAddAllStats).named("mean by addAll(Stats) of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
+        assertWithMessage("mean by addAll(Stats) of " + values).that(meanByAddAllStats).isNaN();
       } else if (values.hasAnyPositiveInfinity() && values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNaN();
-        assertThat(meanByAddAllStats).named("mean by addAll(Stats) of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
+        assertWithMessage("mean by addAll(Stats) of " + values).that(meanByAddAllStats).isNaN();
       } else if (values.hasAnyPositiveInfinity()) {
-        assertThat(mean).named("mean of " + values).isPositiveInfinity();
-        assertThat(meanByAddAllStats)
-            .named("mean by addAll(Stats) of " + values)
+        assertWithMessage("mean of " + values).that(mean).isPositiveInfinity();
+        assertWithMessage("mean by addAll(Stats) of " + values)
+            .that(meanByAddAllStats)
             .isPositiveInfinity();
       } else if (values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNegativeInfinity();
-        assertThat(meanByAddAllStats)
-            .named("mean by addAll(Stats) of " + values)
+        assertWithMessage("mean of " + values).that(mean).isNegativeInfinity();
+        assertWithMessage("mean by addAll(Stats) of " + values)
+            .that(meanByAddAllStats)
             .isNegativeInfinity();
       } else {
-        assertThat(mean).named("mean of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MEAN);
-        assertThat(meanByAddAllStats)
-            .named("mean by addAll(Stats) of " + values)
+        assertWithMessage("mean of " + values)
+            .that(mean)
+            .isWithin(ALLOWED_ERROR)
+            .of(MANY_VALUES_MEAN);
+        assertWithMessage("mean by addAll(Stats) of " + values)
+            .that(meanByAddAllStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_MEAN);
       }
@@ -351,17 +355,17 @@ public class StatsAccumulatorTest extends TestCase {
       double populationVariance = accumulator.populationVariance();
       double populationVarianceByAddAllStats = accumulatorByAddAllStats.populationVariance();
       if (values.hasAnyNonFinite()) {
-        assertThat(populationVariance).named("population variance of " + values).isNaN();
-        assertThat(populationVarianceByAddAllStats)
-            .named("population variance by addAll(Stats) of " + values)
+        assertWithMessage("population variance of " + values).that(populationVariance).isNaN();
+        assertWithMessage("population variance by addAll(Stats) of " + values)
+            .that(populationVarianceByAddAllStats)
             .isNaN();
       } else {
-        assertThat(populationVariance)
-            .named("population variance of " + values)
+        assertWithMessage("population variance of " + values)
+            .that(populationVariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS / MANY_VALUES_COUNT);
-        assertThat(populationVarianceByAddAllStats)
-            .named("population variance by addAll(Stats) of " + values)
+        assertWithMessage("population variance by addAll(Stats) of " + values)
+            .that(populationVarianceByAddAllStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS / MANY_VALUES_COUNT);
       }
@@ -604,17 +608,17 @@ public class StatsAccumulatorTest extends TestCase {
       double max = accumulator.max();
       double maxByAddAllStats = accumulatorByAddAllStats.max();
       if (values.hasAnyNaN()) {
-        assertThat(max).named("max of " + values).isNaN();
-        assertThat(maxByAddAllStats).named("max by addAll(Stats) of " + values).isNaN();
+        assertWithMessage("max of " + values).that(max).isNaN();
+        assertWithMessage("max by addAll(Stats) of " + values).that(maxByAddAllStats).isNaN();
       } else if (values.hasAnyPositiveInfinity()) {
-        assertThat(max).named("max of " + values).isPositiveInfinity();
-        assertThat(maxByAddAllStats)
-            .named("max by addAll(Stats) of " + values)
+        assertWithMessage("max of " + values).that(max).isPositiveInfinity();
+        assertWithMessage("max by addAll(Stats) of " + values)
+            .that(maxByAddAllStats)
             .isPositiveInfinity();
       } else {
-        assertThat(max).named("max of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MAX);
-        assertThat(maxByAddAllStats)
-            .named("max by addAll(Stats) of " + values)
+        assertWithMessage("max of " + values).that(max).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MAX);
+        assertWithMessage("max by addAll(Stats) of " + values)
+            .that(maxByAddAllStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_MAX);
       }
@@ -680,17 +684,17 @@ public class StatsAccumulatorTest extends TestCase {
       double min = accumulator.min();
       double minByAddAllStats = accumulatorByAddAllStats.min();
       if (values.hasAnyNaN()) {
-        assertThat(min).named("min of " + values).isNaN();
-        assertThat(minByAddAllStats).named("min by addAll(Stats) of " + values).isNaN();
+        assertWithMessage("min of " + values).that(min).isNaN();
+        assertWithMessage("min by addAll(Stats) of " + values).that(minByAddAllStats).isNaN();
       } else if (values.hasAnyNegativeInfinity()) {
-        assertThat(min).named("min of " + values).isNegativeInfinity();
-        assertThat(minByAddAllStats)
-            .named("min by addAll(Stats) of " + values)
+        assertWithMessage("min of " + values).that(min).isNegativeInfinity();
+        assertWithMessage("min by addAll(Stats) of " + values)
+            .that(minByAddAllStats)
             .isNegativeInfinity();
       } else {
-        assertThat(min).named("min of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MIN);
-        assertThat(minByAddAllStats)
-            .named("min by addAll(Stats) of " + values)
+        assertWithMessage("min of " + values).that(min).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MIN);
+        assertWithMessage("min by addAll(Stats) of " + values)
+            .that(minByAddAllStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_MIN);
       }

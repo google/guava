@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.saturatedToNanos;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -29,6 +30,7 @@ import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwar
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -63,6 +65,27 @@ import java.util.concurrent.TimeoutException;
 @GwtCompatible(emulated = true)
 public final class MoreExecutors {
   private MoreExecutors() {}
+
+  /**
+   * Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
+   * is complete. It does so by using daemon threads and adding a shutdown hook to wait for their
+   * completion.
+   *
+   * <p>This is mainly for fixed thread pools. See {@link Executors#newFixedThreadPool(int)}.
+   *
+   * @param executor the executor to modify to make sure it exits when the application is finished
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
+   * @return an unmodifiable version of the input which will not hang the JVM
+   * @since 28.0
+   */
+  @Beta
+  @GwtIncompatible // TODO
+  public static ExecutorService getExitingExecutorService(
+      ThreadPoolExecutor executor, Duration terminationTimeout) {
+    return getExitingExecutorService(
+        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Converts the given ThreadPoolExecutor into an ExecutorService that exits when the application
@@ -114,6 +137,27 @@ public final class MoreExecutors {
    * @param executor the executor to modify to make sure it exits when the application is finished
    * @param terminationTimeout how long to wait for the executor to finish before terminating the
    *     JVM
+   * @return an unmodifiable version of the input which will not hang the JVM
+   * @since 28.0
+   */
+  @Beta
+  @GwtIncompatible // java.time.Duration
+  public static ScheduledExecutorService getExitingScheduledExecutorService(
+      ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {
+    return getExitingScheduledExecutorService(
+        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Converts the given ScheduledThreadPoolExecutor into a ScheduledExecutorService that exits when
+   * the application is complete. It does so by using daemon threads and adding a shutdown hook to
+   * wait for their completion.
+   *
+   * <p>This is mainly for fixed thread pools. See {@link Executors#newScheduledThreadPool(int)}.
+   *
+   * @param executor the executor to modify to make sure it exits when the application is finished
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
@@ -144,6 +188,23 @@ public final class MoreExecutors {
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
     return new Application().getExitingScheduledExecutorService(executor);
+  }
+
+  /**
+   * Add a shutdown hook to wait for thread completion in the given {@link ExecutorService service}.
+   * This is useful if the given service uses daemon threads, and we want to keep the JVM from
+   * exiting immediately on shutdown, instead giving these daemon threads a chance to terminate
+   * normally.
+   *
+   * @param service ExecutorService which uses daemon threads
+   * @param terminationTimeout how long to wait for the executor to finish before terminating the
+   *     JVM
+   * @since 28.0
+   */
+  @Beta
+  @GwtIncompatible // java.time.Duration
+  public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {
+    addDelayedShutdownHook(service, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -639,6 +700,20 @@ public final class MoreExecutors {
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
    */
+  @GwtIncompatible static <T> T invokeAnyImpl(
+      ListeningExecutorService executorService,
+      Collection<? extends Callable<T>> tasks,
+      boolean timed,
+      Duration timeout)
+      throws InterruptedException, ExecutionException, TimeoutException {
+    return invokeAnyImpl(
+        executorService, tasks, timed, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
+   * implementations.
+   */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @GwtIncompatible static <T> T invokeAnyImpl(
       ListeningExecutorService executorService,
@@ -902,6 +977,36 @@ public final class MoreExecutors {
         return Callables.threadRenaming(command, nameSupplier);
       }
     };
+  }
+
+  /**
+   * Shuts down the given executor service gradually, first disabling new submissions and later, if
+   * necessary, cancelling remaining tasks.
+   *
+   * <p>The method takes the following steps:
+   *
+   * <ol>
+   *   <li>calls {@link ExecutorService#shutdown()}, disabling acceptance of new submitted tasks.
+   *   <li>awaits executor service termination for half of the specified timeout.
+   *   <li>if the timeout expires, it calls {@link ExecutorService#shutdownNow()}, cancelling
+   *       pending tasks and interrupting running tasks.
+   *   <li>awaits executor service termination for the other half of the specified timeout.
+   * </ol>
+   *
+   * <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
+   * ExecutorService#shutdownNow()} and returns.
+   *
+   * @param service the {@code ExecutorService} to shut down
+   * @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
+   * @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
+   *     if the call timed out or was interrupted
+   * @since 28.0
+   */
+  @Beta
+  @CanIgnoreReturnValue
+  @GwtIncompatible // java.time.Duration
+  public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {
+    return shutdownAndAwaitTermination(service, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

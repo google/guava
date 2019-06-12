@@ -43,6 +43,7 @@ import static com.google.common.math.StatsTesting.assertVerticalLinearTransforma
 import static com.google.common.math.StatsTesting.createFilledPairedStatsAccumulator;
 import static com.google.common.math.StatsTesting.createPartitionedFilledPairedStatsAccumulator;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.math.StatsTesting.ManyValues;
 import java.util.Collections;
@@ -210,17 +211,17 @@ public class PairedStatsAccumulatorTest extends TestCase {
       double populationCovarianceByAddAllPartitionedPairedStats =
           accumulatorByAddAllPartitionedPairedStats.populationCovariance();
       if (values.hasAnyNonFinite()) {
-        assertThat(populationCovariance).named("population covariance of " + values).isNaN();
-        assertThat(populationCovarianceByAddAllPartitionedPairedStats)
-            .named("population covariance by addAll(PairedStats) of " + values)
+        assertWithMessage("population covariance of " + values).that(populationCovariance).isNaN();
+        assertWithMessage("population covariance by addAll(PairedStats) of " + values)
+            .that(populationCovarianceByAddAllPartitionedPairedStats)
             .isNaN();
       } else {
-        assertThat(populationCovariance)
-            .named("population covariance of " + values)
+        assertWithMessage("population covariance of " + values)
+            .that(populationCovariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
-        assertThat(populationCovarianceByAddAllPartitionedPairedStats)
-            .named("population covariance by addAll(PairedStats) of " + values)
+        assertWithMessage("population covariance by addAll(PairedStats) of " + values)
+            .that(populationCovarianceByAddAllPartitionedPairedStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
       }
@@ -340,22 +341,22 @@ public class PairedStatsAccumulatorTest extends TestCase {
       double pearsonsCorrelationCoefficientByAddAllPartitionedPairedStats =
           accumulatorByAddAllPartitionedPairedStats.pearsonsCorrelationCoefficient();
       if (values.hasAnyNonFinite()) {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isNaN();
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isNaN();
       } else {
-        assertThat(pearsonsCorrelationCoefficient)
-            .named("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of " + values)
+            .that(pearsonsCorrelationCoefficient)
             .isWithin(ALLOWED_ERROR)
             .of(
                 accumulator.populationCovariance()
                     / (accumulator.xStats().populationStandardDeviation()
                         * accumulator.yStats().populationStandardDeviation()));
-        assertThat(pearsonsCorrelationCoefficientByAddAllPartitionedPairedStats)
-            .named("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+            .that(pearsonsCorrelationCoefficientByAddAllPartitionedPairedStats)
             .isWithin(ALLOWED_ERROR)
             .of(
                 accumulatorByAddAllPartitionedPairedStats.populationCovariance()

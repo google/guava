@@ -575,7 +575,7 @@ public class ThrowablesTest extends TestCase {
       Throwables.getRootCause(cause);
       fail("Should have throw IAE");
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(cause);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(cause);
     }
   }
 
@@ -675,7 +675,7 @@ public class ThrowablesTest extends TestCase {
       Throwables.getCausalChain(cause);
       fail("Should have throw IAE");
     } catch (IllegalArgumentException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(cause);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(cause);
     }
   }
 
@@ -684,15 +684,15 @@ public class ThrowablesTest extends TestCase {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException thrown = new SomeChainingException(cause);
 
-    assertThat(thrown).hasCauseThat().isSameAs(cause);
-    assertThat(Throwables.getCauseAs(thrown, SomeCheckedException.class)).isSameAs(cause);
-    assertThat(Throwables.getCauseAs(thrown, Exception.class)).isSameAs(cause);
+    assertThat(thrown).hasCauseThat().isSameInstanceAs(cause);
+    assertThat(Throwables.getCauseAs(thrown, SomeCheckedException.class)).isSameInstanceAs(cause);
+    assertThat(Throwables.getCauseAs(thrown, Exception.class)).isSameInstanceAs(cause);
 
     try {
       Throwables.getCauseAs(thrown, IllegalStateException.class);
       fail("Should have thrown CCE");
     } catch (ClassCastException expected) {
-      assertThat(expected).hasCauseThat().isSameAs(thrown);
+      assertThat(expected).hasCauseThat().isSameInstanceAs(thrown);
     }
   }
 

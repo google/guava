@@ -64,6 +64,7 @@ import static com.google.common.math.StatsTesting.TWO_VALUES_MIN;
 import static com.google.common.math.StatsTesting.TWO_VALUES_STATS;
 import static com.google.common.math.StatsTesting.TWO_VALUES_SUM_OF_SQUARES_OF_DELTAS;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -123,15 +124,18 @@ public class StatsTest extends TestCase {
     for (ManyValues values : ALL_MANY_VALUES) {
       double mean = Stats.of(values.asArray()).mean();
       if (values.hasAnyNaN()) {
-        assertThat(mean).named("mean of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
       } else if (values.hasAnyPositiveInfinity() && values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
       } else if (values.hasAnyPositiveInfinity()) {
-        assertThat(mean).named("mean of " + values).isPositiveInfinity();
+        assertWithMessage("mean of " + values).that(mean).isPositiveInfinity();
       } else if (values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNegativeInfinity();
+        assertWithMessage("mean of " + values).that(mean).isNegativeInfinity();
       } else {
-        assertThat(mean).named("mean of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MEAN);
+        assertWithMessage("mean of " + values)
+            .that(mean)
+            .isWithin(ALLOWED_ERROR)
+            .of(MANY_VALUES_MEAN);
       }
     }
     assertThat(MANY_VALUES_STATS_ITERABLE.mean()).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MEAN);
@@ -217,10 +221,10 @@ public class StatsTest extends TestCase {
     for (ManyValues values : ALL_MANY_VALUES) {
       double populationVariance = Stats.of(values.asIterable()).populationVariance();
       if (values.hasAnyNonFinite()) {
-        assertThat(populationVariance).named("population variance of " + values).isNaN();
+        assertWithMessage("population variance of " + values).that(populationVariance).isNaN();
       } else {
-        assertThat(populationVariance)
-            .named("population variance of " + values)
+        assertWithMessage("population variance of " + values)
+            .that(populationVariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_SQUARES_OF_DELTAS / MANY_VALUES_COUNT);
       }
@@ -405,11 +409,11 @@ public class StatsTest extends TestCase {
     for (ManyValues values : ALL_MANY_VALUES) {
       double max = Stats.of(values.asIterable().iterator()).max();
       if (values.hasAnyNaN()) {
-        assertThat(max).named("max of " + values).isNaN();
+        assertWithMessage("max of " + values).that(max).isNaN();
       } else if (values.hasAnyPositiveInfinity()) {
-        assertThat(max).named("max of " + values).isPositiveInfinity();
+        assertWithMessage("max of " + values).that(max).isPositiveInfinity();
       } else {
-        assertThat(max).named("max of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MAX);
+        assertWithMessage("max of " + values).that(max).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MAX);
       }
     }
     assertThat(MANY_VALUES_STATS_SNAPSHOT.max()).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MAX);
@@ -453,11 +457,11 @@ public class StatsTest extends TestCase {
       accumulator.addAll(values.asIterable());
       double min = accumulator.snapshot().min();
       if (values.hasAnyNaN()) {
-        assertThat(min).named("min of " + values).isNaN();
+        assertWithMessage("min of " + values).that(min).isNaN();
       } else if (values.hasAnyNegativeInfinity()) {
-        assertThat(min).named("min of " + values).isNegativeInfinity();
+        assertWithMessage("min of " + values).that(min).isNegativeInfinity();
       } else {
-        assertThat(min).named("min of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MIN);
+        assertWithMessage("min of " + values).that(min).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MIN);
       }
     }
     assertThat(INTEGER_MANY_VALUES_STATS_VARARGS.min())
@@ -537,15 +541,18 @@ public class StatsTest extends TestCase {
     for (ManyValues values : ALL_MANY_VALUES) {
       double mean = Stats.meanOf(values.asArray());
       if (values.hasAnyNaN()) {
-        assertThat(mean).named("mean of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
       } else if (values.hasAnyPositiveInfinity() && values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNaN();
+        assertWithMessage("mean of " + values).that(mean).isNaN();
       } else if (values.hasAnyPositiveInfinity()) {
-        assertThat(mean).named("mean of " + values).isPositiveInfinity();
+        assertWithMessage("mean of " + values).that(mean).isPositiveInfinity();
       } else if (values.hasAnyNegativeInfinity()) {
-        assertThat(mean).named("mean of " + values).isNegativeInfinity();
+        assertWithMessage("mean of " + values).that(mean).isNegativeInfinity();
       } else {
-        assertThat(mean).named("mean of " + values).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MEAN);
+        assertWithMessage("mean of " + values)
+            .that(mean)
+            .isWithin(ALLOWED_ERROR)
+            .of(MANY_VALUES_MEAN);
       }
     }
     assertThat(Stats.meanOf(MANY_VALUES)).isWithin(ALLOWED_ERROR).of(MANY_VALUES_MEAN);

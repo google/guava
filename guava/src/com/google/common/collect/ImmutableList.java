@@ -231,7 +231,7 @@ public abstract class ImmutableList<E extends @NonNull Object> extends Immutable
    * {@link Collection}, this method behaves exactly as {@link #copyOf(Collection)}; otherwise, it
    * behaves exactly as {@code copyOf(elements.iterator()}.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E extends @NonNull Object> ImmutableList<E> copyOf(
       Iterable<? extends E> elements) {
@@ -256,7 +256,7 @@ public abstract class ImmutableList<E extends @NonNull Object> extends Immutable
    * <p>This method is safe to use even when {@code elements} is a synchronized or concurrent
    * collection that is currently being modified by another thread.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E extends @NonNull Object> ImmutableList<E> copyOf(
       Collection<? extends E> elements) {
@@ -271,7 +271,7 @@ public abstract class ImmutableList<E extends @NonNull Object> extends Immutable
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    */
   public static <E extends @NonNull Object> ImmutableList<E> copyOf(
       Iterator<? extends E> elements) {
@@ -290,7 +290,7 @@ public abstract class ImmutableList<E extends @NonNull Object> extends Immutable
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code elements} contains a null element
    * @since 3.0
    */
   public static <E extends @NonNull Object> ImmutableList<E> copyOf(E[] elements) {

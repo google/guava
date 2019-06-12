@@ -23,7 +23,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 
 /**
- * A builder for constructing instances of {@link MutableValueGraph} with user-defined properties.
+ * A builder for constructing instances of {@link MutableValueGraph} or {@link ImmutableValueGraph}
+ * with user-defined properties.
  *
  * <p>A graph built by this class will have the following properties by default:
  *
@@ -32,14 +33,25 @@ import com.google.common.base.Optional;
  *   <li>orders {@link Graph#nodes()} in the order in which the elements were added
  * </ul>
  *
- * <p>Example of use:
+ * <p>Examples of use:
  *
  * <pre>{@code
+ * // Building a mutable value graph
  * MutableValueGraph<String, Double> graph =
  *     ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
  * graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
  * graph.putEdgeValue("San Jose", "San Jose", 0.0);
  * graph.putEdgeValue("San Francisco", "San Jose", 48.4);
+ *
+ * // Building an immutable value graph
+ * ImmutableValueGraph<String, Double> immutableGraph =
+ *     ValueGraphBuilder.undirected()
+ *         .allowsSelfLoops(true)
+ *         .<String, Double>immutable()
+ *         .putEdgeValue("San Francisco", "San Francisco", 0.0)
+ *         .putEdgeValue("San Jose", "San Jose", 0.0)
+ *         .putEdgeValue("San Francisco", "San Jose", 48.4)
+ *         .build();
  * }</pre>
  *
  * @author James Sexton
@@ -82,6 +94,19 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
     return new ValueGraphBuilder<N, V>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
+  }
+
+  /**
+   * Returns an {@link ImmutableValueGraph.Builder} with the properties of this {@link
+   * ValueGraphBuilder}.
+   *
+   * <p>The returned builder can be used for populating an {@link ImmutableValueGraph}.
+   *
+   * @since 28.0
+   */
+  public <N1 extends N, V1 extends V> ImmutableValueGraph.Builder<N1, V1> immutable() {
+    ValueGraphBuilder<N1, V1> castBuilder = cast();
+    return new ImmutableValueGraph.Builder<>(castBuilder);
   }
 
   /**

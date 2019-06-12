@@ -38,6 +38,11 @@ public void testFromFluentFuture() throws Exception {
   testCase.testFromFluentFuture();
 }
 
+public void testFromFluentFuturePassingAsNonFluent() throws Exception {
+  com.google.common.util.concurrent.FluentFutureTest testCase = new com.google.common.util.concurrent.FluentFutureTest();
+  testCase.testFromFluentFuturePassingAsNonFluent();
+}
+
 public void testFromNonFluentFuture() throws Exception {
   com.google.common.util.concurrent.FluentFutureTest testCase = new com.google.common.util.concurrent.FluentFutureTest();
   testCase.testFromNonFluentFuture();

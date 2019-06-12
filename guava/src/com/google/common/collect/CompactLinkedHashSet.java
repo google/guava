@@ -16,15 +16,12 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
@@ -53,7 +50,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
 
   /** Creates an empty {@code CompactLinkedHashSet} instance. */
   public static <E> CompactLinkedHashSet<E> create() {
-    return new CompactLinkedHashSet<E>();
+    return new CompactLinkedHashSet<>();
   }
 
   /**
@@ -92,7 +89,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E> CompactLinkedHashSet<E> createWithExpectedSize(int expectedSize) {
-    return new CompactLinkedHashSet<E>(expectedSize);
+    return new CompactLinkedHashSet<>(expectedSize);
   }
 
   private static final int ENDPOINT = -2;
@@ -113,7 +110,10 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    */
   private transient int @MonotonicNonNull [] successor;
 
+  /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
+
+  /** Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int lastEntry;
 
   CompactLinkedHashSet() {
@@ -125,59 +125,72 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  void init(int expectedSize, float loadFactor) {
-    super.init(expectedSize, loadFactor);
-    this.predecessor = new int[expectedSize];
-    this.successor = new int[expectedSize];
-
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
+  void init(int expectedSize) {
+    super.init(expectedSize);
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
   }
 
-  private void succeeds(int pred, int succ) {
+  @Override
+  void allocArrays() {
+    super.allocArrays();
+    int expectedSize = elements.length; // allocated size may be different than initial capacity
+    this.predecessor = new int[expectedSize];
+    this.successor = new int[expectedSize];
+    Arrays.fill(predecessor, UNSET);
+    Arrays.fill(successor, UNSET);
+  }
+
+  private int getPredecessor(int entry) {
+    return predecessor[entry];
+  }
+
+  @Override
+  int getSuccessor(int entry) {
+    return successor[entry];
+  }
+
+  private void setSuccessor(int entry, int succ) {
+    successor[entry] = succ;
+  }
+
+  private void setPredecessor(int entry, int pred) {
+    predecessor[entry] = pred;
+  }
+
+  private void setSucceeds(int pred, int succ) {
     if (pred == ENDPOINT) {
       firstEntry = succ;
     } else {
-      successor[pred] = succ;
+      setSuccessor(pred, succ);
     }
 
     if (succ == ENDPOINT) {
       lastEntry = pred;
     } else {
-      predecessor[succ] = pred;
+      setPredecessor(succ, pred);
     }
   }
 
   @Override
   void insertEntry(int entryIndex, E object, int hash) {
     super.insertEntry(entryIndex, object, hash);
-    succeeds(lastEntry, entryIndex);
-    succeeds(entryIndex, ENDPOINT);
+    setSucceeds(lastEntry, entryIndex);
+    setSucceeds(entryIndex, ENDPOINT);
   }
 
   @Override
-  void moveEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex) {
     int srcIndex = size() - 1;
-    super.moveEntry(dstIndex);
+    super.moveLastEntry(dstIndex);
 
-    succeeds(predecessor[dstIndex], successor[dstIndex]);
-    if (srcIndex != dstIndex) {
-      succeeds(predecessor[srcIndex], dstIndex);
-      succeeds(dstIndex, successor[srcIndex]);
+    setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
+    if (dstIndex < srcIndex) {
+      setSucceeds(getPredecessor(srcIndex), dstIndex);
+      setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
     predecessor[srcIndex] = UNSET;
     successor[srcIndex] = UNSET;
-  }
-
-  @Override
-  public void clear() {
-    super.clear();
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
   }
 
   @Override
@@ -186,11 +199,20 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     int oldCapacity = predecessor.length;
     predecessor = Arrays.copyOf(predecessor, newCapacity);
     successor = Arrays.copyOf(successor, newCapacity);
-
     if (oldCapacity < newCapacity) {
       Arrays.fill(predecessor, oldCapacity, newCapacity, UNSET);
       Arrays.fill(successor, oldCapacity, newCapacity, UNSET);
     }
+  }
+
+  @Override
+  int firstEntryIndex() {
+    return firstEntry;
+  }
+
+  @Override
+  int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
+    return (indexBeforeRemove >= size()) ? indexRemoved : indexBeforeRemove;
   }
 
   @Override
@@ -204,30 +226,19 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  int firstEntryIndex() {
-    return firstEntry;
-  }
-
-  @Override
-  int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
-    return (indexBeforeRemove == size()) ? indexRemoved : indexBeforeRemove;
-  }
-
-  @Override
-  int getSuccessor(int entryIndex) {
-    return successor[entryIndex];
-  }
-
-  @Override
   public Spliterator<E> spliterator() {
     return Spliterators.spliterator(this, Spliterator.ORDERED | Spliterator.DISTINCT);
   }
 
   @Override
-  public void forEach(Consumer<? super E> action) {
-    checkNotNull(action);
-    for (int i = firstEntry; i != ENDPOINT; i = successor[i]) {
-      action.accept((E) elements[i]);
+  public void clear() {
+    if (needsAllocArrays()) {
+      return;
     }
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
+    Arrays.fill(predecessor, 0, size(), UNSET);
+    Arrays.fill(successor, 0, size(), UNSET);
+    super.clear();
   }
 }

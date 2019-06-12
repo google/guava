@@ -14,11 +14,15 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -45,7 +49,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -124,6 +128,17 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since 28.0
+   */
+  @Deprecated
+  public static <V> FluentFuture<V> from(FluentFuture<V> future) {
+    return checkNotNull(future);
   }
 
   /**
@@ -231,6 +246,22 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
   public final <X extends Throwable> FluentFuture<V> catchingAsync(
       Class<X> exceptionType, AsyncFunction<? super X, ? extends V> fallback, Executor executor) {
     return (FluentFuture<V>) Futures.catchingAsync(this, exceptionType, fallback, executor);
+  }
+
+  /**
+   * Returns a future that delegates to this future but will finish early (via a {@link
+   * TimeoutException} wrapped in an {@link ExecutionException}) if the specified timeout expires.
+   * If the timeout expires, not only will the output future finish, but also the input future
+   * ({@code this}) will be cancelled and interrupted.
+   *
+   * @param timeout when to time out the future
+   * @param scheduledExecutor The executor service to enforce the timeout.
+   * @since 28.0
+   */
+  @GwtIncompatible // ScheduledExecutorService
+  public final FluentFuture<V> withTimeout(
+      Duration timeout, ScheduledExecutorService scheduledExecutor) {
+    return withTimeout(saturatedToNanos(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**

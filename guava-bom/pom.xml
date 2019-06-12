@@ -8,7 +8,7 @@
 
   <groupId>com.google.guava</groupId>
   <artifactId>guava-bom</artifactId>
-  <version>27.1-jre</version>
+  <version>HEAD-jre-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <parent>
@@ -29,7 +29,7 @@
 
   <licenses>
     <license>
-      <name>The Apache Software License, Version 2.0</name>
+      <name>Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>

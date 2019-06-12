@@ -23,7 +23,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 
 /**
- * A builder for constructing instances of {@link MutableNetwork} with user-defined properties.
+ * A builder for constructing instances of {@link MutableNetwork} or {@link ImmutableNetwork} with
+ * user-defined properties.
  *
  * <p>A network built by this class will have the following properties by default:
  *
@@ -34,14 +35,25 @@ import com.google.common.base.Optional;
  *       elements were added
  * </ul>
  *
- * <p>Example of use:
+ * <p>Examples of use:
  *
  * <pre>{@code
- * MutableNetwork<String, Integer> flightNetwork =
+ * // Building a mutable network
+ * MutableNetwork<String, Integer> network =
  *     NetworkBuilder.directed().allowsParallelEdges(true).build();
  * flightNetwork.addEdge("LAX", "ATL", 3025);
  * flightNetwork.addEdge("LAX", "ATL", 1598);
  * flightNetwork.addEdge("ATL", "LAX", 2450);
+ *
+ * // Building a immutable network
+ * ImmutableNetwork<String, Integer> immutableNetwork =
+ *     NetworkBuilder.directed()
+ *         .allowsParallelEdges(true)
+ *         .<String, Integer>immutable()
+ *         .addEdge("LAX", "ATL", 3025)
+ *         .addEdge("LAX", "ATL", 1598)
+ *         .addEdge("ATL", "LAX", 2450)
+ *         .build();
  * }</pre>
  *
  * @author James Sexton
@@ -89,6 +101,18 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
         .allowsSelfLoops(network.allowsSelfLoops())
         .nodeOrder(network.nodeOrder())
         .edgeOrder(network.edgeOrder());
+  }
+
+  /**
+   * Returns an {@link ImmutableNetwork.Builder} with the properties of this {@link NetworkBuilder}.
+   *
+   * <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
+   *
+   * @since 28.0
+   */
+  public <N1 extends N, E1 extends E> ImmutableNetwork.Builder<N1, E1> immutable() {
+    NetworkBuilder<N1, E1> castBuilder = cast();
+    return new ImmutableNetwork.Builder<>(castBuilder);
   }
 
   /**

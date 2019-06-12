@@ -610,9 +610,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
    * proper sequence.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}, or after
-   * the next release of Guava, pass {@link ImmutableList#toImmutableList} to {@code
-   * stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}, or pass
+   * {@link ImmutableList#toImmutableList} to {@code stream.collect()}.
    *
    * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
@@ -627,9 +626,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code
-   * ImmutableList.copyOf(stream.sorted(comparator).iterator())}, or after the next release of
-   * Guava, pass {@link ImmutableList#toImmutableList} to {@code
-   * stream.sorted(comparator).collect()}.
+   * ImmutableList.copyOf(stream.sorted(comparator).iterator())}, or pass {@link
+   * ImmutableList#toImmutableList} to {@code stream.sorted(comparator).collect()}.
    *
    * @param comparator the function by which to sort list elements
    * @throws NullPointerException if any element of this iterable is {@code null}
@@ -643,9 +641,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
    * duplicates removed.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}, or after
-   * the next release of Guava, pass {@link ImmutableSet#toImmutableSet} to {@code
-   * stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}, or pass
+   * {@link ImmutableSet#toImmutableSet} to {@code stream.collect()}.
    *
    * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
@@ -661,8 +658,8 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSortedSet.copyOf(comparator,
-   * stream.iterator())}, or after the next release of Guava, pass {@link
-   * ImmutableSortedSet#toImmutableSortedSet} to {@code stream.collect()}.
+   * stream.iterator())}, or pass {@link ImmutableSortedSet#toImmutableSortedSet} to {@code
+   * stream.collect()}.
    *
    * @param comparator the function by which to sort set elements
    * @throws NullPointerException if any element of this iterable is {@code null}
@@ -676,8 +673,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}, or
-   * after the next release of Guava, pass {@link ImmutableMultiset#toImmutableMultiset} to {@code
-   * stream.collect()}.
+   * pass {@link ImmutableMultiset#toImmutableMultiset} to {@code stream.collect()}.
    *
    * @throws NullPointerException if any element is null
    * @since 19.0
@@ -695,10 +691,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
    * which result will be mapped to that key in the returned map.
    *
-   * <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
-   * stream.collect(ImmutableMap.toImmutableMap(k -> k, valueFunction))}. Before then you can use
-   * {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k, valueFunction)))}, but be
-   * aware that this may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> use {@code stream.collect(ImmutableMap.toImmutableMap(k ->
+   * k, valueFunction))}. {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k,
+   * valueFunction)))} behaves similarly, but may not preserve the order of entries.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
@@ -719,7 +714,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
    * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
-   * the order of entries).
+   * the order of entries.
    *
    * @param keyFunction the function used to produce the key for each value
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
@@ -748,10 +743,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * <p>If your index may associate multiple values with each key, use {@link #index(Function)
    * index}.
    *
-   * <p><b>{@code Stream} equivalent:</b> after the next release of Guava, use {@code
-   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. Before then you can use
-   * {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be
-   * aware that this may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> use {@code
+   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. {@code
+   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be aware that
+   * this may not preserve the order of entries.
    *
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code keyFunction} on each value
