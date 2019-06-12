@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2006 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.escape;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * An object that converts literal text into a format safe for inclusion in a particular context<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * (such as an XML document). Typically (but not always), the inverse process of "unescaping" the<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * text is performed automatically by the relevant parser.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;For example, an XML escaper would convert the literal string {@code "Foo&lt;Bar&gt;"} into {@code<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * "Foo&amp;lt;Bar&amp;gt;"} to prevent {@code "&lt;Bar&gt;"} from being confused with an XML tag. When the<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * resulting XML document is parsed, the parser API will return this text as the original literal<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * string {@code "Foo&lt;Bar&gt;"}.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;A {@code CharEscaper} instance is required to be stateless, and safe when used concurrently by<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * multiple threads.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;p&gt;Popular escapers are defined as constants in classes like {@link<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To create<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * your own escapers extend this class and implement the {@link #escape(char)} method.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * @author Sven Mawson<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * @since 15.0<a name="line.40"></a>
+<span class="sourceLineNo">041</span> */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>@Beta<a name="line.42"></a>
+<span class="sourceLineNo">043</span>@GwtCompatible<a name="line.43"></a>
+<span class="sourceLineNo">044</span>public abstract class CharEscaper extends Escaper {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /** Constructor for use by subclasses. */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  protected CharEscaper() {}<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Returns the escaped form of a given literal string.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * @param string the literal string to be escaped<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @return the escaped form of {@code string}<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * @throws NullPointerException if {@code string} is null<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   */<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public String escape(String string) {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    checkNotNull(string); // GWT specific check (do not optimize)<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    // Inlineable fast-path loop which hands off to escapeSlow() only if needed<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    int length = string.length();<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    for (int index = 0; index &lt; length; index++) {<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      if (escape(string.charAt(index)) != null) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>        return escapeSlow(string, index);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      }<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    }<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    return string;<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * Returns the escaped form of the given character, or {@code null} if this character does not<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * need to be escaped. If an empty array is returned, this effectively strips the input character<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * from the resulting text.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * &lt;p&gt;If the character does not need to be escaped, this method should return {@code null}, rather<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * than a one-character array containing the character itself. This enables the escaping algorithm<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * to perform more efficiently.<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   *<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * &lt;p&gt;An escaper is expected to be able to deal with any {@code char} value, so this method should<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * not throw any exceptions.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * @param c the character to escape if necessary<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * @return the replacement characters, or {@code null} if no escaping was needed<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   */<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  protected abstract char[] escape(char c);<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Returns the escaped form of a given literal string, starting at the given index. This method is<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * called by the {@link #escape(String)} method when it discovers that escaping is required. It is<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * protected to allow subclasses to override the fastpath escaping function to inline their<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * escaping test. See {@link CharEscaperBuilder} for an example usage.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * @param s the literal string to be escaped<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * @param index the index to start escaping from<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * @return the escaped form of {@code string}<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * @throws NullPointerException if {@code string} is null<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  protected final String escapeSlow(String s, int index) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    int slen = s.length();<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>    // Get a destination buffer and setup some loop variables.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    char[] dest = Platform.charBufferFromThreadLocal();<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    int destSize = dest.length;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    int destIndex = 0;<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    int lastEscape = 0;<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>    // Loop through the rest of the string, replacing when needed into the<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    // destination buffer, which gets grown as needed as well.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    for (; index &lt; slen; index++) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>      // Get a replacement for the current character.<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      char[] r = escape(s.charAt(index));<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>      // If no replacement is needed, just continue.<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      if (r == null) {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>        continue;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>      int rlen = r.length;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      int charsSkipped = index - lastEscape;<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>      // This is the size needed to add the replacement, not the full size<a name="line.120"></a>
+<span class="sourceLineNo">121</span>      // needed by the string. We only regrow when we absolutely must, and<a name="line.121"></a>
+<span class="sourceLineNo">122</span>      // when we do grow, grow enough to avoid excessive growing. Grow.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>      int sizeNeeded = destIndex + charsSkipped + rlen;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>      if (destSize &lt; sizeNeeded) {<a name="line.124"></a>
+<span class="sourceLineNo">125</span>        destSize = sizeNeeded + DEST_PAD_MULTIPLIER * (slen - index);<a name="line.125"></a>
+<span class="sourceLineNo">126</span>        dest = growBuffer(dest, destIndex, destSize);<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>      // If we have skipped any characters, we need to copy them now.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      if (charsSkipped &gt; 0) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        s.getChars(lastEscape, index, dest, destIndex);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>        destIndex += charsSkipped;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>      // Copy the replacement string into the dest buffer as needed.<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      if (rlen &gt; 0) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        System.arraycopy(r, 0, dest, destIndex, rlen);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>        destIndex += rlen;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>      }<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      lastEscape = index + 1;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    }<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>    // Copy leftover characters if there are any.<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    int charsLeft = slen - lastEscape;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    if (charsLeft &gt; 0) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      int sizeNeeded = destIndex + charsLeft;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      if (destSize &lt; sizeNeeded) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>        // Regrow and copy, expensive! No padding as this is the final copy.<a name="line.149"></a>
+<span class="sourceLineNo">150</span>        dest = growBuffer(dest, destIndex, sizeNeeded);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      }<a name="line.151"></a>
+<span class="sourceLineNo">152</span>      s.getChars(lastEscape, slen, dest, destIndex);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>      destIndex = sizeNeeded;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    }<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    return new String(dest, 0, destIndex);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  }<a name="line.156"></a>
+<span class="sourceLineNo">157</span><a name="line.157"></a>
+<span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * Helper method to grow the character buffer as needed, this only happens once in a while so it's<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  private static char[] growBuffer(char[] dest, int index, int size) {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    if (size &lt; 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      throw new AssertionError("Cannot increase internal buffer any further");<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    }<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    char[] copy = new char[size];<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    if (index &gt; 0) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return copy;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /** The multiplier for padding to use when growing the escape buffer. */<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  private static final int DEST_PAD_MULTIPLIER = 2;<a name="line.174"></a>
+<span class="sourceLineNo">175</span>}<a name="line.175"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

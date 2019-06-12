@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Comparator;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Iterator;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.NoSuchElementException;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.SortedSet;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>/**<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * A sorted set which forwards all its method calls to another sorted set. Subclasses should<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * override one or more methods to modify the behavior of the backing sorted set as desired per the<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;a href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; The methods of {@code ForwardingSortedSet} forward &lt;i&gt;indiscriminately&lt;/i&gt; to<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * the methods of the delegate. For example, overriding {@link #add} alone &lt;i&gt;will not&lt;/i&gt; change<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you should<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * override {@code addAll} as well, either providing your own implementation, or delegating to the<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * provided {@code standardAddAll} method.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * default} methods. Instead, it inherits their default implementations. When those implementations<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * invoke methods, they invoke methods on the {@code ForwardingSortedSet}.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;Each of the {@code standard} methods, where appropriate, uses the set's comparator (or the<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * natural ordering of the elements, if there is no comparator) to test element equality. As a<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * result, if the comparator is not consistent with equals, some of the standard implementations may<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * violate the {@code Set} contract.<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;p&gt;The {@code standard} methods and the collection views they return are not guaranteed to be<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * thread-safe, even when all of the methods that they depend on are thread-safe.<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * @author Mike Bostock<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * @author Louis Wasserman<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * @since 2.0<a name="line.52"></a>
+<span class="sourceLineNo">053</span> */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>@GwtCompatible<a name="line.54"></a>
+<span class="sourceLineNo">055</span>public abstract class ForwardingSortedSet&lt;E&gt; extends ForwardingSet&lt;E&gt; implements SortedSet&lt;E&gt; {<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  /** Constructor for use by subclasses. */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  protected ForwardingSortedSet() {}<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  @Override<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  protected abstract SortedSet&lt;E&gt; delegate();<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Override<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public Comparator&lt;? super E&gt; comparator() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    return delegate().comparator();<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @Override<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public E first() {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    return delegate().first();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Override<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  public SortedSet&lt;E&gt; headSet(E toElement) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    return delegate().headSet(toElement);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  @Override<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  public E last() {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    return delegate().last();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  @Override<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  public SortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    return delegate().subSet(fromElement, toElement);<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public SortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    return delegate().tailSet(fromElement);<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  // unsafe, but worst case is a CCE is thrown, which callers will be expecting<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  @SuppressWarnings("unchecked")<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  private int unsafeCompare(@Nullable Object o1, @Nullable Object o2) {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    Comparator&lt;? super E&gt; comparator = comparator();<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    return (comparator == null)<a name="line.97"></a>
+<span class="sourceLineNo">098</span>        ? ((Comparable&lt;Object&gt;) o1).compareTo(o2)<a name="line.98"></a>
+<span class="sourceLineNo">099</span>        : ((Comparator&lt;Object&gt;) comparator).compare(o1, o2);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * forward to this implementation.<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   *<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * @since 7.0<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  @Override<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  @Beta<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  protected boolean standardContains(@Nullable Object object) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    try {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      // any ClassCastExceptions are caught<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      @SuppressWarnings("unchecked")<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      SortedSet&lt;Object&gt; self = (SortedSet&lt;Object&gt;) this;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>      Object ceiling = self.tailSet(object).first();<a name="line.116"></a>
+<span class="sourceLineNo">117</span>      return unsafeCompare(ceiling, object) == 0;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>      return false;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    }<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * forward to this implementation.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * @since 7.0<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @Override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  @Beta<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  protected boolean standardRemove(@Nullable Object object) {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    try {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      // any ClassCastExceptions are caught<a name="line.134"></a>
+<span class="sourceLineNo">135</span>      @SuppressWarnings("unchecked")<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      SortedSet&lt;Object&gt; self = (SortedSet&lt;Object&gt;) this;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      Iterator&lt;Object&gt; iterator = self.tailSet(object).iterator();<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      if (iterator.hasNext()) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        Object ceiling = iterator.next();<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        if (unsafeCompare(ceiling, object) == 0) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>          iterator.remove();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>          return true;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        }<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      }<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    } catch (ClassCastException | NullPointerException e) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      return false;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    }<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    return false;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * A sensible default implementation of {@link #subSet(Object, Object)} in terms of {@link<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * #headSet(Object)} and {@link #tailSet(Object)}. In some situations, you may wish to override<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * {@link #subSet(Object, Object)} to forward to this implementation.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @since 7.0<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  @Beta<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  protected SortedSet&lt;E&gt; standardSubSet(E fromElement, E toElement) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    return tailSet(fromElement).headSet(toElement);<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  }<a name="line.161"></a>
+<span class="sourceLineNo">162</span>}<a name="line.162"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

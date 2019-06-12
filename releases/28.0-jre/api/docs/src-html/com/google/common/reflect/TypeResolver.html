@@ -1,0 +1,676 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.reflect;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkState;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static java.util.Arrays.asList;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.Beta;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Joiner;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.Objects;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.collect.ImmutableMap;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.collect.Maps;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.lang.reflect.GenericArrayType;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.lang.reflect.ParameterizedType;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.lang.reflect.Type;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.lang.reflect.TypeVariable;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.lang.reflect.WildcardType;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.Arrays;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.LinkedHashSet;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.Map;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.Map.Entry;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.Set;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.concurrent.atomic.AtomicInteger;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>/**<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * An object of this class encapsulates type mappings from type variables. Mappings are established<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * with {@link #where} and types are resolved using {@link #resolveType}.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * &lt;p&gt;Note that usually type mappings are already implied by the static type hierarchy (for example,<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * the {@code E} type variable declared by class {@code List} naturally maps to {@code String} in<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * the context of {@code class MyStringList implements List&lt;String&gt;}. In such case, prefer to use<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * {@link TypeToken#resolveType} since it's simpler and more type safe. This class should only be<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * used when the type mapping isn't implied by the static type hierarchy, but provided through other<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * means such as an annotation or external configuration file.<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * @author Ben Yu<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * @since 15.0<a name="line.52"></a>
+<span class="sourceLineNo">053</span> */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>@Beta<a name="line.54"></a>
+<span class="sourceLineNo">055</span>public final class TypeResolver {<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private final TypeTable typeTable;<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  public TypeResolver() {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    this.typeTable = new TypeTable();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private TypeResolver(TypeTable typeTable) {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    this.typeTable = typeTable;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Returns a resolver that resolves types "covariantly".<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * &lt;p&gt;For example, when resolving {@code List&lt;T&gt;} in the context of {@code ArrayList&lt;?&gt;}, {@code<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * &lt;T&gt;} is covariantly resolved to {@code &lt;?&gt;} such that return type of {@code List::get} is<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * {@code &lt;?&gt;}.<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  static TypeResolver covariantly(Type contextType) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(contextType));<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Returns a resolver that resolves types "invariantly".<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   *<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * &lt;p&gt;For example, when resolving {@code List&lt;T&gt;} in the context of {@code ArrayList&lt;?&gt;}, {@code<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * &lt;T&gt;} cannot be invariantly resolved to {@code &lt;?&gt;} because otherwise the parameter type of<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * {@code List::set} will be {@code &lt;?&gt;} and it'll falsely say any object can be passed into<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * {@code ArrayList&lt;?&gt;::set}.<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * &lt;p&gt;Instead, {@code &lt;?&gt;} will be resolved to a capture in the form of a type variable {@code<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * &lt;capture-of-? extends Object&gt;}, effectively preventing {@code set} from accepting any type.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  static TypeResolver invariantly(Type contextType) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    Type invariantContext = WildcardCapturer.INSTANCE.capture(contextType);<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(invariantContext));<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * Returns a new {@code TypeResolver} with type variables in {@code formal} mapping to types in<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * {@code actual}.<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   *<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * &lt;p&gt;For example, if {@code formal} is a {@code TypeVariable T}, and {@code actual} is {@code<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * String.class}, then {@code new TypeResolver().where(formal, actual)} will {@linkplain<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * #resolveType resolve} {@code ParameterizedType List&lt;T&gt;} to {@code List&lt;String&gt;}, and resolve<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * {@code Map&lt;T, Something&gt;} to {@code Map&lt;String, Something&gt;} etc. Similarly, {@code formal} and<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * {@code actual} can be {@code Map&lt;K, V&gt;} and {@code Map&lt;String, Integer&gt;} respectively, or they<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * can be {@code E[]} and {@code String[]} respectively, or even any arbitrary combination<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * thereof.<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @param formal The type whose type variables or itself is mapped to other type(s). It's almost<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *     always a bug if {@code formal} isn't a type variable and contains no type variable. Make<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *     sure you are passing the two parameters in the right order.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * @param actual The type that the formal type variable(s) are mapped to. It can be or contain yet<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   *     other type variables, in which case these type variables will be further resolved if<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *     corresponding mappings exist in the current {@code TypeResolver} instance.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  public TypeResolver where(Type formal, Type actual) {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    Map&lt;TypeVariableKey, Type&gt; mappings = Maps.newHashMap();<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    populateTypeMappings(mappings, checkNotNull(formal), checkNotNull(actual));<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return where(mappings);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  TypeResolver where(Map&lt;TypeVariableKey, ? extends Type&gt; mappings) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    return new TypeResolver(typeTable.where(mappings));<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  private static void populateTypeMappings(<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      final Map&lt;TypeVariableKey, Type&gt; mappings, final Type from, final Type to) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    if (from.equals(to)) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      return;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    new TypeVisitor() {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      @Override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>      void visitTypeVariable(TypeVariable&lt;?&gt; typeVariable) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>        mappings.put(new TypeVariableKey(typeVariable), to);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>      @Override<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      void visitWildcardType(WildcardType fromWildcardType) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        if (!(to instanceof WildcardType)) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>          return; // okay to say &lt;?&gt; is anything<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        }<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        WildcardType toWildcardType = (WildcardType) to;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>        Type[] fromUpperBounds = fromWildcardType.getUpperBounds();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        Type[] toUpperBounds = toWildcardType.getUpperBounds();<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        Type[] fromLowerBounds = fromWildcardType.getLowerBounds();<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        Type[] toLowerBounds = toWildcardType.getLowerBounds();<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        checkArgument(<a name="line.145"></a>
+<span class="sourceLineNo">146</span>            fromUpperBounds.length == toUpperBounds.length<a name="line.146"></a>
+<span class="sourceLineNo">147</span>                &amp;&amp; fromLowerBounds.length == toLowerBounds.length,<a name="line.147"></a>
+<span class="sourceLineNo">148</span>            "Incompatible type: %s vs. %s",<a name="line.148"></a>
+<span class="sourceLineNo">149</span>            fromWildcardType,<a name="line.149"></a>
+<span class="sourceLineNo">150</span>            to);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        for (int i = 0; i &lt; fromUpperBounds.length; i++) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>          populateTypeMappings(mappings, fromUpperBounds[i], toUpperBounds[i]);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>        }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>        for (int i = 0; i &lt; fromLowerBounds.length; i++) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>          populateTypeMappings(mappings, fromLowerBounds[i], toLowerBounds[i]);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>        }<a name="line.156"></a>
+<span class="sourceLineNo">157</span>      }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>      @Override<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      void visitParameterizedType(ParameterizedType fromParameterizedType) {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        if (to instanceof WildcardType) {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>          return; // Okay to say Foo&lt;A&gt; is &lt;?&gt;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>        }<a name="line.163"></a>
+<span class="sourceLineNo">164</span>        ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        if (fromParameterizedType.getOwnerType() != null<a name="line.165"></a>
+<span class="sourceLineNo">166</span>            &amp;&amp; toParameterizedType.getOwnerType() != null) {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>          populateTypeMappings(<a name="line.167"></a>
+<span class="sourceLineNo">168</span>              mappings, fromParameterizedType.getOwnerType(), toParameterizedType.getOwnerType());<a name="line.168"></a>
+<span class="sourceLineNo">169</span>        }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        checkArgument(<a name="line.170"></a>
+<span class="sourceLineNo">171</span>            fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),<a name="line.171"></a>
+<span class="sourceLineNo">172</span>            "Inconsistent raw type: %s vs. %s",<a name="line.172"></a>
+<span class="sourceLineNo">173</span>            fromParameterizedType,<a name="line.173"></a>
+<span class="sourceLineNo">174</span>            to);<a name="line.174"></a>
+<span class="sourceLineNo">175</span>        Type[] fromArgs = fromParameterizedType.getActualTypeArguments();<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        Type[] toArgs = toParameterizedType.getActualTypeArguments();<a name="line.176"></a>
+<span class="sourceLineNo">177</span>        checkArgument(<a name="line.177"></a>
+<span class="sourceLineNo">178</span>            fromArgs.length == toArgs.length,<a name="line.178"></a>
+<span class="sourceLineNo">179</span>            "%s not compatible with %s",<a name="line.179"></a>
+<span class="sourceLineNo">180</span>            fromParameterizedType,<a name="line.180"></a>
+<span class="sourceLineNo">181</span>            toParameterizedType);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>        for (int i = 0; i &lt; fromArgs.length; i++) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>          populateTypeMappings(mappings, fromArgs[i], toArgs[i]);<a name="line.183"></a>
+<span class="sourceLineNo">184</span>        }<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>      @Override<a name="line.187"></a>
+<span class="sourceLineNo">188</span>      void visitGenericArrayType(GenericArrayType fromArrayType) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>        if (to instanceof WildcardType) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>          return; // Okay to say A[] is &lt;?&gt;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        }<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        Type componentType = Types.getComponentType(to);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        checkArgument(componentType != null, "%s is not an array type.", to);<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        populateTypeMappings(mappings, fromArrayType.getGenericComponentType(), componentType);<a name="line.194"></a>
+<span class="sourceLineNo">195</span>      }<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>      @Override<a name="line.197"></a>
+<span class="sourceLineNo">198</span>      void visitClass(Class&lt;?&gt; fromClass) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>        if (to instanceof WildcardType) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>          return; // Okay to say Foo is &lt;?&gt;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>        }<a name="line.201"></a>
+<span class="sourceLineNo">202</span>        // Can't map from a raw class to anything other than itself or a wildcard.<a name="line.202"></a>
+<span class="sourceLineNo">203</span>        // You can't say "assuming String is Integer".<a name="line.203"></a>
+<span class="sourceLineNo">204</span>        // And we don't support "assuming String is T"; user has to say "assuming T is String".<a name="line.204"></a>
+<span class="sourceLineNo">205</span>        throw new IllegalArgumentException("No type mapping from " + fromClass + " to " + to);<a name="line.205"></a>
+<span class="sourceLineNo">206</span>      }<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    }.visit(from);<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  }<a name="line.208"></a>
+<span class="sourceLineNo">209</span><a name="line.209"></a>
+<span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * Resolves all type variables in {@code type} and all downstream types and returns a<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * corresponding type with type variables resolved.<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   */<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  public Type resolveType(Type type) {<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    checkNotNull(type);<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    if (type instanceof TypeVariable) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      return typeTable.resolve((TypeVariable&lt;?&gt;) type);<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    } else if (type instanceof ParameterizedType) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      return resolveParameterizedType((ParameterizedType) type);<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    } else if (type instanceof GenericArrayType) {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      return resolveGenericArrayType((GenericArrayType) type);<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    } else if (type instanceof WildcardType) {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>      return resolveWildcardType((WildcardType) type);<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    } else {<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      // if Class&lt;?&gt;, no resolution needed, we are done.<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      return type;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    }<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  }<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>  Type[] resolveTypesInPlace(Type[] types) {<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    for (int i = 0; i &lt; types.length; i++) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>      types[i] = resolveType(types[i]);<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    }<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    return types;<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  private Type[] resolveTypes(Type[] types) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    Type[] result = new Type[types.length];<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    for (int i = 0; i &lt; types.length; i++) {<a name="line.239"></a>
+<span class="sourceLineNo">240</span>      result[i] = resolveType(types[i]);<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    }<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    return result;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  }<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  private WildcardType resolveWildcardType(WildcardType type) {<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    Type[] lowerBounds = type.getLowerBounds();<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    Type[] upperBounds = type.getUpperBounds();<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    return new Types.WildcardTypeImpl(resolveTypes(lowerBounds), resolveTypes(upperBounds));<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  }<a name="line.249"></a>
+<span class="sourceLineNo">250</span><a name="line.250"></a>
+<span class="sourceLineNo">251</span>  private Type resolveGenericArrayType(GenericArrayType type) {<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    Type componentType = type.getGenericComponentType();<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    Type resolvedComponentType = resolveType(componentType);<a name="line.253"></a>
+<span class="sourceLineNo">254</span>    return Types.newArrayType(resolvedComponentType);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  }<a name="line.255"></a>
+<span class="sourceLineNo">256</span><a name="line.256"></a>
+<span class="sourceLineNo">257</span>  private ParameterizedType resolveParameterizedType(ParameterizedType type) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    Type owner = type.getOwnerType();<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    Type resolvedOwner = (owner == null) ? null : resolveType(owner);<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    Type resolvedRawType = resolveType(type.getRawType());<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>    Type[] args = type.getActualTypeArguments();<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    Type[] resolvedArgs = resolveTypes(args);<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    return Types.newParameterizedTypeWithOwner(<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        resolvedOwner, (Class&lt;?&gt;) resolvedRawType, resolvedArgs);<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  }<a name="line.266"></a>
+<span class="sourceLineNo">267</span><a name="line.267"></a>
+<span class="sourceLineNo">268</span>  private static &lt;T&gt; T expectArgument(Class&lt;T&gt; type, Object arg) {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    try {<a name="line.269"></a>
+<span class="sourceLineNo">270</span>      return type.cast(arg);<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    } catch (ClassCastException e) {<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      throw new IllegalArgumentException(arg + " is not a " + type.getSimpleName());<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    }<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  }<a name="line.274"></a>
+<span class="sourceLineNo">275</span><a name="line.275"></a>
+<span class="sourceLineNo">276</span>  /** A TypeTable maintains mapping from {@link TypeVariable} to types. */<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  private static class TypeTable {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>    private final ImmutableMap&lt;TypeVariableKey, Type&gt; map;<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>    TypeTable() {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>      this.map = ImmutableMap.of();<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    }<a name="line.282"></a>
+<span class="sourceLineNo">283</span><a name="line.283"></a>
+<span class="sourceLineNo">284</span>    private TypeTable(ImmutableMap&lt;TypeVariableKey, Type&gt; map) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      this.map = map;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>    /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    final TypeTable where(Map&lt;TypeVariableKey, ? extends Type&gt; mappings) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      ImmutableMap.Builder&lt;TypeVariableKey, Type&gt; builder = ImmutableMap.builder();<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      builder.putAll(map);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      for (Entry&lt;TypeVariableKey, ? extends Type&gt; mapping : mappings.entrySet()) {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        TypeVariableKey variable = mapping.getKey();<a name="line.293"></a>
+<span class="sourceLineNo">294</span>        Type type = mapping.getValue();<a name="line.294"></a>
+<span class="sourceLineNo">295</span>        checkArgument(!variable.equalsType(type), "Type variable %s bound to itself", variable);<a name="line.295"></a>
+<span class="sourceLineNo">296</span>        builder.put(variable, type);<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      }<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      return new TypeTable(builder.build());<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    }<a name="line.299"></a>
+<span class="sourceLineNo">300</span><a name="line.300"></a>
+<span class="sourceLineNo">301</span>    final Type resolve(final TypeVariable&lt;?&gt; var) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      final TypeTable unguarded = this;<a name="line.302"></a>
+<span class="sourceLineNo">303</span>      TypeTable guarded =<a name="line.303"></a>
+<span class="sourceLineNo">304</span>          new TypeTable() {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>            @Override<a name="line.305"></a>
+<span class="sourceLineNo">306</span>            public Type resolveInternal(TypeVariable&lt;?&gt; intermediateVar, TypeTable forDependent) {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>              if (intermediateVar.getGenericDeclaration().equals(var.getGenericDeclaration())) {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>                return intermediateVar;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>              }<a name="line.309"></a>
+<span class="sourceLineNo">310</span>              return unguarded.resolveInternal(intermediateVar, forDependent);<a name="line.310"></a>
+<span class="sourceLineNo">311</span>            }<a name="line.311"></a>
+<span class="sourceLineNo">312</span>          };<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return resolveInternal(var, guarded);<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>    /**<a name="line.316"></a>
+<span class="sourceLineNo">317</span>     * Resolves {@code var} using the encapsulated type mapping. If it maps to yet another<a name="line.317"></a>
+<span class="sourceLineNo">318</span>     * non-reified type or has bounds, {@code forDependants} is used to do further resolution, which<a name="line.318"></a>
+<span class="sourceLineNo">319</span>     * doesn't try to resolve any type variable on generic declarations that are already being<a name="line.319"></a>
+<span class="sourceLineNo">320</span>     * resolved.<a name="line.320"></a>
+<span class="sourceLineNo">321</span>     *<a name="line.321"></a>
+<span class="sourceLineNo">322</span>     * &lt;p&gt;Should only be called and overridden by {@link #resolve(TypeVariable)}.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>     */<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    Type resolveInternal(TypeVariable&lt;?&gt; var, TypeTable forDependants) {<a name="line.324"></a>
+<span class="sourceLineNo">325</span>      Type type = map.get(new TypeVariableKey(var));<a name="line.325"></a>
+<span class="sourceLineNo">326</span>      if (type == null) {<a name="line.326"></a>
+<span class="sourceLineNo">327</span>        Type[] bounds = var.getBounds();<a name="line.327"></a>
+<span class="sourceLineNo">328</span>        if (bounds.length == 0) {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>          return var;<a name="line.329"></a>
+<span class="sourceLineNo">330</span>        }<a name="line.330"></a>
+<span class="sourceLineNo">331</span>        Type[] resolvedBounds = new TypeResolver(forDependants).resolveTypes(bounds);<a name="line.331"></a>
+<span class="sourceLineNo">332</span>        /*<a name="line.332"></a>
+<span class="sourceLineNo">333</span>         * We'd like to simply create our own TypeVariable with the newly resolved bounds. There's<a name="line.333"></a>
+<span class="sourceLineNo">334</span>         * just one problem: Starting with JDK 7u51, the JDK TypeVariable's equals() method doesn't<a name="line.334"></a>
+<span class="sourceLineNo">335</span>         * recognize instances of our TypeVariable implementation. This is a problem because users<a name="line.335"></a>
+<span class="sourceLineNo">336</span>         * compare TypeVariables from the JDK against TypeVariables returned by TypeResolver. To<a name="line.336"></a>
+<span class="sourceLineNo">337</span>         * work with all JDK versions, TypeResolver must return the appropriate TypeVariable<a name="line.337"></a>
+<span class="sourceLineNo">338</span>         * implementation in each of the three possible cases:<a name="line.338"></a>
+<span class="sourceLineNo">339</span>         *<a name="line.339"></a>
+<span class="sourceLineNo">340</span>         * 1. Prior to JDK 7u51, the JDK TypeVariable implementation interoperates with ours.<a name="line.340"></a>
+<span class="sourceLineNo">341</span>         * Therefore, we can always create our own TypeVariable.<a name="line.341"></a>
+<span class="sourceLineNo">342</span>         *<a name="line.342"></a>
+<span class="sourceLineNo">343</span>         * 2. Starting with JDK 7u51, the JDK TypeVariable implementations does not interoperate<a name="line.343"></a>
+<span class="sourceLineNo">344</span>         * with ours. Therefore, we have to be careful about whether we create our own TypeVariable:<a name="line.344"></a>
+<span class="sourceLineNo">345</span>         *<a name="line.345"></a>
+<span class="sourceLineNo">346</span>         * 2a. If the resolved types are identical to the original types, then we can return the<a name="line.346"></a>
+<span class="sourceLineNo">347</span>         * original, identical JDK TypeVariable. By doing so, we sidestep the problem entirely.<a name="line.347"></a>
+<span class="sourceLineNo">348</span>         *<a name="line.348"></a>
+<span class="sourceLineNo">349</span>         * 2b. If the resolved types are different from the original types, things are trickier. The<a name="line.349"></a>
+<span class="sourceLineNo">350</span>         * only way to get a TypeVariable instance for the resolved types is to create our own. The<a name="line.350"></a>
+<span class="sourceLineNo">351</span>         * created TypeVariable will not interoperate with any JDK TypeVariable. But this is OK: We<a name="line.351"></a>
+<span class="sourceLineNo">352</span>         * don't _want_ our new TypeVariable to be equal to the JDK TypeVariable because it has<a name="line.352"></a>
+<span class="sourceLineNo">353</span>         * _different bounds_ than the JDK TypeVariable. And it wouldn't make sense for our new<a name="line.353"></a>
+<span class="sourceLineNo">354</span>         * TypeVariable to be equal to any _other_ JDK TypeVariable, either, because any other JDK<a name="line.354"></a>
+<span class="sourceLineNo">355</span>         * TypeVariable must have a different declaration or name. The only TypeVariable that our<a name="line.355"></a>
+<span class="sourceLineNo">356</span>         * new TypeVariable _will_ be equal to is an equivalent TypeVariable that was also created<a name="line.356"></a>
+<span class="sourceLineNo">357</span>         * by us. And that equality is guaranteed to hold because it doesn't involve the JDK<a name="line.357"></a>
+<span class="sourceLineNo">358</span>         * TypeVariable implementation at all.<a name="line.358"></a>
+<span class="sourceLineNo">359</span>         */<a name="line.359"></a>
+<span class="sourceLineNo">360</span>        if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY<a name="line.360"></a>
+<span class="sourceLineNo">361</span>            &amp;&amp; Arrays.equals(bounds, resolvedBounds)) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>          return var;<a name="line.362"></a>
+<span class="sourceLineNo">363</span>        }<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        return Types.newArtificialTypeVariable(<a name="line.364"></a>
+<span class="sourceLineNo">365</span>            var.getGenericDeclaration(), var.getName(), resolvedBounds);<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      }<a name="line.366"></a>
+<span class="sourceLineNo">367</span>      // in case the type is yet another type variable.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      return new TypeResolver(forDependants).resolveType(type);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">370</span>  }<a name="line.370"></a>
+<span class="sourceLineNo">371</span><a name="line.371"></a>
+<span class="sourceLineNo">372</span>  private static final class TypeMappingIntrospector extends TypeVisitor {<a name="line.372"></a>
+<span class="sourceLineNo">373</span><a name="line.373"></a>
+<span class="sourceLineNo">374</span>    private final Map&lt;TypeVariableKey, Type&gt; mappings = Maps.newHashMap();<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>    /**<a name="line.376"></a>
+<span class="sourceLineNo">377</span>     * Returns type mappings using type parameters and type arguments found in the generic<a name="line.377"></a>
+<span class="sourceLineNo">378</span>     * superclass and the super interfaces of {@code contextClass}.<a name="line.378"></a>
+<span class="sourceLineNo">379</span>     */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    static ImmutableMap&lt;TypeVariableKey, Type&gt; getTypeMappings(Type contextType) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      checkNotNull(contextType);<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      TypeMappingIntrospector introspector = new TypeMappingIntrospector();<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      introspector.visit(contextType);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      return ImmutableMap.copyOf(introspector.mappings);<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>    @Override<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    void visitClass(Class&lt;?&gt; clazz) {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>      visit(clazz.getGenericSuperclass());<a name="line.389"></a>
+<span class="sourceLineNo">390</span>      visit(clazz.getGenericInterfaces());<a name="line.390"></a>
+<span class="sourceLineNo">391</span>    }<a name="line.391"></a>
+<span class="sourceLineNo">392</span><a name="line.392"></a>
+<span class="sourceLineNo">393</span>    @Override<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    void visitParameterizedType(ParameterizedType parameterizedType) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>      Class&lt;?&gt; rawClass = (Class&lt;?&gt;) parameterizedType.getRawType();<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      TypeVariable&lt;?&gt;[] vars = rawClass.getTypeParameters();<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      Type[] typeArgs = parameterizedType.getActualTypeArguments();<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      checkState(vars.length == typeArgs.length);<a name="line.398"></a>
+<span class="sourceLineNo">399</span>      for (int i = 0; i &lt; vars.length; i++) {<a name="line.399"></a>
+<span class="sourceLineNo">400</span>        map(new TypeVariableKey(vars[i]), typeArgs[i]);<a name="line.400"></a>
+<span class="sourceLineNo">401</span>      }<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      visit(rawClass);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      visit(parameterizedType.getOwnerType());<a name="line.403"></a>
+<span class="sourceLineNo">404</span>    }<a name="line.404"></a>
+<span class="sourceLineNo">405</span><a name="line.405"></a>
+<span class="sourceLineNo">406</span>    @Override<a name="line.406"></a>
+<span class="sourceLineNo">407</span>    void visitTypeVariable(TypeVariable&lt;?&gt; t) {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      visit(t.getBounds());<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    }<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>    @Override<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    void visitWildcardType(WildcardType t) {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      visit(t.getUpperBounds());<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    }<a name="line.414"></a>
+<span class="sourceLineNo">415</span><a name="line.415"></a>
+<span class="sourceLineNo">416</span>    private void map(final TypeVariableKey var, final Type arg) {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      if (mappings.containsKey(var)) {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>        // Mapping already established<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        // This is possible when following both superClass -&gt; enclosingClass<a name="line.419"></a>
+<span class="sourceLineNo">420</span>        // and enclosingclass -&gt; superClass paths.<a name="line.420"></a>
+<span class="sourceLineNo">421</span>        // Since we follow the path of superclass first, enclosing second,<a name="line.421"></a>
+<span class="sourceLineNo">422</span>        // superclass mapping should take precedence.<a name="line.422"></a>
+<span class="sourceLineNo">423</span>        return;<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      }<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      // First, check whether var -&gt; arg forms a cycle<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      for (Type t = arg; t != null; t = mappings.get(TypeVariableKey.forLookup(t))) {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>        if (var.equalsType(t)) {<a name="line.427"></a>
+<span class="sourceLineNo">428</span>          // cycle detected, remove the entire cycle from the mapping so that<a name="line.428"></a>
+<span class="sourceLineNo">429</span>          // each type variable resolves deterministically to itself.<a name="line.429"></a>
+<span class="sourceLineNo">430</span>          // Otherwise, a F -&gt; T cycle will end up resolving both F and T<a name="line.430"></a>
+<span class="sourceLineNo">431</span>          // nondeterministically to either F or T.<a name="line.431"></a>
+<span class="sourceLineNo">432</span>          for (Type x = arg; x != null; x = mappings.remove(TypeVariableKey.forLookup(x))) {}<a name="line.432"></a>
+<span class="sourceLineNo">433</span>          return;<a name="line.433"></a>
+<span class="sourceLineNo">434</span>        }<a name="line.434"></a>
+<span class="sourceLineNo">435</span>      }<a name="line.435"></a>
+<span class="sourceLineNo">436</span>      mappings.put(var, arg);<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    }<a name="line.437"></a>
+<span class="sourceLineNo">438</span>  }<a name="line.438"></a>
+<span class="sourceLineNo">439</span><a name="line.439"></a>
+<span class="sourceLineNo">440</span>  // This is needed when resolving types against a context with wildcards<a name="line.440"></a>
+<span class="sourceLineNo">441</span>  // For example:<a name="line.441"></a>
+<span class="sourceLineNo">442</span>  // class Holder&lt;T&gt; {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>  //   void set(T data) {...}<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  // }<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  // Holder&lt;List&lt;?&gt;&gt; should *not* resolve the set() method to set(List&lt;?&gt; data).<a name="line.445"></a>
+<span class="sourceLineNo">446</span>  // Instead, it should create a capture of the wildcard so that set() rejects any List&lt;T&gt;.<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  private static class WildcardCapturer {<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>    static final WildcardCapturer INSTANCE = new WildcardCapturer();<a name="line.449"></a>
+<span class="sourceLineNo">450</span><a name="line.450"></a>
+<span class="sourceLineNo">451</span>    private final AtomicInteger id;<a name="line.451"></a>
+<span class="sourceLineNo">452</span><a name="line.452"></a>
+<span class="sourceLineNo">453</span>    private WildcardCapturer() {<a name="line.453"></a>
+<span class="sourceLineNo">454</span>      this(new AtomicInteger());<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    }<a name="line.455"></a>
+<span class="sourceLineNo">456</span><a name="line.456"></a>
+<span class="sourceLineNo">457</span>    private WildcardCapturer(AtomicInteger id) {<a name="line.457"></a>
+<span class="sourceLineNo">458</span>      this.id = id;<a name="line.458"></a>
+<span class="sourceLineNo">459</span>    }<a name="line.459"></a>
+<span class="sourceLineNo">460</span><a name="line.460"></a>
+<span class="sourceLineNo">461</span>    final Type capture(Type type) {<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      checkNotNull(type);<a name="line.462"></a>
+<span class="sourceLineNo">463</span>      if (type instanceof Class) {<a name="line.463"></a>
+<span class="sourceLineNo">464</span>        return type;<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      }<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      if (type instanceof TypeVariable) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>        return type;<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      }<a name="line.468"></a>
+<span class="sourceLineNo">469</span>      if (type instanceof GenericArrayType) {<a name="line.469"></a>
+<span class="sourceLineNo">470</span>        GenericArrayType arrayType = (GenericArrayType) type;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>        return Types.newArrayType(<a name="line.471"></a>
+<span class="sourceLineNo">472</span>            notForTypeVariable().capture(arrayType.getGenericComponentType()));<a name="line.472"></a>
+<span class="sourceLineNo">473</span>      }<a name="line.473"></a>
+<span class="sourceLineNo">474</span>      if (type instanceof ParameterizedType) {<a name="line.474"></a>
+<span class="sourceLineNo">475</span>        ParameterizedType parameterizedType = (ParameterizedType) type;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>        Class&lt;?&gt; rawType = (Class&lt;?&gt;) parameterizedType.getRawType();<a name="line.476"></a>
+<span class="sourceLineNo">477</span>        TypeVariable&lt;?&gt;[] typeVars = rawType.getTypeParameters();<a name="line.477"></a>
+<span class="sourceLineNo">478</span>        Type[] typeArgs = parameterizedType.getActualTypeArguments();<a name="line.478"></a>
+<span class="sourceLineNo">479</span>        for (int i = 0; i &lt; typeArgs.length; i++) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>          typeArgs[i] = forTypeVariable(typeVars[i]).capture(typeArgs[i]);<a name="line.480"></a>
+<span class="sourceLineNo">481</span>        }<a name="line.481"></a>
+<span class="sourceLineNo">482</span>        return Types.newParameterizedTypeWithOwner(<a name="line.482"></a>
+<span class="sourceLineNo">483</span>            notForTypeVariable().captureNullable(parameterizedType.getOwnerType()),<a name="line.483"></a>
+<span class="sourceLineNo">484</span>            rawType,<a name="line.484"></a>
+<span class="sourceLineNo">485</span>            typeArgs);<a name="line.485"></a>
+<span class="sourceLineNo">486</span>      }<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      if (type instanceof WildcardType) {<a name="line.487"></a>
+<span class="sourceLineNo">488</span>        WildcardType wildcardType = (WildcardType) type;<a name="line.488"></a>
+<span class="sourceLineNo">489</span>        Type[] lowerBounds = wildcardType.getLowerBounds();<a name="line.489"></a>
+<span class="sourceLineNo">490</span>        if (lowerBounds.length == 0) { // ? extends something changes to capture-of<a name="line.490"></a>
+<span class="sourceLineNo">491</span>          return captureAsTypeVariable(wildcardType.getUpperBounds());<a name="line.491"></a>
+<span class="sourceLineNo">492</span>        } else {<a name="line.492"></a>
+<span class="sourceLineNo">493</span>          // TODO(benyu): handle ? super T somehow.<a name="line.493"></a>
+<span class="sourceLineNo">494</span>          return type;<a name="line.494"></a>
+<span class="sourceLineNo">495</span>        }<a name="line.495"></a>
+<span class="sourceLineNo">496</span>      }<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      throw new AssertionError("must have been one of the known types");<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    }<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>    TypeVariable&lt;?&gt; captureAsTypeVariable(Type[] upperBounds) {<a name="line.500"></a>
+<span class="sourceLineNo">501</span>      String name =<a name="line.501"></a>
+<span class="sourceLineNo">502</span>          "capture#" + id.incrementAndGet() + "-of ? extends " + Joiner.on('&amp;').join(upperBounds);<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      return Types.newArtificialTypeVariable(WildcardCapturer.class, name, upperBounds);<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    }<a name="line.504"></a>
+<span class="sourceLineNo">505</span><a name="line.505"></a>
+<span class="sourceLineNo">506</span>    private WildcardCapturer forTypeVariable(final TypeVariable&lt;?&gt; typeParam) {<a name="line.506"></a>
+<span class="sourceLineNo">507</span>      return new WildcardCapturer(id) {<a name="line.507"></a>
+<span class="sourceLineNo">508</span>        @Override<a name="line.508"></a>
+<span class="sourceLineNo">509</span>        TypeVariable&lt;?&gt; captureAsTypeVariable(Type[] upperBounds) {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>          Set&lt;Type&gt; combined = new LinkedHashSet&lt;&gt;(asList(upperBounds));<a name="line.510"></a>
+<span class="sourceLineNo">511</span>          // Since this is an artifically generated type variable, we don't bother checking<a name="line.511"></a>
+<span class="sourceLineNo">512</span>          // subtyping between declared type bound and actual type bound. So it's possible that we<a name="line.512"></a>
+<span class="sourceLineNo">513</span>          // may generate something like &lt;capture#1-of ? extends Foo&amp;SubFoo&gt;.<a name="line.513"></a>
+<span class="sourceLineNo">514</span>          // Checking subtype between declared and actual type bounds<a name="line.514"></a>
+<span class="sourceLineNo">515</span>          // adds recursive isSubtypeOf() call and feels complicated.<a name="line.515"></a>
+<span class="sourceLineNo">516</span>          // There is no contract one way or another as long as isSubtypeOf() works as expected.<a name="line.516"></a>
+<span class="sourceLineNo">517</span>          combined.addAll(asList(typeParam.getBounds()));<a name="line.517"></a>
+<span class="sourceLineNo">518</span>          if (combined.size() &gt; 1) { // Object is implicit and only useful if it's the only bound.<a name="line.518"></a>
+<span class="sourceLineNo">519</span>            combined.remove(Object.class);<a name="line.519"></a>
+<span class="sourceLineNo">520</span>          }<a name="line.520"></a>
+<span class="sourceLineNo">521</span>          return super.captureAsTypeVariable(combined.toArray(new Type[0]));<a name="line.521"></a>
+<span class="sourceLineNo">522</span>        }<a name="line.522"></a>
+<span class="sourceLineNo">523</span>      };<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    }<a name="line.524"></a>
+<span class="sourceLineNo">525</span><a name="line.525"></a>
+<span class="sourceLineNo">526</span>    private WildcardCapturer notForTypeVariable() {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      return new WildcardCapturer(id);<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    }<a name="line.528"></a>
+<span class="sourceLineNo">529</span><a name="line.529"></a>
+<span class="sourceLineNo">530</span>    private Type captureNullable(@Nullable Type type) {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>      if (type == null) {<a name="line.531"></a>
+<span class="sourceLineNo">532</span>        return null;<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      }<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      return capture(type);<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    }<a name="line.535"></a>
+<span class="sourceLineNo">536</span>  }<a name="line.536"></a>
+<span class="sourceLineNo">537</span><a name="line.537"></a>
+<span class="sourceLineNo">538</span>  /**<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   * Wraps around {@code TypeVariable&lt;?&gt;} to ensure that any two type variables are equal as long as<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * they are declared by the same {@link java.lang.reflect.GenericDeclaration} and have the same<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * name, even if their bounds differ.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * &lt;p&gt;While resolving a type variable from a {@code var -&gt; type} map, we don't care whether the<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * type variable's bound has been partially resolved. As long as the type variable "identity"<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   * matches.<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   *<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * &lt;p&gt;On the other hand, if for example we are resolving {@code List&lt;A extends B&gt;} to {@code<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * List&lt;A extends String&gt;}, we need to compare that {@code &lt;A extends B&gt;} is unequal to {@code &lt;A<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * extends String&gt;} in order to decide to use the transformed type instead of the original type.<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   */<a name="line.550"></a>
+<span class="sourceLineNo">551</span>  static final class TypeVariableKey {<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    private final TypeVariable&lt;?&gt; var;<a name="line.552"></a>
+<span class="sourceLineNo">553</span><a name="line.553"></a>
+<span class="sourceLineNo">554</span>    TypeVariableKey(TypeVariable&lt;?&gt; var) {<a name="line.554"></a>
+<span class="sourceLineNo">555</span>      this.var = checkNotNull(var);<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    }<a name="line.556"></a>
+<span class="sourceLineNo">557</span><a name="line.557"></a>
+<span class="sourceLineNo">558</span>    @Override<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    public int hashCode() {<a name="line.559"></a>
+<span class="sourceLineNo">560</span>      return Objects.hashCode(var.getGenericDeclaration(), var.getName());<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    }<a name="line.561"></a>
+<span class="sourceLineNo">562</span><a name="line.562"></a>
+<span class="sourceLineNo">563</span>    @Override<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    public boolean equals(Object obj) {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>      if (obj instanceof TypeVariableKey) {<a name="line.565"></a>
+<span class="sourceLineNo">566</span>        TypeVariableKey that = (TypeVariableKey) obj;<a name="line.566"></a>
+<span class="sourceLineNo">567</span>        return equalsTypeVariable(that.var);<a name="line.567"></a>
+<span class="sourceLineNo">568</span>      } else {<a name="line.568"></a>
+<span class="sourceLineNo">569</span>        return false;<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      }<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    }<a name="line.571"></a>
+<span class="sourceLineNo">572</span><a name="line.572"></a>
+<span class="sourceLineNo">573</span>    @Override<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    public String toString() {<a name="line.574"></a>
+<span class="sourceLineNo">575</span>      return var.toString();<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    }<a name="line.576"></a>
+<span class="sourceLineNo">577</span><a name="line.577"></a>
+<span class="sourceLineNo">578</span>    /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */<a name="line.578"></a>
+<span class="sourceLineNo">579</span>    static TypeVariableKey forLookup(Type t) {<a name="line.579"></a>
+<span class="sourceLineNo">580</span>      if (t instanceof TypeVariable) {<a name="line.580"></a>
+<span class="sourceLineNo">581</span>        return new TypeVariableKey((TypeVariable&lt;?&gt;) t);<a name="line.581"></a>
+<span class="sourceLineNo">582</span>      } else {<a name="line.582"></a>
+<span class="sourceLineNo">583</span>        return null;<a name="line.583"></a>
+<span class="sourceLineNo">584</span>      }<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    }<a name="line.585"></a>
+<span class="sourceLineNo">586</span><a name="line.586"></a>
+<span class="sourceLineNo">587</span>    /**<a name="line.587"></a>
+<span class="sourceLineNo">588</span>     * Returns true if {@code type} is a {@code TypeVariable} with the same name and declared by the<a name="line.588"></a>
+<span class="sourceLineNo">589</span>     * same {@code GenericDeclaration}.<a name="line.589"></a>
+<span class="sourceLineNo">590</span>     */<a name="line.590"></a>
+<span class="sourceLineNo">591</span>    boolean equalsType(Type type) {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      if (type instanceof TypeVariable) {<a name="line.592"></a>
+<span class="sourceLineNo">593</span>        return equalsTypeVariable((TypeVariable&lt;?&gt;) type);<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      } else {<a name="line.594"></a>
+<span class="sourceLineNo">595</span>        return false;<a name="line.595"></a>
+<span class="sourceLineNo">596</span>      }<a name="line.596"></a>
+<span class="sourceLineNo">597</span>    }<a name="line.597"></a>
+<span class="sourceLineNo">598</span><a name="line.598"></a>
+<span class="sourceLineNo">599</span>    private boolean equalsTypeVariable(TypeVariable&lt;?&gt; that) {<a name="line.599"></a>
+<span class="sourceLineNo">600</span>      return var.getGenericDeclaration().equals(that.getGenericDeclaration())<a name="line.600"></a>
+<span class="sourceLineNo">601</span>          &amp;&amp; var.getName().equals(that.getName());<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    }<a name="line.602"></a>
+<span class="sourceLineNo">603</span>  }<a name="line.603"></a>
+<span class="sourceLineNo">604</span>}<a name="line.604"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
