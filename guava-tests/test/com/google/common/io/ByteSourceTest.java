@@ -221,6 +221,25 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   /**
+   * Tests that slice() works correctly when the source is sliced two times, when the second slice
+   * starts at an offset greater than the length of the previous slice.
+   */
+  public void testSlice_slicingAfterSlicing() throws IOException {
+    // Source of length 10
+    ByteSource source = new TestByteSource(newPreFilledByteArray(10));
+
+    // Slice the source twice
+    ByteSource doubleSlice = source.slice(0, 3).slice(4,3);
+
+    // Open a stream to the slice
+    InputStream in = doubleSlice.openStream();
+
+    // The result should be empty because the second slice starts at an offset greater than
+    // the length of the first slice.
+    assertEquals(-1, in.read());
+  }
+
+  /**
    * Tests that the default slice() behavior is correct when the source is sliced starting at an
    * offset that is greater than the current length of the source, a stream is then opened to that
    * source, and finally additional bytes are appended to the source before the stream is read.

@@ -527,6 +527,7 @@ public abstract class ByteSource {
     public ByteSource slice(long offset, long length) {
       checkArgument(offset >= 0, "offset (%s) may not be negative", offset);
       checkArgument(length >= 0, "length (%s) may not be negative", length);
+      offset = Math.min(offset, this.length);
       long maxLength = this.length - offset;
       return ByteSource.this.slice(this.offset + offset, Math.min(length, maxLength));
     }
