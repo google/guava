@@ -3,10 +3,10 @@ layout: default
 title: Guava
 ---
 
-Guava is a set of core libraries that includes new collection types (such as
-multimap and multiset), immutable collections, a graph library, functional
-types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
-primitives, reflection, string processing, and much more!
+Guava is a set of core libraries from Google that includes new collection types
+(such as multimap and multiset), immutable collections, a graph library,
+functional types, an in-memory cache, and APIs/utilities for concurrency, I/O,
+hashing, primitives, reflection, string processing, and much more!
 
 Guava comes in two flavors.
 
@@ -101,10 +101,10 @@ Linux. Some features, especially in `com.google.common.io`, may not work
 correctly in other environments. For the Android flavor, our unit tests run on
 API level 15 (Ice Cream Sandwich).
 
-[guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
-[guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
+[guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
-[Guava Beta Checker]: https://github.com/google/guava-beta-checker$
+[Guava Beta Checker]: https://github.com/google/guava-beta-checker
 
 <!-- References -->
 

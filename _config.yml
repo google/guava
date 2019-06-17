@@ -2,8 +2,8 @@
 title: Guava
 subtitle: Google core libraries for Java
 description: Google core libraries for Java
-baseurl: /guava
-url: http://google.github.io
+baseurl: /
+url: https://guava.dev
 permalink: /news/:year/:month/:day/:title/
 
 themeColor: red
