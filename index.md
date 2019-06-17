@@ -4,9 +4,8 @@ title: Guava
 ---
 
 Guava is a set of core libraries from Google that includes new collection types
-(such as multimap and multiset), immutable collections, a graph library,
-functional types, an in-memory cache, and APIs/utilities for concurrency, I/O,
-hashing, primitives, reflection, string processing, and much more!
+(such as multimap and multiset), immutable collections, a graph library, and
+utilities for concurrency, I/O, hashing, primitives, strings, and more!
 
 Guava comes in two flavors.
 
