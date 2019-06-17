@@ -4,9 +4,8 @@
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 
 Guava is a set of core libraries that includes new collection types (such as
-multimap and multiset), immutable collections, a graph library, functional
-types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
-primitives, reflection, string processing, and much more!
+multimap and multiset), immutable collections, a graph library, and utilities
+for concurrency, I/O, hashing, primitives, strings, and more!
 
 Guava comes in two flavors.
 
