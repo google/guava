@@ -41,7 +41,7 @@ env:
     - ROOT_POM="pom.xml"
 #    - ROOT_POM="android/pom.xml"
 
-branches:
-  only:
-    - master
-    - /^release.*$/
+# branches:
+#   only:
+#     - master
+#     - /^release.*$/
