@@ -33,6 +33,30 @@ The Maven properties in guava/pom.xml can be used to change the behavior:
 - `index.only.arg` defines additional argument passed to the Index Checker, for example `-Ashowchecks`.
 
 
+Typechecking against the master branch of the Checker Framework
+---------------------------------------------------------------
+
+The released version of the Checker Framework may be incompatible with the
+development version in the GitHub repository
+https://github.com/typetools/checker-framework/tree/master .  For example,
+the GitHub version may have renamed or added annotations or error messages.
+
+When a pull request depends on forthcoming Checker Framework features, make
+pull requests against a branch named `cf-master`.  Its Travis job uses the
+Checker Framework from GitHub, rather than a Checker Framework release.
+
+To create the `cf-master` branch if it does not exist:
+It should differ only in file `.travis.yml`, which should pass
+```
+  "-P checkerframework-local"
+```
+(with the quotes) to `./.travis-build.sh`.
+
+Whenever a Checker Framework release is made, undo the change in
+`.travis.yml`, pull-request the `cf-master` branch into `master`, and
+delete the `cf-master` branch.
+
+
 To update to a newer version of the upstream library
 ----------------------------------------------------
 
