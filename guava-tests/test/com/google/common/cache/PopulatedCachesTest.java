@@ -237,21 +237,15 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("unchecked") // generic array creation
-
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
       Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
-      assertThat(entries).containsExactlyElementsIn((Collection<Entry<Object, Object>>) expected);
-      assertThat(entries.toArray())
-          .asList()
-          .containsExactlyElementsIn((Collection<Object>) expected);
-      assertThat(entries.toArray(new Entry[0]))
-          .asList()
-          .containsExactlyElementsIn((Collection<Entry>) expected);
+      assertThat(entries).containsExactlyElementsIn(expected);
+      assertThat(entries.toArray()).asList().containsExactlyElementsIn(expected);
+      assertThat(entries.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)
