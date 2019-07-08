@@ -560,7 +560,7 @@ public final class Splitter {
        * limit is always positive.
        * When limit is not 1, then it can be safely decremented.
        */
-      "lowerbound:compound.assignment.type.incompatible", // decrement Positive which != 1
+      "lowerbound:unary.decrement.type.incompatible", // decrement Positive which != 1
       /*
        * At the start of the loop, whenever offset!=-1 also nextStart=-1
        * One of the following holds:

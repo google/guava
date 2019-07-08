@@ -408,7 +408,8 @@ public final class Quantiles {
             "upperbound:assignment.type.incompatible",/* (3): Since scale is a positive int, index is in [0, scale],
             and (dataset.length - 1) is non-negative int, we can do long-arithmetic on index * (dataset.length - 1) / scale to get a rounded ratio and a remainder
              which can be expressed as ints, without risk of overflow */
-            "upperbound:array.access.unsafe.high"// (4) if `remainder` is not 0, highest possible value for quotient is `dataset.length - 2`
+        "upperbound:array.access.unsafe.high", // (4) if `remainder` is not 0, highest possible value for quotient is `dataset.length - 2`
+        "unary.increment.type.incompatible"
     })
     public Map<Integer, Double> computeInPlace(double @MinLen(1)... dataset) {
       checkArgument(dataset.length > 0, "Cannot calculate quantiles of an empty dataset");
@@ -585,7 +586,7 @@ public final class Quantiles {
    * equal to the value at {@code ret} and the values with indexes in ({@code ret}, {@code to}] are
    * greater than or equal to that.
    */
-  @SuppressWarnings("lowerbound:compound.assignment.type.incompatible")/*(1): Both partitionPoint and i are initialized to the same value `to`.
+  @SuppressWarnings("lowerbound:unary.decrement.type.incompatible")/*(1): Both partitionPoint and i are initialized to the same value `to`.
   partitionPoint is decremented at most one more time than i is decremented, therefore partitionPoint >= i-1.
   i > from, therefore partitionPoint >= from. Since from is non-negative, therefore partitionPoint is non-negative. */
   private static @IndexFor("#1") int partition(double[] array, @IndexFor("#1") int from, @IndexFor("#1") int to) {

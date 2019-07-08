@@ -53,8 +53,8 @@ It should differ only in file `.travis.yml`, which should pass
 (with the quotes) to `./.travis-build.sh`.
 
 Whenever a Checker Framework release is made, undo the change in
-`.travis.yml`, pull-request the `cf-master` branch into `master`, and
-delete the `cf-master` branch.
+`.travis.yml`, update the Checker Framework version number, pull-request
+the `cf-master` branch into `master`, and delete the `cf-master` branch.
 
 
 To update to a newer version of the upstream library

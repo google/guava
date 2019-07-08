@@ -832,7 +832,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0}, or {@code k > n}
    */
-  @SuppressWarnings({"lowerbound:compound.assignment.type.incompatible", // k = n - k is non-negative
+  @SuppressWarnings({"lowerbound:unary.decrement.type.incompatible", // k = n - k is non-negative
                     "array.access.unsafe.low" // looks like a bug, possibly related to the above
                     })
   public static long binomial(@NonNegative @LTLengthOf("this.factorials") int n, @NonNegative @LessThan("#1 + 1") int k) {

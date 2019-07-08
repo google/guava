@@ -144,7 +144,7 @@ public final class Utf8 {
 
   @SuppressWarnings({
     "cast.unsafe", // https://github.com/kelloggm/checker-framework/issues/149
-    "upperbound:compound.assignment.type.incompatible", "upperbound:array.access.unsafe.high" // https://github.com/kelloggm/checker-framework/issues/158
+    "upperbound:unary.increment.type.incompatible", "upperbound:array.access.unsafe.high" // https://github.com/kelloggm/checker-framework/issues/158
   })
   private static boolean isWellFormedSlowPath(byte[] bytes, @IndexOrHigh("#1") int off, @IndexOrHigh("#1") int end) {
     @IndexOrHigh("bytes") int index = off;

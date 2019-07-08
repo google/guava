@@ -463,6 +463,7 @@ public final class UnsignedLongs {
    */
   @SuppressWarnings({
     "lowerbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/193
+    "lowerbound:unary.decrement.type.incompatible",
     "lowerbound:array.access.unsafe.low", "lowerbound:compound.assignment.type.incompatible" // ulong converted to string is at most 64 chars
   })
   public static String toString(long x, @IntRange(from = Character.MIN_RADIX,to = Character.MAX_RADIX) int radix) {

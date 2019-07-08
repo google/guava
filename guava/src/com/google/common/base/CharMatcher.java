@@ -608,7 +608,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /*
    * count is incremented at most sequence.length() times
    */
-  @SuppressWarnings("compound.assignment.type.incompatible") // variable incremented at most IndexOrHigh times
+  @SuppressWarnings("unary.increment.type.incompatible") // variable incremented at most IndexOrHigh times
   public @IndexOrHigh("#1") int countIn(CharSequence sequence) {
     @IndexOrHigh("#1") int count = 0;
     for (int i = 0; i < sequence.length(); i++) {
@@ -636,7 +636,7 @@ public abstract class CharMatcher implements Predicate<Character> {
      * if equal, pos is not incremented anymore
      * therefore both pos++ are safe
      */
-    "upperbound:compound.assignment.type.incompatible", // index incremented in nested loop with break
+    "upperbound:unary.increment.type.incompatible", // index incremented in nested loop with break
     "upperbound:array.access.unsafe.high", "upperbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/204
     /*
      * spread <= pos, therefore pos-spread >= 0

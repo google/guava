@@ -188,7 +188,7 @@ public final class Strings {
    *
    * @since 11.0
    */
-  @SuppressWarnings("index:compound.assignment.type.incompatible") // i-1 is @NonNegative means i-- is @NonNegative
+  @SuppressWarnings("index:unary.decrement.type.incompatible") // i-1 is @NonNegative means i-- is @NonNegative
   public static String commonPrefix(CharSequence a, CharSequence b) {
     checkNotNull(a);
     checkNotNull(b);
@@ -214,7 +214,7 @@ public final class Strings {
    */
   @SuppressWarnings({
     "lowerbound:argument.type.incompatible", // https://github.com/kelloggm/checker-framework/issues/193
-    "lowerbound:compound.assignment.type.incompatible" // i-1 is @NonNegative means i-- is @NonNegative
+    "lowerbound:unary.decrement.type.incompatible" // i-1 is @NonNegative means i-- is @NonNegative
   })
   public static String commonSuffix(CharSequence a, CharSequence b) {
     checkNotNull(a);
