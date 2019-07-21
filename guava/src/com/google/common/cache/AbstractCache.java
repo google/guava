@@ -238,12 +238,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     @Override
     public CacheStats snapshot() {
       return new CacheStats(
-          hitCount.sum(),
-          missCount.sum(),
-          loadSuccessCount.sum(),
-          loadExceptionCount.sum(),
-          totalLoadTime.sum(),
-          evictionCount.sum());
+          negativeToMaxValue(hitCount.sum()),
+          negativeToMaxValue(missCount.sum()),
+          negativeToMaxValue(loadSuccessCount.sum()),
+          negativeToMaxValue(loadExceptionCount.sum()),
+          negativeToMaxValue(totalLoadTime.sum()),
+          negativeToMaxValue(evictionCount.sum()));
+    }
+
+    /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */
+    private static long negativeToMaxValue(long value) {
+      return (value >= 0) ? value : Long.MAX_VALUE;
     }
 
     /** Increments all counters by the values in {@code other}. */

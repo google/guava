@@ -151,7 +151,12 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     private final LongAddable bitCount;
 
     LockFreeBitArray(long bits) {
-      this(new long[Ints.checkedCast(LongMath.divide(bits, 64, RoundingMode.CEILING))]);
+      checkArgument(bits > 0, "data length is zero!");
+      // Avoid delegating to this(long[]), since AtomicLongArray(long[]) will clone its input and
+      // thus double memory usage.
+      this.data =
+          new AtomicLongArray(Ints.checkedCast(LongMath.divide(bits, 64, RoundingMode.CEILING)));
+      this.bitCount = LongAddables.create();
     }
 
     // Used by serialization

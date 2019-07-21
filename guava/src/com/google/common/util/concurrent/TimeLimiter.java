@@ -117,7 +117,7 @@ public interface TimeLimiter {
    * @return a time-limiting proxy
    * @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
    *     annotation type, rather than an interface
-   * @since NEXT
+   * @since 28.0
    */
   default <T> T newProxy(T target, Class<T> interfaceType, Duration timeout) {
     return newProxy(target, interfaceType, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
@@ -159,7 +159,7 @@ public interface TimeLimiter {
    * @throws ExecutionException if {@code callable} throws a checked exception
    * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
    * @throws ExecutionError if {@code callable} throws an {@code Error}
-   * @since NEXT
+   * @since 28.0
    */
   @CanIgnoreReturnValue
   default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
@@ -208,7 +208,7 @@ public interface TimeLimiter {
    * @throws ExecutionException if {@code callable} throws a checked exception
    * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
    * @throws ExecutionError if {@code callable} throws an {@code Error}
-   * @since NEXT
+   * @since 28.0
    */
   @CanIgnoreReturnValue
   default <T> T callUninterruptiblyWithTimeout(Callable<T> callable, Duration timeout)
@@ -248,7 +248,7 @@ public interface TimeLimiter {
    * @throws InterruptedException if the current thread was interrupted during execution
    * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
    * @throws ExecutionError if {@code runnable} throws an {@code Error}
-   * @since NEXT
+   * @since 28.0
    */
   default void runWithTimeout(Runnable runnable, Duration timeout)
       throws TimeoutException, InterruptedException {
@@ -290,7 +290,7 @@ public interface TimeLimiter {
    * @throws TimeoutException if the time limit is reached
    * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
    * @throws ExecutionError if {@code runnable} throws an {@code Error}
-   * @since NEXT
+   * @since 28.0
    */
   default void runUninterruptiblyWithTimeout(Runnable runnable, Duration timeout)
       throws TimeoutException {

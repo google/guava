@@ -59,7 +59,7 @@ public class FakeTicker extends Ticker {
   /**
    * Advances the ticker value by {@code duration}.
    *
-   * @since NEXT
+   * @since 28.0
    */
   @GwtIncompatible
   public FakeTicker advance(java.time.Duration duration) {
@@ -85,7 +85,7 @@ public class FakeTicker extends Ticker {
    * <p>The default behavior is to auto increment by zero. i.e: The ticker is left unchanged when
    * queried.
    *
-   * @since NEXT
+   * @since 28.0
    */
   @GwtIncompatible
   public FakeTicker setAutoIncrementStep(java.time.Duration autoIncrementStep) {

@@ -325,7 +325,7 @@ public final class ServiceManager {
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
    *     become {@linkplain #isHealthy() healthy}.
-   * @since NEXT
+   * @since 28.0
    */
   public void awaitHealthy(Duration timeout) throws TimeoutException {
     awaitHealthy(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
@@ -377,7 +377,7 @@ public final class ServiceManager {
    *
    * @param timeout the maximum time to wait
    * @throws TimeoutException if not all of the services have stopped within the deadline
-   * @since NEXT
+   * @since 28.0
    */
   public void awaitStopped(Duration timeout) throws TimeoutException {
     awaitStopped(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);

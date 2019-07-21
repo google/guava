@@ -117,7 +117,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    * multiple graphs in series. Each new graph contains all the elements of the ones created before
    * it.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static class Builder<N> {
 
