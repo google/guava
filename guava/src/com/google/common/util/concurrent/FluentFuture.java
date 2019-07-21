@@ -134,7 +134,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since NEXT
+   * @since 28.0
    */
   @Deprecated
   public static <V> FluentFuture<V> from(FluentFuture<V> future) {
@@ -256,7 +256,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    *
    * @param timeout when to time out the future
    * @param scheduledExecutor The executor service to enforce the timeout.
-   * @since NEXT
+   * @since 28.0
    */
   @GwtIncompatible // ScheduledExecutorService
   public final FluentFuture<V> withTimeout(

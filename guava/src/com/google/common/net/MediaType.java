@@ -430,7 +430,7 @@ public final class MediaType {
    * Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
    * geospatial data interchange format based on JSON.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
 

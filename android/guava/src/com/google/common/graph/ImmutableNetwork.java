@@ -162,7 +162,7 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
    * multiple networks in series. Each new network contains all the elements of the ones created
    * before it.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static class Builder<N, E> {
 

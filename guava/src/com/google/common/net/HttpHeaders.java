@@ -77,7 +77,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
    * Cross-Origin-Resource-Policy}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
   /**
@@ -423,7 +423,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String PURPOSE = "Purpose";
   /**
@@ -431,7 +431,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_PURPOSE = "X-Purpose";
   /**
@@ -439,41 +439,41 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Moz}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_MOZ = "X-Moz";
 
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Mode}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Site}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-User}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_USER = "Sec-Fetch-User";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Metadata}</a>
+   * header field name.
    *
    * @since 26.0
    */
@@ -503,41 +503,41 @@ public final class HttpHeaders {
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String CDN_LOOP = "CDN-Loop";
 }
