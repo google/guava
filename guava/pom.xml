@@ -18,7 +18,7 @@
   <properties>
     <!-- Use -Dcheckerframework.checkers=checker to switch which checkers are run. -->
     <!-- Running the Index Checker takes very long but is needed to put implicit annotations in class files. -->
-    <checkerframework.checkers>org.checkerframework.checker.nullness.NullnessChecker,org.checkerframework.checker.index.IndexChecker</checkerframework.checkers>
+    <checkerframework.checkers>org.checkerframework.checker.index.IndexChecker,org.checkerframework.checker.nullness.NullnessChecker,org.checkerframework.checker.signedness.SignednessChecker</checkerframework.checkers>
     <!-- Index checker warnings are disabled by default, because not all code is annotated by index checker annotations. -->
     <checkerframework.suppress>index</checkerframework.suppress>
     <!-- Packages under com.google.common, that will be additionally checked by the Index Checker -->
