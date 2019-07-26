@@ -75,7 +75,6 @@ final class SubscriberRegistry {
 
     for (Entry<Class<?>, Collection<Subscriber>> entry : listenerMethods.asMap().entrySet()) {
       Class<?> eventType = entry.getKey();
-      Collection<Subscriber> eventMethodsInListener = entry.getValue();
 
       CopyOnWriteArraySet<Subscriber> eventSubscribers = subscribers.get(eventType);
 
@@ -85,7 +84,7 @@ final class SubscriberRegistry {
             MoreObjects.firstNonNull(subscribers.putIfAbsent(eventType, newSet), newSet);
       }
 
-      eventSubscribers.addAll(eventMethodsInListener);
+      eventSubscribers.addAll(entry.getValue());
     }
   }
 
