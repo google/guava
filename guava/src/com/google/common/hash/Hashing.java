@@ -460,6 +460,8 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
+   *
+   * @throws IllegalArgumentException if {@code buckets} is less than 1 or greater than 980.
    */
   public static int consistentHash(HashCode hashCode, int buckets) {
     return consistentHash(hashCode.padToLong(), buckets);
@@ -495,9 +497,11 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
+   *
+   * @throws IllegalArgumentException if {@code buckets} is less than 1 or greater than 980.
    */
   public static int consistentHash(long input, int buckets) {
-    checkArgument(buckets > 0, "buckets must be positive: %s", buckets);
+    checkArgument(buckets > 0 && buckets < 981, "buckets must be from 1-980: %s", buckets);
     LinearCongruentialGenerator generator = new LinearCongruentialGenerator(input);
     int candidate = 0;
     int next;
