@@ -365,7 +365,7 @@ public final class Longs {
         byte _unused1 = result['A' + i] = (byte) (10 + i);
         @SuppressWarnings({
           "unused",
-          "upperbound:array.access.unsafe.high.range", // https://github.com/typetools/checker-framework/issues/1669
+          "upperbound:array.access.unsafe.high", // https://github.com/typetools/checker-framework/issues/1669
           "assignment.type.incompatible" // https://github.com/typetools/checker-framework/issues/1669
         })
         byte _unused2 = result['a' + i] = (byte) (10 + i);

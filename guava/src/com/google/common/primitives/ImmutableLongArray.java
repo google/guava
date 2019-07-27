@@ -596,7 +596,7 @@ public final class ImmutableLongArray implements Serializable {
      * i is incremented in a for-each loop by that, and that has the same size as parent.array
      * therefore i is an index for parent.array
      */
-    @SuppressWarnings("upperbound:array.access.unsafe.high.range") // index incremented in for-each over list of same length
+    @SuppressWarnings("upperbound:array.access.unsafe.high") // index incremented in for-each over list of same length
     public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
