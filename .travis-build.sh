@@ -32,4 +32,4 @@ BRANCH=`/tmp/plume-scripts/git-find-branch ${REPO} ${TRAVIS_PULL_REQUEST_BRANCH:
 (cd ../checker-framework/ && ./.travis-build-without-test.sh downloadjdk)
 export CHECKERFRAMEWORK=`readlink -f ../checker-framework`
 
-(cd guava && mvn package $MVN_FLAGS -Dmaven.test.skip=true -Danimal.sniffer.skip=true)
+(cd guava && mvn -B package $MVN_FLAGS -Dmaven.test.skip=true -Danimal.sniffer.skip=true)

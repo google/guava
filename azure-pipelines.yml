@@ -1,0 +1,34 @@
+jobs:
+- job: typecheck
+  pool:
+    vmImage: 'ubuntu-16.04'
+  container: mdernst/ubuntu-for-cf-jdk8:latest
+  strategy:
+    matrix:
+      formatterJob:
+        typechecker: formatter
+      indexJob:
+        typechecker: index
+      interningJob:
+        typechecker: interning
+      lockJob:
+        typechecker: lock
+      nullnessJob:
+        typechecker: nullness
+      regexJob:
+        typechecker: regex
+      signatureJob:
+        typechecker: signature
+    maxParallel: 10
+  steps:
+  - checkout: self
+    fetchDepth: 25
+  - bash: echo $(typechecker)
+    name: echovar
+  - bash: ./typecheck.sh $(typechecker)
+    displayName: typecheck.sh $(typechecker)
+
+trigger:
+  batch: true
+
+## The only downstream job is daikon-typecheck
