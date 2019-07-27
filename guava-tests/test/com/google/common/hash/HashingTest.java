@@ -209,9 +209,17 @@ public class HashingTest extends TestCase {
   private static final int ITERS = 10000;
   private static final int MAX_SHARDS = 500;
 
-  public void testConsistentHash_outOfRange() {
+  public void testConsistentHash_lower_bound_outOfRange() {
     try {
       Hashing.consistentHash(5L, 0);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testConsistentHash_upper_bound_outOfRange() {
+    try {
+      Hashing.consistentHash(5L, 981);
       fail();
     } catch (IllegalArgumentException expected) {
     }
