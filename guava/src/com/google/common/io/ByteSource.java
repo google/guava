@@ -215,10 +215,7 @@ public abstract class ByteSource {
     }
   }
 
-  /**
-   * Counts the bytes in the given input stream using skip if possible. Returns SKIP_FAILED if the
-   * first call to skip threw, in which case skip may just not be supported.
-   */
+  /** Counts the bytes in the given input stream using skip if possible. */
   private long countBySkipping(InputStream in) throws IOException {
     long count = 0;
     long skipped;
