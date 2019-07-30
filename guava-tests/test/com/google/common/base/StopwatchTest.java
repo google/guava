@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Stopwatch.measure;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -25,6 +27,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.FakeTicker;
 import java.time.Duration;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Unit test for {@link Stopwatch}.
@@ -211,4 +214,32 @@ public class StopwatchTest extends TestCase {
     ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
     assertEquals("7.250 d", stopwatch.toString());
   }
+    @Test
+    public void test_accept_block_of_code_and_must_return_duration_and_result() {
+        Stopwatch.TimedResult timedResult = measure(() -> divide(2));
+        assertThat(timedResult.getResult()).isEqualTo(1);
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
+
+    @Test
+    public void test_accept_block_of_code_and_must_return_duration() {
+        Stopwatch.TimedResult timedResult = measure(() -> update());
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
+
+    @Test
+    public void test_return_duration_when_exception_occurs() {
+        Stopwatch.TimedResult timedResult = measure(() -> divide(0));
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
+
+
+    public int divide(int denominator) {
+        return 2 / denominator;
+    }
+
+    public void update() {
+    }
+
+
 }

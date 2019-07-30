@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * An object that measures elapsed time in nanoseconds. It is useful to measure elapsed time using
@@ -268,4 +269,48 @@ public final class Stopwatch {
         throw new AssertionError();
     }
   }
+    public static <T> Stopwatch.TimedResult measure(Supplier<T> codeBlock) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+            T result = codeBlock.get();
+            stopwatch.stop();
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, result);
+        } catch (Exception ex) {
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, "Error executing the block " + ex);
+        }
+
+    }
+
+    public static Stopwatch.TimedResult measure(Runnable codeBlock) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+            codeBlock.run();
+            stopwatch.stop();
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, null);
+        } catch (Exception ex) {
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, "Error executing the block " + ex);
+        }
+
+    }
+
+    public static class TimedResult<T> {
+        private Duration timeTaken;
+        private T result;
+        public TimedResult(Duration timeTook, T result) {
+            this.timeTaken = timeTook;
+            this.result = result;
+        }
+        public Duration getTimeTaken() {
+            return timeTaken;
+        }
+        public T getResult() {
+            return result;
+        }
+
+    }
+
 }
