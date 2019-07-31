@@ -314,7 +314,7 @@ public final class Stopwatch {
 
     }
 
-    public static Duration measureDuration(Supplier codeBlock) {
+    public static <T> Duration measureDuration(Supplier<T> codeBlock) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             codeBlock.get();
