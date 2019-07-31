@@ -233,6 +233,18 @@ public class StopwatchTest extends TestCase {
         assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
     }
 
+    @Test
+    public void test_accept_block_of_code_with_parameters_and_must_return_duration() {
+        Duration duration = Stopwatch.measureDuration(() -> divide(2));
+        assertThat(duration).isGreaterThan(Duration.ZERO);
+    }
+
+    @Test
+    public void test_accept_block_of_code_without_parameters_and_must_return_duration() {
+        Duration duration = Stopwatch.measureDuration(() -> update());
+        assertThat(duration).isGreaterThan(Duration.ZERO);
+    }
+
 
     public int divide(int denominator) {
         return 2 / denominator;
