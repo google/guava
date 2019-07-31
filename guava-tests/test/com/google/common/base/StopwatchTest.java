@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Stopwatch.measure;
+import static com.google.common.base.Stopwatch.*;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -215,43 +215,71 @@ public class StopwatchTest extends TestCase {
     assertEquals("7.250 d", stopwatch.toString());
   }
     @Test
-    public void test_accept_block_of_code_and_must_return_duration_and_result() {
-        Stopwatch.TimedResult timedResult = measure(() -> divide(2));
-        assertThat(timedResult.getResult()).isEqualTo(1);
-        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
-    }
-
-    @Test
-    public void test_accept_block_of_code_and_must_return_duration() {
-        Stopwatch.TimedResult timedResult = measure(() -> update());
-        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
-    }
-
-    @Test
-    public void test_return_duration_when_exception_occurs() {
-        Stopwatch.TimedResult timedResult = measure(() -> divide(0));
-        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
-    }
-
-    @Test
     public void test_accept_block_of_code_with_parameters_and_must_return_duration() {
-        Duration duration = Stopwatch.measureDuration(() -> divide(2));
+        Duration duration = measure(() -> 2/2);
         assertThat(duration).isGreaterThan(Duration.ZERO);
     }
 
     @Test
     public void test_accept_block_of_code_without_parameters_and_must_return_duration() {
-        Duration duration = Stopwatch.measureDuration(() -> update());
+        Duration duration = measure(() -> update());
         assertThat(duration).isGreaterThan(Duration.ZERO);
     }
 
+    @Test
+    public void test_accept_block_of_code_with_parameters_and_must_return_result_and_duration() {
+        Stopwatch.TimedResult timedResult = measureAndGet(() -> 2/2);
+        assertThat(timedResult.getResult()).isEqualTo(1);
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
 
-    public int divide(int denominator) {
-        return 2 / denominator;
+    @Test
+    public void test_accept_block_of_code_without_parameters_and_must_execute_and_return_duration() {
+        Stopwatch.TimedResult timedResult = measureAndGet(() -> update());
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
+
+    @Test
+    public void test_accept_block_of_code_with_parameters_and_must_return_exception_details() {
+        Stopwatch.TimedResult timedResult = measureAndCatch(() -> Integer.valueOf(""));
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+        assertThat(timedResult.getResult()).isEqualTo(null);
+        assertThat(timedResult.getException()).isInstanceOf(NumberFormatException.class);
+    }
+
+    @Test
+    public void test_accept_block_of_code_without_parameters_and_must_return_exception_details() {
+        Stopwatch.TimedResult timedResult = measureAndCatch(() -> updateExceptionally());
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+        assertThat(timedResult.getException()).isInstanceOf(NumberFormatException.class);
+    }
+
+    @Test
+    public void test_accept_block_of_exceptional_code_with_parameters_and_must_return_result_and_duration() {
+        Stopwatch.TimedResult timedResult = exceptionallyTimedResult(() -> Integer.valueOf("1"));
+        assertThat(timedResult.getResult()).isEqualTo(1);
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+    }
+
+    @Test
+    public void test_accept_block_of_exceptional_param_code_with_parameters_and_must_return_duration_and_exception_details() {
+        Stopwatch.TimedResult timedResult = exceptionallyTimedResult(() -> Integer.valueOf(""));
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+        assertThat(timedResult.getException()).isInstanceOf(NumberFormatException.class);
+    }
+
+    @Test
+    public void test_accept_block_of_exceptional_code_with_parameters_and_must_return_duration_and_exception_details() {
+        Stopwatch.TimedResult timedResult = exceptionallyTimedResult(() -> updateExceptionally());
+        assertThat(timedResult.getTimeTaken()).isGreaterThan(Duration.ZERO);
+        assertThat(timedResult.getException()).isInstanceOf(NumberFormatException.class);
+    }
+
+    public void updateExceptionally() {
+      Integer.valueOf("");
     }
 
     public void update() {
     }
-
 
 }

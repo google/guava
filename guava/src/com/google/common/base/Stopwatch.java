@@ -14,29 +14,34 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MICROSECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-
 import java.time.Duration;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static java.util.concurrent.TimeUnit.*;
 
 /**
  * An object that measures elapsed time in nanoseconds. It is useful to measure elapsed time using
  * this class instead of direct calls to {@link System#nanoTime} for a few reasons:
  *
  * <ul>
- * <li>An alternate time source can be substituted, for testing or performance reasons.
- * <li>As documented by {@code nanoTime}, the value returned has no absolute meaning, and can only
- * be interpreted as relative to another timestamp returned by {@code nanoTime} at a different
- * time. {@code Stopwatch} is a more effective abstraction because it exposes only these
- * relative values, not the absolute ones.
+ *   <li>An alternate time source can be substituted, for testing or performance reasons.
+ *   <li>As documented by {@code nanoTime}, the value returned has no absolute meaning, and can only
+ *       be interpreted as relative to another timestamp returned by {@code nanoTime} at a different
+ *       time. {@code Stopwatch} is a more effective abstraction because it exposes only these
+ *       relative values, not the absolute ones.
  * </ul>
  *
  * <p>Basic usage:
@@ -83,14 +88,6 @@ public final class Stopwatch {
     private long elapsedNanos;
     private long startTick;
 
-    Stopwatch() {
-        this.ticker = Ticker.systemTicker();
-    }
-
-    Stopwatch(Ticker ticker) {
-        this.ticker = checkNotNull(ticker, "ticker");
-    }
-
     /**
      * Creates (but does not start) a new stopwatch using {@link System#nanoTime} as its time source.
      *
@@ -127,47 +124,12 @@ public final class Stopwatch {
         return new Stopwatch(ticker).start();
     }
 
-    private static TimeUnit chooseUnit(long nanos) {
-        if (DAYS.convert(nanos, NANOSECONDS) > 0) {
-            return DAYS;
-        }
-        if (HOURS.convert(nanos, NANOSECONDS) > 0) {
-            return HOURS;
-        }
-        if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
-            return MINUTES;
-        }
-        if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return SECONDS;
-        }
-        if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return MILLISECONDS;
-        }
-        if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
-            return MICROSECONDS;
-        }
-        return NANOSECONDS;
+    Stopwatch() {
+        this.ticker = Ticker.systemTicker();
     }
 
-    private static String abbreviate(TimeUnit unit) {
-        switch (unit) {
-            case NANOSECONDS:
-                return "ns";
-            case MICROSECONDS:
-                return "\u03bcs"; // μs
-            case MILLISECONDS:
-                return "ms";
-            case SECONDS:
-                return "s";
-            case MINUTES:
-                return "min";
-            case HOURS:
-                return "h";
-            case DAYS:
-                return "d";
-            default:
-                throw new AssertionError();
-        }
+    Stopwatch(Ticker ticker) {
+        this.ticker = checkNotNull(ticker, "ticker");
     }
 
     /**
@@ -253,9 +215,7 @@ public final class Stopwatch {
         return Duration.ofNanos(elapsedNanos());
     }
 
-    /**
-     * Returns a string representation of the current elapsed time.
-     */
+    /** Returns a string representation of the current elapsed time. */
     @Override
     public String toString() {
         long nanos = elapsedNanos();
@@ -267,13 +227,147 @@ public final class Stopwatch {
         return Platform.formatCompact4Digits(value) + " " + abbreviate(unit);
     }
 
-    public static class TimedResult<T> {
+    private static TimeUnit chooseUnit(long nanos) {
+        if (DAYS.convert(nanos, NANOSECONDS) > 0) {
+            return DAYS;
+        }
+        if (HOURS.convert(nanos, NANOSECONDS) > 0) {
+            return HOURS;
+        }
+        if (MINUTES.convert(nanos, NANOSECONDS) > 0) {
+            return MINUTES;
+        }
+        if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return SECONDS;
+        }
+        if (MILLISECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return MILLISECONDS;
+        }
+        if (MICROSECONDS.convert(nanos, NANOSECONDS) > 0) {
+            return MICROSECONDS;
+        }
+        return NANOSECONDS;
+    }
+
+    private static String abbreviate(TimeUnit unit) {
+        switch (unit) {
+            case NANOSECONDS:
+                return "ns";
+            case MICROSECONDS:
+                return "\u03bcs"; // μs
+            case MILLISECONDS:
+                return "ms";
+            case SECONDS:
+                return "s";
+            case MINUTES:
+                return "min";
+            case HOURS:
+                return "h";
+            case DAYS:
+                return "d";
+            default:
+                throw new AssertionError();
+        }
+    }
+
+    public static Duration measure(Runnable codeblock){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        codeblock.run();
+        Duration duration = stopwatch.elapsed();
+        return duration;
+    }
+
+    public static <T> Duration measure(Supplier<T> codeblock){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        codeblock.get();
+        Duration duration = stopwatch.elapsed();
+        return duration;
+    }
+
+    public static <T> TimedResult measureAndGet(Supplier<T> codeblock){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        T result = codeblock.get();
+        Duration duration = stopwatch.elapsed();
+        return new TimedResult(duration,result);
+
+    }
+
+
+    public static TimedResult measureAndGet(Runnable codeblock) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        codeblock.run();
+        Duration duration = stopwatch.elapsed();
+        return new TimedResult(duration,Void.class);
+
+    }
+
+    public static <T> TimedResult measureAndCatch(Supplier<T> codeblock){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+             T result = codeblock.get();
+            Duration duration = stopwatch.elapsed();
+            return new TimedResult(duration,result);
+        }catch (Exception ex){
+            Duration duration = stopwatch.elapsed();
+            return new TimedResult(duration,ex);
+        }
+
+    }
+
+    public static  TimedResult measureAndCatch(Runnable codeblock){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+             codeblock.run();
+            Duration duration = stopwatch.elapsed();
+            return new TimedResult(duration,Void.class);
+        }catch (Exception ex){
+            Duration duration = stopwatch.elapsed();
+            return new TimedResult(duration,ex);
+        }
+
+    }
+
+    public static <T> Stopwatch.TimedResult exceptionallyTimedResult(Supplier<T> codeblock) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+            T result = codeblock.get();
+            stopwatch.stop();
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, result);
+        } catch (Exception ex) {
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration,ex);
+        }
+
+    }
+
+    public static Stopwatch.TimedResult exceptionallyTimedResult(Runnable codeblock) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        try {
+            codeblock.run();
+            stopwatch.stop();
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration, Void.class);
+        } catch (Exception ex) {
+            Duration duration = stopwatch.elapsed();
+            return new Stopwatch.TimedResult(duration,ex);
+        }
+
+    }
+
+    static class TimedResult<T> {
         private Duration timeTaken;
         private T result;
+        private Exception exception;
 
-        public TimedResult(Duration timeTook, T result) {
-            this.timeTaken = timeTook;
+        public TimedResult(Duration timeTaken, T result) {
+            this.timeTaken = timeTaken;
             this.result = result;
+        }
+
+        public TimedResult(Duration timeTaken,Exception exception) {
+            this.timeTaken = timeTaken;
+            this.exception = exception;
         }
 
         public Duration getTimeTaken() {
@@ -284,66 +378,9 @@ public final class Stopwatch {
             return result;
         }
 
-    }
-
-    public static <T> Stopwatch.TimedResult measure(Supplier<T> codeBlock) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        try {
-            T result = codeBlock.get();
-            stopwatch.stop();
-            Duration duration = stopwatch.elapsed();
-            return new Stopwatch.TimedResult(duration, result);
-        } catch (Exception ex) {
-            Duration duration = stopwatch.elapsed();
-            return new Stopwatch.TimedResult(duration, "Error executing the block " + ex);
+        public Exception getException() {
+            return exception;
         }
-
-    }
-
-    public static Stopwatch.TimedResult measure(Runnable codeBlock) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        try {
-            codeBlock.run();
-            stopwatch.stop();
-            Duration duration = stopwatch.elapsed();
-            return new Stopwatch.TimedResult(duration, null);
-        } catch (Exception ex) {
-            Duration duration = stopwatch.elapsed();
-            return new Stopwatch.TimedResult(duration, "Error executing the block " + ex);
-        }
-
-    }
-
-    public static <T> Duration measureDuration(Supplier<T> codeBlock) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        try {
-            codeBlock.get();
-            stopwatch.stop();
-            Duration duration = stopwatch.elapsed();
-            return duration;
-
-        } catch (Exception ex) {
-            Duration duration = stopwatch.elapsed();
-            return duration;
-
-        }
-
-    }
-
-    public static Duration measureDuration(Runnable codeBlock) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        try {
-            codeBlock.run();
-            stopwatch.stop();
-            Duration duration = stopwatch.elapsed();
-            return duration;
-
-        } catch (Exception ex) {
-            Duration duration = stopwatch.elapsed();
-            return duration;
-
-        }
-
     }
 
 }
