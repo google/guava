@@ -185,8 +185,9 @@ public final class SpliteratorTester<E> {
     return new Ordered() {
       @Override
       public void inOrder() {
-        resultsForAllStrategies.forEach(
-            resultsForStrategy -> assertEqualInOrder(elements, resultsForStrategy));
+        for (List<E> resultsForStrategy : resultsForAllStrategies) {
+          assertEqualInOrder(elements, resultsForStrategy);
+        }
       }
     };
   }
