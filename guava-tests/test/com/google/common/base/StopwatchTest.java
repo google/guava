@@ -25,6 +25,8 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.FakeTicker;
+
+import java.io.IOException;
 import java.time.Duration;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -281,5 +283,4 @@ public class StopwatchTest extends TestCase {
 
     public void update() {
     }
-
 }

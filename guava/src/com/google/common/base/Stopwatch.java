@@ -29,7 +29,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.time.Duration;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -270,37 +269,63 @@ public final class Stopwatch {
         }
     }
 
-    public static Duration measure(Runnable codeblock){
+    /**
+     * executes the zero parameterized block and returns duration.
+     * Duration duration = measure(() -> update());
+     * @return java.time.Duration
+     */
+    public static Duration measure(Runnable block){
         Stopwatch stopwatch = Stopwatch.createStarted();
-        codeblock.run();
+        block.run();
         Duration duration = stopwatch.elapsed();
         return duration;
     }
 
-    public static <T> Duration measure(Supplier<T> codeblock){
+    /**
+     * executes the parameterized block and returns duration.
+     * Duration duration = measure(() -> 2/2);
+     * @return java.time.Duration
+     */
+    public static <T> Duration measure(Supplier<T> block){
         Stopwatch stopwatch = Stopwatch.createStarted();
-        codeblock.get();
+        block.get();
         Duration duration = stopwatch.elapsed();
         return duration;
     }
 
-    public static <T> TimedResult measureAndGet(Supplier<T> codeblock){
+    /**
+     * executes the parameterized block and returns result and duration.
+     * TimedResult timedResult = measureAndGet(() -> 2/2);
+     * @param <T> the type of function argument.
+     * @return TimedResult
+     */
+    public static <T> TimedResult measureAndGet(Supplier<T> block){
         Stopwatch stopwatch = Stopwatch.createStarted();
-        T result = codeblock.get();
+        T result = block.get();
         Duration duration = stopwatch.elapsed();
         return new TimedResult(duration,result);
 
     }
 
-
-    public static TimedResult measureAndGet(Runnable codeblock) {
+    /**
+     * executes the zero parameterized block and returns duration.
+     * TimedResult timedResult = measureAndGet(() -> update());
+     * @return TimedResult
+     */
+    public static TimedResult measureAndGet(Runnable block) {
         Stopwatch stopwatch = Stopwatch.createStarted();
-        codeblock.run();
+        block.run();
         Duration duration = stopwatch.elapsed();
         return new TimedResult(duration,Void.class);
 
     }
 
+    /**
+     * executes the parameterized block and returns duration and exception if any.
+     * TimedResult timedResult = measureAndCatch(() -> 2/2);
+     * @param <T> the type of function argument.
+     * @return TimedResult
+     */
     public static <T> TimedResult measureAndCatch(Supplier<T> codeblock){
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
@@ -314,10 +339,15 @@ public final class Stopwatch {
 
     }
 
-    public static  TimedResult measureAndCatch(Runnable codeblock){
+    /**
+     * executes the zero parameterized block and returns duration and exception if any.
+     * TimedResult timedResult = measureAndCatch(() -> update());
+     * @return TimedResult
+     */
+    public static  TimedResult measureAndCatch(Runnable block){
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
-             codeblock.run();
+            block.run();
             Duration duration = stopwatch.elapsed();
             return new TimedResult(duration,Void.class);
         }catch (Exception ex){
@@ -327,10 +357,16 @@ public final class Stopwatch {
 
     }
 
-    public static <T> Stopwatch.TimedResult exceptionallyTimedResult(Supplier<T> codeblock) {
+    /**
+     * executes the parameterized block and returns duration,result or exception.
+     * TimedResult timedResult = exceptionallyTimedResult(() -> 2/2);
+     * @param <T> the type of function argument.
+     * @return TimedResult
+     */
+    public static <T> Stopwatch.TimedResult exceptionallyTimedResult(Supplier<T> block) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
-            T result = codeblock.get();
+            T result = block.get();
             stopwatch.stop();
             Duration duration = stopwatch.elapsed();
             return new Stopwatch.TimedResult(duration, result);
@@ -341,10 +377,15 @@ public final class Stopwatch {
 
     }
 
-    public static Stopwatch.TimedResult exceptionallyTimedResult(Runnable codeblock) {
+    /**
+     * executes the zero parameterized block and returns duration,exception if any.
+     * TimedResult timedResult = exceptionallyTimedResult(() -> update());
+     * @return TimedResult
+     */
+    public static Stopwatch.TimedResult exceptionallyTimedResult(Runnable block) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
-            codeblock.run();
+            block.run();
             stopwatch.stop();
             Duration duration = stopwatch.elapsed();
             return new Stopwatch.TimedResult(duration, Void.class);
@@ -354,10 +395,13 @@ public final class Stopwatch {
         }
 
     }
-
+    /**
+     * An object used to store the result of executed code and
+     * duration which is taken to execute and also exception details.
+     */
     static class TimedResult<T> {
-        private Duration timeTaken;
         private T result;
+        private Duration timeTaken;
         private Exception exception;
 
         public TimedResult(Duration timeTaken, T result) {
