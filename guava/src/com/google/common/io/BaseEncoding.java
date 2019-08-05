@@ -772,6 +772,27 @@ public abstract class BaseEncoding {
         }
 
         @Override
+        public int read(byte[] buf, int off, int len) throws IOException {
+          // Overriding this to work around the fact that InputStream's default implementation of
+          // this method will silently swallow exceptions thrown by the single-byte read() method
+          // (other than on the first call to it), which in this case can cause invalid encoded
+          // strings to not throw an exception.
+          // See https://github.com/google/guava/issues/3542
+          checkPositionIndexes(off, off + len, buf.length);
+
+          int i = off;
+          for (; i < off + len; i++) {
+            int b = read();
+            if (b == -1) {
+              int read = i - off;
+              return read == 0 ? -1 : read;
+            }
+            buf[i] = (byte) b;
+          }
+          return i - off;
+        }
+
+        @Override
         public void close() throws IOException {
           reader.close();
         }
