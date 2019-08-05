@@ -31,6 +31,7 @@ import com.google.common.io.BaseEncoding.DecodingException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import junit.framework.TestCase;
@@ -389,23 +390,75 @@ public class BaseEncodingTest extends TestCase {
 
   private static void assertFailsToDecode(
       BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
-    assertFalse(encoding.canDecode(cannotDecode));
-    try {
-      encoding.decode(cannotDecode);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      if (expectedMessage != null) {
-        assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo(expectedMessage);
-      }
+    // We use this somewhat weird pattern with an enum for each assertion we want to make as a way
+    // of dealing with the fact that one of the assertions is @GwtIncompatible but we don't want to
+    // have to have duplicate @GwtIncompatible test methods just to make that assertion.
+    for (AssertFailsToDecodeStrategy strategy : AssertFailsToDecodeStrategy.values()) {
+      strategy.assertFailsToDecode(encoding, cannotDecode, expectedMessage);
     }
-    try {
-      encoding.decodeChecked(cannotDecode);
-      fail("Expected DecodingException");
-    } catch (DecodingException expected) {
-      if (expectedMessage != null) {
-        assertThat(expected).hasMessageThat().isEqualTo(expectedMessage);
+  }
+
+  enum AssertFailsToDecodeStrategy {
+    @GwtIncompatible // decodingStream(Reader)
+    DECODING_STREAM {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        // Regression test for case where DecodingException was swallowed by default implementation
+        // of
+        // InputStream.read(byte[], int, int)
+        // See https://github.com/google/guava/issues/3542
+        Reader reader = new StringReader(cannotDecode);
+        InputStream decodingStream = encoding.decodingStream(reader);
+        try {
+          ByteStreams.exhaust(decodingStream);
+          fail("Expected DecodingException");
+        } catch (DecodingException expected) {
+          // Don't assert on the expectedMessage; the messages for exceptions thrown from the
+          // decoding stream may differ from the messages for the decode methods.
+        } catch (IOException e) {
+          fail("Expected DecodingException but got: " + e);
+        }
       }
-    }
+    },
+    CAN_DECODE {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        assertFalse(encoding.canDecode(cannotDecode));
+      }
+    },
+    DECODE {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        try {
+          encoding.decode(cannotDecode);
+          fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException expected) {
+          if (expectedMessage != null) {
+            assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo(expectedMessage);
+          }
+        }
+      }
+    },
+    DECODE_CHECKED {
+      @Override
+      void assertFailsToDecode(
+          BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage) {
+        try {
+          encoding.decodeChecked(cannotDecode);
+          fail("Expected DecodingException");
+        } catch (DecodingException expected) {
+          if (expectedMessage != null) {
+            assertThat(expected).hasMessageThat().isEqualTo(expectedMessage);
+          }
+        }
+      }
+    };
+
+    abstract void assertFailsToDecode(
+        BaseEncoding encoding, String cannotDecode, @Nullable String expectedMessage);
   }
 
   @GwtIncompatible // Reader/Writer
