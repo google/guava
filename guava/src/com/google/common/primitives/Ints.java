@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -503,6 +505,35 @@ public final class Ints {
       int tmp = array[i];
       array[i] = array[j];
       array[j] = tmp;
+    }
+  }
+
+  /**
+   * Shuffles elements of {@code array}. This is equivalent to {@code
+   * Collections.shuffle(Ints.asList(array))}, but is likely to be more efficient.
+   *
+   */
+  public static void shuffle(int[] array) {
+    checkNotNull(array);
+    shuffle(array, 0, array.length);
+  }
+
+  /**
+   * Shuffles elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}
+   * exclusive. This is equivalent to {@code
+   * Collections.shuffle(Ints.asList(array).subList(fromIndex, toIndex))}, but is likely to be more efficient.
+   *
+   * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+   *    {@code toIndex > fromIndex}
+   */
+  public static void shuffle(int[] array, int fromIndex, int toIndex) {
+    checkNotNull(array);
+    checkPositionIndexes(fromIndex, toIndex, array.length);
+    for (int i = fromIndex, j = toIndex - 1; i < j; i++, j--) {
+      int randomPosition = ThreadLocalRandom.current().nextInt(array.length);
+      int tmp = array[i];
+      array[i] = array[randomPosition];
+      array[randomPosition] = tmp;
     }
   }
 
