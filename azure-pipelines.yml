@@ -27,8 +27,3 @@ jobs:
     name: echovar
   - bash: ./typecheck.sh $(typechecker)
     displayName: typecheck.sh $(typechecker)
-
-trigger:
-  batch: true
-
-## The only downstream job is daikon-typecheck
