@@ -23,6 +23,26 @@ public void testFlatMap() throws Exception {
   testCase.testFlatMap();
 }
 
+public void testFlatMapToDouble_nullStream() throws Exception {
+  com.google.common.collect.CollectSpliteratorsTest testCase = new com.google.common.collect.CollectSpliteratorsTest();
+  testCase.testFlatMapToDouble_nullStream();
+}
+
+public void testFlatMapToInt_nullStream() throws Exception {
+  com.google.common.collect.CollectSpliteratorsTest testCase = new com.google.common.collect.CollectSpliteratorsTest();
+  testCase.testFlatMapToInt_nullStream();
+}
+
+public void testFlatMapToLong_nullStream() throws Exception {
+  com.google.common.collect.CollectSpliteratorsTest testCase = new com.google.common.collect.CollectSpliteratorsTest();
+  testCase.testFlatMapToLong_nullStream();
+}
+
+public void testFlatMap_nullStream() throws Exception {
+  com.google.common.collect.CollectSpliteratorsTest testCase = new com.google.common.collect.CollectSpliteratorsTest();
+  testCase.testFlatMap_nullStream();
+}
+
 public void testMap() throws Exception {
   com.google.common.collect.CollectSpliteratorsTest testCase = new com.google.common.collect.CollectSpliteratorsTest();
   testCase.testMap();
