@@ -811,8 +811,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     @Override
     SetBuilderImpl<E> review() {
       int targetTableSize = chooseTableSize(distinct);
-      if (targetTableSize * 2 < hashTable.length) {
+      if (targetTableSize * 2 < hashTable.length ) {
         hashTable = rebuildHashTable(targetTableSize, dedupedElements, distinct);
+        expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * targetTableSize);
+        maxRunBeforeFallback = maxRunBeforeFallback(targetTableSize);
       }
       return hashFloodingDetected(hashTable) ? new JdkBackedSetBuilderImpl<E>(this) : this;
     }
