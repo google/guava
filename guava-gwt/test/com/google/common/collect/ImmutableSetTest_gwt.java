@@ -233,6 +233,11 @@ public void testEquals_sameType() throws Exception {
   testCase.testEquals_sameType();
 }
 
+public void testReuseBuilderReducingHashTableSizeWithPowerOfTwoTotalElements() throws Exception {
+  com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
+  testCase.testReuseBuilderReducingHashTableSizeWithPowerOfTwoTotalElements();
+}
+
 public void testReuseBuilderWithDuplicateElements() throws Exception {
   com.google.common.collect.ImmutableSetTest testCase = new com.google.common.collect.ImmutableSetTest();
   testCase.testReuseBuilderWithDuplicateElements();
