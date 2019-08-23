@@ -171,7 +171,14 @@ public final class HttpHeaders {
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
   public static final String UPGRADE = "Upgrade";
-  /** The HTTP {@code User-Agent} header field name. */
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
+   * Upgrade-Insecure-Requests}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+
   public static final String USER_AGENT = "User-Agent";
 
   // HTTP Response header fields
