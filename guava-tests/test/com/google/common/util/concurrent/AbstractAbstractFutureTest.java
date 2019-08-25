@@ -294,12 +294,9 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     class BadRunnableException extends RuntimeException {}
 
     Runnable bad =
-        new Runnable() {
-          @Override
-          public void run() {
-            throw new BadRunnableException();
-          }
-        };
+            () -> {
+              throw new BadRunnableException();
+            };
 
     future.set(1);
     future.addListener(bad, directExecutor()); // BadRunnableException must not propagate.
@@ -310,12 +307,9 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
     CountingRunnable before = new CountingRunnable();
     Runnable bad =
-        new Runnable() {
-          @Override
-          public void run() {
-            throw new BadRunnableException();
-          }
-        };
+            () -> {
+              throw new BadRunnableException();
+            };
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
