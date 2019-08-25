@@ -179,6 +179,7 @@ public final class HttpHeaders {
    */
   public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
 
+  /** The HTTP {@code User-Agent} header field name. */
   public static final String USER_AGENT = "User-Agent";
 
   // HTTP Response header fields
