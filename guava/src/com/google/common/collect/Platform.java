@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Strings.lenientFormat;
+import static java.lang.Boolean.parseBoolean;
+
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -107,6 +110,21 @@ final class Platform {
 
   static int reduceExponentIfGwt(int exponent) {
     return exponent;
+  }
+
+  private static final String GWT_RPC_PROPERTY_NAME = "guava.gwt.emergency_reenable_rpc";
+
+  static void checkGwtRpcEnabled() {
+    if (!parseBoolean(System.getProperty(GWT_RPC_PROPERTY_NAME, "true"))) {
+      throw new UnsupportedOperationException(
+          lenientFormat(
+              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
+                  + " support by setting the system property %s to true. For more about system"
+                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
+              GWT_RPC_PROPERTY_NAME,
+              "https://stackoverflow.com/q/5189914/28465",
+              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
+    }
   }
 
   private Platform() {}

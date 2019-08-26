@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -33,11 +35,13 @@ public final class ImmutableSortedMap_CustomFieldSerializer {
 
   public static ImmutableSortedMap<?, ?> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return ImmutableSortedMap_CustomFieldSerializerBase.instantiate(reader);
   }
 
   public static void serialize(SerializationStreamWriter writer, ImmutableSortedMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     ImmutableSortedMap_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }
