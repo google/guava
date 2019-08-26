@@ -55,7 +55,12 @@ final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */
   private static final Function<Type, String> TYPE_NAME =
-          JavaVersion.CURRENT::typeName;
+      new Function<Type, String>() {
+        @Override
+        public String apply(Type from) {
+          return JavaVersion.CURRENT.typeName(from);
+        }
+      };
 
   private static final Joiner COMMA_JOINER = Joiner.on(", ").useForNull("null");
 
