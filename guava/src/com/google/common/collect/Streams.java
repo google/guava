@@ -139,7 +139,7 @@ public final class Streams {
 
   private static void closeAll(BaseStream<?, ?>[] toClose) {
     for (BaseStream<?, ?> stream : toClose) {
-      // TODO(b/198102330): Catch exceptions, rethrowing later with extras as suppressed exceptions.
+      // TODO(b/80534298): Catch exceptions, rethrowing later with extras as suppressed exceptions.
       stream.close();
     }
   }
