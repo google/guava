@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
@@ -30,8 +32,11 @@ public class UsingToStringOrdering_CustomFieldSerializer {
       SerializationStreamReader reader, UsingToStringOrdering instance) {}
 
   public static UsingToStringOrdering instantiate(SerializationStreamReader reader) {
+    checkGwtRpcEnabled();
     return UsingToStringOrdering.INSTANCE;
   }
 
-  public static void serialize(SerializationStreamWriter writer, UsingToStringOrdering instance) {}
+  public static void serialize(SerializationStreamWriter writer, UsingToStringOrdering instance) {
+    checkGwtRpcEnabled();
+  }
 }

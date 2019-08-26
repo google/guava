@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -29,6 +31,7 @@ public class DenseImmutableTable_CustomFieldSerializer {
 
   public static DenseImmutableTable<Object, Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
+    checkGwtRpcEnabled();
     return (DenseImmutableTable<Object, Object, Object>)
         ImmutableTable_CustomFieldSerializerBase.instantiate(reader);
   }
@@ -36,6 +39,7 @@ public class DenseImmutableTable_CustomFieldSerializer {
   public static void serialize(
       SerializationStreamWriter writer, DenseImmutableTable<Object, Object, Object> table)
       throws SerializationException {
+    checkGwtRpcEnabled();
     ImmutableTable_CustomFieldSerializerBase.serialize(writer, table);
   }
 }
