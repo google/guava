@@ -49,6 +49,10 @@ abstract class AggregateFuture<InputT, OutputT> extends AbstractFuture.TrustedFu
   @Override
   protected final void afterDone() {
     super.afterDone();
+    releaseResources();
+  }
+
+  protected final void releaseResources() {
     RunningState localRunningState = runningState;
     if (localRunningState != null) {
       // Let go of the memory held by the running state
