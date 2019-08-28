@@ -121,6 +121,8 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>For example, if {@code rangeMap} had one entry {@code [1, 5] => 3} then {@code
    * rangeMap.merge(Range.closed(0,2), 3, Math::max)} could yield a range map with the entries
    * {@code [0, 1) => 3, [1, 2] => 3, (2, 5] => 3}.
+   *
+   * @since 28.1
    */
   void merge(
       Range<K> range,
