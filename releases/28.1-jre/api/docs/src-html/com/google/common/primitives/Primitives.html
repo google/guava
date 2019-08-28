@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.primitives;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtIncompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.Collections;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.LinkedHashMap;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Map;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Set;<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * Contains static utility methods pertaining to primitive types and their corresponding wrapper<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * types.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * @author Kevin Bourrillion<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * @since 1.0<a name="line.30"></a>
+<span class="sourceLineNo">031</span> */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>@GwtIncompatible<a name="line.32"></a>
+<span class="sourceLineNo">033</span>public final class Primitives {<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  private Primitives() {}<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /** A map from primitive types to their corresponding wrapper types. */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  private static final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; PRIMITIVE_TO_WRAPPER_TYPE;<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  /** A map from wrapper types to their corresponding primitive types. */<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private static final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; WRAPPER_TO_PRIMITIVE_TYPE;<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>  // Sad that we can't use a BiMap. :(<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  static {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; primToWrap = new LinkedHashMap&lt;&gt;(16);<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; wrapToPrim = new LinkedHashMap&lt;&gt;(16);<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>    add(primToWrap, wrapToPrim, boolean.class, Boolean.class);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    add(primToWrap, wrapToPrim, byte.class, Byte.class);<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    add(primToWrap, wrapToPrim, char.class, Character.class);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    add(primToWrap, wrapToPrim, double.class, Double.class);<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    add(primToWrap, wrapToPrim, float.class, Float.class);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    add(primToWrap, wrapToPrim, int.class, Integer.class);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    add(primToWrap, wrapToPrim, long.class, Long.class);<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    add(primToWrap, wrapToPrim, short.class, Short.class);<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    add(primToWrap, wrapToPrim, void.class, Void.class);<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>    PRIMITIVE_TO_WRAPPER_TYPE = Collections.unmodifiableMap(primToWrap);<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    WRAPPER_TO_PRIMITIVE_TYPE = Collections.unmodifiableMap(wrapToPrim);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  private static void add(<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; forward,<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; backward,<a name="line.64"></a>
+<span class="sourceLineNo">065</span>      Class&lt;?&gt; key,<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      Class&lt;?&gt; value) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    forward.put(key, value);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    backward.put(value, key);<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * Returns an immutable set of all nine primitive types (including {@code void}). Note that a<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * simpler way to test whether a {@code Class} instance is a member of this set is to call {@link<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * Class#isPrimitive}.<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * @since 3.0<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  public static Set&lt;Class&lt;?&gt;&gt; allPrimitiveTypes() {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    return PRIMITIVE_TO_WRAPPER_TYPE.keySet();<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * Returns an immutable set of all nine primitive-wrapper types (including {@link Void}).<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   *<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * @since 3.0<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  public static Set&lt;Class&lt;?&gt;&gt; allWrapperTypes() {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    return WRAPPER_TO_PRIMITIVE_TYPE.keySet();<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * Returns {@code true} if {@code type} is one of the nine primitive-wrapper types, such as {@link<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * Integer}.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @see Class#isPrimitive<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public static boolean isWrapperType(Class&lt;?&gt; type) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    return WRAPPER_TO_PRIMITIVE_TYPE.containsKey(checkNotNull(type));<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  }<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Returns the corresponding wrapper type of {@code type} if it is a primitive type; otherwise<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * returns {@code type} itself. Idempotent.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * &lt;pre&gt;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   *     wrap(int.class) == Integer.class<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *     wrap(Integer.class) == Integer.class<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *     wrap(String.class) == String.class<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * &lt;/pre&gt;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  public static &lt;T&gt; Class&lt;T&gt; wrap(Class&lt;T&gt; type) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    checkNotNull(type);<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>    // cast is safe: long.class and Long.class are both of type Class&lt;Long&gt;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    @SuppressWarnings("unchecked")<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    Class&lt;T&gt; wrapped = (Class&lt;T&gt;) PRIMITIVE_TO_WRAPPER_TYPE.get(type);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    return (wrapped == null) ? type : wrapped;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * Returns the corresponding primitive type of {@code type} if it is a wrapper type; otherwise<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * returns {@code type} itself. Idempotent.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * &lt;pre&gt;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   *     unwrap(Integer.class) == int.class<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   *     unwrap(int.class) == int.class<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *     unwrap(String.class) == String.class<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * &lt;/pre&gt;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  public static &lt;T&gt; Class&lt;T&gt; unwrap(Class&lt;T&gt; type) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    checkNotNull(type);<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>    // cast is safe: long.class and Long.class are both of type Class&lt;Long&gt;<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    @SuppressWarnings("unchecked")<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    Class&lt;T&gt; unwrapped = (Class&lt;T&gt;) WRAPPER_TO_PRIMITIVE_TYPE.get(type);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    return (unwrapped == null) ? type : unwrapped;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
+<span class="sourceLineNo">138</span>}<a name="line.138"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

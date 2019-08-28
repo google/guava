@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.hash;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.Beta;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.common.primitives.Ints;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.errorprone.annotations.Immutable;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.nio.ByteBuffer;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.nio.charset.Charset;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * A hash function is a collision-averse pure function that maps an arbitrary block of data to a<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * number called a &lt;i&gt;hash code&lt;/i&gt;.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;h3&gt;Definition&lt;/h3&gt;<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p&gt;Unpacking this definition:<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * &lt;ul&gt;<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *   &lt;li&gt;&lt;b&gt;block of data:&lt;/b&gt; the input for a hash function is always, in concept, an ordered byte<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *       array. This hashing API accepts an arbitrary sequence of byte and multibyte values (via<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *       {@link Hasher}), but this is merely a convenience; these are always translated into raw<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *       byte sequences under the covers.<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *   &lt;li&gt;&lt;b&gt;hash code:&lt;/b&gt; each hash function always yields hash codes of the same fixed bit length<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *       (given by {@link #bits}). For example, {@link Hashing#sha1} produces a 160-bit number,<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *       while {@link Hashing#murmur3_32()} yields only 32 bits. Because a {@code long} value is<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *       clearly insufficient to hold all hash code values, this API represents a hash code as an<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *       instance of {@link HashCode}.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *   &lt;li&gt;&lt;b&gt;pure function:&lt;/b&gt; the value produced must depend only on the input bytes, in the order<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *       they appear. Input data is never modified. {@link HashFunction} instances should always be<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *       stateless, and therefore thread-safe.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *   &lt;li&gt;&lt;b&gt;collision-averse:&lt;/b&gt; while it can't be helped that a hash function will sometimes<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *       produce the same hash code for distinct inputs (a "collision"), every hash function strives<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *       to &lt;i&gt;some&lt;/i&gt; degree to make this unlikely. (Without this condition, a function that<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *       always returns zero could be called a hash function. It is not.)<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * &lt;/ul&gt;<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * &lt;p&gt;Summarizing the last two points: "equal yield equal &lt;i&gt;always&lt;/i&gt;; unequal yield unequal<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * &lt;i&gt;often&lt;/i&gt;." This is the most important characteristic of all hash functions.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;h3&gt;Desirable properties&lt;/h3&gt;<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;p&gt;A high-quality hash function strives for some subset of the following virtues:<a name="line.55"></a>
+<span class="sourceLineNo">056</span> *<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * &lt;ul&gt;<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *   &lt;li&gt;&lt;b&gt;collision-resistant:&lt;/b&gt; while the definition above requires making at least &lt;i&gt;some&lt;/i&gt;<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *       token attempt, one measure of the quality of a hash function is &lt;i&gt;how well&lt;/i&gt; it succeeds<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *       at this goal. Important note: it may be easy to achieve the theoretical minimum collision<a name="line.60"></a>
+<span class="sourceLineNo">061</span> *       rate when using completely &lt;i&gt;random&lt;/i&gt; sample input. The true test of a hash function is<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *       how it performs on representative real-world data, which tends to contain many hidden<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *       patterns and clumps. The goal of a good hash function is to stamp these patterns out as<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *       thoroughly as possible.<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *   &lt;li&gt;&lt;b&gt;bit-dispersing:&lt;/b&gt; masking out any &lt;i&gt;single bit&lt;/i&gt; from a hash code should yield only<a name="line.65"></a>
+<span class="sourceLineNo">066</span> *       the expected &lt;i&gt;twofold&lt;/i&gt; increase to all collision rates. Informally, the "information"<a name="line.66"></a>
+<span class="sourceLineNo">067</span> *       in the hash code should be as evenly "spread out" through the hash code's bits as possible.<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *       The result is that, for example, when choosing a bucket in a hash table of size 2^8,<a name="line.68"></a>
+<span class="sourceLineNo">069</span> *       &lt;i&gt;any&lt;/i&gt; eight bits could be consistently used.<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *   &lt;li&gt;&lt;b&gt;cryptographic:&lt;/b&gt; certain hash functions such as {@link Hashing#sha512} are designed to<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *       make it as infeasible as possible to reverse-engineer the input that produced a given hash<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *       code, or even to discover &lt;i&gt;any&lt;/i&gt; two distinct inputs that yield the same result. These<a name="line.72"></a>
+<span class="sourceLineNo">073</span> *       are called &lt;i&gt;cryptographic hash functions&lt;/i&gt;. But, whenever it is learned that either of<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *       these feats has become computationally feasible, the function is deemed "broken" and should<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *       no longer be used for secure purposes. (This is the likely eventual fate of &lt;i&gt;all&lt;/i&gt;<a name="line.75"></a>
+<span class="sourceLineNo">076</span> *       cryptographic hashes.)<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *   &lt;li&gt;&lt;b&gt;fast:&lt;/b&gt; perhaps self-explanatory, but often the most important consideration.<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * &lt;/ul&gt;<a name="line.78"></a>
+<span class="sourceLineNo">079</span> *<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * &lt;h3&gt;Providing input to a hash function&lt;/h3&gt;<a name="line.80"></a>
+<span class="sourceLineNo">081</span> *<a name="line.81"></a>
+<span class="sourceLineNo">082</span> * &lt;p&gt;The primary way to provide the data that your hash function should act on is via a {@link<a name="line.82"></a>
+<span class="sourceLineNo">083</span> * Hasher}. Obtain a new hasher from the hash function using {@link #newHasher}, "push" the relevant<a name="line.83"></a>
+<span class="sourceLineNo">084</span> * data into it using methods like {@link Hasher#putBytes(byte[])}, and finally ask for the {@code<a name="line.84"></a>
+<span class="sourceLineNo">085</span> * HashCode} when finished using {@link Hasher#hash}. (See an {@linkplain #newHasher example} of<a name="line.85"></a>
+<span class="sourceLineNo">086</span> * this.)<a name="line.86"></a>
+<span class="sourceLineNo">087</span> *<a name="line.87"></a>
+<span class="sourceLineNo">088</span> * &lt;p&gt;If all you want to hash is a single byte array, string or {@code long} value, there are<a name="line.88"></a>
+<span class="sourceLineNo">089</span> * convenient shortcut methods defined directly on {@link HashFunction} to make this easier.<a name="line.89"></a>
+<span class="sourceLineNo">090</span> *<a name="line.90"></a>
+<span class="sourceLineNo">091</span> * &lt;p&gt;Hasher accepts primitive data types, but can also accept any Object of type {@code T} provided<a name="line.91"></a>
+<span class="sourceLineNo">092</span> * that you implement a {@link Funnel}{@code &lt;T&gt;} to specify how to "feed" data from that object<a name="line.92"></a>
+<span class="sourceLineNo">093</span> * into the function. (See {@linkplain Hasher#putObject an example} of this.)<a name="line.93"></a>
+<span class="sourceLineNo">094</span> *<a name="line.94"></a>
+<span class="sourceLineNo">095</span> * &lt;p&gt;&lt;b&gt;Compatibility note:&lt;/b&gt; Throughout this API, multibyte values are always interpreted in<a name="line.95"></a>
+<span class="sourceLineNo">096</span> * &lt;i&gt;little-endian&lt;/i&gt; order. That is, hashing the byte array {@code {0x01, 0x02, 0x03, 0x04}} is<a name="line.96"></a>
+<span class="sourceLineNo">097</span> * equivalent to hashing the {@code int} value {@code 0x04030201}. If this isn't what you need,<a name="line.97"></a>
+<span class="sourceLineNo">098</span> * methods such as {@link Integer#reverseBytes} and {@link Ints#toByteArray} will help.<a name="line.98"></a>
+<span class="sourceLineNo">099</span> *<a name="line.99"></a>
+<span class="sourceLineNo">100</span> * &lt;h3&gt;Relationship to {@link Object#hashCode}&lt;/h3&gt;<a name="line.100"></a>
+<span class="sourceLineNo">101</span> *<a name="line.101"></a>
+<span class="sourceLineNo">102</span> * &lt;p&gt;Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation<a name="line.102"></a>
+<span class="sourceLineNo">103</span> * between hash algorithms and the data they act on, so alternate hash algorithms can't be easily<a name="line.103"></a>
+<span class="sourceLineNo">104</span> * substituted. Also, implementations of {@code hashCode} tend to be poor-quality, in part because<a name="line.104"></a>
+<span class="sourceLineNo">105</span> * they end up depending on &lt;i&gt;other&lt;/i&gt; existing poor-quality {@code hashCode} implementations,<a name="line.105"></a>
+<span class="sourceLineNo">106</span> * including those in many JDK classes.<a name="line.106"></a>
+<span class="sourceLineNo">107</span> *<a name="line.107"></a>
+<span class="sourceLineNo">108</span> * &lt;p&gt;{@code Object.hashCode} implementations tend to be very fast, but have weak collision<a name="line.108"></a>
+<span class="sourceLineNo">109</span> * prevention and &lt;i&gt;no&lt;/i&gt; expectation of bit dispersion. This leaves them perfectly suitable for<a name="line.109"></a>
+<span class="sourceLineNo">110</span> * use in hash tables, because extra collisions cause only a slight performance hit, while poor bit<a name="line.110"></a>
+<span class="sourceLineNo">111</span> * dispersion is easily corrected using a secondary hash function (which all reasonable hash table<a name="line.111"></a>
+<span class="sourceLineNo">112</span> * implementations in Java use). For the many uses of hash functions beyond data structures,<a name="line.112"></a>
+<span class="sourceLineNo">113</span> * however, {@code Object.hashCode} almost always falls short -- hence this library.<a name="line.113"></a>
+<span class="sourceLineNo">114</span> *<a name="line.114"></a>
+<span class="sourceLineNo">115</span> * @author Kevin Bourrillion<a name="line.115"></a>
+<span class="sourceLineNo">116</span> * @since 11.0<a name="line.116"></a>
+<span class="sourceLineNo">117</span> */<a name="line.117"></a>
+<span class="sourceLineNo">118</span>@Beta<a name="line.118"></a>
+<span class="sourceLineNo">119</span>@Immutable<a name="line.119"></a>
+<span class="sourceLineNo">120</span>public interface HashFunction {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * instance that is ready to receive data. Example:<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   *<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * &lt;pre&gt;{@code<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * HashFunction hf = Hashing.md5();<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * HashCode hc = hf.newHasher()<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *     .putLong(id)<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *     .putBoolean(isActive)<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *     .hash();<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * }&lt;/pre&gt;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  Hasher newHasher();<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * Begins a new hash code computation as {@link #newHasher()}, but provides a hint of the expected<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * size of the input (in bytes). This is only important for non-streaming hash functions (hash<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * functions that need to buffer their whole input before processing any of it).<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   */<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  Hasher newHasher(int expectedInputSize);<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * Shortcut for {@code newHasher().putInt(input).hash()}; returns the hash code for the given<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * {@code int} value, interpreted in little-endian byte order. The implementation &lt;i&gt;might&lt;/i&gt;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * perform better than its longhand equivalent, but should not perform worse.<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   *<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * @since 12.0<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  HashCode hashInt(int input);<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * Shortcut for {@code newHasher().putLong(input).hash()}; returns the hash code for the given<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * {@code long} value, interpreted in little-endian byte order. The implementation &lt;i&gt;might&lt;/i&gt;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * perform better than its longhand equivalent, but should not perform worse.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  HashCode hashLong(long input);<a name="line.156"></a>
+<span class="sourceLineNo">157</span><a name="line.157"></a>
+<span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * Shortcut for {@code newHasher().putBytes(input).hash()}. The implementation &lt;i&gt;might&lt;/i&gt;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * perform better than its longhand equivalent, but should not perform worse.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  HashCode hashBytes(byte[] input);<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * Shortcut for {@code newHasher().putBytes(input, off, len).hash()}. The implementation<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * &lt;i&gt;might&lt;/i&gt; perform better than its longhand equivalent, but should not perform worse.<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   *<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * @throws IndexOutOfBoundsException if {@code off &lt; 0} or {@code off + len &gt; bytes.length} or<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   *     {@code len &lt; 0}<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  HashCode hashBytes(byte[] input, int off, int len);<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * Shortcut for {@code newHasher().putBytes(input).hash()}. The implementation &lt;i&gt;might&lt;/i&gt;<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * perform better than its longhand equivalent, but should not perform worse.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   *<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * @since 23.0<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  HashCode hashBytes(ByteBuffer input);<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * Shortcut for {@code newHasher().putUnencodedChars(input).hash()}. The implementation<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * &lt;i&gt;might&lt;/i&gt; perform better than its longhand equivalent, but should not perform worse. Note<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * that no character encoding is performed; the low byte and high byte of each {@code char} are<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * hashed directly (in that order).<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   *<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method will produce different output than most other languages do when<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * running the same hash function on the equivalent input. For cross-language compatibility, use<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * {@link #hashString}, usually with a charset of UTF-8. For other use cases, use {@code<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * hashUnencodedChars}.<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   *<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * @since 15.0 (since 11.0 as hashString(CharSequence)).<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  HashCode hashUnencodedChars(CharSequence input);<a name="line.194"></a>
+<span class="sourceLineNo">195</span><a name="line.195"></a>
+<span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * Shortcut for {@code newHasher().putString(input, charset).hash()}. Characters are encoded using<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * the given {@link Charset}. The implementation &lt;i&gt;might&lt;/i&gt; perform better than its longhand<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * equivalent, but should not perform worse.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   *<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method, which reencodes the input before hashing it, is useful only for<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * cross-language compatibility. For other use cases, prefer {@link #hashUnencodedChars}, which is<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * faster, produces the same output across Java releases, and hashes every {@code char} in the<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * input, even if some are invalid.<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   */<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  HashCode hashString(CharSequence input, Charset charset);<a name="line.206"></a>
+<span class="sourceLineNo">207</span><a name="line.207"></a>
+<span class="sourceLineNo">208</span>  /**<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * Shortcut for {@code newHasher().putObject(instance, funnel).hash()}. The implementation<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * &lt;i&gt;might&lt;/i&gt; perform better than its longhand equivalent, but should not perform worse.<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   *<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * @since 14.0<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   */<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  &lt;T&gt; HashCode hashObject(T instance, Funnel&lt;? super T&gt; funnel);<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>  /**<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * Returns the number of bits (a multiple of 32) that each hash code produced by this hash<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * function has.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  int bits();<a name="line.220"></a>
+<span class="sourceLineNo">221</span>}<a name="line.221"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Collection;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Comparator;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Map;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Set;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.SortedMap;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.SortedSet;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>/**<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * A {@code SetMultimap} whose set of values for a given key are kept sorted; that is, they comprise<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * a {@link SortedSet}. It cannot hold duplicate key-value pairs; adding a key-value pair that's<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * already in the multimap has no effect. This interface does not specify the ordering of the<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * multimap's keys. See the {@link Multimap} documentation for information common to all multimaps.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;p&gt;The {@link #get}, {@link #removeAll}, and {@link #replaceValues} methods each return a {@link<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * SortedSet} of values, while {@link Multimap#entries()} returns a {@link Set} of map entries.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * Though the method signature doesn't say so explicitly, the map returned by {@link #asMap} has<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * {@code SortedSet} values.<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"&gt; {@code<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * Multimap}&lt;/a&gt;.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * @author Jared Levy<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * @since 2.0<a name="line.45"></a>
+<span class="sourceLineNo">046</span> */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>@GwtCompatible<a name="line.47"></a>
+<span class="sourceLineNo">048</span>public interface SortedSetMultimap&lt;K, V&gt; extends SetMultimap&lt;K, V&gt; {<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  // Following Javadoc copied from Multimap.<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * Returns a collection view of all values associated with a key. If no mappings in the multimap<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * have the provided key, an empty collection is returned.<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   *<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * &lt;p&gt;Changes to the returned collection will update the underlying multimap, and vice versa.<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   *<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * {@link Multimap} interface.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  SortedSet&lt;V&gt; get(@Nullable K key);<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>  /**<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * Removes all values associated with a given key.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   *<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * {@link Multimap} interface.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   */<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  @CanIgnoreReturnValue<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  @Override<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  SortedSet&lt;V&gt; removeAll(@Nullable Object key);<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * Stores a collection of values with the same key, replacing any existing values for that key.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   *<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * &lt;p&gt;Because a {@code SortedSetMultimap} has unique sorted values for a given key, this method<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * returns a {@link SortedSet}, instead of the {@link java.util.Collection} specified in the<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * {@link Multimap} interface.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   *<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * &lt;p&gt;Any duplicates in {@code values} will be stored in the multimap once.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @CanIgnoreReturnValue<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @Override<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  SortedSet&lt;V&gt; replaceValues(K key, Iterable&lt;? extends V&gt; values);<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * Returns a map view that associates each key with the corresponding values in the multimap.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * Changes to the returned map, such as element removal, will update the underlying multimap. The<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * map does not support {@code setValue()} on its entries, {@code put}, or {@code putAll}.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * &lt;p&gt;When passed a key that is present in the map, {@code asMap().get(Object)} has the same<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * behavior as {@link #get}, returning a live collection. When passed a key that is not present,<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * however, {@code asMap().get(Object)} returns {@code null} instead of an empty collection.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; The returned map's values are guaranteed to be of type {@link SortedSet}. To<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * obtain this map with the more specific generic type {@code Map&lt;K, SortedSet&lt;V&gt;&gt;}, call {@link<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Multimaps#asMap(SortedSetMultimap)} instead. &lt;b&gt;However&lt;/b&gt;, the returned map &lt;i&gt;itself&lt;/i&gt; is<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * not necessarily a {@link SortedMap}: A {@code SortedSetMultimap} must expose the &lt;i&gt;values&lt;/i&gt;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * for a given key in sorted order, but it need not expose the &lt;i&gt;keys&lt;/i&gt; in sorted order.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Individual {@code SortedSetMultimap} implementations, like those built with {@link<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * MultimapBuilder#treeKeys()}, may make additional guarantees.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @Override<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  Map&lt;K, Collection&lt;V&gt;&gt; asMap();<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * Returns the comparator that orders the multimap values, with {@code null} indicating that<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * natural ordering is used.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  Comparator&lt;? super V&gt; valueComparator();<a name="line.112"></a>
+<span class="sourceLineNo">113</span>}<a name="line.113"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
