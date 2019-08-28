@@ -246,26 +246,31 @@
 <span class="sourceLineNo">238</span>    @Override<a name="line.238"></a>
 <span class="sourceLineNo">239</span>    public CacheStats snapshot() {<a name="line.239"></a>
 <span class="sourceLineNo">240</span>      return new CacheStats(<a name="line.240"></a>
-<span class="sourceLineNo">241</span>          hitCount.sum(),<a name="line.241"></a>
-<span class="sourceLineNo">242</span>          missCount.sum(),<a name="line.242"></a>
-<span class="sourceLineNo">243</span>          loadSuccessCount.sum(),<a name="line.243"></a>
-<span class="sourceLineNo">244</span>          loadExceptionCount.sum(),<a name="line.244"></a>
-<span class="sourceLineNo">245</span>          totalLoadTime.sum(),<a name="line.245"></a>
-<span class="sourceLineNo">246</span>          evictionCount.sum());<a name="line.246"></a>
+<span class="sourceLineNo">241</span>          negativeToMaxValue(hitCount.sum()),<a name="line.241"></a>
+<span class="sourceLineNo">242</span>          negativeToMaxValue(missCount.sum()),<a name="line.242"></a>
+<span class="sourceLineNo">243</span>          negativeToMaxValue(loadSuccessCount.sum()),<a name="line.243"></a>
+<span class="sourceLineNo">244</span>          negativeToMaxValue(loadExceptionCount.sum()),<a name="line.244"></a>
+<span class="sourceLineNo">245</span>          negativeToMaxValue(totalLoadTime.sum()),<a name="line.245"></a>
+<span class="sourceLineNo">246</span>          negativeToMaxValue(evictionCount.sum()));<a name="line.246"></a>
 <span class="sourceLineNo">247</span>    }<a name="line.247"></a>
 <span class="sourceLineNo">248</span><a name="line.248"></a>
-<span class="sourceLineNo">249</span>    /** Increments all counters by the values in {@code other}. */<a name="line.249"></a>
-<span class="sourceLineNo">250</span>    public void incrementBy(StatsCounter other) {<a name="line.250"></a>
-<span class="sourceLineNo">251</span>      CacheStats otherStats = other.snapshot();<a name="line.251"></a>
-<span class="sourceLineNo">252</span>      hitCount.add(otherStats.hitCount());<a name="line.252"></a>
-<span class="sourceLineNo">253</span>      missCount.add(otherStats.missCount());<a name="line.253"></a>
-<span class="sourceLineNo">254</span>      loadSuccessCount.add(otherStats.loadSuccessCount());<a name="line.254"></a>
-<span class="sourceLineNo">255</span>      loadExceptionCount.add(otherStats.loadExceptionCount());<a name="line.255"></a>
-<span class="sourceLineNo">256</span>      totalLoadTime.add(otherStats.totalLoadTime());<a name="line.256"></a>
-<span class="sourceLineNo">257</span>      evictionCount.add(otherStats.evictionCount());<a name="line.257"></a>
-<span class="sourceLineNo">258</span>    }<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  }<a name="line.259"></a>
-<span class="sourceLineNo">260</span>}<a name="line.260"></a>
+<span class="sourceLineNo">249</span>    /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    private static long negativeToMaxValue(long value) {<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      return (value &gt;= 0) ? value : Long.MAX_VALUE;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>    /** Increments all counters by the values in {@code other}. */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    public void incrementBy(StatsCounter other) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      CacheStats otherStats = other.snapshot();<a name="line.256"></a>
+<span class="sourceLineNo">257</span>      hitCount.add(otherStats.hitCount());<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      missCount.add(otherStats.missCount());<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      loadSuccessCount.add(otherStats.loadSuccessCount());<a name="line.259"></a>
+<span class="sourceLineNo">260</span>      loadExceptionCount.add(otherStats.loadExceptionCount());<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      totalLoadTime.add(otherStats.totalLoadTime());<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      evictionCount.add(otherStats.evictionCount());<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    }<a name="line.263"></a>
+<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
+<span class="sourceLineNo">265</span>}<a name="line.265"></a>
 
 
 

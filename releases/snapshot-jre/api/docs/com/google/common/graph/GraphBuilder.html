@@ -297,9 +297,11 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.111">allowsSelfLoops</a>(boolean&nbsp;allowsSelfLoops)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.113">allowsSelfLoops</a>(boolean&nbsp;allowsSelfLoops)</pre>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).
- Attempting to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.</div>
+ Attempting to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/UnsupportedOperationException.html?is-external=true" title="class or interface in java.lang"><code>UnsupportedOperationException</code></a>.
+
+ <p>The default value is <code>false</code>.</div>
 </li>
 </ul>
 <a name="expectedNodeCount-int-">
@@ -308,7 +310,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>expectedNodeCount</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.121">expectedNodeCount</a>(int&nbsp;expectedNodeCount)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.123">expectedNodeCount</a>(int&nbsp;expectedNodeCount)</pre>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -322,8 +324,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.127">nodeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
-<div class="block">Specifies the order of iteration for the elements of <a href="../../../../com/google/common/graph/Graph.html#nodes--"><code>Graph.nodes()</code></a>.</div>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.133">nodeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</pre>
+<div class="block">Specifies the order of iteration for the elements of <a href="../../../../com/google/common/graph/Graph.html#nodes--"><code>Graph.nodes()</code></a>.
+
+ <p>The default value is <a href="../../../../com/google/common/graph/ElementOrder.html#insertion--"><code>insertion order</code></a>.</div>
 </li>
 </ul>
 <a name="build--">
@@ -332,7 +336,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.134">build</a>()</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/GraphBuilder.html" title="type parameter in GraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/GraphBuilder.html#line.140">build</a>()</pre>
 <div class="block">Returns an empty <a href="../../../../com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> with the properties of this <a href="../../../../com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a>.</div>
 </li>
 </ul>

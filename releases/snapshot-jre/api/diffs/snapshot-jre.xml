@@ -5568,7 +5568,7 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="limit" type="int"/>
+      <param name="maxItems" type="int"/>
       <doc>
       <![CDATA[Returns a splitter that behaves equivalently to {@code this} splitter but stops splitting after
  it reaches the limit. The limit defines the maximum number of items returned by the iterator,
@@ -5581,7 +5581,7 @@
  trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
  , c , d ")} results in {@code ["a", "b", "c , d"]}.
 
- @param limit the maximum number of items returned
+ @param maxItems the maximum number of items returned
  @return a splitter with the desired configuration
  @since 9.0]]>
       </doc>
@@ -8207,8 +8207,10 @@
       <![CDATA[Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including {@code
- Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
- collection-views of {@link Cache#asMap}.
+ Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by {@code
+ containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}}. So,
+ for example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for
+ the entries you retrieve.
 
  <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
  maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -8237,8 +8239,10 @@
       <![CDATA[Specifies that each entry should be automatically removed from the cache once a fixed duration
  has elapsed after the entry's creation, the most recent replacement of its value, or its last
  access. Access time is reset by all cache read and write operations (including {@code
- Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
- collection-views of {@link Cache#asMap}.
+ Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by {@code
+ containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}. So, for
+ example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for the
+ entries you retrieve.
 
  <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
  maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -8853,7 +8857,11 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the number of times {@link Cache} lookup methods have returned either a cached or
- uncached value. This is defined as {@code hitCount + missCount}.]]>
+ uncached value. This is defined as {@code hitCount + missCount}.
+
+ <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
+ guaranteed not to throw an exception). If you require specific handling, we recommend
+ implementing your own stats collector.]]>
       </doc>
     </method>
     <method name="hitCount" return="long"
@@ -8906,7 +8914,11 @@
       <doc>
       <![CDATA[Returns the total number of times that {@link Cache} lookup methods attempted to load new
  values. This includes both successful load operations, as well as those that threw exceptions.
- This is defined as {@code loadSuccessCount + loadExceptionCount}.]]>
+ This is defined as {@code loadSuccessCount + loadExceptionCount}.
+
+ <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
+ guaranteed not to throw an exception). If you require specific handling, we recommend
+ implementing your own stats collector.]]>
       </doc>
     </method>
     <method name="loadSuccessCount" return="long"
@@ -8946,7 +8958,11 @@
       <doc>
       <![CDATA[Returns the ratio of cache loading attempts which threw exceptions. This is defined as {@code
  loadExceptionCount / (loadSuccessCount + loadExceptionCount)}, or {@code 0.0} when {@code
- loadSuccessCount + loadExceptionCount == 0}.]]>
+ loadSuccessCount + loadExceptionCount == 0}.
+
+ <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
+ guaranteed not to throw an exception). If you require specific handling, we recommend
+ implementing your own stats collector.]]>
       </doc>
     </method>
     <method name="totalLoadTime" return="long"
@@ -8965,7 +8981,11 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the average time spent loading new values. This is defined as {@code totalLoadTime /
- (loadSuccessCount + loadExceptionCount)}.]]>
+ (loadSuccessCount + loadExceptionCount)}.
+
+ <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
+ guaranteed not to throw an exception). If you require specific handling, we recommend
+ implementing your own stats collector.]]>
       </doc>
     </method>
     <method name="evictionCount" return="long"
@@ -8996,6 +9016,10 @@
       <doc>
       <![CDATA[Returns a new {@code CacheStats} representing the sum of this {@code CacheStats} and {@code
  other}.
+
+ <p><b>Note:</b> the values of the metrics are undefined in case of overflow (though it is
+ guaranteed not to throw an exception). If you require specific handling, we recommend
+ implementing your own stats collector.
 
  @since 11.0]]>
       </doc>
@@ -16290,6 +16314,16 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="value" type="Object"/>
+      <doc>
+      <![CDATA[Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
+ equivalently, if this inverse view contains a key that is equal to {@code value}).
+
+ <p>Due to the property that values in a BiMap are unique, this will tend to execute in
+ faster-than-linear time.
+
+ @param value the object to search for in the values of this BiMap
+ @return true if a mapping exists from a key to the specified value]]>
+      </doc>
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
@@ -17920,7 +17954,7 @@
       <doc>
       <![CDATA[Adds each element of {@code elements} to the {@code ImmutableList}.
 
- @param elements the {@code Iterable} to add to the {@code ImmutableList}
+ @param elements the {@code Iterator} to add to the {@code ImmutableList}
  @return this {@code Builder} object
  @throws NullPointerException if {@code elements} is null or contains a null element]]>
       </doc>
@@ -19923,6 +19957,20 @@
       static="false" final="false" visibility="public"
       deprecated="Unsupported operation.">
       <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <doc>
+      <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+
+ @throws UnsupportedOperationException always
+ @deprecated Unsupported operation.]]>
+      </doc>
+    </method>
+    <method name="merge"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Unsupported operation.">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
 
@@ -32503,6 +32551,28 @@
  call to {@code remove(range)}, {@code get(k)} will return {@code null}.]]>
       </doc>
     </method>
+    <method name="merge"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Merges a value into the map over a range by applying a remapping function.
+
+ <p>If any parts of the range are already present in this range map, those parts are mapped to
+ new values by applying the remapping function. Any parts of the range not already present in
+ this range map are mapped to the specified value, unless the value is {@code null}.
+
+ <p>Any existing map entry spanning either range boundary may be split at the boundary, even if
+ the merge does not affect its value.
+
+ <p>For example, if {@code rangeMap} had one entry {@code [1, 5] => 3} then {@code
+ rangeMap.merge(Range.closed(0,2), 3, Math::max)} could yield a range map with the entries
+ {@code [0, 1) => 3, [1, 2] => 3, (2, 5] => 3}.]]>
+      </doc>
+    </method>
     <method name="asMapOfRanges" return="java.util.Map&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -34345,7 +34415,11 @@
 
  <p><b>Note:</b> The returned map's values are guaranteed to be of type {@link SortedSet}. To
  obtain this map with the more specific generic type {@code Map<K, SortedSet<V>>}, call {@link
- Multimaps#asMap(SortedSetMultimap)} instead.]]>
+ Multimaps#asMap(SortedSetMultimap)} instead. <b>However</b>, the returned map <i>itself</i> is
+ not necessarily a {@link SortedMap}: A {@code SortedSetMultimap} must expose the <i>values</i>
+ for a given key in sorted order, but it need not expose the <i>keys</i> in sorted order.
+ Individual {@code SortedSetMultimap} implementations, like those built with {@link
+ MultimapBuilder#treeKeys()}, may make additional guarantees.]]>
       </doc>
     </method>
     <method name="valueComparator" return="java.util.Comparator&lt;? super V&gt;"
@@ -35941,6 +36015,14 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="rangeToRemove" type="com.google.common.collect.Range&lt;K&gt;"/>
+    </method>
+    <method name="merge"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="range" type="com.google.common.collect.Range&lt;K&gt;"/>
+      <param name="value" type="V"/>
+      <param name="remappingFunction" type="java.util.function.BiFunction&lt;? super V, ? super V, ? extends V&gt;"/>
     </method>
     <method name="asMapOfRanges" return="java.util.Map&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -38310,7 +38392,9 @@
       <doc>
       <![CDATA[Specifies whether the graph will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an {@link
- UnsupportedOperationException}.]]>
+ UnsupportedOperationException}.
+
+ <p>The default value is {@code false}.]]>
       </doc>
     </method>
     <method name="expectedNodeCount" return="com.google.common.graph.GraphBuilder&lt;N&gt;"
@@ -38330,7 +38414,9 @@
       deprecated="not deprecated">
       <param name="nodeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
       <doc>
-      <![CDATA[Specifies the order of iteration for the elements of {@link Graph#nodes()}.]]>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Graph#nodes()}.
+
+ <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
@@ -39911,7 +39997,9 @@
       <param name="allowsParallelEdges" type="boolean"/>
       <doc>
       <![CDATA[Specifies whether the network will allow parallel edges. Attempting to add a parallel edge to a
- network that does not allow them will throw an {@link UnsupportedOperationException}.]]>
+ network that does not allow them will throw an {@link UnsupportedOperationException}.
+
+ <p>The default value is {@code false}.]]>
       </doc>
     </method>
     <method name="allowsSelfLoops" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
@@ -39922,7 +40010,9 @@
       <doc>
       <![CDATA[Specifies whether the network will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a network that does not allow them will throw an {@link
- UnsupportedOperationException}.]]>
+ UnsupportedOperationException}.
+
+ <p>The default value is {@code false}.]]>
       </doc>
     </method>
     <method name="expectedNodeCount" return="com.google.common.graph.NetworkBuilder&lt;N, E&gt;"
@@ -39953,7 +40043,9 @@
       deprecated="not deprecated">
       <param name="nodeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
       <doc>
-      <![CDATA[Specifies the order of iteration for the elements of {@link Network#nodes()}.]]>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Network#nodes()}.
+
+ <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
       </doc>
     </method>
     <method name="edgeOrder" return="com.google.common.graph.NetworkBuilder&lt;N, E1&gt;"
@@ -39962,7 +40054,9 @@
       deprecated="not deprecated">
       <param name="edgeOrder" type="com.google.common.graph.ElementOrder&lt;E1&gt;"/>
       <doc>
-      <![CDATA[Specifies the order of iteration for the elements of {@link Network#edges()}.]]>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Network#edges()}.
+
+ <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableNetwork&lt;N1, E1&gt;"
@@ -40951,7 +41045,9 @@
       <doc>
       <![CDATA[Specifies whether the graph will allow self-loops (edges that connect a node to itself).
  Attempting to add a self-loop to a graph that does not allow them will throw an {@link
- UnsupportedOperationException}.]]>
+ UnsupportedOperationException}.
+
+ <p>The default value is {@code false}.]]>
       </doc>
     </method>
     <method name="expectedNodeCount" return="com.google.common.graph.ValueGraphBuilder&lt;N, V&gt;"
@@ -40971,7 +41067,9 @@
       deprecated="not deprecated">
       <param name="nodeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
       <doc>
-      <![CDATA[Specifies the order of iteration for the elements of {@link Graph#nodes()}.]]>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Graph#nodes()}.
+
+ <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableValueGraph&lt;N1, V1&gt;"
@@ -43980,6 +44078,11 @@
       <doc>
       <![CDATA[Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range
  in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.
+
+ <p>Note that the given byte array may be be passed directly to methods on, for example, {@code
+ OutputStream} (when {@code copyTo(OutputStream)} is called on the resulting {@code
+ ByteSource}). This could allow a malicious {@code OutputStream} implementation to modify the
+ contents of the array, but provides better performance in the normal case.
 
  @since 15.0 (since 14.0 as {@code ByteStreams.asByteSource(byte[])}).]]>
       </doc>
@@ -50418,6 +50521,17 @@
       <![CDATA[The HTTP {@code Upgrade} header field name.]]>
       </doc>
     </field>
+    <field name="UPGRADE_INSECURE_REQUESTS" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
+ Upgrade-Insecure-Requests}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="USER_AGENT" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -51031,8 +51145,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
+ header field name.
 
  @since 27.1]]>
       </doc>
@@ -51042,8 +51156,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Mode}</a>
+ header field name.
 
  @since 27.1]]>
       </doc>
@@ -51053,8 +51167,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Site}</a>
+ header field name.
 
  @since 27.1]]>
       </doc>
@@ -51064,8 +51178,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-User}</a>
+ header field name.
 
  @since 27.1]]>
       </doc>
@@ -51075,8 +51189,8 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
- field name.
+      <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Metadata}</a>
+ header field name.
 
  @since 26.0]]>
       </doc>
@@ -52563,6 +52677,26 @@
       <![CDATA[<a href="https://en.wikipedia.org/wiki/WebP">WebP image format</a>.
 
  @since 13.0]]>
+      </doc>
+    </field>
+    <field name="HEIF" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.iana.org/assignments/media-types/image/heif">HEIF image format</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="JP2K" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://tools.ietf.org/html/rfc3745">JP2K image format</a>.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="MP4_AUDIO" type="com.google.common.net.MediaType"

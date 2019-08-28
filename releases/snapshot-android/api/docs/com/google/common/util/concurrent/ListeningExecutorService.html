@@ -144,42 +144,26 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll-java.util.Collection-">invokeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)</code>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll-java.util.Collection-">invokeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)</code></td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#invokeAll-java.util.Collection-long-java.util.concurrent.TimeUnit-">invokeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks,
          long&nbsp;timeout,
-         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.</div>
-</td>
+         <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code></td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
-      T&nbsp;result)</code>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task.</div>
-</td>
+      T&nbsp;result)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -217,33 +201,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <li class="blockList">
 <h4>submit</h4>
 <pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.41">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
-<div class="block">Submits a value-returning task for execution and returns a
- Future representing the pending results of the task. The
- Future's <code>get</code> method will return the task's result upon
- successful completion.
-
- <p>
- If you would like to immediately block waiting
- for a task, you can use constructions of the form
- <code>result = exec.submit(aCallable).get();</code>
-
- <p>Note: The <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executors</code></a> class includes a set of methods
- that can convert some other common closure-like objects,
- for example, <a href="https://docs.oracle.com/javase/9/docs/api/java/security/PrivilegedAction.html?is-external=true" title="class or interface in java.security"><code>PrivilegedAction</code></a> to
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the task's result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -254,20 +218,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <li class="blockList">
 <h4>submit</h4>
 <pre><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.48">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -281,23 +238,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <h4>submit</h4>
 <pre>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.55">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
                                T&nbsp;result)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
-<div class="block">Submits a Runnable task for execution and returns a Future
- representing that task. The Future's <code>get</code> method will
- return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the result</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>task</code> - the task to submit</dd>
-<dd><code>result</code> - the result to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if the task cannot be
-         scheduled for execution</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -309,14 +256,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <h4>invokeAll</h4>
 <pre>&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true" title="class or interface in java.util.concurrent">Future</a>&lt;T&gt;&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ListeningExecutorService.html#line.76">invokeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&gt;&nbsp;tasks)
                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results when all complete.
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent"><code>Future.isDone()</code></a> is <code>true</code> for each
- element of the returned list.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.
+<div class="block">
 
  <p>All elements in the returned list must be <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
@@ -329,20 +269,14 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll-java.util.Collection-" title="class or interface in java.util.concurrent">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A list of <code>ListenableFuture</code> instances representing the tasks, in the same
      sequential order as produced by the iterator for the given task list, each of which has
      completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if any task cannot be
-         scheduled for execution</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any task is null</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -356,16 +290,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
                               long&nbsp;timeout,
                               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
                        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
-<div class="block">Executes the given tasks, returning a list of Futures holding
- their status and results
- when all complete or the timeout expires, whichever happens first.
- <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html?is-external=true#isDone--" title="class or interface in java.util.concurrent"><code>Future.isDone()</code></a> is <code>true</code> for each
- element of the returned list.
- Upon return, tasks that have not completed are cancelled.
- Note that a <em>completed</em> task could have
- terminated either normally or by throwing an exception.
- The results of this method are undefined if the given
- collection is modified while this operation is in progress.
+<div class="block">
 
  <p>All elements in the returned list must be <a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> instances. The easiest
  way to obtain a <code>List&lt;ListenableFuture&lt;T&gt;&gt;</code> from this method is an unchecked (but safe)
@@ -378,23 +303,15 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#invokeAll-java.util.Collection-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">invokeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the values returned from the tasks</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>tasks</code> - the collection of tasks</dd>
-<dd><code>timeout</code> - the maximum time to wait</dd>
-<dd><code>unit</code> - the time unit of the timeout argument</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a list of <code>ListenableFuture</code> instances representing the tasks, in the same
      sequential order as produced by the iterator for the given task list. If the operation did
      not time out, each task will have completed. If it did time out, some of these tasks will
      not have completed.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code> - if any task cannot be scheduled
-         for execution</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RejectedExecutionException.html?is-external=true" title="class or interface in java.util.concurrent">RejectedExecutionException</a></code></dd>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if any task is null</dd>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting, in
-         which case unfinished tasks are cancelled</dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
 </dl>
 </li>
 </ul>

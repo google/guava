@@ -273,9 +273,9 @@
 <span class="sourceLineNo">265</span>      return addSuppressed != null;<a name="line.265"></a>
 <span class="sourceLineNo">266</span>    }<a name="line.266"></a>
 <span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>    static final Method addSuppressed = getAddSuppressed();<a name="line.268"></a>
+<span class="sourceLineNo">268</span>    static final Method addSuppressed = addSuppressedMethodOrNull();<a name="line.268"></a>
 <span class="sourceLineNo">269</span><a name="line.269"></a>
-<span class="sourceLineNo">270</span>    private static Method getAddSuppressed() {<a name="line.270"></a>
+<span class="sourceLineNo">270</span>    private static Method addSuppressedMethodOrNull() {<a name="line.270"></a>
 <span class="sourceLineNo">271</span>      try {<a name="line.271"></a>
 <span class="sourceLineNo">272</span>        return Throwable.class.getMethod("addSuppressed", Throwable.class);<a name="line.272"></a>
 <span class="sourceLineNo">273</span>      } catch (Throwable e) {<a name="line.273"></a>

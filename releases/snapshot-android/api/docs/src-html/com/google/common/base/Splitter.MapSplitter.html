@@ -339,13 +339,13 @@
 <span class="sourceLineNo">331</span>   * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   * , c , d ")} results in {@code ["a", "b", "c , d"]}.<a name="line.332"></a>
 <span class="sourceLineNo">333</span>   *<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   * @param limit the maximum number of items returned<a name="line.334"></a>
+<span class="sourceLineNo">334</span>   * @param maxItems the maximum number of items returned<a name="line.334"></a>
 <span class="sourceLineNo">335</span>   * @return a splitter with the desired configuration<a name="line.335"></a>
 <span class="sourceLineNo">336</span>   * @since 9.0<a name="line.336"></a>
 <span class="sourceLineNo">337</span>   */<a name="line.337"></a>
-<span class="sourceLineNo">338</span>  public Splitter limit(int limit) {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>    checkArgument(limit &gt; 0, "must be greater than zero: %s", limit);<a name="line.339"></a>
-<span class="sourceLineNo">340</span>    return new Splitter(strategy, omitEmptyStrings, trimmer, limit);<a name="line.340"></a>
+<span class="sourceLineNo">338</span>  public Splitter limit(int maxItems) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    checkArgument(maxItems &gt; 0, "must be greater than zero: %s", maxItems);<a name="line.339"></a>
+<span class="sourceLineNo">340</span>    return new Splitter(strategy, omitEmptyStrings, trimmer, maxItems);<a name="line.340"></a>
 <span class="sourceLineNo">341</span>  }<a name="line.341"></a>
 <span class="sourceLineNo">342</span><a name="line.342"></a>
 <span class="sourceLineNo">343</span>  /**<a name="line.343"></a>

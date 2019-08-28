@@ -252,9 +252,7 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#iterator--">iterator</a></span>()</code>
-<div class="block">Returns an iterator over the elements in this collection.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#iterator--">iterator</a></span>()</code></td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;E&gt;</code></td>
@@ -296,16 +294,11 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#toArray--">toArray</a></span>()</code>
-<div class="block">Returns an array containing all of the elements in this collection.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#toArray--">toArray</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;T[]</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#toArray-T:A-">toArray</a></span>(T[]&nbsp;array)</code>
-<div class="block">Returns an array containing all of the elements in this collection;
- the runtime type of the returned array is that of the specified array.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingSortedMultiset.StandardDescendingMultiset.html#toArray-T:A-">toArray</a></span>(T[]&nbsp;array)</code>&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
@@ -640,11 +633,14 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 <li class="blockList">
 <h4>iterator</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/DescendingMultiset.html#line.139">iterator</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
-<div class="block">Returns an iterator over the elements in this collection.  There are no
- guarantees concerning the order in which the elements are returned
- (unless this collection is an instance of some class that provides a
- guarantee).</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/SortedMultiset.html#iterator--">SortedMultiset</a></code></span></div>
+<div class="block">
+
+ <p>Elements that occur multiple times in the multiset will appear multiple times in this
+ iterator, though not necessarily sequentially.
+
+ <p>The iterator returns the elements in ascending order according to this multiset's
+ comparator.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#iterator--">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
@@ -656,8 +652,6 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator--" title="class or interface in java.util">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#iterator--">iterator</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an <tt>Iterator</tt> over the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -668,26 +662,11 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 <li class="blockList">
 <h4>toArray</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;<a href="../../../../src-html/com/google/common/collect/DescendingMultiset.html#line.144">toArray</a>()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util">java.util.Collection</a></code></span></div>
-<div class="block">Returns an array containing all of the elements in this collection.
- If this collection makes any guarantees as to what order its elements
- are returned by its iterator, this method must return the elements in
- the same order.
-
- <p>The returned array will be "safe" in that no references to it are
- maintained by this collection.  (In other words, this method must
- allocate a new array even if this collection is backed by an array).
- The caller is thus free to modify the returned array.
-
- <p>This method acts as bridge between array-based and collection-based
- APIs.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray--">toArray</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;</code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an array containing all of the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -700,51 +679,11 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 <li class="blockList">
 <h4>toArray</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;T[]&nbsp;<a href="../../../../src-html/com/google/common/collect/DescendingMultiset.html#line.149">toArray</a>(T[]&nbsp;array)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">java.util.Collection</a></code></span></div>
-<div class="block">Returns an array containing all of the elements in this collection;
- the runtime type of the returned array is that of the specified array.
- If the collection fits in the specified array, it is returned therein.
- Otherwise, a new array is allocated with the runtime type of the
- specified array and the size of this collection.
-
- <p>If this collection fits in the specified array with room to spare
- (i.e., the array has more elements than this collection), the element
- in the array immediately following the end of the collection is set to
- <tt>null</tt>.  (This is useful in determining the length of this
- collection <i>only</i> if the caller knows that this collection does
- not contain any <tt>null</tt> elements.)
-
- <p>If this collection makes any guarantees as to what order its elements
- are returned by its iterator, this method must return the elements in
- the same order.
-
- <p>Like the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray--" title="class or interface in java.util"><code>Collection.toArray()</code></a> method, this method acts as bridge between
- array-based and collection-based APIs.  Further, this method allows
- precise control over the runtime type of the output array, and may,
- under certain circumstances, be used to save allocation costs.
-
- <p>Suppose <tt>x</tt> is a collection known to contain only strings.
- The following code can be used to dump the collection into a newly
- allocated array of <tt>String</tt>:
-
- <pre>
-     String[] y = x.toArray(new String[0]);</pre>
-
- Note that <tt>toArray(new Object[0])</tt> is identical in function to
- <tt>toArray()</tt>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#toArray-T:A-" title="class or interface in java.util">toArray</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingCollection.html#toArray-T:A-">toArray</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingCollection.html" title="class in com.google.common.collect">ForwardingCollection</a>&lt;E&gt;</code></dd>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the runtime type of the array to contain the collection</dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>array</code> - the array into which the elements of this collection are to be
-        stored, if it is big enough; otherwise, a new array of the same
-        runtime type is allocated for this purpose.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an array containing all of the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -762,8 +701,6 @@ extends <a href="../../../../com/google/common/collect/ForwardingMultiset.html" 
 <dd><code><a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="../../../../com/google/common/collect/ForwardingObject.html#toString--">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/google/common/collect/ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

@@ -821,69 +821,71 @@
 <span class="sourceLineNo">813</span>      int targetTableSize = chooseTableSize(distinct);<a name="line.813"></a>
 <span class="sourceLineNo">814</span>      if (targetTableSize * 2 &lt; hashTable.length) {<a name="line.814"></a>
 <span class="sourceLineNo">815</span>        hashTable = rebuildHashTable(targetTableSize, dedupedElements, distinct);<a name="line.815"></a>
-<span class="sourceLineNo">816</span>      }<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      return hashFloodingDetected(hashTable) ? new JdkBackedSetBuilderImpl&lt;E&gt;(this) : this;<a name="line.817"></a>
-<span class="sourceLineNo">818</span>    }<a name="line.818"></a>
-<span class="sourceLineNo">819</span><a name="line.819"></a>
-<span class="sourceLineNo">820</span>    @Override<a name="line.820"></a>
-<span class="sourceLineNo">821</span>    ImmutableSet&lt;E&gt; build() {<a name="line.821"></a>
-<span class="sourceLineNo">822</span>      switch (distinct) {<a name="line.822"></a>
-<span class="sourceLineNo">823</span>        case 0:<a name="line.823"></a>
-<span class="sourceLineNo">824</span>          return of();<a name="line.824"></a>
-<span class="sourceLineNo">825</span>        case 1:<a name="line.825"></a>
-<span class="sourceLineNo">826</span>          return of(dedupedElements[0]);<a name="line.826"></a>
-<span class="sourceLineNo">827</span>        default:<a name="line.827"></a>
-<span class="sourceLineNo">828</span>          Object[] elements =<a name="line.828"></a>
-<span class="sourceLineNo">829</span>              (distinct == dedupedElements.length)<a name="line.829"></a>
-<span class="sourceLineNo">830</span>                  ? dedupedElements<a name="line.830"></a>
-<span class="sourceLineNo">831</span>                  : Arrays.copyOf(dedupedElements, distinct);<a name="line.831"></a>
-<span class="sourceLineNo">832</span>          return new RegularImmutableSet&lt;E&gt;(elements, hashCode, hashTable, hashTable.length - 1);<a name="line.832"></a>
-<span class="sourceLineNo">833</span>      }<a name="line.833"></a>
-<span class="sourceLineNo">834</span>    }<a name="line.834"></a>
-<span class="sourceLineNo">835</span>  }<a name="line.835"></a>
-<span class="sourceLineNo">836</span><a name="line.836"></a>
-<span class="sourceLineNo">837</span>  /**<a name="line.837"></a>
-<span class="sourceLineNo">838</span>   * SetBuilderImpl version that uses a JDK HashSet, which has built in hash flooding protection.<a name="line.838"></a>
-<span class="sourceLineNo">839</span>   */<a name="line.839"></a>
-<span class="sourceLineNo">840</span>  private static final class JdkBackedSetBuilderImpl&lt;E&gt; extends SetBuilderImpl&lt;E&gt; {<a name="line.840"></a>
-<span class="sourceLineNo">841</span>    private final Set&lt;Object&gt; delegate;<a name="line.841"></a>
-<span class="sourceLineNo">842</span><a name="line.842"></a>
-<span class="sourceLineNo">843</span>    JdkBackedSetBuilderImpl(SetBuilderImpl&lt;E&gt; toCopy) {<a name="line.843"></a>
-<span class="sourceLineNo">844</span>      super(toCopy); // initializes dedupedElements and distinct<a name="line.844"></a>
-<span class="sourceLineNo">845</span>      delegate = Sets.newHashSetWithExpectedSize(distinct);<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      for (int i = 0; i &lt; distinct; i++) {<a name="line.846"></a>
-<span class="sourceLineNo">847</span>        delegate.add(dedupedElements[i]);<a name="line.847"></a>
-<span class="sourceLineNo">848</span>      }<a name="line.848"></a>
-<span class="sourceLineNo">849</span>    }<a name="line.849"></a>
-<span class="sourceLineNo">850</span><a name="line.850"></a>
-<span class="sourceLineNo">851</span>    @Override<a name="line.851"></a>
-<span class="sourceLineNo">852</span>    SetBuilderImpl&lt;E&gt; add(E e) {<a name="line.852"></a>
-<span class="sourceLineNo">853</span>      checkNotNull(e);<a name="line.853"></a>
-<span class="sourceLineNo">854</span>      if (delegate.add(e)) {<a name="line.854"></a>
-<span class="sourceLineNo">855</span>        addDedupedElement(e);<a name="line.855"></a>
-<span class="sourceLineNo">856</span>      }<a name="line.856"></a>
-<span class="sourceLineNo">857</span>      return this;<a name="line.857"></a>
-<span class="sourceLineNo">858</span>    }<a name="line.858"></a>
-<span class="sourceLineNo">859</span><a name="line.859"></a>
-<span class="sourceLineNo">860</span>    @Override<a name="line.860"></a>
-<span class="sourceLineNo">861</span>    SetBuilderImpl&lt;E&gt; copy() {<a name="line.861"></a>
-<span class="sourceLineNo">862</span>      return new JdkBackedSetBuilderImpl&lt;&gt;(this);<a name="line.862"></a>
-<span class="sourceLineNo">863</span>    }<a name="line.863"></a>
-<span class="sourceLineNo">864</span><a name="line.864"></a>
-<span class="sourceLineNo">865</span>    @Override<a name="line.865"></a>
-<span class="sourceLineNo">866</span>    ImmutableSet&lt;E&gt; build() {<a name="line.866"></a>
-<span class="sourceLineNo">867</span>      switch (distinct) {<a name="line.867"></a>
-<span class="sourceLineNo">868</span>        case 0:<a name="line.868"></a>
-<span class="sourceLineNo">869</span>          return of();<a name="line.869"></a>
-<span class="sourceLineNo">870</span>        case 1:<a name="line.870"></a>
-<span class="sourceLineNo">871</span>          return of(dedupedElements[0]);<a name="line.871"></a>
-<span class="sourceLineNo">872</span>        default:<a name="line.872"></a>
-<span class="sourceLineNo">873</span>          return new JdkBackedImmutableSet&lt;E&gt;(<a name="line.873"></a>
-<span class="sourceLineNo">874</span>              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));<a name="line.874"></a>
-<span class="sourceLineNo">875</span>      }<a name="line.875"></a>
-<span class="sourceLineNo">876</span>    }<a name="line.876"></a>
-<span class="sourceLineNo">877</span>  }<a name="line.877"></a>
-<span class="sourceLineNo">878</span>}<a name="line.878"></a>
+<span class="sourceLineNo">816</span>        maxRunBeforeFallback = maxRunBeforeFallback(targetTableSize);<a name="line.816"></a>
+<span class="sourceLineNo">817</span>        expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * targetTableSize);<a name="line.817"></a>
+<span class="sourceLineNo">818</span>      }<a name="line.818"></a>
+<span class="sourceLineNo">819</span>      return hashFloodingDetected(hashTable) ? new JdkBackedSetBuilderImpl&lt;E&gt;(this) : this;<a name="line.819"></a>
+<span class="sourceLineNo">820</span>    }<a name="line.820"></a>
+<span class="sourceLineNo">821</span><a name="line.821"></a>
+<span class="sourceLineNo">822</span>    @Override<a name="line.822"></a>
+<span class="sourceLineNo">823</span>    ImmutableSet&lt;E&gt; build() {<a name="line.823"></a>
+<span class="sourceLineNo">824</span>      switch (distinct) {<a name="line.824"></a>
+<span class="sourceLineNo">825</span>        case 0:<a name="line.825"></a>
+<span class="sourceLineNo">826</span>          return of();<a name="line.826"></a>
+<span class="sourceLineNo">827</span>        case 1:<a name="line.827"></a>
+<span class="sourceLineNo">828</span>          return of(dedupedElements[0]);<a name="line.828"></a>
+<span class="sourceLineNo">829</span>        default:<a name="line.829"></a>
+<span class="sourceLineNo">830</span>          Object[] elements =<a name="line.830"></a>
+<span class="sourceLineNo">831</span>              (distinct == dedupedElements.length)<a name="line.831"></a>
+<span class="sourceLineNo">832</span>                  ? dedupedElements<a name="line.832"></a>
+<span class="sourceLineNo">833</span>                  : Arrays.copyOf(dedupedElements, distinct);<a name="line.833"></a>
+<span class="sourceLineNo">834</span>          return new RegularImmutableSet&lt;E&gt;(elements, hashCode, hashTable, hashTable.length - 1);<a name="line.834"></a>
+<span class="sourceLineNo">835</span>      }<a name="line.835"></a>
+<span class="sourceLineNo">836</span>    }<a name="line.836"></a>
+<span class="sourceLineNo">837</span>  }<a name="line.837"></a>
+<span class="sourceLineNo">838</span><a name="line.838"></a>
+<span class="sourceLineNo">839</span>  /**<a name="line.839"></a>
+<span class="sourceLineNo">840</span>   * SetBuilderImpl version that uses a JDK HashSet, which has built in hash flooding protection.<a name="line.840"></a>
+<span class="sourceLineNo">841</span>   */<a name="line.841"></a>
+<span class="sourceLineNo">842</span>  private static final class JdkBackedSetBuilderImpl&lt;E&gt; extends SetBuilderImpl&lt;E&gt; {<a name="line.842"></a>
+<span class="sourceLineNo">843</span>    private final Set&lt;Object&gt; delegate;<a name="line.843"></a>
+<span class="sourceLineNo">844</span><a name="line.844"></a>
+<span class="sourceLineNo">845</span>    JdkBackedSetBuilderImpl(SetBuilderImpl&lt;E&gt; toCopy) {<a name="line.845"></a>
+<span class="sourceLineNo">846</span>      super(toCopy); // initializes dedupedElements and distinct<a name="line.846"></a>
+<span class="sourceLineNo">847</span>      delegate = Sets.newHashSetWithExpectedSize(distinct);<a name="line.847"></a>
+<span class="sourceLineNo">848</span>      for (int i = 0; i &lt; distinct; i++) {<a name="line.848"></a>
+<span class="sourceLineNo">849</span>        delegate.add(dedupedElements[i]);<a name="line.849"></a>
+<span class="sourceLineNo">850</span>      }<a name="line.850"></a>
+<span class="sourceLineNo">851</span>    }<a name="line.851"></a>
+<span class="sourceLineNo">852</span><a name="line.852"></a>
+<span class="sourceLineNo">853</span>    @Override<a name="line.853"></a>
+<span class="sourceLineNo">854</span>    SetBuilderImpl&lt;E&gt; add(E e) {<a name="line.854"></a>
+<span class="sourceLineNo">855</span>      checkNotNull(e);<a name="line.855"></a>
+<span class="sourceLineNo">856</span>      if (delegate.add(e)) {<a name="line.856"></a>
+<span class="sourceLineNo">857</span>        addDedupedElement(e);<a name="line.857"></a>
+<span class="sourceLineNo">858</span>      }<a name="line.858"></a>
+<span class="sourceLineNo">859</span>      return this;<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    }<a name="line.860"></a>
+<span class="sourceLineNo">861</span><a name="line.861"></a>
+<span class="sourceLineNo">862</span>    @Override<a name="line.862"></a>
+<span class="sourceLineNo">863</span>    SetBuilderImpl&lt;E&gt; copy() {<a name="line.863"></a>
+<span class="sourceLineNo">864</span>      return new JdkBackedSetBuilderImpl&lt;&gt;(this);<a name="line.864"></a>
+<span class="sourceLineNo">865</span>    }<a name="line.865"></a>
+<span class="sourceLineNo">866</span><a name="line.866"></a>
+<span class="sourceLineNo">867</span>    @Override<a name="line.867"></a>
+<span class="sourceLineNo">868</span>    ImmutableSet&lt;E&gt; build() {<a name="line.868"></a>
+<span class="sourceLineNo">869</span>      switch (distinct) {<a name="line.869"></a>
+<span class="sourceLineNo">870</span>        case 0:<a name="line.870"></a>
+<span class="sourceLineNo">871</span>          return of();<a name="line.871"></a>
+<span class="sourceLineNo">872</span>        case 1:<a name="line.872"></a>
+<span class="sourceLineNo">873</span>          return of(dedupedElements[0]);<a name="line.873"></a>
+<span class="sourceLineNo">874</span>        default:<a name="line.874"></a>
+<span class="sourceLineNo">875</span>          return new JdkBackedImmutableSet&lt;E&gt;(<a name="line.875"></a>
+<span class="sourceLineNo">876</span>              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));<a name="line.876"></a>
+<span class="sourceLineNo">877</span>      }<a name="line.877"></a>
+<span class="sourceLineNo">878</span>    }<a name="line.878"></a>
+<span class="sourceLineNo">879</span>  }<a name="line.879"></a>
+<span class="sourceLineNo">880</span>}<a name="line.880"></a>
 
 
 

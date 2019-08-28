@@ -196,8 +196,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#invoke-java.lang.Object-java.lang.reflect.Method-java.lang.Object:A-">invoke</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;proxy,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/Method.html?is-external=true" title="class or interface in java.lang.reflect">Method</a>&nbsp;method,
       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;args)</code>
-<div class="block">Processes a method invocation on a proxy instance and returns
- the result.</div>
+<div class="block">
+
+ 
+   <code>proxy.hashCode()</code> delegates to <a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#hashCode--"><code>hashCode()</code></a>
+   <code>proxy.toString()</code> delegates to <a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#toString--"><code>toString()</code></a>
+   <code>proxy.equals(argument)</code> returns true if:
+       
+         <code>proxy</code> and <code>argument</code> are of the same type
+         and <a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#equals-java.lang.Object-"><code>equals(java.lang.Object)</code></a> returns true for the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationHandler.html?is-external=true" title="class or interface in java.lang.reflect"><code>InvocationHandler</code></a> of <code>argument</code>
+       
+   other method calls are dispatched to <a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#handleInvocation-java.lang.Object-java.lang.reflect.Method-java.lang.Object:A-"><code>handleInvocation(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])</code></a>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -256,10 +265,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
                            <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                            <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>[]&nbsp;args)
                     throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></pre>
-<div class="block">Processes a method invocation on a proxy instance and returns
- the result.  This method will be invoked on an invocation handler
- when a method is invoked on a proxy instance that it is
- associated with.
+<div class="block">
 
  <ul>
    <li><code>proxy.hashCode()</code> delegates to <a href="../../../../com/google/common/reflect/AbstractInvocationHandler.html#hashCode--"><code>hashCode()</code></a>
@@ -274,48 +280,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationHandler.html?is-external=true#invoke-java.lang.Object-java.lang.reflect.Method-java.lang.Object:A-" title="class or interface in java.lang.reflect">invoke</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationHandler.html?is-external=true" title="class or interface in java.lang.reflect">InvocationHandler</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>proxy</code> - the proxy instance that the method was invoked on</dd>
-<dd><code>method</code> - the <code>Method</code> instance corresponding to
- the interface method invoked on the proxy instance.  The declaring
- class of the <code>Method</code> object will be the interface that
- the method was declared in, which may be a superinterface of the
- proxy interface that the proxy class inherits the method through.</dd>
-<dd><code>args</code> - an array of objects containing the values of the
- arguments passed in the method invocation on the proxy instance,
- or <code>null</code> if interface method takes no arguments.
- Arguments of primitive types are wrapped in instances of the
- appropriate primitive wrapper class, such as
- <code>java.lang.Integer</code> or <code>java.lang.Boolean</code>.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>the value to return from the method invocation on the
- proxy instance.  If the declared return type of the interface
- method is a primitive type, then the value returned by
- this method must be an instance of the corresponding primitive
- wrapper class; otherwise, it must be a type assignable to the
- declared return type.  If the value returned by this method is
- <code>null</code> and the interface method's return type is
- primitive, then a <code>NullPointerException</code> will be
- thrown by the method invocation on the proxy instance.  If the
- value returned by this method is otherwise not compatible with
- the interface method's declared return type as described above,
- a <code>ClassCastException</code> will be thrown by the method
- invocation on the proxy instance.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code> - the exception to throw from the method
- invocation on the proxy instance.  The exception's type must be
- assignable either to any of the exception types declared in the
- <code>throws</code> clause of the interface method or to the
- unchecked exception types <code>java.lang.RuntimeException</code>
- or <code>java.lang.Error</code>.  If a checked exception is
- thrown by this method that is not assignable to any of the
- exception types declared in the <code>throws</code> clause of
- the interface method, then an
- <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/UndeclaredThrowableException.html?is-external=true" title="class or interface in java.lang.reflect"><code>UndeclaredThrowableException</code></a> containing the
- exception that was thrown by this method will be thrown by the
- method invocation on the proxy instance.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/UndeclaredThrowableException.html?is-external=true" title="class or interface in java.lang.reflect"><code>UndeclaredThrowableException</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Throwable.html?is-external=true" title="class or interface in java.lang">Throwable</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -360,14 +326,6 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - the reference object with which to compare.</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd><code>true</code> if this object is the same as the obj
-          argument; <code>false</code> otherwise.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -383,11 +341,6 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a hash code value for this object.</dd>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, 
-<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode-java.lang.Object-" title="class or interface in java.lang"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -404,8 +357,6 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>
