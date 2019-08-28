@@ -175,7 +175,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
    * Upgrade-Insecure-Requests}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.1
    */
   public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
 

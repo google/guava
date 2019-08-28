@@ -245,14 +245,14 @@ public final class MediaType {
   /**
    * <a href="https://www.iana.org/assignments/media-types/image/heif">HEIF image format</a>.
    *
-   * @since NEXT
+   * @since 28.1
    */
   public static final MediaType HEIF = createConstant(IMAGE_TYPE, "heif");
 
   /**
    * <a href="https://tools.ietf.org/html/rfc3745">JP2K image format</a>.
    *
-   * @since NEXT
+   * @since 28.1
    */
   public static final MediaType JP2K = createConstant(IMAGE_TYPE, "jp2");
 
