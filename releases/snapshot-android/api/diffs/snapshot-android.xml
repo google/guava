@@ -48241,7 +48241,7 @@
       <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
  Upgrade-Insecure-Requests}</a> header field name.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="USER_AGENT" type="java.lang.String"
@@ -50398,7 +50398,7 @@
       <doc>
       <![CDATA[<a href="https://www.iana.org/assignments/media-types/image/heif">HEIF image format</a>.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="JP2K" type="com.google.common.net.MediaType"
@@ -50408,7 +50408,7 @@
       <doc>
       <![CDATA[<a href="https://tools.ietf.org/html/rfc3745">JP2K image format</a>.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="MP4_AUDIO" type="com.google.common.net.MediaType"

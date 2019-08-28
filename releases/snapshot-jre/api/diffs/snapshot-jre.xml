@@ -32570,7 +32570,9 @@
 
  <p>For example, if {@code rangeMap} had one entry {@code [1, 5] => 3} then {@code
  rangeMap.merge(Range.closed(0,2), 3, Math::max)} could yield a range map with the entries
- {@code [0, 1) => 3, [1, 2] => 3, (2, 5] => 3}.]]>
+ {@code [0, 1) => 3, [1, 2] => 3, (2, 5] => 3}.
+
+ @since 28.1]]>
       </doc>
     </method>
     <method name="asMapOfRanges" return="java.util.Map&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
@@ -50529,7 +50531,7 @@
       <![CDATA[The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
  Upgrade-Insecure-Requests}</a> header field name.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="USER_AGENT" type="java.lang.String"
@@ -52686,7 +52688,7 @@
       <doc>
       <![CDATA[<a href="https://www.iana.org/assignments/media-types/image/heif">HEIF image format</a>.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="JP2K" type="com.google.common.net.MediaType"
@@ -52696,7 +52698,7 @@
       <doc>
       <![CDATA[<a href="https://tools.ietf.org/html/rfc3745">JP2K image format</a>.
 
- @since NEXT]]>
+ @since 28.1]]>
       </doc>
     </field>
     <field name="MP4_AUDIO" type="com.google.common.net.MediaType"
