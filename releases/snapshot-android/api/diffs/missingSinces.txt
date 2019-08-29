@@ -1,3 +1,0 @@
-OK: com.google.common.net.MediaType Field HEIF
-OK: com.google.common.net.MediaType Field JP2K
-OK: com.google.common.net.HttpHeaders Field UPGRADE_INSECURE_REQUESTS
