@@ -4,7 +4,6 @@ language: java
 
 jdk:
   - oraclejdk8
-#  - openjdk11
 
 # https://github.com/travis-ci/travis-ci/issues/3259#issuecomment-130860338
 addons:
@@ -12,21 +11,14 @@ addons:
     packages:
       - oracle-java8-installer
 
-# Upstream version:
-# install: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn install -U -DskipTests=true -f $ROOT_POM
-install: true
+install: mvn -B install -U -DskipTests=true -f $ROOT_POM
 
-# https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received
-# Upstream version:
-# script: travis_wait 60 mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
-script: travis_wait 45 ./.travis-build.sh
+# https://docs.travis-ci.com/user/common-build-problems/#Build-times-out-because-no-output-was-received
+script: travis_wait 60 mvn -B verify -U -Dmaven.javadoc.skip=true -f $ROOT_POM
 
 after_success:
   - util/deploy_snapshot.sh
   - util/update_snapshot_docs.sh
-
-after_failure:
-  - util/print_surefire_reports.sh
 
 cache:
   directories:
@@ -39,9 +31,9 @@ env:
     - secure: "wieIClPLTXS3QjDzqyp0TqIrVP/Q6iWNPOtcUQYfdDZJGwufE61laTFtzVKXZRb7uJ4GXDObcVU3AcpAwkTX/5sEksBxgv3TZ5Qi0mVx2GRmbE06ULLxi7sPnTCZ/VFtselDWcWArWGAcdCjW9gcCrgj5K/+sYpVKz9a8V+SDM4="
   matrix:
     - ROOT_POM="pom.xml"
-#    - ROOT_POM="android/pom.xml"
+    - ROOT_POM="android/pom.xml"
 
-# branches:
-#   only:
-#     - master
-#     - /^release.*$/
+branches:
+  only:
+    - master
+    - /^release.*$/
