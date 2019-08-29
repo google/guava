@@ -780,14 +780,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
         left = initLeft.setCount(comparator, e, expectedCount, newCount, result);
 
-        if (result[0] == expectedCount) {
-          if (newCount == 0 && result[0] != 0) {
-            this.distinctElements--;
-          } else if (newCount > 0 && result[0] == 0) {
-            this.distinctElements++;
-          }
-          this.totalCount += newCount - result[0];
-        }
+        calculatedQuantity(expectedCount, newCount, result);
         return rebalance();
       } else if (cmp > 0) {
         AvlNode<E> initRight = right;
@@ -801,14 +794,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
         right = initRight.setCount(comparator, e, expectedCount, newCount, result);
 
-        if (result[0] == expectedCount) {
-          if (newCount == 0 && result[0] != 0) {
-            this.distinctElements--;
-          } else if (newCount > 0 && result[0] == 0) {
-            this.distinctElements++;
-          }
-          this.totalCount += newCount - result[0];
-        }
+        calculatedQuantity(expectedCount, newCount, result);
         return rebalance();
       }
 
@@ -822,6 +808,17 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         this.elemCount = newCount;
       }
       return this;
+    }
+
+    private void calculatedQuantity(int expectedCount, int newCount, int[] result) {
+      if (result[0] == expectedCount) {
+        if (newCount == 0 && result[0] != 0) {
+          this.distinctElements--;
+        } else if (newCount > 0 && result[0] == 0) {
+          this.distinctElements++;
+        }
+        this.totalCount += newCount - result[0];
+      }
     }
 
     private AvlNode<E> deleteMe() {
