@@ -46,6 +46,7 @@ import static com.google.common.util.concurrent.TestPlatform.clearInterrupt;
 import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static com.google.common.util.concurrent.testing.TestingExecutors.noOpScheduledExecutor;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
@@ -2803,31 +2804,80 @@ public class FuturesTest extends TestCase {
 
   @AndroidIncompatible
   @GwtIncompatible
-  public void testWhenAllSucceed_releasesMemory() throws Exception {
+  public void testWhenAllSucceed_releasesInputFuturesUponSubmission() throws Exception {
     SettableFuture<Long> future1 = SettableFuture.create();
     SettableFuture<Long> future2 = SettableFuture.create();
     WeakReference<SettableFuture<Long>> future1Ref = new WeakReference<>(future1);
     WeakReference<SettableFuture<Long>> future2Ref = new WeakReference<>(future2);
 
-    AsyncCallable<Long> combiner =
-        new AsyncCallable<Long>() {
+    Callable<Long> combiner =
+        new Callable<Long>() {
           @Override
-          public ListenableFuture<Long> call() throws Exception {
-            return SettableFuture.create();
+          public Long call() {
+            throw new AssertionError();
           }
         };
 
     ListenableFuture<Long> unused =
-        whenAllSucceed(future1, future2).callAsync(combiner, directExecutor());
+        whenAllSucceed(future1, future2).call(combiner, noOpScheduledExecutor());
 
     future1.set(1L);
     future1 = null;
     future2.set(2L);
     future2 = null;
 
-    // Futures should be collected even if combiner future never finishes.
+    /*
+     * Futures should be collected even if combiner never runs. This is kind of a silly test, since
+     * the combiner is almost certain to hold its own reference to the futures, and a real app would
+     * hold a reference to the executor and thus to the combiner. What we really care about is that
+     * the futures are released once the combiner is done running. But we happen to provide this
+     * earlier cleanup at the moment, so we're testing it.
+     */
     GcFinalization.awaitClear(future1Ref);
     GcFinalization.awaitClear(future2Ref);
+  }
+
+  @AndroidIncompatible
+  @GwtIncompatible
+  public void testWhenAllComplete_releasesInputFuturesUponCancellation() throws Exception {
+    SettableFuture<Long> future = SettableFuture.create();
+    WeakReference<SettableFuture<Long>> futureRef = new WeakReference<>(future);
+
+    Callable<Long> combiner =
+        new Callable<Long>() {
+          @Override
+          public Long call() {
+            throw new AssertionError();
+          }
+        };
+
+    ListenableFuture<Long> unused = whenAllComplete(future).call(combiner, noOpScheduledExecutor());
+
+    unused.cancel(false);
+    future = null;
+
+    // Future should be collected because whenAll*Complete* doesn't need to look at its result.
+    GcFinalization.awaitClear(futureRef);
+  }
+
+  @AndroidIncompatible
+  @GwtIncompatible
+  public void testWhenAllSucceed_releasesCallable() throws Exception {
+    AsyncCallable<Long> combiner =
+        new AsyncCallable<Long>() {
+          @Override
+          public ListenableFuture<Long> call() {
+            return SettableFuture.create();
+          }
+        };
+    WeakReference<AsyncCallable<Long>> combinerRef = new WeakReference<>(combiner);
+
+    ListenableFuture<Long> unused =
+        whenAllSucceed(immediateFuture(1L)).callAsync(combiner, directExecutor());
+
+    combiner = null;
+    // combiner should be collected even if the future it returns never completes.
+    GcFinalization.awaitClear(combinerRef);
   }
 
   /*
@@ -3463,6 +3513,24 @@ public class FuturesTest extends TestCase {
     assertThat(logged.get(0).getThrown()).isInstanceOf(MyError.class);
   }
 
+  public void testSuccessfulAsList_failureLoggedEvenAfterOutputCancelled() throws Exception {
+    ListenableFuture<String> input = new CancelPanickingFuture<>();
+    ListenableFuture<List<String>> output = successfulAsList(input);
+    output.cancel(false);
+
+    List<LogRecord> logged = aggregateFutureLogHandler.getStoredLogRecords();
+    assertThat(logged).hasSize(1);
+    assertThat(logged.get(0).getThrown()).hasMessageThat().isEqualTo("You can't fire me, I quit.");
+  }
+
+  private static final class CancelPanickingFuture<V> extends AbstractFuture<V> {
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      setException(new Error("You can't fire me, I quit."));
+      return false;
+    }
+  }
+
   public void testNonCancellationPropagating_successful() throws Exception {
     SettableFuture<Foo> input = SettableFuture.create();
     ListenableFuture<Foo> wrapper = nonCancellationPropagating(input);
@@ -3516,22 +3584,6 @@ public class FuturesTest extends TestCase {
       super(cause);
     }
   }
-
-  @GwtIncompatible // used only in GwtIncompatible tests
-  private static final Function<Exception, TestException> mapper =
-      new Function<Exception, TestException>() {
-        @Override
-        public TestException apply(Exception from) {
-          if (from instanceof ExecutionException) {
-            return new TestException(from.getCause());
-          } else {
-            assertTrue(
-                "got " + from.getClass(),
-                from instanceof InterruptedException || from instanceof CancellationException);
-            return new TestException(from);
-          }
-        }
-      };
 
   @GwtIncompatible // used only in GwtIncompatible tests
   private interface MapperFunction extends Function<Throwable, Exception> {}
