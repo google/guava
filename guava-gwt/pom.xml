@@ -55,11 +55,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.elemental2</groupId>
-      <artifactId>elemental2-promise</artifactId>
-      <version>1.0.0-RC1</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-testlib</artifactId>
       <version>${project.version}</version>
