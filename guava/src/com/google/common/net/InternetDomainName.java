@@ -276,13 +276,13 @@ public final class InternetDomainName {
     }
 
      
-    // last label may not start with dash and not end with dah or underscore.
-    if (isFinalPart && DASH_MATCHER_ACTUAL.matches(part.charAt(0))
+    // final label may not start or end with dash or underscore.
+    if (isFinalPart && DASH_MATCHER.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
     }
 
-    // non-final labels my start with a dash but not end with a dash or underscore.
+    // non-final labels may start with a underscore but not end with a dash or underscore.
     if (DASH_MATCHER_ACTUAL.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
