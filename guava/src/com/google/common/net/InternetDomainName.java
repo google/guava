@@ -235,6 +235,8 @@ public final class InternetDomainName {
     return true;
   }
 
+  private static final CharMatcher DASH_MATCHER_ACTUAL = CharMatcher.anyOf("-");
+
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
   private static final CharMatcher PART_CHAR_MATCHER =
@@ -273,9 +275,15 @@ public final class InternetDomainName {
       return false;
     }
 
-    // No initial or final dashes or underscores.
+     
+    // last label may not start with dash and not end with dah or underscore.
+    if (isFinalPart && DASH_MATCHER_ACTUAL.matches(part.charAt(0))
+        || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
+      return false;
+    }
 
-    if (DASH_MATCHER.matches(part.charAt(0))
+    // non-final labels my start with a dash but not end with a dash or underscore.
+    if (DASH_MATCHER_ACTUAL.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
     }
