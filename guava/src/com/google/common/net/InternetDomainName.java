@@ -282,7 +282,12 @@ public final class InternetDomainName {
       return false;
     }
 
-    // non-final labels may start with a underscore but not end with a dash or underscore.
+    /* 
+     * non-final labels can start with an underscore but not with a dash.
+     * The label is not allowed to end with a dash or underscore.
+     * This will allow parsing of DKIM (https://tools.ietf.org/html/rfc6376) names
+    */
+
     if (DASH_MATCHER_ACTUAL.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
