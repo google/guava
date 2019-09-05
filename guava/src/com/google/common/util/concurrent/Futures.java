@@ -559,6 +559,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
    * successful.
    *
+   * <p>Any failures from the input futures will not be propagated to the returned future.
+   *
    * @since 20.0
    */
   @Beta
@@ -570,6 +572,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
    * successful.
+   *
+   * <p>Any failures from the input futures will not be propagated to the returned future.
    *
    * @since 20.0
    */
