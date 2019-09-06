@@ -25,18 +25,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/** Implementation of {@link Futures#immediateFuture}. */
+/** Implementations of {@code Futures.immediate*}. */
 @GwtCompatible
-final class ImmediateFuture<V> implements ListenableFuture<V> {
-  static final ListenableFuture<?> NULL = new ImmediateFuture<>(null);
-
+abstract class ImmediateFuture<V> implements ListenableFuture<V> {
   private static final Logger log = Logger.getLogger(ImmediateFuture.class.getName());
-
-  private final @Nullable V value;
-
-  ImmediateFuture(@Nullable V value) {
-    this.value = value;
-  }
 
   @Override
   public void addListener(Runnable listener, Executor executor) {
@@ -59,11 +51,8 @@ final class ImmediateFuture<V> implements ListenableFuture<V> {
     return false;
   }
 
-  // TODO(lukes): Consider throwing InterruptedException when appropriate.
   @Override
-  public V get() {
-    return value;
-  }
+  public abstract V get() throws ExecutionException;
 
   @Override
   public V get(long timeout, TimeUnit unit) throws ExecutionException {
@@ -81,10 +70,25 @@ final class ImmediateFuture<V> implements ListenableFuture<V> {
     return true;
   }
 
-  @Override
-  public String toString() {
-    // Behaviour analogous to AbstractFuture#toString().
-    return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
+  static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
+    static final ImmediateSuccessfulFuture<Object> NULL = new ImmediateSuccessfulFuture<>(null);
+    private final @Nullable V value;
+
+    ImmediateSuccessfulFuture(@Nullable V value) {
+      this.value = value;
+    }
+
+    // TODO(lukes): Consider throwing InterruptedException when appropriate.
+    @Override
+    public V get() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      // Behaviour analogous to AbstractFuture#toString().
+      return super.toString() + "[status=SUCCESS, result=[" + value + "]]";
+    }
   }
 
   static final class ImmediateFailedFuture<V> extends TrustedFuture<V> {
