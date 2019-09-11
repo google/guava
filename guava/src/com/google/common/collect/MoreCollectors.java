@@ -51,8 +51,7 @@ public final class MoreCollectors {
   /**
    * A collector that converts a stream of zero or one elements to an {@code Optional}. The returned
    * collector throws an {@code IllegalArgumentException} if the stream consists of two or more
-   * elements, and a {@code NullPointerException} if the stream consists of exactly one element,
-   * which is null.
+   * elements, and a {@code NullPointerException} if the only element in the stream is null.
    */
   @SuppressWarnings("unchecked")
   public static <T> Collector<T, ?, Optional<T>> toOptional() {
