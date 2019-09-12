@@ -151,8 +151,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
-      // Eclipse won't compile if we cast to the parameterized type.
-      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap) map;
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) map;
       return cast;
     }
     return new Builder<B>().putAll(map).build();
