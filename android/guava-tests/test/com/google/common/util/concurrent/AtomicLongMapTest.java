@@ -25,11 +25,6 @@ import com.google.common.testing.SerializableTester;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 import junit.framework.TestCase;
 
 /**
@@ -42,7 +37,7 @@ public class AtomicLongMapTest extends TestCase {
   private static final int ITERATIONS = 100;
   private static final int MAX_ADDEND = 100;
 
-  private Random random = new Random(301);
+  private final Random random = new Random(301);
 
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
@@ -577,88 +572,5 @@ public class AtomicLongMapTest extends TestCase {
     map.put("key", 1L);
     AtomicLongMap<String> reserialized = SerializableTester.reserialize(map);
     assertEquals(map.asMap(), reserialized.asMap());
-  }
-
-  @GwtIncompatible // threads
-  public void testModify_basher() throws InterruptedException {
-    int nTasks = 3000;
-    int nThreads = 100;
-    final int getsPerTask = 1000;
-    final int deltaRange = 10000;
-    final String key = "key";
-
-    final AtomicLong sum = new AtomicLong();
-    final AtomicLongMap<String> map = AtomicLongMap.create();
-
-    ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
-    for (int i = 0; i < nTasks; i++) {
-      @SuppressWarnings("unused") // go/futurereturn-lsc
-      Future<?> possiblyIgnoredError =
-          threadPool.submit(
-              new Runnable() {
-                @Override
-                public void run() {
-                  int threadSum = 0;
-                  for (int j = 0; j < getsPerTask; j++) {
-                    long delta = random.nextInt(deltaRange);
-                    int behavior = random.nextInt(10);
-                    switch (behavior) {
-                      case 0:
-                        map.incrementAndGet(key);
-                        threadSum++;
-                        break;
-                      case 1:
-                        map.decrementAndGet(key);
-                        threadSum--;
-                        break;
-                      case 2:
-                        map.addAndGet(key, delta);
-                        threadSum += delta;
-                        break;
-                      case 3:
-                        map.getAndIncrement(key);
-                        threadSum++;
-                        break;
-                      case 4:
-                        map.getAndDecrement(key);
-                        threadSum--;
-                        break;
-                      case 5:
-                        map.getAndAdd(key, delta);
-                        threadSum += delta;
-                        break;
-                      case 6:
-                        long oldValue = map.put(key, delta);
-                        threadSum += delta - oldValue;
-                        break;
-                      case 7:
-                        oldValue = map.get(key);
-                        if (map.replace(key, oldValue, delta)) {
-                          threadSum += delta - oldValue;
-                        }
-                        break;
-                      case 8:
-                        oldValue = map.remove(key);
-                        threadSum -= oldValue;
-                        break;
-                      case 9:
-                        oldValue = map.get(key);
-                        if (map.remove(key, oldValue)) {
-                          threadSum -= oldValue;
-                        }
-                        break;
-                      default:
-                        throw new AssertionError();
-                    }
-                  }
-                  sum.addAndGet(threadSum);
-                }
-              });
-    }
-
-    threadPool.shutdown();
-    assertTrue(threadPool.awaitTermination(300, TimeUnit.SECONDS));
-
-    assertEquals(sum.get(), map.get(key));
   }
 }
