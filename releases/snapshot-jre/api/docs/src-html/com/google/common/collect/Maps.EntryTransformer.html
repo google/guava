@@ -3276,7 +3276,7 @@
 <span class="sourceLineNo">3268</span>    checkNotNull(map);<a name="line.3268"></a>
 <span class="sourceLineNo">3269</span>    if (map instanceof UnmodifiableNavigableMap) {<a name="line.3269"></a>
 <span class="sourceLineNo">3270</span>      @SuppressWarnings("unchecked") // covariant<a name="line.3270"></a>
-<span class="sourceLineNo">3271</span>      NavigableMap&lt;K, V&gt; result = (NavigableMap) map;<a name="line.3271"></a>
+<span class="sourceLineNo">3271</span>      NavigableMap&lt;K, V&gt; result = (NavigableMap&lt;K, V&gt;) map;<a name="line.3271"></a>
 <span class="sourceLineNo">3272</span>      return result;<a name="line.3272"></a>
 <span class="sourceLineNo">3273</span>    } else {<a name="line.3273"></a>
 <span class="sourceLineNo">3274</span>      return new UnmodifiableNavigableMap&lt;&gt;(map);<a name="line.3274"></a>

@@ -204,8 +204,8 @@
 <span class="sourceLineNo">196</span><a name="line.196"></a>
 <span class="sourceLineNo">197</span>    int compare(Object a, Object b) {<a name="line.197"></a>
 <span class="sourceLineNo">198</span>      // pretend we can compare anything<a name="line.198"></a>
-<span class="sourceLineNo">199</span>      @SuppressWarnings({"rawtypes", "unchecked"})<a name="line.199"></a>
-<span class="sourceLineNo">200</span>      Comparator&lt;Object&gt; cmp = (Comparator) comparator();<a name="line.200"></a>
+<span class="sourceLineNo">199</span>      @SuppressWarnings("unchecked")<a name="line.199"></a>
+<span class="sourceLineNo">200</span>      Comparator&lt;Object&gt; cmp = (Comparator&lt;Object&gt;) comparator();<a name="line.200"></a>
 <span class="sourceLineNo">201</span>      return cmp.compare(a, b);<a name="line.201"></a>
 <span class="sourceLineNo">202</span>    }<a name="line.202"></a>
 <span class="sourceLineNo">203</span><a name="line.203"></a>

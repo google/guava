@@ -1032,7 +1032,7 @@
 <span class="sourceLineNo">1024</span>        if (entryCount != 0) {<a name="line.1024"></a>
 <span class="sourceLineNo">1025</span>          // Safe as long as we never add a new entry, which we won't.<a name="line.1025"></a>
 <span class="sourceLineNo">1026</span>          @SuppressWarnings("unchecked")<a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>          Multiset&lt;Object&gt; multiset = (Multiset) multiset();<a name="line.1027"></a>
+<span class="sourceLineNo">1027</span>          Multiset&lt;Object&gt; multiset = (Multiset&lt;Object&gt;) multiset();<a name="line.1027"></a>
 <span class="sourceLineNo">1028</span>          return multiset.setCount(element, entryCount, 0);<a name="line.1028"></a>
 <span class="sourceLineNo">1029</span>        }<a name="line.1029"></a>
 <span class="sourceLineNo">1030</span>      }<a name="line.1030"></a>

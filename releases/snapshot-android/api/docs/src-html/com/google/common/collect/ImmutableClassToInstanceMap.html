@@ -159,48 +159,47 @@
 <span class="sourceLineNo">151</span>      Map&lt;? extends Class&lt;? extends S&gt;, ? extends S&gt; map) {<a name="line.151"></a>
 <span class="sourceLineNo">152</span>    if (map instanceof ImmutableClassToInstanceMap) {<a name="line.152"></a>
 <span class="sourceLineNo">153</span>      @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)<a name="line.153"></a>
-<span class="sourceLineNo">154</span>      // Eclipse won't compile if we cast to the parameterized type.<a name="line.154"></a>
-<span class="sourceLineNo">155</span>      ImmutableClassToInstanceMap&lt;B&gt; cast = (ImmutableClassToInstanceMap) map;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>      return cast;<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    }<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    return new Builder&lt;B&gt;().putAll(map).build();<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>  private final ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate;<a name="line.161"></a>
-<span class="sourceLineNo">162</span><a name="line.162"></a>
-<span class="sourceLineNo">163</span>  private ImmutableClassToInstanceMap(ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate) {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    this.delegate = delegate;<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  @Override<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  protected Map&lt;Class&lt;? extends B&gt;, B&gt; delegate() {<a name="line.168"></a>
-<span class="sourceLineNo">169</span>    return delegate;<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
-<span class="sourceLineNo">171</span><a name="line.171"></a>
-<span class="sourceLineNo">172</span>  @Override<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  @SuppressWarnings("unchecked") // value could not get in if not a T<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  @NullableDecl<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    return (T) delegate.get(checkNotNull(type));<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
-<span class="sourceLineNo">178</span><a name="line.178"></a>
-<span class="sourceLineNo">179</span>  /**<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   *<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   * @throws UnsupportedOperationException always<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * @deprecated Unsupported operation.<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  @CanIgnoreReturnValue<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  @Deprecated<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  @Override<a name="line.187"></a>
-<span class="sourceLineNo">188</span>  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    throw new UnsupportedOperationException();<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  }<a name="line.190"></a>
-<span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>  Object readResolve() {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return isEmpty() ? of() : this;<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span>}<a name="line.195"></a>
+<span class="sourceLineNo">154</span>      ImmutableClassToInstanceMap&lt;B&gt; cast = (ImmutableClassToInstanceMap&lt;B&gt;) map;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>      return cast;<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    }<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    return new Builder&lt;B&gt;().putAll(map).build();<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  private final ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate;<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  private ImmutableClassToInstanceMap(ImmutableMap&lt;Class&lt;? extends B&gt;, B&gt; delegate) {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    this.delegate = delegate;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  protected Map&lt;Class&lt;? extends B&gt;, B&gt; delegate() {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return delegate;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  @Override<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  @SuppressWarnings("unchecked") // value could not get in if not a T<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  @NullableDecl<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  public &lt;T extends B&gt; T getInstance(Class&lt;T&gt; type) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    return (T) delegate.get(checkNotNull(type));<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  }<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * Guaranteed to throw an exception and leave the map unmodified.<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   *<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * @throws UnsupportedOperationException always<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * @deprecated Unsupported operation.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  @CanIgnoreReturnValue<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  @Deprecated<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  @Override<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public &lt;T extends B&gt; T putInstance(Class&lt;T&gt; type, T value) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    throw new UnsupportedOperationException();<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
+<span class="sourceLineNo">190</span><a name="line.190"></a>
+<span class="sourceLineNo">191</span>  Object readResolve() {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    return isEmpty() ? of() : this;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>}<a name="line.194"></a>
 
 
 
