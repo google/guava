@@ -239,9 +239,6 @@ public final class PairedStatsAccumulator {
     if (value >= 1.0) {
       return 1.0;
     }
-    if (value <= -1.0) {
-      return -1.0;
-    }
-    return value;
+    else return Math.max(value, -1.0);
   }
 }
