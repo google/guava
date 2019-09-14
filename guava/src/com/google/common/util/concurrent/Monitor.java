@@ -1032,7 +1032,7 @@ public final class Monitor {
     long timeoutNanos = unit.toNanos(time);
     return (timeoutNanos <= 0L)
         ? 0L
-        : (timeoutNanos > (Long.MAX_VALUE / 4) * 3) ? (Long.MAX_VALUE / 4) * 3 : timeoutNanos;
+        : Math.min(timeoutNanos, (Long.MAX_VALUE / 4) * 3);
   }
 
   /**
