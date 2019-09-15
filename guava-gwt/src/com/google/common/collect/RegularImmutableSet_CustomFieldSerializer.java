@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -33,6 +35,7 @@ public class RegularImmutableSet_CustomFieldSerializer {
 
   public static ImmutableSet<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     List<Object> elements = Lists.newArrayList();
     Collection_CustomFieldSerializerBase.deserialize(reader, elements);
     return ImmutableSet.copyOf(elements);
@@ -40,6 +43,7 @@ public class RegularImmutableSet_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, ImmutableSet<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Collection_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

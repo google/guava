@@ -77,7 +77,7 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * java.util.Objects#hash} instead.
    */
   @Pure
-  public static int hashCode(Object @Nullable ... objects) {
+  public static int hashCode(@Nullable Object @Nullable ... objects) {
     return Arrays.hashCode(objects);
   }
 }

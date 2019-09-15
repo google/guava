@@ -99,7 +99,6 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @SuppressWarnings("GoodTime") // b/130759882
   @Benchmark
   public long timeGetWith0Timeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;
@@ -115,7 +114,6 @@ public class SingleThreadAbstractFutureBenchmark {
     return r;
   }
 
-  @SuppressWarnings("GoodTime") // b/130759882
   @Benchmark
   public long timeGetWithSmallTimeout(long reps) throws Exception {
     Facade<?> f = notDoneFuture;

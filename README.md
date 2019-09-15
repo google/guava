@@ -4,9 +4,8 @@
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 
 Guava is a set of core libraries that includes new collection types (such as
-multimap and multiset), immutable collections, a graph library, functional
-types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing,
-primitives, reflection, string processing, and much more!
+multimap and multiset), immutable collections, a graph library, and utilities
+for concurrency, I/O, hashing, primitives, strings, and more!
 
 Guava comes in two flavors.
 
@@ -22,7 +21,7 @@ Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or Java 7 or by any library that wants to be compatible with
 either of those. These flavors are specified in the Maven version field as
-either `28.0-jre` or `28.0-android`. For more about depending on
+either `28.1-jre` or `28.1-android`. For more about depending on
 Guava, see [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
@@ -31,9 +30,9 @@ To add a dependency on Guava using Maven, use the following:
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>28.0-jre</version>
+  <version>28.1-jre</version>
   <!-- or, for Android: -->
-  <version>28.0-android</version>
+  <version>28.1-android</version>
 </dependency>
 ```
 
@@ -41,9 +40,9 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  compile 'com.google.guava:guava:28.0-jre'
+  compile 'com.google.guava:guava:28.1-jre'
   // or, for Android:
-  api 'com.google.guava:guava:28.0-android'
+  api 'com.google.guava:guava:28.1-android'
 }
 ```
 
@@ -66,6 +65,7 @@ flavor.
 - [GitHub project](https://github.com/google/guava)
 - [Issue tracker: Report a defect or feature request](https://github.com/google/guava/issues/new)
 - [StackOverflow: Ask "how-to" and "why-didn't-it-work" questions](https://stackoverflow.com/questions/ask?tags=guava+java)
+- [guava-announce: Announcements of releases and upcoming significant changes](http://groups.google.com/group/guava-announce)
 - [guava-discuss: For open-ended questions and discussion](http://groups.google.com/group/guava-discuss)
 
 ## IMPORTANT WARNINGS

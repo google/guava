@@ -171,6 +171,14 @@ public final class HttpHeaders {
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
   public static final String UPGRADE = "Upgrade";
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
+   * Upgrade-Insecure-Requests}</a> header field name.
+   *
+   * @since 28.1
+   */
+  public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+
   /** The HTTP {@code User-Agent} header field name. */
   public static final String USER_AGENT = "User-Agent";
 
@@ -444,36 +452,36 @@ public final class HttpHeaders {
   public static final String X_MOZ = "X-Moz";
 
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Mode}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Site}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-User}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_USER = "Sec-Fetch-User";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Metadata}</a>
+   * header field name.
    *
    * @since 26.0
    */

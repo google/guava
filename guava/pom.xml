@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>28.0-jre</version>
+    <version>28.1-jre</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>

@@ -657,7 +657,7 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterWrite(java.time.Duration duration) {
-    return expireAfterWrite(duration.toNanos(), TimeUnit.NANOSECONDS);
+    return expireAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -701,8 +701,10 @@ public final class CacheBuilder<K, V> {
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, the most recent replacement of its value, or its last
    * access. Access time is reset by all cache read and write operations (including {@code
-   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
-   * collection-views of {@link Cache#asMap}.
+   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by {@code
+   * containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}}. So,
+   * for example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for
+   * the entries you retrieve.
    *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -724,15 +726,17 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterAccess(java.time.Duration duration) {
-    return expireAfterAccess(duration.toNanos(), TimeUnit.NANOSECONDS);
+    return expireAfterAccess(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, the most recent replacement of its value, or its last
    * access. Access time is reset by all cache read and write operations (including {@code
-   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations on the
-   * collection-views of {@link Cache#asMap}.
+   * Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by {@code
+   * containsKey(Object)}, nor by operations on the collection-views of {@link Cache#asMap}. So, for
+   * example, iterating through {@code Cache.asMap().entrySet()} does not reset access time for the
+   * entries you retrieve.
    *
    * <p>When {@code duration} is zero, this method hands off to {@link #maximumSize(long)
    * maximumSize}{@code (0)}, ignoring any otherwise-specified maximum size or weight. This can be
@@ -799,7 +803,7 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> refreshAfterWrite(java.time.Duration duration) {
-    return refreshAfterWrite(duration.toNanos(), TimeUnit.NANOSECONDS);
+    return refreshAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -1025,5 +1029,24 @@ public final class CacheBuilder<K, V> {
       s.addValue("removalListener");
     }
     return s.toString();
+  }
+
+  /**
+   * Returns the number of nanoseconds of the given duration without throwing or overflowing.
+   *
+   * <p>Instead of throwing {@link ArithmeticException}, this method silently saturates to either
+   * {@link Long#MAX_VALUE} or {@link Long#MIN_VALUE}. This behavior can be useful when decomposing
+   * a duration in order to call a legacy API which requires a {@code long, TimeUnit} pair.
+   */
+  @GwtIncompatible // java.time.Duration
+  @SuppressWarnings("GoodTime") // duration decomposition
+  private static long saturatedToNanos(java.time.Duration duration) {
+    // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for
+    // durations longer than approximately +/- 292 years).
+    try {
+      return duration.toNanos();
+    } catch (ArithmeticException tooBig) {
+      return duration.isNegative() ? Long.MIN_VALUE : Long.MAX_VALUE;
+    }
   }
 }

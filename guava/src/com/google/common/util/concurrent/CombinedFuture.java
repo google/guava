@@ -157,6 +157,9 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     @Override
     void setValue(ListenableFuture<V> value) {
       setFuture(value);
+      // Eagerly release resources instead of waiting for afterDone. We are done with the inputs,
+      // but the actual future may not complete for arbitrarily long.
+      releaseResources();
     }
 
     @Override

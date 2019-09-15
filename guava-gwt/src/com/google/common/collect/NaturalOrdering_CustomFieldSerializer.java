@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
@@ -29,8 +31,11 @@ public class NaturalOrdering_CustomFieldSerializer {
   public static void deserialize(SerializationStreamReader reader, NaturalOrdering instance) {}
 
   public static NaturalOrdering instantiate(SerializationStreamReader reader) {
+    checkGwtRpcEnabled();
     return NaturalOrdering.INSTANCE;
   }
 
-  public static void serialize(SerializationStreamWriter writer, NaturalOrdering instance) {}
+  public static void serialize(SerializationStreamWriter writer, NaturalOrdering instance) {
+    checkGwtRpcEnabled();
+  }
 }

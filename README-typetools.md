@@ -63,7 +63,7 @@ To update to a newer version of the upstream library
 Pull in the latest Guava version; for example:
 ```
 git fetch --tags https://github.com/google/guava
-git pull https://github.com/google/guava v28.0
+git pull https://github.com/google/guava v28.1
 ```
 
 Use the latest Checker Framework version by changing `pom.xml` and `guava/pom.xml`.
@@ -79,7 +79,7 @@ This must be done on a CSE machine, which has access to the necessary passwords.
 #  * in file guava/cfMavenCentral.xml.
 # If it's not the same as the upstream version, then also edit pom.xml and guava/pom.xml.
 
-PACKAGE=guava-28.0-jre
+PACKAGE=guava-28.1-jre
 
 cd guava
 
