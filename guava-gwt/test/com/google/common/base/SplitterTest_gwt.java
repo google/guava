@@ -238,6 +238,11 @@ public void testMapSplitter_emptySeparator() throws Exception {
   testCase.testMapSplitter_emptySeparator();
 }
 
+public void testMapSplitter_extraValueDelimiter() throws Exception {
+  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
+  testCase.testMapSplitter_extraValueDelimiter();
+}
+
 public void testMapSplitter_malformedEntry() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testMapSplitter_malformedEntry();
