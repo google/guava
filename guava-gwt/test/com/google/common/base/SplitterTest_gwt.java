@@ -28,6 +28,11 @@ public void testCharacterSimpleSplitToList() throws Exception {
   testCase.testCharacterSimpleSplitToList();
 }
 
+public void testCharacterSimpleSplitToStream() throws Exception {
+  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
+  testCase.testCharacterSimpleSplitToStream();
+}
+
 public void testCharacterSimpleSplitWithNoDelimiter() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testCharacterSimpleSplitWithNoDelimiter();
