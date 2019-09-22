@@ -31,7 +31,7 @@ public class SubscriberExceptionContext {
 
   /**
    * @param eventBus The {@link EventBus} that handled the event and the subscriber. Useful for
-   *     broadcasting a a new event based on the error.
+   *     broadcasting a new event based on the error.
    * @param event The event object that caused the subscriber to throw.
    * @param subscriber The source subscriber context.
    * @param subscriberMethod the subscribed method.
@@ -46,7 +46,7 @@ public class SubscriberExceptionContext {
 
   /**
    * @return The {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
-   *     a a new event based on the error.
+   *     a new event based on the error.
    */
   public EventBus getEventBus() {
     return eventBus;

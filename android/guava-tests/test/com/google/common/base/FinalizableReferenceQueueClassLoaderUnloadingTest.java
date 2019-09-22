@@ -55,7 +55,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
    * to reference the FinalizableReferenceQueue class then its ClassLoader cannot be
    * garbage-collected, even if there are no more instances of FinalizableReferenceQueue itself.
    * The code in FinalizableReferenceQueue goes to considerable trouble to ensure that there are
-   * no such references and the tests here check that that trouble has not been in vain.
+   * no such references and the tests here check that trouble has not been in vain.
    *
    * When we reference FinalizableReferenceQueue in this test, we are referencing a class that is
    * loaded by this test and that will obviously remain loaded for as long as the test is running.

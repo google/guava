@@ -242,7 +242,7 @@ public class UnsignedBytesTest extends TestCase {
        * See https://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2 (steps #11 and
        * #5).
        *
-       * Note that that "first time" might happen in a test other than
+       * Note that "first time" might happen in a test other than
        * testLexicographicalComparatorChoice!
        */
       return false;
