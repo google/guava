@@ -417,7 +417,7 @@
 <span class="sourceLineNo">409</span>    throw new UnsupportedOperationException();<a name="line.409"></a>
 <span class="sourceLineNo">410</span>  }<a name="line.410"></a>
 <span class="sourceLineNo">411</span><a name="line.411"></a>
-<span class="sourceLineNo">412</span>  @MonotonicNonNullDecl private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entries;<a name="line.412"></a>
+<span class="sourceLineNo">412</span>  @LazyInit @RetainedWith @MonotonicNonNullDecl private transient ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entries;<a name="line.412"></a>
 <span class="sourceLineNo">413</span><a name="line.413"></a>
 <span class="sourceLineNo">414</span>  /**<a name="line.414"></a>
 <span class="sourceLineNo">415</span>   * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses<a name="line.415"></a>

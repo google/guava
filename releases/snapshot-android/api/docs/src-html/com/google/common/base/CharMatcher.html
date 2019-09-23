@@ -1216,609 +1216,613 @@
 <span class="sourceLineNo">1208</span>  @VisibleForTesting<a name="line.1208"></a>
 <span class="sourceLineNo">1209</span>  static final class Whitespace extends NamedFastMatcher {<a name="line.1209"></a>
 <span class="sourceLineNo">1210</span><a name="line.1210"></a>
-<span class="sourceLineNo">1211</span>    static final String TABLE =<a name="line.1211"></a>
-<span class="sourceLineNo">1212</span>        "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"<a name="line.1212"></a>
-<span class="sourceLineNo">1213</span>            + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"<a name="line.1213"></a>
-<span class="sourceLineNo">1214</span>            + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"<a name="line.1214"></a>
-<span class="sourceLineNo">1215</span>            + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";<a name="line.1215"></a>
-<span class="sourceLineNo">1216</span>    static final int MULTIPLIER = 1682554634;<a name="line.1216"></a>
-<span class="sourceLineNo">1217</span>    static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);<a name="line.1217"></a>
-<span class="sourceLineNo">1218</span><a name="line.1218"></a>
-<span class="sourceLineNo">1219</span>    static final Whitespace INSTANCE = new Whitespace();<a name="line.1219"></a>
-<span class="sourceLineNo">1220</span><a name="line.1220"></a>
-<span class="sourceLineNo">1221</span>    Whitespace() {<a name="line.1221"></a>
-<span class="sourceLineNo">1222</span>      super("CharMatcher.whitespace()");<a name="line.1222"></a>
-<span class="sourceLineNo">1223</span>    }<a name="line.1223"></a>
+<span class="sourceLineNo">1211</span>    // TABLE is a precomputed hashset of whitespace characters. MULTIPLIER serves as a hash function<a name="line.1211"></a>
+<span class="sourceLineNo">1212</span>    // whose key property is that it maps 25 characters into the 32-slot table without collision.<a name="line.1212"></a>
+<span class="sourceLineNo">1213</span>    // Basically this is an opportunistic fast implementation as opposed to "good code". For most<a name="line.1213"></a>
+<span class="sourceLineNo">1214</span>    // other use-cases, the reduction in readability isn't worth it.<a name="line.1214"></a>
+<span class="sourceLineNo">1215</span>    static final String TABLE =<a name="line.1215"></a>
+<span class="sourceLineNo">1216</span>        "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"<a name="line.1216"></a>
+<span class="sourceLineNo">1217</span>            + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"<a name="line.1217"></a>
+<span class="sourceLineNo">1218</span>            + "\u0009\u0020\u2006\u2001\u202F\u00A0\u000C\u2009"<a name="line.1218"></a>
+<span class="sourceLineNo">1219</span>            + "\u3000\u2004\u3000\u3000\u2028\n\u2007\u3000";<a name="line.1219"></a>
+<span class="sourceLineNo">1220</span>    static final int MULTIPLIER = 1682554634;<a name="line.1220"></a>
+<span class="sourceLineNo">1221</span>    static final int SHIFT = Integer.numberOfLeadingZeros(TABLE.length() - 1);<a name="line.1221"></a>
+<span class="sourceLineNo">1222</span><a name="line.1222"></a>
+<span class="sourceLineNo">1223</span>    static final Whitespace INSTANCE = new Whitespace();<a name="line.1223"></a>
 <span class="sourceLineNo">1224</span><a name="line.1224"></a>
-<span class="sourceLineNo">1225</span>    @Override<a name="line.1225"></a>
-<span class="sourceLineNo">1226</span>    public boolean matches(char c) {<a name="line.1226"></a>
-<span class="sourceLineNo">1227</span>      return TABLE.charAt((MULTIPLIER * c) &gt;&gt;&gt; SHIFT) == c;<a name="line.1227"></a>
-<span class="sourceLineNo">1228</span>    }<a name="line.1228"></a>
-<span class="sourceLineNo">1229</span><a name="line.1229"></a>
-<span class="sourceLineNo">1230</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1230"></a>
-<span class="sourceLineNo">1231</span>    @Override<a name="line.1231"></a>
-<span class="sourceLineNo">1232</span>    void setBits(BitSet table) {<a name="line.1232"></a>
-<span class="sourceLineNo">1233</span>      for (int i = 0; i &lt; TABLE.length(); i++) {<a name="line.1233"></a>
-<span class="sourceLineNo">1234</span>        table.set(TABLE.charAt(i));<a name="line.1234"></a>
-<span class="sourceLineNo">1235</span>      }<a name="line.1235"></a>
-<span class="sourceLineNo">1236</span>    }<a name="line.1236"></a>
-<span class="sourceLineNo">1237</span>  }<a name="line.1237"></a>
-<span class="sourceLineNo">1238</span><a name="line.1238"></a>
-<span class="sourceLineNo">1239</span>  /** Implementation of {@link #breakingWhitespace()}. */<a name="line.1239"></a>
-<span class="sourceLineNo">1240</span>  private static final class BreakingWhitespace extends CharMatcher {<a name="line.1240"></a>
-<span class="sourceLineNo">1241</span><a name="line.1241"></a>
-<span class="sourceLineNo">1242</span>    static final CharMatcher INSTANCE = new BreakingWhitespace();<a name="line.1242"></a>
-<span class="sourceLineNo">1243</span><a name="line.1243"></a>
-<span class="sourceLineNo">1244</span>    @Override<a name="line.1244"></a>
-<span class="sourceLineNo">1245</span>    public boolean matches(char c) {<a name="line.1245"></a>
-<span class="sourceLineNo">1246</span>      switch (c) {<a name="line.1246"></a>
-<span class="sourceLineNo">1247</span>        case '\t':<a name="line.1247"></a>
-<span class="sourceLineNo">1248</span>        case '\n':<a name="line.1248"></a>
-<span class="sourceLineNo">1249</span>        case '\013':<a name="line.1249"></a>
-<span class="sourceLineNo">1250</span>        case '\f':<a name="line.1250"></a>
-<span class="sourceLineNo">1251</span>        case '\r':<a name="line.1251"></a>
-<span class="sourceLineNo">1252</span>        case ' ':<a name="line.1252"></a>
-<span class="sourceLineNo">1253</span>        case '\u0085':<a name="line.1253"></a>
-<span class="sourceLineNo">1254</span>        case '\u1680':<a name="line.1254"></a>
-<span class="sourceLineNo">1255</span>        case '\u2028':<a name="line.1255"></a>
-<span class="sourceLineNo">1256</span>        case '\u2029':<a name="line.1256"></a>
-<span class="sourceLineNo">1257</span>        case '\u205f':<a name="line.1257"></a>
-<span class="sourceLineNo">1258</span>        case '\u3000':<a name="line.1258"></a>
-<span class="sourceLineNo">1259</span>          return true;<a name="line.1259"></a>
-<span class="sourceLineNo">1260</span>        case '\u2007':<a name="line.1260"></a>
-<span class="sourceLineNo">1261</span>          return false;<a name="line.1261"></a>
-<span class="sourceLineNo">1262</span>        default:<a name="line.1262"></a>
-<span class="sourceLineNo">1263</span>          return c &gt;= '\u2000' &amp;&amp; c &lt;= '\u200a';<a name="line.1263"></a>
-<span class="sourceLineNo">1264</span>      }<a name="line.1264"></a>
-<span class="sourceLineNo">1265</span>    }<a name="line.1265"></a>
-<span class="sourceLineNo">1266</span><a name="line.1266"></a>
-<span class="sourceLineNo">1267</span>    @Override<a name="line.1267"></a>
-<span class="sourceLineNo">1268</span>    public String toString() {<a name="line.1268"></a>
-<span class="sourceLineNo">1269</span>      return "CharMatcher.breakingWhitespace()";<a name="line.1269"></a>
-<span class="sourceLineNo">1270</span>    }<a name="line.1270"></a>
-<span class="sourceLineNo">1271</span>  }<a name="line.1271"></a>
-<span class="sourceLineNo">1272</span><a name="line.1272"></a>
-<span class="sourceLineNo">1273</span>  /** Implementation of {@link #ascii()}. */<a name="line.1273"></a>
-<span class="sourceLineNo">1274</span>  private static final class Ascii extends NamedFastMatcher {<a name="line.1274"></a>
-<span class="sourceLineNo">1275</span><a name="line.1275"></a>
-<span class="sourceLineNo">1276</span>    static final Ascii INSTANCE = new Ascii();<a name="line.1276"></a>
-<span class="sourceLineNo">1277</span><a name="line.1277"></a>
-<span class="sourceLineNo">1278</span>    Ascii() {<a name="line.1278"></a>
-<span class="sourceLineNo">1279</span>      super("CharMatcher.ascii()");<a name="line.1279"></a>
-<span class="sourceLineNo">1280</span>    }<a name="line.1280"></a>
+<span class="sourceLineNo">1225</span>    Whitespace() {<a name="line.1225"></a>
+<span class="sourceLineNo">1226</span>      super("CharMatcher.whitespace()");<a name="line.1226"></a>
+<span class="sourceLineNo">1227</span>    }<a name="line.1227"></a>
+<span class="sourceLineNo">1228</span><a name="line.1228"></a>
+<span class="sourceLineNo">1229</span>    @Override<a name="line.1229"></a>
+<span class="sourceLineNo">1230</span>    public boolean matches(char c) {<a name="line.1230"></a>
+<span class="sourceLineNo">1231</span>      return TABLE.charAt((MULTIPLIER * c) &gt;&gt;&gt; SHIFT) == c;<a name="line.1231"></a>
+<span class="sourceLineNo">1232</span>    }<a name="line.1232"></a>
+<span class="sourceLineNo">1233</span><a name="line.1233"></a>
+<span class="sourceLineNo">1234</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1234"></a>
+<span class="sourceLineNo">1235</span>    @Override<a name="line.1235"></a>
+<span class="sourceLineNo">1236</span>    void setBits(BitSet table) {<a name="line.1236"></a>
+<span class="sourceLineNo">1237</span>      for (int i = 0; i &lt; TABLE.length(); i++) {<a name="line.1237"></a>
+<span class="sourceLineNo">1238</span>        table.set(TABLE.charAt(i));<a name="line.1238"></a>
+<span class="sourceLineNo">1239</span>      }<a name="line.1239"></a>
+<span class="sourceLineNo">1240</span>    }<a name="line.1240"></a>
+<span class="sourceLineNo">1241</span>  }<a name="line.1241"></a>
+<span class="sourceLineNo">1242</span><a name="line.1242"></a>
+<span class="sourceLineNo">1243</span>  /** Implementation of {@link #breakingWhitespace()}. */<a name="line.1243"></a>
+<span class="sourceLineNo">1244</span>  private static final class BreakingWhitespace extends CharMatcher {<a name="line.1244"></a>
+<span class="sourceLineNo">1245</span><a name="line.1245"></a>
+<span class="sourceLineNo">1246</span>    static final CharMatcher INSTANCE = new BreakingWhitespace();<a name="line.1246"></a>
+<span class="sourceLineNo">1247</span><a name="line.1247"></a>
+<span class="sourceLineNo">1248</span>    @Override<a name="line.1248"></a>
+<span class="sourceLineNo">1249</span>    public boolean matches(char c) {<a name="line.1249"></a>
+<span class="sourceLineNo">1250</span>      switch (c) {<a name="line.1250"></a>
+<span class="sourceLineNo">1251</span>        case '\t':<a name="line.1251"></a>
+<span class="sourceLineNo">1252</span>        case '\n':<a name="line.1252"></a>
+<span class="sourceLineNo">1253</span>        case '\013':<a name="line.1253"></a>
+<span class="sourceLineNo">1254</span>        case '\f':<a name="line.1254"></a>
+<span class="sourceLineNo">1255</span>        case '\r':<a name="line.1255"></a>
+<span class="sourceLineNo">1256</span>        case ' ':<a name="line.1256"></a>
+<span class="sourceLineNo">1257</span>        case '\u0085':<a name="line.1257"></a>
+<span class="sourceLineNo">1258</span>        case '\u1680':<a name="line.1258"></a>
+<span class="sourceLineNo">1259</span>        case '\u2028':<a name="line.1259"></a>
+<span class="sourceLineNo">1260</span>        case '\u2029':<a name="line.1260"></a>
+<span class="sourceLineNo">1261</span>        case '\u205f':<a name="line.1261"></a>
+<span class="sourceLineNo">1262</span>        case '\u3000':<a name="line.1262"></a>
+<span class="sourceLineNo">1263</span>          return true;<a name="line.1263"></a>
+<span class="sourceLineNo">1264</span>        case '\u2007':<a name="line.1264"></a>
+<span class="sourceLineNo">1265</span>          return false;<a name="line.1265"></a>
+<span class="sourceLineNo">1266</span>        default:<a name="line.1266"></a>
+<span class="sourceLineNo">1267</span>          return c &gt;= '\u2000' &amp;&amp; c &lt;= '\u200a';<a name="line.1267"></a>
+<span class="sourceLineNo">1268</span>      }<a name="line.1268"></a>
+<span class="sourceLineNo">1269</span>    }<a name="line.1269"></a>
+<span class="sourceLineNo">1270</span><a name="line.1270"></a>
+<span class="sourceLineNo">1271</span>    @Override<a name="line.1271"></a>
+<span class="sourceLineNo">1272</span>    public String toString() {<a name="line.1272"></a>
+<span class="sourceLineNo">1273</span>      return "CharMatcher.breakingWhitespace()";<a name="line.1273"></a>
+<span class="sourceLineNo">1274</span>    }<a name="line.1274"></a>
+<span class="sourceLineNo">1275</span>  }<a name="line.1275"></a>
+<span class="sourceLineNo">1276</span><a name="line.1276"></a>
+<span class="sourceLineNo">1277</span>  /** Implementation of {@link #ascii()}. */<a name="line.1277"></a>
+<span class="sourceLineNo">1278</span>  private static final class Ascii extends NamedFastMatcher {<a name="line.1278"></a>
+<span class="sourceLineNo">1279</span><a name="line.1279"></a>
+<span class="sourceLineNo">1280</span>    static final Ascii INSTANCE = new Ascii();<a name="line.1280"></a>
 <span class="sourceLineNo">1281</span><a name="line.1281"></a>
-<span class="sourceLineNo">1282</span>    @Override<a name="line.1282"></a>
-<span class="sourceLineNo">1283</span>    public boolean matches(char c) {<a name="line.1283"></a>
-<span class="sourceLineNo">1284</span>      return c &lt;= '\u007f';<a name="line.1284"></a>
-<span class="sourceLineNo">1285</span>    }<a name="line.1285"></a>
-<span class="sourceLineNo">1286</span>  }<a name="line.1286"></a>
-<span class="sourceLineNo">1287</span><a name="line.1287"></a>
-<span class="sourceLineNo">1288</span>  /** Implementation that matches characters that fall within multiple ranges. */<a name="line.1288"></a>
-<span class="sourceLineNo">1289</span>  private static class RangesMatcher extends CharMatcher {<a name="line.1289"></a>
-<span class="sourceLineNo">1290</span><a name="line.1290"></a>
-<span class="sourceLineNo">1291</span>    private final String description;<a name="line.1291"></a>
-<span class="sourceLineNo">1292</span>    private final char[] rangeStarts;<a name="line.1292"></a>
-<span class="sourceLineNo">1293</span>    private final char[] rangeEnds;<a name="line.1293"></a>
+<span class="sourceLineNo">1282</span>    Ascii() {<a name="line.1282"></a>
+<span class="sourceLineNo">1283</span>      super("CharMatcher.ascii()");<a name="line.1283"></a>
+<span class="sourceLineNo">1284</span>    }<a name="line.1284"></a>
+<span class="sourceLineNo">1285</span><a name="line.1285"></a>
+<span class="sourceLineNo">1286</span>    @Override<a name="line.1286"></a>
+<span class="sourceLineNo">1287</span>    public boolean matches(char c) {<a name="line.1287"></a>
+<span class="sourceLineNo">1288</span>      return c &lt;= '\u007f';<a name="line.1288"></a>
+<span class="sourceLineNo">1289</span>    }<a name="line.1289"></a>
+<span class="sourceLineNo">1290</span>  }<a name="line.1290"></a>
+<span class="sourceLineNo">1291</span><a name="line.1291"></a>
+<span class="sourceLineNo">1292</span>  /** Implementation that matches characters that fall within multiple ranges. */<a name="line.1292"></a>
+<span class="sourceLineNo">1293</span>  private static class RangesMatcher extends CharMatcher {<a name="line.1293"></a>
 <span class="sourceLineNo">1294</span><a name="line.1294"></a>
-<span class="sourceLineNo">1295</span>    RangesMatcher(String description, char[] rangeStarts, char[] rangeEnds) {<a name="line.1295"></a>
-<span class="sourceLineNo">1296</span>      this.description = description;<a name="line.1296"></a>
-<span class="sourceLineNo">1297</span>      this.rangeStarts = rangeStarts;<a name="line.1297"></a>
-<span class="sourceLineNo">1298</span>      this.rangeEnds = rangeEnds;<a name="line.1298"></a>
-<span class="sourceLineNo">1299</span>      checkArgument(rangeStarts.length == rangeEnds.length);<a name="line.1299"></a>
-<span class="sourceLineNo">1300</span>      for (int i = 0; i &lt; rangeStarts.length; i++) {<a name="line.1300"></a>
-<span class="sourceLineNo">1301</span>        checkArgument(rangeStarts[i] &lt;= rangeEnds[i]);<a name="line.1301"></a>
-<span class="sourceLineNo">1302</span>        if (i + 1 &lt; rangeStarts.length) {<a name="line.1302"></a>
-<span class="sourceLineNo">1303</span>          checkArgument(rangeEnds[i] &lt; rangeStarts[i + 1]);<a name="line.1303"></a>
-<span class="sourceLineNo">1304</span>        }<a name="line.1304"></a>
-<span class="sourceLineNo">1305</span>      }<a name="line.1305"></a>
-<span class="sourceLineNo">1306</span>    }<a name="line.1306"></a>
-<span class="sourceLineNo">1307</span><a name="line.1307"></a>
-<span class="sourceLineNo">1308</span>    @Override<a name="line.1308"></a>
-<span class="sourceLineNo">1309</span>    public boolean matches(char c) {<a name="line.1309"></a>
-<span class="sourceLineNo">1310</span>      int index = Arrays.binarySearch(rangeStarts, c);<a name="line.1310"></a>
-<span class="sourceLineNo">1311</span>      if (index &gt;= 0) {<a name="line.1311"></a>
-<span class="sourceLineNo">1312</span>        return true;<a name="line.1312"></a>
-<span class="sourceLineNo">1313</span>      } else {<a name="line.1313"></a>
-<span class="sourceLineNo">1314</span>        index = ~index - 1;<a name="line.1314"></a>
-<span class="sourceLineNo">1315</span>        return index &gt;= 0 &amp;&amp; c &lt;= rangeEnds[index];<a name="line.1315"></a>
-<span class="sourceLineNo">1316</span>      }<a name="line.1316"></a>
-<span class="sourceLineNo">1317</span>    }<a name="line.1317"></a>
-<span class="sourceLineNo">1318</span><a name="line.1318"></a>
-<span class="sourceLineNo">1319</span>    @Override<a name="line.1319"></a>
-<span class="sourceLineNo">1320</span>    public String toString() {<a name="line.1320"></a>
-<span class="sourceLineNo">1321</span>      return description;<a name="line.1321"></a>
-<span class="sourceLineNo">1322</span>    }<a name="line.1322"></a>
-<span class="sourceLineNo">1323</span>  }<a name="line.1323"></a>
-<span class="sourceLineNo">1324</span><a name="line.1324"></a>
-<span class="sourceLineNo">1325</span>  /** Implementation of {@link #digit()}. */<a name="line.1325"></a>
-<span class="sourceLineNo">1326</span>  private static final class Digit extends RangesMatcher {<a name="line.1326"></a>
-<span class="sourceLineNo">1327</span>    // Plug the following UnicodeSet pattern into<a name="line.1327"></a>
-<span class="sourceLineNo">1328</span>    // https://unicode.org/cldr/utility/list-unicodeset.jsp<a name="line.1328"></a>
-<span class="sourceLineNo">1329</span>    // [[:Nd:]&amp;[:nv=0:]&amp;[\u0000-\uFFFF]]<a name="line.1329"></a>
-<span class="sourceLineNo">1330</span>    // and get the zeroes from there.<a name="line.1330"></a>
-<span class="sourceLineNo">1331</span><a name="line.1331"></a>
-<span class="sourceLineNo">1332</span>    // Must be in ascending order.<a name="line.1332"></a>
-<span class="sourceLineNo">1333</span>    private static final String ZEROES =<a name="line.1333"></a>
-<span class="sourceLineNo">1334</span>        "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66\u0ce6\u0d66\u0de6"<a name="line.1334"></a>
-<span class="sourceLineNo">1335</span>            + "\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946\u19d0\u1a80\u1a90\u1b50\u1bb0"<a name="line.1335"></a>
-<span class="sourceLineNo">1336</span>            + "\u1c40\u1c50\ua620\ua8d0\ua900\ua9d0\ua9f0\uaa50\uabf0\uff10";<a name="line.1336"></a>
-<span class="sourceLineNo">1337</span><a name="line.1337"></a>
-<span class="sourceLineNo">1338</span>    private static char[] zeroes() {<a name="line.1338"></a>
-<span class="sourceLineNo">1339</span>      return ZEROES.toCharArray();<a name="line.1339"></a>
-<span class="sourceLineNo">1340</span>    }<a name="line.1340"></a>
+<span class="sourceLineNo">1295</span>    private final String description;<a name="line.1295"></a>
+<span class="sourceLineNo">1296</span>    private final char[] rangeStarts;<a name="line.1296"></a>
+<span class="sourceLineNo">1297</span>    private final char[] rangeEnds;<a name="line.1297"></a>
+<span class="sourceLineNo">1298</span><a name="line.1298"></a>
+<span class="sourceLineNo">1299</span>    RangesMatcher(String description, char[] rangeStarts, char[] rangeEnds) {<a name="line.1299"></a>
+<span class="sourceLineNo">1300</span>      this.description = description;<a name="line.1300"></a>
+<span class="sourceLineNo">1301</span>      this.rangeStarts = rangeStarts;<a name="line.1301"></a>
+<span class="sourceLineNo">1302</span>      this.rangeEnds = rangeEnds;<a name="line.1302"></a>
+<span class="sourceLineNo">1303</span>      checkArgument(rangeStarts.length == rangeEnds.length);<a name="line.1303"></a>
+<span class="sourceLineNo">1304</span>      for (int i = 0; i &lt; rangeStarts.length; i++) {<a name="line.1304"></a>
+<span class="sourceLineNo">1305</span>        checkArgument(rangeStarts[i] &lt;= rangeEnds[i]);<a name="line.1305"></a>
+<span class="sourceLineNo">1306</span>        if (i + 1 &lt; rangeStarts.length) {<a name="line.1306"></a>
+<span class="sourceLineNo">1307</span>          checkArgument(rangeEnds[i] &lt; rangeStarts[i + 1]);<a name="line.1307"></a>
+<span class="sourceLineNo">1308</span>        }<a name="line.1308"></a>
+<span class="sourceLineNo">1309</span>      }<a name="line.1309"></a>
+<span class="sourceLineNo">1310</span>    }<a name="line.1310"></a>
+<span class="sourceLineNo">1311</span><a name="line.1311"></a>
+<span class="sourceLineNo">1312</span>    @Override<a name="line.1312"></a>
+<span class="sourceLineNo">1313</span>    public boolean matches(char c) {<a name="line.1313"></a>
+<span class="sourceLineNo">1314</span>      int index = Arrays.binarySearch(rangeStarts, c);<a name="line.1314"></a>
+<span class="sourceLineNo">1315</span>      if (index &gt;= 0) {<a name="line.1315"></a>
+<span class="sourceLineNo">1316</span>        return true;<a name="line.1316"></a>
+<span class="sourceLineNo">1317</span>      } else {<a name="line.1317"></a>
+<span class="sourceLineNo">1318</span>        index = ~index - 1;<a name="line.1318"></a>
+<span class="sourceLineNo">1319</span>        return index &gt;= 0 &amp;&amp; c &lt;= rangeEnds[index];<a name="line.1319"></a>
+<span class="sourceLineNo">1320</span>      }<a name="line.1320"></a>
+<span class="sourceLineNo">1321</span>    }<a name="line.1321"></a>
+<span class="sourceLineNo">1322</span><a name="line.1322"></a>
+<span class="sourceLineNo">1323</span>    @Override<a name="line.1323"></a>
+<span class="sourceLineNo">1324</span>    public String toString() {<a name="line.1324"></a>
+<span class="sourceLineNo">1325</span>      return description;<a name="line.1325"></a>
+<span class="sourceLineNo">1326</span>    }<a name="line.1326"></a>
+<span class="sourceLineNo">1327</span>  }<a name="line.1327"></a>
+<span class="sourceLineNo">1328</span><a name="line.1328"></a>
+<span class="sourceLineNo">1329</span>  /** Implementation of {@link #digit()}. */<a name="line.1329"></a>
+<span class="sourceLineNo">1330</span>  private static final class Digit extends RangesMatcher {<a name="line.1330"></a>
+<span class="sourceLineNo">1331</span>    // Plug the following UnicodeSet pattern into<a name="line.1331"></a>
+<span class="sourceLineNo">1332</span>    // https://unicode.org/cldr/utility/list-unicodeset.jsp<a name="line.1332"></a>
+<span class="sourceLineNo">1333</span>    // [[:Nd:]&amp;[:nv=0:]&amp;[\u0000-\uFFFF]]<a name="line.1333"></a>
+<span class="sourceLineNo">1334</span>    // and get the zeroes from there.<a name="line.1334"></a>
+<span class="sourceLineNo">1335</span><a name="line.1335"></a>
+<span class="sourceLineNo">1336</span>    // Must be in ascending order.<a name="line.1336"></a>
+<span class="sourceLineNo">1337</span>    private static final String ZEROES =<a name="line.1337"></a>
+<span class="sourceLineNo">1338</span>        "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66\u0ce6\u0d66\u0de6"<a name="line.1338"></a>
+<span class="sourceLineNo">1339</span>            + "\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946\u19d0\u1a80\u1a90\u1b50\u1bb0"<a name="line.1339"></a>
+<span class="sourceLineNo">1340</span>            + "\u1c40\u1c50\ua620\ua8d0\ua900\ua9d0\ua9f0\uaa50\uabf0\uff10";<a name="line.1340"></a>
 <span class="sourceLineNo">1341</span><a name="line.1341"></a>
-<span class="sourceLineNo">1342</span>    private static char[] nines() {<a name="line.1342"></a>
-<span class="sourceLineNo">1343</span>      char[] nines = new char[ZEROES.length()];<a name="line.1343"></a>
-<span class="sourceLineNo">1344</span>      for (int i = 0; i &lt; ZEROES.length(); i++) {<a name="line.1344"></a>
-<span class="sourceLineNo">1345</span>        nines[i] = (char) (ZEROES.charAt(i) + 9);<a name="line.1345"></a>
-<span class="sourceLineNo">1346</span>      }<a name="line.1346"></a>
-<span class="sourceLineNo">1347</span>      return nines;<a name="line.1347"></a>
-<span class="sourceLineNo">1348</span>    }<a name="line.1348"></a>
-<span class="sourceLineNo">1349</span><a name="line.1349"></a>
-<span class="sourceLineNo">1350</span>    static final Digit INSTANCE = new Digit();<a name="line.1350"></a>
-<span class="sourceLineNo">1351</span><a name="line.1351"></a>
-<span class="sourceLineNo">1352</span>    private Digit() {<a name="line.1352"></a>
-<span class="sourceLineNo">1353</span>      super("CharMatcher.digit()", zeroes(), nines());<a name="line.1353"></a>
-<span class="sourceLineNo">1354</span>    }<a name="line.1354"></a>
-<span class="sourceLineNo">1355</span>  }<a name="line.1355"></a>
-<span class="sourceLineNo">1356</span><a name="line.1356"></a>
-<span class="sourceLineNo">1357</span>  /** Implementation of {@link #javaDigit()}. */<a name="line.1357"></a>
-<span class="sourceLineNo">1358</span>  private static final class JavaDigit extends CharMatcher {<a name="line.1358"></a>
-<span class="sourceLineNo">1359</span><a name="line.1359"></a>
-<span class="sourceLineNo">1360</span>    static final JavaDigit INSTANCE = new JavaDigit();<a name="line.1360"></a>
-<span class="sourceLineNo">1361</span><a name="line.1361"></a>
-<span class="sourceLineNo">1362</span>    @Override<a name="line.1362"></a>
-<span class="sourceLineNo">1363</span>    public boolean matches(char c) {<a name="line.1363"></a>
-<span class="sourceLineNo">1364</span>      return Character.isDigit(c);<a name="line.1364"></a>
-<span class="sourceLineNo">1365</span>    }<a name="line.1365"></a>
-<span class="sourceLineNo">1366</span><a name="line.1366"></a>
-<span class="sourceLineNo">1367</span>    @Override<a name="line.1367"></a>
-<span class="sourceLineNo">1368</span>    public String toString() {<a name="line.1368"></a>
-<span class="sourceLineNo">1369</span>      return "CharMatcher.javaDigit()";<a name="line.1369"></a>
-<span class="sourceLineNo">1370</span>    }<a name="line.1370"></a>
-<span class="sourceLineNo">1371</span>  }<a name="line.1371"></a>
-<span class="sourceLineNo">1372</span><a name="line.1372"></a>
-<span class="sourceLineNo">1373</span>  /** Implementation of {@link #javaLetter()}. */<a name="line.1373"></a>
-<span class="sourceLineNo">1374</span>  private static final class JavaLetter extends CharMatcher {<a name="line.1374"></a>
-<span class="sourceLineNo">1375</span><a name="line.1375"></a>
-<span class="sourceLineNo">1376</span>    static final JavaLetter INSTANCE = new JavaLetter();<a name="line.1376"></a>
-<span class="sourceLineNo">1377</span><a name="line.1377"></a>
-<span class="sourceLineNo">1378</span>    @Override<a name="line.1378"></a>
-<span class="sourceLineNo">1379</span>    public boolean matches(char c) {<a name="line.1379"></a>
-<span class="sourceLineNo">1380</span>      return Character.isLetter(c);<a name="line.1380"></a>
-<span class="sourceLineNo">1381</span>    }<a name="line.1381"></a>
-<span class="sourceLineNo">1382</span><a name="line.1382"></a>
-<span class="sourceLineNo">1383</span>    @Override<a name="line.1383"></a>
-<span class="sourceLineNo">1384</span>    public String toString() {<a name="line.1384"></a>
-<span class="sourceLineNo">1385</span>      return "CharMatcher.javaLetter()";<a name="line.1385"></a>
-<span class="sourceLineNo">1386</span>    }<a name="line.1386"></a>
-<span class="sourceLineNo">1387</span>  }<a name="line.1387"></a>
-<span class="sourceLineNo">1388</span><a name="line.1388"></a>
-<span class="sourceLineNo">1389</span>  /** Implementation of {@link #javaLetterOrDigit()}. */<a name="line.1389"></a>
-<span class="sourceLineNo">1390</span>  private static final class JavaLetterOrDigit extends CharMatcher {<a name="line.1390"></a>
-<span class="sourceLineNo">1391</span><a name="line.1391"></a>
-<span class="sourceLineNo">1392</span>    static final JavaLetterOrDigit INSTANCE = new JavaLetterOrDigit();<a name="line.1392"></a>
-<span class="sourceLineNo">1393</span><a name="line.1393"></a>
-<span class="sourceLineNo">1394</span>    @Override<a name="line.1394"></a>
-<span class="sourceLineNo">1395</span>    public boolean matches(char c) {<a name="line.1395"></a>
-<span class="sourceLineNo">1396</span>      return Character.isLetterOrDigit(c);<a name="line.1396"></a>
-<span class="sourceLineNo">1397</span>    }<a name="line.1397"></a>
-<span class="sourceLineNo">1398</span><a name="line.1398"></a>
-<span class="sourceLineNo">1399</span>    @Override<a name="line.1399"></a>
-<span class="sourceLineNo">1400</span>    public String toString() {<a name="line.1400"></a>
-<span class="sourceLineNo">1401</span>      return "CharMatcher.javaLetterOrDigit()";<a name="line.1401"></a>
-<span class="sourceLineNo">1402</span>    }<a name="line.1402"></a>
-<span class="sourceLineNo">1403</span>  }<a name="line.1403"></a>
-<span class="sourceLineNo">1404</span><a name="line.1404"></a>
-<span class="sourceLineNo">1405</span>  /** Implementation of {@link #javaUpperCase()}. */<a name="line.1405"></a>
-<span class="sourceLineNo">1406</span>  private static final class JavaUpperCase extends CharMatcher {<a name="line.1406"></a>
-<span class="sourceLineNo">1407</span><a name="line.1407"></a>
-<span class="sourceLineNo">1408</span>    static final JavaUpperCase INSTANCE = new JavaUpperCase();<a name="line.1408"></a>
-<span class="sourceLineNo">1409</span><a name="line.1409"></a>
-<span class="sourceLineNo">1410</span>    @Override<a name="line.1410"></a>
-<span class="sourceLineNo">1411</span>    public boolean matches(char c) {<a name="line.1411"></a>
-<span class="sourceLineNo">1412</span>      return Character.isUpperCase(c);<a name="line.1412"></a>
-<span class="sourceLineNo">1413</span>    }<a name="line.1413"></a>
-<span class="sourceLineNo">1414</span><a name="line.1414"></a>
-<span class="sourceLineNo">1415</span>    @Override<a name="line.1415"></a>
-<span class="sourceLineNo">1416</span>    public String toString() {<a name="line.1416"></a>
-<span class="sourceLineNo">1417</span>      return "CharMatcher.javaUpperCase()";<a name="line.1417"></a>
-<span class="sourceLineNo">1418</span>    }<a name="line.1418"></a>
-<span class="sourceLineNo">1419</span>  }<a name="line.1419"></a>
-<span class="sourceLineNo">1420</span><a name="line.1420"></a>
-<span class="sourceLineNo">1421</span>  /** Implementation of {@link #javaLowerCase()}. */<a name="line.1421"></a>
-<span class="sourceLineNo">1422</span>  private static final class JavaLowerCase extends CharMatcher {<a name="line.1422"></a>
-<span class="sourceLineNo">1423</span><a name="line.1423"></a>
-<span class="sourceLineNo">1424</span>    static final JavaLowerCase INSTANCE = new JavaLowerCase();<a name="line.1424"></a>
-<span class="sourceLineNo">1425</span><a name="line.1425"></a>
-<span class="sourceLineNo">1426</span>    @Override<a name="line.1426"></a>
-<span class="sourceLineNo">1427</span>    public boolean matches(char c) {<a name="line.1427"></a>
-<span class="sourceLineNo">1428</span>      return Character.isLowerCase(c);<a name="line.1428"></a>
-<span class="sourceLineNo">1429</span>    }<a name="line.1429"></a>
-<span class="sourceLineNo">1430</span><a name="line.1430"></a>
-<span class="sourceLineNo">1431</span>    @Override<a name="line.1431"></a>
-<span class="sourceLineNo">1432</span>    public String toString() {<a name="line.1432"></a>
-<span class="sourceLineNo">1433</span>      return "CharMatcher.javaLowerCase()";<a name="line.1433"></a>
-<span class="sourceLineNo">1434</span>    }<a name="line.1434"></a>
-<span class="sourceLineNo">1435</span>  }<a name="line.1435"></a>
-<span class="sourceLineNo">1436</span><a name="line.1436"></a>
-<span class="sourceLineNo">1437</span>  /** Implementation of {@link #javaIsoControl()}. */<a name="line.1437"></a>
-<span class="sourceLineNo">1438</span>  private static final class JavaIsoControl extends NamedFastMatcher {<a name="line.1438"></a>
-<span class="sourceLineNo">1439</span><a name="line.1439"></a>
-<span class="sourceLineNo">1440</span>    static final JavaIsoControl INSTANCE = new JavaIsoControl();<a name="line.1440"></a>
-<span class="sourceLineNo">1441</span><a name="line.1441"></a>
-<span class="sourceLineNo">1442</span>    private JavaIsoControl() {<a name="line.1442"></a>
-<span class="sourceLineNo">1443</span>      super("CharMatcher.javaIsoControl()");<a name="line.1443"></a>
-<span class="sourceLineNo">1444</span>    }<a name="line.1444"></a>
+<span class="sourceLineNo">1342</span>    private static char[] zeroes() {<a name="line.1342"></a>
+<span class="sourceLineNo">1343</span>      return ZEROES.toCharArray();<a name="line.1343"></a>
+<span class="sourceLineNo">1344</span>    }<a name="line.1344"></a>
+<span class="sourceLineNo">1345</span><a name="line.1345"></a>
+<span class="sourceLineNo">1346</span>    private static char[] nines() {<a name="line.1346"></a>
+<span class="sourceLineNo">1347</span>      char[] nines = new char[ZEROES.length()];<a name="line.1347"></a>
+<span class="sourceLineNo">1348</span>      for (int i = 0; i &lt; ZEROES.length(); i++) {<a name="line.1348"></a>
+<span class="sourceLineNo">1349</span>        nines[i] = (char) (ZEROES.charAt(i) + 9);<a name="line.1349"></a>
+<span class="sourceLineNo">1350</span>      }<a name="line.1350"></a>
+<span class="sourceLineNo">1351</span>      return nines;<a name="line.1351"></a>
+<span class="sourceLineNo">1352</span>    }<a name="line.1352"></a>
+<span class="sourceLineNo">1353</span><a name="line.1353"></a>
+<span class="sourceLineNo">1354</span>    static final Digit INSTANCE = new Digit();<a name="line.1354"></a>
+<span class="sourceLineNo">1355</span><a name="line.1355"></a>
+<span class="sourceLineNo">1356</span>    private Digit() {<a name="line.1356"></a>
+<span class="sourceLineNo">1357</span>      super("CharMatcher.digit()", zeroes(), nines());<a name="line.1357"></a>
+<span class="sourceLineNo">1358</span>    }<a name="line.1358"></a>
+<span class="sourceLineNo">1359</span>  }<a name="line.1359"></a>
+<span class="sourceLineNo">1360</span><a name="line.1360"></a>
+<span class="sourceLineNo">1361</span>  /** Implementation of {@link #javaDigit()}. */<a name="line.1361"></a>
+<span class="sourceLineNo">1362</span>  private static final class JavaDigit extends CharMatcher {<a name="line.1362"></a>
+<span class="sourceLineNo">1363</span><a name="line.1363"></a>
+<span class="sourceLineNo">1364</span>    static final JavaDigit INSTANCE = new JavaDigit();<a name="line.1364"></a>
+<span class="sourceLineNo">1365</span><a name="line.1365"></a>
+<span class="sourceLineNo">1366</span>    @Override<a name="line.1366"></a>
+<span class="sourceLineNo">1367</span>    public boolean matches(char c) {<a name="line.1367"></a>
+<span class="sourceLineNo">1368</span>      return Character.isDigit(c);<a name="line.1368"></a>
+<span class="sourceLineNo">1369</span>    }<a name="line.1369"></a>
+<span class="sourceLineNo">1370</span><a name="line.1370"></a>
+<span class="sourceLineNo">1371</span>    @Override<a name="line.1371"></a>
+<span class="sourceLineNo">1372</span>    public String toString() {<a name="line.1372"></a>
+<span class="sourceLineNo">1373</span>      return "CharMatcher.javaDigit()";<a name="line.1373"></a>
+<span class="sourceLineNo">1374</span>    }<a name="line.1374"></a>
+<span class="sourceLineNo">1375</span>  }<a name="line.1375"></a>
+<span class="sourceLineNo">1376</span><a name="line.1376"></a>
+<span class="sourceLineNo">1377</span>  /** Implementation of {@link #javaLetter()}. */<a name="line.1377"></a>
+<span class="sourceLineNo">1378</span>  private static final class JavaLetter extends CharMatcher {<a name="line.1378"></a>
+<span class="sourceLineNo">1379</span><a name="line.1379"></a>
+<span class="sourceLineNo">1380</span>    static final JavaLetter INSTANCE = new JavaLetter();<a name="line.1380"></a>
+<span class="sourceLineNo">1381</span><a name="line.1381"></a>
+<span class="sourceLineNo">1382</span>    @Override<a name="line.1382"></a>
+<span class="sourceLineNo">1383</span>    public boolean matches(char c) {<a name="line.1383"></a>
+<span class="sourceLineNo">1384</span>      return Character.isLetter(c);<a name="line.1384"></a>
+<span class="sourceLineNo">1385</span>    }<a name="line.1385"></a>
+<span class="sourceLineNo">1386</span><a name="line.1386"></a>
+<span class="sourceLineNo">1387</span>    @Override<a name="line.1387"></a>
+<span class="sourceLineNo">1388</span>    public String toString() {<a name="line.1388"></a>
+<span class="sourceLineNo">1389</span>      return "CharMatcher.javaLetter()";<a name="line.1389"></a>
+<span class="sourceLineNo">1390</span>    }<a name="line.1390"></a>
+<span class="sourceLineNo">1391</span>  }<a name="line.1391"></a>
+<span class="sourceLineNo">1392</span><a name="line.1392"></a>
+<span class="sourceLineNo">1393</span>  /** Implementation of {@link #javaLetterOrDigit()}. */<a name="line.1393"></a>
+<span class="sourceLineNo">1394</span>  private static final class JavaLetterOrDigit extends CharMatcher {<a name="line.1394"></a>
+<span class="sourceLineNo">1395</span><a name="line.1395"></a>
+<span class="sourceLineNo">1396</span>    static final JavaLetterOrDigit INSTANCE = new JavaLetterOrDigit();<a name="line.1396"></a>
+<span class="sourceLineNo">1397</span><a name="line.1397"></a>
+<span class="sourceLineNo">1398</span>    @Override<a name="line.1398"></a>
+<span class="sourceLineNo">1399</span>    public boolean matches(char c) {<a name="line.1399"></a>
+<span class="sourceLineNo">1400</span>      return Character.isLetterOrDigit(c);<a name="line.1400"></a>
+<span class="sourceLineNo">1401</span>    }<a name="line.1401"></a>
+<span class="sourceLineNo">1402</span><a name="line.1402"></a>
+<span class="sourceLineNo">1403</span>    @Override<a name="line.1403"></a>
+<span class="sourceLineNo">1404</span>    public String toString() {<a name="line.1404"></a>
+<span class="sourceLineNo">1405</span>      return "CharMatcher.javaLetterOrDigit()";<a name="line.1405"></a>
+<span class="sourceLineNo">1406</span>    }<a name="line.1406"></a>
+<span class="sourceLineNo">1407</span>  }<a name="line.1407"></a>
+<span class="sourceLineNo">1408</span><a name="line.1408"></a>
+<span class="sourceLineNo">1409</span>  /** Implementation of {@link #javaUpperCase()}. */<a name="line.1409"></a>
+<span class="sourceLineNo">1410</span>  private static final class JavaUpperCase extends CharMatcher {<a name="line.1410"></a>
+<span class="sourceLineNo">1411</span><a name="line.1411"></a>
+<span class="sourceLineNo">1412</span>    static final JavaUpperCase INSTANCE = new JavaUpperCase();<a name="line.1412"></a>
+<span class="sourceLineNo">1413</span><a name="line.1413"></a>
+<span class="sourceLineNo">1414</span>    @Override<a name="line.1414"></a>
+<span class="sourceLineNo">1415</span>    public boolean matches(char c) {<a name="line.1415"></a>
+<span class="sourceLineNo">1416</span>      return Character.isUpperCase(c);<a name="line.1416"></a>
+<span class="sourceLineNo">1417</span>    }<a name="line.1417"></a>
+<span class="sourceLineNo">1418</span><a name="line.1418"></a>
+<span class="sourceLineNo">1419</span>    @Override<a name="line.1419"></a>
+<span class="sourceLineNo">1420</span>    public String toString() {<a name="line.1420"></a>
+<span class="sourceLineNo">1421</span>      return "CharMatcher.javaUpperCase()";<a name="line.1421"></a>
+<span class="sourceLineNo">1422</span>    }<a name="line.1422"></a>
+<span class="sourceLineNo">1423</span>  }<a name="line.1423"></a>
+<span class="sourceLineNo">1424</span><a name="line.1424"></a>
+<span class="sourceLineNo">1425</span>  /** Implementation of {@link #javaLowerCase()}. */<a name="line.1425"></a>
+<span class="sourceLineNo">1426</span>  private static final class JavaLowerCase extends CharMatcher {<a name="line.1426"></a>
+<span class="sourceLineNo">1427</span><a name="line.1427"></a>
+<span class="sourceLineNo">1428</span>    static final JavaLowerCase INSTANCE = new JavaLowerCase();<a name="line.1428"></a>
+<span class="sourceLineNo">1429</span><a name="line.1429"></a>
+<span class="sourceLineNo">1430</span>    @Override<a name="line.1430"></a>
+<span class="sourceLineNo">1431</span>    public boolean matches(char c) {<a name="line.1431"></a>
+<span class="sourceLineNo">1432</span>      return Character.isLowerCase(c);<a name="line.1432"></a>
+<span class="sourceLineNo">1433</span>    }<a name="line.1433"></a>
+<span class="sourceLineNo">1434</span><a name="line.1434"></a>
+<span class="sourceLineNo">1435</span>    @Override<a name="line.1435"></a>
+<span class="sourceLineNo">1436</span>    public String toString() {<a name="line.1436"></a>
+<span class="sourceLineNo">1437</span>      return "CharMatcher.javaLowerCase()";<a name="line.1437"></a>
+<span class="sourceLineNo">1438</span>    }<a name="line.1438"></a>
+<span class="sourceLineNo">1439</span>  }<a name="line.1439"></a>
+<span class="sourceLineNo">1440</span><a name="line.1440"></a>
+<span class="sourceLineNo">1441</span>  /** Implementation of {@link #javaIsoControl()}. */<a name="line.1441"></a>
+<span class="sourceLineNo">1442</span>  private static final class JavaIsoControl extends NamedFastMatcher {<a name="line.1442"></a>
+<span class="sourceLineNo">1443</span><a name="line.1443"></a>
+<span class="sourceLineNo">1444</span>    static final JavaIsoControl INSTANCE = new JavaIsoControl();<a name="line.1444"></a>
 <span class="sourceLineNo">1445</span><a name="line.1445"></a>
-<span class="sourceLineNo">1446</span>    @Override<a name="line.1446"></a>
-<span class="sourceLineNo">1447</span>    public boolean matches(char c) {<a name="line.1447"></a>
-<span class="sourceLineNo">1448</span>      return c &lt;= '\u001f' || (c &gt;= '\u007f' &amp;&amp; c &lt;= '\u009f');<a name="line.1448"></a>
-<span class="sourceLineNo">1449</span>    }<a name="line.1449"></a>
-<span class="sourceLineNo">1450</span>  }<a name="line.1450"></a>
-<span class="sourceLineNo">1451</span><a name="line.1451"></a>
-<span class="sourceLineNo">1452</span>  /** Implementation of {@link #invisible()}. */<a name="line.1452"></a>
-<span class="sourceLineNo">1453</span>  private static final class Invisible extends RangesMatcher {<a name="line.1453"></a>
-<span class="sourceLineNo">1454</span>    // Plug the following UnicodeSet pattern into<a name="line.1454"></a>
-<span class="sourceLineNo">1455</span>    // https://unicode.org/cldr/utility/list-unicodeset.jsp<a name="line.1455"></a>
-<span class="sourceLineNo">1456</span>    // [[[:Zs:][:Zl:][:Zp:][:Cc:][:Cf:][:Cs:][:Co:]]&amp;[\u0000-\uFFFF]]<a name="line.1456"></a>
-<span class="sourceLineNo">1457</span>    // with the "Abbreviate" option, and get the ranges from there.<a name="line.1457"></a>
-<span class="sourceLineNo">1458</span>    private static final String RANGE_STARTS =<a name="line.1458"></a>
-<span class="sourceLineNo">1459</span>        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u08e2\u1680\u180e\u2000\u2028\u205f\u2066"<a name="line.1459"></a>
-<span class="sourceLineNo">1460</span>            + "\u3000\ud800\ufeff\ufff9";<a name="line.1460"></a>
-<span class="sourceLineNo">1461</span>    private static final String RANGE_ENDS = // inclusive ends<a name="line.1461"></a>
-<span class="sourceLineNo">1462</span>        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"<a name="line.1462"></a>
-<span class="sourceLineNo">1463</span>            + "\u3000\uf8ff\ufeff\ufffb";<a name="line.1463"></a>
-<span class="sourceLineNo">1464</span><a name="line.1464"></a>
-<span class="sourceLineNo">1465</span>    static final Invisible INSTANCE = new Invisible();<a name="line.1465"></a>
-<span class="sourceLineNo">1466</span><a name="line.1466"></a>
-<span class="sourceLineNo">1467</span>    private Invisible() {<a name="line.1467"></a>
-<span class="sourceLineNo">1468</span>      super("CharMatcher.invisible()", RANGE_STARTS.toCharArray(), RANGE_ENDS.toCharArray());<a name="line.1468"></a>
-<span class="sourceLineNo">1469</span>    }<a name="line.1469"></a>
-<span class="sourceLineNo">1470</span>  }<a name="line.1470"></a>
-<span class="sourceLineNo">1471</span><a name="line.1471"></a>
-<span class="sourceLineNo">1472</span>  /** Implementation of {@link #singleWidth()}. */<a name="line.1472"></a>
-<span class="sourceLineNo">1473</span>  private static final class SingleWidth extends RangesMatcher {<a name="line.1473"></a>
-<span class="sourceLineNo">1474</span><a name="line.1474"></a>
-<span class="sourceLineNo">1475</span>    static final SingleWidth INSTANCE = new SingleWidth();<a name="line.1475"></a>
-<span class="sourceLineNo">1476</span><a name="line.1476"></a>
-<span class="sourceLineNo">1477</span>    private SingleWidth() {<a name="line.1477"></a>
-<span class="sourceLineNo">1478</span>      super(<a name="line.1478"></a>
-<span class="sourceLineNo">1479</span>          "CharMatcher.singleWidth()",<a name="line.1479"></a>
-<span class="sourceLineNo">1480</span>          "\u0000\u05be\u05d0\u05f3\u0600\u0750\u0e00\u1e00\u2100\ufb50\ufe70\uff61".toCharArray(),<a name="line.1480"></a>
-<span class="sourceLineNo">1481</span>          "\u04f9\u05be\u05ea\u05f4\u06ff\u077f\u0e7f\u20af\u213a\ufdff\ufeff\uffdc".toCharArray());<a name="line.1481"></a>
-<span class="sourceLineNo">1482</span>    }<a name="line.1482"></a>
-<span class="sourceLineNo">1483</span>  }<a name="line.1483"></a>
-<span class="sourceLineNo">1484</span><a name="line.1484"></a>
-<span class="sourceLineNo">1485</span>  // Non-static factory implementation classes<a name="line.1485"></a>
-<span class="sourceLineNo">1486</span><a name="line.1486"></a>
-<span class="sourceLineNo">1487</span>  /** Implementation of {@link #negate()}. */<a name="line.1487"></a>
-<span class="sourceLineNo">1488</span>  private static class Negated extends CharMatcher {<a name="line.1488"></a>
-<span class="sourceLineNo">1489</span><a name="line.1489"></a>
-<span class="sourceLineNo">1490</span>    final CharMatcher original;<a name="line.1490"></a>
-<span class="sourceLineNo">1491</span><a name="line.1491"></a>
-<span class="sourceLineNo">1492</span>    Negated(CharMatcher original) {<a name="line.1492"></a>
-<span class="sourceLineNo">1493</span>      this.original = checkNotNull(original);<a name="line.1493"></a>
-<span class="sourceLineNo">1494</span>    }<a name="line.1494"></a>
+<span class="sourceLineNo">1446</span>    private JavaIsoControl() {<a name="line.1446"></a>
+<span class="sourceLineNo">1447</span>      super("CharMatcher.javaIsoControl()");<a name="line.1447"></a>
+<span class="sourceLineNo">1448</span>    }<a name="line.1448"></a>
+<span class="sourceLineNo">1449</span><a name="line.1449"></a>
+<span class="sourceLineNo">1450</span>    @Override<a name="line.1450"></a>
+<span class="sourceLineNo">1451</span>    public boolean matches(char c) {<a name="line.1451"></a>
+<span class="sourceLineNo">1452</span>      return c &lt;= '\u001f' || (c &gt;= '\u007f' &amp;&amp; c &lt;= '\u009f');<a name="line.1452"></a>
+<span class="sourceLineNo">1453</span>    }<a name="line.1453"></a>
+<span class="sourceLineNo">1454</span>  }<a name="line.1454"></a>
+<span class="sourceLineNo">1455</span><a name="line.1455"></a>
+<span class="sourceLineNo">1456</span>  /** Implementation of {@link #invisible()}. */<a name="line.1456"></a>
+<span class="sourceLineNo">1457</span>  private static final class Invisible extends RangesMatcher {<a name="line.1457"></a>
+<span class="sourceLineNo">1458</span>    // Plug the following UnicodeSet pattern into<a name="line.1458"></a>
+<span class="sourceLineNo">1459</span>    // https://unicode.org/cldr/utility/list-unicodeset.jsp<a name="line.1459"></a>
+<span class="sourceLineNo">1460</span>    // [[[:Zs:][:Zl:][:Zp:][:Cc:][:Cf:][:Cs:][:Co:]]&amp;[\u0000-\uFFFF]]<a name="line.1460"></a>
+<span class="sourceLineNo">1461</span>    // with the "Abbreviate" option, and get the ranges from there.<a name="line.1461"></a>
+<span class="sourceLineNo">1462</span>    private static final String RANGE_STARTS =<a name="line.1462"></a>
+<span class="sourceLineNo">1463</span>        "\u0000\u007f\u00ad\u0600\u061c\u06dd\u070f\u08e2\u1680\u180e\u2000\u2028\u205f\u2066"<a name="line.1463"></a>
+<span class="sourceLineNo">1464</span>            + "\u3000\ud800\ufeff\ufff9";<a name="line.1464"></a>
+<span class="sourceLineNo">1465</span>    private static final String RANGE_ENDS = // inclusive ends<a name="line.1465"></a>
+<span class="sourceLineNo">1466</span>        "\u0020\u00a0\u00ad\u0605\u061c\u06dd\u070f\u08e2\u1680\u180e\u200f\u202f\u2064\u206f"<a name="line.1466"></a>
+<span class="sourceLineNo">1467</span>            + "\u3000\uf8ff\ufeff\ufffb";<a name="line.1467"></a>
+<span class="sourceLineNo">1468</span><a name="line.1468"></a>
+<span class="sourceLineNo">1469</span>    static final Invisible INSTANCE = new Invisible();<a name="line.1469"></a>
+<span class="sourceLineNo">1470</span><a name="line.1470"></a>
+<span class="sourceLineNo">1471</span>    private Invisible() {<a name="line.1471"></a>
+<span class="sourceLineNo">1472</span>      super("CharMatcher.invisible()", RANGE_STARTS.toCharArray(), RANGE_ENDS.toCharArray());<a name="line.1472"></a>
+<span class="sourceLineNo">1473</span>    }<a name="line.1473"></a>
+<span class="sourceLineNo">1474</span>  }<a name="line.1474"></a>
+<span class="sourceLineNo">1475</span><a name="line.1475"></a>
+<span class="sourceLineNo">1476</span>  /** Implementation of {@link #singleWidth()}. */<a name="line.1476"></a>
+<span class="sourceLineNo">1477</span>  private static final class SingleWidth extends RangesMatcher {<a name="line.1477"></a>
+<span class="sourceLineNo">1478</span><a name="line.1478"></a>
+<span class="sourceLineNo">1479</span>    static final SingleWidth INSTANCE = new SingleWidth();<a name="line.1479"></a>
+<span class="sourceLineNo">1480</span><a name="line.1480"></a>
+<span class="sourceLineNo">1481</span>    private SingleWidth() {<a name="line.1481"></a>
+<span class="sourceLineNo">1482</span>      super(<a name="line.1482"></a>
+<span class="sourceLineNo">1483</span>          "CharMatcher.singleWidth()",<a name="line.1483"></a>
+<span class="sourceLineNo">1484</span>          "\u0000\u05be\u05d0\u05f3\u0600\u0750\u0e00\u1e00\u2100\ufb50\ufe70\uff61".toCharArray(),<a name="line.1484"></a>
+<span class="sourceLineNo">1485</span>          "\u04f9\u05be\u05ea\u05f4\u06ff\u077f\u0e7f\u20af\u213a\ufdff\ufeff\uffdc".toCharArray());<a name="line.1485"></a>
+<span class="sourceLineNo">1486</span>    }<a name="line.1486"></a>
+<span class="sourceLineNo">1487</span>  }<a name="line.1487"></a>
+<span class="sourceLineNo">1488</span><a name="line.1488"></a>
+<span class="sourceLineNo">1489</span>  // Non-static factory implementation classes<a name="line.1489"></a>
+<span class="sourceLineNo">1490</span><a name="line.1490"></a>
+<span class="sourceLineNo">1491</span>  /** Implementation of {@link #negate()}. */<a name="line.1491"></a>
+<span class="sourceLineNo">1492</span>  private static class Negated extends CharMatcher {<a name="line.1492"></a>
+<span class="sourceLineNo">1493</span><a name="line.1493"></a>
+<span class="sourceLineNo">1494</span>    final CharMatcher original;<a name="line.1494"></a>
 <span class="sourceLineNo">1495</span><a name="line.1495"></a>
-<span class="sourceLineNo">1496</span>    @Override<a name="line.1496"></a>
-<span class="sourceLineNo">1497</span>    public boolean matches(char c) {<a name="line.1497"></a>
-<span class="sourceLineNo">1498</span>      return !original.matches(c);<a name="line.1498"></a>
-<span class="sourceLineNo">1499</span>    }<a name="line.1499"></a>
-<span class="sourceLineNo">1500</span><a name="line.1500"></a>
-<span class="sourceLineNo">1501</span>    @Override<a name="line.1501"></a>
-<span class="sourceLineNo">1502</span>    public boolean matchesAllOf(CharSequence sequence) {<a name="line.1502"></a>
-<span class="sourceLineNo">1503</span>      return original.matchesNoneOf(sequence);<a name="line.1503"></a>
-<span class="sourceLineNo">1504</span>    }<a name="line.1504"></a>
-<span class="sourceLineNo">1505</span><a name="line.1505"></a>
-<span class="sourceLineNo">1506</span>    @Override<a name="line.1506"></a>
-<span class="sourceLineNo">1507</span>    public boolean matchesNoneOf(CharSequence sequence) {<a name="line.1507"></a>
-<span class="sourceLineNo">1508</span>      return original.matchesAllOf(sequence);<a name="line.1508"></a>
-<span class="sourceLineNo">1509</span>    }<a name="line.1509"></a>
-<span class="sourceLineNo">1510</span><a name="line.1510"></a>
-<span class="sourceLineNo">1511</span>    @Override<a name="line.1511"></a>
-<span class="sourceLineNo">1512</span>    public int countIn(CharSequence sequence) {<a name="line.1512"></a>
-<span class="sourceLineNo">1513</span>      return sequence.length() - original.countIn(sequence);<a name="line.1513"></a>
-<span class="sourceLineNo">1514</span>    }<a name="line.1514"></a>
-<span class="sourceLineNo">1515</span><a name="line.1515"></a>
-<span class="sourceLineNo">1516</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1516"></a>
-<span class="sourceLineNo">1517</span>    @Override<a name="line.1517"></a>
-<span class="sourceLineNo">1518</span>    void setBits(BitSet table) {<a name="line.1518"></a>
-<span class="sourceLineNo">1519</span>      BitSet tmp = new BitSet();<a name="line.1519"></a>
-<span class="sourceLineNo">1520</span>      original.setBits(tmp);<a name="line.1520"></a>
-<span class="sourceLineNo">1521</span>      tmp.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);<a name="line.1521"></a>
-<span class="sourceLineNo">1522</span>      table.or(tmp);<a name="line.1522"></a>
-<span class="sourceLineNo">1523</span>    }<a name="line.1523"></a>
-<span class="sourceLineNo">1524</span><a name="line.1524"></a>
-<span class="sourceLineNo">1525</span>    @Override<a name="line.1525"></a>
-<span class="sourceLineNo">1526</span>    public CharMatcher negate() {<a name="line.1526"></a>
-<span class="sourceLineNo">1527</span>      return original;<a name="line.1527"></a>
-<span class="sourceLineNo">1528</span>    }<a name="line.1528"></a>
-<span class="sourceLineNo">1529</span><a name="line.1529"></a>
-<span class="sourceLineNo">1530</span>    @Override<a name="line.1530"></a>
-<span class="sourceLineNo">1531</span>    public String toString() {<a name="line.1531"></a>
-<span class="sourceLineNo">1532</span>      return original + ".negate()";<a name="line.1532"></a>
-<span class="sourceLineNo">1533</span>    }<a name="line.1533"></a>
-<span class="sourceLineNo">1534</span>  }<a name="line.1534"></a>
-<span class="sourceLineNo">1535</span><a name="line.1535"></a>
-<span class="sourceLineNo">1536</span>  /** Implementation of {@link #and(CharMatcher)}. */<a name="line.1536"></a>
-<span class="sourceLineNo">1537</span>  private static final class And extends CharMatcher {<a name="line.1537"></a>
-<span class="sourceLineNo">1538</span><a name="line.1538"></a>
-<span class="sourceLineNo">1539</span>    final CharMatcher first;<a name="line.1539"></a>
-<span class="sourceLineNo">1540</span>    final CharMatcher second;<a name="line.1540"></a>
-<span class="sourceLineNo">1541</span><a name="line.1541"></a>
-<span class="sourceLineNo">1542</span>    And(CharMatcher a, CharMatcher b) {<a name="line.1542"></a>
-<span class="sourceLineNo">1543</span>      first = checkNotNull(a);<a name="line.1543"></a>
-<span class="sourceLineNo">1544</span>      second = checkNotNull(b);<a name="line.1544"></a>
-<span class="sourceLineNo">1545</span>    }<a name="line.1545"></a>
-<span class="sourceLineNo">1546</span><a name="line.1546"></a>
-<span class="sourceLineNo">1547</span>    @Override<a name="line.1547"></a>
-<span class="sourceLineNo">1548</span>    public boolean matches(char c) {<a name="line.1548"></a>
-<span class="sourceLineNo">1549</span>      return first.matches(c) &amp;&amp; second.matches(c);<a name="line.1549"></a>
-<span class="sourceLineNo">1550</span>    }<a name="line.1550"></a>
-<span class="sourceLineNo">1551</span><a name="line.1551"></a>
-<span class="sourceLineNo">1552</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1552"></a>
-<span class="sourceLineNo">1553</span>    @Override<a name="line.1553"></a>
-<span class="sourceLineNo">1554</span>    void setBits(BitSet table) {<a name="line.1554"></a>
-<span class="sourceLineNo">1555</span>      BitSet tmp1 = new BitSet();<a name="line.1555"></a>
-<span class="sourceLineNo">1556</span>      first.setBits(tmp1);<a name="line.1556"></a>
-<span class="sourceLineNo">1557</span>      BitSet tmp2 = new BitSet();<a name="line.1557"></a>
-<span class="sourceLineNo">1558</span>      second.setBits(tmp2);<a name="line.1558"></a>
-<span class="sourceLineNo">1559</span>      tmp1.and(tmp2);<a name="line.1559"></a>
-<span class="sourceLineNo">1560</span>      table.or(tmp1);<a name="line.1560"></a>
-<span class="sourceLineNo">1561</span>    }<a name="line.1561"></a>
-<span class="sourceLineNo">1562</span><a name="line.1562"></a>
-<span class="sourceLineNo">1563</span>    @Override<a name="line.1563"></a>
-<span class="sourceLineNo">1564</span>    public String toString() {<a name="line.1564"></a>
-<span class="sourceLineNo">1565</span>      return "CharMatcher.and(" + first + ", " + second + ")";<a name="line.1565"></a>
-<span class="sourceLineNo">1566</span>    }<a name="line.1566"></a>
-<span class="sourceLineNo">1567</span>  }<a name="line.1567"></a>
-<span class="sourceLineNo">1568</span><a name="line.1568"></a>
-<span class="sourceLineNo">1569</span>  /** Implementation of {@link #or(CharMatcher)}. */<a name="line.1569"></a>
-<span class="sourceLineNo">1570</span>  private static final class Or extends CharMatcher {<a name="line.1570"></a>
-<span class="sourceLineNo">1571</span><a name="line.1571"></a>
-<span class="sourceLineNo">1572</span>    final CharMatcher first;<a name="line.1572"></a>
-<span class="sourceLineNo">1573</span>    final CharMatcher second;<a name="line.1573"></a>
-<span class="sourceLineNo">1574</span><a name="line.1574"></a>
-<span class="sourceLineNo">1575</span>    Or(CharMatcher a, CharMatcher b) {<a name="line.1575"></a>
-<span class="sourceLineNo">1576</span>      first = checkNotNull(a);<a name="line.1576"></a>
-<span class="sourceLineNo">1577</span>      second = checkNotNull(b);<a name="line.1577"></a>
-<span class="sourceLineNo">1578</span>    }<a name="line.1578"></a>
-<span class="sourceLineNo">1579</span><a name="line.1579"></a>
-<span class="sourceLineNo">1580</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1580"></a>
-<span class="sourceLineNo">1581</span>    @Override<a name="line.1581"></a>
-<span class="sourceLineNo">1582</span>    void setBits(BitSet table) {<a name="line.1582"></a>
-<span class="sourceLineNo">1583</span>      first.setBits(table);<a name="line.1583"></a>
-<span class="sourceLineNo">1584</span>      second.setBits(table);<a name="line.1584"></a>
-<span class="sourceLineNo">1585</span>    }<a name="line.1585"></a>
-<span class="sourceLineNo">1586</span><a name="line.1586"></a>
-<span class="sourceLineNo">1587</span>    @Override<a name="line.1587"></a>
-<span class="sourceLineNo">1588</span>    public boolean matches(char c) {<a name="line.1588"></a>
-<span class="sourceLineNo">1589</span>      return first.matches(c) || second.matches(c);<a name="line.1589"></a>
-<span class="sourceLineNo">1590</span>    }<a name="line.1590"></a>
-<span class="sourceLineNo">1591</span><a name="line.1591"></a>
-<span class="sourceLineNo">1592</span>    @Override<a name="line.1592"></a>
-<span class="sourceLineNo">1593</span>    public String toString() {<a name="line.1593"></a>
-<span class="sourceLineNo">1594</span>      return "CharMatcher.or(" + first + ", " + second + ")";<a name="line.1594"></a>
-<span class="sourceLineNo">1595</span>    }<a name="line.1595"></a>
-<span class="sourceLineNo">1596</span>  }<a name="line.1596"></a>
-<span class="sourceLineNo">1597</span><a name="line.1597"></a>
-<span class="sourceLineNo">1598</span>  // Static factory implementations<a name="line.1598"></a>
-<span class="sourceLineNo">1599</span><a name="line.1599"></a>
-<span class="sourceLineNo">1600</span>  /** Implementation of {@link #is(char)}. */<a name="line.1600"></a>
-<span class="sourceLineNo">1601</span>  private static final class Is extends FastMatcher {<a name="line.1601"></a>
-<span class="sourceLineNo">1602</span><a name="line.1602"></a>
-<span class="sourceLineNo">1603</span>    private final char match;<a name="line.1603"></a>
-<span class="sourceLineNo">1604</span><a name="line.1604"></a>
-<span class="sourceLineNo">1605</span>    Is(char match) {<a name="line.1605"></a>
-<span class="sourceLineNo">1606</span>      this.match = match;<a name="line.1606"></a>
-<span class="sourceLineNo">1607</span>    }<a name="line.1607"></a>
+<span class="sourceLineNo">1496</span>    Negated(CharMatcher original) {<a name="line.1496"></a>
+<span class="sourceLineNo">1497</span>      this.original = checkNotNull(original);<a name="line.1497"></a>
+<span class="sourceLineNo">1498</span>    }<a name="line.1498"></a>
+<span class="sourceLineNo">1499</span><a name="line.1499"></a>
+<span class="sourceLineNo">1500</span>    @Override<a name="line.1500"></a>
+<span class="sourceLineNo">1501</span>    public boolean matches(char c) {<a name="line.1501"></a>
+<span class="sourceLineNo">1502</span>      return !original.matches(c);<a name="line.1502"></a>
+<span class="sourceLineNo">1503</span>    }<a name="line.1503"></a>
+<span class="sourceLineNo">1504</span><a name="line.1504"></a>
+<span class="sourceLineNo">1505</span>    @Override<a name="line.1505"></a>
+<span class="sourceLineNo">1506</span>    public boolean matchesAllOf(CharSequence sequence) {<a name="line.1506"></a>
+<span class="sourceLineNo">1507</span>      return original.matchesNoneOf(sequence);<a name="line.1507"></a>
+<span class="sourceLineNo">1508</span>    }<a name="line.1508"></a>
+<span class="sourceLineNo">1509</span><a name="line.1509"></a>
+<span class="sourceLineNo">1510</span>    @Override<a name="line.1510"></a>
+<span class="sourceLineNo">1511</span>    public boolean matchesNoneOf(CharSequence sequence) {<a name="line.1511"></a>
+<span class="sourceLineNo">1512</span>      return original.matchesAllOf(sequence);<a name="line.1512"></a>
+<span class="sourceLineNo">1513</span>    }<a name="line.1513"></a>
+<span class="sourceLineNo">1514</span><a name="line.1514"></a>
+<span class="sourceLineNo">1515</span>    @Override<a name="line.1515"></a>
+<span class="sourceLineNo">1516</span>    public int countIn(CharSequence sequence) {<a name="line.1516"></a>
+<span class="sourceLineNo">1517</span>      return sequence.length() - original.countIn(sequence);<a name="line.1517"></a>
+<span class="sourceLineNo">1518</span>    }<a name="line.1518"></a>
+<span class="sourceLineNo">1519</span><a name="line.1519"></a>
+<span class="sourceLineNo">1520</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1520"></a>
+<span class="sourceLineNo">1521</span>    @Override<a name="line.1521"></a>
+<span class="sourceLineNo">1522</span>    void setBits(BitSet table) {<a name="line.1522"></a>
+<span class="sourceLineNo">1523</span>      BitSet tmp = new BitSet();<a name="line.1523"></a>
+<span class="sourceLineNo">1524</span>      original.setBits(tmp);<a name="line.1524"></a>
+<span class="sourceLineNo">1525</span>      tmp.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);<a name="line.1525"></a>
+<span class="sourceLineNo">1526</span>      table.or(tmp);<a name="line.1526"></a>
+<span class="sourceLineNo">1527</span>    }<a name="line.1527"></a>
+<span class="sourceLineNo">1528</span><a name="line.1528"></a>
+<span class="sourceLineNo">1529</span>    @Override<a name="line.1529"></a>
+<span class="sourceLineNo">1530</span>    public CharMatcher negate() {<a name="line.1530"></a>
+<span class="sourceLineNo">1531</span>      return original;<a name="line.1531"></a>
+<span class="sourceLineNo">1532</span>    }<a name="line.1532"></a>
+<span class="sourceLineNo">1533</span><a name="line.1533"></a>
+<span class="sourceLineNo">1534</span>    @Override<a name="line.1534"></a>
+<span class="sourceLineNo">1535</span>    public String toString() {<a name="line.1535"></a>
+<span class="sourceLineNo">1536</span>      return original + ".negate()";<a name="line.1536"></a>
+<span class="sourceLineNo">1537</span>    }<a name="line.1537"></a>
+<span class="sourceLineNo">1538</span>  }<a name="line.1538"></a>
+<span class="sourceLineNo">1539</span><a name="line.1539"></a>
+<span class="sourceLineNo">1540</span>  /** Implementation of {@link #and(CharMatcher)}. */<a name="line.1540"></a>
+<span class="sourceLineNo">1541</span>  private static final class And extends CharMatcher {<a name="line.1541"></a>
+<span class="sourceLineNo">1542</span><a name="line.1542"></a>
+<span class="sourceLineNo">1543</span>    final CharMatcher first;<a name="line.1543"></a>
+<span class="sourceLineNo">1544</span>    final CharMatcher second;<a name="line.1544"></a>
+<span class="sourceLineNo">1545</span><a name="line.1545"></a>
+<span class="sourceLineNo">1546</span>    And(CharMatcher a, CharMatcher b) {<a name="line.1546"></a>
+<span class="sourceLineNo">1547</span>      first = checkNotNull(a);<a name="line.1547"></a>
+<span class="sourceLineNo">1548</span>      second = checkNotNull(b);<a name="line.1548"></a>
+<span class="sourceLineNo">1549</span>    }<a name="line.1549"></a>
+<span class="sourceLineNo">1550</span><a name="line.1550"></a>
+<span class="sourceLineNo">1551</span>    @Override<a name="line.1551"></a>
+<span class="sourceLineNo">1552</span>    public boolean matches(char c) {<a name="line.1552"></a>
+<span class="sourceLineNo">1553</span>      return first.matches(c) &amp;&amp; second.matches(c);<a name="line.1553"></a>
+<span class="sourceLineNo">1554</span>    }<a name="line.1554"></a>
+<span class="sourceLineNo">1555</span><a name="line.1555"></a>
+<span class="sourceLineNo">1556</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1556"></a>
+<span class="sourceLineNo">1557</span>    @Override<a name="line.1557"></a>
+<span class="sourceLineNo">1558</span>    void setBits(BitSet table) {<a name="line.1558"></a>
+<span class="sourceLineNo">1559</span>      BitSet tmp1 = new BitSet();<a name="line.1559"></a>
+<span class="sourceLineNo">1560</span>      first.setBits(tmp1);<a name="line.1560"></a>
+<span class="sourceLineNo">1561</span>      BitSet tmp2 = new BitSet();<a name="line.1561"></a>
+<span class="sourceLineNo">1562</span>      second.setBits(tmp2);<a name="line.1562"></a>
+<span class="sourceLineNo">1563</span>      tmp1.and(tmp2);<a name="line.1563"></a>
+<span class="sourceLineNo">1564</span>      table.or(tmp1);<a name="line.1564"></a>
+<span class="sourceLineNo">1565</span>    }<a name="line.1565"></a>
+<span class="sourceLineNo">1566</span><a name="line.1566"></a>
+<span class="sourceLineNo">1567</span>    @Override<a name="line.1567"></a>
+<span class="sourceLineNo">1568</span>    public String toString() {<a name="line.1568"></a>
+<span class="sourceLineNo">1569</span>      return "CharMatcher.and(" + first + ", " + second + ")";<a name="line.1569"></a>
+<span class="sourceLineNo">1570</span>    }<a name="line.1570"></a>
+<span class="sourceLineNo">1571</span>  }<a name="line.1571"></a>
+<span class="sourceLineNo">1572</span><a name="line.1572"></a>
+<span class="sourceLineNo">1573</span>  /** Implementation of {@link #or(CharMatcher)}. */<a name="line.1573"></a>
+<span class="sourceLineNo">1574</span>  private static final class Or extends CharMatcher {<a name="line.1574"></a>
+<span class="sourceLineNo">1575</span><a name="line.1575"></a>
+<span class="sourceLineNo">1576</span>    final CharMatcher first;<a name="line.1576"></a>
+<span class="sourceLineNo">1577</span>    final CharMatcher second;<a name="line.1577"></a>
+<span class="sourceLineNo">1578</span><a name="line.1578"></a>
+<span class="sourceLineNo">1579</span>    Or(CharMatcher a, CharMatcher b) {<a name="line.1579"></a>
+<span class="sourceLineNo">1580</span>      first = checkNotNull(a);<a name="line.1580"></a>
+<span class="sourceLineNo">1581</span>      second = checkNotNull(b);<a name="line.1581"></a>
+<span class="sourceLineNo">1582</span>    }<a name="line.1582"></a>
+<span class="sourceLineNo">1583</span><a name="line.1583"></a>
+<span class="sourceLineNo">1584</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1584"></a>
+<span class="sourceLineNo">1585</span>    @Override<a name="line.1585"></a>
+<span class="sourceLineNo">1586</span>    void setBits(BitSet table) {<a name="line.1586"></a>
+<span class="sourceLineNo">1587</span>      first.setBits(table);<a name="line.1587"></a>
+<span class="sourceLineNo">1588</span>      second.setBits(table);<a name="line.1588"></a>
+<span class="sourceLineNo">1589</span>    }<a name="line.1589"></a>
+<span class="sourceLineNo">1590</span><a name="line.1590"></a>
+<span class="sourceLineNo">1591</span>    @Override<a name="line.1591"></a>
+<span class="sourceLineNo">1592</span>    public boolean matches(char c) {<a name="line.1592"></a>
+<span class="sourceLineNo">1593</span>      return first.matches(c) || second.matches(c);<a name="line.1593"></a>
+<span class="sourceLineNo">1594</span>    }<a name="line.1594"></a>
+<span class="sourceLineNo">1595</span><a name="line.1595"></a>
+<span class="sourceLineNo">1596</span>    @Override<a name="line.1596"></a>
+<span class="sourceLineNo">1597</span>    public String toString() {<a name="line.1597"></a>
+<span class="sourceLineNo">1598</span>      return "CharMatcher.or(" + first + ", " + second + ")";<a name="line.1598"></a>
+<span class="sourceLineNo">1599</span>    }<a name="line.1599"></a>
+<span class="sourceLineNo">1600</span>  }<a name="line.1600"></a>
+<span class="sourceLineNo">1601</span><a name="line.1601"></a>
+<span class="sourceLineNo">1602</span>  // Static factory implementations<a name="line.1602"></a>
+<span class="sourceLineNo">1603</span><a name="line.1603"></a>
+<span class="sourceLineNo">1604</span>  /** Implementation of {@link #is(char)}. */<a name="line.1604"></a>
+<span class="sourceLineNo">1605</span>  private static final class Is extends FastMatcher {<a name="line.1605"></a>
+<span class="sourceLineNo">1606</span><a name="line.1606"></a>
+<span class="sourceLineNo">1607</span>    private final char match;<a name="line.1607"></a>
 <span class="sourceLineNo">1608</span><a name="line.1608"></a>
-<span class="sourceLineNo">1609</span>    @Override<a name="line.1609"></a>
-<span class="sourceLineNo">1610</span>    public boolean matches(char c) {<a name="line.1610"></a>
-<span class="sourceLineNo">1611</span>      return c == match;<a name="line.1611"></a>
-<span class="sourceLineNo">1612</span>    }<a name="line.1612"></a>
-<span class="sourceLineNo">1613</span><a name="line.1613"></a>
-<span class="sourceLineNo">1614</span>    @Override<a name="line.1614"></a>
-<span class="sourceLineNo">1615</span>    public String replaceFrom(CharSequence sequence, char replacement) {<a name="line.1615"></a>
-<span class="sourceLineNo">1616</span>      return sequence.toString().replace(match, replacement);<a name="line.1616"></a>
-<span class="sourceLineNo">1617</span>    }<a name="line.1617"></a>
-<span class="sourceLineNo">1618</span><a name="line.1618"></a>
-<span class="sourceLineNo">1619</span>    @Override<a name="line.1619"></a>
-<span class="sourceLineNo">1620</span>    public CharMatcher and(CharMatcher other) {<a name="line.1620"></a>
-<span class="sourceLineNo">1621</span>      return other.matches(match) ? this : none();<a name="line.1621"></a>
-<span class="sourceLineNo">1622</span>    }<a name="line.1622"></a>
-<span class="sourceLineNo">1623</span><a name="line.1623"></a>
-<span class="sourceLineNo">1624</span>    @Override<a name="line.1624"></a>
-<span class="sourceLineNo">1625</span>    public CharMatcher or(CharMatcher other) {<a name="line.1625"></a>
-<span class="sourceLineNo">1626</span>      return other.matches(match) ? other : super.or(other);<a name="line.1626"></a>
-<span class="sourceLineNo">1627</span>    }<a name="line.1627"></a>
-<span class="sourceLineNo">1628</span><a name="line.1628"></a>
-<span class="sourceLineNo">1629</span>    @Override<a name="line.1629"></a>
-<span class="sourceLineNo">1630</span>    public CharMatcher negate() {<a name="line.1630"></a>
-<span class="sourceLineNo">1631</span>      return isNot(match);<a name="line.1631"></a>
-<span class="sourceLineNo">1632</span>    }<a name="line.1632"></a>
-<span class="sourceLineNo">1633</span><a name="line.1633"></a>
-<span class="sourceLineNo">1634</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1634"></a>
-<span class="sourceLineNo">1635</span>    @Override<a name="line.1635"></a>
-<span class="sourceLineNo">1636</span>    void setBits(BitSet table) {<a name="line.1636"></a>
-<span class="sourceLineNo">1637</span>      table.set(match);<a name="line.1637"></a>
-<span class="sourceLineNo">1638</span>    }<a name="line.1638"></a>
-<span class="sourceLineNo">1639</span><a name="line.1639"></a>
-<span class="sourceLineNo">1640</span>    @Override<a name="line.1640"></a>
-<span class="sourceLineNo">1641</span>    public String toString() {<a name="line.1641"></a>
-<span class="sourceLineNo">1642</span>      return "CharMatcher.is('" + showCharacter(match) + "')";<a name="line.1642"></a>
-<span class="sourceLineNo">1643</span>    }<a name="line.1643"></a>
-<span class="sourceLineNo">1644</span>  }<a name="line.1644"></a>
-<span class="sourceLineNo">1645</span><a name="line.1645"></a>
-<span class="sourceLineNo">1646</span>  /** Implementation of {@link #isNot(char)}. */<a name="line.1646"></a>
-<span class="sourceLineNo">1647</span>  private static final class IsNot extends FastMatcher {<a name="line.1647"></a>
-<span class="sourceLineNo">1648</span><a name="line.1648"></a>
-<span class="sourceLineNo">1649</span>    private final char match;<a name="line.1649"></a>
-<span class="sourceLineNo">1650</span><a name="line.1650"></a>
-<span class="sourceLineNo">1651</span>    IsNot(char match) {<a name="line.1651"></a>
-<span class="sourceLineNo">1652</span>      this.match = match;<a name="line.1652"></a>
-<span class="sourceLineNo">1653</span>    }<a name="line.1653"></a>
+<span class="sourceLineNo">1609</span>    Is(char match) {<a name="line.1609"></a>
+<span class="sourceLineNo">1610</span>      this.match = match;<a name="line.1610"></a>
+<span class="sourceLineNo">1611</span>    }<a name="line.1611"></a>
+<span class="sourceLineNo">1612</span><a name="line.1612"></a>
+<span class="sourceLineNo">1613</span>    @Override<a name="line.1613"></a>
+<span class="sourceLineNo">1614</span>    public boolean matches(char c) {<a name="line.1614"></a>
+<span class="sourceLineNo">1615</span>      return c == match;<a name="line.1615"></a>
+<span class="sourceLineNo">1616</span>    }<a name="line.1616"></a>
+<span class="sourceLineNo">1617</span><a name="line.1617"></a>
+<span class="sourceLineNo">1618</span>    @Override<a name="line.1618"></a>
+<span class="sourceLineNo">1619</span>    public String replaceFrom(CharSequence sequence, char replacement) {<a name="line.1619"></a>
+<span class="sourceLineNo">1620</span>      return sequence.toString().replace(match, replacement);<a name="line.1620"></a>
+<span class="sourceLineNo">1621</span>    }<a name="line.1621"></a>
+<span class="sourceLineNo">1622</span><a name="line.1622"></a>
+<span class="sourceLineNo">1623</span>    @Override<a name="line.1623"></a>
+<span class="sourceLineNo">1624</span>    public CharMatcher and(CharMatcher other) {<a name="line.1624"></a>
+<span class="sourceLineNo">1625</span>      return other.matches(match) ? this : none();<a name="line.1625"></a>
+<span class="sourceLineNo">1626</span>    }<a name="line.1626"></a>
+<span class="sourceLineNo">1627</span><a name="line.1627"></a>
+<span class="sourceLineNo">1628</span>    @Override<a name="line.1628"></a>
+<span class="sourceLineNo">1629</span>    public CharMatcher or(CharMatcher other) {<a name="line.1629"></a>
+<span class="sourceLineNo">1630</span>      return other.matches(match) ? other : super.or(other);<a name="line.1630"></a>
+<span class="sourceLineNo">1631</span>    }<a name="line.1631"></a>
+<span class="sourceLineNo">1632</span><a name="line.1632"></a>
+<span class="sourceLineNo">1633</span>    @Override<a name="line.1633"></a>
+<span class="sourceLineNo">1634</span>    public CharMatcher negate() {<a name="line.1634"></a>
+<span class="sourceLineNo">1635</span>      return isNot(match);<a name="line.1635"></a>
+<span class="sourceLineNo">1636</span>    }<a name="line.1636"></a>
+<span class="sourceLineNo">1637</span><a name="line.1637"></a>
+<span class="sourceLineNo">1638</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1638"></a>
+<span class="sourceLineNo">1639</span>    @Override<a name="line.1639"></a>
+<span class="sourceLineNo">1640</span>    void setBits(BitSet table) {<a name="line.1640"></a>
+<span class="sourceLineNo">1641</span>      table.set(match);<a name="line.1641"></a>
+<span class="sourceLineNo">1642</span>    }<a name="line.1642"></a>
+<span class="sourceLineNo">1643</span><a name="line.1643"></a>
+<span class="sourceLineNo">1644</span>    @Override<a name="line.1644"></a>
+<span class="sourceLineNo">1645</span>    public String toString() {<a name="line.1645"></a>
+<span class="sourceLineNo">1646</span>      return "CharMatcher.is('" + showCharacter(match) + "')";<a name="line.1646"></a>
+<span class="sourceLineNo">1647</span>    }<a name="line.1647"></a>
+<span class="sourceLineNo">1648</span>  }<a name="line.1648"></a>
+<span class="sourceLineNo">1649</span><a name="line.1649"></a>
+<span class="sourceLineNo">1650</span>  /** Implementation of {@link #isNot(char)}. */<a name="line.1650"></a>
+<span class="sourceLineNo">1651</span>  private static final class IsNot extends FastMatcher {<a name="line.1651"></a>
+<span class="sourceLineNo">1652</span><a name="line.1652"></a>
+<span class="sourceLineNo">1653</span>    private final char match;<a name="line.1653"></a>
 <span class="sourceLineNo">1654</span><a name="line.1654"></a>
-<span class="sourceLineNo">1655</span>    @Override<a name="line.1655"></a>
-<span class="sourceLineNo">1656</span>    public boolean matches(char c) {<a name="line.1656"></a>
-<span class="sourceLineNo">1657</span>      return c != match;<a name="line.1657"></a>
-<span class="sourceLineNo">1658</span>    }<a name="line.1658"></a>
-<span class="sourceLineNo">1659</span><a name="line.1659"></a>
-<span class="sourceLineNo">1660</span>    @Override<a name="line.1660"></a>
-<span class="sourceLineNo">1661</span>    public CharMatcher and(CharMatcher other) {<a name="line.1661"></a>
-<span class="sourceLineNo">1662</span>      return other.matches(match) ? super.and(other) : other;<a name="line.1662"></a>
-<span class="sourceLineNo">1663</span>    }<a name="line.1663"></a>
-<span class="sourceLineNo">1664</span><a name="line.1664"></a>
-<span class="sourceLineNo">1665</span>    @Override<a name="line.1665"></a>
-<span class="sourceLineNo">1666</span>    public CharMatcher or(CharMatcher other) {<a name="line.1666"></a>
-<span class="sourceLineNo">1667</span>      return other.matches(match) ? any() : this;<a name="line.1667"></a>
-<span class="sourceLineNo">1668</span>    }<a name="line.1668"></a>
-<span class="sourceLineNo">1669</span><a name="line.1669"></a>
-<span class="sourceLineNo">1670</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1670"></a>
-<span class="sourceLineNo">1671</span>    @Override<a name="line.1671"></a>
-<span class="sourceLineNo">1672</span>    void setBits(BitSet table) {<a name="line.1672"></a>
-<span class="sourceLineNo">1673</span>      table.set(0, match);<a name="line.1673"></a>
-<span class="sourceLineNo">1674</span>      table.set(match + 1, Character.MAX_VALUE + 1);<a name="line.1674"></a>
-<span class="sourceLineNo">1675</span>    }<a name="line.1675"></a>
-<span class="sourceLineNo">1676</span><a name="line.1676"></a>
-<span class="sourceLineNo">1677</span>    @Override<a name="line.1677"></a>
-<span class="sourceLineNo">1678</span>    public CharMatcher negate() {<a name="line.1678"></a>
-<span class="sourceLineNo">1679</span>      return is(match);<a name="line.1679"></a>
-<span class="sourceLineNo">1680</span>    }<a name="line.1680"></a>
-<span class="sourceLineNo">1681</span><a name="line.1681"></a>
-<span class="sourceLineNo">1682</span>    @Override<a name="line.1682"></a>
-<span class="sourceLineNo">1683</span>    public String toString() {<a name="line.1683"></a>
-<span class="sourceLineNo">1684</span>      return "CharMatcher.isNot('" + showCharacter(match) + "')";<a name="line.1684"></a>
-<span class="sourceLineNo">1685</span>    }<a name="line.1685"></a>
-<span class="sourceLineNo">1686</span>  }<a name="line.1686"></a>
-<span class="sourceLineNo">1687</span><a name="line.1687"></a>
-<span class="sourceLineNo">1688</span>  private static CharMatcher.IsEither isEither(char c1, char c2) {<a name="line.1688"></a>
-<span class="sourceLineNo">1689</span>    return new CharMatcher.IsEither(c1, c2);<a name="line.1689"></a>
+<span class="sourceLineNo">1655</span>    IsNot(char match) {<a name="line.1655"></a>
+<span class="sourceLineNo">1656</span>      this.match = match;<a name="line.1656"></a>
+<span class="sourceLineNo">1657</span>    }<a name="line.1657"></a>
+<span class="sourceLineNo">1658</span><a name="line.1658"></a>
+<span class="sourceLineNo">1659</span>    @Override<a name="line.1659"></a>
+<span class="sourceLineNo">1660</span>    public boolean matches(char c) {<a name="line.1660"></a>
+<span class="sourceLineNo">1661</span>      return c != match;<a name="line.1661"></a>
+<span class="sourceLineNo">1662</span>    }<a name="line.1662"></a>
+<span class="sourceLineNo">1663</span><a name="line.1663"></a>
+<span class="sourceLineNo">1664</span>    @Override<a name="line.1664"></a>
+<span class="sourceLineNo">1665</span>    public CharMatcher and(CharMatcher other) {<a name="line.1665"></a>
+<span class="sourceLineNo">1666</span>      return other.matches(match) ? super.and(other) : other;<a name="line.1666"></a>
+<span class="sourceLineNo">1667</span>    }<a name="line.1667"></a>
+<span class="sourceLineNo">1668</span><a name="line.1668"></a>
+<span class="sourceLineNo">1669</span>    @Override<a name="line.1669"></a>
+<span class="sourceLineNo">1670</span>    public CharMatcher or(CharMatcher other) {<a name="line.1670"></a>
+<span class="sourceLineNo">1671</span>      return other.matches(match) ? any() : this;<a name="line.1671"></a>
+<span class="sourceLineNo">1672</span>    }<a name="line.1672"></a>
+<span class="sourceLineNo">1673</span><a name="line.1673"></a>
+<span class="sourceLineNo">1674</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1674"></a>
+<span class="sourceLineNo">1675</span>    @Override<a name="line.1675"></a>
+<span class="sourceLineNo">1676</span>    void setBits(BitSet table) {<a name="line.1676"></a>
+<span class="sourceLineNo">1677</span>      table.set(0, match);<a name="line.1677"></a>
+<span class="sourceLineNo">1678</span>      table.set(match + 1, Character.MAX_VALUE + 1);<a name="line.1678"></a>
+<span class="sourceLineNo">1679</span>    }<a name="line.1679"></a>
+<span class="sourceLineNo">1680</span><a name="line.1680"></a>
+<span class="sourceLineNo">1681</span>    @Override<a name="line.1681"></a>
+<span class="sourceLineNo">1682</span>    public CharMatcher negate() {<a name="line.1682"></a>
+<span class="sourceLineNo">1683</span>      return is(match);<a name="line.1683"></a>
+<span class="sourceLineNo">1684</span>    }<a name="line.1684"></a>
+<span class="sourceLineNo">1685</span><a name="line.1685"></a>
+<span class="sourceLineNo">1686</span>    @Override<a name="line.1686"></a>
+<span class="sourceLineNo">1687</span>    public String toString() {<a name="line.1687"></a>
+<span class="sourceLineNo">1688</span>      return "CharMatcher.isNot('" + showCharacter(match) + "')";<a name="line.1688"></a>
+<span class="sourceLineNo">1689</span>    }<a name="line.1689"></a>
 <span class="sourceLineNo">1690</span>  }<a name="line.1690"></a>
 <span class="sourceLineNo">1691</span><a name="line.1691"></a>
-<span class="sourceLineNo">1692</span>  /** Implementation of {@link #anyOf(CharSequence)} for exactly two characters. */<a name="line.1692"></a>
-<span class="sourceLineNo">1693</span>  private static final class IsEither extends FastMatcher {<a name="line.1693"></a>
-<span class="sourceLineNo">1694</span><a name="line.1694"></a>
-<span class="sourceLineNo">1695</span>    private final char match1;<a name="line.1695"></a>
-<span class="sourceLineNo">1696</span>    private final char match2;<a name="line.1696"></a>
-<span class="sourceLineNo">1697</span><a name="line.1697"></a>
-<span class="sourceLineNo">1698</span>    IsEither(char match1, char match2) {<a name="line.1698"></a>
-<span class="sourceLineNo">1699</span>      this.match1 = match1;<a name="line.1699"></a>
-<span class="sourceLineNo">1700</span>      this.match2 = match2;<a name="line.1700"></a>
-<span class="sourceLineNo">1701</span>    }<a name="line.1701"></a>
-<span class="sourceLineNo">1702</span><a name="line.1702"></a>
-<span class="sourceLineNo">1703</span>    @Override<a name="line.1703"></a>
-<span class="sourceLineNo">1704</span>    public boolean matches(char c) {<a name="line.1704"></a>
-<span class="sourceLineNo">1705</span>      return c == match1 || c == match2;<a name="line.1705"></a>
-<span class="sourceLineNo">1706</span>    }<a name="line.1706"></a>
-<span class="sourceLineNo">1707</span><a name="line.1707"></a>
-<span class="sourceLineNo">1708</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1708"></a>
-<span class="sourceLineNo">1709</span>    @Override<a name="line.1709"></a>
-<span class="sourceLineNo">1710</span>    void setBits(BitSet table) {<a name="line.1710"></a>
-<span class="sourceLineNo">1711</span>      table.set(match1);<a name="line.1711"></a>
-<span class="sourceLineNo">1712</span>      table.set(match2);<a name="line.1712"></a>
-<span class="sourceLineNo">1713</span>    }<a name="line.1713"></a>
-<span class="sourceLineNo">1714</span><a name="line.1714"></a>
-<span class="sourceLineNo">1715</span>    @Override<a name="line.1715"></a>
-<span class="sourceLineNo">1716</span>    public String toString() {<a name="line.1716"></a>
-<span class="sourceLineNo">1717</span>      return "CharMatcher.anyOf(\"" + showCharacter(match1) + showCharacter(match2) + "\")";<a name="line.1717"></a>
-<span class="sourceLineNo">1718</span>    }<a name="line.1718"></a>
-<span class="sourceLineNo">1719</span>  }<a name="line.1719"></a>
-<span class="sourceLineNo">1720</span><a name="line.1720"></a>
-<span class="sourceLineNo">1721</span>  /** Implementation of {@link #anyOf(CharSequence)} for three or more characters. */<a name="line.1721"></a>
-<span class="sourceLineNo">1722</span>  private static final class AnyOf extends CharMatcher {<a name="line.1722"></a>
-<span class="sourceLineNo">1723</span><a name="line.1723"></a>
-<span class="sourceLineNo">1724</span>    private final char[] chars;<a name="line.1724"></a>
-<span class="sourceLineNo">1725</span><a name="line.1725"></a>
-<span class="sourceLineNo">1726</span>    public AnyOf(CharSequence chars) {<a name="line.1726"></a>
-<span class="sourceLineNo">1727</span>      this.chars = chars.toString().toCharArray();<a name="line.1727"></a>
-<span class="sourceLineNo">1728</span>      Arrays.sort(this.chars);<a name="line.1728"></a>
-<span class="sourceLineNo">1729</span>    }<a name="line.1729"></a>
-<span class="sourceLineNo">1730</span><a name="line.1730"></a>
-<span class="sourceLineNo">1731</span>    @Override<a name="line.1731"></a>
-<span class="sourceLineNo">1732</span>    public boolean matches(char c) {<a name="line.1732"></a>
-<span class="sourceLineNo">1733</span>      return Arrays.binarySearch(chars, c) &gt;= 0;<a name="line.1733"></a>
-<span class="sourceLineNo">1734</span>    }<a name="line.1734"></a>
-<span class="sourceLineNo">1735</span><a name="line.1735"></a>
-<span class="sourceLineNo">1736</span>    @Override<a name="line.1736"></a>
-<span class="sourceLineNo">1737</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1737"></a>
-<span class="sourceLineNo">1738</span>    void setBits(BitSet table) {<a name="line.1738"></a>
-<span class="sourceLineNo">1739</span>      for (char c : chars) {<a name="line.1739"></a>
-<span class="sourceLineNo">1740</span>        table.set(c);<a name="line.1740"></a>
-<span class="sourceLineNo">1741</span>      }<a name="line.1741"></a>
-<span class="sourceLineNo">1742</span>    }<a name="line.1742"></a>
-<span class="sourceLineNo">1743</span><a name="line.1743"></a>
-<span class="sourceLineNo">1744</span>    @Override<a name="line.1744"></a>
-<span class="sourceLineNo">1745</span>    public String toString() {<a name="line.1745"></a>
-<span class="sourceLineNo">1746</span>      StringBuilder description = new StringBuilder("CharMatcher.anyOf(\"");<a name="line.1746"></a>
-<span class="sourceLineNo">1747</span>      for (char c : chars) {<a name="line.1747"></a>
-<span class="sourceLineNo">1748</span>        description.append(showCharacter(c));<a name="line.1748"></a>
-<span class="sourceLineNo">1749</span>      }<a name="line.1749"></a>
-<span class="sourceLineNo">1750</span>      description.append("\")");<a name="line.1750"></a>
-<span class="sourceLineNo">1751</span>      return description.toString();<a name="line.1751"></a>
-<span class="sourceLineNo">1752</span>    }<a name="line.1752"></a>
-<span class="sourceLineNo">1753</span>  }<a name="line.1753"></a>
-<span class="sourceLineNo">1754</span><a name="line.1754"></a>
-<span class="sourceLineNo">1755</span>  /** Implementation of {@link #inRange(char, char)}. */<a name="line.1755"></a>
-<span class="sourceLineNo">1756</span>  private static final class InRange extends FastMatcher {<a name="line.1756"></a>
-<span class="sourceLineNo">1757</span><a name="line.1757"></a>
-<span class="sourceLineNo">1758</span>    private final char startInclusive;<a name="line.1758"></a>
-<span class="sourceLineNo">1759</span>    private final char endInclusive;<a name="line.1759"></a>
-<span class="sourceLineNo">1760</span><a name="line.1760"></a>
-<span class="sourceLineNo">1761</span>    InRange(char startInclusive, char endInclusive) {<a name="line.1761"></a>
-<span class="sourceLineNo">1762</span>      checkArgument(endInclusive &gt;= startInclusive);<a name="line.1762"></a>
-<span class="sourceLineNo">1763</span>      this.startInclusive = startInclusive;<a name="line.1763"></a>
-<span class="sourceLineNo">1764</span>      this.endInclusive = endInclusive;<a name="line.1764"></a>
-<span class="sourceLineNo">1765</span>    }<a name="line.1765"></a>
-<span class="sourceLineNo">1766</span><a name="line.1766"></a>
-<span class="sourceLineNo">1767</span>    @Override<a name="line.1767"></a>
-<span class="sourceLineNo">1768</span>    public boolean matches(char c) {<a name="line.1768"></a>
-<span class="sourceLineNo">1769</span>      return startInclusive &lt;= c &amp;&amp; c &lt;= endInclusive;<a name="line.1769"></a>
-<span class="sourceLineNo">1770</span>    }<a name="line.1770"></a>
-<span class="sourceLineNo">1771</span><a name="line.1771"></a>
-<span class="sourceLineNo">1772</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1772"></a>
-<span class="sourceLineNo">1773</span>    @Override<a name="line.1773"></a>
-<span class="sourceLineNo">1774</span>    void setBits(BitSet table) {<a name="line.1774"></a>
-<span class="sourceLineNo">1775</span>      table.set(startInclusive, endInclusive + 1);<a name="line.1775"></a>
-<span class="sourceLineNo">1776</span>    }<a name="line.1776"></a>
-<span class="sourceLineNo">1777</span><a name="line.1777"></a>
-<span class="sourceLineNo">1778</span>    @Override<a name="line.1778"></a>
-<span class="sourceLineNo">1779</span>    public String toString() {<a name="line.1779"></a>
-<span class="sourceLineNo">1780</span>      return "CharMatcher.inRange('"<a name="line.1780"></a>
-<span class="sourceLineNo">1781</span>          + showCharacter(startInclusive)<a name="line.1781"></a>
-<span class="sourceLineNo">1782</span>          + "', '"<a name="line.1782"></a>
-<span class="sourceLineNo">1783</span>          + showCharacter(endInclusive)<a name="line.1783"></a>
-<span class="sourceLineNo">1784</span>          + "')";<a name="line.1784"></a>
-<span class="sourceLineNo">1785</span>    }<a name="line.1785"></a>
-<span class="sourceLineNo">1786</span>  }<a name="line.1786"></a>
-<span class="sourceLineNo">1787</span><a name="line.1787"></a>
-<span class="sourceLineNo">1788</span>  /** Implementation of {@link #forPredicate(Predicate)}. */<a name="line.1788"></a>
-<span class="sourceLineNo">1789</span>  private static final class ForPredicate extends CharMatcher {<a name="line.1789"></a>
-<span class="sourceLineNo">1790</span><a name="line.1790"></a>
-<span class="sourceLineNo">1791</span>    private final Predicate&lt;? super Character&gt; predicate;<a name="line.1791"></a>
-<span class="sourceLineNo">1792</span><a name="line.1792"></a>
-<span class="sourceLineNo">1793</span>    ForPredicate(Predicate&lt;? super Character&gt; predicate) {<a name="line.1793"></a>
-<span class="sourceLineNo">1794</span>      this.predicate = checkNotNull(predicate);<a name="line.1794"></a>
-<span class="sourceLineNo">1795</span>    }<a name="line.1795"></a>
+<span class="sourceLineNo">1692</span>  private static CharMatcher.IsEither isEither(char c1, char c2) {<a name="line.1692"></a>
+<span class="sourceLineNo">1693</span>    return new CharMatcher.IsEither(c1, c2);<a name="line.1693"></a>
+<span class="sourceLineNo">1694</span>  }<a name="line.1694"></a>
+<span class="sourceLineNo">1695</span><a name="line.1695"></a>
+<span class="sourceLineNo">1696</span>  /** Implementation of {@link #anyOf(CharSequence)} for exactly two characters. */<a name="line.1696"></a>
+<span class="sourceLineNo">1697</span>  private static final class IsEither extends FastMatcher {<a name="line.1697"></a>
+<span class="sourceLineNo">1698</span><a name="line.1698"></a>
+<span class="sourceLineNo">1699</span>    private final char match1;<a name="line.1699"></a>
+<span class="sourceLineNo">1700</span>    private final char match2;<a name="line.1700"></a>
+<span class="sourceLineNo">1701</span><a name="line.1701"></a>
+<span class="sourceLineNo">1702</span>    IsEither(char match1, char match2) {<a name="line.1702"></a>
+<span class="sourceLineNo">1703</span>      this.match1 = match1;<a name="line.1703"></a>
+<span class="sourceLineNo">1704</span>      this.match2 = match2;<a name="line.1704"></a>
+<span class="sourceLineNo">1705</span>    }<a name="line.1705"></a>
+<span class="sourceLineNo">1706</span><a name="line.1706"></a>
+<span class="sourceLineNo">1707</span>    @Override<a name="line.1707"></a>
+<span class="sourceLineNo">1708</span>    public boolean matches(char c) {<a name="line.1708"></a>
+<span class="sourceLineNo">1709</span>      return c == match1 || c == match2;<a name="line.1709"></a>
+<span class="sourceLineNo">1710</span>    }<a name="line.1710"></a>
+<span class="sourceLineNo">1711</span><a name="line.1711"></a>
+<span class="sourceLineNo">1712</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1712"></a>
+<span class="sourceLineNo">1713</span>    @Override<a name="line.1713"></a>
+<span class="sourceLineNo">1714</span>    void setBits(BitSet table) {<a name="line.1714"></a>
+<span class="sourceLineNo">1715</span>      table.set(match1);<a name="line.1715"></a>
+<span class="sourceLineNo">1716</span>      table.set(match2);<a name="line.1716"></a>
+<span class="sourceLineNo">1717</span>    }<a name="line.1717"></a>
+<span class="sourceLineNo">1718</span><a name="line.1718"></a>
+<span class="sourceLineNo">1719</span>    @Override<a name="line.1719"></a>
+<span class="sourceLineNo">1720</span>    public String toString() {<a name="line.1720"></a>
+<span class="sourceLineNo">1721</span>      return "CharMatcher.anyOf(\"" + showCharacter(match1) + showCharacter(match2) + "\")";<a name="line.1721"></a>
+<span class="sourceLineNo">1722</span>    }<a name="line.1722"></a>
+<span class="sourceLineNo">1723</span>  }<a name="line.1723"></a>
+<span class="sourceLineNo">1724</span><a name="line.1724"></a>
+<span class="sourceLineNo">1725</span>  /** Implementation of {@link #anyOf(CharSequence)} for three or more characters. */<a name="line.1725"></a>
+<span class="sourceLineNo">1726</span>  private static final class AnyOf extends CharMatcher {<a name="line.1726"></a>
+<span class="sourceLineNo">1727</span><a name="line.1727"></a>
+<span class="sourceLineNo">1728</span>    private final char[] chars;<a name="line.1728"></a>
+<span class="sourceLineNo">1729</span><a name="line.1729"></a>
+<span class="sourceLineNo">1730</span>    public AnyOf(CharSequence chars) {<a name="line.1730"></a>
+<span class="sourceLineNo">1731</span>      this.chars = chars.toString().toCharArray();<a name="line.1731"></a>
+<span class="sourceLineNo">1732</span>      Arrays.sort(this.chars);<a name="line.1732"></a>
+<span class="sourceLineNo">1733</span>    }<a name="line.1733"></a>
+<span class="sourceLineNo">1734</span><a name="line.1734"></a>
+<span class="sourceLineNo">1735</span>    @Override<a name="line.1735"></a>
+<span class="sourceLineNo">1736</span>    public boolean matches(char c) {<a name="line.1736"></a>
+<span class="sourceLineNo">1737</span>      return Arrays.binarySearch(chars, c) &gt;= 0;<a name="line.1737"></a>
+<span class="sourceLineNo">1738</span>    }<a name="line.1738"></a>
+<span class="sourceLineNo">1739</span><a name="line.1739"></a>
+<span class="sourceLineNo">1740</span>    @Override<a name="line.1740"></a>
+<span class="sourceLineNo">1741</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1741"></a>
+<span class="sourceLineNo">1742</span>    void setBits(BitSet table) {<a name="line.1742"></a>
+<span class="sourceLineNo">1743</span>      for (char c : chars) {<a name="line.1743"></a>
+<span class="sourceLineNo">1744</span>        table.set(c);<a name="line.1744"></a>
+<span class="sourceLineNo">1745</span>      }<a name="line.1745"></a>
+<span class="sourceLineNo">1746</span>    }<a name="line.1746"></a>
+<span class="sourceLineNo">1747</span><a name="line.1747"></a>
+<span class="sourceLineNo">1748</span>    @Override<a name="line.1748"></a>
+<span class="sourceLineNo">1749</span>    public String toString() {<a name="line.1749"></a>
+<span class="sourceLineNo">1750</span>      StringBuilder description = new StringBuilder("CharMatcher.anyOf(\"");<a name="line.1750"></a>
+<span class="sourceLineNo">1751</span>      for (char c : chars) {<a name="line.1751"></a>
+<span class="sourceLineNo">1752</span>        description.append(showCharacter(c));<a name="line.1752"></a>
+<span class="sourceLineNo">1753</span>      }<a name="line.1753"></a>
+<span class="sourceLineNo">1754</span>      description.append("\")");<a name="line.1754"></a>
+<span class="sourceLineNo">1755</span>      return description.toString();<a name="line.1755"></a>
+<span class="sourceLineNo">1756</span>    }<a name="line.1756"></a>
+<span class="sourceLineNo">1757</span>  }<a name="line.1757"></a>
+<span class="sourceLineNo">1758</span><a name="line.1758"></a>
+<span class="sourceLineNo">1759</span>  /** Implementation of {@link #inRange(char, char)}. */<a name="line.1759"></a>
+<span class="sourceLineNo">1760</span>  private static final class InRange extends FastMatcher {<a name="line.1760"></a>
+<span class="sourceLineNo">1761</span><a name="line.1761"></a>
+<span class="sourceLineNo">1762</span>    private final char startInclusive;<a name="line.1762"></a>
+<span class="sourceLineNo">1763</span>    private final char endInclusive;<a name="line.1763"></a>
+<span class="sourceLineNo">1764</span><a name="line.1764"></a>
+<span class="sourceLineNo">1765</span>    InRange(char startInclusive, char endInclusive) {<a name="line.1765"></a>
+<span class="sourceLineNo">1766</span>      checkArgument(endInclusive &gt;= startInclusive);<a name="line.1766"></a>
+<span class="sourceLineNo">1767</span>      this.startInclusive = startInclusive;<a name="line.1767"></a>
+<span class="sourceLineNo">1768</span>      this.endInclusive = endInclusive;<a name="line.1768"></a>
+<span class="sourceLineNo">1769</span>    }<a name="line.1769"></a>
+<span class="sourceLineNo">1770</span><a name="line.1770"></a>
+<span class="sourceLineNo">1771</span>    @Override<a name="line.1771"></a>
+<span class="sourceLineNo">1772</span>    public boolean matches(char c) {<a name="line.1772"></a>
+<span class="sourceLineNo">1773</span>      return startInclusive &lt;= c &amp;&amp; c &lt;= endInclusive;<a name="line.1773"></a>
+<span class="sourceLineNo">1774</span>    }<a name="line.1774"></a>
+<span class="sourceLineNo">1775</span><a name="line.1775"></a>
+<span class="sourceLineNo">1776</span>    @GwtIncompatible // used only from other GwtIncompatible code<a name="line.1776"></a>
+<span class="sourceLineNo">1777</span>    @Override<a name="line.1777"></a>
+<span class="sourceLineNo">1778</span>    void setBits(BitSet table) {<a name="line.1778"></a>
+<span class="sourceLineNo">1779</span>      table.set(startInclusive, endInclusive + 1);<a name="line.1779"></a>
+<span class="sourceLineNo">1780</span>    }<a name="line.1780"></a>
+<span class="sourceLineNo">1781</span><a name="line.1781"></a>
+<span class="sourceLineNo">1782</span>    @Override<a name="line.1782"></a>
+<span class="sourceLineNo">1783</span>    public String toString() {<a name="line.1783"></a>
+<span class="sourceLineNo">1784</span>      return "CharMatcher.inRange('"<a name="line.1784"></a>
+<span class="sourceLineNo">1785</span>          + showCharacter(startInclusive)<a name="line.1785"></a>
+<span class="sourceLineNo">1786</span>          + "', '"<a name="line.1786"></a>
+<span class="sourceLineNo">1787</span>          + showCharacter(endInclusive)<a name="line.1787"></a>
+<span class="sourceLineNo">1788</span>          + "')";<a name="line.1788"></a>
+<span class="sourceLineNo">1789</span>    }<a name="line.1789"></a>
+<span class="sourceLineNo">1790</span>  }<a name="line.1790"></a>
+<span class="sourceLineNo">1791</span><a name="line.1791"></a>
+<span class="sourceLineNo">1792</span>  /** Implementation of {@link #forPredicate(Predicate)}. */<a name="line.1792"></a>
+<span class="sourceLineNo">1793</span>  private static final class ForPredicate extends CharMatcher {<a name="line.1793"></a>
+<span class="sourceLineNo">1794</span><a name="line.1794"></a>
+<span class="sourceLineNo">1795</span>    private final Predicate&lt;? super Character&gt; predicate;<a name="line.1795"></a>
 <span class="sourceLineNo">1796</span><a name="line.1796"></a>
-<span class="sourceLineNo">1797</span>    @Override<a name="line.1797"></a>
-<span class="sourceLineNo">1798</span>    public boolean matches(char c) {<a name="line.1798"></a>
-<span class="sourceLineNo">1799</span>      return predicate.apply(c);<a name="line.1799"></a>
-<span class="sourceLineNo">1800</span>    }<a name="line.1800"></a>
-<span class="sourceLineNo">1801</span><a name="line.1801"></a>
-<span class="sourceLineNo">1802</span>    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily<a name="line.1802"></a>
-<span class="sourceLineNo">1803</span>    @Override<a name="line.1803"></a>
-<span class="sourceLineNo">1804</span>    public boolean apply(Character character) {<a name="line.1804"></a>
-<span class="sourceLineNo">1805</span>      return predicate.apply(checkNotNull(character));<a name="line.1805"></a>
-<span class="sourceLineNo">1806</span>    }<a name="line.1806"></a>
-<span class="sourceLineNo">1807</span><a name="line.1807"></a>
-<span class="sourceLineNo">1808</span>    @Override<a name="line.1808"></a>
-<span class="sourceLineNo">1809</span>    public String toString() {<a name="line.1809"></a>
-<span class="sourceLineNo">1810</span>      return "CharMatcher.forPredicate(" + predicate + ")";<a name="line.1810"></a>
-<span class="sourceLineNo">1811</span>    }<a name="line.1811"></a>
-<span class="sourceLineNo">1812</span>  }<a name="line.1812"></a>
-<span class="sourceLineNo">1813</span>}<a name="line.1813"></a>
+<span class="sourceLineNo">1797</span>    ForPredicate(Predicate&lt;? super Character&gt; predicate) {<a name="line.1797"></a>
+<span class="sourceLineNo">1798</span>      this.predicate = checkNotNull(predicate);<a name="line.1798"></a>
+<span class="sourceLineNo">1799</span>    }<a name="line.1799"></a>
+<span class="sourceLineNo">1800</span><a name="line.1800"></a>
+<span class="sourceLineNo">1801</span>    @Override<a name="line.1801"></a>
+<span class="sourceLineNo">1802</span>    public boolean matches(char c) {<a name="line.1802"></a>
+<span class="sourceLineNo">1803</span>      return predicate.apply(c);<a name="line.1803"></a>
+<span class="sourceLineNo">1804</span>    }<a name="line.1804"></a>
+<span class="sourceLineNo">1805</span><a name="line.1805"></a>
+<span class="sourceLineNo">1806</span>    @SuppressWarnings("deprecation") // intentional; deprecation is for callers primarily<a name="line.1806"></a>
+<span class="sourceLineNo">1807</span>    @Override<a name="line.1807"></a>
+<span class="sourceLineNo">1808</span>    public boolean apply(Character character) {<a name="line.1808"></a>
+<span class="sourceLineNo">1809</span>      return predicate.apply(checkNotNull(character));<a name="line.1809"></a>
+<span class="sourceLineNo">1810</span>    }<a name="line.1810"></a>
+<span class="sourceLineNo">1811</span><a name="line.1811"></a>
+<span class="sourceLineNo">1812</span>    @Override<a name="line.1812"></a>
+<span class="sourceLineNo">1813</span>    public String toString() {<a name="line.1813"></a>
+<span class="sourceLineNo">1814</span>      return "CharMatcher.forPredicate(" + predicate + ")";<a name="line.1814"></a>
+<span class="sourceLineNo">1815</span>    }<a name="line.1815"></a>
+<span class="sourceLineNo">1816</span>  }<a name="line.1816"></a>
+<span class="sourceLineNo">1817</span>}<a name="line.1817"></a>
 
 
 

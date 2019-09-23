@@ -602,7 +602,14 @@
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/collect/ComputationException.html" title="class in com.google.common.collect">ComputationException</a></span></code>
-<div class="block">Wraps an exception that occurred during a computation.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">This exception is no longer thrown by <code>com.google.common</code>. Previously, it was
+     thrown by <a href="../../../../../com/google/common/collect/MapMaker.html" title="class in com.google.common.collect"><code>MapMaker</code></a> computing maps. When support for computing maps was removed from
+     <code>MapMaker</code>, it was added to <code>CacheBuilder</code>, which throws <code>ExecutionException</code>, <code>UncheckedExecutionException</code>, and <code>ExecutionError</code>. Any
+     code that is still catching <code>ComputationException</code> may need to be updated to catch some
+     of those types instead. (Note that this type, though deprecated, is not planned to be removed
+     from Guava.)</span></div>
+</div>
 </td>
 </tr>
 <tr class="rowColor">

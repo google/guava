@@ -3550,10 +3550,18 @@
 </dd>
 <dt><a href="com/google/common/collect/ComputationException.html" title="class in com.google.common.collect"><span class="typeNameLink">ComputationException</span></a> - Exception in <a href="com/google/common/collect/package-summary.html">com.google.common.collect</a></dt>
 <dd>
-<div class="block">Wraps an exception that occurred during a computation.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">This exception is no longer thrown by <code>com.google.common</code>. Previously, it was
+     thrown by <a href="com/google/common/collect/MapMaker.html" title="class in com.google.common.collect"><code>MapMaker</code></a> computing maps. When support for computing maps was removed from
+     <code>MapMaker</code>, it was added to <code>CacheBuilder</code>, which throws <code>ExecutionException</code>, <code>UncheckedExecutionException</code>, and <code>ExecutionError</code>. Any
+     code that is still catching <code>ComputationException</code> may need to be updated to catch some
+     of those types instead. (Note that this type, though deprecated, is not planned to be removed
+     from Guava.)</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ComputationException.html#ComputationException-java.lang.Throwable-">ComputationException(Throwable)</a></span> - Constructor for exception com.google.common.collect.<a href="com/google/common/collect/ComputationException.html" title="class in com.google.common.collect">ComputationException</a></dt>
 <dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span></div>
 <div class="block">Creates a new instance with the given cause.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ImmutableMap.html#compute-K-java.util.function.BiFunction-">compute(K, BiFunction&lt;? super K, ? super V, ? extends V&gt;)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
