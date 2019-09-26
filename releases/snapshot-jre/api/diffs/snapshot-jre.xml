@@ -5020,7 +5020,7 @@
  size}, inclusive.
 
  @param start a user-supplied index identifying a starting position in an array, list or string
- @param end a user-supplied index identifying a ending position in an array, list or string
+ @param end a user-supplied index identifying an ending position in an array, list or string
  @param size the size of that array, list or string
  @throws IndexOutOfBoundsException if either index is negative or is greater than {@code size},
      or if {@code end} is less than {@code start}
@@ -5624,7 +5624,7 @@
       <doc>
       <![CDATA[Splits {@code sequence} into string components and makes them available through an {@link
  Iterator}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
- {@link #splitToList(CharSequence)}.
+ {@link #splitToList(CharSequence)}. Java 8 users may prefer {@link #splitToStream} instead.
 
  @param sequence the sequence of characters to split
  @return an iteration over the segments split from the parameter]]>
@@ -5642,6 +5642,21 @@
  @param sequence the sequence of characters to split
  @return an immutable list of the segments split from the parameter
  @since 15.0]]>
+      </doc>
+    </method>
+    <method name="splitToStream" return="java.util.stream.Stream&lt;java.lang.String&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="sequence" type="java.lang.CharSequence"/>
+      <doc>
+      <![CDATA[Splits {@code sequence} into string components and makes them available through an {@link
+ Stream}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+ {@link #splitToList(CharSequence)}.
+
+ @param sequence the sequence of characters to split
+ @return a stream over the segments split from the parameter
+ @since NEXT]]>
       </doc>
     </method>
     <method name="withKeyValueSeparator" return="com.google.common.base.Splitter.MapSplitter"

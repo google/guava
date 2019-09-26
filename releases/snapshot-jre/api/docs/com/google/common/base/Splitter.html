@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":10,"i2":10,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
+var methods = {"i0":9,"i1":10,"i2":10,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -110,7 +110,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/base/Splitter.html#line.100">Splitter</a>
+public final class <a href="../../../../src-html/com/google/common/base/Splitter.html#line.102">Splitter</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 <div class="block">Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
  a <i>separator</i> sequence. This separator can be specified as a single <a href="../../../../com/google/common/base/Splitter.html#on-char-">character</a>, fixed <a href="../../../../com/google/common/base/Splitter.html#on-java.lang.String-">string</a>, <a href="../../../../com/google/common/base/Splitter.html#onPattern-java.lang.String-">regular expression</a> or
@@ -281,6 +281,12 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i10" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#splitToStream-java.lang.CharSequence-">splitToStream</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</code>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a>, which may be lazily evaluated.</div>
+</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#trimResults--">trimResults</a></span>()</code>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically
@@ -288,28 +294,28 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  substring; equivalent to <code>trimResults(CharMatcher.whitespace())</code>.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#trimResults-com.google.common.base.CharMatcher-">trimResults</a></span>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;trimmer)</code>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but removes all leading
  or trailing characters matching the given <code>CharMatcher</code> from each returned substring.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#withKeyValueSeparator-char-">withKeyValueSeparator</a></span>(char&nbsp;separator)</code>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#withKeyValueSeparator-com.google.common.base.Splitter-">withKeyValueSeparator</a></span>(<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;keyValueSplitter)</code>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified key-value splitter.</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/base/Splitter.html#withKeyValueSeparator-java.lang.String-">withKeyValueSeparator</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</code>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
@@ -344,7 +350,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.124">on</a>(char&nbsp;separator)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.126">on</a>(char&nbsp;separator)</pre>
 <div class="block">Returns a splitter that uses the given single-character separator. For example, <code>Splitter.on(',').split("foo,,bar")</code> returns an iterable containing <code>["foo", "", "bar"]</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -360,7 +366,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.138">on</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;separatorMatcher)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.140">on</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;separatorMatcher)</pre>
 <div class="block">Returns a splitter that considers any single character matched by the given <code>CharMatcher</code>
  to be a separator. For example, <code>Splitter.on(CharMatcher.anyOf(";,")).split("foo,;bar,quux")</code> returns an iterable containing
  <code>["foo", "", "bar", "quux"]</code>.</div>
@@ -379,7 +385,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>on</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.168">on</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.170">on</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
 <div class="block">Returns a splitter that uses the given fixed string as a separator. For example, <code>Splitter.on(", ").split("foo, bar,baz")</code> returns an iterable containing <code>["foo",
  "bar,baz"]</code>.</div>
 <dl>
@@ -397,7 +403,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>on</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.214">on</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex">Pattern</a>&nbsp;separatorPattern)</pre>
+public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.216">on</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html?is-external=true" title="class or interface in java.util.regex">Pattern</a>&nbsp;separatorPattern)</pre>
 <div class="block">Returns a splitter that considers any subsequence matching <code>pattern</code> to be a separator.
  For example, <code>Splitter.on(Pattern.compile("\r?\n")).split(entireFile)</code> splits a string
  into lines whether it uses DOS-style or UNIX-style line terminators.</div>
@@ -419,7 +425,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <li class="blockList">
 <h4>onPattern</h4>
 <pre><a href="../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.257">onPattern</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separatorPattern)</pre>
+public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.259">onPattern</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separatorPattern)</pre>
 <div class="block">Returns a splitter that considers any subsequence matching a given pattern (regular expression)
  to be a separator. For example, <code>Splitter.onPattern("\r?\n").split(entireFile)</code> splits a
  string into lines whether it uses DOS-style or UNIX-style line terminators. This is equivalent
@@ -442,7 +448,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>fixedLength</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.279">fixedLength</a>(int&nbsp;length)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.281">fixedLength</a>(int&nbsp;length)</pre>
 <div class="block">Returns a splitter that divides strings into pieces of the given length. For example, <code>Splitter.fixedLength(2).split("abcde")</code> returns an iterable containing <code>["ab", "cd",
  "e"]</code>. The last piece can be smaller than <code>length</code> but will never be empty.
 
@@ -470,7 +476,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>omitEmptyStrings</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.318">omitEmptyStrings</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.320">omitEmptyStrings</a>()</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically omits
  empty strings from the results. For example, <code>Splitter.on(',').omitEmptyStrings().split(",a,,,b,c,,")</code> returns an iterable containing only
  <code>["a", "b", "c"]</code>.
@@ -493,7 +499,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>limit</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.338">limit</a>(int&nbsp;maxItems)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.340">limit</a>(int&nbsp;maxItems)</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter but stops splitting after
  it reaches the limit. The limit defines the maximum number of items returned by the iterator,
  or the maximum size of the list returned by <a href="../../../../com/google/common/base/Splitter.html#splitToList-java.lang.CharSequence-"><code>splitToList(java.lang.CharSequence)</code></a>.
@@ -520,7 +526,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>trimResults</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.352">trimResults</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.354">trimResults</a>()</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but automatically
  removes leading and trailing <a href="../../../../com/google/common/base/CharMatcher.html#whitespace--">whitespace</a> from each returned
  substring; equivalent to <code>trimResults(CharMatcher.whitespace())</code>. For example, <code>Splitter.on(',').trimResults().split(" a, b ,c ")</code> returns an iterable containing <code>["a",
@@ -537,7 +543,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>trimResults</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.367">trimResults</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;trimmer)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.369">trimResults</a>(<a href="../../../../com/google/common/base/CharMatcher.html" title="class in com.google.common.base">CharMatcher</a>&nbsp;trimmer)</pre>
 <div class="block">Returns a splitter that behaves equivalently to <code>this</code> splitter, but removes all leading
  or trailing characters matching the given <code>CharMatcher</code> from each returned substring. For
  example, <code>Splitter.on(',').trimResults(CharMatcher.is('_')).split("_a ,_b_ ,c__")</code>
@@ -557,9 +563,9 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>split</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.380">split</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.382">split</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util"><code>Iterator</code></a>, which may be lazily evaluated. If you want an eagerly computed <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>, use
- <a href="../../../../com/google/common/base/Splitter.html#splitToList-java.lang.CharSequence-"><code>splitToList(CharSequence)</code></a>.</div>
+ <a href="../../../../com/google/common/base/Splitter.html#splitToList-java.lang.CharSequence-"><code>splitToList(CharSequence)</code></a>. Java 8 users may prefer <a href="../../../../com/google/common/base/Splitter.html#splitToStream-java.lang.CharSequence-"><code>splitToStream(java.lang.CharSequence)</code></a> instead.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>sequence</code> - the sequence of characters to split</dd>
@@ -574,7 +580,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>splitToList</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.411">splitToList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.413">splitToList</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
 <div class="block">Splits <code>sequence</code> into string components and returns them as an immutable list. If you
  want an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang"><code>Iterable</code></a> which may be lazily evaluated, use <a href="../../../../com/google/common/base/Splitter.html#split-java.lang.CharSequence-"><code>split(CharSequence)</code></a>.</div>
 <dl>
@@ -587,6 +593,26 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 </dl>
 </li>
 </ul>
+<a name="splitToStream-java.lang.CharSequence-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>splitToStream</h4>
+<pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream">Stream</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.436">splitToStream</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/CharSequence.html?is-external=true" title="class or interface in java.lang">CharSequence</a>&nbsp;sequence)</pre>
+<div class="block">Splits <code>sequence</code> into string components and makes them available through an <a href="https://docs.oracle.com/javase/9/docs/api/java/util/stream/Stream.html?is-external=true" title="class or interface in java.util.stream"><code>Stream</code></a>, which may be lazily evaluated. If you want an eagerly computed <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util"><code>List</code></a>, use
+ <a href="../../../../com/google/common/base/Splitter.html#splitToList-java.lang.CharSequence-"><code>splitToList(CharSequence)</code></a>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>sequence</code> - the sequence of characters to split</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a stream over the segments split from the parameter</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
+</li>
+</ul>
 <a name="withKeyValueSeparator-java.lang.String-">
 <!--   -->
 </a>
@@ -594,7 +620,7 @@ public static&nbsp;<a href="../../../../com/google/common/base/Splitter.html" ti
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.431">withKeyValueSeparator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.448">withKeyValueSeparator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -610,7 +636,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.htm
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.442">withKeyValueSeparator</a>(char&nbsp;separator)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.459">withKeyValueSeparator</a>(char&nbsp;separator)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified separator.</div>
 <dl>
@@ -626,7 +652,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.htm
 <li class="blockList">
 <h4>withKeyValueSeparator</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.466">withKeyValueSeparator</a>(<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;keyValueSplitter)</pre>
+public&nbsp;<a href="../../../../com/google/common/base/Splitter.MapSplitter.html" title="class in com.google.common.base">Splitter.MapSplitter</a>&nbsp;<a href="../../../../src-html/com/google/common/base/Splitter.html#line.483">withKeyValueSeparator</a>(<a href="../../../../com/google/common/base/Splitter.html" title="class in com.google.common.base">Splitter</a>&nbsp;keyValueSplitter)</pre>
 <div class="block">Returns a <code>MapSplitter</code> which splits entries based on this splitter, and splits entries
  into keys and values using the specified key-value splitter.
 
