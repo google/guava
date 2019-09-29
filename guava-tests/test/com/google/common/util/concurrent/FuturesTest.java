@@ -35,6 +35,7 @@ import static com.google.common.util.concurrent.Futures.inCompletionOrder;
 import static com.google.common.util.concurrent.Futures.lazyTransform;
 import static com.google.common.util.concurrent.Futures.nonCancellationPropagating;
 import static com.google.common.util.concurrent.Futures.scheduleAsync;
+import static com.google.common.util.concurrent.Futures.submit;
 import static com.google.common.util.concurrent.Futures.submitAsync;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
@@ -1935,6 +1936,82 @@ public class FuturesTest extends TestCase {
         submitAsync(constantAsyncCallable(cancelledFuture), directExecutor());
     assertThat(future.isDone()).isTrue();
     assertThat(Thread.interrupted()).isFalse();
+  }
+
+  public void testSubmit_callable_returnsValue() throws Exception {
+    Callable<Integer> callable =
+        new Callable<Integer>() {
+          @Override
+          public Integer call() {
+            return 42;
+          }
+        };
+    ListenableFuture<Integer> future = submit(callable, directExecutor());
+    assertThat(future.isDone()).isTrue();
+    assertThat(getDone(future)).isEqualTo(42);
+  }
+
+  public void testSubmit_callable_throwsException() {
+    final Exception exception = new Exception("Exception for testing");
+    Callable<Integer> callable =
+        new Callable<Integer>() {
+          @Override
+          public Integer call() throws Exception {
+            throw exception;
+          }
+        };
+    ListenableFuture<Integer> future = submit(callable, directExecutor());
+    try {
+      getDone(future);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected).hasCauseThat().isSameInstanceAs(exception);
+    }
+  }
+
+  public void testSubmit_runnable_completesAfterRun() throws Exception {
+    final List<Runnable> pendingRunnables = newArrayList();
+    final List<Runnable> executedRunnables = newArrayList();
+    Runnable runnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            executedRunnables.add(this);
+          }
+        };
+    Executor executor =
+        new Executor() {
+          @Override
+          public void execute(Runnable runnable) {
+            pendingRunnables.add(runnable);
+          }
+        };
+    ListenableFuture<Void> future = submit(runnable, executor);
+    assertThat(future.isDone()).isFalse();
+    assertThat(executedRunnables).isEmpty();
+    assertThat(pendingRunnables).hasSize(1);
+    pendingRunnables.remove(0).run();
+    assertThat(future.isDone()).isTrue();
+    assertThat(executedRunnables).containsExactly(runnable);
+    assertThat(pendingRunnables).isEmpty();
+  }
+
+  public void testSubmit_runnable_throwsException() throws Exception {
+    final RuntimeException exception = new RuntimeException("Exception for testing");
+    Runnable runnable =
+        new Runnable() {
+          @Override
+          public void run() {
+            throw exception;
+          }
+        };
+    ListenableFuture<Void> future = submit(runnable, directExecutor());
+    try {
+      getDone(future);
+      fail();
+    } catch (ExecutionException expected) {
+      assertThat(expected).hasCauseThat().isSameInstanceAs(exception);
+    }
   }
 
   @GwtIncompatible // threads
