@@ -62238,6 +62238,33 @@
  @since 14.0]]>
       </doc>
     </method>
+    <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;O&gt;"/>
+      <param name="executor" type="java.util.concurrent.Executor"/>
+      <doc>
+      <![CDATA[Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
+
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;java.lang.Void&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="runnable" type="java.lang.Runnable"/>
+      <param name="executor" type="java.util.concurrent.Executor"/>
+      <doc>
+      <![CDATA[Executes {@code runnable} on the specified {@code executor}, returning a {@code Future} that
+ will complete after execution.
+
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
