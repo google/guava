@@ -165,6 +165,8 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
    * Service-Worker}</a> header field name.
+   *
+   * @since 20.0
    */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
