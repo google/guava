@@ -53,6 +53,16 @@ public void testCreate_invalidType() throws Exception {
   testCase.testCreate_invalidType();
 }
 
+public void testCreate_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_nonAsciiParameter();
+}
+
+public void testCreate_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_nonAsciiParameterValue();
+}
+
 public void testCreate_wildcardTypeDeclaredSubtype() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testCreate_wildcardTypeDeclaredSubtype();
@@ -138,6 +148,16 @@ public void testWithParameter_invalidAttribute() throws Exception {
   testCase.testWithParameter_invalidAttribute();
 }
 
+public void testWithParameter_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_nonAsciiParameter();
+}
+
+public void testWithParameter_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_nonAsciiParameterValue();
+}
+
 public void testWithParameters() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParameters();
@@ -153,6 +173,16 @@ public void testWithParametersIterable_invalidAttribute() throws Exception {
   testCase.testWithParametersIterable_invalidAttribute();
 }
 
+public void testWithParametersIterable_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParametersIterable_nonAsciiParameter();
+}
+
+public void testWithParametersIterable_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParametersIterable_nonAsciiParameterValue();
+}
+
 public void testWithParametersIterable_nullValue() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParametersIterable_nullValue();
@@ -161,6 +191,16 @@ public void testWithParametersIterable_nullValue() throws Exception {
 public void testWithParameters_invalidAttribute() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParameters_invalidAttribute();
+}
+
+public void testWithParameters_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameters_nonAsciiParameter();
+}
+
+public void testWithParameters_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameters_nonAsciiParameterValue();
 }
 
 public void testWithoutParameters() throws Exception {

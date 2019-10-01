@@ -148,6 +148,22 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  public void testCreate_nonAsciiParameter() {
+    try {
+      MediaType.create("…", "a");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testCreate_nonAsciiParameterValue() {
+    try {
+      MediaType.create("a", "…");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testCreateApplicationType() {
     MediaType newType = MediaType.createApplicationType("yams");
     assertEquals("application", newType.type());
@@ -225,6 +241,26 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
+  public void testWithParameters_nonAsciiParameter() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    ImmutableListMultimap<String, String> parameters = ImmutableListMultimap.of("…", "a");
+    try {
+      mediaType.withParameters(parameters);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParameters_nonAsciiParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    ImmutableListMultimap<String, String> parameters = ImmutableListMultimap.of("a", "…");
+    try {
+      mediaType.withParameters(parameters);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   public void testWithParameter() {
     assertEquals(
         MediaType.parse("text/plain; a=1"), MediaType.parse("text/plain").withParameter("a", "1"));
@@ -243,6 +279,24 @@ public class MediaTypeTest extends TestCase {
     MediaType mediaType = MediaType.parse("text/plain");
     try {
       mediaType.withParameter("@", "2");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParameter_nonAsciiParameter() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameter("…", "a");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParameter_nonAsciiParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameter("a", "…");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -270,6 +324,24 @@ public class MediaTypeTest extends TestCase {
     MediaType mediaType = MediaType.parse("text/plain");
     try {
       mediaType.withParameters("@", ImmutableSet.of("2"));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParametersIterable_nonAsciiParameter() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameters("…", ImmutableSet.of("a"));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParametersIterable_nonAsciiParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameters("a", ImmutableSet.of("…"));
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -507,10 +579,13 @@ public class MediaTypeTest extends TestCase {
   public void testToString() {
     assertEquals("text/plain", MediaType.create("text", "plain").toString());
     assertEquals(
-        "text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\"",
+        "text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\";"
+            + " and-another-thing=\"\"; normal-thing=foo",
         MediaType.create("text", "plain")
             .withParameter("something", "cr@zy")
             .withParameter("something-else", "crazy with spaces")
+            .withParameter("and-another-thing", "")
+            .withParameter("normal-thing", "foo")
             .toString());
   }
 }

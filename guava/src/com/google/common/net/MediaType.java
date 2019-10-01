@@ -55,8 +55,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * type or subtype value. A media type may not have wildcard type with a declared subtype. The
  * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
  * parameter attributes or parameter values must be valid according to RFCs <a
- * href="http://www.ietf.org/rfc/rfc2045.txt">2045</a> and <a
- * href="http://www.ietf.org/rfc/rfc2046.txt">2046</a>.
+ * href="https://tools.ietf.org/html/rfc2045">2045</a> and <a
+ * href="https://tools.ietf.org/html/rfc2046">2046</a>.
  *
  * <p>All portions of the media type that are case-insensitive (type, subtype, parameter attributes)
  * are normalized to lowercase. The value of the {@code charset} parameter is normalized to
@@ -941,6 +941,8 @@ public final class MediaType {
   }
 
   private static String normalizeParameterValue(String attribute, String value) {
+    checkNotNull(value); // for GWT
+    checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
     return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;
   }
 
@@ -1088,7 +1090,9 @@ public final class MediaType {
               new Function<String, String>() {
                 @Override
                 public String apply(String value) {
-                  return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);
+                  return (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
+                      ? value
+                      : escapeAndQuote(value);
                 }
               });
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());
