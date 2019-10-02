@@ -266,6 +266,12 @@ public final class HttpHeaders {
    * @since 20.0
    */
   public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";
+  /**
+   * The HTTP Cross-Origin-Opener-Policy header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */
