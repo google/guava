@@ -1078,6 +1078,9 @@ public final class Iterators {
    * <p>This method has no equivalent in {@link Iterables} because viewing an {@code Enumeration} as
    * an {@code Iterable} is impossible. However, the contents can be <i>copied</i> into a collection
    * using {@link Collections#list}.
+   *
+   * <p><b>Java 9 users:</b> use {@code enumeration.asIterator()} instead, unless it is important to
+   * return an {@code UnmodifiableIterator} instead of a plain {@code Iterator}.
    */
   public static <T> UnmodifiableIterator<T> forEnumeration(final Enumeration<T> enumeration) {
     checkNotNull(enumeration);
