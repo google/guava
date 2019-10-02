@@ -511,7 +511,7 @@ final class Types {
   }
 
   private static Type[] toArray(Collection<Type> types) {
-    return types.toArray(new Type[types.size()]);
+    return types.toArray(new Type[0]);
   }
 
   private static Iterable<Type> filterUpperBounds(Iterable<Type> bounds) {
