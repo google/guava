@@ -704,6 +704,7 @@ public final class Ints {
    * @param string the string representation of an integer value
    * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
    *     a length of zero or cannot be parsed as an integer value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
   @Beta
@@ -728,6 +729,7 @@ public final class Ints {
    *     {@code string} has a length of zero or cannot be parsed as an integer value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
    *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
