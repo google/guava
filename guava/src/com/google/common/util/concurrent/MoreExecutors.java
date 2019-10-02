@@ -814,15 +814,17 @@ public final class MoreExecutors {
   /**
    * Returns a default thread factory used to create new threads.
    *
-   * <p>On AppEngine, returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
-   * returns {@link Executors#defaultThreadFactory()}.
+   * <p>When running on AppEngine with access to <a
+   * href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
+   * APIs</a>, this method returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
+   * it returns {@link Executors#defaultThreadFactory()}.
    *
    * @since 14.0
    */
   @Beta
   @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
-    if (!isAppEngine()) {
+    if (!isAppEngineWithApiClasses()) {
       return Executors.defaultThreadFactory();
     }
     try {
@@ -847,8 +849,13 @@ public final class MoreExecutors {
   }
 
   @GwtIncompatible // TODO
-  private static boolean isAppEngine() {
+  private static boolean isAppEngineWithApiClasses() {
     if (System.getProperty("com.google.appengine.runtime.environment") == null) {
+      return false;
+    }
+    try {
+      Class.forName("com.google.appengine.api.utils.SystemProperty");
+    } catch (ClassNotFoundException e) {
       return false;
     }
     try {
@@ -908,10 +915,6 @@ public final class MoreExecutors {
   static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
     checkNotNull(executor);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try
-      return executor;
-    }
     return new Executor() {
       @Override
       public void execute(Runnable command) {
@@ -937,10 +940,6 @@ public final class MoreExecutors {
       final ExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try.
-      return service;
-    }
     return new WrappingExecutorService(service) {
       @Override
       protected <T> Callable<T> wrapTask(Callable<T> callable) {
@@ -971,10 +970,6 @@ public final class MoreExecutors {
       final ScheduledExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try.
-      return service;
-    }
     return new WrappingScheduledExecutorService(service) {
       @Override
       protected <T> Callable<T> wrapTask(Callable<T> callable) {
