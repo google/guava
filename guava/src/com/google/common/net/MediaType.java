@@ -537,6 +537,18 @@ public final class MediaType {
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
+   * Media type for <a
+   * href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP">Dynamic Adaptive
+   * Streaming over HTTP (DASH)</a>. This is <a
+   * href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
+   * the IANA.
+   *
+   * @since NEXT
+   */
+  public static final MediaType MEDIA_PRESENTATION_DESCRIPTION =
+      createConstant(APPLICATION_TYPE, "dash+xml");
+
+  /**
    * WASM applications. For more information see <a href="https://webassembly.org/">the Web Assembly
    * overview</a>.
    *
