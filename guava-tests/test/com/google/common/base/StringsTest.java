@@ -47,6 +47,14 @@ public class StringsTest extends TestCase {
     assertTrue(Strings.isNullOrEmpty(""));
     assertFalse(Strings.isNullOrEmpty("a"));
   }
+  
+  public void testIsBlank() {
+    assertTrue(Strings.isBlank(null));
+    assertTrue(Strings.isBlank(""));
+    assertTrue(Strings.isBlank(" "));
+    assertFalse(Strings.isBlank("xx"));
+    assertFalse(Strings.isBlank("  xx  "));
+  }
 
   public void testPadStart_noPadding() {
     assertSame("", Strings.padStart("", 0, '-'));

@@ -67,6 +67,16 @@ public final class Strings {
   public static boolean isNullOrEmpty(@Nullable String string) {
     return Platform.stringIsNullOrEmpty(string);
   }
+  
+  /**
+   * Returns {@code true} if the given string is null, is the empty string, or is whitespace only.
+   *
+   * @param string a string reference to check
+   * @return {@code true} if the string is null or is the empty string
+   */
+  public static boolean isBlank(@Nullable String string) {
+    return Platform.stringIsBlank(string);
+  }
 
   /**
    * Returns a string, of length at least {@code minLength}, consisting of {@code string} prepended

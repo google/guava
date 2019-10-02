@@ -60,7 +60,11 @@ final class Platform {
   static boolean stringIsNullOrEmpty(@Nullable String string) {
     return string == null || string.isEmpty();
   }
-
+  
+  static boolean stringIsBlank(@Nullable String string) {
+    return string == null || string.trim().isEmpty();
+  }
+  
   static String nullToEmpty(@Nullable String string) {
     return (string == null) ? "" : string;
   }
