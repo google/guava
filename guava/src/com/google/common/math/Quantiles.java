@@ -186,6 +186,7 @@ public final class Quantiles {
      * @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
+     * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(int... indexes) {
       return new ScaleAndIndexes(scale, indexes.clone());
@@ -198,6 +199,7 @@ public final class Quantiles {
      * @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      *     q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
      *     set will be snapshotted when this method is called
+     * @throws IllegalArgumentException if {@code indexes} is empty
      */
     public ScaleAndIndexes indexes(Collection<Integer> indexes) {
       return new ScaleAndIndexes(scale, Ints.toArray(indexes));
@@ -318,6 +320,7 @@ public final class Quantiles {
       for (int index : indexes) {
         checkIndex(index, scale);
       }
+      checkArgument(indexes.length > 0, "Indexes must be a non empty array");
       this.scale = scale;
       this.indexes = indexes;
     }
