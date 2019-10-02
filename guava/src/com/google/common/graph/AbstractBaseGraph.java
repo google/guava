@@ -186,11 +186,21 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
             Iterators.concat(
                 Iterators.transform(
                     graph.predecessors(node).iterator(),
-                        predecessor -> EndpointPair.ordered(predecessor, node)),
+                    new Function<N, EndpointPair<N>>() {
+                      @Override
+                      public EndpointPair<N> apply(N predecessor) {
+                        return EndpointPair.ordered(predecessor, node);
+                      }
+                    }),
                 Iterators.transform(
                     // filter out 'node' from successors (already covered by predecessors, above)
                     Sets.difference(graph.successors(node), ImmutableSet.of(node)).iterator(),
-                        successor -> EndpointPair.ordered(node, successor))));
+                    new Function<N, EndpointPair<N>>() {
+                      @Override
+                      public EndpointPair<N> apply(N successor) {
+                        return EndpointPair.ordered(node, successor);
+                      }
+                    })));
       }
 
       @Override
@@ -228,7 +238,12 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
         return Iterators.unmodifiableIterator(
             Iterators.transform(
                 graph.adjacentNodes(node).iterator(),
-                    adjacentNode -> EndpointPair.unordered(node, adjacentNode)));
+                new Function<N, EndpointPair<N>>() {
+                  @Override
+                  public EndpointPair<N> apply(N adjacentNode) {
+                    return EndpointPair.unordered(node, adjacentNode);
+                  }
+                }));
       }
 
       @Override
