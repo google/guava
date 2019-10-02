@@ -1215,9 +1215,9 @@
 <span class="sourceLineNo">1207</span>  }<a name="line.1207"></a>
 <span class="sourceLineNo">1208</span><a name="line.1208"></a>
 <span class="sourceLineNo">1209</span>  private TypeToken&lt;? extends T&gt; getSubtypeFromLowerBounds(Class&lt;?&gt; subclass, Type[] lowerBounds) {<a name="line.1209"></a>
-<span class="sourceLineNo">1210</span>    for (Type lowerBound : lowerBounds) {<a name="line.1210"></a>
+<span class="sourceLineNo">1210</span>    if (lowerBounds.length &gt; 0) {<a name="line.1210"></a>
 <span class="sourceLineNo">1211</span>      @SuppressWarnings("unchecked") // T's lower bound is &lt;? extends T&gt;<a name="line.1211"></a>
-<span class="sourceLineNo">1212</span>      TypeToken&lt;? extends T&gt; bound = (TypeToken&lt;? extends T&gt;) of(lowerBound);<a name="line.1212"></a>
+<span class="sourceLineNo">1212</span>      TypeToken&lt;? extends T&gt; bound = (TypeToken&lt;? extends T&gt;) of(lowerBounds[0]);<a name="line.1212"></a>
 <span class="sourceLineNo">1213</span>      // Java supports only one lowerbound anyway.<a name="line.1213"></a>
 <span class="sourceLineNo">1214</span>      return bound.getSubtype(subclass);<a name="line.1214"></a>
 <span class="sourceLineNo">1215</span>    }<a name="line.1215"></a>
