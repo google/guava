@@ -47,6 +47,9 @@ public final class MoreObjects {
    * lazy evaluation of the fallback instance, using {@link Optional#or(Supplier)
    * first.or(supplier)}.
    *
+   * <p><b>Java 9 users:</b> use {@code java.util.Objects.requireNonNullElse(first, second)}
+   * instead.
+   *
    * @return {@code first} if it is non-null; otherwise {@code second} if it is non-null
    * @throws NullPointerException if both {@code first} and {@code second} are null
    * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).
