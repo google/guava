@@ -1,3 +1,4 @@
 OK: com.google.common.base.Splitter Method splitToStream(java.lang.CharSequence)
 OK: com.google.common.util.concurrent.Futures Method submit(java.util.concurrent.Callable<O>, java.util.concurrent.Executor)
 OK: com.google.common.util.concurrent.Futures Method submit(java.lang.Runnable, java.util.concurrent.Executor)
+OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_OPENER_POLICY

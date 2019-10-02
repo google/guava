@@ -50532,7 +50532,9 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
- Service-Worker}</a> header field name.]]>
+ Service-Worker}</a> header field name.
+
+ @since 20.0]]>
       </doc>
     </field>
     <field name="TE" type="java.lang.String"
@@ -50760,6 +50762,16 @@
  version 25. Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.
 
  @since 20.0]]>
+      </doc>
+    </field>
+    <field name="CROSS_ORIGIN_OPENER_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP Cross-Origin-Opener-Policy header field name.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="ETAG" type="java.lang.String"
