@@ -78,7 +78,7 @@ public class UnicodeEscaperTest extends TestCase {
     StringBuilder expected = new StringBuilder();
     for (int i = 256; i < 1024; i++) {
       input.append((char) i);
-      expected.append("[" + i + "]");
+      expected.append("[").append(i.toString()).append("]");
     }
     assertEquals(expected.toString(), SIMPLE_ESCAPER.escape(input.toString()));
   }
