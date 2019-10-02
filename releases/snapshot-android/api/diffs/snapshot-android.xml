@@ -46888,8 +46888,10 @@
  @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      cast to doubles (with any associated lost of precision), and which will not be mutated by
      this call (it is copied instead)
- @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values]]>
+ @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the {@code
+     indexes} method.]]>
       </doc>
     </method>
     <method name="compute" return="java.util.Map&lt;java.lang.Integer, java.lang.Double&gt;"
@@ -46902,8 +46904,10 @@
 
  @param dataset the dataset to do the calculation on, which must be non-empty, which will not
      be mutated by this call (it is copied instead)
- @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values]]>
+ @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the {@code
+     indexes} method.]]>
       </doc>
     </method>
     <method name="compute" return="java.util.Map&lt;java.lang.Integer, java.lang.Double&gt;"
@@ -46917,8 +46921,10 @@
  @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      cast to doubles (with any associated lost of precision), and which will not be mutated by
      this call (it is copied instead)
- @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values]]>
+ @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the {@code
+     indexes} method.]]>
       </doc>
     </method>
     <method name="compute" return="java.util.Map&lt;java.lang.Integer, java.lang.Double&gt;"
@@ -46931,8 +46937,10 @@
 
  @param dataset the dataset to do the calculation on, which must be non-empty, which will be
      cast to doubles, and which will not be mutated by this call (it is copied instead)
- @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values]]>
+ @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the {@code
+     indexes} method.]]>
       </doc>
     </method>
     <method name="computeInPlace" return="java.util.Map&lt;java.lang.Integer, java.lang.Double&gt;"
@@ -46945,8 +46953,10 @@
 
  @param dataset the dataset to do the calculation on, which must be non-empty, and which will
      be arbitrarily reordered by this method call
- @return an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values]]>
+ @return an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order that the indexes were passed to the
+     {@code indexes} method.]]>
       </doc>
     </method>
     <doc>

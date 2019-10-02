@@ -197,7 +197,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compute</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.337">compute</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;dataset)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.339">compute</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;dataset)</pre>
 <div class="block">Computes the quantile values of the given dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -205,8 +205,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
      cast to doubles (with any associated lost of precision), and which will not be mutated by
      this call (it is copied instead)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values</dd>
+<dd>an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the <code>indexes</code> method.</dd>
 </dl>
 </li>
 </ul>
@@ -216,15 +217,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compute</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.349">compute</a>(double...&nbsp;dataset)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.353">compute</a>(double...&nbsp;dataset)</pre>
 <div class="block">Computes the quantile values of the given dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dataset</code> - the dataset to do the calculation on, which must be non-empty, which will not
      be mutated by this call (it is copied instead)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values</dd>
+<dd>an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the <code>indexes</code> method.</dd>
 </dl>
 </li>
 </ul>
@@ -234,7 +236,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compute</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.362">compute</a>(long...&nbsp;dataset)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.368">compute</a>(long...&nbsp;dataset)</pre>
 <div class="block">Computes the quantile values of the given dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -242,8 +244,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
      cast to doubles (with any associated lost of precision), and which will not be mutated by
      this call (it is copied instead)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values</dd>
+<dd>an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the <code>indexes</code> method.</dd>
 </dl>
 </li>
 </ul>
@@ -253,15 +256,16 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>compute</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.374">compute</a>(int...&nbsp;dataset)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.382">compute</a>(int...&nbsp;dataset)</pre>
 <div class="block">Computes the quantile values of the given dataset.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dataset</code> - the dataset to do the calculation on, which must be non-empty, which will be
      cast to doubles, and which will not be mutated by this call (it is copied instead)</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values</dd>
+<dd>an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order they were passed to the <code>indexes</code> method.</dd>
 </dl>
 </li>
 </ul>
@@ -271,15 +275,17 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>computeInPlace</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.386">computeInPlace</a>(double...&nbsp;dataset)</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Double.html?is-external=true" title="class or interface in java.lang">Double</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/math/Quantiles.ScaleAndIndexes.html#line.396">computeInPlace</a>(double...&nbsp;dataset)</pre>
 <div class="block">Computes the quantile values of the given dataset, performing the computation in-place.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>dataset</code> - the dataset to do the calculation on, which must be non-empty, and which will
      be arbitrarily reordered by this method call</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable map of results: the keys will be the specified quantile indexes, and
-     the values the corresponding quantile values</dd>
+<dd>an unmodifiable, ordered map of results: the keys will be the specified quantile
+     indexes, and the values the corresponding quantile values. When iterating, entries in the
+     map are ordered by quantile index in the same order that the indexes were passed to the
+     <code>indexes</code> method.</dd>
 </dl>
 </li>
 </ul>
