@@ -1269,12 +1269,15 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>forEnumeration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1082">forEnumeration</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;enumeration)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1085">forEnumeration</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;enumeration)</pre>
 <div class="block">Adapts an <code>Enumeration</code> to the <code>Iterator</code> interface.
 
  <p>This method has no equivalent in <a href="../../../../com/google/common/collect/Iterables.html" title="class in com.google.common.collect"><code>Iterables</code></a> because viewing an <code>Enumeration</code> as
  an <code>Iterable</code> is impossible. However, the contents can be <i>copied</i> into a collection
- using <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#list-java.util.Enumeration-" title="class or interface in java.util"><code>Collections.list(java.util.Enumeration&lt;T&gt;)</code></a>.</div>
+ using <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#list-java.util.Enumeration-" title="class or interface in java.util"><code>Collections.list(java.util.Enumeration&lt;T&gt;)</code></a>.
+
+ <p><b>Java 9 users:</b> use <code>enumeration.asIterator()</code> instead, unless it is important to
+ return an <code>UnmodifiableIterator</code> instead of a plain <code>Iterator</code>.</div>
 </li>
 </ul>
 <a name="asEnumeration-java.util.Iterator-">
@@ -1283,7 +1286,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>asEnumeration</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1103">asEnumeration</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Enumeration.html?is-external=true" title="class or interface in java.util">Enumeration</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1106">asEnumeration</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block">Adapts an <code>Iterator</code> to the <code>Enumeration</code> interface.
 
  <p>The <code>Iterable</code> equivalent of this method is either <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#enumeration-java.util.Collection-" title="class or interface in java.util"><code>Collections.enumeration(java.util.Collection&lt;T&gt;)</code></a> (if
@@ -1296,7 +1299,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <ul class="blockList">
 <li class="blockList">
 <h4>peekingIterator</h4>
-<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1197">peekingIterator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1200">peekingIterator</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&nbsp;iterator)</pre>
 <div class="block">Returns a <code>PeekingIterator</code> backed by the given iterator.
 
  <p>Calls to the <code>peek</code> method with no intervening calls to <code>next</code> do not affect the
@@ -1341,7 +1344,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>peekingIterator</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1215">peekingIterator</a>(<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1218">peekingIterator</a>(<a href="../../../../com/google/common/collect/PeekingIterator.html" title="interface in com.google.common.collect">PeekingIterator</a>&lt;T&gt;&nbsp;iterator)</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no need to use this</span></div>
 <div class="block">Simply returns its argument.</div>
 <dl>
@@ -1357,7 +1360,7 @@ public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect
 <li class="blockList">
 <h4>mergeSorted</h4>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1232">mergeSorted</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&gt;&nbsp;iterators,
+public static&nbsp;&lt;T&gt;&nbsp;<a href="../../../../com/google/common/collect/UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Iterators.html#line.1235">mergeSorted</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends T&gt;&gt;&nbsp;iterators,
                                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an iterator over the merged contents of all given <code>iterators</code>, traversing every
  element of the input iterators. Equivalent entries will not be de-duplicated.

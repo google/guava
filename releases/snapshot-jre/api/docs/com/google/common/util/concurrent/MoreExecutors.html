@@ -646,11 +646,13 @@ public static&nbsp;<a href="../../../../../com/google/common/util/concurrent/Lis
 <h4>platformThreadFactory</h4>
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.824">platformThreadFactory</a>()</pre>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadFactory.html?is-external=true" title="class or interface in java.util.concurrent">ThreadFactory</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.826">platformThreadFactory</a>()</pre>
 <div class="block">Returns a default thread factory used to create new threads.
 
- <p>On AppEngine, returns <code>ThreadManager.currentRequestThreadFactory()</code>. Otherwise,
- returns <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true#defaultThreadFactory--" title="class or interface in java.util.concurrent"><code>Executors.defaultThreadFactory()</code></a>.</div>
+ <p>When running on AppEngine with access to <a
+ href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
+ APIs</a>, this method returns <code>ThreadManager.currentRequestThreadFactory()</code>. Otherwise,
+ it returns <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true#defaultThreadFactory--" title="class or interface in java.util.concurrent"><code>Executors.defaultThreadFactory()</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0</dd>
@@ -666,7 +668,7 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1017">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1012">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time">Duration</a>&nbsp;timeout)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if
  necessary, cancelling remaining tasks.
@@ -703,7 +705,7 @@ public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/comm
 <pre><a href="../../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
  <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
  <a href="../../../../../com/google/common/annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1049">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
+public static&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/MoreExecutors.html#line.1044">shutdownAndAwaitTermination</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;service,
                                                                                                  long&nbsp;timeout,
                                                                                                  <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</pre>
 <div class="block">Shuts down the given executor service gradually, first disabling new submissions and later, if

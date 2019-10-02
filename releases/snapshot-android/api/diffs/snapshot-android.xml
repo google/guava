@@ -23930,7 +23930,10 @@
 
  <p>This method has no equivalent in {@link Iterables} because viewing an {@code Enumeration} as
  an {@code Iterable} is impossible. However, the contents can be <i>copied</i> into a collection
- using {@link Collections#list}.]]>
+ using {@link Collections#list}.
+
+ <p><b>Java 9 users:</b> use {@code enumeration.asIterator()} instead, unless it is important to
+ return an {@code UnmodifiableIterator} instead of a plain {@code Iterator}.]]>
       </doc>
     </method>
     <method name="asEnumeration" return="java.util.Enumeration&lt;T&gt;"
@@ -46762,7 +46765,8 @@
 
  @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
-     set will be snapshotted when this method is called]]>
+     set will be snapshotted when this method is called
+ @throws IllegalArgumentException if {@code indexes} is empty]]>
       </doc>
     </method>
     <method name="indexes" return="com.google.common.math.Quantiles.ScaleAndIndexes"
@@ -46776,7 +46780,8 @@
 
  @param indexes the quantile indexes, each of which must be in the inclusive range [0, q] for
      q-quantiles; the order of the indexes is unimportant, duplicates will be ignored, and the
-     set will be snapshotted when this method is called]]>
+     set will be snapshotted when this method is called
+ @throws IllegalArgumentException if {@code indexes} is empty]]>
       </doc>
     </method>
     <doc>
@@ -50863,6 +50868,20 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[<a href="http://goo.gl/XDQ1h2">Microsoft Word</a> documents.]]>
+      </doc>
+    </field>
+    <field name="MEDIA_PRESENTATION_DESCRIPTION" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Media type for <a
+ href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP">Dynamic Adaptive
+ Streaming over HTTP (DASH)</a>. This is <a
+ href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
+ the IANA.
+
+ @since NEXT]]>
       </doc>
     </field>
     <field name="WASM_APPLICATION" type="com.google.common.net.MediaType"
@@ -64312,8 +64331,10 @@
       <doc>
       <![CDATA[Returns a default thread factory used to create new threads.
 
- <p>On AppEngine, returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
- returns {@link Executors#defaultThreadFactory()}.
+ <p>When running on AppEngine with access to <a
+ href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
+ APIs</a>, this method returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
+ it returns {@link Executors#defaultThreadFactory()}.
 
  @since 14.0]]>
       </doc>

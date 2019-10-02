@@ -137,17 +137,18 @@
 <span class="sourceLineNo">129</span>  /** Tries to set name of the given {@link Thread}, returns true if successful. */<a name="line.129"></a>
 <span class="sourceLineNo">130</span>  @GwtIncompatible // threads<a name="line.130"></a>
 <span class="sourceLineNo">131</span>  private static boolean trySetName(final String threadName, Thread currentThread) {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    // In AppEngine, this will always fail. Should we test for that explicitly using<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    // MoreExecutors.isAppEngine? More generally, is there a way to see if we have the modifyThread<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    // permission without catching an exception?<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    try {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>      currentThread.setName(threadName);<a name="line.136"></a>
-<span class="sourceLineNo">137</span>      return true;<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    } catch (SecurityException e) {<a name="line.138"></a>
-<span class="sourceLineNo">139</span>      return false;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    }<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
-<span class="sourceLineNo">142</span>}<a name="line.142"></a>
+<span class="sourceLineNo">132</span>    /*<a name="line.132"></a>
+<span class="sourceLineNo">133</span>     * setName should usually succeed, but the security manager can prohibit it. Is there a way to<a name="line.133"></a>
+<span class="sourceLineNo">134</span>     * see if we have the modifyThread permission without catching an exception?<a name="line.134"></a>
+<span class="sourceLineNo">135</span>     */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    try {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      currentThread.setName(threadName);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      return true;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    } catch (SecurityException e) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      return false;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    }<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>}<a name="line.143"></a>
 
 
 
