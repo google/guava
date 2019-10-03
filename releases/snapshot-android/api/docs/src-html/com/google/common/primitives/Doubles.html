@@ -695,25 +695,26 @@
 <span class="sourceLineNo">687</span>   * @param string the string representation of a {@code double} value<a name="line.687"></a>
 <span class="sourceLineNo">688</span>   * @return the floating point value represented by {@code string}, or {@code null} if {@code<a name="line.688"></a>
 <span class="sourceLineNo">689</span>   *     string} has a length of zero or cannot be parsed as a {@code double} value<a name="line.689"></a>
-<span class="sourceLineNo">690</span>   * @since 14.0<a name="line.690"></a>
-<span class="sourceLineNo">691</span>   */<a name="line.691"></a>
-<span class="sourceLineNo">692</span>  @Beta<a name="line.692"></a>
-<span class="sourceLineNo">693</span>  @GwtIncompatible // regular expressions<a name="line.693"></a>
-<span class="sourceLineNo">694</span>  @NullableDecl<a name="line.694"></a>
-<span class="sourceLineNo">695</span>  public static Double tryParse(String string) {<a name="line.695"></a>
-<span class="sourceLineNo">696</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.696"></a>
-<span class="sourceLineNo">697</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.697"></a>
-<span class="sourceLineNo">698</span>      // extensive testing<a name="line.698"></a>
-<span class="sourceLineNo">699</span>      try {<a name="line.699"></a>
-<span class="sourceLineNo">700</span>        return Double.parseDouble(string);<a name="line.700"></a>
-<span class="sourceLineNo">701</span>      } catch (NumberFormatException e) {<a name="line.701"></a>
-<span class="sourceLineNo">702</span>        // Double.parseDouble has changed specs several times, so fall through<a name="line.702"></a>
-<span class="sourceLineNo">703</span>        // gracefully<a name="line.703"></a>
-<span class="sourceLineNo">704</span>      }<a name="line.704"></a>
-<span class="sourceLineNo">705</span>    }<a name="line.705"></a>
-<span class="sourceLineNo">706</span>    return null;<a name="line.706"></a>
-<span class="sourceLineNo">707</span>  }<a name="line.707"></a>
-<span class="sourceLineNo">708</span>}<a name="line.708"></a>
+<span class="sourceLineNo">690</span>   * @throws NullPointerException if {@code string} is {@code null}<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   * @since 14.0<a name="line.691"></a>
+<span class="sourceLineNo">692</span>   */<a name="line.692"></a>
+<span class="sourceLineNo">693</span>  @Beta<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  @GwtIncompatible // regular expressions<a name="line.694"></a>
+<span class="sourceLineNo">695</span>  @NullableDecl<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  public static Double tryParse(String string) {<a name="line.696"></a>
+<span class="sourceLineNo">697</span>    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {<a name="line.697"></a>
+<span class="sourceLineNo">698</span>      // TODO(lowasser): could be potentially optimized, but only with<a name="line.698"></a>
+<span class="sourceLineNo">699</span>      // extensive testing<a name="line.699"></a>
+<span class="sourceLineNo">700</span>      try {<a name="line.700"></a>
+<span class="sourceLineNo">701</span>        return Double.parseDouble(string);<a name="line.701"></a>
+<span class="sourceLineNo">702</span>      } catch (NumberFormatException e) {<a name="line.702"></a>
+<span class="sourceLineNo">703</span>        // Double.parseDouble has changed specs several times, so fall through<a name="line.703"></a>
+<span class="sourceLineNo">704</span>        // gracefully<a name="line.704"></a>
+<span class="sourceLineNo">705</span>      }<a name="line.705"></a>
+<span class="sourceLineNo">706</span>    }<a name="line.706"></a>
+<span class="sourceLineNo">707</span>    return null;<a name="line.707"></a>
+<span class="sourceLineNo">708</span>  }<a name="line.708"></a>
+<span class="sourceLineNo">709</span>}<a name="line.709"></a>
 
 
 
