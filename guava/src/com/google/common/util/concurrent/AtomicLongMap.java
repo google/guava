@@ -24,6 +24,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -318,7 +319,7 @@ public final class AtomicLongMap<K> implements Serializable {
         map.compute(
             key,
             (k, oldValue) -> {
-              if (oldValue == null || oldValue == 0) {
+              if (Optional.ofNullable(oldValue).orElse((long)0) == 0) {
                 noValue.set(true);
                 return newValue;
               } else {
