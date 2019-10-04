@@ -133,7 +133,7 @@
 <span class="sourceLineNo">125</span><a name="line.125"></a>
 <span class="sourceLineNo">126</span>  @Override<a name="line.126"></a>
 <span class="sourceLineNo">127</span>  public int count(@NullableDecl Object element) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    if (element == null || !isActuallyE(element)) {<a name="line.128"></a>
+<span class="sourceLineNo">128</span>    if (!isActuallyE(element)) {<a name="line.128"></a>
 <span class="sourceLineNo">129</span>      return 0;<a name="line.129"></a>
 <span class="sourceLineNo">130</span>    }<a name="line.130"></a>
 <span class="sourceLineNo">131</span>    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;<a name="line.131"></a>
@@ -165,7 +165,7 @@
 <span class="sourceLineNo">157</span>  @CanIgnoreReturnValue<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  @Override<a name="line.158"></a>
 <span class="sourceLineNo">159</span>  public int remove(@NullableDecl Object element, int occurrences) {<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    if (element == null || !isActuallyE(element)) {<a name="line.160"></a>
+<span class="sourceLineNo">160</span>    if (!isActuallyE(element)) {<a name="line.160"></a>
 <span class="sourceLineNo">161</span>      return 0;<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    }<a name="line.162"></a>
 <span class="sourceLineNo">163</span>    Enum&lt;?&gt; e = (Enum&lt;?&gt;) element;<a name="line.163"></a>
