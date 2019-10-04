@@ -34,7 +34,7 @@ To add a dependency on Guava using Maven, use the following:
 </dependency>
 ```
 or, for Android:
-```
+```xml
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
