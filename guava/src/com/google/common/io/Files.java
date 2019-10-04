@@ -441,8 +441,10 @@ public final class Files {
   @SuppressWarnings("GoodTime") // reading system time without TimeSource
   public static void touch(File file) throws IOException {
     checkNotNull(file);
-    if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
-      throw new IOException("Unable to update modification time of " + file);
+    if (!file.exists()) {
+      if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
+        throw new IOException("Unable to update modification time of " + file);
+      }
     }
   }
 
