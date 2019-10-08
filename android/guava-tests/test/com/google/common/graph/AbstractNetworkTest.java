@@ -22,14 +22,20 @@ import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -677,5 +683,65 @@ public abstract class AbstractNetworkTest {
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void concurrentIteration() throws Exception {
+    addEdge(1, 2, "foo");
+    addEdge(3, 4, "bar");
+    addEdge(5, 6, "baz");
+
+    int threadCount = 20;
+    ExecutorService executor = newFixedThreadPool(threadCount);
+    final CyclicBarrier barrier = new CyclicBarrier(threadCount);
+    ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
+    for (int i = 0; i < threadCount; i++) {
+      futures.add(
+          executor.submit(
+              new Callable<Object>() {
+                @Override
+                public Object call() throws Exception {
+                  barrier.await();
+                  Integer first = network.nodes().iterator().next();
+                  for (Integer node : network.nodes()) {
+                    Set<Integer> unused = network.successors(node);
+                  }
+                  /*
+                   * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
+                   * we read one of the fields declared in that class.
+                   */
+                  Set<Integer> unused = network.successors(first);
+                  return null;
+                }
+              }));
+    }
+
+    /*
+     * It's unlikely that any operations would fail by throwing an exception, but let's check them
+     * just to be safe.
+     *
+     * The real purpose of this test is to produce a TSAN failure if MapIteratorCache is unsafe for
+     * reads from multiple threads -- unsafe, in fact, even in the absence of a concurrent write.
+     * The specific problem we had was unsafe reads of lastEntryReturnedBySomeIterator. (To fix the
+     * problem, we've since marked that field as volatile.)
+     *
+     * When MapIteratorCache is used from Immutable* classes, the TSAN failure doesn't indicate a
+     * real problem: The Entry objects are ImmutableMap entries, whose fields are all final and thus
+     * safe to read even when the Entry object is unsafely published. But with a mutable graph, the
+     * Entry object is likely to have a non-final value field, which is not safe to read when
+     * unsafely published. (The Entry object might even be newly created by each iterator.next()
+     * call, so we can't assume that writes to the Entry have been safely published by some other
+     * synchronization actions.)
+     *
+     * All that said: I haven't actually managed to make this particular test produce a TSAN error
+     * for the field accesses in MapIteratorCache. This teset *has* found other TSAN errors,
+     * including in MapRetrievalCache, so I'm not sure why this one is different. I did at least
+     * confirm that my change to MapIteratorCache fixes the TSAN error in the (larger) test it was
+     * originally reported in.
+     */
+    for (Future<?> future : futures.build()) {
+      future.get();
+    }
+    executor.shutdown();
   }
 }

@@ -19,8 +19,15 @@ package com.google.common.graph;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -329,5 +336,44 @@ public final class ValueGraphTest {
 
     otherGraph.putEdgeValue(1, 2, "valueB");
     assertThat(graph).isNotEqualTo(otherGraph); // values differ
+  }
+
+  @Test
+  public void concurrentIteration() throws Exception {
+    graph = ValueGraphBuilder.directed().build();
+    graph.putEdgeValue(1, 2, "A");
+    graph.putEdgeValue(3, 4, "B");
+    graph.putEdgeValue(5, 6, "C");
+
+    int threadCount = 20;
+    ExecutorService executor = newFixedThreadPool(threadCount);
+    final CyclicBarrier barrier = new CyclicBarrier(threadCount);
+    ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
+    for (int i = 0; i < threadCount; i++) {
+      futures.add(
+          executor.submit(
+              new Callable<Object>() {
+                @Override
+                public Object call() throws Exception {
+                  barrier.await();
+                  Integer first = graph.nodes().iterator().next();
+                  for (Integer node : graph.nodes()) {
+                    Set<Integer> unused = graph.successors(node);
+                  }
+                  /*
+                   * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
+                   * we read one of the fields declared in that class.
+                   */
+                  Set<Integer> unused = graph.successors(first);
+                  return null;
+                }
+              }));
+    }
+
+    // For more about this test, see the equivalent in AbstractNetworkTest.
+    for (Future<?> future : futures.build()) {
+      future.get();
+    }
+    executor.shutdown();
   }
 }
