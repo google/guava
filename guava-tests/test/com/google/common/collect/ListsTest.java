@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -986,5 +987,32 @@ public class ListsTest extends TestCase {
   @GwtIncompatible // cannot do such a big explicit copy
   public void testPartitionSize_2() {
     assertEquals(2, Lists.partition(Collections.nCopies(0x40000001, 1), 0x40000000).size());
+  }
+
+  public void testSplitBy_null() {
+    try {
+      Lists.splitBy(null, null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testSplitBy_1_1() {
+    assertEquals(emptyList(), Lists.splitBy(emptyList(), (x, y) -> false));
+  }
+
+  public void testSplitBy_1_2() {
+    List<Integer> list = singletonList(1);
+    List<List<Integer>> split = Lists.splitBy(list, (x, y) -> false);
+    assertEquals(singletonList(singletonList(1)), split);
+  }
+
+  public void testSplitBy_3() {
+    List<Integer> list = asList(1, 2, 2, 1);
+    List<List<Integer>> split = Lists.splitBy(list, Integer::equals);
+    assertEquals(3, split.size());
+    assertEquals(singletonList(1), split.get(0));
+    assertEquals(asList(2, 2), split.get(1));
+    assertEquals(singletonList(1), split.get(2));
   }
 }

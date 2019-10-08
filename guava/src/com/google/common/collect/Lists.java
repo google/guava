@@ -48,6 +48,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -693,6 +694,41 @@ public final class Lists {
     RandomAccessPartition(List<T> list, int size) {
       super(list, size);
     }
+  }
+
+  /**
+   * Returns consecutive {@linkplain List#subList(int, int) sublists} of a list, where the original
+   * list is split at the positions where the given {@code predicate} returned {@code false}. For
+   * example, splitting a list containing {@code [1, 2, 2, 1]} with a predicate
+   * {@code Integer::equals} yields {@code [[1], [2, 2], [1]]} -- an outer list containing three
+   * inner lists of one, two and one elements, all in the original order.
+   *
+   * <p>The outer list does not reflect changes of the source list. The inner lists are sublist
+   * views of the original list, produced on demand using {@link List#subList(int, int)}, and
+   * are subject to all the usual caveats about modification as explained in that API.
+   *
+   * @param list the list to split into sublists
+   * @param predicate the predicate to indicate where to split
+   * @return a list of consecutive sublists
+   */
+  public static <T> List<List<T>> splitBy(List<T> list, BiPredicate<? super T, ? super T> predicate) {
+    checkNotNull(list);
+    checkNotNull(predicate);
+    List<List<T>> result = new ArrayList<>();
+    int start = 0;
+    int size = list.size();
+    for (int i = 1; i < size; i++) {
+      T item1 = list.get(start);
+      T item2 = list.get(i);
+      if (!predicate.test(item1, item2)) {
+        result.add(list.subList(start, i));
+        start = i;
+      }
+    }
+    if (size > 0) {
+      result.add(list.subList(start, size));
+    }
+    return result;
   }
 
   /**
