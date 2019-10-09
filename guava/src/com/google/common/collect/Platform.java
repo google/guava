@@ -32,6 +32,9 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 final class Platform {
+  private static final java.util.logging.Logger logger =
+      java.util.logging.Logger.getLogger(Platform.class.getName());
+
   /** Returns the platform preferred implementation of a map based on a hash table. */
   static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return Maps.newHashMapWithExpectedSize(expectedSize);
@@ -125,6 +128,13 @@ final class Platform {
               "https://stackoverflow.com/q/5189914/28465",
               "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
     }
+    logger.log(
+        java.util.logging.Level.WARNING,
+        "In January 2020, we will remove GWT-RPC support for Guava types. You are seeing this"
+            + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
+            + " can identify which type by looking at the class name in the attached stack trace.",
+        new Throwable());
+
   }
 
   private Platform() {}
