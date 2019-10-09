@@ -148,7 +148,7 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
-  public void testCreate_nonAsciiParameter() {
+  public void testCreate_nonAsciiType() {
     try {
       MediaType.create("…", "a");
       fail();
@@ -156,9 +156,25 @@ public class MediaTypeTest extends TestCase {
     }
   }
 
-  public void testCreate_nonAsciiParameterValue() {
+  public void testCreate_nonAsciiSubtype() {
     try {
       MediaType.create("a", "…");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testCreate_emptyType() {
+    try {
+      MediaType.create("", "a");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testCreate_emptySubtype() {
+    try {
+      MediaType.create("a", "");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -297,6 +313,15 @@ public class MediaTypeTest extends TestCase {
     MediaType mediaType = MediaType.parse("text/plain");
     try {
       mediaType.withParameter("a", "…");
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testWithParameter_emptyParameter() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    try {
+      mediaType.withParameter("", "a");
       fail();
     } catch (IllegalArgumentException expected) {
     }

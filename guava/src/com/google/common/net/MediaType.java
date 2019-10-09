@@ -949,6 +949,7 @@ public final class MediaType {
 
   private static String normalizeToken(String token) {
     checkArgument(TOKEN_MATCHER.matchesAllOf(token));
+    checkArgument(!token.isEmpty());
     return Ascii.toLowerCase(token);
   }
 
