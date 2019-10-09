@@ -119,7 +119,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../../../com/google/common/annotations/GwtCompatible.html#emulated--">emulated</a>=true)
-public final class <a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.59">HashBiMap</a>&lt;K,V&gt;
+public final class <a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.60">HashBiMap</a>&lt;K,V&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/AbstractMap.html?is-external=true" title="class or interface in java.util">AbstractMap</a>&lt;K,V&gt;
 implements <a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;K,V&gt;, <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect"><code>BiMap</code></a> backed by two hash tables. This implementation allows null keys and values. A
@@ -310,7 +310,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.63">create</a>()</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.64">create</a>()</pre>
 <div class="block">Returns a new, empty <code>HashBiMap</code> with the default initial capacity (16).</div>
 </li>
 </ul>
@@ -320,7 +320,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.73">create</a>(int&nbsp;expectedSize)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.74">create</a>(int&nbsp;expectedSize)</pre>
 <div class="block">Constructs a new, empty bimap with the specified expected size.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -336,7 +336,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>create</h4>
-<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.81">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
+<pre>public static&nbsp;&lt;K,V&gt;&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="class in com.google.common.collect">HashBiMap</a>&lt;K,V&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.82">create</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;? extends K,? extends V&gt;&nbsp;map)</pre>
 <div class="block">Constructs a new bimap containing initial values from <code>map</code>. The bimap is created with an
  initial capacity sufficient to hold the mappings in the specified map.</div>
 </li>
@@ -347,7 +347,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.243">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.244">containsKey</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#containsKey-java.lang.Object-" title="class or interface in java.util">containsKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -362,7 +362,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.258">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.259">containsValue</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if this BiMap contains an entry whose value is equal to <code>value</code> (or,
  equivalently, if this inverse view contains a key that is equal to <code>value</code>).
 
@@ -386,7 +386,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.263">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.264">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#get-java.lang.Object-" title="class or interface in java.util">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -404,7 +404,7 @@ implements <a href="../../../../com/google/common/collect/BiMap.html" title="int
 <li class="blockList">
 <h4>put</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.269">put</a>(<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
+public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.270">put</a>(<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
                                    <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#put-K-V-">BiMap</a></code></span></div>
 <dl>
@@ -426,7 +426,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <li class="blockList">
 <h4>forcePut</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.310">forcePut</a>(<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
+public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.311">forcePut</a>(<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&nbsp;key,
                                         <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;value)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#forcePut-K-V-">BiMap</a></code></span></div>
 <div class="block">An alternate form of <code>put</code> that silently removes any existing entry with the value <code>value</code> before proceeding with the <a href="../../../../com/google/common/collect/BiMap.html#put-K-V-"><code>BiMap.put(K, V)</code></a> operation. If the bimap previously contained the
@@ -456,7 +456,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.385">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
+public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.386">remove</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -471,7 +471,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.398">clear</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.399">clear</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#clear--" title="class or interface in java.util">clear</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -484,7 +484,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.408">size</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.409">size</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -497,7 +497,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.454">keySet</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.455">keySet</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#keySet--" title="class or interface in java.util">keySet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -512,7 +512,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.489">values</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.490">values</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#values--">BiMap</a></code></span></div>
 <div class="block">
 
@@ -533,7 +533,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>forEach</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.543">forEach</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;action)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.544">forEach</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiConsumer.html?is-external=true" title="class or interface in java.util.function">BiConsumer</a>&lt;? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;action)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#forEach-java.util.function.BiConsumer-" title="class or interface in java.util">forEach</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -546,7 +546,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>replaceAll</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.553">replaceAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>,? extends <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;function)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.554">replaceAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/function/BiFunction.html?is-external=true" title="class or interface in java.util.function">BiFunction</a>&lt;? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,? super <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>,? extends <a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;&nbsp;function)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replaceAll-java.util.function.BiFunction-" title="class or interface in java.util">replaceAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>&gt;</code></dd>
@@ -559,7 +559,7 @@ public&nbsp;<a href="../../../../com/google/common/collect/HashBiMap.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>inverse</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.565">inverse</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/collect/BiMap.html" title="interface in com.google.common.collect">BiMap</a>&lt;<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">V</a>,<a href="../../../../com/google/common/collect/HashBiMap.html" title="type parameter in HashBiMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/HashBiMap.html#line.566">inverse</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/collect/BiMap.html#inverse--">BiMap</a></code></span></div>
 <div class="block">Returns the inverse view of this bimap, which maps each of this bimap's values to its
  associated key. The two bimaps are backed by the same data; any changes to one will appear in
