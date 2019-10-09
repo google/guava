@@ -594,6 +594,17 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");
   public static final MediaType OPENDOCUMENT_TEXT =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
+
+  /**
+   * <a href="https://tools.ietf.org/id/draft-ellermann-opensearch-01.html">OpenSearch</a>
+   * Description files are XML files that describe how a website can be used as a search engine by
+   * consumers (e.g. web browsers).
+   *
+   * @since NEXT
+   */
+  public static final MediaType OPENSEARCH_DESCRIPTION_UTF_8 =
+      createConstantUtf8(APPLICATION_TYPE, "opensearchdescription+xml");
+
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
 
