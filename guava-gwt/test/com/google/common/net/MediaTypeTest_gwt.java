@@ -43,6 +43,16 @@ public void testCreateVideoType() throws Exception {
   testCase.testCreateVideoType();
 }
 
+public void testCreate_emptySubtype() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_emptySubtype();
+}
+
+public void testCreate_emptyType() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_emptyType();
+}
+
 public void testCreate_invalidSubtype() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testCreate_invalidSubtype();
@@ -53,14 +63,14 @@ public void testCreate_invalidType() throws Exception {
   testCase.testCreate_invalidType();
 }
 
-public void testCreate_nonAsciiParameter() throws Exception {
+public void testCreate_nonAsciiSubtype() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
-  testCase.testCreate_nonAsciiParameter();
+  testCase.testCreate_nonAsciiSubtype();
 }
 
-public void testCreate_nonAsciiParameterValue() throws Exception {
+public void testCreate_nonAsciiType() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
-  testCase.testCreate_nonAsciiParameterValue();
+  testCase.testCreate_nonAsciiType();
 }
 
 public void testCreate_wildcardTypeDeclaredSubtype() throws Exception {
@@ -141,6 +151,11 @@ public void testWithCharset() throws Exception {
 public void testWithParameter() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParameter();
+}
+
+public void testWithParameter_emptyParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_emptyParameter();
 }
 
 public void testWithParameter_invalidAttribute() throws Exception {
