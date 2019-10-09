@@ -490,18 +490,18 @@ public final class ByteStreams {
    * @since 17.0
    */
   @Beta
-  public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputSteam) {
-    return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
+  public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputStream) {
+    return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputStream));
   }
 
   private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
-    final ByteArrayOutputStream byteArrayOutputSteam;
+    final ByteArrayOutputStream byteArrayOutputStream;
 
-    ByteArrayDataOutputStream(ByteArrayOutputStream byteArrayOutputSteam) {
-      this.byteArrayOutputSteam = byteArrayOutputSteam;
-      output = new DataOutputStream(byteArrayOutputSteam);
+    ByteArrayDataOutputStream(ByteArrayOutputStream byteArrayOutputStream) {
+      this.byteArrayOutputStream = byteArrayOutputStream;
+      output = new DataOutputStream(byteArrayOutputStream);
     }
 
     @Override
@@ -632,7 +632,7 @@ public final class ByteStreams {
 
     @Override
     public byte[] toByteArray() {
-      return byteArrayOutputSteam.toByteArray();
+      return byteArrayOutputStream.toByteArray();
     }
   }
 
