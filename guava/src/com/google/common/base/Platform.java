@@ -111,5 +111,12 @@ final class Platform {
               "https://stackoverflow.com/q/5189914/28465",
               "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
     }
+    logger.log(
+        java.util.logging.Level.WARNING,
+        "In January 2020, we will remove GWT-RPC support for Guava types. You are seeing this"
+            + " warning because you are sending a Guava type over GWT-RPC, which will break. You"
+            + " can identify which type by looking at the class name in the attached stack trace.",
+        new Throwable());
+
   }
 }
