@@ -657,7 +657,7 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterWrite(java.time.Duration duration) {
-    return expireAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return expireAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -726,7 +726,7 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterAccess(java.time.Duration duration) {
-    return expireAfterAccess(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return expireAfterAccess(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -803,7 +803,7 @@ public final class CacheBuilder<K, V> {
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> refreshAfterWrite(java.time.Duration duration) {
-    return refreshAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return refreshAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -1040,7 +1040,7 @@ public final class CacheBuilder<K, V> {
    */
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // duration decomposition
-  private static long saturatedToNanos(java.time.Duration duration) {
+  private static long toNanosSaturated(java.time.Duration duration) {
     // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for
     // durations longer than approximately +/- 292 years).
     try {

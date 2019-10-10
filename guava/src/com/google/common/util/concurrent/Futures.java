@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 
@@ -206,7 +206,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
   public static <O> ListenableFuture<O> scheduleAsync(
       AsyncCallable<O> callable, Duration delay, ScheduledExecutorService executorService) {
-    return scheduleAsync(callable, saturatedToNanos(delay), TimeUnit.NANOSECONDS, executorService);
+    return scheduleAsync(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS, executorService);
   }
 
   /**
@@ -369,7 +369,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
   public static <V> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate, Duration time, ScheduledExecutorService scheduledExecutor) {
-    return withTimeout(delegate, saturatedToNanos(time), TimeUnit.NANOSECONDS, scheduledExecutor);
+    return withTimeout(delegate, toNanosSaturated(time), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**
@@ -1192,7 +1192,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @GwtIncompatible // reflection
   public static <V, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, Duration timeout) throws X {
-    return getChecked(future, exceptionClass, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return getChecked(future, exceptionClass, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
