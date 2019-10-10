@@ -149,6 +149,7 @@
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>${animal.sniffer.version}</version>
           <configuration>
+            <annotations>com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java16-sun</artifactId>
