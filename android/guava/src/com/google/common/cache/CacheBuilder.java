@@ -662,6 +662,7 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getExpireAfterWriteNanos() {
     return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
   }
@@ -701,6 +702,7 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getExpireAfterAccessNanos() {
     return (expireAfterAccessNanos == UNSET_INT)
         ? DEFAULT_EXPIRATION_NANOS
@@ -743,6 +745,7 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getRefreshNanos() {
     return (refreshNanos == UNSET_INT) ? DEFAULT_REFRESH_NANOS : refreshNanos;
   }
