@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -84,7 +84,7 @@ public final class MoreExecutors {
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, Duration terminationTimeout) {
     return getExitingExecutorService(
-        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -145,7 +145,7 @@ public final class MoreExecutors {
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {
     return getExitingScheduledExecutorService(
-        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -204,7 +204,7 @@ public final class MoreExecutors {
   @Beta
   @GwtIncompatible // java.time.Duration
   public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {
-    addDelayedShutdownHook(service, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);
+    addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -707,7 +707,7 @@ public final class MoreExecutors {
       Duration timeout)
       throws InterruptedException, ExecutionException, TimeoutException {
     return invokeAnyImpl(
-        executorService, tasks, timed, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+        executorService, tasks, timed, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -1010,7 +1010,7 @@ public final class MoreExecutors {
   @CanIgnoreReturnValue
   @GwtIncompatible // java.time.Duration
   public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {
-    return shutdownAndAwaitTermination(service, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
