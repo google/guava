@@ -44281,7 +44281,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="byteArrayOutputSteam" type="java.io.ByteArrayOutputStream"/>
+      <param name="byteArrayOutputStream" type="java.io.ByteArrayOutputStream"/>
       <doc>
       <![CDATA[Returns a new {@link ByteArrayDataOutput} instance which writes to the given {@code
  ByteArrayOutputStream}. The given output stream is not reset before being written to by the
@@ -53281,6 +53281,18 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+    </field>
+    <field name="OPENSEARCH_DESCRIPTION_UTF_8" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://tools.ietf.org/id/draft-ellermann-opensearch-01.html">OpenSearch</a>
+ Description files are XML files that describe how a website can be used as a search engine by
+ consumers (e.g. web browsers).
+
+ @since NEXT]]>
+      </doc>
     </field>
     <field name="PDF" type="com.google.common.net.MediaType"
       transient="false" volatile="false"

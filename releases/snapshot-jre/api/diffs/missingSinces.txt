@@ -3,3 +3,4 @@ OK: com.google.common.util.concurrent.Futures Method submit(java.util.concurrent
 OK: com.google.common.util.concurrent.Futures Method submit(java.lang.Runnable, java.util.concurrent.Executor)
 OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_OPENER_POLICY
 OK: com.google.common.net.MediaType Field MEDIA_PRESENTATION_DESCRIPTION
+OK: com.google.common.net.MediaType Field OPENSEARCH_DESCRIPTION_UTF_8
