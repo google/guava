@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkState;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import static com.google.common.util.concurrent.MoreExecutors.directExecutor;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
@@ -214,7 +214,7 @@
 <span class="sourceLineNo">206</span>  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService<a name="line.206"></a>
 <span class="sourceLineNo">207</span>  public static &lt;O&gt; ListenableFuture&lt;O&gt; scheduleAsync(<a name="line.207"></a>
 <span class="sourceLineNo">208</span>      AsyncCallable&lt;O&gt; callable, Duration delay, ScheduledExecutorService executorService) {<a name="line.208"></a>
-<span class="sourceLineNo">209</span>    return scheduleAsync(callable, saturatedToNanos(delay), TimeUnit.NANOSECONDS, executorService);<a name="line.209"></a>
+<span class="sourceLineNo">209</span>    return scheduleAsync(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS, executorService);<a name="line.209"></a>
 <span class="sourceLineNo">210</span>  }<a name="line.210"></a>
 <span class="sourceLineNo">211</span><a name="line.211"></a>
 <span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
@@ -377,7 +377,7 @@
 <span class="sourceLineNo">369</span>  @GwtIncompatible // java.util.concurrent.ScheduledExecutorService<a name="line.369"></a>
 <span class="sourceLineNo">370</span>  public static &lt;V&gt; ListenableFuture&lt;V&gt; withTimeout(<a name="line.370"></a>
 <span class="sourceLineNo">371</span>      ListenableFuture&lt;V&gt; delegate, Duration time, ScheduledExecutorService scheduledExecutor) {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    return withTimeout(delegate, saturatedToNanos(time), TimeUnit.NANOSECONDS, scheduledExecutor);<a name="line.372"></a>
+<span class="sourceLineNo">372</span>    return withTimeout(delegate, toNanosSaturated(time), TimeUnit.NANOSECONDS, scheduledExecutor);<a name="line.372"></a>
 <span class="sourceLineNo">373</span>  }<a name="line.373"></a>
 <span class="sourceLineNo">374</span><a name="line.374"></a>
 <span class="sourceLineNo">375</span>  /**<a name="line.375"></a>
@@ -1200,7 +1200,7 @@
 <span class="sourceLineNo">1192</span>  @GwtIncompatible // reflection<a name="line.1192"></a>
 <span class="sourceLineNo">1193</span>  public static &lt;V, X extends Exception&gt; V getChecked(<a name="line.1193"></a>
 <span class="sourceLineNo">1194</span>      Future&lt;V&gt; future, Class&lt;X&gt; exceptionClass, Duration timeout) throws X {<a name="line.1194"></a>
-<span class="sourceLineNo">1195</span>    return getChecked(future, exceptionClass, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.1195"></a>
+<span class="sourceLineNo">1195</span>    return getChecked(future, exceptionClass, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.1195"></a>
 <span class="sourceLineNo">1196</span>  }<a name="line.1196"></a>
 <span class="sourceLineNo">1197</span><a name="line.1197"></a>
 <span class="sourceLineNo">1198</span>  /**<a name="line.1198"></a>

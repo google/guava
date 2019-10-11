@@ -22,7 +22,7 @@
 <span class="sourceLineNo">014</span><a name="line.14"></a>
 <span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.17"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
@@ -128,7 +128,7 @@
 <span class="sourceLineNo">120</span>   * @since 28.0<a name="line.120"></a>
 <span class="sourceLineNo">121</span>   */<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  default &lt;T&gt; T newProxy(T target, Class&lt;T&gt; interfaceType, Duration timeout) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return newProxy(target, interfaceType, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.123"></a>
+<span class="sourceLineNo">123</span>    return newProxy(target, interfaceType, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.123"></a>
 <span class="sourceLineNo">124</span>  }<a name="line.124"></a>
 <span class="sourceLineNo">125</span><a name="line.125"></a>
 <span class="sourceLineNo">126</span>  /**<a name="line.126"></a>
@@ -172,7 +172,7 @@
 <span class="sourceLineNo">164</span>  @CanIgnoreReturnValue<a name="line.164"></a>
 <span class="sourceLineNo">165</span>  default &lt;T&gt; T callWithTimeout(Callable&lt;T&gt; callable, Duration timeout)<a name="line.165"></a>
 <span class="sourceLineNo">166</span>      throws TimeoutException, InterruptedException, ExecutionException {<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    return callWithTimeout(callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.167"></a>
+<span class="sourceLineNo">167</span>    return callWithTimeout(callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.167"></a>
 <span class="sourceLineNo">168</span>  }<a name="line.168"></a>
 <span class="sourceLineNo">169</span><a name="line.169"></a>
 <span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
@@ -222,7 +222,7 @@
 <span class="sourceLineNo">214</span>  default &lt;T&gt; T callUninterruptiblyWithTimeout(Callable&lt;T&gt; callable, Duration timeout)<a name="line.214"></a>
 <span class="sourceLineNo">215</span>      throws TimeoutException, ExecutionException {<a name="line.215"></a>
 <span class="sourceLineNo">216</span>    return callUninterruptiblyWithTimeout(<a name="line.216"></a>
-<span class="sourceLineNo">217</span>        callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.217"></a>
+<span class="sourceLineNo">217</span>        callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.217"></a>
 <span class="sourceLineNo">218</span>  }<a name="line.218"></a>
 <span class="sourceLineNo">219</span><a name="line.219"></a>
 <span class="sourceLineNo">220</span>  /**<a name="line.220"></a>
@@ -260,7 +260,7 @@
 <span class="sourceLineNo">252</span>   */<a name="line.252"></a>
 <span class="sourceLineNo">253</span>  default void runWithTimeout(Runnable runnable, Duration timeout)<a name="line.253"></a>
 <span class="sourceLineNo">254</span>      throws TimeoutException, InterruptedException {<a name="line.254"></a>
-<span class="sourceLineNo">255</span>    runWithTimeout(runnable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.255"></a>
+<span class="sourceLineNo">255</span>    runWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.255"></a>
 <span class="sourceLineNo">256</span>  }<a name="line.256"></a>
 <span class="sourceLineNo">257</span><a name="line.257"></a>
 <span class="sourceLineNo">258</span>  /**<a name="line.258"></a>
@@ -302,7 +302,7 @@
 <span class="sourceLineNo">294</span>   */<a name="line.294"></a>
 <span class="sourceLineNo">295</span>  default void runUninterruptiblyWithTimeout(Runnable runnable, Duration timeout)<a name="line.295"></a>
 <span class="sourceLineNo">296</span>      throws TimeoutException {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>    runUninterruptiblyWithTimeout(runnable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.297"></a>
+<span class="sourceLineNo">297</span>    runUninterruptiblyWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.297"></a>
 <span class="sourceLineNo">298</span>  }<a name="line.298"></a>
 <span class="sourceLineNo">299</span>}<a name="line.299"></a>
 

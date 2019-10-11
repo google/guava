@@ -23,7 +23,7 @@
 <span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.18"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import com.google.common.annotations.GwtIncompatible;<a name="line.21"></a>
@@ -398,7 +398,7 @@
 <span class="sourceLineNo">390</span>   * @since 28.0<a name="line.390"></a>
 <span class="sourceLineNo">391</span>   */<a name="line.391"></a>
 <span class="sourceLineNo">392</span>  public boolean enter(Duration time) {<a name="line.392"></a>
-<span class="sourceLineNo">393</span>    return enter(saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.393"></a>
+<span class="sourceLineNo">393</span>    return enter(toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.393"></a>
 <span class="sourceLineNo">394</span>  }<a name="line.394"></a>
 <span class="sourceLineNo">395</span><a name="line.395"></a>
 <span class="sourceLineNo">396</span>  /**<a name="line.396"></a>
@@ -448,7 +448,7 @@
 <span class="sourceLineNo">440</span>   * @since 28.0<a name="line.440"></a>
 <span class="sourceLineNo">441</span>   */<a name="line.441"></a>
 <span class="sourceLineNo">442</span>  public boolean enterInterruptibly(Duration time) throws InterruptedException {<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    return enterInterruptibly(saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.443"></a>
+<span class="sourceLineNo">443</span>    return enterInterruptibly(toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.443"></a>
 <span class="sourceLineNo">444</span>  }<a name="line.444"></a>
 <span class="sourceLineNo">445</span><a name="line.445"></a>
 <span class="sourceLineNo">446</span>  /**<a name="line.446"></a>
@@ -509,7 +509,7 @@
 <span class="sourceLineNo">501</span>   * @since 28.0<a name="line.501"></a>
 <span class="sourceLineNo">502</span>   */<a name="line.502"></a>
 <span class="sourceLineNo">503</span>  public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {<a name="line.503"></a>
-<span class="sourceLineNo">504</span>    return enterWhen(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.504"></a>
+<span class="sourceLineNo">504</span>    return enterWhen(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.504"></a>
 <span class="sourceLineNo">505</span>  }<a name="line.505"></a>
 <span class="sourceLineNo">506</span><a name="line.506"></a>
 <span class="sourceLineNo">507</span>  /**<a name="line.507"></a>
@@ -602,7 +602,7 @@
 <span class="sourceLineNo">594</span>   * @since 28.0<a name="line.594"></a>
 <span class="sourceLineNo">595</span>   */<a name="line.595"></a>
 <span class="sourceLineNo">596</span>  public boolean enterWhenUninterruptibly(Guard guard, Duration time) {<a name="line.596"></a>
-<span class="sourceLineNo">597</span>    return enterWhenUninterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.597"></a>
+<span class="sourceLineNo">597</span>    return enterWhenUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.597"></a>
 <span class="sourceLineNo">598</span>  }<a name="line.598"></a>
 <span class="sourceLineNo">599</span><a name="line.599"></a>
 <span class="sourceLineNo">600</span>  /**<a name="line.600"></a>
@@ -703,7 +703,7 @@
 <span class="sourceLineNo">695</span>   * @since 28.0<a name="line.695"></a>
 <span class="sourceLineNo">696</span>   */<a name="line.696"></a>
 <span class="sourceLineNo">697</span>  public boolean enterIf(Guard guard, Duration time) {<a name="line.697"></a>
-<span class="sourceLineNo">698</span>    return enterIf(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.698"></a>
+<span class="sourceLineNo">698</span>    return enterIf(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.698"></a>
 <span class="sourceLineNo">699</span>  }<a name="line.699"></a>
 <span class="sourceLineNo">700</span><a name="line.700"></a>
 <span class="sourceLineNo">701</span>  /**<a name="line.701"></a>
@@ -763,7 +763,7 @@
 <span class="sourceLineNo">755</span>   * @since 28.0<a name="line.755"></a>
 <span class="sourceLineNo">756</span>   */<a name="line.756"></a>
 <span class="sourceLineNo">757</span>  public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {<a name="line.757"></a>
-<span class="sourceLineNo">758</span>    return enterIfInterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.758"></a>
+<span class="sourceLineNo">758</span>    return enterIfInterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.758"></a>
 <span class="sourceLineNo">759</span>  }<a name="line.759"></a>
 <span class="sourceLineNo">760</span><a name="line.760"></a>
 <span class="sourceLineNo">761</span>  /**<a name="line.761"></a>
@@ -844,7 +844,7 @@
 <span class="sourceLineNo">836</span>   * @since 28.0<a name="line.836"></a>
 <span class="sourceLineNo">837</span>   */<a name="line.837"></a>
 <span class="sourceLineNo">838</span>  public boolean waitFor(Guard guard, Duration time) throws InterruptedException {<a name="line.838"></a>
-<span class="sourceLineNo">839</span>    return waitFor(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.839"></a>
+<span class="sourceLineNo">839</span>    return waitFor(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.839"></a>
 <span class="sourceLineNo">840</span>  }<a name="line.840"></a>
 <span class="sourceLineNo">841</span><a name="line.841"></a>
 <span class="sourceLineNo">842</span>  /**<a name="line.842"></a>
@@ -890,7 +890,7 @@
 <span class="sourceLineNo">882</span>   * @since 28.0<a name="line.882"></a>
 <span class="sourceLineNo">883</span>   */<a name="line.883"></a>
 <span class="sourceLineNo">884</span>  public boolean waitForUninterruptibly(Guard guard, Duration time) {<a name="line.884"></a>
-<span class="sourceLineNo">885</span>    return waitForUninterruptibly(guard, saturatedToNanos(time), TimeUnit.NANOSECONDS);<a name="line.885"></a>
+<span class="sourceLineNo">885</span>    return waitForUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);<a name="line.885"></a>
 <span class="sourceLineNo">886</span>  }<a name="line.886"></a>
 <span class="sourceLineNo">887</span><a name="line.887"></a>
 <span class="sourceLineNo">888</span>  /**<a name="line.888"></a>

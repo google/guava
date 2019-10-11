@@ -22,7 +22,7 @@
 <span class="sourceLineNo">014</span><a name="line.14"></a>
 <span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.17"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import static java.util.concurrent.TimeUnit.NANOSECONDS;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
@@ -85,7 +85,7 @@
 <span class="sourceLineNo">077</span>  @GwtIncompatible // concurrency<a name="line.77"></a>
 <span class="sourceLineNo">078</span>  @Beta<a name="line.78"></a>
 <span class="sourceLineNo">079</span>  public static boolean awaitUninterruptibly(CountDownLatch latch, Duration timeout) {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    return awaitUninterruptibly(latch, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.80"></a>
+<span class="sourceLineNo">080</span>    return awaitUninterruptibly(latch, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.80"></a>
 <span class="sourceLineNo">081</span>  }<a name="line.81"></a>
 <span class="sourceLineNo">082</span><a name="line.82"></a>
 <span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
@@ -126,7 +126,7 @@
 <span class="sourceLineNo">118</span>  @GwtIncompatible // concurrency<a name="line.118"></a>
 <span class="sourceLineNo">119</span>  @Beta<a name="line.119"></a>
 <span class="sourceLineNo">120</span>  public static boolean awaitUninterruptibly(Condition condition, Duration timeout) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    return awaitUninterruptibly(condition, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.121"></a>
+<span class="sourceLineNo">121</span>    return awaitUninterruptibly(condition, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  }<a name="line.122"></a>
 <span class="sourceLineNo">123</span><a name="line.123"></a>
 <span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
@@ -187,7 +187,7 @@
 <span class="sourceLineNo">179</span>  @GwtIncompatible // concurrency<a name="line.179"></a>
 <span class="sourceLineNo">180</span>  @Beta<a name="line.180"></a>
 <span class="sourceLineNo">181</span>  public static void joinUninterruptibly(Thread toJoin, Duration timeout) {<a name="line.181"></a>
-<span class="sourceLineNo">182</span>    joinUninterruptibly(toJoin, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.182"></a>
+<span class="sourceLineNo">182</span>    joinUninterruptibly(toJoin, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.182"></a>
 <span class="sourceLineNo">183</span>  }<a name="line.183"></a>
 <span class="sourceLineNo">184</span><a name="line.184"></a>
 <span class="sourceLineNo">185</span>  /**<a name="line.185"></a>
@@ -278,7 +278,7 @@
 <span class="sourceLineNo">270</span>  @Beta<a name="line.270"></a>
 <span class="sourceLineNo">271</span>  public static &lt;V&gt; V getUninterruptibly(Future&lt;V&gt; future, Duration timeout)<a name="line.271"></a>
 <span class="sourceLineNo">272</span>      throws ExecutionException, TimeoutException {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    return getUninterruptibly(future, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.273"></a>
+<span class="sourceLineNo">273</span>    return getUninterruptibly(future, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.273"></a>
 <span class="sourceLineNo">274</span>  }<a name="line.274"></a>
 <span class="sourceLineNo">275</span><a name="line.275"></a>
 <span class="sourceLineNo">276</span>  /**<a name="line.276"></a>
@@ -380,7 +380,7 @@
 <span class="sourceLineNo">372</span>  @GwtIncompatible // concurrency<a name="line.372"></a>
 <span class="sourceLineNo">373</span>  @Beta<a name="line.373"></a>
 <span class="sourceLineNo">374</span>  public static void sleepUninterruptibly(Duration sleepFor) {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    sleepUninterruptibly(saturatedToNanos(sleepFor), TimeUnit.NANOSECONDS);<a name="line.375"></a>
+<span class="sourceLineNo">375</span>    sleepUninterruptibly(toNanosSaturated(sleepFor), TimeUnit.NANOSECONDS);<a name="line.375"></a>
 <span class="sourceLineNo">376</span>  }<a name="line.376"></a>
 <span class="sourceLineNo">377</span><a name="line.377"></a>
 <span class="sourceLineNo">378</span>  // TODO(user): Support Sleeper somehow (wrapper or interface method)?<a name="line.378"></a>
@@ -418,7 +418,7 @@
 <span class="sourceLineNo">410</span>  @GwtIncompatible // concurrency<a name="line.410"></a>
 <span class="sourceLineNo">411</span>  @Beta<a name="line.411"></a>
 <span class="sourceLineNo">412</span>  public static boolean tryAcquireUninterruptibly(Semaphore semaphore, Duration timeout) {<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    return tryAcquireUninterruptibly(semaphore, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.413"></a>
+<span class="sourceLineNo">413</span>    return tryAcquireUninterruptibly(semaphore, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.413"></a>
 <span class="sourceLineNo">414</span>  }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>  /**<a name="line.416"></a>
@@ -445,7 +445,7 @@
 <span class="sourceLineNo">437</span>  public static boolean tryAcquireUninterruptibly(<a name="line.437"></a>
 <span class="sourceLineNo">438</span>      Semaphore semaphore, int permits, Duration timeout) {<a name="line.438"></a>
 <span class="sourceLineNo">439</span>    return tryAcquireUninterruptibly(<a name="line.439"></a>
-<span class="sourceLineNo">440</span>        semaphore, permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.440"></a>
+<span class="sourceLineNo">440</span>        semaphore, permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.440"></a>
 <span class="sourceLineNo">441</span>  }<a name="line.441"></a>
 <span class="sourceLineNo">442</span><a name="line.442"></a>
 <span class="sourceLineNo">443</span>  /**<a name="line.443"></a>

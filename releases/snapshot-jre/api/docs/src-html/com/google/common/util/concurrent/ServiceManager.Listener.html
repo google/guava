@@ -29,7 +29,7 @@
 <span class="sourceLineNo">021</span>import static com.google.common.base.Predicates.in;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import static com.google.common.base.Predicates.instanceOf;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import static com.google.common.base.Predicates.not;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.24"></a>
+<span class="sourceLineNo">024</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import static com.google.common.util.concurrent.MoreExecutors.directExecutor;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import static com.google.common.util.concurrent.Service.State.FAILED;<a name="line.26"></a>
 <span class="sourceLineNo">027</span>import static com.google.common.util.concurrent.Service.State.NEW;<a name="line.27"></a>
@@ -336,7 +336,7 @@
 <span class="sourceLineNo">328</span>   * @since 28.0<a name="line.328"></a>
 <span class="sourceLineNo">329</span>   */<a name="line.329"></a>
 <span class="sourceLineNo">330</span>  public void awaitHealthy(Duration timeout) throws TimeoutException {<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    awaitHealthy(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.331"></a>
+<span class="sourceLineNo">331</span>    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.331"></a>
 <span class="sourceLineNo">332</span>  }<a name="line.332"></a>
 <span class="sourceLineNo">333</span><a name="line.333"></a>
 <span class="sourceLineNo">334</span>  /**<a name="line.334"></a>
@@ -388,7 +388,7 @@
 <span class="sourceLineNo">380</span>   * @since 28.0<a name="line.380"></a>
 <span class="sourceLineNo">381</span>   */<a name="line.381"></a>
 <span class="sourceLineNo">382</span>  public void awaitStopped(Duration timeout) throws TimeoutException {<a name="line.382"></a>
-<span class="sourceLineNo">383</span>    awaitStopped(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.383"></a>
+<span class="sourceLineNo">383</span>    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.383"></a>
 <span class="sourceLineNo">384</span>  }<a name="line.384"></a>
 <span class="sourceLineNo">385</span><a name="line.385"></a>
 <span class="sourceLineNo">386</span>  /**<a name="line.386"></a>

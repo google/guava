@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import static java.lang.Math.max;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import static java.util.concurrent.TimeUnit.MICROSECONDS;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import static java.util.concurrent.TimeUnit.SECONDS;<a name="line.22"></a>
@@ -169,7 +169,7 @@
 <span class="sourceLineNo">161</span>   * @since 28.0<a name="line.161"></a>
 <span class="sourceLineNo">162</span>   */<a name="line.162"></a>
 <span class="sourceLineNo">163</span>  public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    return create(permitsPerSecond, saturatedToNanos(warmupPeriod), TimeUnit.NANOSECONDS);<a name="line.164"></a>
+<span class="sourceLineNo">164</span>    return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);<a name="line.164"></a>
 <span class="sourceLineNo">165</span>  }<a name="line.165"></a>
 <span class="sourceLineNo">166</span><a name="line.166"></a>
 <span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
@@ -339,7 +339,7 @@
 <span class="sourceLineNo">331</span>   * @since 28.0<a name="line.331"></a>
 <span class="sourceLineNo">332</span>   */<a name="line.332"></a>
 <span class="sourceLineNo">333</span>  public boolean tryAcquire(Duration timeout) {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>    return tryAcquire(1, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.334"></a>
+<span class="sourceLineNo">334</span>    return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.334"></a>
 <span class="sourceLineNo">335</span>  }<a name="line.335"></a>
 <span class="sourceLineNo">336</span><a name="line.336"></a>
 <span class="sourceLineNo">337</span>  /**<a name="line.337"></a>
@@ -398,7 +398,7 @@
 <span class="sourceLineNo">390</span>   * @since 28.0<a name="line.390"></a>
 <span class="sourceLineNo">391</span>   */<a name="line.391"></a>
 <span class="sourceLineNo">392</span>  public boolean tryAcquire(int permits, Duration timeout) {<a name="line.392"></a>
-<span class="sourceLineNo">393</span>    return tryAcquire(permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.393"></a>
+<span class="sourceLineNo">393</span>    return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.393"></a>
 <span class="sourceLineNo">394</span>  }<a name="line.394"></a>
 <span class="sourceLineNo">395</span><a name="line.395"></a>
 <span class="sourceLineNo">396</span>  /**<a name="line.396"></a>

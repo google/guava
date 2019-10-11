@@ -22,7 +22,7 @@
 <span class="sourceLineNo">014</span><a name="line.14"></a>
 <span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.17"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.17"></a>
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import com.google.common.annotations.GwtIncompatible;<a name="line.20"></a>
@@ -117,7 +117,7 @@
 <span class="sourceLineNo">109</span>   * @since 28.0<a name="line.109"></a>
 <span class="sourceLineNo">110</span>   */<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  default void awaitRunning(Duration timeout) throws TimeoutException {<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    awaitRunning(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.112"></a>
+<span class="sourceLineNo">112</span>    awaitRunning(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.112"></a>
 <span class="sourceLineNo">113</span>  }<a name="line.113"></a>
 <span class="sourceLineNo">114</span><a name="line.114"></a>
 <span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
@@ -153,7 +153,7 @@
 <span class="sourceLineNo">145</span>   * @since 28.0<a name="line.145"></a>
 <span class="sourceLineNo">146</span>   */<a name="line.146"></a>
 <span class="sourceLineNo">147</span>  default void awaitTerminated(Duration timeout) throws TimeoutException {<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    awaitTerminated(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>
+<span class="sourceLineNo">148</span>    awaitTerminated(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>
 <span class="sourceLineNo">149</span>  }<a name="line.149"></a>
 <span class="sourceLineNo">150</span><a name="line.150"></a>
 <span class="sourceLineNo">151</span>  /**<a name="line.151"></a>

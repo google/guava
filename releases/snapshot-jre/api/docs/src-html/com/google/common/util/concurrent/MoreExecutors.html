@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span><a name="line.16"></a>
 <span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.saturatedToNanos;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
 <span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
@@ -92,7 +92,7 @@
 <span class="sourceLineNo">084</span>  public static ExecutorService getExitingExecutorService(<a name="line.84"></a>
 <span class="sourceLineNo">085</span>      ThreadPoolExecutor executor, Duration terminationTimeout) {<a name="line.85"></a>
 <span class="sourceLineNo">086</span>    return getExitingExecutorService(<a name="line.86"></a>
-<span class="sourceLineNo">087</span>        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.87"></a>
+<span class="sourceLineNo">087</span>        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.87"></a>
 <span class="sourceLineNo">088</span>  }<a name="line.88"></a>
 <span class="sourceLineNo">089</span><a name="line.89"></a>
 <span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
@@ -153,7 +153,7 @@
 <span class="sourceLineNo">145</span>  public static ScheduledExecutorService getExitingScheduledExecutorService(<a name="line.145"></a>
 <span class="sourceLineNo">146</span>      ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {<a name="line.146"></a>
 <span class="sourceLineNo">147</span>    return getExitingScheduledExecutorService(<a name="line.147"></a>
-<span class="sourceLineNo">148</span>        executor, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>
+<span class="sourceLineNo">148</span>        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>
 <span class="sourceLineNo">149</span>  }<a name="line.149"></a>
 <span class="sourceLineNo">150</span><a name="line.150"></a>
 <span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
@@ -212,7 +212,7 @@
 <span class="sourceLineNo">204</span>  @Beta<a name="line.204"></a>
 <span class="sourceLineNo">205</span>  @GwtIncompatible // java.time.Duration<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    addDelayedShutdownHook(service, saturatedToNanos(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.207"></a>
+<span class="sourceLineNo">207</span>    addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);<a name="line.207"></a>
 <span class="sourceLineNo">208</span>  }<a name="line.208"></a>
 <span class="sourceLineNo">209</span><a name="line.209"></a>
 <span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
@@ -715,7 +715,7 @@
 <span class="sourceLineNo">707</span>      Duration timeout)<a name="line.707"></a>
 <span class="sourceLineNo">708</span>      throws InterruptedException, ExecutionException, TimeoutException {<a name="line.708"></a>
 <span class="sourceLineNo">709</span>    return invokeAnyImpl(<a name="line.709"></a>
-<span class="sourceLineNo">710</span>        executorService, tasks, timed, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.710"></a>
+<span class="sourceLineNo">710</span>        executorService, tasks, timed, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.710"></a>
 <span class="sourceLineNo">711</span>  }<a name="line.711"></a>
 <span class="sourceLineNo">712</span><a name="line.712"></a>
 <span class="sourceLineNo">713</span>  /**<a name="line.713"></a>
@@ -1018,7 +1018,7 @@
 <span class="sourceLineNo">1010</span>  @CanIgnoreReturnValue<a name="line.1010"></a>
 <span class="sourceLineNo">1011</span>  @GwtIncompatible // java.time.Duration<a name="line.1011"></a>
 <span class="sourceLineNo">1012</span>  public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span>    return shutdownAndAwaitTermination(service, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);<a name="line.1013"></a>
+<span class="sourceLineNo">1013</span>    return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.1013"></a>
 <span class="sourceLineNo">1014</span>  }<a name="line.1014"></a>
 <span class="sourceLineNo">1015</span><a name="line.1015"></a>
 <span class="sourceLineNo">1016</span>  /**<a name="line.1016"></a>
