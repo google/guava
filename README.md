@@ -86,7 +86,7 @@ removing things again, but officially, we're leaving our options open in case
 of surprises (like, say, a serious security problem).
 
 3. Guava has one dependency that is needed at runtime:
-`com.google.guava:failureaccess:1.0`
+`com.google.guava:failureaccess:1.0.1`
 
 4. Serialized forms of ALL objects are subject to change unless noted
 otherwise. Do not persist these and assume they can be read by a
