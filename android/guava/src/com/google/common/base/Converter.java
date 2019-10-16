@@ -484,7 +484,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * "pass-through type".
    */
   private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
-    static final IdentityConverter INSTANCE = new IdentityConverter();
+    static final IdentityConverter<?> INSTANCE = new IdentityConverter<>();
 
     @Override
     protected T doForward(T t) {
