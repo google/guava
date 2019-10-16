@@ -46994,7 +46994,8 @@
       deprecated="not deprecated">
       <param name="values" type="java.util.Iterator&lt;? extends java.lang.Number&gt;"/>
       <doc>
-      <![CDATA[Returns statistics over a dataset containing the given values.
+      <![CDATA[Returns statistics over a dataset containing the given values. The iterator will be completely
+ consumed by this method.
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision)]]>
@@ -47455,6 +47456,18 @@
       <doc>
       <![CDATA[Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.]]>
+      </doc>
+    </method>
+    <method name="addAll"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="values" type="com.google.common.math.StatsAccumulator"/>
+      <doc>
+      <![CDATA[Adds the given statistics to the dataset, as if the individual values used to compute the
+ statistics had been added directly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="snapshot" return="com.google.common.math.Stats"

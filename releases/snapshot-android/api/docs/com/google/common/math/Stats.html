@@ -354,8 +354,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.111">of</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
-<div class="block">Returns statistics over a dataset containing the given values.</div>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.112">of</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+<div class="block">Returns statistics over a dataset containing the given values. The iterator will be completely
+ consumed by this method.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>values</code> - a series of values, which will be converted to <code>double</code> values (this may
@@ -369,7 +370,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.122">of</a>(double...&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.123">of</a>(double...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -383,7 +384,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.133">of</a>(int...&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.134">of</a>(int...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -397,7 +398,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>of</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.145">of</a>(long...&nbsp;values)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.146">of</a>(long...&nbsp;values)</pre>
 <div class="block">Returns statistics over a dataset containing the given values.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -412,7 +413,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>count</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.152">count</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.153">count</a>()</pre>
 <div class="block">Returns the number of values.</div>
 </li>
 </ul>
@@ -422,7 +423,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>mean</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.177">mean</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.178">mean</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -451,7 +452,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>sum</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.194">sum</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.195">sum</a>()</pre>
 <div class="block">Returns the sum of the values.
 
  <h3>Non-finite values</h3>
@@ -469,7 +470,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>populationVariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.213">populationVariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.214">populationVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
  variance</a> of the values. The count must be non-zero.
 
@@ -492,7 +493,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>populationStandardDeviation</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.240">populationStandardDeviation</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.241">populationStandardDeviation</a>()</pre>
 <div class="block">Returns the <a
  href="http://en.wikipedia.org/wiki/Standard_deviation#Definition_of_population_values">
  population standard deviation</a> of the values. The count must be non-zero.
@@ -516,7 +517,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleVariance</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.260">sampleVariance</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.261">sampleVariance</a>()</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
  variance</a> of the values. If this dataset is a sample drawn from a population, this is an
  unbiased estimator of the population variance of the population. The count must be greater than
@@ -540,7 +541,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>sampleStandardDeviation</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.286">sampleStandardDeviation</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.287">sampleStandardDeviation</a>()</pre>
 <div class="block">Returns the <a
  href="http://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">
  corrected sample standard deviation</a> of the values. If this dataset is a sample drawn from a
@@ -566,7 +567,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>min</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.303">min</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.304">min</a>()</pre>
 <div class="block">Returns the lowest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>
@@ -586,7 +587,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>max</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.321">max</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.322">max</a>()</pre>
 <div class="block">Returns the highest value in the dataset. The count must be non-zero.
 
  <h3>Non-finite values</h3>
@@ -606,7 +607,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.342">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.343">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">
 
@@ -633,7 +634,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.364">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.365">hashCode</a>()</pre>
 <div class="block">
 
  <p><b>Note:</b> This hash code is consistent with exact equality of the calculated statistics,
@@ -650,7 +651,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.369">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.370">toString</a>()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
@@ -663,7 +664,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.397">meanOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.398">meanOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -683,7 +684,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.411">meanOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.412">meanOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;? extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>&gt;&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -703,7 +704,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.437">meanOf</a>(double...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.438">meanOf</a>(double...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -722,7 +723,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.461">meanOf</a>(int...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.462">meanOf</a>(int...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -741,7 +742,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>meanOf</h4>
-<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.486">meanOf</a>(long...&nbsp;values)</pre>
+<pre>public static&nbsp;double&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.487">meanOf</a>(long...&nbsp;values)</pre>
 <div class="block">Returns the <a href="http://en.wikipedia.org/wiki/Arithmetic_mean">arithmetic mean</a> of the
  values. The count must be non-zero.
 
@@ -761,7 +762,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>toByteArray</h4>
-<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.512">toByteArray</a>()</pre>
+<pre>public&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.513">toByteArray</a>()</pre>
 <div class="block">Gets a byte array representation of this instance.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
@@ -774,7 +775,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>fromByteArray</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.550">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/math/Stats.html" title="class in com.google.common.math">Stats</a>&nbsp;<a href="../../../../src-html/com/google/common/math/Stats.html#line.551">fromByteArray</a>(byte[]&nbsp;byteArray)</pre>
 <div class="block">Creates a Stats instance from the given byte representation which was obtained by <a href="../../../../com/google/common/math/Stats.html#toByteArray--"><code>toByteArray()</code></a>.
 
  <p><b>Note:</b> No guarantees are made regarding stability of the representation between
