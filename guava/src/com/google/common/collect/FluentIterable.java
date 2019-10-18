@@ -156,7 +156,6 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @since 20.0 (since 18.0 as an overload of {@code of})
    */
-  @Beta
   public static <E> FluentIterable<E> from(E[] elements) {
     return from(Arrays.asList(elements));
   }
