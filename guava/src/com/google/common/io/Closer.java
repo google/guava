@@ -265,9 +265,9 @@ public final class Closer implements Closeable {
       return addSuppressed != null;
     }
 
-    static final Method addSuppressed = getAddSuppressed();
+    static final Method addSuppressed = addSuppressedMethodOrNull();
 
-    private static Method getAddSuppressed() {
+    private static Method addSuppressedMethodOrNull() {
       try {
         return Throwable.class.getMethod("addSuppressed", Throwable.class);
       } catch (Throwable e) {

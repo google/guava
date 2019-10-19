@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
@@ -54,6 +55,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -320,6 +322,21 @@ public final class ServiceManager {
    * reached the {@linkplain State#RUNNING running} state.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have finished starting within the deadline
+   * @throws IllegalStateException if the service manager reaches a state from which it cannot
+   *     become {@linkplain #isHealthy() healthy}.
+   * @since 28.0
+   */
+  public void awaitHealthy(Duration timeout) throws TimeoutException {
+    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the {@link ServiceManager} to become {@linkplain #isHealthy() healthy} for no more
+   * than the given time. The manager will become healthy after all the component services have
+   * reached the {@linkplain State#RUNNING running} state.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
@@ -351,6 +368,19 @@ public final class ServiceManager {
    */
   public void awaitStopped() {
     state.awaitStopped();
+  }
+
+  /**
+   * Waits for the all the services to reach a terminal state for no more than the given time. After
+   * this method returns all services will either be {@linkplain Service.State#TERMINATED
+   * terminated} or {@linkplain Service.State#FAILED failed}.
+   *
+   * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have stopped within the deadline
+   * @since 28.0
+   */
+  public void awaitStopped(Duration timeout) throws TimeoutException {
+    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

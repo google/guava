@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.CollectionFuture.ListFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateCancelledFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
-import com.google.common.util.concurrent.ImmediateFuture.ImmediateSuccessfulFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +57,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * monitoring, debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
@@ -125,12 +124,12 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <V> ListenableFuture<V> immediateFuture(@NullableDecl V value) {
     if (value == null) {
-      // This cast is safe because null is assignable to V for all V (i.e. it is covariant)
-      @SuppressWarnings({"unchecked", "rawtypes"})
-      ListenableFuture<V> typedNull = (ListenableFuture) ImmediateSuccessfulFuture.NULL;
+      // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
+      @SuppressWarnings("unchecked")
+      ListenableFuture<V> typedNull = (ListenableFuture<V>) ImmediateFuture.NULL;
       return typedNull;
     }
-    return new ImmediateSuccessfulFuture<V>(value);
+    return new ImmediateFuture<>(value);
   }
 
   /**
@@ -153,6 +152,33 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   public static <V> ListenableFuture<V> immediateCancelledFuture() {
     return new ImmediateCancelledFuture<V>();
+  }
+
+  /**
+   * Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
+   *
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
+   * @since NEXT
+   */
+  @Beta
+  public static <O> ListenableFuture<O> submit(Callable<O> callable, Executor executor) {
+    TrustedListenableFutureTask<O> task = TrustedListenableFutureTask.create(callable);
+    executor.execute(task);
+    return task;
+  }
+
+  /**
+   * Executes {@code runnable} on the specified {@code executor}, returning a {@code Future} that
+   * will complete after execution.
+   *
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
+   * @since NEXT
+   */
+  @Beta
+  public static ListenableFuture<Void> submit(Runnable runnable, Executor executor) {
+    TrustedListenableFutureTask<Void> task = TrustedListenableFutureTask.create(runnable, null);
+    executor.execute(task);
+    return task;
   }
 
   /**
@@ -526,6 +552,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
    * successful.
    *
+   * <p>Any failures from the input futures will not be propagated to the returned future.
+   *
    * @since 20.0
    */
   @Beta
@@ -537,6 +565,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * Creates a {@link FutureCombiner} that processes the completed futures whether or not they're
    * successful.
+   *
+   * <p>Any failures from the input futures will not be propagated to the returned future.
    *
    * @since 20.0
    */

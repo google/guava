@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -35,6 +37,7 @@ public class CompoundOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static CompoundOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     int n = reader.readInt();
     List<Comparator<Object>> comparators = new ArrayList<>();
     for (int i = 0; i < n; i++) {
@@ -45,6 +48,7 @@ public class CompoundOrdering_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, CompoundOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeInt(instance.comparators.length);
     for (Comparator<?> comparator : instance.comparators) {
       writer.writeObject(comparator);

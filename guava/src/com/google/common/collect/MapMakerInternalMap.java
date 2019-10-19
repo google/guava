@@ -1119,11 +1119,7 @@ class MapMakerInternalMap<
     if (entry.getKey() == null) {
       return null;
     }
-    V value = entry.getValue();
-    if (value == null) {
-      return null;
-    }
-    return value;
+    return entry.getValue();
   }
 
   @SuppressWarnings("unchecked")
@@ -2319,9 +2315,7 @@ class MapMakerInternalMap<
         }
         sum -= segments[i].modCount;
       }
-      if (sum != 0L) {
-        return false;
-      }
+      return sum == 0L;
     }
     return true;
   }

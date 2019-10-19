@@ -36,6 +36,7 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.truth.Correspondence;
+import com.google.common.truth.Correspondence.BinaryPredicate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,20 +89,17 @@ public class QuantilesTest extends TestCase {
    * each other or identical non-finite values.
    */
   private static final Correspondence<Double, Double> QUANTILE_CORRESPONDENCE =
-      new Correspondence<Double, Double>() {
-
-        @Override
-        public boolean compare(@NullableDecl Double actual, @NullableDecl Double expected) {
-          // Test for equality to allow non-finite values to match; otherwise, use the finite test.
-          return actual.equals(expected)
-              || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
-        }
-
-        @Override
-        public String toString() {
-          return "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE;
-        }
-      };
+      Correspondence.from(
+          new BinaryPredicate<Double, Double>() {
+            @Override
+            public boolean apply(@NullableDecl Double actual, @NullableDecl Double expected) {
+              // Test for equality to allow non-finite values to match; otherwise, use the finite
+              // test.
+              return actual.equals(expected)
+                  || FINITE_QUANTILE_CORRESPONDENCE.compare(actual, expected);
+            }
+          },
+          "is identical to or " + FINITE_QUANTILE_CORRESPONDENCE);
 
   // 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10):
 
@@ -290,6 +288,18 @@ public class QuantilesTest extends TestCase {
             5, SIXTEEN_SQUARES_MEDIAN,
             1, SIXTEEN_SQUARES_DECILE_1,
             8, SIXTEEN_SQUARES_DECILE_8);
+  }
+
+  public void testScale_indexes_varargs_compute_indexOrderIsMaintained() {
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8)
+        .inOrder();
   }
 
   public void testScale_indexes_varargs_compute_doubleVarargs() {
@@ -742,6 +752,15 @@ public class QuantilesTest extends TestCase {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
     try {
       intermediate.computeInPlace(new double[] {});
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testScale_indexes_indexes_computeInPlace_empty() {
+    int[] emptyIndexes = {};
+    try {
+      Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }

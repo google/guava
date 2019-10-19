@@ -39,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -89,7 +90,7 @@ public final class Streams {
    */
   @Beta
   public static <T> Stream<T> stream(com.google.common.base.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }
 
   /**
@@ -100,7 +101,7 @@ public final class Streams {
    */
   @Beta
   public static <T> Stream<T> stream(java.util.Optional<T> optional) {
-    return optional.isPresent() ? Stream.of(optional.get()) : Stream.of();
+    return optional.isPresent() ? Stream.of(optional.get()) : Stream.empty();
   }
 
   /**
@@ -136,6 +137,13 @@ public final class Streams {
     return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
   }
 
+  private static void closeAll(BaseStream<?, ?>[] toClose) {
+    for (BaseStream<?, ?> stream : toClose) {
+      // TODO(b/80534298): Catch exceptions, rethrowing later with extras as suppressed exceptions.
+      stream.close();
+    }
+  }
+
   /**
    * Returns a {@link Stream} containing the elements of the first stream, followed by the elements
    * of the second stream, and so on.
@@ -167,12 +175,7 @@ public final class Streams {
                 characteristics,
                 estimatedSize),
             isParallel)
-        .onClose(
-            () -> {
-              for (Stream<? extends T> stream : streams) {
-                stream.close();
-              }
-            });
+        .onClose(() -> closeAll(streams));
   }
 
   /**
@@ -185,8 +188,26 @@ public final class Streams {
    * @see IntStream#concat(IntStream, IntStream)
    */
   public static IntStream concat(IntStream... streams) {
-    // TODO(lowasser): optimize this later
-    return Stream.of(streams).flatMapToInt(stream -> stream);
+    boolean isParallel = false;
+    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
+    long estimatedSize = 0L;
+    ImmutableList.Builder<Spliterator.OfInt> splitrsBuilder =
+        new ImmutableList.Builder<>(streams.length);
+    for (IntStream stream : streams) {
+      isParallel |= stream.isParallel();
+      Spliterator.OfInt splitr = stream.spliterator();
+      splitrsBuilder.add(splitr);
+      characteristics &= splitr.characteristics();
+      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
+    }
+    return StreamSupport.intStream(
+            CollectSpliterators.flatMapToInt(
+                splitrsBuilder.build().spliterator(),
+                splitr -> splitr,
+                characteristics,
+                estimatedSize),
+            isParallel)
+        .onClose(() -> closeAll(streams));
   }
 
   /**
@@ -199,8 +220,26 @@ public final class Streams {
    * @see LongStream#concat(LongStream, LongStream)
    */
   public static LongStream concat(LongStream... streams) {
-    // TODO(lowasser): optimize this later
-    return Stream.of(streams).flatMapToLong(stream -> stream);
+    boolean isParallel = false;
+    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
+    long estimatedSize = 0L;
+    ImmutableList.Builder<Spliterator.OfLong> splitrsBuilder =
+        new ImmutableList.Builder<>(streams.length);
+    for (LongStream stream : streams) {
+      isParallel |= stream.isParallel();
+      Spliterator.OfLong splitr = stream.spliterator();
+      splitrsBuilder.add(splitr);
+      characteristics &= splitr.characteristics();
+      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
+    }
+    return StreamSupport.longStream(
+            CollectSpliterators.flatMapToLong(
+                splitrsBuilder.build().spliterator(),
+                splitr -> splitr,
+                characteristics,
+                estimatedSize),
+            isParallel)
+        .onClose(() -> closeAll(streams));
   }
 
   /**
@@ -213,12 +252,30 @@ public final class Streams {
    * @see DoubleStream#concat(DoubleStream, DoubleStream)
    */
   public static DoubleStream concat(DoubleStream... streams) {
-    // TODO(lowasser): optimize this later
-    return Stream.of(streams).flatMapToDouble(stream -> stream);
+    boolean isParallel = false;
+    int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
+    long estimatedSize = 0L;
+    ImmutableList.Builder<Spliterator.OfDouble> splitrsBuilder =
+        new ImmutableList.Builder<>(streams.length);
+    for (DoubleStream stream : streams) {
+      isParallel |= stream.isParallel();
+      Spliterator.OfDouble splitr = stream.spliterator();
+      splitrsBuilder.add(splitr);
+      characteristics &= splitr.characteristics();
+      estimatedSize = LongMath.saturatedAdd(estimatedSize, splitr.estimateSize());
+    }
+    return StreamSupport.doubleStream(
+            CollectSpliterators.flatMapToDouble(
+                splitrsBuilder.build().spliterator(),
+                splitr -> splitr,
+                characteristics,
+                estimatedSize),
+            isParallel)
+        .onClose(() -> closeAll(streams));
   }
 
   /**
-   * Returns a stream in which each element is the result of passing the corresponding elementY of
+   * Returns a stream in which each element is the result of passing the corresponding element of
    * each of {@code streamA} and {@code streamB} to {@code function}.
    *
    * <p>For example:

@@ -47,7 +47,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -132,7 +132,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since NEXT
+   * @since 28.0
    */
   @Deprecated
   public static <V> FluentFuture<V> from(FluentFuture<V> future) {

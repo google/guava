@@ -55,8 +55,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * type or subtype value. A media type may not have wildcard type with a declared subtype. The
  * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
  * parameter attributes or parameter values must be valid according to RFCs <a
- * href="http://www.ietf.org/rfc/rfc2045.txt">2045</a> and <a
- * href="http://www.ietf.org/rfc/rfc2046.txt">2046</a>.
+ * href="https://tools.ietf.org/html/rfc2045">2045</a> and <a
+ * href="https://tools.ietf.org/html/rfc2046">2046</a>.
  *
  * <p>All portions of the media type that are case-insensitive (type, subtype, parameter attributes)
  * are normalized to lowercase. The value of the {@code charset} parameter is normalized to
@@ -242,6 +242,20 @@ public final class MediaType {
    */
   public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");
 
+  /**
+   * <a href="https://www.iana.org/assignments/media-types/image/heif">HEIF image format</a>.
+   *
+   * @since 28.1
+   */
+  public static final MediaType HEIF = createConstant(IMAGE_TYPE, "heif");
+
+  /**
+   * <a href="https://tools.ietf.org/html/rfc3745">JP2K image format</a>.
+   *
+   * @since 28.1
+   */
+  public static final MediaType JP2K = createConstant(IMAGE_TYPE, "jp2");
+
   /* audio types */
   public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");
   public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");
@@ -426,6 +440,14 @@ public final class MediaType {
    */
   public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
 
+  /**
+   * Media type for the <a href="https://tools.ietf.org/html/rfc7946">GeoJSON Format</a>, a
+   * geospatial data interchange format based on JSON.
+   *
+   * @since 28.0
+   */
+  public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
+
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**
@@ -515,6 +537,18 @@ public final class MediaType {
   public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
 
   /**
+   * Media type for <a
+   * href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP">Dynamic Adaptive
+   * Streaming over HTTP (DASH)</a>. This is <a
+   * href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
+   * the IANA.
+   *
+   * @since NEXT
+   */
+  public static final MediaType MEDIA_PRESENTATION_DESCRIPTION =
+      createConstant(APPLICATION_TYPE, "dash+xml");
+
+  /**
    * WASM applications. For more information see <a href="https://webassembly.org/">the Web Assembly
    * overview</a>.
    *
@@ -560,6 +594,17 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");
   public static final MediaType OPENDOCUMENT_TEXT =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
+
+  /**
+   * <a href="https://tools.ietf.org/id/draft-ellermann-opensearch-01.html">OpenSearch</a>
+   * Description files are XML files that describe how a website can be used as a search engine by
+   * consumers (e.g. web browsers).
+   *
+   * @since NEXT
+   */
+  public static final MediaType OPENSEARCH_DESCRIPTION_UTF_8 =
+      createConstantUtf8(APPLICATION_TYPE, "opensearchdescription+xml");
+
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
 
@@ -915,10 +960,13 @@ public final class MediaType {
 
   private static String normalizeToken(String token) {
     checkArgument(TOKEN_MATCHER.matchesAllOf(token));
+    checkArgument(!token.isEmpty());
     return Ascii.toLowerCase(token);
   }
 
   private static String normalizeParameterValue(String attribute, String value) {
+    checkNotNull(value); // for GWT
+    checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
     return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;
   }
 
@@ -1066,7 +1114,9 @@ public final class MediaType {
               new Function<String, String>() {
                 @Override
                 public String apply(String value) {
-                  return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);
+                  return (TOKEN_MATCHER.matchesAllOf(value) && !value.isEmpty())
+                      ? value
+                      : escapeAndQuote(value);
                 }
               });
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());

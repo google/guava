@@ -375,8 +375,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public SortedSet<E> create(Object... elements) {
-      @SuppressWarnings("unchecked") // set generators must pass SampleElements values
-      List<E> normalValues = (List) Arrays.asList(elements);
+      List<?> normalValues = (List<?>) Arrays.asList(elements);
       List<E> extremeValues = new ArrayList<>();
 
       // nulls are usually out of bounds for a subset, so ban them altogether
@@ -399,12 +398,12 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<E> allEntries = new ArrayList<>();
+      List<Object> allEntries = new ArrayList<>();
       allEntries.addAll(extremeValues);
       allEntries.addAll(normalValues);
-      SortedSet<E> map = delegate.create(allEntries.toArray());
+      SortedSet<E> set = delegate.create(allEntries.toArray());
 
-      return createSubSet(map, firstExclusive, lastExclusive);
+      return createSubSet(set, firstExclusive, lastExclusive);
     }
 
     /** Calls the smallest subSet overload that filters out the extreme values. */
@@ -474,8 +473,6 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public SortedMap<K, V> create(Object... entries) {
-      @SuppressWarnings("unchecked") // map generators must past entry objects
-      List<Entry<K, V>> normalValues = (List) Arrays.asList(entries);
       List<Entry<K, V>> extremeValues = new ArrayList<>();
 
       // prepare extreme values to be filtered out of view
@@ -491,12 +488,12 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<Entry<K, V>> allEntries = new ArrayList<>();
+      List<Entry<?, ?>> allEntries = new ArrayList<>();
       allEntries.addAll(extremeValues);
-      allEntries.addAll(normalValues);
-      SortedMap<K, V> map =
-          (SortedMap<K, V>)
-              delegate.create((Object[]) allEntries.toArray(new Entry<?, ?>[allEntries.size()]));
+      for (Object entry : entries) {
+        allEntries.add((Entry<?, ?>) entry);
+      }
+      SortedMap<K, V> map = (SortedMap<K, V>) delegate.create(allEntries.toArray());
 
       return createSubMap(map, firstExclusive, lastExclusive);
     }

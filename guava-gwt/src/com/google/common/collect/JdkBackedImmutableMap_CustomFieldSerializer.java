@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -34,6 +36,7 @@ public class JdkBackedImmutableMap_CustomFieldSerializer {
 
   public static ImmutableMap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map<Object, Object> entries = new LinkedHashMap<>();
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
     return ImmutableMap.copyOf(entries);
@@ -41,6 +44,7 @@ public class JdkBackedImmutableMap_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, ImmutableMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

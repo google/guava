@@ -409,7 +409,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  @MonotonicNonNullDecl private transient ImmutableSet<Entry<K, V>> entries;
+  @LazyInit @RetainedWith @MonotonicNonNullDecl private transient ImmutableSet<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses

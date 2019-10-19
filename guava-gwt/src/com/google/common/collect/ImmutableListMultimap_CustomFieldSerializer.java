@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -32,6 +34,7 @@ public class ImmutableListMultimap_CustomFieldSerializer {
 
   public static ImmutableListMultimap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return (ImmutableListMultimap<Object, Object>)
         Multimap_CustomFieldSerializerBase.instantiate(reader, ImmutableListMultimap.builder());
   }
@@ -39,6 +42,7 @@ public class ImmutableListMultimap_CustomFieldSerializer {
   public static void serialize(
       SerializationStreamWriter writer, ImmutableListMultimap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Multimap_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }
