@@ -90,7 +90,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
    * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
    * directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
-   * performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
+   * performance for unescaped strings (as measured by {@code CharEscapersBenchmark}).
    *
    * @param string the literal string to be escaped
    * @return the escaped form of {@code string}

@@ -51,7 +51,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p><b>Note:</b> every {@link ImmutableMultimap} offers an {@link #inverse} view, so there is no
  * need for a distinct {@code ImmutableBiMultimap} type.
  *
- * <p><a name="iteration"></a>
+ * <p><a id="iteration"></a>
  *
  * <p><b>Key-grouped iteration.</b> All view collections follow the same iteration order. In all
  * current implementations, the iteration order always keeps multiple entries with the same key
