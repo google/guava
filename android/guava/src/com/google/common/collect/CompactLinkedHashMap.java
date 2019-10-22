@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -85,7 +86,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   private final boolean accessOrder;
 
   CompactLinkedHashMap() {
-    this(DEFAULT_SIZE);
+    this(CompactHashing.DEFAULT_SIZE);
   }
 
   CompactLinkedHashMap(int expectedSize) {
@@ -105,30 +106,29 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   @Override
-  void allocArrays() {
-    super.allocArrays();
-    int expectedSize = keys.length; // allocated size may be different than initial capacity
+  int allocArrays() {
+    int expectedSize = super.allocArrays();
     this.links = new long[expectedSize];
-    Arrays.fill(links, UNSET);
+    return expectedSize;
   }
 
   private int getPredecessor(int entry) {
-    return (int) (links[entry] >>> 32);
+    return ((int) (links[entry] >>> 32)) - 1;
   }
 
   @Override
   int getSuccessor(int entry) {
-    return (int) links[entry];
+    return ((int) links[entry]) - 1;
   }
 
   private void setSuccessor(int entry, int succ) {
     long succMask = (~0L) >>> 32;
-    links[entry] = (links[entry] & ~succMask) | (succ & succMask);
+    links[entry] = (links[entry] & ~succMask) | ((succ + 1) & succMask);
   }
 
   private void setPredecessor(int entry, int pred) {
     long predMask = ~0L << 32;
-    links[entry] = (links[entry] & ~predMask) | ((long) pred << 32);
+    links[entry] = (links[entry] & ~predMask) | ((long) (pred + 1) << 32);
   }
 
   private void setSucceeds(int pred, int succ) {
@@ -146,8 +146,8 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
   }
 
   @Override
-  void insertEntry(int entryIndex, K key, V value, int hash) {
-    super.insertEntry(entryIndex, key, value, hash);
+  void insertEntry(int entryIndex, @NullableDecl K key, @NullableDecl V value, int hash, int mask) {
+    super.insertEntry(entryIndex, key, value, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
   }
@@ -160,31 +160,27 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
       // ...and insert at the end.
       setSucceeds(lastEntry, index);
       setSucceeds(index, ENDPOINT);
-      modCount++;
+      incrementModCount();
     }
   }
 
   @Override
-  void moveLastEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex, int mask) {
     int srcIndex = size() - 1;
-    super.moveLastEntry(dstIndex);
+    super.moveLastEntry(dstIndex, mask);
 
     setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
     if (dstIndex < srcIndex) {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    links[srcIndex] = UNSET;
+    links[srcIndex] = 0;
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    int oldCapacity = links.length;
     links = Arrays.copyOf(links, newCapacity);
-    if (oldCapacity < newCapacity) {
-      Arrays.fill(links, oldCapacity, newCapacity, UNSET);
-    }
   }
 
   @Override
@@ -204,7 +200,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(links, 0, size(), UNSET);
+    Arrays.fill(links, 0, size(), 0);
     super.clear();
   }
 }
