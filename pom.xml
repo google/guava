@@ -123,11 +123,6 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
-          <configuration>
-            <excludes>
-              <exclude>**/ForceGuavaCompilation*</exclude>
-            </excludes>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
@@ -139,11 +134,6 @@
               <goals><goal>jar</goal></goals>
             </execution>
           </executions>
-          <configuration>
-            <excludes>
-              <exclude>**/ForceGuavaCompilation*</exclude>
-            </excludes>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
