@@ -220,24 +220,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>srczip-base</id>
-      <activation>
-        <file>
-          <exists>${java.home}/src.zip</exists>
-        </file>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>jdk</groupId>
-          <artifactId>srczip</artifactId>
-          <version>999</version>
-          <scope>system</scope>
-          <systemPath>${java.home}/src.zip</systemPath>
-          <optional>true</optional>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>srczip-lib</id>
       <activation>
         <file>
