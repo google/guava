@@ -122,12 +122,14 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static enum <a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.64">ElementOrder.Type</a>
+<pre>public static enum <a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.66">ElementOrder.Type</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?is-external=true" title="class or interface in java.lang">Enum</a>&lt;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>&gt;</pre>
 <div class="block">The type of ordering that this object specifies.
 
  <ul>
    <li>UNORDERED: no order is guaranteed.
+   <li>STABLE: ordering is guaranteed to follow a pattern that won't change between releases.
+       Some methods may have stronger guarantees.
    <li>INSERTION: insertion ordering is guaranteed.
    <li>SORTED: ordering according to a supplied comparator is guaranteed.
  </ul></div>
@@ -155,6 +157,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Enum.html?i
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ElementOrder.Type.html#SORTED">SORTED</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ElementOrder.Type.html#STABLE">STABLE</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/google/common/graph/ElementOrder.Type.html#UNORDERED">UNORDERED</a></span></code>&nbsp;</td>
 </tr>
 </table>
@@ -220,7 +225,16 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>UNORDERED</h4>
-<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.65">UNORDERED</a></pre>
+<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.67">UNORDERED</a></pre>
+</li>
+</ul>
+<a name="STABLE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>STABLE</h4>
+<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.68">STABLE</a></pre>
 </li>
 </ul>
 <a name="INSERTION">
@@ -229,7 +243,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>INSERTION</h4>
-<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.66">INSERTION</a></pre>
+<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.69">INSERTION</a></pre>
 </li>
 </ul>
 <a name="SORTED">
@@ -238,7 +252,7 @@ the order they are declared.</div>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SORTED</h4>
-<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.67">SORTED</a></pre>
+<pre>public static final&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a> <a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.70">SORTED</a></pre>
 </li>
 </ul>
 </li>
@@ -255,7 +269,7 @@ the order they are declared.</div>
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>[]&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.64">values</a>()</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>[]&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.66">values</a>()</pre>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.  This method may be used to iterate
 over the constants as follows:
@@ -275,7 +289,7 @@ for (ElementOrder.Type c : ElementOrder.Type.values())
 <ul class="blockListLast">
 <li class="blockList">
 <h4>valueOf</h4>
-<pre>public static&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.64">valueOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
+<pre>public static&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.Type.html#line.66">valueOf</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</pre>
 <div class="block">Returns the enum constant of this type with the specified name.
 The string must match <i>exactly</i> an identifier used to declare an
 enum constant in this type.  (Extraneous whitespace characters are 

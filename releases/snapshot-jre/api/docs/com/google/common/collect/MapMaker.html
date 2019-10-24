@@ -143,9 +143,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
  present in the map to be reclaimed by the garbage collector. Entries with reclaimed keys or
  values may be removed from the map on each map modification or on occasional map accesses; such
  entries may be counted by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#size--" title="class or interface in java.util"><code>Map.size()</code></a>, but will never be visible to read or write
- operations. A partially-reclaimed entry is never exposed to the user. Any <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Entry.html?is-external=true" title="class or interface in java.util"><code>Entry</code></a>
+ operations. A partially-reclaimed entry is never exposed to the user. Any <code>Map.Entry</code>
  instance retrieved from the map's <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#entrySet--" title="class or interface in java.util">entry set</a> is a snapshot of that
- entry's state at the time of retrieval; such entries do, however, support <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Entry.html?is-external=true#setValue" title="class or interface in java.util"><code>Entry</code></a>, which simply calls <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put-K-V-" title="class or interface in java.util"><code>Map.put(K, V)</code></a> on the entry's key.
+ entry's state at the time of retrieval; such entries do, however, support <code>Map.Entry#setValue</code>, which simply calls <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#put-K-V-" title="class or interface in java.util"><code>Map.put(K, V)</code></a> on the entry's key.
 
  <p>The maps produced by <code>MapMaker</code> are serializable, and the deserialized maps retain all
  the configuration properties of the original map. During deserialization, if the original map had

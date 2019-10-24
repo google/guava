@@ -98,7 +98,7 @@
 <span class="sourceLineNo">090</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; When implementing an escaper it is a good idea to override this method for<a name="line.90"></a>
 <span class="sourceLineNo">091</span>   * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   * directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).<a name="line.93"></a>
+<span class="sourceLineNo">093</span>   * performance for unescaped strings (as measured by {@code CharEscapersBenchmark}).<a name="line.93"></a>
 <span class="sourceLineNo">094</span>   *<a name="line.94"></a>
 <span class="sourceLineNo">095</span>   * @param string the literal string to be escaped<a name="line.95"></a>
 <span class="sourceLineNo">096</span>   * @return the escaped form of {@code string}<a name="line.96"></a>

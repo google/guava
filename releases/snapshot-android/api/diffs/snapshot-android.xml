@@ -12347,7 +12347,7 @@
  <p>Several lesser-used features are currently available only as static methods on the {@link
  Iterables} class.
 
- <p><a name="streams"></a>
+ <p><a id="streams"></a>
 
  <h3>Comparison to streams</h3>
 
@@ -17111,7 +17111,7 @@
       <param name="element" type="E"/>
       <doc>
       <![CDATA[Returns an immutable list containing a single element. This list behaves and performs
- comparably to {@link Collections#singleton}, but will not accept a null element. It is
+ comparably to {@link Collections#singletonList}, but will not accept a null element. It is
  preferable mainly for consistency and maintainability of your code.
 
  @throws NullPointerException if {@code element} is null]]>
@@ -18715,7 +18715,7 @@
  <p><b>Note:</b> every {@link ImmutableMultimap} offers an {@link #inverse} view, so there is no
  need for a distinct {@code ImmutableBiMultimap} type.
 
- <p><a name="iteration"></a>
+ <p><a id="iteration"></a>
 
  <p><b>Key-grouped iteration.</b> All view collections follow the same iteration order. In all
  current implementations, the iteration order always keeps multiple entries with the same key
@@ -25285,10 +25285,10 @@
  present in the map to be reclaimed by the garbage collector. Entries with reclaimed keys or
  values may be removed from the map on each map modification or on occasional map accesses; such
  entries may be counted by {@link Map#size}, but will never be visible to read or write
- operations. A partially-reclaimed entry is never exposed to the user. Any {@link java.util.Entry}
+ operations. A partially-reclaimed entry is never exposed to the user. Any {@link Map.Entry}
  instance retrieved from the map's {@linkplain Map#entrySet entry set} is a snapshot of that
  entry's state at the time of retrieval; such entries do, however, support {@link
- java.util.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.
+ Map.Entry#setValue}, which simply calls {@link Map#put} on the entry's key.
 
  <p>The maps produced by {@code MapMaker} are serializable, and the deserialized maps retain all
  the configuration properties of the original map. During deserialization, if the original map had
@@ -35366,7 +35366,7 @@
  <p><b>Note:</b> When implementing an escaper it is a good idea to override this method for
  efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}
  directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the
- performance for unescaped strings (as measured by {@link CharEscapersBenchmark}).
+ performance for unescaped strings (as measured by {@code CharEscapersBenchmark}).
 
  @param string the literal string to be escaped
  @return the escaped form of {@code string}
@@ -36183,6 +36183,8 @@
 
  <ul>
    <li>UNORDERED: no order is guaranteed.
+   <li>STABLE: ordering is guaranteed to follow a pattern that won't change between releases.
+       Some methods may have stronger guarantees.
    <li>INSERTION: insertion ordering is guaranteed.
    <li>SORTED: ordering according to a supplied comparator is guaranteed.
  </ul>]]>
@@ -38350,7 +38352,7 @@
  @param <N> The most general node type this builder will support. This is normally {@code Object}
      unless it is constrained by using a method like {@link #nodeOrder}, or the builder is
      constructed based on an existing {@code Network} using {@link #from(Network)}.
- @param <N> The most general edge type this builder will support. This is normally {@code Object}
+ @param <E> The most general edge type this builder will support. This is normally {@code Object}
      unless it is constrained by using a method like {@link #edgeOrder}, or the builder is
      constructed based on an existing {@code Network} using {@link #from(Network)}.
  @since 20.0]]>
@@ -60209,7 +60211,7 @@
  cannot be used as a replacement for a {@link Double}. However, this class does extend {@code
  Number} to allow uniform access by tools and utilities that deal with numerically-based classes.
 
- <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ <p><a id="bitEquals"></a>This class compares primitive {@code double} values in methods such as
  {@link #compareAndSet} by comparing their bitwise representation using {@link
  Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  from {@link Double#equals}, as if implemented by:
@@ -60406,7 +60408,7 @@
  java.util.concurrent.atomic} package specification for description of the properties of atomic
  variables.
 
- <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ <p><a id="bitEquals"></a>This class compares primitive {@code double} values in methods such as
  {@link #compareAndSet} by comparing their bitwise representation using {@link
  Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  from {@link Double#equals}, as if implemented by:
