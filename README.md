@@ -40,11 +40,24 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  compile 'com.google.guava:guava:28.1-jre'
-  // or, for Android:
-  api 'com.google.guava:guava:28.1-android'
+  // Pick one:
+
+  // 1. Use Guava in your implementation only:
+  implementation("com.google.guava:guava:28.1-jre")
+
+  // 2. Use Guava types in your public API:
+  api("com.google.guava:guava:28.1-jre")
+
+  // 3. Android - Use Guava in your implementation only:
+  implementation("com.google.guava:guava:28.1-android")
+
+  // 4. Android - Use Guava types in your public API:
+  api("com.google.guava:guava:28.1-android")
 }
 ```
+
+For more information on when to use `api` and when to use `implementation`, consult the
+[Gradle documentation on API and implementation separation](https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation).
 
 ## Snapshots
 
