@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import junit.framework.TestCase;
 
@@ -54,7 +55,19 @@ public class BooleansTest extends TestCase {
     assertTrue(Booleans.trueFirst().compare(true, false) < 0);
     assertTrue(Booleans.trueFirst().compare(false, true) > 0);
   }
-
+  
+  public void testTrueFirstCompareNull() {
+	  Boolean[][] inputs = { {Boolean.TRUE, null}, {null, Boolean.FALSE}, {null, null} };
+	  for(Boolean[] input : inputs) {
+		  Boolean a = input[0];
+		  Boolean b = input[1];
+		  try {		  
+			  Booleans.trueFirst().compare(a, b);
+			  fail("NullPointerException must be thrown for input [" + a + "," + b + "]");
+		  }catch(NullPointerException e) {}
+	  }
+  }
+  
   public void testFalseFirst() {
     assertEquals(0, Booleans.falseFirst().compare(true, true));
     assertEquals(0, Booleans.falseFirst().compare(false, false));
@@ -62,6 +75,18 @@ public class BooleansTest extends TestCase {
     assertTrue(Booleans.falseFirst().compare(true, false) > 0);
   }
 
+  public void testFalseFirstCompareNull() {
+	  Boolean[][] inputs = { {Boolean.TRUE, null}, {null, Boolean.FALSE}, {null, null} };
+	  for(Boolean[] input : inputs) {
+		  Boolean a = input[0];
+		  Boolean b = input[1];
+		  try {		  
+			  Booleans.falseFirst().compare(a, b);
+			  fail("NullPointerException must be thrown for input [" + a + "," + b + "]");
+		  }catch(NullPointerException e) {}
+	  }
+  }
+  
   public void testCompare() {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {
