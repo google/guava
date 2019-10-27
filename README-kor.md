@@ -8,7 +8,7 @@ Guava는 새로운 컬렉션 유형 (예: 멀티 맵 및 멀티 세트), 변경 
 
 Guava는 두 가지 풍미(flavor)가 있습니다.
 
-*   JRE flavor느 JDK 1.8 혹은 그 이상이 필요합니다.
+*   JRE flavor는 JDK 1.8 혹은 그 이상이 필요합니다.
 *   JDK 1.7 또는 Android를 지원해야하는 경우 Android flavor를 사용하십시오. [`android` directory] 에서 Android Guava 소스를 찾을 수 있습니다.
 
 [`android` directory]: https://github.com/google/guava/tree/master/android
