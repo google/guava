@@ -290,8 +290,8 @@ public class AbstractFutureTest extends TestCase {
     testFuture3.setFuture(testFuture2);
     assertThat(testFuture3.toString())
         .matches(
-            "[^\\[]+\\[status=PENDING, info=\\[setFuture="
-                + "\\[[^\\[]+\\[status=PENDING, info=\\[cause=\\[Someday...\\]\\]\\]\\]\\]\\]");
+            "[^\\[]+\\[status=PENDING, setFuture=\\[[^\\[]+\\[status=PENDING,"
+                + " info=\\[cause=\\[Someday...]]]]]");
     testFuture2.set("result string");
     assertThat(testFuture3.toString())
         .matches("[^\\[]+\\[status=SUCCESS, result=\\[result string\\]\\]");
@@ -886,7 +886,7 @@ public class AbstractFutureTest extends TestCase {
   public void testSetFutureSelf_toString() {
     SettableFuture<String> orig = SettableFuture.create();
     orig.setFuture(orig);
-    assertThat(orig.toString()).contains("[status=PENDING, info=[setFuture=[this future]]]");
+    assertThat(orig.toString()).contains("[status=PENDING, setFuture=[this future]]");
   }
 
   public void testSetSelf_toString() {

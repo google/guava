@@ -3069,33 +3069,6 @@ public void testWhenAllComplete_asyncError() throws Exception {
   }
 }
 
-public void testWhenAllComplete_asyncResult() throws Exception {
-  com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
-  testCase.setUp();
-  Throwable failure = null;
-  try {
-    testCase.testWhenAllComplete_asyncResult();
-  } catch (Throwable t) {
-    failure = t;
-  }
-  try {
-    testCase.tearDown();
-  } catch (Throwable t) {
-    if (failure == null) {
-      failure = t;
-    }
-  }
-  if (failure instanceof Exception) {
-    throw (Exception) failure;
-  }
-  if (failure instanceof Error) {
-    throw (Error) failure;
-  }
-  if (failure != null) {
-    throw new RuntimeException(failure);
-  }
-}
-
 public void testWhenAllComplete_runnableError() throws Exception {
   com.google.common.util.concurrent.FuturesTest testCase = new com.google.common.util.concurrent.FuturesTest();
   testCase.setUp();

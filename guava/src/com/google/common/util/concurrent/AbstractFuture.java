@@ -20,6 +20,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Strings;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -1064,23 +1065,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     } else if (isDone()) {
       addDoneString(builder);
     } else {
-      String pendingDescription;
-      try {
-        pendingDescription = pendingToString();
-      } catch (RuntimeException e) {
-        // Don't call getMessage or toString() on the exception, in case the exception thrown by the
-        // subclass is implemented with bugs similar to the subclass.
-        pendingDescription = "Exception thrown from implementation: " + e.getClass();
-      }
-      // The future may complete during or before the call to getPendingToString, so we use null
-      // as a signal that we should try checking if the future is done again.
-      if (pendingDescription != null && !pendingDescription.isEmpty()) {
-        builder.append("PENDING, info=[").append(pendingDescription).append("]");
-      } else if (isDone()) {
-        addDoneString(builder);
-      } else {
-        builder.append("PENDING");
-      }
+      addPendingString(builder); // delegates to addDoneString if future completes mid-way
     }
     return builder.append("]").toString();
   }
@@ -1088,19 +1073,51 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   /**
    * Provide a human-readable explanation of why this future has not yet completed.
    *
-   * @return null if an explanation cannot be provided because the future is done.
+   * @return null if an explanation cannot be provided (e.g. because the future is done).
    * @since 23.0
    */
   protected @Nullable String pendingToString() {
-    Object localValue = value;
-    if (localValue instanceof SetFuture) {
-      return "setFuture=[" + userObjectToString(((SetFuture) localValue).future) + "]";
-    } else if (this instanceof ScheduledFuture) {
+    // TODO(diamondm) consider moving this into addPendingString so it's always in the output
+    if (this instanceof ScheduledFuture) {
       return "remaining delay=["
           + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS)
           + " ms]";
     }
     return null;
+  }
+
+  private void addPendingString(StringBuilder builder) {
+    // Be careful not to append to the builder with anything that might be invalidated
+
+    String pendingDescription;
+    try {
+      pendingDescription = Strings.emptyToNull(pendingToString());
+    } catch (RuntimeException e) {
+      // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+      // subclass is implemented with bugs similar to the subclass.
+      pendingDescription = "Exception thrown from implementation: " + e.getClass();
+    }
+
+    String setFutureString = null;
+    Object localValue = value;
+    if (localValue instanceof SetFuture) {
+      setFutureString = userObjectToString(((SetFuture) localValue).future);
+    }
+
+    // The future may complete before we reach this point, so we check once more to see if the
+    // future is done
+    if (isDone()) {
+      addDoneString(builder);
+      return;
+    }
+
+    builder.append("PENDING");
+    if (pendingDescription != null) {
+      builder.append(", info=[").append(pendingDescription).append("]");
+    }
+    if (setFutureString != null) {
+      builder.append(", setFuture=[").append(setFutureString).append("]");
+    }
   }
 
   private void addDoneString(StringBuilder builder) {
