@@ -1143,7 +1143,13 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     if (o == this) {
       return "this future";
     }
-    return String.valueOf(o);
+    try {
+      return String.valueOf(o);
+    } catch (RuntimeException e) {
+      // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+      // user object is implemented with bugs similar to the user object.
+      return "Exception thrown from implementation: " + e.getClass();
+    }
   }
 
   /**
