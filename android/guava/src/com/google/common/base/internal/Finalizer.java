@@ -71,7 +71,7 @@ public class Finalizer implements Runnable {
      * 2) To detect when FinalizableReference's class loader has to be garbage collected, at which
      * point, Finalizer can stop running
      */
-    if (!finalizableReferenceClass.getName().equals(FINALIZABLE_REFERENCE)) {
+    if (!FINALIZABLE_REFERENCE.equals(finalizableReferenceClass.getName())) {
       throw new IllegalArgumentException("Expected " + FINALIZABLE_REFERENCE + ".");
     }
 
