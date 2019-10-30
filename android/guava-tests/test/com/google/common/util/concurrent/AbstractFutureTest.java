@@ -895,6 +895,21 @@ public class AbstractFutureTest extends TestCase {
     assertThat(orig.toString()).contains("[status=SUCCESS, result=[this future]]");
   }
 
+  public void testSetFutureSelf_toStringException() {
+    SettableFuture<String> orig = SettableFuture.create();
+    orig.setFuture(
+        new AbstractFuture<String>() {
+          @Override
+          public String toString() {
+            throw new NullPointerException();
+          }
+        });
+    assertThat(orig.toString())
+        .contains(
+            "[status=PENDING, setFuture=[Exception thrown from implementation: class"
+                + " java.lang.NullPointerException]]");
+  }
+
   public void testSetIndirectSelf_toString() {
     final SettableFuture<Object> orig = SettableFuture.create();
     // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
