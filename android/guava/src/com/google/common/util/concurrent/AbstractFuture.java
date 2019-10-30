@@ -1088,43 +1088,46 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   private void addPendingString(StringBuilder builder) {
-    // Be careful not to append to the builder with anything that might be invalidated
-
-    String pendingDescription;
-    try {
-      pendingDescription = Strings.emptyToNull(pendingToString());
-    } catch (RuntimeException e) {
-      // Don't call getMessage or toString() on the exception, in case the exception thrown by the
-      // subclass is implemented with bugs similar to the subclass.
-      pendingDescription = "Exception thrown from implementation: " + e.getClass();
-    }
-
-    String setFutureString = null;
-    Object localValue = value;
-    if (localValue instanceof SetFuture) {
-      setFutureString = userObjectToString(((SetFuture) localValue).future);
-    }
-
-    // The future may complete before we reach this point, so we check once more to see if the
-    // future is done
-    if (isDone()) {
-      addDoneString(builder);
-      return;
-    }
+    // Capture current builder length so it can be truncated if this future ends up completing while
+    // the toString is being calculated
+    int truncateLength = builder.length();
 
     builder.append("PENDING");
-    if (pendingDescription != null) {
-      builder.append(", info=[").append(pendingDescription).append("]");
+
+    Object localValue = value;
+    if (localValue instanceof SetFuture) {
+      builder.append(", setFuture=[");
+      appendUserObject(builder, ((SetFuture) localValue).future);
+      builder.append("]");
+    } else {
+      String pendingDescription;
+      try {
+        pendingDescription = Strings.emptyToNull(pendingToString());
+      } catch (RuntimeException | StackOverflowError e) {
+        // Don't call getMessage or toString() on the exception, in case the exception thrown by the
+        // subclass is implemented with bugs similar to the subclass.
+        pendingDescription = "Exception thrown from implementation: " + e.getClass();
+      }
+      if (pendingDescription != null) {
+        builder.append(", info=[").append(pendingDescription).append("]");
+      }
     }
-    if (setFutureString != null) {
-      builder.append(", setFuture=[").append(setFutureString).append("]");
+
+    // The future may complete while calculating the toString, so we check once more to see if the
+    // future is done
+    if (isDone()) {
+      // Truncate anything that was appended before realizing this future is done
+      builder.delete(truncateLength, builder.length());
+      addDoneString(builder);
     }
   }
 
   private void addDoneString(StringBuilder builder) {
     try {
       V value = getUninterruptibly(this);
-      builder.append("SUCCESS, result=[").append(userObjectToString(value)).append("]");
+      builder.append("SUCCESS, result=[");
+      appendUserObject(builder, value);
+      builder.append("]");
     } catch (ExecutionException e) {
       builder.append("FAILURE, cause=[").append(e.getCause()).append("]");
     } catch (CancellationException e) {
@@ -1135,20 +1138,21 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   /** Helper for printing user supplied objects into our toString method. */
-  private String userObjectToString(Object o) {
-    // This is some basic recursion detection for when people create cycles via set/setFuture
-    // This is however only partial protection though since it only detects self loops.  We could
-    // detect arbitrary cycles using a thread local or possibly by catching StackOverflowExceptions
-    // but this should be a good enough solution (it is also what jdk collections do in these cases)
-    if (o == this) {
-      return "this future";
-    }
+  private void appendUserObject(StringBuilder builder, Object o) {
+    // This is some basic recursion detection for when people create cycles via set/setFuture or
+    // when deep chains of futures exist resulting in a StackOverflowException. We could detect
+    // arbitrary cycles using a thread local but this should be a good enough solution (it is also
+    // what jdk collections do in these cases)
     try {
-      return String.valueOf(o);
-    } catch (RuntimeException e) {
+      if (o == this) {
+        builder.append("this future");
+      } else {
+        builder.append(o);
+      }
+    } catch (RuntimeException | StackOverflowError e) {
       // Don't call getMessage or toString() on the exception, in case the exception thrown by the
       // user object is implemented with bugs similar to the user object.
-      return "Exception thrown from implementation: " + e.getClass();
+      builder.append("Exception thrown from implementation: ").append(e.getClass());
     }
   }
 
