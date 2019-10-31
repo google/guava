@@ -200,13 +200,13 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static byte</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/UnsignedBytes.html#max-byte...-">max</a></span>(byte...&nbsp;array)</code>
-<div class="block">Returns the greatest value present in <code>array</code>.</div>
+<div class="block">Returns the greatest value present in <code>array</code>, treating values as unsigned.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>static byte</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/primitives/UnsignedBytes.html#min-byte...-">min</a></span>(byte...&nbsp;array)</code>
-<div class="block">Returns the least value present in <code>array</code>.</div>
+<div class="block">Returns the least value present in <code>array</code>, treating values as unsigned.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
@@ -423,13 +423,13 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>min</h4>
 <pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.131">min</a>(byte...&nbsp;array)</pre>
-<div class="block">Returns the least value present in <code>array</code>.</div>
+<div class="block">Returns the least value present in <code>array</code>, treating values as unsigned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the value present in <code>array</code> that is less than or equal to every other value in
-     the array</dd>
+     the array according to <a href="../../../../com/google/common/primitives/UnsignedBytes.html#compare-byte-byte-"><code>compare(byte, byte)</code></a></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>array</code> is empty</dd>
 </dl>
@@ -442,13 +442,13 @@ public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/pri
 <li class="blockList">
 <h4>max</h4>
 <pre>public static&nbsp;byte&nbsp;<a href="../../../../src-html/com/google/common/primitives/UnsignedBytes.html#line.151">max</a>(byte...&nbsp;array)</pre>
-<div class="block">Returns the greatest value present in <code>array</code>.</div>
+<div class="block">Returns the greatest value present in <code>array</code>, treating values as unsigned.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>array</code> - a <i>nonempty</i> array of <code>byte</code> values</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the value present in <code>array</code> that is greater than or equal to every other value
-     in the array</dd>
+     in the array according to <a href="../../../../com/google/common/primitives/UnsignedBytes.html#compare-byte-byte-"><code>compare(byte, byte)</code></a></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>array</code> is empty</dd>
 </dl>
