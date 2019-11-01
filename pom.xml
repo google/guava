@@ -17,6 +17,7 @@
     <truth.version>0.44</truth.version>
     <animal.sniffer.version>1.18</animal.sniffer.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <issueManagement>
@@ -122,15 +123,10 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.1.2</version>
-          <configuration>
-            <excludes>
-              <exclude>**/ForceGuavaCompilation*</exclude>
-            </excludes>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -138,17 +134,13 @@
               <goals><goal>jar</goal></goals>
             </execution>
           </executions>
-          <configuration>
-            <excludes>
-              <exclude>**/ForceGuavaCompilation*</exclude>
-            </excludes>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
           <version>${animal.sniffer.version}</version>
           <configuration>
+            <annotations>com.google.common.util.concurrent.IgnoreJRERequirement</annotations>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
               <artifactId>java18</artifactId>
@@ -260,7 +252,7 @@
       <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
-        <version>2.3.2</version>
+        <version>2.3.3</version>
       </dependency>
       <dependency>
         <groupId>com.google.j2objc</groupId>
@@ -340,7 +332,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-source-plugin</artifactId>
-              <version>2.1.2</version>
+              <version>${maven-source-plugin.version}</version>
               <executions>
                 <execution>
                   <id>attach-sources</id>

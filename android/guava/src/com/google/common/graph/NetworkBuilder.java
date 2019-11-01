@@ -61,7 +61,7 @@ import com.google.common.base.Optional;
  * @param <N> The most general node type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #nodeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
- * @param <N> The most general edge type this builder will support. This is normally {@code Object}
+ * @param <E> The most general edge type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #edgeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
  * @since 20.0

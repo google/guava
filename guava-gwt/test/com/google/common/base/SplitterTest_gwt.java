@@ -28,6 +28,11 @@ public void testCharacterSimpleSplitToList() throws Exception {
   testCase.testCharacterSimpleSplitToList();
 }
 
+public void testCharacterSimpleSplitToStream() throws Exception {
+  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
+  testCase.testCharacterSimpleSplitToStream();
+}
+
 public void testCharacterSimpleSplitWithNoDelimiter() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testCharacterSimpleSplitWithNoDelimiter();
@@ -236,6 +241,11 @@ public void testMapSplitter_duplicateKeys() throws Exception {
 public void testMapSplitter_emptySeparator() throws Exception {
   com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
   testCase.testMapSplitter_emptySeparator();
+}
+
+public void testMapSplitter_extraValueDelimiter() throws Exception {
+  com.google.common.base.SplitterTest testCase = new com.google.common.base.SplitterTest();
+  testCase.testMapSplitter_extraValueDelimiter();
 }
 
 public void testMapSplitter_malformedEntry() throws Exception {

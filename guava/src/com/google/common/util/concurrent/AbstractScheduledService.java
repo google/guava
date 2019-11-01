@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
@@ -126,7 +126,7 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
       return newFixedDelaySchedule(
-          saturatedToNanos(initialDelay), saturatedToNanos(delay), TimeUnit.NANOSECONDS);
+          toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -162,7 +162,7 @@ public abstract class AbstractScheduledService implements Service {
      */
     public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
       return newFixedRateSchedule(
-          saturatedToNanos(initialDelay), saturatedToNanos(period), TimeUnit.NANOSECONDS);
+          toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);
     }
 
     /**

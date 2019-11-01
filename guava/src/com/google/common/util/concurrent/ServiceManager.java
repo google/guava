@@ -21,7 +21,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
@@ -328,7 +328,7 @@ public final class ServiceManager {
    * @since 28.0
    */
   public void awaitHealthy(Duration timeout) throws TimeoutException {
-    awaitHealthy(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -380,7 +380,7 @@ public final class ServiceManager {
    * @since 28.0
    */
   public void awaitStopped(Duration timeout) throws TimeoutException {
-    awaitStopped(saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

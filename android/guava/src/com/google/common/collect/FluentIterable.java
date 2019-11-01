@@ -53,7 +53,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>Several lesser-used features are currently available only as static methods on the {@link
  * Iterables} class.
  *
- * <p><a name="streams"></a>
+ * <p><a id="streams"></a>
  *
  * <h3>Comparison to streams</h3>
  *
