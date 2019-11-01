@@ -608,7 +608,7 @@ public class ServiceManagerTest extends TestCase {
       }
       ServiceManager manager = new ServiceManager(services);
       manager.startAsync().awaitHealthy();
-      manager.stopAsync().awaitStopped(1, TimeUnit.SECONDS);
+      manager.stopAsync().awaitStopped(10, TimeUnit.SECONDS);
     }
   }
 

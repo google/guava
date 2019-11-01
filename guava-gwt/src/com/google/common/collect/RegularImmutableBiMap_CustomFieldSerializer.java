@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -33,6 +35,7 @@ public class RegularImmutableBiMap_CustomFieldSerializer {
 
   public static ImmutableBiMap<Object, Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map<Object, Object> entries = new LinkedHashMap<>();
     Map_CustomFieldSerializerBase.deserialize(reader, entries);
     return ImmutableBiMap.copyOf(entries);
@@ -40,6 +43,7 @@ public class RegularImmutableBiMap_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, ImmutableBiMap<?, ?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Map_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

@@ -3115,7 +3115,7 @@ public final class Maps {
     checkNotNull(map);
     if (map instanceof UnmodifiableNavigableMap) {
       @SuppressWarnings("unchecked") // covariant
-      NavigableMap<K, V> result = (NavigableMap) map;
+      NavigableMap<K, V> result = (NavigableMap<K, V>) map;
       return result;
     } else {
       return new UnmodifiableNavigableMap<>(map);

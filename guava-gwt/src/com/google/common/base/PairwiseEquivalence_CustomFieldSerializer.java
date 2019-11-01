@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -34,6 +36,7 @@ public class PairwiseEquivalence_CustomFieldSerializer {
 
   public static PairwiseEquivalence<?> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return create((Equivalence<?>) reader.readObject());
   }
 
@@ -43,6 +46,7 @@ public class PairwiseEquivalence_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, PairwiseEquivalence<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.elementEquivalence);
   }
 }

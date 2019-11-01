@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -35,6 +37,7 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
 
   public static RegularImmutableSortedSet<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     /*
      * Nothing we can do, but we're already assuming the serialized form is
      * correctly typed, anyway.
@@ -56,6 +59,7 @@ public class RegularImmutableSortedSet_CustomFieldSerializer {
   public static void serialize(
       SerializationStreamWriter writer, RegularImmutableSortedSet<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.comparator());
 
     Collection_CustomFieldSerializerBase.serialize(writer, instance);
