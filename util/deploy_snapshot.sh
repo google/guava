@@ -10,7 +10,7 @@ function mvn_deploy() {
 }
 
 if [ "$TRAVIS_REPO_SLUG" == "google/guava" ] && \
-   [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && \
+   [ "$TRAVIS_JDK_VERSION" == "openjdk8" ] && \
    [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
    [ "$TRAVIS_BRANCH" == "master" ]; then
   echo "Publishing Maven snapshot..."

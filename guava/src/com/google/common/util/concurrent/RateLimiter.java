@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.lang.Math.max;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -161,7 +161,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {
-    return create(permitsPerSecond, saturatedToNanos(warmupPeriod), TimeUnit.NANOSECONDS);
+    return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -331,7 +331,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public boolean tryAcquire(Duration timeout) {
-    return tryAcquire(1, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -390,7 +390,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public boolean tryAcquire(int permits, Duration timeout) {
-    return tryAcquire(permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

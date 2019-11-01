@@ -1024,7 +1024,7 @@ public final class Multisets {
         if (entryCount != 0) {
           // Safe as long as we never add a new entry, which we won't.
           @SuppressWarnings("unchecked")
-          Multiset<Object> multiset = (Multiset) multiset();
+          Multiset<Object> multiset = (Multiset<Object>) multiset();
           return multiset.setCount(element, entryCount, 0);
         }
       }

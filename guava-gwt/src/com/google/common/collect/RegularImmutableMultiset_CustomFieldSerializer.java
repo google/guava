@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -30,12 +32,14 @@ public class RegularImmutableMultiset_CustomFieldSerializer {
 
   public static ImmutableMultiset<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return ImmutableMultiset.copyOf(
         Multiset_CustomFieldSerializerBase.populate(reader, LinkedHashMultiset.create()));
   }
 
   public static void serialize(SerializationStreamWriter writer, ImmutableMultiset<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     Multiset_CustomFieldSerializerBase.serialize(writer, instance);
   }
 }

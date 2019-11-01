@@ -70,4 +70,9 @@ final class ForwardingFluentFuture<V> extends FluentFuture<V> {
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate.get(timeout, unit);
   }
+
+  @Override
+  public String toString() {
+    return delegate.toString();
+  }
 }

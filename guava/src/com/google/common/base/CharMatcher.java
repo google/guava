@@ -1209,6 +1209,10 @@ public abstract class CharMatcher implements Predicate<Character> {
   @VisibleForTesting
   static final class Whitespace extends NamedFastMatcher {
 
+    // TABLE is a precomputed hashset of whitespace characters. MULTIPLIER serves as a hash function
+    // whose key property is that it maps 25 characters into the 32-slot table without collision.
+    // Basically this is an opportunistic fast implementation as opposed to "good code". For most
+    // other use-cases, the reduction in readability isn't worth it.
     static final String TABLE =
         "\u2002\u3000\r\u0085\u200A\u2005\u2000\u3000"
             + "\u2029\u000B\u3000\u2008\u2003\u205F\u3000\u1680"

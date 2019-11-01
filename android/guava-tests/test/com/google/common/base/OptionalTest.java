@@ -288,7 +288,7 @@ public final class OptionalTest extends TestCase {
     // Sadly, the following is what users will have to do in some circumstances.
 
     @SuppressWarnings("unchecked") // safe covariant cast
-    Optional<Number> first = (Optional) numbers.first();
+    Optional<Number> first = (Optional<Number>) numbers.first();
     Number value = first.or(0.5); // fine
   }
 

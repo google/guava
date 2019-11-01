@@ -42,7 +42,7 @@ import junit.framework.TestCase;
  */
 public class AbstractServiceTest extends TestCase {
 
-  private static final long LONG_TIMEOUT_MILLIS = 2500;
+  private static final long LONG_TIMEOUT_MILLIS = 10000;
   private Thread executionThread;
   private Throwable thrownByExecutionThread;
 
