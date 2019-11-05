@@ -98,6 +98,9 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
    *
+   * <p>Note that the returned builder will always have {@link #incidentEdgeOrder} set to {@link
+   * ElementOrder#stable()}, regardless of the value that was set in this builder.
+   *
    * @since 28.0
    */
   public <N1 extends N> ImmutableGraph.Builder<N1> immutable() {
@@ -166,6 +169,15 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
     return new ConfigurableMutableGraph<N1>(this);
+  }
+
+  GraphBuilder<N> copy() {
+    GraphBuilder<N> newBuilder = new GraphBuilder<>(directed);
+    newBuilder.allowsSelfLoops = allowsSelfLoops;
+    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.expectedNodeCount = expectedNodeCount;
+    newBuilder.incidentEdgeOrder = incidentEdgeOrder;
+    return newBuilder;
   }
 
   @SuppressWarnings("unchecked")
