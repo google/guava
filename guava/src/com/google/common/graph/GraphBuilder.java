@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
@@ -89,6 +90,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
     return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());
+    // TODO(b/142723300): Add incidentEdgeOrder
   }
 
   /**
@@ -133,6 +135,31 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
     GraphBuilder<N1> newBuilder = cast();
     newBuilder.nodeOrder = checkNotNull(nodeOrder);
+    return newBuilder;
+  }
+
+  /**
+   * Specifies the order of iteration for the elements of {@link Graph#edges()}, {@link
+   * Graph#adjacentNodes(Object)}, {@link Graph#predecessors(Object)}, {@link
+   * Graph#successors(Object)} and {@link Graph#incidentEdges(Object)}.
+   *
+   * <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+   * immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+   * stable} order.
+   *
+   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   */
+  // TODO(b/142723300): Make this method public
+  <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
+    checkArgument(
+        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED
+            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,
+        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"
+            + " ElementOrder.unordered() and ElementOrder.stable().",
+        incidentEdgeOrder);
+    GraphBuilder<N1> newBuilder = cast();
+    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);
     return newBuilder;
   }
 
