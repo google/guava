@@ -237,8 +237,13 @@ public final class InternetDomainName {
 
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
+  private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');
+
+  private static final CharMatcher LETTER_MATCHER =
+      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'));
+
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);
+      DIGIT_MATCHER.or(LETTER_MATCHER).or(DASH_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of a domain name is
@@ -287,7 +292,7 @@ public final class InternetDomainName {
      * address like 127.0.0.1 from looking like a valid domain name.
      */
 
-    if (isFinalPart && CharMatcher.digit().matches(part.charAt(0))) {
+    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
       return false;
     }
 
