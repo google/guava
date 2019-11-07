@@ -38421,6 +38421,9 @@
 
  <p>The returned builder can be used for populating an {@link ImmutableGraph}.
 
+ <p>Note that the returned builder will always have {@link #incidentEdgeOrder} set to {@link
+ ElementOrder#stable()}, regardless of the value that was set in this builder.
+
  @since 28.0]]>
       </doc>
     </method>
