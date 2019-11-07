@@ -118,7 +118,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.54">AtomicDouble</a>
+<pre>public class <a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.52">AtomicDouble</a>
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Number.html?is-external=true" title="class or interface in java.lang">Number</a>
 implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializable.html?is-external=true" title="class or interface in java.io">Serializable</a></pre>
 <div class="block">A <code>double</code> value that may be updated atomically. See the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/atomic/package-summary.html?is-external=true"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
@@ -139,10 +139,8 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 
  <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
  See for example <a
- href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
- DoubleAdder</a> and <a
- href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
- DoubleMaxUpdater</a>.</div>
+ href="http://gee.cs.oswego.edu/dl/jsr166/dist/docs/java.base/java/util/concurrent/atomic/DoubleAdder.html">
+ DoubleAdder</a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>11.0</dd>
@@ -313,7 +311,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>AtomicDouble</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.65">AtomicDouble</a>(double&nbsp;initialValue)</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.63">AtomicDouble</a>(double&nbsp;initialValue)</pre>
 <div class="block">Creates a new <code>AtomicDouble</code> with the given initial value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -327,7 +325,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AtomicDouble</h4>
-<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.70">AtomicDouble</a>()</pre>
+<pre>public&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.68">AtomicDouble</a>()</pre>
 <div class="block">Creates a new <code>AtomicDouble</code> with initial value <code>0.0</code>.</div>
 </li>
 </ul>
@@ -345,7 +343,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.79">get</a>()</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.77">get</a>()</pre>
 <div class="block">Gets the current value.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -359,7 +357,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>set</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.88">set</a>(double&nbsp;newValue)</pre>
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.86">set</a>(double&nbsp;newValue)</pre>
 <div class="block">Sets to the given value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -373,7 +371,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>lazySet</h4>
-<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.98">lazySet</a>(double&nbsp;newValue)</pre>
+<pre>public final&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.96">lazySet</a>(double&nbsp;newValue)</pre>
 <div class="block">Eventually sets to the given value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -387,7 +385,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>getAndSet</h4>
-<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.109">getAndSet</a>(double&nbsp;newValue)</pre>
+<pre>public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.107">getAndSet</a>(double&nbsp;newValue)</pre>
 <div class="block">Atomically sets to the given value and returns the old value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -403,7 +401,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>compareAndSet</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.123">compareAndSet</a>(double&nbsp;expect,
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.121">compareAndSet</a>(double&nbsp;expect,
                                    double&nbsp;update)</pre>
 <div class="block">Atomically sets the value to the given updated value if the current value is <a
  href="#bitEquals">bitwise equal</a> to the expected value.</div>
@@ -423,7 +421,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <ul class="blockList">
 <li class="blockList">
 <h4>weakCompareAndSet</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.140">weakCompareAndSet</a>(double&nbsp;expect,
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.138">weakCompareAndSet</a>(double&nbsp;expect,
                                        double&nbsp;update)</pre>
 <div class="block">Atomically sets the value to the given updated value if the current value is <a
  href="#bitEquals">bitwise equal</a> to the expected value.
@@ -448,7 +446,7 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/io/Serializab
 <li class="blockList">
 <h4>getAndAdd</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.151">getAndAdd</a>(double&nbsp;delta)</pre>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.149">getAndAdd</a>(double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the current value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -465,7 +463,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <li class="blockList">
 <h4>addAndGet</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.170">addAndGet</a>(double&nbsp;delta)</pre>
+public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.168">addAndGet</a>(double&nbsp;delta)</pre>
 <div class="block">Atomically adds the given value to the current value.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -481,7 +479,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.188">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.186">toString</a>()</pre>
 <div class="block">Returns the String representation of the current value.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
@@ -497,7 +495,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>intValue</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.197">intValue</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.195">intValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as an <code>int</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -512,7 +510,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>longValue</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.206">longValue</a>()</pre>
+<pre>public&nbsp;long&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.204">longValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>long</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -527,7 +525,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockList">
 <li class="blockList">
 <h4>floatValue</h4>
-<pre>public&nbsp;float&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.215">floatValue</a>()</pre>
+<pre>public&nbsp;float&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.213">floatValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>float</code> after a narrowing primitive
  conversion.</div>
 <dl>
@@ -542,7 +540,7 @@ public final&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common
 <ul class="blockListLast">
 <li class="blockList">
 <h4>doubleValue</h4>
-<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.221">doubleValue</a>()</pre>
+<pre>public&nbsp;double&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AtomicDouble.html#line.219">doubleValue</a>()</pre>
 <div class="block">Returns the value of this <code>AtomicDouble</code> as a <code>double</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
