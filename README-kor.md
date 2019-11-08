@@ -6,7 +6,7 @@
 Guava는 새로운 컬렉션 유형 (예: 멀티 맵 및 멀티 세트), 변경 불가능한 컬렉션, 그래프 라이브러리 및 동시성, I/O, 해싱, 프리미티브, 문자열 등을
 위한 유틸리티를 포함하는 핵심 라이브러리 세트입니다.  
 
-Guava는 두 가지 풍미(flavor)가 있습니다.
+Guava는 두 가지 특징이 있습니다.
 
 *   JRE flavor는 JDK 1.8 혹은 그 이상이 필요합니다.
 *   JDK 1.7 또는 Android를 지원해야하는 경우 Android flavor를 사용하십시오. [`android` directory] 에서 Android Guava 소스를 찾을 수 있습니다.
@@ -71,36 +71,16 @@ dependencies {
 [repackage] 하지 않는 한 베타 API를 사용해서는 안됩니다. **코드가 라이브러리 인 경우 API를 사용하지 않도록 [Guava Beta Checker] 를 
 사용하는 것이 좋습니다 `@Beta`.**
 
-1. APIs marked with the `@Beta` annotation at the class or method level
-are subject to change. They can be modified in any way, or even
-removed, at any time. If your code is a library itself (i.e. it is
-used on the CLASSPATH of users outside your own control), you should
-not use beta APIs, unless you [repackage] them. **If your
-code is a library, we strongly recommend using the [Guava Beta Checker] to
-ensure that you do not use any `@Beta` APIs!**
+2. `@Beta` 없는 API는 무기한 미래에 바이너리 호환성을 유지합니다. (이전에는, 사용 중단 기간 이후에 이러한 api를 제거하기도 했습니다. non -`@Beta`를 제거하기 위해 마지막으로 출시된 것이 Guava 21.0. 입니다.) 심지어는 `@Deprecated` API도 그대로 유지됩니다.(즉, 그것이 `@Beta`이 아니라면). 우리는 그것들을 다시 제거할 계획이 없지만, 공식적으로는 놀랍게도 만약의 경우에 대비해서 옵션을 열어둡니다.(예를 들면 심각한 보안 문제)
 
-2. APIs without `@Beta` will remain binary-compatible for the indefinite
-future. (Previously, we sometimes removed such APIs after a deprecation period.
-The last release to remove non-`@Beta` APIs was Guava 21.0.) Even `@Deprecated`
-APIs will remain (again, unless they are `@Beta`). We have no plans to start
-removing things again, but officially, we're leaving our options open in case
-of surprises (like, say, a serious security problem).
-
-3. Guava has one dependency that is needed at runtime:
+3. Guava는 런타임에 필요한 하나의 종속성이 있습니다:  
 `com.google.guava:failureaccess:1.0.1`
 
-4. Serialized forms of ALL objects are subject to change unless noted
-otherwise. Do not persist these and assume they can be read by a
-future version of the library.
+4. 모든 개체의 직렬화 된 형식은 달리 명시되지 않는 한 변경될 수 있습니다. 이를 유지하지 말고 향후 버젼의 라이브러리에서 읽을 수 있다고 가정하십시오.
 
-5. Our classes are not designed to protect against a malicious caller.
-You should not use them for communication between trusted and
-untrusted code.
+5. 우리의 클래스들은 악의적인 발신자를 보호하도록 설계되지 않았습니다. 신뢰할 수 있는 코드와 신뢰할 수 없는 코드 간의 통신에 이 코드를 사용해서는 안됩니다.
 
-6. For the mainline flavor, we unit-test the libraries using only OpenJDK 1.8 on
-Linux. Some features, especially in `com.google.common.io`, may not work
-correctly in other environments. For the Android flavor, our unit tests run on
-API level 15 (Ice Cream Sandwich).
+6. 주요 특징을 위해, Linux에서 OpenJDK 1.8만 사용하여 라이브러리를 단위 테스트 합니다. 특히 `com.google.common.io` 에서의 일부 기능들이 다른 환경에서는 제대로 작동하지 않을 수 있습니다. Android 버젼의 경우 단위 테스트는 API 레벨 15(Ice Cream Sandwich)에서 실행됩니다.
 
 [guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
