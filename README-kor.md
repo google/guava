@@ -60,7 +60,7 @@ dependencies {
 
 - [GitHub 프로젝트](https://github.com/google/guava)
 - [Issue tracker: 결함 또는 기능 요청보고](https://github.com/google/guava/issues/new)
-- [StackOverflow:"방법" 및 "왜 작동하지 않는지" 질문](https://stackoverflow.com/questions/ask?tags=guava+java)
+- [StackOverflow: "방법" 및 "왜 작동하지 않는지" 질문](https://stackoverflow.com/questions/ask?tags=guava+java)
 - [guava-announce: release 발표 및 예정된 중요한 변경 사항](http://groups.google.com/group/guava-announce)
 - [guava-discuss: 개방형 질문 및 토론](http://groups.google.com/group/guava-discuss)
 
