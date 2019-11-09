@@ -53,25 +53,25 @@ public class FilesTest extends IoTestCase {
   public static TestSuite suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(
-            ByteSourceTester.tests(
-                    "Files.asByteSource[File]", SourceSinkFactories.fileByteSourceFactory(), true));
+        ByteSourceTester.tests(
+            "Files.asByteSource[File]", SourceSinkFactories.fileByteSourceFactory(), true));
     suite.addTest(
-            ByteSinkTester.tests("Files.asByteSink[File]", SourceSinkFactories.fileByteSinkFactory()));
+        ByteSinkTester.tests("Files.asByteSink[File]", SourceSinkFactories.fileByteSinkFactory()));
     suite.addTest(
-            ByteSinkTester.tests(
-                    "Files.asByteSink[File, APPEND]", SourceSinkFactories.appendingFileByteSinkFactory()));
+        ByteSinkTester.tests(
+            "Files.asByteSink[File, APPEND]", SourceSinkFactories.appendingFileByteSinkFactory()));
     suite.addTest(
-            CharSourceTester.tests(
-                    "Files.asCharSource[File, Charset]",
-                    SourceSinkFactories.fileCharSourceFactory(),
-                    false));
+        CharSourceTester.tests(
+            "Files.asCharSource[File, Charset]",
+            SourceSinkFactories.fileCharSourceFactory(),
+            false));
     suite.addTest(
-            CharSinkTester.tests(
-                    "Files.asCharSink[File, Charset]", SourceSinkFactories.fileCharSinkFactory()));
+        CharSinkTester.tests(
+            "Files.asCharSink[File, Charset]", SourceSinkFactories.fileCharSinkFactory()));
     suite.addTest(
-            CharSinkTester.tests(
-                    "Files.asCharSink[File, Charset, APPEND]",
-                    SourceSinkFactories.appendingFileCharSinkFactory()));
+        CharSinkTester.tests(
+            "Files.asCharSink[File, Charset, APPEND]",
+            SourceSinkFactories.appendingFileCharSinkFactory()));
     suite.addTestSuite(FilesTest.class);
     return suite;
   }
@@ -137,7 +137,6 @@ public class FilesTest extends IoTestCase {
 
   public void testAppendString() throws IOException {
     File temp = createTempFile();
-    Files.append(I18N, temp, Charsets.UTF_16LE);
     Files.asCharSink(temp, Charsets.UTF_16LE, FileWriteMode.APPEND).write(I18N);
     assertEquals(I18N, Files.toString(temp, Charsets.UTF_16LE));
     Files.asCharSink(temp, Charsets.UTF_16LE, FileWriteMode.APPEND).write(I18N);
@@ -285,14 +284,14 @@ public class FilesTest extends IoTestCase {
 
     try {
       Files.touch(
-              new File(temp.getPath()) {
-                @Override
-                public boolean setLastModified(long t) {
-                  return false;
-                }
+          new File(temp.getPath()) {
+            @Override
+            public boolean setLastModified(long t) {
+              return false;
+            }
 
-                private static final long serialVersionUID = 0;
-              });
+            private static final long serialVersionUID = 0;
+          });
       fail("expected exception");
     } catch (IOException expected) {
     }
@@ -393,7 +392,7 @@ public class FilesTest extends IoTestCase {
 
     moveHelper(false, new UnmovableFile(temp1, false, false), temp2);
     moveHelper(
-            false, new UnmovableFile(temp1, false, false), new UnmovableFile(temp2, true, false));
+        false, new UnmovableFile(temp1, false, false), new UnmovableFile(temp2, true, false));
 
     try {
       File asciiFile = getTestFile("ascii.txt");
@@ -446,7 +445,7 @@ public class FilesTest extends IoTestCase {
   public void testLineReading() throws IOException {
     File temp = createTempFile();
     assertNull(Files.asCharSource(temp, Charsets.UTF_8).readFirstLine());
-    assertTrue(Files.asCharSource(temp, Charsets.UTF_8).readLines().isEmpty());
+    assertTrue(Files.readLines(temp, Charsets.UTF_8).isEmpty());
 
     PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
     w.println("hello");
@@ -457,7 +456,7 @@ public class FilesTest extends IoTestCase {
 
     assertEquals("hello", Files.asCharSource(temp, Charsets.UTF_8).readFirstLine());
     assertEquals(
-            ImmutableList.of("hello", "", " world  ", ""), Files.readLines(temp, Charsets.UTF_8));
+        ImmutableList.of("hello", "", " world  ", ""), Files.readLines(temp, Charsets.UTF_8));
 
     assertTrue(temp.delete());
   }
@@ -465,20 +464,20 @@ public class FilesTest extends IoTestCase {
   public void testReadLines_withLineProcessor() throws IOException {
     File temp = createTempFile();
     LineProcessor<List<String>> collect =
-            new LineProcessor<List<String>>() {
-              List<String> collector = new ArrayList<>();
+        new LineProcessor<List<String>>() {
+          List<String> collector = new ArrayList<>();
 
-              @Override
-              public boolean processLine(String line) {
-                collector.add(line);
-                return true;
-              }
+          @Override
+          public boolean processLine(String line) {
+            collector.add(line);
+            return true;
+          }
 
-              @Override
-              public List<String> getResult() {
-                return collector;
-              }
-            };
+          @Override
+          public List<String> getResult() {
+            return collector;
+          }
+        };
     assertThat(Files.asCharSource(temp, Charsets.UTF_8).readLines(collect)).isEmpty();
 
     PrintWriter w = new PrintWriter(Files.newWriter(temp, Charsets.UTF_8));
@@ -491,22 +490,22 @@ public class FilesTest extends IoTestCase {
     assertThat(collect.getResult()).containsExactly("hello", "", " world  ", "").inOrder();
 
     LineProcessor<List<String>> collectNonEmptyLines =
-            new LineProcessor<List<String>>() {
-              List<String> collector = new ArrayList<>();
+        new LineProcessor<List<String>>() {
+          List<String> collector = new ArrayList<>();
 
-              @Override
-              public boolean processLine(String line) {
-                if (line.length() > 0) {
-                  collector.add(line);
-                }
-                return true;
-              }
+          @Override
+          public boolean processLine(String line) {
+            if (line.length() > 0) {
+              collector.add(line);
+            }
+            return true;
+          }
 
-              @Override
-              public List<String> getResult() {
-                return collector;
-              }
-            };
+          @Override
+          public List<String> getResult() {
+            return collector;
+          }
+        };
     Files.asCharSource(temp, Charsets.UTF_8).readLines(collectNonEmptyLines);
     assertThat(collectNonEmptyLines.getResult()).containsExactly("hello", " world  ").inOrder();
 
@@ -652,49 +651,48 @@ public class FilesTest extends IoTestCase {
 
   public void testReadBytes() throws IOException {
     ByteProcessor<byte[]> processor =
-            new ByteProcessor<byte[]>() {
-              private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        new ByteProcessor<byte[]>() {
+          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-              @Override
-              public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
-                if (length >= 0) {
-                  out.write(buffer, offset, length);
-                }
-                return true;
-              }
+          @Override
+          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+            if (length >= 0) {
+              out.write(buffer, offset, length);
+            }
+            return true;
+          }
 
-              @Override
-              public byte[] getResult() {
-                return out.toByteArray();
-              }
-            };
+          @Override
+          public byte[] getResult() {
+            return out.toByteArray();
+          }
+        };
 
     File asciiFile = getTestFile("ascii.txt");
     byte[] result = Files.asByteSource(asciiFile).read(processor);
-
     assertEquals(Bytes.asList(Files.toByteArray(asciiFile)), Bytes.asList(result));
   }
 
   public void testReadBytes_returnFalse() throws IOException {
     ByteProcessor<byte[]> processor =
-            new ByteProcessor<byte[]>() {
-              private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        new ByteProcessor<byte[]>() {
+          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-              @Override
-              public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
-                if (length > 0) {
-                  out.write(buffer, offset, 1);
-                  return false;
-                } else {
-                  return true;
-                }
-              }
+          @Override
+          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+            if (length > 0) {
+              out.write(buffer, offset, 1);
+              return false;
+            } else {
+              return true;
+            }
+          }
 
-              @Override
-              public byte[] getResult() {
-                return out.toByteArray();
-              }
-            };
+          @Override
+          public byte[] getResult() {
+            return out.toByteArray();
+          }
+        };
 
     File asciiFile = getTestFile("ascii.txt");
     byte[] result = Files.asByteSource(asciiFile).read(processor);
