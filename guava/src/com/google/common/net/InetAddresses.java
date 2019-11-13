@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -891,6 +892,19 @@ public final class InetAddresses {
   }
 
   /**
+   * Returns a BigInteger representing the address.
+   *
+   * <p>Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.
+   *
+   * @param address {@link InetAddress} to convert
+   * @return {@code BigInteger} representation of the address
+   * @since NEXT
+   */
+  public static BigInteger toBigInteger(InetAddress address) {
+    return new BigInteger(1, address.getAddress());
+  }
+
+  /**
    * Returns an Inet4Address having the integer value specified by the argument.
    *
    * @param address {@code int}, the 32bit integer address to be converted
@@ -898,6 +912,71 @@ public final class InetAddresses {
    */
   public static Inet4Address fromInteger(int address) {
     return getInet4Address(Ints.toByteArray(address));
+  }
+
+  /**
+   * Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv4 address
+   * @return Inet4Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
+   * @since NEXT
+   */
+  public static Inet4Address fromIpv4BigInteger(BigInteger address) {
+    return (Inet4Address) fromBigInteger(address, false);
+  }
+  /**
+   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv6 address
+   * @return Inet6Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
+   * @since NEXT
+   */
+  public static Inet6Address fromIpv6BigInteger(BigInteger address) {
+    return (Inet6Address) fromBigInteger(address, true);
+  }
+
+  /**
+   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be
+   * constrainted to 32 bits, otherwise it is constrained to 128 bits.
+   *
+   * @param address the address represented as a big integer
+   * @param isIpv6 whether the created address should be IPv4 or IPv6
+   * @return the BigInteger converted to an address
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4
+   *     or IPv6 respectively
+   */
+  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {
+    checkArgument(address.signum() >= 0, "BigInteger must be greater than or equal to 0");
+
+    int numBytes = isIpv6 ? 16 : 4;
+
+    byte[] addressBytes = address.toByteArray();
+    byte[] targetCopyArray = new byte[numBytes];
+
+    int srcPos = Math.max(0, addressBytes.length - numBytes);
+    int copyLength = addressBytes.length - srcPos;
+    int destPos = numBytes - copyLength;
+
+    // Check the extra bytes in the BigInteger are all zero.
+    for (int i = 0; i < srcPos; i++) {
+      checkArgument(
+          addressBytes[i] == 0x00,
+          String.format(
+              "BigInteger cannot be converted to InetAddress because it has more than %d"
+                  + " bytes: %s",
+              numBytes, address));
+    }
+
+    // Copy the bytes into the least significant positions.
+    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);
+
+    try {
+      return InetAddress.getByAddress(targetCopyArray);
+    } catch (UnknownHostException impossible) {
+      throw new AssertionError(impossible);
+    }
   }
 
   /**

@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -711,5 +712,81 @@ public class InetAddressesTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+  }
+
+  public void testFromIpv4BigIntegerThrowsLessThanZero() {
+    try {
+      InetAddresses.fromIpv4BigInteger(BigInteger.valueOf(-1L));
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
+    }
+  }
+
+  public void testFromIpv6BigIntegerThrowsLessThanZero() {
+    try {
+      InetAddresses.fromIpv6BigInteger(BigInteger.valueOf(-1L));
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
+    }
+  }
+
+  public void testFromIpv4BigIntegerValid() {
+    checkBigIntegerConversion("0.0.0.0", BigInteger.ZERO);
+    checkBigIntegerConversion("0.0.0.1", BigInteger.ONE);
+    checkBigIntegerConversion("127.255.255.255", BigInteger.valueOf(Integer.MAX_VALUE));
+    checkBigIntegerConversion(
+        "255.255.255.254", BigInteger.valueOf(Integer.MAX_VALUE).multiply(BigInteger.valueOf(2)));
+    checkBigIntegerConversion(
+        "255.255.255.255", BigInteger.ONE.shiftLeft(32).subtract(BigInteger.ONE));
+  }
+
+  public void testFromIpv6BigIntegerValid() {
+    checkBigIntegerConversion("::", BigInteger.ZERO);
+    checkBigIntegerConversion("::1", BigInteger.ONE);
+    checkBigIntegerConversion("::7fff:ffff", BigInteger.valueOf(Integer.MAX_VALUE));
+    checkBigIntegerConversion("::7fff:ffff:ffff:ffff", BigInteger.valueOf(Long.MAX_VALUE));
+    checkBigIntegerConversion(
+        "::ffff:ffff:ffff:ffff", BigInteger.ONE.shiftLeft(64).subtract(BigInteger.ONE));
+    checkBigIntegerConversion(
+        "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        BigInteger.ONE.shiftLeft(128).subtract(BigInteger.ONE));
+  }
+
+  public void testFromIpv4BigIntegerInputTooLarge() {
+    try {
+      InetAddresses.fromIpv4BigInteger(BigInteger.ONE.shiftLeft(32).add(BigInteger.ONE));
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertEquals(
+          "BigInteger cannot be converted to InetAddress because it has more than 4 bytes:"
+              + " 4294967297",
+          expected.getMessage());
+    }
+  }
+
+  public void testFromIpv6BigIntegerInputTooLarge() {
+    try {
+      InetAddresses.fromIpv6BigInteger(BigInteger.ONE.shiftLeft(128).add(BigInteger.ONE));
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertEquals(
+          "BigInteger cannot be converted to InetAddress because it has more than 16 bytes:"
+              + " 340282366920938463463374607431768211457",
+          expected.getMessage());
+    }
+  }
+
+  /** Checks that the IP converts to the big integer and the big integer converts to the IP. */
+  private static void checkBigIntegerConversion(String ip, BigInteger bigIntegerIp) {
+    InetAddress address = InetAddresses.forString(ip);
+    boolean isIpv6 = address instanceof Inet6Address;
+    assertEquals(bigIntegerIp, InetAddresses.toBigInteger(address));
+    assertEquals(
+        address,
+        isIpv6
+            ? InetAddresses.fromIpv6BigInteger(bigIntegerIp)
+            : InetAddresses.fromIpv4BigInteger(bigIntegerIp));
   }
 }
