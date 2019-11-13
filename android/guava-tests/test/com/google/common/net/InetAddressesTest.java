@@ -125,18 +125,16 @@ public class InetAddressesTest extends TestCase {
 
   public void testForStringIPv4Input() throws UnknownHostException {
     String ipStr = "192.168.0.1";
-    InetAddress ipv4Addr = null;
     // Shouldn't hit DNS, because it's an IP string literal.
-    ipv4Addr = InetAddress.getByName(ipStr);
+    InetAddress ipv4Addr = InetAddress.getByName(ipStr);
     assertEquals(ipv4Addr, InetAddresses.forString(ipStr));
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
   public void testForStringIPv6Input() throws UnknownHostException {
     String ipStr = "3ffe::1";
-    InetAddress ipv6Addr = null;
     // Shouldn't hit DNS, because it's an IP string literal.
-    ipv6Addr = InetAddress.getByName(ipStr);
+    InetAddress ipv6Addr = InetAddress.getByName(ipStr);
     assertEquals(ipv6Addr, InetAddresses.forString(ipStr));
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
@@ -146,9 +144,8 @@ public class InetAddressesTest extends TestCase {
         ImmutableSet.of("::7:6:5:4:3:2:1", "::7:6:5:4:3:2:0", "7:6:5:4:3:2:1::", "0:6:5:4:3:2:1::");
 
     for (String ipString : eightColons) {
-      InetAddress ipv6Addr = null;
       // Shouldn't hit DNS, because it's an IP string literal.
-      ipv6Addr = InetAddress.getByName(ipString);
+      InetAddress ipv6Addr = InetAddress.getByName(ipString);
       assertEquals(ipv6Addr, InetAddresses.forString(ipString));
       assertTrue(InetAddresses.isInetAddress(ipString));
     }
