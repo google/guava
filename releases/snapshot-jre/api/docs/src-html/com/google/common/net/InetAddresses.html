@@ -829,261 +829,265 @@
 <span class="sourceLineNo">821</span>   *<a name="line.821"></a>
 <span class="sourceLineNo">822</span>   * &lt;p&gt;HACK: As long as applications continue to use IPv4 addresses for indexing into tables,<a name="line.822"></a>
 <span class="sourceLineNo">823</span>   * accounting, et cetera, it may be necessary to &lt;b&gt;coerce&lt;/b&gt; IPv6 addresses into IPv4 addresses.<a name="line.823"></a>
-<span class="sourceLineNo">824</span>   * This function does so by hashing the upper 64 bits into {@code 224.0.0.0/3} (64 bits into 29<a name="line.824"></a>
-<span class="sourceLineNo">825</span>   * bits).<a name="line.825"></a>
+<span class="sourceLineNo">824</span>   * This function does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits<a name="line.824"></a>
+<span class="sourceLineNo">825</span>   * into 29 bits):<a name="line.825"></a>
 <span class="sourceLineNo">826</span>   *<a name="line.826"></a>
-<span class="sourceLineNo">827</span>   * &lt;p&gt;A "coerced" IPv4 address is equivalent to itself.<a name="line.827"></a>
-<span class="sourceLineNo">828</span>   *<a name="line.828"></a>
-<span class="sourceLineNo">829</span>   * &lt;p&gt;NOTE: This function is failsafe for security purposes: ALL IPv6 addresses (except localhost<a name="line.829"></a>
-<span class="sourceLineNo">830</span>   * (::1)) are hashed to avoid the security risk associated with extracting an embedded IPv4<a name="line.830"></a>
-<span class="sourceLineNo">831</span>   * address that might permit elevated privileges.<a name="line.831"></a>
-<span class="sourceLineNo">832</span>   *<a name="line.832"></a>
-<span class="sourceLineNo">833</span>   * @param ip {@link InetAddress} to "coerce"<a name="line.833"></a>
-<span class="sourceLineNo">834</span>   * @return {@link Inet4Address} represented "coerced" address<a name="line.834"></a>
-<span class="sourceLineNo">835</span>   * @since 7.0<a name="line.835"></a>
-<span class="sourceLineNo">836</span>   */<a name="line.836"></a>
-<span class="sourceLineNo">837</span>  public static Inet4Address getCoercedIPv4Address(InetAddress ip) {<a name="line.837"></a>
-<span class="sourceLineNo">838</span>    if (ip instanceof Inet4Address) {<a name="line.838"></a>
-<span class="sourceLineNo">839</span>      return (Inet4Address) ip;<a name="line.839"></a>
-<span class="sourceLineNo">840</span>    }<a name="line.840"></a>
-<span class="sourceLineNo">841</span><a name="line.841"></a>
-<span class="sourceLineNo">842</span>    // Special cases:<a name="line.842"></a>
-<span class="sourceLineNo">843</span>    byte[] bytes = ip.getAddress();<a name="line.843"></a>
-<span class="sourceLineNo">844</span>    boolean leadingBytesOfZero = true;<a name="line.844"></a>
-<span class="sourceLineNo">845</span>    for (int i = 0; i &lt; 15; ++i) {<a name="line.845"></a>
-<span class="sourceLineNo">846</span>      if (bytes[i] != 0) {<a name="line.846"></a>
-<span class="sourceLineNo">847</span>        leadingBytesOfZero = false;<a name="line.847"></a>
-<span class="sourceLineNo">848</span>        break;<a name="line.848"></a>
-<span class="sourceLineNo">849</span>      }<a name="line.849"></a>
-<span class="sourceLineNo">850</span>    }<a name="line.850"></a>
-<span class="sourceLineNo">851</span>    if (leadingBytesOfZero &amp;&amp; (bytes[15] == 1)) {<a name="line.851"></a>
-<span class="sourceLineNo">852</span>      return LOOPBACK4; // ::1<a name="line.852"></a>
-<span class="sourceLineNo">853</span>    } else if (leadingBytesOfZero &amp;&amp; (bytes[15] == 0)) {<a name="line.853"></a>
-<span class="sourceLineNo">854</span>      return ANY4; // ::0<a name="line.854"></a>
+<span class="sourceLineNo">827</span>   * &lt;ul&gt;<a name="line.827"></a>
+<span class="sourceLineNo">828</span>   *   &lt;li&gt;If the IPv6 address contains an embedded IPv4 address, the function hashes that.<a name="line.828"></a>
+<span class="sourceLineNo">829</span>   *   &lt;li&gt;Otherwise, it hashes the upper 64 bits of the IPv6 address.<a name="line.829"></a>
+<span class="sourceLineNo">830</span>   * &lt;/ul&gt;<a name="line.830"></a>
+<span class="sourceLineNo">831</span>   *<a name="line.831"></a>
+<span class="sourceLineNo">832</span>   * &lt;p&gt;A "coerced" IPv4 address is equivalent to itself.<a name="line.832"></a>
+<span class="sourceLineNo">833</span>   *<a name="line.833"></a>
+<span class="sourceLineNo">834</span>   * &lt;p&gt;NOTE: This function is failsafe for security purposes: ALL IPv6 addresses (except localhost<a name="line.834"></a>
+<span class="sourceLineNo">835</span>   * (::1)) are hashed to avoid the security risk associated with extracting an embedded IPv4<a name="line.835"></a>
+<span class="sourceLineNo">836</span>   * address that might permit elevated privileges.<a name="line.836"></a>
+<span class="sourceLineNo">837</span>   *<a name="line.837"></a>
+<span class="sourceLineNo">838</span>   * @param ip {@link InetAddress} to "coerce"<a name="line.838"></a>
+<span class="sourceLineNo">839</span>   * @return {@link Inet4Address} represented "coerced" address<a name="line.839"></a>
+<span class="sourceLineNo">840</span>   * @since 7.0<a name="line.840"></a>
+<span class="sourceLineNo">841</span>   */<a name="line.841"></a>
+<span class="sourceLineNo">842</span>  public static Inet4Address getCoercedIPv4Address(InetAddress ip) {<a name="line.842"></a>
+<span class="sourceLineNo">843</span>    if (ip instanceof Inet4Address) {<a name="line.843"></a>
+<span class="sourceLineNo">844</span>      return (Inet4Address) ip;<a name="line.844"></a>
+<span class="sourceLineNo">845</span>    }<a name="line.845"></a>
+<span class="sourceLineNo">846</span><a name="line.846"></a>
+<span class="sourceLineNo">847</span>    // Special cases:<a name="line.847"></a>
+<span class="sourceLineNo">848</span>    byte[] bytes = ip.getAddress();<a name="line.848"></a>
+<span class="sourceLineNo">849</span>    boolean leadingBytesOfZero = true;<a name="line.849"></a>
+<span class="sourceLineNo">850</span>    for (int i = 0; i &lt; 15; ++i) {<a name="line.850"></a>
+<span class="sourceLineNo">851</span>      if (bytes[i] != 0) {<a name="line.851"></a>
+<span class="sourceLineNo">852</span>        leadingBytesOfZero = false;<a name="line.852"></a>
+<span class="sourceLineNo">853</span>        break;<a name="line.853"></a>
+<span class="sourceLineNo">854</span>      }<a name="line.854"></a>
 <span class="sourceLineNo">855</span>    }<a name="line.855"></a>
-<span class="sourceLineNo">856</span><a name="line.856"></a>
-<span class="sourceLineNo">857</span>    Inet6Address ip6 = (Inet6Address) ip;<a name="line.857"></a>
-<span class="sourceLineNo">858</span>    long addressAsLong = 0;<a name="line.858"></a>
-<span class="sourceLineNo">859</span>    if (hasEmbeddedIPv4ClientAddress(ip6)) {<a name="line.859"></a>
-<span class="sourceLineNo">860</span>      addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();<a name="line.860"></a>
-<span class="sourceLineNo">861</span>    } else {<a name="line.861"></a>
-<span class="sourceLineNo">862</span><a name="line.862"></a>
-<span class="sourceLineNo">863</span>      // Just extract the high 64 bits (assuming the rest is user-modifiable).<a name="line.863"></a>
-<span class="sourceLineNo">864</span>      addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();<a name="line.864"></a>
-<span class="sourceLineNo">865</span>    }<a name="line.865"></a>
-<span class="sourceLineNo">866</span><a name="line.866"></a>
-<span class="sourceLineNo">867</span>    // Many strategies for hashing are possible. This might suffice for now.<a name="line.867"></a>
-<span class="sourceLineNo">868</span>    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();<a name="line.868"></a>
-<span class="sourceLineNo">869</span><a name="line.869"></a>
-<span class="sourceLineNo">870</span>    // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).<a name="line.870"></a>
-<span class="sourceLineNo">871</span>    coercedHash |= 0xe0000000;<a name="line.871"></a>
-<span class="sourceLineNo">872</span><a name="line.872"></a>
-<span class="sourceLineNo">873</span>    // Fixup to avoid some "illegal" values. Currently the only potential<a name="line.873"></a>
-<span class="sourceLineNo">874</span>    // illegal value is 255.255.255.255.<a name="line.874"></a>
-<span class="sourceLineNo">875</span>    if (coercedHash == 0xffffffff) {<a name="line.875"></a>
-<span class="sourceLineNo">876</span>      coercedHash = 0xfffffffe;<a name="line.876"></a>
-<span class="sourceLineNo">877</span>    }<a name="line.877"></a>
-<span class="sourceLineNo">878</span><a name="line.878"></a>
-<span class="sourceLineNo">879</span>    return getInet4Address(Ints.toByteArray(coercedHash));<a name="line.879"></a>
-<span class="sourceLineNo">880</span>  }<a name="line.880"></a>
-<span class="sourceLineNo">881</span><a name="line.881"></a>
-<span class="sourceLineNo">882</span>  /**<a name="line.882"></a>
-<span class="sourceLineNo">883</span>   * Returns an integer representing an IPv4 address regardless of whether the supplied argument is<a name="line.883"></a>
-<span class="sourceLineNo">884</span>   * an IPv4 address or not.<a name="line.884"></a>
-<span class="sourceLineNo">885</span>   *<a name="line.885"></a>
-<span class="sourceLineNo">886</span>   * &lt;p&gt;IPv6 addresses are &lt;b&gt;coerced&lt;/b&gt; to IPv4 addresses before being converted to integers.<a name="line.886"></a>
-<span class="sourceLineNo">887</span>   *<a name="line.887"></a>
-<span class="sourceLineNo">888</span>   * &lt;p&gt;As long as there are applications that assume that all IP addresses are IPv4 addresses and<a name="line.888"></a>
-<span class="sourceLineNo">889</span>   * can therefore be converted safely to integers (for whatever purpose) this function can be used<a name="line.889"></a>
-<span class="sourceLineNo">890</span>   * to handle IPv6 addresses as well until the application is suitably fixed.<a name="line.890"></a>
+<span class="sourceLineNo">856</span>    if (leadingBytesOfZero &amp;&amp; (bytes[15] == 1)) {<a name="line.856"></a>
+<span class="sourceLineNo">857</span>      return LOOPBACK4; // ::1<a name="line.857"></a>
+<span class="sourceLineNo">858</span>    } else if (leadingBytesOfZero &amp;&amp; (bytes[15] == 0)) {<a name="line.858"></a>
+<span class="sourceLineNo">859</span>      return ANY4; // ::0<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    }<a name="line.860"></a>
+<span class="sourceLineNo">861</span><a name="line.861"></a>
+<span class="sourceLineNo">862</span>    Inet6Address ip6 = (Inet6Address) ip;<a name="line.862"></a>
+<span class="sourceLineNo">863</span>    long addressAsLong = 0;<a name="line.863"></a>
+<span class="sourceLineNo">864</span>    if (hasEmbeddedIPv4ClientAddress(ip6)) {<a name="line.864"></a>
+<span class="sourceLineNo">865</span>      addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();<a name="line.865"></a>
+<span class="sourceLineNo">866</span>    } else {<a name="line.866"></a>
+<span class="sourceLineNo">867</span>      // Just extract the high 64 bits (assuming the rest is user-modifiable).<a name="line.867"></a>
+<span class="sourceLineNo">868</span>      addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();<a name="line.868"></a>
+<span class="sourceLineNo">869</span>    }<a name="line.869"></a>
+<span class="sourceLineNo">870</span><a name="line.870"></a>
+<span class="sourceLineNo">871</span>    // Many strategies for hashing are possible. This might suffice for now.<a name="line.871"></a>
+<span class="sourceLineNo">872</span>    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();<a name="line.872"></a>
+<span class="sourceLineNo">873</span><a name="line.873"></a>
+<span class="sourceLineNo">874</span>    // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).<a name="line.874"></a>
+<span class="sourceLineNo">875</span>    coercedHash |= 0xe0000000;<a name="line.875"></a>
+<span class="sourceLineNo">876</span><a name="line.876"></a>
+<span class="sourceLineNo">877</span>    // Fixup to avoid some "illegal" values. Currently the only potential<a name="line.877"></a>
+<span class="sourceLineNo">878</span>    // illegal value is 255.255.255.255.<a name="line.878"></a>
+<span class="sourceLineNo">879</span>    if (coercedHash == 0xffffffff) {<a name="line.879"></a>
+<span class="sourceLineNo">880</span>      coercedHash = 0xfffffffe;<a name="line.880"></a>
+<span class="sourceLineNo">881</span>    }<a name="line.881"></a>
+<span class="sourceLineNo">882</span><a name="line.882"></a>
+<span class="sourceLineNo">883</span>    return getInet4Address(Ints.toByteArray(coercedHash));<a name="line.883"></a>
+<span class="sourceLineNo">884</span>  }<a name="line.884"></a>
+<span class="sourceLineNo">885</span><a name="line.885"></a>
+<span class="sourceLineNo">886</span>  /**<a name="line.886"></a>
+<span class="sourceLineNo">887</span>   * Returns an integer representing an IPv4 address regardless of whether the supplied argument is<a name="line.887"></a>
+<span class="sourceLineNo">888</span>   * an IPv4 address or not.<a name="line.888"></a>
+<span class="sourceLineNo">889</span>   *<a name="line.889"></a>
+<span class="sourceLineNo">890</span>   * &lt;p&gt;IPv6 addresses are &lt;b&gt;coerced&lt;/b&gt; to IPv4 addresses before being converted to integers.<a name="line.890"></a>
 <span class="sourceLineNo">891</span>   *<a name="line.891"></a>
-<span class="sourceLineNo">892</span>   * &lt;p&gt;NOTE: an IPv6 address coerced to an IPv4 address can only be used for such purposes as<a name="line.892"></a>
-<span class="sourceLineNo">893</span>   * rudimentary identification or indexing into a collection of real {@link InetAddress}es. They<a name="line.893"></a>
-<span class="sourceLineNo">894</span>   * cannot be used as real addresses for the purposes of network communication.<a name="line.894"></a>
+<span class="sourceLineNo">892</span>   * &lt;p&gt;As long as there are applications that assume that all IP addresses are IPv4 addresses and<a name="line.892"></a>
+<span class="sourceLineNo">893</span>   * can therefore be converted safely to integers (for whatever purpose) this function can be used<a name="line.893"></a>
+<span class="sourceLineNo">894</span>   * to handle IPv6 addresses as well until the application is suitably fixed.<a name="line.894"></a>
 <span class="sourceLineNo">895</span>   *<a name="line.895"></a>
-<span class="sourceLineNo">896</span>   * @param ip {@link InetAddress} to convert<a name="line.896"></a>
-<span class="sourceLineNo">897</span>   * @return {@code int}, "coerced" if ip is not an IPv4 address<a name="line.897"></a>
-<span class="sourceLineNo">898</span>   * @since 7.0<a name="line.898"></a>
-<span class="sourceLineNo">899</span>   */<a name="line.899"></a>
-<span class="sourceLineNo">900</span>  public static int coerceToInteger(InetAddress ip) {<a name="line.900"></a>
-<span class="sourceLineNo">901</span>    return ByteStreams.newDataInput(getCoercedIPv4Address(ip).getAddress()).readInt();<a name="line.901"></a>
-<span class="sourceLineNo">902</span>  }<a name="line.902"></a>
-<span class="sourceLineNo">903</span><a name="line.903"></a>
-<span class="sourceLineNo">904</span>  /**<a name="line.904"></a>
-<span class="sourceLineNo">905</span>   * Returns a BigInteger representing the address.<a name="line.905"></a>
-<span class="sourceLineNo">906</span>   *<a name="line.906"></a>
-<span class="sourceLineNo">907</span>   * &lt;p&gt;Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.<a name="line.907"></a>
-<span class="sourceLineNo">908</span>   *<a name="line.908"></a>
-<span class="sourceLineNo">909</span>   * @param address {@link InetAddress} to convert<a name="line.909"></a>
-<span class="sourceLineNo">910</span>   * @return {@code BigInteger} representation of the address<a name="line.910"></a>
-<span class="sourceLineNo">911</span>   * @since NEXT<a name="line.911"></a>
-<span class="sourceLineNo">912</span>   */<a name="line.912"></a>
-<span class="sourceLineNo">913</span>  public static BigInteger toBigInteger(InetAddress address) {<a name="line.913"></a>
-<span class="sourceLineNo">914</span>    return new BigInteger(1, address.getAddress());<a name="line.914"></a>
-<span class="sourceLineNo">915</span>  }<a name="line.915"></a>
-<span class="sourceLineNo">916</span><a name="line.916"></a>
-<span class="sourceLineNo">917</span>  /**<a name="line.917"></a>
-<span class="sourceLineNo">918</span>   * Returns an Inet4Address having the integer value specified by the argument.<a name="line.918"></a>
-<span class="sourceLineNo">919</span>   *<a name="line.919"></a>
-<span class="sourceLineNo">920</span>   * @param address {@code int}, the 32bit integer address to be converted<a name="line.920"></a>
-<span class="sourceLineNo">921</span>   * @return {@link Inet4Address} equivalent of the argument<a name="line.921"></a>
-<span class="sourceLineNo">922</span>   */<a name="line.922"></a>
-<span class="sourceLineNo">923</span>  public static Inet4Address fromInteger(int address) {<a name="line.923"></a>
-<span class="sourceLineNo">924</span>    return getInet4Address(Ints.toByteArray(address));<a name="line.924"></a>
-<span class="sourceLineNo">925</span>  }<a name="line.925"></a>
-<span class="sourceLineNo">926</span><a name="line.926"></a>
-<span class="sourceLineNo">927</span>  /**<a name="line.927"></a>
-<span class="sourceLineNo">928</span>   * Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.<a name="line.928"></a>
-<span class="sourceLineNo">929</span>   *<a name="line.929"></a>
-<span class="sourceLineNo">930</span>   * @param address BigInteger representing the IPv4 address<a name="line.930"></a>
-<span class="sourceLineNo">931</span>   * @return Inet4Address representation of the given BigInteger<a name="line.931"></a>
-<span class="sourceLineNo">932</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1<a name="line.932"></a>
-<span class="sourceLineNo">933</span>   * @since NEXT<a name="line.933"></a>
-<span class="sourceLineNo">934</span>   */<a name="line.934"></a>
-<span class="sourceLineNo">935</span>  public static Inet4Address fromIpv4BigInteger(BigInteger address) {<a name="line.935"></a>
-<span class="sourceLineNo">936</span>    return (Inet4Address) fromBigInteger(address, false);<a name="line.936"></a>
-<span class="sourceLineNo">937</span>  }<a name="line.937"></a>
-<span class="sourceLineNo">938</span>  /**<a name="line.938"></a>
-<span class="sourceLineNo">939</span>   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.<a name="line.939"></a>
-<span class="sourceLineNo">940</span>   *<a name="line.940"></a>
-<span class="sourceLineNo">941</span>   * @param address BigInteger representing the IPv6 address<a name="line.941"></a>
-<span class="sourceLineNo">942</span>   * @return Inet6Address representation of the given BigInteger<a name="line.942"></a>
-<span class="sourceLineNo">943</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1<a name="line.943"></a>
-<span class="sourceLineNo">944</span>   * @since NEXT<a name="line.944"></a>
-<span class="sourceLineNo">945</span>   */<a name="line.945"></a>
-<span class="sourceLineNo">946</span>  public static Inet6Address fromIpv6BigInteger(BigInteger address) {<a name="line.946"></a>
-<span class="sourceLineNo">947</span>    return (Inet6Address) fromBigInteger(address, true);<a name="line.947"></a>
-<span class="sourceLineNo">948</span>  }<a name="line.948"></a>
-<span class="sourceLineNo">949</span><a name="line.949"></a>
-<span class="sourceLineNo">950</span>  /**<a name="line.950"></a>
-<span class="sourceLineNo">951</span>   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be<a name="line.951"></a>
-<span class="sourceLineNo">952</span>   * constrainted to 32 bits, otherwise it is constrained to 128 bits.<a name="line.952"></a>
-<span class="sourceLineNo">953</span>   *<a name="line.953"></a>
-<span class="sourceLineNo">954</span>   * @param address the address represented as a big integer<a name="line.954"></a>
-<span class="sourceLineNo">955</span>   * @param isIpv6 whether the created address should be IPv4 or IPv6<a name="line.955"></a>
-<span class="sourceLineNo">956</span>   * @return the BigInteger converted to an address<a name="line.956"></a>
-<span class="sourceLineNo">957</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4<a name="line.957"></a>
-<span class="sourceLineNo">958</span>   *     or IPv6 respectively<a name="line.958"></a>
-<span class="sourceLineNo">959</span>   */<a name="line.959"></a>
-<span class="sourceLineNo">960</span>  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {<a name="line.960"></a>
-<span class="sourceLineNo">961</span>    checkArgument(address.signum() &gt;= 0, "BigInteger must be greater than or equal to 0");<a name="line.961"></a>
-<span class="sourceLineNo">962</span><a name="line.962"></a>
-<span class="sourceLineNo">963</span>    int numBytes = isIpv6 ? 16 : 4;<a name="line.963"></a>
-<span class="sourceLineNo">964</span><a name="line.964"></a>
-<span class="sourceLineNo">965</span>    byte[] addressBytes = address.toByteArray();<a name="line.965"></a>
-<span class="sourceLineNo">966</span>    byte[] targetCopyArray = new byte[numBytes];<a name="line.966"></a>
-<span class="sourceLineNo">967</span><a name="line.967"></a>
-<span class="sourceLineNo">968</span>    int srcPos = Math.max(0, addressBytes.length - numBytes);<a name="line.968"></a>
-<span class="sourceLineNo">969</span>    int copyLength = addressBytes.length - srcPos;<a name="line.969"></a>
-<span class="sourceLineNo">970</span>    int destPos = numBytes - copyLength;<a name="line.970"></a>
+<span class="sourceLineNo">896</span>   * &lt;p&gt;NOTE: an IPv6 address coerced to an IPv4 address can only be used for such purposes as<a name="line.896"></a>
+<span class="sourceLineNo">897</span>   * rudimentary identification or indexing into a collection of real {@link InetAddress}es. They<a name="line.897"></a>
+<span class="sourceLineNo">898</span>   * cannot be used as real addresses for the purposes of network communication.<a name="line.898"></a>
+<span class="sourceLineNo">899</span>   *<a name="line.899"></a>
+<span class="sourceLineNo">900</span>   * @param ip {@link InetAddress} to convert<a name="line.900"></a>
+<span class="sourceLineNo">901</span>   * @return {@code int}, "coerced" if ip is not an IPv4 address<a name="line.901"></a>
+<span class="sourceLineNo">902</span>   * @since 7.0<a name="line.902"></a>
+<span class="sourceLineNo">903</span>   */<a name="line.903"></a>
+<span class="sourceLineNo">904</span>  public static int coerceToInteger(InetAddress ip) {<a name="line.904"></a>
+<span class="sourceLineNo">905</span>    return ByteStreams.newDataInput(getCoercedIPv4Address(ip).getAddress()).readInt();<a name="line.905"></a>
+<span class="sourceLineNo">906</span>  }<a name="line.906"></a>
+<span class="sourceLineNo">907</span><a name="line.907"></a>
+<span class="sourceLineNo">908</span>  /**<a name="line.908"></a>
+<span class="sourceLineNo">909</span>   * Returns a BigInteger representing the address.<a name="line.909"></a>
+<span class="sourceLineNo">910</span>   *<a name="line.910"></a>
+<span class="sourceLineNo">911</span>   * &lt;p&gt;Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.<a name="line.911"></a>
+<span class="sourceLineNo">912</span>   *<a name="line.912"></a>
+<span class="sourceLineNo">913</span>   * @param address {@link InetAddress} to convert<a name="line.913"></a>
+<span class="sourceLineNo">914</span>   * @return {@code BigInteger} representation of the address<a name="line.914"></a>
+<span class="sourceLineNo">915</span>   * @since NEXT<a name="line.915"></a>
+<span class="sourceLineNo">916</span>   */<a name="line.916"></a>
+<span class="sourceLineNo">917</span>  public static BigInteger toBigInteger(InetAddress address) {<a name="line.917"></a>
+<span class="sourceLineNo">918</span>    return new BigInteger(1, address.getAddress());<a name="line.918"></a>
+<span class="sourceLineNo">919</span>  }<a name="line.919"></a>
+<span class="sourceLineNo">920</span><a name="line.920"></a>
+<span class="sourceLineNo">921</span>  /**<a name="line.921"></a>
+<span class="sourceLineNo">922</span>   * Returns an Inet4Address having the integer value specified by the argument.<a name="line.922"></a>
+<span class="sourceLineNo">923</span>   *<a name="line.923"></a>
+<span class="sourceLineNo">924</span>   * @param address {@code int}, the 32bit integer address to be converted<a name="line.924"></a>
+<span class="sourceLineNo">925</span>   * @return {@link Inet4Address} equivalent of the argument<a name="line.925"></a>
+<span class="sourceLineNo">926</span>   */<a name="line.926"></a>
+<span class="sourceLineNo">927</span>  public static Inet4Address fromInteger(int address) {<a name="line.927"></a>
+<span class="sourceLineNo">928</span>    return getInet4Address(Ints.toByteArray(address));<a name="line.928"></a>
+<span class="sourceLineNo">929</span>  }<a name="line.929"></a>
+<span class="sourceLineNo">930</span><a name="line.930"></a>
+<span class="sourceLineNo">931</span>  /**<a name="line.931"></a>
+<span class="sourceLineNo">932</span>   * Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.<a name="line.932"></a>
+<span class="sourceLineNo">933</span>   *<a name="line.933"></a>
+<span class="sourceLineNo">934</span>   * @param address BigInteger representing the IPv4 address<a name="line.934"></a>
+<span class="sourceLineNo">935</span>   * @return Inet4Address representation of the given BigInteger<a name="line.935"></a>
+<span class="sourceLineNo">936</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1<a name="line.936"></a>
+<span class="sourceLineNo">937</span>   * @since NEXT<a name="line.937"></a>
+<span class="sourceLineNo">938</span>   */<a name="line.938"></a>
+<span class="sourceLineNo">939</span>  public static Inet4Address fromIpv4BigInteger(BigInteger address) {<a name="line.939"></a>
+<span class="sourceLineNo">940</span>    return (Inet4Address) fromBigInteger(address, false);<a name="line.940"></a>
+<span class="sourceLineNo">941</span>  }<a name="line.941"></a>
+<span class="sourceLineNo">942</span>  /**<a name="line.942"></a>
+<span class="sourceLineNo">943</span>   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.<a name="line.943"></a>
+<span class="sourceLineNo">944</span>   *<a name="line.944"></a>
+<span class="sourceLineNo">945</span>   * @param address BigInteger representing the IPv6 address<a name="line.945"></a>
+<span class="sourceLineNo">946</span>   * @return Inet6Address representation of the given BigInteger<a name="line.946"></a>
+<span class="sourceLineNo">947</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1<a name="line.947"></a>
+<span class="sourceLineNo">948</span>   * @since NEXT<a name="line.948"></a>
+<span class="sourceLineNo">949</span>   */<a name="line.949"></a>
+<span class="sourceLineNo">950</span>  public static Inet6Address fromIpv6BigInteger(BigInteger address) {<a name="line.950"></a>
+<span class="sourceLineNo">951</span>    return (Inet6Address) fromBigInteger(address, true);<a name="line.951"></a>
+<span class="sourceLineNo">952</span>  }<a name="line.952"></a>
+<span class="sourceLineNo">953</span><a name="line.953"></a>
+<span class="sourceLineNo">954</span>  /**<a name="line.954"></a>
+<span class="sourceLineNo">955</span>   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be<a name="line.955"></a>
+<span class="sourceLineNo">956</span>   * constrainted to 32 bits, otherwise it is constrained to 128 bits.<a name="line.956"></a>
+<span class="sourceLineNo">957</span>   *<a name="line.957"></a>
+<span class="sourceLineNo">958</span>   * @param address the address represented as a big integer<a name="line.958"></a>
+<span class="sourceLineNo">959</span>   * @param isIpv6 whether the created address should be IPv4 or IPv6<a name="line.959"></a>
+<span class="sourceLineNo">960</span>   * @return the BigInteger converted to an address<a name="line.960"></a>
+<span class="sourceLineNo">961</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4<a name="line.961"></a>
+<span class="sourceLineNo">962</span>   *     or IPv6 respectively<a name="line.962"></a>
+<span class="sourceLineNo">963</span>   */<a name="line.963"></a>
+<span class="sourceLineNo">964</span>  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {<a name="line.964"></a>
+<span class="sourceLineNo">965</span>    checkArgument(address.signum() &gt;= 0, "BigInteger must be greater than or equal to 0");<a name="line.965"></a>
+<span class="sourceLineNo">966</span><a name="line.966"></a>
+<span class="sourceLineNo">967</span>    int numBytes = isIpv6 ? 16 : 4;<a name="line.967"></a>
+<span class="sourceLineNo">968</span><a name="line.968"></a>
+<span class="sourceLineNo">969</span>    byte[] addressBytes = address.toByteArray();<a name="line.969"></a>
+<span class="sourceLineNo">970</span>    byte[] targetCopyArray = new byte[numBytes];<a name="line.970"></a>
 <span class="sourceLineNo">971</span><a name="line.971"></a>
-<span class="sourceLineNo">972</span>    // Check the extra bytes in the BigInteger are all zero.<a name="line.972"></a>
-<span class="sourceLineNo">973</span>    for (int i = 0; i &lt; srcPos; i++) {<a name="line.973"></a>
-<span class="sourceLineNo">974</span>      if (addressBytes[i] != 0x00) {<a name="line.974"></a>
-<span class="sourceLineNo">975</span>        throw formatIllegalArgumentException(<a name="line.975"></a>
-<span class="sourceLineNo">976</span>            "BigInteger cannot be converted to InetAddress because it has more than %d"<a name="line.976"></a>
-<span class="sourceLineNo">977</span>                + " bytes: %s",<a name="line.977"></a>
-<span class="sourceLineNo">978</span>            numBytes, address);<a name="line.978"></a>
-<span class="sourceLineNo">979</span>      }<a name="line.979"></a>
-<span class="sourceLineNo">980</span>    }<a name="line.980"></a>
-<span class="sourceLineNo">981</span><a name="line.981"></a>
-<span class="sourceLineNo">982</span>    // Copy the bytes into the least significant positions.<a name="line.982"></a>
-<span class="sourceLineNo">983</span>    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);<a name="line.983"></a>
-<span class="sourceLineNo">984</span><a name="line.984"></a>
-<span class="sourceLineNo">985</span>    try {<a name="line.985"></a>
-<span class="sourceLineNo">986</span>      return InetAddress.getByAddress(targetCopyArray);<a name="line.986"></a>
-<span class="sourceLineNo">987</span>    } catch (UnknownHostException impossible) {<a name="line.987"></a>
-<span class="sourceLineNo">988</span>      throw new AssertionError(impossible);<a name="line.988"></a>
-<span class="sourceLineNo">989</span>    }<a name="line.989"></a>
-<span class="sourceLineNo">990</span>  }<a name="line.990"></a>
-<span class="sourceLineNo">991</span><a name="line.991"></a>
-<span class="sourceLineNo">992</span>  /**<a name="line.992"></a>
-<span class="sourceLineNo">993</span>   * Returns an address from a &lt;b&gt;little-endian ordered&lt;/b&gt; byte array (the opposite of what {@link<a name="line.993"></a>
-<span class="sourceLineNo">994</span>   * InetAddress#getByAddress} expects).<a name="line.994"></a>
-<span class="sourceLineNo">995</span>   *<a name="line.995"></a>
-<span class="sourceLineNo">996</span>   * &lt;p&gt;IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.<a name="line.996"></a>
-<span class="sourceLineNo">997</span>   *<a name="line.997"></a>
-<span class="sourceLineNo">998</span>   * @param addr the raw IP address in little-endian byte order<a name="line.998"></a>
-<span class="sourceLineNo">999</span>   * @return an InetAddress object created from the raw IP address<a name="line.999"></a>
-<span class="sourceLineNo">1000</span>   * @throws UnknownHostException if IP address is of illegal length<a name="line.1000"></a>
-<span class="sourceLineNo">1001</span>   */<a name="line.1001"></a>
-<span class="sourceLineNo">1002</span>  public static InetAddress fromLittleEndianByteArray(byte[] addr) throws UnknownHostException {<a name="line.1002"></a>
-<span class="sourceLineNo">1003</span>    byte[] reversed = new byte[addr.length];<a name="line.1003"></a>
-<span class="sourceLineNo">1004</span>    for (int i = 0; i &lt; addr.length; i++) {<a name="line.1004"></a>
-<span class="sourceLineNo">1005</span>      reversed[i] = addr[addr.length - i - 1];<a name="line.1005"></a>
-<span class="sourceLineNo">1006</span>    }<a name="line.1006"></a>
-<span class="sourceLineNo">1007</span>    return InetAddress.getByAddress(reversed);<a name="line.1007"></a>
-<span class="sourceLineNo">1008</span>  }<a name="line.1008"></a>
-<span class="sourceLineNo">1009</span><a name="line.1009"></a>
-<span class="sourceLineNo">1010</span>  /**<a name="line.1010"></a>
-<span class="sourceLineNo">1011</span>   * Returns a new InetAddress that is one less than the passed in address. This method works for<a name="line.1011"></a>
-<span class="sourceLineNo">1012</span>   * both IPv4 and IPv6 addresses.<a name="line.1012"></a>
-<span class="sourceLineNo">1013</span>   *<a name="line.1013"></a>
-<span class="sourceLineNo">1014</span>   * @param address the InetAddress to decrement<a name="line.1014"></a>
-<span class="sourceLineNo">1015</span>   * @return a new InetAddress that is one less than the passed in address<a name="line.1015"></a>
-<span class="sourceLineNo">1016</span>   * @throws IllegalArgumentException if InetAddress is at the beginning of its range<a name="line.1016"></a>
-<span class="sourceLineNo">1017</span>   * @since 18.0<a name="line.1017"></a>
-<span class="sourceLineNo">1018</span>   */<a name="line.1018"></a>
-<span class="sourceLineNo">1019</span>  public static InetAddress decrement(InetAddress address) {<a name="line.1019"></a>
-<span class="sourceLineNo">1020</span>    byte[] addr = address.getAddress();<a name="line.1020"></a>
-<span class="sourceLineNo">1021</span>    int i = addr.length - 1;<a name="line.1021"></a>
-<span class="sourceLineNo">1022</span>    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0x00) {<a name="line.1022"></a>
-<span class="sourceLineNo">1023</span>      addr[i] = (byte) 0xff;<a name="line.1023"></a>
-<span class="sourceLineNo">1024</span>      i--;<a name="line.1024"></a>
-<span class="sourceLineNo">1025</span>    }<a name="line.1025"></a>
-<span class="sourceLineNo">1026</span><a name="line.1026"></a>
-<span class="sourceLineNo">1027</span>    checkArgument(i &gt;= 0, "Decrementing %s would wrap.", address);<a name="line.1027"></a>
-<span class="sourceLineNo">1028</span><a name="line.1028"></a>
-<span class="sourceLineNo">1029</span>    addr[i]--;<a name="line.1029"></a>
-<span class="sourceLineNo">1030</span>    return bytesToInetAddress(addr);<a name="line.1030"></a>
-<span class="sourceLineNo">1031</span>  }<a name="line.1031"></a>
+<span class="sourceLineNo">972</span>    int srcPos = Math.max(0, addressBytes.length - numBytes);<a name="line.972"></a>
+<span class="sourceLineNo">973</span>    int copyLength = addressBytes.length - srcPos;<a name="line.973"></a>
+<span class="sourceLineNo">974</span>    int destPos = numBytes - copyLength;<a name="line.974"></a>
+<span class="sourceLineNo">975</span><a name="line.975"></a>
+<span class="sourceLineNo">976</span>    // Check the extra bytes in the BigInteger are all zero.<a name="line.976"></a>
+<span class="sourceLineNo">977</span>    for (int i = 0; i &lt; srcPos; i++) {<a name="line.977"></a>
+<span class="sourceLineNo">978</span>      if (addressBytes[i] != 0x00) {<a name="line.978"></a>
+<span class="sourceLineNo">979</span>        throw formatIllegalArgumentException(<a name="line.979"></a>
+<span class="sourceLineNo">980</span>            "BigInteger cannot be converted to InetAddress because it has more than %d"<a name="line.980"></a>
+<span class="sourceLineNo">981</span>                + " bytes: %s",<a name="line.981"></a>
+<span class="sourceLineNo">982</span>            numBytes, address);<a name="line.982"></a>
+<span class="sourceLineNo">983</span>      }<a name="line.983"></a>
+<span class="sourceLineNo">984</span>    }<a name="line.984"></a>
+<span class="sourceLineNo">985</span><a name="line.985"></a>
+<span class="sourceLineNo">986</span>    // Copy the bytes into the least significant positions.<a name="line.986"></a>
+<span class="sourceLineNo">987</span>    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);<a name="line.987"></a>
+<span class="sourceLineNo">988</span><a name="line.988"></a>
+<span class="sourceLineNo">989</span>    try {<a name="line.989"></a>
+<span class="sourceLineNo">990</span>      return InetAddress.getByAddress(targetCopyArray);<a name="line.990"></a>
+<span class="sourceLineNo">991</span>    } catch (UnknownHostException impossible) {<a name="line.991"></a>
+<span class="sourceLineNo">992</span>      throw new AssertionError(impossible);<a name="line.992"></a>
+<span class="sourceLineNo">993</span>    }<a name="line.993"></a>
+<span class="sourceLineNo">994</span>  }<a name="line.994"></a>
+<span class="sourceLineNo">995</span><a name="line.995"></a>
+<span class="sourceLineNo">996</span>  /**<a name="line.996"></a>
+<span class="sourceLineNo">997</span>   * Returns an address from a &lt;b&gt;little-endian ordered&lt;/b&gt; byte array (the opposite of what {@link<a name="line.997"></a>
+<span class="sourceLineNo">998</span>   * InetAddress#getByAddress} expects).<a name="line.998"></a>
+<span class="sourceLineNo">999</span>   *<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>   * &lt;p&gt;IPv4 address byte array must be 4 bytes long and IPv6 byte array must be 16 bytes long.<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>   *<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>   * @param addr the raw IP address in little-endian byte order<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>   * @return an InetAddress object created from the raw IP address<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>   * @throws UnknownHostException if IP address is of illegal length<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>   */<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>  public static InetAddress fromLittleEndianByteArray(byte[] addr) throws UnknownHostException {<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>    byte[] reversed = new byte[addr.length];<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>    for (int i = 0; i &lt; addr.length; i++) {<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>      reversed[i] = addr[addr.length - i - 1];<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>    }<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>    return InetAddress.getByAddress(reversed);<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>  }<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span><a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>  /**<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>   * Returns a new InetAddress that is one less than the passed in address. This method works for<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span>   * both IPv4 and IPv6 addresses.<a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>   *<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>   * @param address the InetAddress to decrement<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>   * @return a new InetAddress that is one less than the passed in address<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span>   * @throws IllegalArgumentException if InetAddress is at the beginning of its range<a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>   * @since 18.0<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>   */<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>  public static InetAddress decrement(InetAddress address) {<a name="line.1023"></a>
+<span class="sourceLineNo">1024</span>    byte[] addr = address.getAddress();<a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>    int i = addr.length - 1;<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0x00) {<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>      addr[i] = (byte) 0xff;<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>      i--;<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>    }<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span><a name="line.1030"></a>
+<span class="sourceLineNo">1031</span>    checkArgument(i &gt;= 0, "Decrementing %s would wrap.", address);<a name="line.1031"></a>
 <span class="sourceLineNo">1032</span><a name="line.1032"></a>
-<span class="sourceLineNo">1033</span>  /**<a name="line.1033"></a>
-<span class="sourceLineNo">1034</span>   * Returns a new InetAddress that is one more than the passed in address. This method works for<a name="line.1034"></a>
-<span class="sourceLineNo">1035</span>   * both IPv4 and IPv6 addresses.<a name="line.1035"></a>
-<span class="sourceLineNo">1036</span>   *<a name="line.1036"></a>
-<span class="sourceLineNo">1037</span>   * @param address the InetAddress to increment<a name="line.1037"></a>
-<span class="sourceLineNo">1038</span>   * @return a new InetAddress that is one more than the passed in address<a name="line.1038"></a>
-<span class="sourceLineNo">1039</span>   * @throws IllegalArgumentException if InetAddress is at the end of its range<a name="line.1039"></a>
-<span class="sourceLineNo">1040</span>   * @since 10.0<a name="line.1040"></a>
-<span class="sourceLineNo">1041</span>   */<a name="line.1041"></a>
-<span class="sourceLineNo">1042</span>  public static InetAddress increment(InetAddress address) {<a name="line.1042"></a>
-<span class="sourceLineNo">1043</span>    byte[] addr = address.getAddress();<a name="line.1043"></a>
-<span class="sourceLineNo">1044</span>    int i = addr.length - 1;<a name="line.1044"></a>
-<span class="sourceLineNo">1045</span>    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0xff) {<a name="line.1045"></a>
-<span class="sourceLineNo">1046</span>      addr[i] = 0;<a name="line.1046"></a>
-<span class="sourceLineNo">1047</span>      i--;<a name="line.1047"></a>
-<span class="sourceLineNo">1048</span>    }<a name="line.1048"></a>
-<span class="sourceLineNo">1049</span><a name="line.1049"></a>
-<span class="sourceLineNo">1050</span>    checkArgument(i &gt;= 0, "Incrementing %s would wrap.", address);<a name="line.1050"></a>
-<span class="sourceLineNo">1051</span><a name="line.1051"></a>
-<span class="sourceLineNo">1052</span>    addr[i]++;<a name="line.1052"></a>
-<span class="sourceLineNo">1053</span>    return bytesToInetAddress(addr);<a name="line.1053"></a>
-<span class="sourceLineNo">1054</span>  }<a name="line.1054"></a>
+<span class="sourceLineNo">1033</span>    addr[i]--;<a name="line.1033"></a>
+<span class="sourceLineNo">1034</span>    return bytesToInetAddress(addr);<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>  }<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span><a name="line.1036"></a>
+<span class="sourceLineNo">1037</span>  /**<a name="line.1037"></a>
+<span class="sourceLineNo">1038</span>   * Returns a new InetAddress that is one more than the passed in address. This method works for<a name="line.1038"></a>
+<span class="sourceLineNo">1039</span>   * both IPv4 and IPv6 addresses.<a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>   *<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>   * @param address the InetAddress to increment<a name="line.1041"></a>
+<span class="sourceLineNo">1042</span>   * @return a new InetAddress that is one more than the passed in address<a name="line.1042"></a>
+<span class="sourceLineNo">1043</span>   * @throws IllegalArgumentException if InetAddress is at the end of its range<a name="line.1043"></a>
+<span class="sourceLineNo">1044</span>   * @since 10.0<a name="line.1044"></a>
+<span class="sourceLineNo">1045</span>   */<a name="line.1045"></a>
+<span class="sourceLineNo">1046</span>  public static InetAddress increment(InetAddress address) {<a name="line.1046"></a>
+<span class="sourceLineNo">1047</span>    byte[] addr = address.getAddress();<a name="line.1047"></a>
+<span class="sourceLineNo">1048</span>    int i = addr.length - 1;<a name="line.1048"></a>
+<span class="sourceLineNo">1049</span>    while (i &gt;= 0 &amp;&amp; addr[i] == (byte) 0xff) {<a name="line.1049"></a>
+<span class="sourceLineNo">1050</span>      addr[i] = 0;<a name="line.1050"></a>
+<span class="sourceLineNo">1051</span>      i--;<a name="line.1051"></a>
+<span class="sourceLineNo">1052</span>    }<a name="line.1052"></a>
+<span class="sourceLineNo">1053</span><a name="line.1053"></a>
+<span class="sourceLineNo">1054</span>    checkArgument(i &gt;= 0, "Incrementing %s would wrap.", address);<a name="line.1054"></a>
 <span class="sourceLineNo">1055</span><a name="line.1055"></a>
-<span class="sourceLineNo">1056</span>  /**<a name="line.1056"></a>
-<span class="sourceLineNo">1057</span>   * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.1057"></a>
-<span class="sourceLineNo">1058</span>   * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.<a name="line.1058"></a>
-<span class="sourceLineNo">1059</span>   *<a name="line.1059"></a>
-<span class="sourceLineNo">1060</span>   * @return true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.1060"></a>
-<span class="sourceLineNo">1061</span>   *     ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6<a name="line.1061"></a>
-<span class="sourceLineNo">1062</span>   * @since 10.0<a name="line.1062"></a>
-<span class="sourceLineNo">1063</span>   */<a name="line.1063"></a>
-<span class="sourceLineNo">1064</span>  public static boolean isMaximum(InetAddress address) {<a name="line.1064"></a>
-<span class="sourceLineNo">1065</span>    byte[] addr = address.getAddress();<a name="line.1065"></a>
-<span class="sourceLineNo">1066</span>    for (int i = 0; i &lt; addr.length; i++) {<a name="line.1066"></a>
-<span class="sourceLineNo">1067</span>      if (addr[i] != (byte) 0xff) {<a name="line.1067"></a>
-<span class="sourceLineNo">1068</span>        return false;<a name="line.1068"></a>
-<span class="sourceLineNo">1069</span>      }<a name="line.1069"></a>
-<span class="sourceLineNo">1070</span>    }<a name="line.1070"></a>
-<span class="sourceLineNo">1071</span>    return true;<a name="line.1071"></a>
-<span class="sourceLineNo">1072</span>  }<a name="line.1072"></a>
-<span class="sourceLineNo">1073</span><a name="line.1073"></a>
-<span class="sourceLineNo">1074</span>  private static IllegalArgumentException formatIllegalArgumentException(<a name="line.1074"></a>
-<span class="sourceLineNo">1075</span>      String format, Object... args) {<a name="line.1075"></a>
-<span class="sourceLineNo">1076</span>    return new IllegalArgumentException(String.format(Locale.ROOT, format, args));<a name="line.1076"></a>
-<span class="sourceLineNo">1077</span>  }<a name="line.1077"></a>
-<span class="sourceLineNo">1078</span>}<a name="line.1078"></a>
+<span class="sourceLineNo">1056</span>    addr[i]++;<a name="line.1056"></a>
+<span class="sourceLineNo">1057</span>    return bytesToInetAddress(addr);<a name="line.1057"></a>
+<span class="sourceLineNo">1058</span>  }<a name="line.1058"></a>
+<span class="sourceLineNo">1059</span><a name="line.1059"></a>
+<span class="sourceLineNo">1060</span>  /**<a name="line.1060"></a>
+<span class="sourceLineNo">1061</span>   * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.1061"></a>
+<span class="sourceLineNo">1062</span>   * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.<a name="line.1062"></a>
+<span class="sourceLineNo">1063</span>   *<a name="line.1063"></a>
+<span class="sourceLineNo">1064</span>   * @return true if the InetAddress is either 255.255.255.255 for IPv4 or<a name="line.1064"></a>
+<span class="sourceLineNo">1065</span>   *     ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6<a name="line.1065"></a>
+<span class="sourceLineNo">1066</span>   * @since 10.0<a name="line.1066"></a>
+<span class="sourceLineNo">1067</span>   */<a name="line.1067"></a>
+<span class="sourceLineNo">1068</span>  public static boolean isMaximum(InetAddress address) {<a name="line.1068"></a>
+<span class="sourceLineNo">1069</span>    byte[] addr = address.getAddress();<a name="line.1069"></a>
+<span class="sourceLineNo">1070</span>    for (int i = 0; i &lt; addr.length; i++) {<a name="line.1070"></a>
+<span class="sourceLineNo">1071</span>      if (addr[i] != (byte) 0xff) {<a name="line.1071"></a>
+<span class="sourceLineNo">1072</span>        return false;<a name="line.1072"></a>
+<span class="sourceLineNo">1073</span>      }<a name="line.1073"></a>
+<span class="sourceLineNo">1074</span>    }<a name="line.1074"></a>
+<span class="sourceLineNo">1075</span>    return true;<a name="line.1075"></a>
+<span class="sourceLineNo">1076</span>  }<a name="line.1076"></a>
+<span class="sourceLineNo">1077</span><a name="line.1077"></a>
+<span class="sourceLineNo">1078</span>  private static IllegalArgumentException formatIllegalArgumentException(<a name="line.1078"></a>
+<span class="sourceLineNo">1079</span>      String format, Object... args) {<a name="line.1079"></a>
+<span class="sourceLineNo">1080</span>    return new IllegalArgumentException(String.format(Locale.ROOT, format, args));<a name="line.1080"></a>
+<span class="sourceLineNo">1081</span>  }<a name="line.1081"></a>
+<span class="sourceLineNo">1082</span>}<a name="line.1082"></a>
 
 
 
