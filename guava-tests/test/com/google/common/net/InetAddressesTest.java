@@ -568,75 +568,77 @@ public class InetAddressesTest extends TestCase {
 
   public void testGetCoercedIPv4Address() {
     // Check that a coerced IPv4 address is unaltered.
-    InetAddress localHost4 = InetAddresses.forString("127.0.0.1");
-    assertEquals(localHost4, InetAddresses.getCoercedIPv4Address(localHost4));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("127.0.0.1")))
+        .isEqualTo(InetAddresses.forString("127.0.0.1"));
 
     // ::1 special case
-    assertEquals(localHost4, InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1")))
+        .isEqualTo(InetAddresses.forString("127.0.0.1"));
 
     // :: special case
-    assertEquals(
-        InetAddresses.forString("0.0.0.0"),
-        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::")))
+        .isEqualTo(InetAddresses.forString("0.0.0.0"));
 
     // test compat address (should be hashed)
-    assertTrue(
-        InetAddresses.forString("1.2.3.4")
-            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1.2.3.4")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("::1.2.3.4")))
+        .isNotEqualTo(InetAddresses.forString("1.2.3.4"));
 
     // test 6to4 address (should be hashed)
-    assertTrue(
-        InetAddresses.forString("1.2.3.4")
-            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1")))
+        .isNotEqualTo(InetAddresses.forString("1.2.3.4"));
 
     // 2 6to4 addresses differing in the embedded IPv4 address should
     // hash to the different values.
-    assertTrue(
-        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1"))
-            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0506:0708::1")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1")))
+        .isNotEqualTo(
+            InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0506:0708::1")));
 
     // 2 6to4 addresses NOT differing in the embedded IPv4 address should
     // hash to the same value.
-    assertTrue(
-        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1"))
-            != InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::2")));
+    assertThat(InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::1")))
+        .isEqualTo(
+            InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2002:0102:0304::2")));
 
     // test Teredo address (should be hashed)
-    assertTrue(
-        InetAddresses.forString("192.0.2.45")
-            != InetAddresses.getCoercedIPv4Address(
-                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")));
+    assertThat(
+            InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")))
+        .isNotEqualTo(InetAddresses.forString("192.0.2.45"));
 
-    // 2 Teredo addresses differing in the embedded IPv4 address should
-    // hash to the different values.
-    assertTrue(
-        InetAddresses.getCoercedIPv4Address(
-                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2"))
-            != InetAddresses.getCoercedIPv4Address(
-                InetAddresses.forString("2001:0000:4136:e379:8000:63bf:3fff:fdd2")));
+    // 2 Teredo addresses differing in their embedded IPv4 addresses should hash to different
+    // values.
+    assertThat(
+            InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")))
+        .isNotEqualTo(
+            InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd3")));
 
-    // 2 Teredo addresses NOT differing in the embedded IPv4 address should
-    // hash to the same value.
-    assertEquals(
-        InetAddresses.getCoercedIPv4Address(
-            InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")),
-        InetAddresses.getCoercedIPv4Address(
-            InetAddresses.forString("2001:0000:4136:e378:9000:63bf:3fff:fdd2")));
+    // 2 Teredo addresses NOT differing in the their embedded IPv4 addresses should hash to the same
+    // value.
+    assertThat(
+            InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:4136:e378:8000:63bf:3fff:fdd2")))
+        .isEqualTo(
+            InetAddresses.getCoercedIPv4Address(
+                InetAddresses.forString("2001:0000:5136:f378:9000:73bf:3fff:fdd2")));
 
     // Test that an address hashes in to the 224.0.0.0/3 number-space.
-    InetAddress coerced =
-        InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2001:4860::1"));
-    assertTrue(0xe0000000 <= InetAddresses.coerceToInteger(coerced));
-    assertTrue(InetAddresses.coerceToInteger(coerced) <= 0xfffffffe);
+    int coercedInt =
+        InetAddresses.coerceToInteger(
+            InetAddresses.getCoercedIPv4Address(InetAddresses.forString("2001:4860::1")));
+    assertThat(coercedInt).isAtLeast(0xe0000000);
+    assertThat(coercedInt).isAtMost(0xfffffffe);
   }
 
-  public void testToInteger() {
-    InetAddress ipv4Addr = InetAddresses.forString("127.0.0.1");
-    assertEquals(0x7f000001, InetAddresses.coerceToInteger(ipv4Addr));
+  public void testCoerceToInteger() {
+    assertThat(InetAddresses.coerceToInteger(InetAddresses.forString("127.0.0.1")))
+        .isEqualTo(0x7f000001);
   }
 
   public void testFromInteger() {
-    assertEquals(InetAddresses.fromInteger(0x7f000001), InetAddresses.forString("127.0.0.1"));
+    assertThat(InetAddresses.fromInteger(0x7f000001))
+        .isEqualTo(InetAddresses.forString("127.0.0.1"));
   }
 
   public void testFromLittleEndianByteArray() throws UnknownHostException {
