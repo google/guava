@@ -51560,6 +51560,8 @@
 
  <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
 
+ <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
+
  @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
      "192.168.0.1"} or {@code "2001:db8::1"}
  @return {@link InetAddress} representing the argument
@@ -51893,6 +51895,21 @@
  @since 7.0]]>
       </doc>
     </method>
+    <method name="toBigInteger" return="java.math.BigInteger"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="address" type="java.net.InetAddress"/>
+      <doc>
+      <![CDATA[Returns a BigInteger representing the address.
+
+ <p>Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.
+
+ @param address {@link InetAddress} to convert
+ @return {@code BigInteger} representation of the address
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="fromInteger" return="java.net.Inet4Address"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -51903,6 +51920,34 @@
 
  @param address {@code int}, the 32bit integer address to be converted
  @return {@link Inet4Address} equivalent of the argument]]>
+      </doc>
+    </method>
+    <method name="fromIpv4BigInteger" return="java.net.Inet4Address"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="address" type="java.math.BigInteger"/>
+      <doc>
+      <![CDATA[Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.
+
+ @param address BigInteger representing the IPv4 address
+ @return Inet4Address representation of the given BigInteger
+ @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="fromIpv6BigInteger" return="java.net.Inet6Address"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="address" type="java.math.BigInteger"/>
+      <doc>
+      <![CDATA[Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.
+
+ @param address BigInteger representing the IPv6 address
+ @return Inet6Address representation of the given BigInteger
+ @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
+ @since NEXT]]>
       </doc>
     </method>
     <method name="fromLittleEndianByteArray" return="java.net.InetAddress"
