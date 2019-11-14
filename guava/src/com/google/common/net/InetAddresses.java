@@ -971,12 +971,12 @@ public final class InetAddresses {
 
     // Check the extra bytes in the BigInteger are all zero.
     for (int i = 0; i < srcPos; i++) {
-      checkArgument(
-          addressBytes[i] == 0x00,
-          String.format(
-              "BigInteger cannot be converted to InetAddress because it has more than %d"
-                  + " bytes: %s",
-              numBytes, address));
+      if (addressBytes[i] != 0x00) {
+        throw formatIllegalArgumentException(
+            "BigInteger cannot be converted to InetAddress because it has more than %d"
+                + " bytes: %s",
+            numBytes, address);
+      }
     }
 
     // Copy the bytes into the least significant positions.
