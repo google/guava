@@ -131,6 +131,8 @@ public final class InetAddresses {
    *
    * <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
    *
+   * <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
+   *
    * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
    *     "192.168.0.1"} or {@code "2001:db8::1"}
    * @return {@link InetAddress} representing the argument
@@ -158,11 +160,13 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
+  /** Returns {@code null} if unable to parse into a {@code byte[]}. */
   @NullableDecl
   private static byte[] ipStringToBytes(String ipString) {
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
     boolean hasDot = false;
+    int percentIndex = -1;
     for (int i = 0; i < ipString.length(); i++) {
       char c = ipString.charAt(i);
       if (c == '.') {
@@ -172,6 +176,9 @@ public final class InetAddresses {
           return null; // Colons must not appear after dots.
         }
         hasColon = true;
+      } else if (c == '%') {
+        percentIndex = i;
+        break; // everything after a '%' is ignored (it's a Scope ID): http://superuser.com/a/99753
       } else if (Character.digit(c, 16) == -1) {
         return null; // Everything else must be a decimal or hex digit.
       }
@@ -184,6 +191,9 @@ public final class InetAddresses {
         if (ipString == null) {
           return null;
         }
+      }
+      if (percentIndex != -1) {
+        ipString = ipString.substring(0, percentIndex);
       }
       return textToNumericFormatV6(ipString);
     } else if (hasDot) {

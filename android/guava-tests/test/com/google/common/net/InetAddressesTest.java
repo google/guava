@@ -164,6 +164,58 @@ public class InetAddressesTest extends TestCase {
     }
   }
 
+  // see https://github.com/google/guava/issues/2587
+  private static final ImmutableSet<String> SCOPE_IDS =
+      ImmutableSet.of("eno1", "en1", "eth0", "X", "1", "2", "14", "20");
+
+  public void testIPv4AddressWithScopeId() {
+    ImmutableSet<String> ipStrings = ImmutableSet.of("1.2.3.4", "192.168.0.1");
+    for (String ipString : ipStrings) {
+      for (String scopeId : SCOPE_IDS) {
+        String withScopeId = ipString + "%" + scopeId;
+        assertFalse(
+            "InetAddresses.isInetAddress(" + withScopeId + ") should be false but was true",
+            InetAddresses.isInetAddress(withScopeId));
+      }
+    }
+  }
+
+  public void testDottedQuadAddressWithScopeId() {
+    ImmutableSet<String> ipStrings =
+        ImmutableSet.of("7::0.128.0.127", "7::0.128.0.128", "7::128.128.0.127", "7::0.128.128.127");
+    for (String ipString : ipStrings) {
+      for (String scopeId : SCOPE_IDS) {
+        String withScopeId = ipString + "%" + scopeId;
+        assertFalse(
+            "InetAddresses.isInetAddress(" + withScopeId + ") should be false but was true",
+            InetAddresses.isInetAddress(withScopeId));
+      }
+    }
+  }
+
+  public void testIPv6AddressWithScopeId() {
+    ImmutableSet<String> ipStrings =
+        ImmutableSet.of(
+            "0:0:0:0:0:0:0:1",
+            "fe80::a",
+            "fe80::1",
+            "fe80::2",
+            "fe80::42",
+            "fe80::3dd0:7f8e:57b7:34d5",
+            "fe80::71a3:2b00:ddd3:753f",
+            "fe80::8b2:d61e:e5c:b333",
+            "fe80::b059:65f4:e877:c40");
+    for (String ipString : ipStrings) {
+      for (String scopeId : SCOPE_IDS) {
+        String withScopeId = ipString + "%" + scopeId;
+        assertTrue(
+            "InetAddresses.isInetAddress(" + withScopeId + ") should be true but was false",
+            InetAddresses.isInetAddress(withScopeId));
+        assertEquals(InetAddresses.forString(withScopeId), InetAddresses.forString(ipString));
+      }
+    }
+  }
+
   public void testToAddrStringIPv4() {
     // Don't need to test IPv4 much; it just calls getHostAddress().
     assertEquals("1.2.3.4", InetAddresses.toAddrString(InetAddresses.forString("1.2.3.4")));
