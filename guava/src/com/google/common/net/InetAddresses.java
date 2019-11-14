@@ -821,8 +821,13 @@ public final class InetAddresses {
    *
    * <p>HACK: As long as applications continue to use IPv4 addresses for indexing into tables,
    * accounting, et cetera, it may be necessary to <b>coerce</b> IPv6 addresses into IPv4 addresses.
-   * This function does so by hashing the upper 64 bits into {@code 224.0.0.0/3} (64 bits into 29
-   * bits).
+   * This function does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits
+   * into 29 bits):
+   *
+   * <ul>
+   *   <li>If the IPv6 address contains an embedded IPv4 address, the function hashes that.
+   *   <li>Otherwise, it hashes the upper 64 bits of the IPv6 address.
+   * </ul>
    *
    * <p>A "coerced" IPv4 address is equivalent to itself.
    *
@@ -859,7 +864,6 @@ public final class InetAddresses {
     if (hasEmbeddedIPv4ClientAddress(ip6)) {
       addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();
     } else {
-
       // Just extract the high 64 bits (assuming the rest is user-modifiable).
       addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();
     }
