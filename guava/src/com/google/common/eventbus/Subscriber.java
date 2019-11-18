@@ -64,17 +64,33 @@ class Subscriber {
 
   /** Dispatches {@code event} to this subscriber using the proper executor. */
   final void dispatchEvent(final Object event) {
-    executor.execute(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
+    executor.execute(new EventDispatchTask(event));
+  }
+
+  public class EventDispatchTask implements Runnable {
+      private final Object event;
+
+      public EventDispatchTask(final Object event) {
+          this.event = event;
+      }
+
+      @Override
+      public void run() {
+          try {
               invokeSubscriberMethod(event);
-            } catch (InvocationTargetException e) {
+          } catch (InvocationTargetException e) {
               bus.handleSubscriberException(e.getCause(), context(event));
-            }
           }
-        });
+      }
+
+      public Object getEvent() {
+          return event;
+      }
+
+      @Override
+      public String toString() {
+          return "EventDispatchTask{" + "event=" + event + '}';
+      }
   }
 
   /**
