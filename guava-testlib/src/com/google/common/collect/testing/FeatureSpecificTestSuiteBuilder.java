@@ -173,12 +173,12 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   public TestSuite createTestSuite() {
     checkCanCreate();
 
-    logger.fine(" Testing: " + name);
-    logger.fine("Features: " + formatFeatureSet(features));
+    logger.finest(" Testing: " + name);
+    logger.finest("Features: " + formatFeatureSet(features));
 
     FeatureUtil.addImpliedFeatures(features);
 
-    logger.fine("Expanded: " + formatFeatureSet(features));
+    logger.finest("Expanded: " + formatFeatureSet(features));
 
     // Class parameters must be raw.
     List<Class<? extends AbstractTester>> testers = getTesters();
