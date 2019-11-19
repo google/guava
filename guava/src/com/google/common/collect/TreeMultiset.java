@@ -762,9 +762,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         result[0] = 0;
         if (count > 0) {
           if (isLeft) {
-            addLeftChild(e, count);
+            return addLeftChild(e, count);
           } else {
-            addRightChild(e, count);
+            return addRightChild(e, count);
           }
         }
         return this;
@@ -792,9 +792,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         result[0] = 0;
         if (expectedCount == 0 && newCount > 0) {
           if (isLeft) {
-            addLeftChild(e, newCount);
+            return addLeftChild(e, newCount);
           } else {
-            addRightChild(e, newCount);
+            return addRightChild(e, newCount);
           }
         }
         return this;
