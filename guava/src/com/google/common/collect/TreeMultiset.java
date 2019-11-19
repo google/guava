@@ -814,7 +814,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         }
         this.totalCount += newCount - result[0];
       }
-      this.totalCount += newCount - result[0];
       return rebalance();
     }
 
