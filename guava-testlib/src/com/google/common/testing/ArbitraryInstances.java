@@ -393,7 +393,7 @@ public final class ArbitraryInstances {
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
-      logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());
+      logger.log(Level.SEVERE, "Exception while invoking default constructor.", e.getCause());
       return arbitraryConstantInstanceOrNull(type);
     }
   }

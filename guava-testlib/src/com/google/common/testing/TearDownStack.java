@@ -74,7 +74,7 @@ public class TearDownStack implements TearDownAccepter {
         tearDown.tearDown();
       } catch (Throwable t) {
         if (suppressThrows) {
-          logger.log(Level.INFO, "exception thrown during tearDown", t);
+          logger.log(Level.SEVERE, "exception thrown during tearDown", t);
         } else {
           exceptions.add(t);
         }
