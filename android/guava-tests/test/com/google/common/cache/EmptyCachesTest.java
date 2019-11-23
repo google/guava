@@ -113,7 +113,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       try {
-        keys.toArray(null);
+        keys.toArray((Object[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
@@ -187,7 +187,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
       try {
-        values.toArray(null);
+        values.toArray((Object[]) null);
         fail();
       } catch (NullPointerException expected) {
       }
@@ -261,7 +261,7 @@ public class EmptyCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       try {
-        entries.toArray(null);
+        entries.toArray((Entry<Object, Object>[]) null);
         fail();
       } catch (NullPointerException expected) {
       }

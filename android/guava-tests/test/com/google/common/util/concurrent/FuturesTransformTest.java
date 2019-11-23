@@ -29,6 +29,8 @@ import java.lang.reflect.UndeclaredThrowableException;
  */
 public class FuturesTransformTest extends AbstractChainedListenableFutureTest<String> {
   private static final String RESULT_DATA = "SUCCESS";
+  private static final UndeclaredThrowableException WRAPPED_EXCEPTION =
+      new UndeclaredThrowableException(EXCEPTION);
 
   @Override
   protected ListenableFuture<String> buildChainingFuture(ListenableFuture<Integer> inputFuture) {
@@ -46,13 +48,13 @@ public class FuturesTransformTest extends AbstractChainedListenableFutureTest<St
       if (input.intValue() == VALID_INPUT_DATA) {
         return RESULT_DATA;
       } else {
-        throw new UndeclaredThrowableException(EXCEPTION);
+        throw WRAPPED_EXCEPTION;
       }
     }
   }
 
   public void testFutureGetThrowsFunctionException() throws Exception {
     inputFuture.set(EXCEPTION_DATA);
-    listener.assertException(EXCEPTION);
+    listener.assertException(WRAPPED_EXCEPTION);
   }
 }

@@ -21,9 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -32,6 +33,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@Immutable(containerOf = "B")
 @GwtIncompatible
 public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
     implements ClassToInstanceMap<B>, Serializable {
@@ -149,8 +151,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
-      // Eclipse won't compile if we cast to the parameterized type.
-      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap) map;
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap<B>) map;
       return cast;
     }
     return new Builder<B>().putAll(map).build();
@@ -169,8 +170,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  @NullableDecl
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }
 

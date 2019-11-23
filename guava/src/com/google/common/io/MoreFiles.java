@@ -24,10 +24,8 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.TreeTraverser;
 import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
-import com.google.common.io.ByteSource.AsCharSource;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utilities for use with {@link Path} instances, intended to complement {@link Files}.
@@ -159,8 +157,7 @@ public final class MoreFiles {
     @Override
     public byte[] read() throws IOException {
       try (SeekableByteChannel channel = Files.newByteChannel(path, options)) {
-        return com.google.common.io.Files.readFile(
-            Channels.newInputStream(channel), channel.size());
+        return ByteStreams.toByteArray(Channels.newInputStream(channel), channel.size());
       }
     }
 
@@ -269,40 +266,6 @@ public final class MoreFiles {
   }
 
   /**
-   * Returns a {@link TreeTraverser} for traversing a directory tree. The returned traverser
-   * attempts to avoid following symbolic links to directories. However, the traverser cannot
-   * guarantee that it will not follow symbolic links to directories as it is possible for a
-   * directory to be replaced with a symbolic link between checking if the file is a directory and
-   * actually reading the contents of that directory.
-   *
-   * <p>Note that if the {@link Path} passed to one of the traversal methods does not exist, no
-   * exception will be thrown and the returned {@link Iterable} will contain a single element: that
-   * path.
-   *
-   * <p>{@link DirectoryIteratorException} may be thrown when iterating {@link Iterable} instances
-   * created by this traverser if an {@link IOException} is thrown by a call to {@link
-   * #listFiles(Path)}.
-   *
-   * @deprecated The returned {@link TreeTraverser} type is deprecated. Use the replacement method
-   *     {@link #fileTraverser()} instead with the same semantics as this method. This method is
-   *     scheduled to be removed in April 2018.
-   */
-  @Deprecated
-  public static TreeTraverser<Path> directoryTreeTraverser() {
-    return DirectoryTreeTraverser.INSTANCE;
-  }
-
-  private static final class DirectoryTreeTraverser extends TreeTraverser<Path> {
-
-    private static final DirectoryTreeTraverser INSTANCE = new DirectoryTreeTraverser();
-
-    @Override
-    public Iterable<Path> children(Path dir) {
-      return fileTreeChildren(dir);
-    }
-  }
-
-  /**
    * Returns a {@link Traverser} instance for the file and directory tree. The returned traverser
    * starts from a {@link Path} and will return all files and directories it encounters.
    *
@@ -319,8 +282,9 @@ public final class MoreFiles {
    * created by this traverser if an {@link IOException} is thrown by a call to {@link
    * #listFiles(Path)}.
    *
-   * <p>Example: {@code MoreFiles.fileTraverser().breadthFirst("/")} may return files with the
-   * following paths: {@code ["/", "/etc", "/home", "/usr", "/etc/config.txt", "/etc/fonts", ...]}
+   * <p>Example: {@code MoreFiles.fileTraverser().depthFirstPreOrder(Paths.get("/"))} may return the
+   * following paths: {@code ["/", "/etc", "/etc/config.txt", "/etc/fonts", "/home", "/home/alice",
+   * ...]}
    *
    * @since 23.5
    */
@@ -365,6 +329,14 @@ public final class MoreFiles {
         return "MoreFiles.isDirectory(" + Arrays.toString(optionsCopy) + ")";
       }
     };
+  }
+
+  /** Returns whether or not the file with the given name in the given dir is a directory. */
+  private static boolean isDirectory(
+      SecureDirectoryStream<Path> dir, Path name, LinkOption... options) throws IOException {
+    return dir.getFileAttributeView(name, BasicFileAttributeView.class, options)
+        .readAttributes()
+        .isDirectory();
   }
 
   /**
@@ -419,6 +391,7 @@ public final class MoreFiles {
    * Like the unix command of the same name, creates an empty file or updates the last modified
    * timestamp of the existing file at the given path to the current system time.
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   public static void touch(Path path) throws IOException {
     checkNotNull(path);
 
@@ -639,8 +612,7 @@ public final class MoreFiles {
    * Secure recursive delete using {@code SecureDirectoryStream}. Returns a collection of exceptions
    * that occurred or null if no exceptions were thrown.
    */
-  @NullableDecl
-  private static Collection<IOException> deleteRecursivelySecure(
+  private static @Nullable Collection<IOException> deleteRecursivelySecure(
       SecureDirectoryStream<Path> dir, Path path) {
     Collection<IOException> exceptions = null;
     try {
@@ -668,8 +640,7 @@ public final class MoreFiles {
    * Secure method for deleting the contents of a directory using {@code SecureDirectoryStream}.
    * Returns a collection of exceptions that occurred or null if no exceptions were thrown.
    */
-  @NullableDecl
-  private static Collection<IOException> deleteDirectoryContentsSecure(
+  private static @Nullable Collection<IOException> deleteDirectoryContentsSecure(
       SecureDirectoryStream<Path> dir) {
     Collection<IOException> exceptions = null;
     try {
@@ -687,8 +658,7 @@ public final class MoreFiles {
    * Insecure recursive delete for file systems that don't support {@code SecureDirectoryStream}.
    * Returns a collection of exceptions that occurred or null if no exceptions were thrown.
    */
-  @NullableDecl
-  private static Collection<IOException> deleteRecursivelyInsecure(Path path) {
+  private static @Nullable Collection<IOException> deleteRecursivelyInsecure(Path path) {
     Collection<IOException> exceptions = null;
     try {
       if (Files.isDirectory(path, NOFOLLOW_LINKS)) {
@@ -714,8 +684,7 @@ public final class MoreFiles {
    * support {@code SecureDirectoryStream}. Returns a collection of exceptions that occurred or null
    * if no exceptions were thrown.
    */
-  @NullableDecl
-  private static Collection<IOException> deleteDirectoryContentsInsecure(
+  private static @Nullable Collection<IOException> deleteDirectoryContentsInsecure(
       DirectoryStream<Path> dir) {
     Collection<IOException> exceptions = null;
     try {
@@ -734,8 +703,7 @@ public final class MoreFiles {
    * path, this is simple. Otherwise, we need to do some trickier things. Returns null if the path
    * is a root or is the empty path.
    */
-  @NullableDecl
-  private static Path getParentPath(Path path) {
+  private static @Nullable Path getParentPath(Path path) {
     Path parent = path.getParent();
 
     // Paths that have a parent:
@@ -776,20 +744,12 @@ public final class MoreFiles {
     }
   }
 
-  /** Returns whether or not the file with the given name in the given dir is a directory. */
-  private static boolean isDirectory(
-      SecureDirectoryStream<Path> dir, Path name, LinkOption... options) throws IOException {
-    return dir.getFileAttributeView(name, BasicFileAttributeView.class, options)
-        .readAttributes()
-        .isDirectory();
-  }
-
   /**
    * Adds the given exception to the given collection, creating the collection if it's null. Returns
    * the collection.
    */
   private static Collection<IOException> addException(
-      @NullableDecl Collection<IOException> exceptions, IOException e) {
+      @Nullable Collection<IOException> exceptions, IOException e) {
     if (exceptions == null) {
       exceptions = new ArrayList<>(); // don't need Set semantics
     }
@@ -802,10 +762,8 @@ public final class MoreFiles {
    * null, the other collection is returned. Otherwise, the elements of {@code other} are added to
    * {@code exceptions} and {@code exceptions} is returned.
    */
-  @NullableDecl
-  private static Collection<IOException> concat(
-      @NullableDecl Collection<IOException> exceptions,
-      @NullableDecl Collection<IOException> other) {
+  private static @Nullable Collection<IOException> concat(
+      @Nullable Collection<IOException> exceptions, @Nullable Collection<IOException> other) {
     if (exceptions == null) {
       return other;
     } else if (other != null) {

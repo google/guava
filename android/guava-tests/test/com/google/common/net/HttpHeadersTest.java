@@ -36,13 +36,18 @@ public class HttpHeadersTest extends TestCase {
   public void testConstantNameMatchesString() throws Exception {
     // Special case some of the weird HTTP Header names...
     ImmutableBiMap<String, String> specialCases =
-        ImmutableBiMap.of(
-            "ETAG",
-            "ETag",
-            "X_WEBKIT_CSP",
-            "X-WebKit-CSP",
-            "X_WEBKIT_CSP_REPORT_ONLY",
-            "X-WebKit-CSP-Report-Only");
+        ImmutableBiMap.<String, String>builder()
+            .put("CDN_LOOP", "CDN-Loop")
+            .put("ETAG", "ETag")
+            .put("SOURCE_MAP", "SourceMap")
+            .put("SEC_WEBSOCKET_ACCEPT", "Sec-WebSocket-Accept")
+            .put("SEC_WEBSOCKET_EXTENSIONS", "Sec-WebSocket-Extensions")
+            .put("SEC_WEBSOCKET_KEY", "Sec-WebSocket-Key")
+            .put("SEC_WEBSOCKET_PROTOCOL", "Sec-WebSocket-Protocol")
+            .put("SEC_WEBSOCKET_VERSION", "Sec-WebSocket-Version")
+            .put("X_WEBKIT_CSP", "X-WebKit-CSP")
+            .put("X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only")
+            .build();
     ImmutableSet<String> uppercaseAcronyms =
         ImmutableSet.of(
             "ID", "DNT", "DNS", "HTTP2", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");

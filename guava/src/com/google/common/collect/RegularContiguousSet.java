@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.Collection;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link ContiguousSet} that contains one or more elements.
@@ -41,7 +41,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
-    return (range.isConnected(other))
+    return range.isConnected(other)
         ? ContiguousSet.create(range.intersection(other), domain)
         : new EmptyContiguousSet<C>(domain);
   }
@@ -100,7 +100,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     };
   }
 
-  private static boolean equalsOrThrow(Comparable<?> left, @NullableDecl Comparable<?> right) {
+  private static boolean equalsOrThrow(Comparable<?> left, @Nullable Comparable<?> right) {
     return right != null && Range.compareOrThrow(left, right) == 0;
   }
 
@@ -146,7 +146,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     if (object == null) {
       return false;
     }
@@ -195,7 +195,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof RegularContiguousSet) {

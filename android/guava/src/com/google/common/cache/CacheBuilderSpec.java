@@ -77,6 +77,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Adam Winer
  * @since 12.0
  */
+@SuppressWarnings("GoodTime") // lots of violations (nanosecond math)
 @GwtIncompatible
 public final class CacheBuilderSpec {
   /** Parses a single value. */

@@ -160,6 +160,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     void recordLoadSuccess(long loadTime);
 
     /**
@@ -170,6 +171,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value prior to an exception being thrown
      */
+    @SuppressWarnings("GoodTime") // should accept a java.time.Duration
     void recordLoadException(long loadTime);
 
     /**
@@ -214,12 +216,14 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       missCount.add(count);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadSuccess(long loadTime) {
       loadSuccessCount.increment();
       totalLoadTime.add(loadTime);
     }
 
+    @SuppressWarnings("GoodTime") // b/122668874
     @Override
     public void recordLoadException(long loadTime) {
       loadExceptionCount.increment();
@@ -234,12 +238,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     @Override
     public CacheStats snapshot() {
       return new CacheStats(
-          hitCount.sum(),
-          missCount.sum(),
-          loadSuccessCount.sum(),
-          loadExceptionCount.sum(),
-          totalLoadTime.sum(),
-          evictionCount.sum());
+          negativeToMaxValue(hitCount.sum()),
+          negativeToMaxValue(missCount.sum()),
+          negativeToMaxValue(loadSuccessCount.sum()),
+          negativeToMaxValue(loadExceptionCount.sum()),
+          negativeToMaxValue(totalLoadTime.sum()),
+          negativeToMaxValue(evictionCount.sum()));
+    }
+
+    /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */
+    private static long negativeToMaxValue(long value) {
+      return (value >= 0) ? value : Long.MAX_VALUE;
     }
 
     /** Increments all counters by the values in {@code other}. */

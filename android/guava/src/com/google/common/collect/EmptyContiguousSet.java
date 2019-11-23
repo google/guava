@@ -26,7 +26,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   EmptyContiguousSet(DiscreteDomain<C> domain) {
     super(domain);
@@ -162,6 +162,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @GwtIncompatible // NavigableSet
+  @Override
   ImmutableSortedSet<C> createDescendingSet() {
     return ImmutableSortedSet.emptySet(Ordering.natural().reverse());
   }

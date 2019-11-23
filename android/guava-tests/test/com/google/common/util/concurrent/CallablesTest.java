@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
@@ -80,7 +82,7 @@ public class CallablesTest extends TestCase {
       future.get();
       fail("Expected exception to be thrown");
     } catch (ExecutionException e) {
-      assertSame(expected, e.getCause());
+      assertThat(e).hasCauseThat().isSameInstanceAs(expected);
     }
   }
 

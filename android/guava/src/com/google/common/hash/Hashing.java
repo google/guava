@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.Immutable;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,6 +87,7 @@ public final class Hashing {
    * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
    * dependent on the hash codes they produce will fail sooner.
    */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
 
   /**
@@ -385,7 +386,8 @@ public final class Hashing {
     return ChecksumType.ADLER_32.hashFunction;
   }
 
-  enum ChecksumType implements Supplier<Checksum> {
+  @Immutable
+  enum ChecksumType implements ImmutableSupplier<Checksum> {
     CRC_32("Hashing.crc32()") {
       @Override
       public Checksum get() {
@@ -608,25 +610,21 @@ public final class Hashing {
   }
 
   private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
-    private final int bits;
 
     private ConcatenatedHashFunction(HashFunction... functions) {
       super(functions);
-      int bitSum = 0;
       for (HashFunction function : functions) {
-        bitSum += function.bits();
         checkArgument(
             function.bits() % 8 == 0,
             "the number of bits (%s) in hashFunction (%s) must be divisible by 8",
             function.bits(),
             function);
       }
-      this.bits = bitSum;
     }
 
     @Override
     HashCode makeHash(Hasher[] hashers) {
-      byte[] bytes = new byte[bits / 8];
+      byte[] bytes = new byte[bits() / 8];
       int i = 0;
       for (Hasher hasher : hashers) {
         HashCode newHash = hasher.hash();
@@ -637,7 +635,11 @@ public final class Hashing {
 
     @Override
     public int bits() {
-      return bits;
+      int bitSum = 0;
+      for (HashFunction function : functions) {
+        bitSum += function.bits();
+      }
+      return bitSum;
     }
 
     @Override
@@ -651,7 +653,7 @@ public final class Hashing {
 
     @Override
     public int hashCode() {
-      return Arrays.hashCode(functions) * 31 + bits;
+      return Arrays.hashCode(functions);
     }
   }
 
@@ -668,7 +670,7 @@ public final class Hashing {
 
     public double nextDouble() {
       state = 2862933555777941757L * state + 1;
-      return ((double) ((int) (state >>> 33) + 1)) / (0x1.0p31);
+      return ((double) ((int) (state >>> 33) + 1)) / 0x1.0p31;
     }
   }
 

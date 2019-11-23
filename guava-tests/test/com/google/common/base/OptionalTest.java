@@ -263,7 +263,7 @@ public final class OptionalTest extends TestCase {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    assertThat(onlyPresent).containsExactly(2).inOrder();
+    assertThat(onlyPresent).containsExactly(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {
@@ -305,7 +305,7 @@ public final class OptionalTest extends TestCase {
     // Sadly, the following is what users will have to do in some circumstances.
 
     @SuppressWarnings("unchecked") // safe covariant cast
-    Optional<Number> first = (Optional) numbers.first();
+    Optional<Number> first = (Optional<Number>) numbers.first();
     Number value = first.or(0.5); // fine
   }
 

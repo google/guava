@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -232,6 +233,16 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     return findEntryByKey(key) != ABSENT;
   }
 
+  /**
+   * Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
+   * equivalently, if this inverse view contains a key that is equal to {@code value}).
+   *
+   * <p>Due to the property that values in a BiMap are unique, this will tend to execute in
+   * faster-than-linear time.
+   *
+   * @param value the object to search for in the values of this BiMap
+   * @return true if a mapping exists from a key to the specified value
+   */
   @Override
   public boolean containsValue(@NullableDecl Object value) {
     return findEntryByValue(value) != ABSENT;
@@ -254,13 +265,6 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   @CanIgnoreReturnValue
   public V put(@NullableDecl K key, @NullableDecl V value) {
     return put(key, value, false);
-  }
-
-  @Override
-  @NullableDecl
-  @CanIgnoreReturnValue
-  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
-    return put(key, value, true);
   }
 
   @NullableDecl
@@ -299,6 +303,13 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     size++;
     modCount++;
     return null;
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  @NullableDecl
+  public V forcePut(@NullableDecl K key, @NullableDecl V value) {
+    return put(key, value, true);
   }
 
   @NullableDecl
@@ -517,8 +528,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   @Override
-  @NullableDecl
   @CanIgnoreReturnValue
+  @NullableDecl
   public V remove(@NullableDecl Object key) {
     int keyHash = Hashing.smearedHash(key);
     int entry = findEntryByKey(key, keyHash);
@@ -549,16 +560,6 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     removeEntryKeyHashKnown(entry, Hashing.smearedHash(keys[entry]));
   }
 
-  /** Removes the entry at the specified index, given the hash of its key. */
-  void removeEntryKeyHashKnown(int entry, int keyHash) {
-    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));
-  }
-
-  /** Removes the entry at the specified index, given the hash of its value. */
-  void removeEntryValueHashKnown(int entry, int valueHash) {
-    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);
-  }
-
   /** Removes the entry at the specified index, given the hash of its key and value. */
   private void removeEntry(int entry, int keyHash, int valueHash) {
     checkArgument(entry != ABSENT);
@@ -574,6 +575,16 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     values[size - 1] = null;
     size--;
     modCount++;
+  }
+
+  /** Removes the entry at the specified index, given the hash of its key. */
+  void removeEntryKeyHashKnown(int entry, int keyHash) {
+    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));
+  }
+
+  /** Removes the entry at the specified index, given the hash of its value. */
+  void removeEntryValueHashKnown(int entry, int valueHash) {
+    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);
   }
 
   /**
@@ -889,7 +900,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
   }
 
-  @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
+  @LazyInit @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
@@ -926,15 +937,15 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K put(@NullableDecl V value, @NullableDecl K key) {
       return forward.putInverse(value, key, false);
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K forcePut(@NullableDecl V value, @NullableDecl K key) {
       return forward.putInverse(value, key, true);
     }
@@ -945,8 +956,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
 
     @Override
-    @NullableDecl
     @CanIgnoreReturnValue
+    @NullableDecl
     public K remove(@NullableDecl Object value) {
       return forward.removeInverse(value);
     }

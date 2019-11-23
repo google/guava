@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Registry of subscribers to a single event bus.
@@ -242,7 +242,7 @@ final class SubscriberRegistry {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof MethodIdentifier) {
         MethodIdentifier ident = (MethodIdentifier) o;
         return name.equals(ident.name) && parameterTypes.equals(ident.parameterTypes);

@@ -57,7 +57,7 @@ import java.lang.annotation.Target;
  *       would no longer have the problematic test. But why bother when we can instead strip it with
  *       a more precisely named annotation?
  *   <li>While a dependency on Android ought to be easy if it's for annotations only, it will
- *       probably require adding the dep to various whitelists, license files, and Proguard
+ *       probably require adding the dep to various ACLs, license files, and Proguard
  *       configurations, and there's always the potential that something will go wrong. It
  *       <i>probably</i> won't, since the deps are needed only in tests (and maybe someday in
  *       testlib), but why bother?

@@ -297,7 +297,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   public static <T> T getOnlyElement(Iterator<T> iterator) {
     T first = iterator.next();
     if (!iterator.hasNext()) {
@@ -323,7 +322,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this?
   @NullableDecl
   public static <T> T getOnlyElement(Iterator<? extends T> iterator, @NullableDecl T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
@@ -535,14 +533,6 @@ public final class Iterators {
     return concatNoDefensiveCopy(Arrays.copyOf(inputs, inputs.length));
   }
 
-  /** Concats a varargs array of iterators without making a defensive copy of the array. */
-  static <T> Iterator<T> concatNoDefensiveCopy(Iterator<? extends T>... inputs) {
-    for (Iterator<? extends T> input : checkNotNull(inputs)) {
-      checkNotNull(input);
-    }
-    return concat(consumingForArray(inputs));
-  }
-
   /**
    * Combines multiple iterators into a single iterator. The returned iterator iterates across the
    * elements of each iterator in {@code inputs}. The input iterators are not polled until
@@ -554,6 +544,14 @@ public final class Iterators {
    */
   public static <T> Iterator<T> concat(Iterator<? extends Iterator<? extends T>> inputs) {
     return new ConcatenatedIterator<T>(inputs);
+  }
+
+  /** Concats a varargs array of iterators without making a defensive copy of the array. */
+  static <T> Iterator<T> concatNoDefensiveCopy(Iterator<? extends T>... inputs) {
+    for (Iterator<? extends T> input : checkNotNull(inputs)) {
+      checkNotNull(input);
+    }
+    return concat(consumingForArray(inputs));
   }
 
   /**
@@ -813,12 +811,6 @@ public final class Iterators {
     return iterator.next();
   }
 
-  static void checkNonnegative(int position) {
-    if (position < 0) {
-      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");
-    }
-  }
-
   /**
    * Advances {@code iterator} {@code position + 1} times, returning the element at the {@code
    * position}th position or {@code defaultValue} otherwise.
@@ -837,6 +829,12 @@ public final class Iterators {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
+  }
+
+  static void checkNonnegative(int position) {
+    if (position < 0) {
+      throw new IndexOutOfBoundsException("position (" + position + ") must not be negative");
+    }
   }
 
   /**
@@ -1010,24 +1008,6 @@ public final class Iterators {
     return forArray(array, 0, array.length, 0);
   }
 
-  private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
-    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
-
-    private final T[] array;
-    private final int offset;
-
-    ArrayItr(T[] array, int offset, int length, int index) {
-      super(length, index);
-      this.array = array;
-      this.offset = offset;
-    }
-
-    @Override
-    protected T get(int index) {
-      return array[offset + index];
-    }
-  }
-
   /**
    * Returns a list iterator containing the elements in the specified range of {@code array} in
    * order, starting at the specified index.
@@ -1047,6 +1027,24 @@ public final class Iterators {
       return emptyListIterator();
     }
     return new ArrayItr<T>(array, offset, length, index);
+  }
+
+  private static final class ArrayItr<T> extends AbstractIndexedListIterator<T> {
+    static final UnmodifiableListIterator<Object> EMPTY = new ArrayItr<>(new Object[0], 0, 0, 0);
+
+    private final T[] array;
+    private final int offset;
+
+    ArrayItr(T[] array, int offset, int length, int index) {
+      super(length, index);
+      this.array = array;
+      this.offset = offset;
+    }
+
+    @Override
+    protected T get(int index) {
+      return array[offset + index];
+    }
   }
 
   /**
@@ -1080,6 +1078,9 @@ public final class Iterators {
    * <p>This method has no equivalent in {@link Iterables} because viewing an {@code Enumeration} as
    * an {@code Iterable} is impossible. However, the contents can be <i>copied</i> into a collection
    * using {@link Collections#list}.
+   *
+   * <p><b>Java 9 users:</b> use {@code enumeration.asIterator()} instead, unless it is important to
+   * return an {@code UnmodifiableIterator} instead of a plain {@code Iterator}.
    */
   public static <T> UnmodifiableIterator<T> forEnumeration(final Enumeration<T> enumeration) {
     checkNotNull(enumeration);
@@ -1291,7 +1292,7 @@ public final class Iterators {
 
   private static class ConcatenatedIterator<T> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
-   @NullableDecl private Iterator<? extends T> toRemove;
+    @NullableDecl private Iterator<? extends T> toRemove;
 
     /* The iterator currently returning elements. */
     private Iterator<? extends T> iterator;

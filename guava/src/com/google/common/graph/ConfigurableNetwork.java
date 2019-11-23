@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Configurable implementation of {@link Network} that supports the options supplied by {@link
@@ -192,11 +192,11 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
     return referenceNode;
   }
 
-  protected final boolean containsNode(@NullableDecl N node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
   }
 
-  protected final boolean containsEdge(@NullableDecl E edge) {
+  protected final boolean containsEdge(@Nullable E edge) {
     return edgeToReferenceNode.containsKey(edge);
   }
 }

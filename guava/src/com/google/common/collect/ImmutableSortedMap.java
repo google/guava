@@ -24,7 +24,6 @@ import static com.google.common.collect.Maps.keyOrNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -39,7 +38,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link NavigableMap} whose contents will never change, with many other important properties
@@ -73,7 +72,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    *
    * @since 21.0
    */
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,
@@ -92,7 +90,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
    *
    * @since 21.0
    */
-  @Beta
   public static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
       Comparator<? super K> comparator,
       Function<? super T, ? extends K> keyFunction,
@@ -147,11 +144,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
         ImmutableList.of(v1));
   }
 
-  private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> ofEntries(
-      Entry<K, V>... entries) {
-    return fromEntries(Ordering.natural(), false, entries, entries.length);
-  }
-
   /**
    * Returns an immutable sorted map containing the given entries, sorted by the natural ordering of
    * their keys.
@@ -199,6 +191,11 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
     return ofEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
+  }
+
+  private static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V> ofEntries(
+      Entry<K, V>... entries) {
+    return fromEntries(Ordering.natural(), false, entries, entries.length);
   }
 
   /**
@@ -590,7 +587,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
   }
 
   @Override
-  public V get(@NullableDecl Object key) {
+  public V get(@Nullable Object key) {
     int index = keySet.indexOf(key);
     return (index == -1) ? null : valueList.get(index);
   }
@@ -608,7 +605,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableSortedMapFauxveride
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    @WeakOuter
     class EntrySet extends ImmutableMapEntrySet<K, V> {
       @Override
       public UnmodifiableIterator<Entry<K, V>> iterator() {

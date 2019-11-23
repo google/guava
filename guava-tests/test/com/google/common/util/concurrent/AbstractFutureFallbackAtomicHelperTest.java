@@ -39,7 +39,7 @@ import junit.framework.TestSuite;
  * </ul>
  *
  * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of {@code
- * com.google.common.util.concurrent} in degenerate class loaders which make certain platform
+ * com.google.common.util.concurrent}) in degenerate class loaders which make certain platform
  * classes unavailable. Then we construct a test suite so we can run the normal AbstractFutureTest
  * test methods in these degenerate classloaders.
  */
@@ -50,15 +50,15 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
   // execution significantly)
 
   /**
-   * This classloader blacklists sun.misc.Unsafe which will prevent us from selecting our preferred
-   * strategy {@code UnsafeAtomicHelper}.
+   * This classloader disallows {@link sun.misc.Unsafe}, which will prevent us from selecting our
+   * preferred strategy {@code UnsafeAtomicHelper}.
    */
   private static final ClassLoader NO_UNSAFE =
       getClassLoader(ImmutableSet.of(sun.misc.Unsafe.class.getName()));
 
   /**
-   * This classloader blacklists sun.misc.Unsafe and AtomicReferenceFieldUpdater which will prevent
-   * us from selecting our {@code SafeAtomicHelper} strategy.
+   * This classloader disallows {@link sun.misc.Unsafe} and {@link AtomicReferenceFieldUpdater},
+   * which will prevent us from selecting our {@code SafeAtomicHelper} strategy.
    */
   private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
       getClassLoader(
@@ -86,7 +86,7 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
     checkHelperVersion(NO_UNSAFE, "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
 
-    // Run the corresponding AbstractFutureTest test method in a new classloader that blacklists
+    // Run the corresponding AbstractFutureTest test method in a new classloader that disallows
     // certain core jdk classes.
     ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(NO_UNSAFE);
@@ -119,14 +119,14 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
     assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
   }
 
-  private static ClassLoader getClassLoader(final Set<String> blacklist) {
+  private static ClassLoader getClassLoader(final Set<String> disallowedClassNames) {
     final String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AbstractFutureFallbackAtomicHelperTest.class.getClassLoader();
     // we delegate to the current classloader so both loaders agree on classes like TestCase
     return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        if (blacklist.contains(name)) {
+        if (disallowedClassNames.contains(name)) {
           throw new ClassNotFoundException("I'm sorry Dave, I'm afraid I can't do that.");
         }
         if (name.startsWith(concurrentPackage)) {

@@ -26,6 +26,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.Immutable;
 import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;
 import com.google.thirdparty.publicsuffix.PublicSuffixType;
 import java.util.List;
@@ -72,6 +73,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  */
 @Beta
 @GwtCompatible
+@Immutable
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -83,8 +85,6 @@ public final class InternetDomainName {
    * relevant suffix was found.
    */
   private static final int NO_SUFFIX_FOUND = -1;
-
-  private static final String DOT_REGEX = "\\.";
 
   /**
    * Maximum parts (labels) in a domain name. This value arises from the 255-octet limit described
@@ -202,8 +202,8 @@ public final class InternetDomainName {
    *
    *
    * @param domain A domain name (not IP address)
-   * @throws IllegalArgumentException if {@code name} is not syntactically valid according to {@link
-   *     #isValid}
+   * @throws IllegalArgumentException if {@code domain} is not syntactically valid according to
+   *     {@link #isValid}
    * @since 10.0 (previously named {@code fromLenient})
    */
   public static InternetDomainName from(String domain) {
@@ -237,8 +237,13 @@ public final class InternetDomainName {
 
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
+  private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');
+
+  private static final CharMatcher LETTER_MATCHER =
+      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'));
+
   private static final CharMatcher PART_CHAR_MATCHER =
-      CharMatcher.javaLetterOrDigit().or(DASH_MATCHER);
+      DIGIT_MATCHER.or(LETTER_MATCHER).or(DASH_MATCHER);
 
   /**
    * Helper method for {@link #validateSyntax(List)}. Validates that one part of a domain name is
@@ -261,7 +266,7 @@ public final class InternetDomainName {
      * GWT claims to support java.lang.Character's char-classification methods, but it actually only
      * works for ASCII. So for now, assume any non-ASCII characters are valid. The only place this
      * seems to be documented is here:
-     * http://osdir.com/ml/GoogleWebToolkitContributors/2010-03/msg00178.html
+     * https://groups.google.com/d/topic/google-web-toolkit-contributors/1UEzsryq1XI
      *
      * <p>ASCII characters in the part are expected to be valid per RFC 1035, with underscore also
      * being allowed due to widespread practice.
@@ -287,7 +292,7 @@ public final class InternetDomainName {
      * address like 127.0.0.1 from looking like a valid domain name.
      */
 
-    if (isFinalPart && CharMatcher.digit().matches(part.charAt(0))) {
+    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
       return false;
     }
 
@@ -590,10 +595,10 @@ public final class InternetDomainName {
    */
   private static boolean matchesWildcardSuffixType(
       Optional<PublicSuffixType> desiredType, String domain) {
-    final String[] pieces = domain.split(DOT_REGEX, 2);
-    return pieces.length == 2
+    List<String> pieces = DOT_SPLITTER.limit(2).splitToList(domain);
+    return pieces.size() == 2
         && matchesType(
-            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces[1])));
+            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces.get(1))));
   }
 
   /**

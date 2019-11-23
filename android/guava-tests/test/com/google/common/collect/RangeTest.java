@@ -451,6 +451,54 @@ public class RangeTest extends TestCase {
     }
   }
 
+  public void testGap_overlapping() {
+    Range<Integer> range = Range.closedOpen(3, 5);
+
+    try {
+      range.gap(Range.closed(4, 6));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      range.gap(Range.closed(2, 4));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      range.gap(Range.closed(2, 3));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testGap_connectedAdjacentYieldsEmpty() {
+    Range<Integer> range = Range.open(3, 4);
+
+    assertEquals(Range.closedOpen(4, 4), range.gap(Range.atLeast(4)));
+    assertEquals(Range.openClosed(3, 3), range.gap(Range.atMost(3)));
+  }
+
+  public void testGap_general() {
+    Range<Integer> openRange = Range.open(4, 8);
+    Range<Integer> closedRange = Range.closed(4, 8);
+
+    // first range open end, second range open start
+    assertEquals(Range.closed(2, 4), Range.lessThan(2).gap(openRange));
+    assertEquals(Range.closed(2, 4), openRange.gap(Range.lessThan(2)));
+
+    // first range closed end, second range open start
+    assertEquals(Range.openClosed(2, 4), Range.atMost(2).gap(openRange));
+    assertEquals(Range.openClosed(2, 4), openRange.gap(Range.atMost(2)));
+
+    // first range open end, second range closed start
+    assertEquals(Range.closedOpen(2, 4), Range.lessThan(2).gap(closedRange));
+    assertEquals(Range.closedOpen(2, 4), closedRange.gap(Range.lessThan(2)));
+
+    // first range closed end, second range closed start
+    assertEquals(Range.open(2, 4), Range.atMost(2).gap(closedRange));
+    assertEquals(Range.open(2, 4), closedRange.gap(Range.atMost(2)));
+  }
+
   public void testSpan_general() {
     Range<Integer> range = Range.closed(4, 8);
 

@@ -167,6 +167,39 @@ public class FeatureUtil {
   }
 
   /**
+   * Find all the constraints explicitly or implicitly specified by a single tester annotation.
+   *
+   * @param testerAnnotation a tester annotation
+   * @return the requirements specified by the annotation
+   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
+   */
+  private static TesterRequirements buildTesterRequirements(Annotation testerAnnotation)
+      throws ConflictingRequirementsException {
+    Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
+    final Feature<?>[] presentFeatures;
+    final Feature<?>[] absentFeatures;
+    try {
+      presentFeatures = (Feature[]) annotationClass.getMethod("value").invoke(testerAnnotation);
+      absentFeatures = (Feature[]) annotationClass.getMethod("absent").invoke(testerAnnotation);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Error extracting features from tester annotation.", e);
+    }
+    Set<Feature<?>> allPresentFeatures =
+        addImpliedFeatures(Helpers.<Feature<?>>copyToSet(presentFeatures));
+    Set<Feature<?>> allAbsentFeatures =
+        addImpliedFeatures(Helpers.<Feature<?>>copyToSet(absentFeatures));
+    if (!Collections.disjoint(allPresentFeatures, allAbsentFeatures)) {
+      throw new ConflictingRequirementsException(
+          "Annotation explicitly or "
+              + "implicitly requires one or more features to be both present "
+              + "and absent.",
+          intersection(allPresentFeatures, allAbsentFeatures),
+          testerAnnotation);
+    }
+    return new TesterRequirements(allPresentFeatures, allAbsentFeatures);
+  }
+
+  /**
    * Construct the set of requirements specified by annotations directly on a tester class or
    * method.
    *
@@ -209,39 +242,6 @@ public class FeatureUtil {
       }
       return annotations;
     }
-  }
-
-  /**
-   * Find all the constraints explicitly or implicitly specified by a single tester annotation.
-   *
-   * @param testerAnnotation a tester annotation
-   * @return the requirements specified by the annotation
-   * @throws ConflictingRequirementsException if the requirements are mutually inconsistent.
-   */
-  private static TesterRequirements buildTesterRequirements(Annotation testerAnnotation)
-      throws ConflictingRequirementsException {
-    Class<? extends Annotation> annotationClass = testerAnnotation.annotationType();
-    final Feature<?>[] presentFeatures;
-    final Feature<?>[] absentFeatures;
-    try {
-      presentFeatures = (Feature[]) annotationClass.getMethod("value").invoke(testerAnnotation);
-      absentFeatures = (Feature[]) annotationClass.getMethod("absent").invoke(testerAnnotation);
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Error extracting features from tester annotation.", e);
-    }
-    Set<Feature<?>> allPresentFeatures =
-        addImpliedFeatures(Helpers.<Feature<?>>copyToSet(presentFeatures));
-    Set<Feature<?>> allAbsentFeatures =
-        addImpliedFeatures(Helpers.<Feature<?>>copyToSet(absentFeatures));
-    if (!Collections.disjoint(allPresentFeatures, allAbsentFeatures)) {
-      throw new ConflictingRequirementsException(
-          "Annotation explicitly or "
-              + "implicitly requires one or more features to be both present "
-              + "and absent.",
-          intersection(allPresentFeatures, allAbsentFeatures),
-          testerAnnotation);
-    }
-    return new TesterRequirements(allPresentFeatures, allAbsentFeatures);
   }
 
   /**

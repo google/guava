@@ -18,14 +18,13 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
@@ -34,7 +33,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  * @since 21.0
  */
-@Beta
 @GwtCompatible
 public final class MoreCollectors {
 
@@ -91,8 +89,8 @@ public final class MoreCollectors {
   private static final class ToOptionalState {
     static final int MAX_EXTRAS = 4;
 
-    @NullableDecl Object element;
-    @NullableDecl List<Object> extras;
+    @Nullable Object element;
+    @Nullable List<Object> extras;
 
     ToOptionalState() {
       element = null;

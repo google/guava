@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Tests for {@link Maps#transformValues}.
@@ -58,6 +58,7 @@ public class MapsTransformValuesTest extends MapInterfaceTest<String, String> {
     super(false, true, false, true, true);
   }
 
+  @Override
   protected Map<String, String> makeEmptyMap() {
     return Maps.transformValues(Maps.<String, String>newHashMap(), Functions.<String>identity());
   }
@@ -156,7 +157,7 @@ public class MapsTransformValuesTest extends MapInterfaceTest<String, String> {
             underlying,
             new Function<String, Boolean>() {
               @Override
-              public Boolean apply(@NullableDecl String from) {
+              public Boolean apply(@Nullable String from) {
                 return from == null;
               }
             });
@@ -274,7 +275,7 @@ public class MapsTransformValuesTest extends MapInterfaceTest<String, String> {
             underlying,
             new Function<Boolean, Boolean>() {
               @Override
-              public Boolean apply(@NullableDecl Boolean from) {
+              public Boolean apply(@Nullable Boolean from) {
                 return (from == null) ? true : null;
               }
             });

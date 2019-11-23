@@ -27,12 +27,16 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Predicate;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -115,10 +119,137 @@ public final class MapTestSuiteBuilderTests extends TestCase {
             if (map.containsValue(null)) {
               throw new NullPointerException();
             }
+
             return new AbstractMap<String, String>() {
               @Override
               public Set<Entry<String, String>> entrySet() {
-                return map.entrySet();
+                return new EntrySet();
+              }
+
+              @Override
+              public int hashCode() {
+                return map.hashCode();
+              }
+
+              @Override
+              public boolean equals(Object o) {
+                return map.equals(o);
+              }
+
+              @Override
+              public String toString() {
+                return map.toString();
+              }
+
+              @Override
+              public String remove(Object key) {
+                return map.remove(key);
+              }
+
+              @Override
+              public boolean remove(Object key, Object value) {
+                return map.remove(key, value);
+              }
+
+              class EntrySet extends AbstractSet<Map.Entry<String, String>> {
+                @Override
+                public Iterator<Entry<String, String>> iterator() {
+                  return new Iterator<Entry<String, String>>() {
+
+                    final Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+
+                    @Override
+                    public void remove() {
+                      iterator.remove();
+                    }
+
+                    @Override
+                    public boolean hasNext() {
+                      return iterator.hasNext();
+                    }
+
+                    @Override
+                    public Entry<String, String> next() {
+                      return transform(iterator.next());
+                    }
+
+                    private Entry<String, String> transform(final Entry<String, String> next) {
+                      return new Entry<String, String>() {
+
+                        @Override
+                        public String setValue(String value) {
+                          checkNotNull(value);
+                          return next.setValue(value);
+                        }
+
+                        @Override
+                        public String getValue() {
+                          return next.getValue();
+                        }
+
+                        @Override
+                        public String getKey() {
+                          return next.getKey();
+                        }
+
+                        @Override
+                        public boolean equals(Object obj) {
+                          return next.equals(obj);
+                        }
+
+                        @Override
+                        public int hashCode() {
+                          return next.hashCode();
+                        }
+                      };
+                    }
+                  };
+                }
+
+                @Override
+                public int size() {
+                  return map.size();
+                }
+
+                @Override
+                public boolean remove(Object o) {
+                  return map.entrySet().remove(o);
+                }
+
+                @Override
+                public boolean removeIf(Predicate<? super Entry<String, String>> filter) {
+                  return map.entrySet().removeIf(filter);
+                }
+
+                @Override
+                public boolean containsAll(Collection<?> c) {
+                  return map.entrySet().containsAll(c);
+                }
+
+                @Override
+                public boolean removeAll(Collection<?> c) {
+                  return map.entrySet().removeAll(c);
+                }
+
+                @Override
+                public boolean retainAll(Collection<?> c) {
+                  return map.entrySet().retainAll(c);
+                }
+
+                @Override
+                public int hashCode() {
+                  return map.entrySet().hashCode();
+                }
+
+                @Override
+                public boolean equals(Object o) {
+                  return map.entrySet().equals(o);
+                }
+
+                @Override
+                public String toString() {
+                  return map.entrySet().toString();
+                }
               }
 
               @Override

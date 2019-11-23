@@ -54,7 +54,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -296,7 +296,7 @@ public final class ClassPath {
         String innerClassName = className.substring(lastDollarSign + 1);
         // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are
         // entirely numeric whereas local classes have the user supplied name as a suffix
-        return CharMatcher.digit().trimLeadingFrom(innerClassName);
+        return CharMatcher.inRange('0', '9').trimLeadingFrom(innerClassName);
       }
       String packageName = getPackageName();
       if (packageName.isEmpty()) {
@@ -355,18 +355,18 @@ public final class ClassPath {
       }
     }
 
-    /** Called when a directory is scanned for resource files. */
-    protected abstract void scanDirectory(ClassLoader loader, File directory) throws IOException;
-
-    /** Called when a jar file is scanned for resource entries. */
-    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
-
     @VisibleForTesting
     final void scan(File file, ClassLoader classloader) throws IOException {
       if (scannedUris.add(file.getCanonicalFile())) {
         scanFrom(file, classloader);
       }
     }
+
+    /** Called when a directory is scanned for resource files. */
+    protected abstract void scanDirectory(ClassLoader loader, File directory) throws IOException;
+
+    /** Called when a jar file is scanned for resource entries. */
+    protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
 
     private void scanFrom(File file, ClassLoader classloader) throws IOException {
       try {
@@ -414,8 +414,7 @@ public final class ClassPath {
      * and an empty set will be returned.
      */
     @VisibleForTesting
-    static ImmutableSet<File> getClassPathFromManifest(
-        File jarFile, @NullableDecl Manifest manifest) {
+    static ImmutableSet<File> getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {
       if (manifest == null) {
         return ImmutableSet.of();
       }

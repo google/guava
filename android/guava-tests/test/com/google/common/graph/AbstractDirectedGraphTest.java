@@ -16,7 +16,9 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -68,10 +70,29 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.outDegree(N2)).isEqualTo(0);
   }
 
+  @Test
+  public void hasEdgeConnecting_correct() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N1, N2))).isTrue();
+  }
+
+  @Test
+  public void hasEdgeConnecting_backwards() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isFalse();
+  }
+
+  @Test
+  public void hasEdgeConnecting_mismatch() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N1, N2))).isFalse();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N2, N1))).isFalse();
+  }
+
   // Element Mutation
 
   @Test
-  public void addEdge_existingNodes() {
+  public void putEdge_existingNodes() {
     // Adding nodes initially for safety (insulating from possible future
     // modifications to proxy methods)
     addNode(N1);
@@ -80,9 +101,20 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
   }
 
   @Test
-  public void addEdge_existingEdgeBetweenSameNodes() {
-    putEdge(N1, N2);
+  public void putEdge_existingEdgeBetweenSameNodes() {
+    assertThat(putEdge(N1, N2)).isTrue();
     assertThat(putEdge(N1, N2)).isFalse();
+  }
+
+  @Test
+  public void putEdge_orderMismatch() {
+    EndpointPair<Integer> endpoints = EndpointPair.unordered(N1, N2);
+    try {
+      putEdge(endpoints);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 
   public void removeEdge_antiparallelEdges() {
@@ -98,5 +130,17 @@ public abstract class AbstractDirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.successors(N1)).isEmpty();
     assertThat(graph.predecessors(N1)).isEmpty();
     assertThat(graph.edges()).isEmpty();
+  }
+
+  @Test
+  public void removeEdge_orderMismatch() {
+    putEdge(N1, N2);
+    EndpointPair<Integer> endpoints = EndpointPair.unordered(N1, N2);
+    try {
+      graph.removeEdge(endpoints);
+      fail("Expected IllegalArgumentException: " + ENDPOINTS_MISMATCH);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
+    }
   }
 }

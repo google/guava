@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A support class for {@code ListenableFuture} implementations to manage their listeners. An
@@ -49,7 +49,7 @@ public final class ExecutionList {
    * RunnableExecutorPair#next} field.
    */
   @GuardedBy("this")
-  @NullableDecl private RunnableExecutorPair runnables;
+  private @Nullable RunnableExecutorPair runnables;
 
   @GuardedBy("this")
   private boolean executed;
@@ -153,7 +153,7 @@ public final class ExecutionList {
   private static final class RunnableExecutorPair {
     final Runnable runnable;
     final Executor executor;
-    @NullableDecl RunnableExecutorPair next;
+    @Nullable RunnableExecutorPair next;
 
     RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
       this.runnable = runnable;

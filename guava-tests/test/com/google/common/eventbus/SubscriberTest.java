@@ -73,7 +73,7 @@ public class SubscriberTest extends TestCase {
       subscriber.invokeSubscriberMethod(FIXTURE_ARGUMENT);
       fail("Subscribers whose methods throw must throw InvocationTargetException");
     } catch (InvocationTargetException expected) {
-      assertThat(expected.getCause()).isInstanceOf(IntentionalException.class);
+      assertThat(expected).hasCauseThat().isInstanceOf(IntentionalException.class);
     }
   }
 

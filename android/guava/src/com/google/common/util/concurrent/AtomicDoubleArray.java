@@ -17,6 +17,7 @@ import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.primitives.ImmutableLongArray;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.atomic.AtomicLongArray;
 
@@ -25,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  * java.util.concurrent.atomic} package specification for description of the properties of atomic
  * variables.
  *
- * <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ * <p><a id="bitEquals"></a>This class compares primitive {@code double} values in methods such as
  * {@link #compareAndSet} by comparing their bitwise representation using {@link
  * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  * from {@link Double#equals}, as if implemented by:
@@ -205,6 +206,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
    *
    * @return the String representation of the current values of array
    */
+  @Override
   public String toString() {
     int iMax = length() - 1;
     if (iMax == -1) {
@@ -247,13 +249,11 @@ public class AtomicDoubleArray implements java.io.Serializable {
       throws java.io.IOException, ClassNotFoundException {
     s.defaultReadObject();
 
-    // Read in array length and allocate array
     int length = s.readInt();
-    this.longs = new AtomicLongArray(length);
-
-    // Read in all elements in the proper order.
+    ImmutableLongArray.Builder builder = ImmutableLongArray.builder();
     for (int i = 0; i < length; i++) {
-      set(i, s.readDouble());
+      builder.add(doubleToRawLongBits(s.readDouble()));
     }
+    this.longs = new AtomicLongArray(builder.build().toArray());
   }
 }

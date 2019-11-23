@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -29,6 +28,8 @@ import java.util.concurrent.RejectedExecutionException;
  * href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
  * ListenableFuture}</a>.
  *
+ * <p>This class is GWT-compatible.
+ *
  * <h3>Purpose</h3>
  *
  * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
@@ -39,7 +40,7 @@ import java.util.concurrent.RejectedExecutionException;
  * frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
@@ -97,7 +98,6 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
-@GwtCompatible
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
@@ -134,6 +134,9 @@ public interface ListenableFuture<V> extends Future<V> {
    * <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
    * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
    * <i>happen-before</i></a> its execution begins, perhaps in another thread.
+   *
+   * <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
+   * after executing them.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

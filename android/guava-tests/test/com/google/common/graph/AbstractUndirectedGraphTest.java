@@ -77,6 +77,20 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.outDegree(N2)).isEqualTo(1);
   }
 
+  @Test
+  public void hasEdgeConnecting_correct() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N1, N2))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N2, N1))).isTrue();
+  }
+
+  @Test
+  public void hasEdgeConnecting_mismatch() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N1, N2))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isTrue();
+  }
+
   // Element Mutation
 
   @Test

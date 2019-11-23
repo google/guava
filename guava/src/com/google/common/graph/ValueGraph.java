@@ -17,9 +17,10 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An interface for <a
@@ -157,6 +158,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   /**
    * Returns the nodes which have an incident edge in common with {@code node} in this graph.
    *
+   * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
   @Override
@@ -190,8 +193,10 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   /**
    * Returns the edges in this graph whose endpoints include {@code node}.
    *
+   * <p>This is equal to the union of incoming and outgoing edges.
+   *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
-   * @since NEXT
+   * @since 24.0
    */
   @Override
   Set<EndpointPair<N>> incidentEdges(N node);
@@ -235,7 +240,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   int outDegree(N node);
 
   /**
-   * Returns true if there is an edge directly connecting {@code nodeU} to {@code nodeV}. This is
+   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is
    * equivalent to {@code nodes().contains(nodeU) && successors(nodeU).contains(nodeV)}.
    *
    * <p>In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.
@@ -246,10 +251,25 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   boolean hasEdgeConnecting(N nodeU, N nodeV);
 
   /**
-   * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
-   * otherwise, returns {@code Optional.empty()}.
+   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if
+   * any, specified by {@code endpoints}). This is equivalent to {@code
+   * edges().contains(endpoints)}.
    *
-   * <p>In an undirected graph, this is equal to {@code edgeValue(nodeV, nodeU)}.
+   * <p>Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the
+   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for
+   * consistency with the behavior of {@link Collection#contains(Object)} (which does not generally
+   * throw if the object cannot be present in the collection), and the desire to have this method's
+   * behavior be compatible with {@code edges().contains(endpoints)}.
+   *
+   * @since 27.1
+   */
+  @Override
+  boolean hasEdgeConnecting(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the value of the edge that connects {@code nodeU} to {@code nodeV} (in the order, if
+   * any, specified by {@code endpoints}), if one is present; otherwise, returns {@code
+   * Optional.empty()}.
    *
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
@@ -258,7 +278,19 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
   Optional<V> edgeValue(N nodeU, N nodeV);
 
   /**
-   * Returns the value of the edge connecting {@code nodeU} to {@code nodeV}, if one is present;
+   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+   * by {@code endpoints}), if one is present; otherwise, returns {@code Optional.empty()}.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this graph
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  Optional<V> edgeValue(EndpointPair<N> endpoints);
+
+  /**
+   * Returns the value of the edge that connects {@code nodeU} to {@code nodeV}, if one is present;
    * otherwise, returns {@code defaultValue}.
    *
    * <p>In an undirected graph, this is equal to {@code edgeValueOrDefault(nodeV, nodeU,
@@ -267,8 +299,21 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * @throws IllegalArgumentException if {@code nodeU} or {@code nodeV} is not an element of this
    *     graph
    */
-  @NullableDecl
-  V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue);
+  @Nullable
+  V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue);
+
+  /**
+   * Returns the value of the edge that connects {@code endpoints} (in the order, if any, specified
+   * by {@code endpoints}), if one is present; otherwise, returns {@code defaultValue}.
+   *
+   * <p>If this graph is directed, the endpoints must be ordered.
+   *
+   * @throws IllegalArgumentException if either endpoint is not an element of this graph
+   * @throws IllegalArgumentException if the endpoints are unordered and the graph is directed
+   * @since 27.1
+   */
+  @Nullable
+  V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue);
 
   //
   // ValueGraph identity
@@ -295,7 +340,7 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#equals(Object)}.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a

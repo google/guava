@@ -66,6 +66,23 @@ public abstract class CharEscaper extends Escaper {
   }
 
   /**
+   * Returns the escaped form of the given character, or {@code null} if this character does not
+   * need to be escaped. If an empty array is returned, this effectively strips the input character
+   * from the resulting text.
+   *
+   * <p>If the character does not need to be escaped, this method should return {@code null}, rather
+   * than a one-character array containing the character itself. This enables the escaping algorithm
+   * to perform more efficiently.
+   *
+   * <p>An escaper is expected to be able to deal with any {@code char} value, so this method should
+   * not throw any exceptions.
+   *
+   * @param c the character to escape if necessary
+   * @return the replacement characters, or {@code null} if no escaping was needed
+   */
+  protected abstract char[] escape(char c);
+
+  /**
    * Returns the escaped form of a given literal string, starting at the given index. This method is
    * called by the {@link #escape(String)} method when it discovers that escaping is required. It is
    * protected to allow subclasses to override the fastpath escaping function to inline their
@@ -137,23 +154,6 @@ public abstract class CharEscaper extends Escaper {
     }
     return new String(dest, 0, destIndex);
   }
-
-  /**
-   * Returns the escaped form of the given character, or {@code null} if this character does not
-   * need to be escaped. If an empty array is returned, this effectively strips the input character
-   * from the resulting text.
-   *
-   * <p>If the character does not need to be escaped, this method should return {@code null}, rather
-   * than a one-character array containing the character itself. This enables the escaping algorithm
-   * to perform more efficiently.
-   *
-   * <p>An escaper is expected to be able to deal with any {@code char} value, so this method should
-   * not throw any exceptions.
-   *
-   * @param c the character to escape if necessary
-   * @return the replacement characters, or {@code null} if no escaping was needed
-   */
-  protected abstract char[] escape(char c);
 
   /**
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's

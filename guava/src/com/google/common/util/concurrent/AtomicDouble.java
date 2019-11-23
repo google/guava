@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * cannot be used as a replacement for a {@link Double}. However, this class does extend {@code
  * Number} to allow uniform access by tools and utilities that deal with numerically-based classes.
  *
- * <p><a name="bitEquals"></a>This class compares primitive {@code double} values in methods such as
+ * <p><a id="bitEquals"></a>This class compares primitive {@code double} values in methods such as
  * {@link #compareAndSet} by comparing their bitwise representation using {@link
  * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  * from {@link Double#equals}, as if implemented by:
@@ -44,10 +44,8 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  *
  * <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
  * See for example <a
- * href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
- * DoubleAdder</a> and <a
- * href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
- * DoubleMaxUpdater</a>.
+ * href="http://gee.cs.oswego.edu/dl/jsr166/dist/docs/java.base/java/util/concurrent/atomic/DoubleAdder.html">
+ * DoubleAdder</a>.
  *
  * @author Doug Lea
  * @author Martin Buchholz
@@ -191,6 +189,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    *
    * @return the String representation of the current value
    */
+  @Override
   public String toString() {
     return Double.toString(get());
   }
@@ -199,6 +198,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as an {@code int} after a narrowing primitive
    * conversion.
    */
+  @Override
   public int intValue() {
     return (int) get();
   }
@@ -207,6 +207,7 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as a {@code long} after a narrowing primitive
    * conversion.
    */
+  @Override
   public long longValue() {
     return (long) get();
   }
@@ -215,11 +216,13 @@ public class AtomicDouble extends Number implements java.io.Serializable {
    * Returns the value of this {@code AtomicDouble} as a {@code float} after a narrowing primitive
    * conversion.
    */
+  @Override
   public float floatValue() {
     return (float) get();
   }
 
   /** Returns the value of this {@code AtomicDouble} as a {@code double}. */
+  @Override
   public double doubleValue() {
     return get();
   }

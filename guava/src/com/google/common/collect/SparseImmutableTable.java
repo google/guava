@@ -65,17 +65,7 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       Map<C, V> thisRow = rows.get(rowKey);
       cellColumnInRowIndices[i] = thisRow.size();
       V oldValue = thisRow.put(columnKey, value);
-      if (oldValue != null) {
-        throw new IllegalArgumentException(
-            "Duplicate value for row="
-                + rowKey
-                + ", column="
-                + columnKey
-                + ": "
-                + value
-                + ", "
-                + oldValue);
-      }
+      checkNoDuplicate(rowKey, columnKey, oldValue, value);
       columns.get(columnKey).put(rowKey, value);
     }
     this.cellRowIndices = cellRowIndices;

@@ -116,7 +116,7 @@ final class DoubleUtils {
     boolean increment =
         (twiceSignifFloor & 1) != 0 && ((signifFloor & 1) != 0 || absX.getLowestSetBit() < shift);
     long signifRounded = increment ? signifFloor + 1 : signifFloor;
-    long bits = (long) ((exponent + EXPONENT_BIAS)) << SIGNIFICAND_BITS;
+    long bits = (long) (exponent + EXPONENT_BIAS) << SIGNIFICAND_BITS;
     bits += signifRounded;
     /*
      * If signifRounded == 2^53, we'd need to set all of the significand bits to zero and add 1 to
@@ -131,11 +131,7 @@ final class DoubleUtils {
   /** Returns its argument if it is non-negative, zero if it is negative. */
   static double ensureNonNegative(double value) {
     checkArgument(!isNaN(value));
-    if (value > 0.0) {
-      return value;
-    } else {
-      return 0.0;
-    }
+    return Math.max(value, 0.0);
   }
 
   @VisibleForTesting static final long ONE_BITS = 0x3ff0000000000000L;

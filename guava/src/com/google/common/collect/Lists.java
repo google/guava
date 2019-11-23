@@ -33,7 +33,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
@@ -50,7 +49,7 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link List} instances. Also see this class's counterparts
@@ -99,7 +98,6 @@ public final class Lists {
    * not actually very useful and will likely be deprecated in the future.
    */
   @SafeVarargs
-  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
@@ -108,14 +106,6 @@ public final class Lists {
     ArrayList<E> list = new ArrayList<>(capacity);
     Collections.addAll(list, elements);
     return list;
-  }
-
-  @VisibleForTesting
-  static int computeArrayListCapacity(int arraySize) {
-    checkNonnegative(arraySize, "arraySize");
-
-    // TODO(kevinb): Figure out the right behavior, and document it
-    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
   }
 
   /**
@@ -131,7 +121,6 @@ public final class Lists {
    * constructor} directly, taking advantage of the new <a href="http://goo.gl/iz2Wi">"diamond"
    * syntax</a>.
    */
-  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
@@ -148,12 +137,19 @@ public final class Lists {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableList#copyOf(Iterator)} instead.
    */
-  @CanIgnoreReturnValue // TODO(kak): Remove this
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
     ArrayList<E> list = newArrayList();
     Iterators.addAll(list, elements);
     return list;
+  }
+
+  @VisibleForTesting
+  static int computeArrayListCapacity(int arraySize) {
+    checkNonnegative(arraySize, "arraySize");
+
+    // TODO(kevinb): Figure out the right behavior, and document it
+    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
   }
 
   /**
@@ -287,17 +283,37 @@ public final class Lists {
    * @param rest an array of additional elements, possibly empty
    * @return an unmodifiable list containing the specified elements
    */
-  public static <E> List<E> asList(@NullableDecl E first, E[] rest) {
+  public static <E> List<E> asList(@Nullable E first, E[] rest) {
     return new OnePlusArrayList<>(first, rest);
+  }
+
+  /**
+   * Returns an unmodifiable list containing the specified first and second element, and backed by
+   * the specified array of additional elements. Changes to the {@code rest} array will be reflected
+   * in the returned list. Unlike {@link Arrays#asList}, the returned list is unmodifiable.
+   *
+   * <p>This is useful when a varargs method needs to use a signature such as {@code (Foo firstFoo,
+   * Foo secondFoo, Foo... moreFoos)}, in order to avoid overload ambiguity or to enforce a minimum
+   * argument count.
+   *
+   * <p>The returned list is serializable and implements {@link RandomAccess}.
+   *
+   * @param first the first element
+   * @param second the second element
+   * @param rest an array of additional elements, possibly empty
+   * @return an unmodifiable list containing the specified elements
+   */
+  public static <E> List<E> asList(@Nullable E first, @Nullable E second, E[] rest) {
+    return new TwoPlusArrayList<>(first, second, rest);
   }
 
   /** @see Lists#asList(Object, Object[]) */
   private static class OnePlusArrayList<E> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @NullableDecl final E first;
+    final @Nullable E first;
     final E[] rest;
 
-    OnePlusArrayList(@NullableDecl E first, E[] rest) {
+    OnePlusArrayList(@Nullable E first, E[] rest) {
       this.first = first;
       this.rest = checkNotNull(rest);
     }
@@ -317,34 +333,14 @@ public final class Lists {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns an unmodifiable list containing the specified first and second element, and backed by
-   * the specified array of additional elements. Changes to the {@code rest} array will be reflected
-   * in the returned list. Unlike {@link Arrays#asList}, the returned list is unmodifiable.
-   *
-   * <p>This is useful when a varargs method needs to use a signature such as {@code (Foo firstFoo,
-   * Foo secondFoo, Foo... moreFoos)}, in order to avoid overload ambiguity or to enforce a minimum
-   * argument count.
-   *
-   * <p>The returned list is serializable and implements {@link RandomAccess}.
-   *
-   * @param first the first element
-   * @param second the second element
-   * @param rest an array of additional elements, possibly empty
-   * @return an unmodifiable list containing the specified elements
-   */
-  public static <E> List<E> asList(@NullableDecl E first, @NullableDecl E second, E[] rest) {
-    return new TwoPlusArrayList<>(first, second, rest);
-  }
-
   /** @see Lists#asList(Object, Object, Object[]) */
   private static class TwoPlusArrayList<E> extends AbstractList<E>
       implements Serializable, RandomAccess {
-    @NullableDecl final E first;
-    @NullableDecl final E second;
+    final @Nullable E first;
+    final @Nullable E second;
     final E[] rest;
 
-    TwoPlusArrayList(@NullableDecl E first, @NullableDecl E second, E[] rest) {
+    TwoPlusArrayList(@Nullable E first, @Nullable E second, E[] rest) {
       this.first = first;
       this.second = second;
       this.rest = checkNotNull(rest);
@@ -708,6 +704,20 @@ public final class Lists {
     return new StringAsImmutableList(checkNotNull(string));
   }
 
+  /**
+   * Returns a view of the specified {@code CharSequence} as a {@code List<Character>}, viewing
+   * {@code sequence} as a sequence of Unicode code units. The view does not support any
+   * modification operations, but reflects any changes to the underlying character sequence.
+   *
+   * @param sequence the character sequence to view as a {@code List} of characters
+   * @return an {@code List<Character>} view of the character sequence
+   * @since 7.0
+   */
+  @Beta
+  public static List<Character> charactersOf(CharSequence sequence) {
+    return new CharSequenceAsList(checkNotNull(sequence));
+  }
+
   @SuppressWarnings("serial") // serialized using ImmutableList serialization
   private static final class StringAsImmutableList extends ImmutableList<Character> {
 
@@ -718,12 +728,12 @@ public final class Lists {
     }
 
     @Override
-    public int indexOf(@NullableDecl Object object) {
+    public int indexOf(@Nullable Object object) {
       return (object instanceof Character) ? string.indexOf((Character) object) : -1;
     }
 
     @Override
-    public int lastIndexOf(@NullableDecl Object object) {
+    public int lastIndexOf(@Nullable Object object) {
       return (object instanceof Character) ? string.lastIndexOf((Character) object) : -1;
     }
 
@@ -748,20 +758,6 @@ public final class Lists {
     public int size() {
       return string.length();
     }
-  }
-
-  /**
-   * Returns a view of the specified {@code CharSequence} as a {@code List<Character>}, viewing
-   * {@code sequence} as a sequence of Unicode code units. The view does not support any
-   * modification operations, but reflects any changes to the underlying character sequence.
-   *
-   * @param sequence the character sequence to view as a {@code List} of characters
-   * @return an {@code List<Character>} view of the character sequence
-   * @since 7.0
-   */
-  @Beta
-  public static List<Character> charactersOf(CharSequence sequence) {
-    return new CharSequenceAsList(checkNotNull(sequence));
   }
 
   private static final class CharSequenceAsList extends AbstractList<Character> {
@@ -830,7 +826,7 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @NullableDecl T element) {
+    public void add(int index, @Nullable T element) {
       forwardList.add(reversePosition(index), element);
     }
 
@@ -850,7 +846,7 @@ public final class Lists {
     }
 
     @Override
-    public T set(int index, @NullableDecl T element) {
+    public T set(int index, @Nullable T element) {
       return forwardList.set(reverseIndex(index), element);
     }
 
@@ -964,7 +960,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#equals(Object)}. */
-  static boolean equalsImpl(List<?> thisList, @NullableDecl Object other) {
+  static boolean equalsImpl(List<?> thisList, @Nullable Object other) {
     if (other == checkNotNull(thisList)) {
       return true;
     }
@@ -1001,7 +997,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#indexOf(Object)}. */
-  static int indexOfImpl(List<?> list, @NullableDecl Object element) {
+  static int indexOfImpl(List<?> list, @Nullable Object element) {
     if (list instanceof RandomAccess) {
       return indexOfRandomAccess(list, element);
     } else {
@@ -1015,7 +1011,7 @@ public final class Lists {
     }
   }
 
-  private static int indexOfRandomAccess(List<?> list, @NullableDecl Object element) {
+  private static int indexOfRandomAccess(List<?> list, @Nullable Object element) {
     int size = list.size();
     if (element == null) {
       for (int i = 0; i < size; i++) {
@@ -1034,7 +1030,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#lastIndexOf(Object)}. */
-  static int lastIndexOfImpl(List<?> list, @NullableDecl Object element) {
+  static int lastIndexOfImpl(List<?> list, @Nullable Object element) {
     if (list instanceof RandomAccess) {
       return lastIndexOfRandomAccess(list, element);
     } else {
@@ -1048,7 +1044,7 @@ public final class Lists {
     }
   }
 
-  private static int lastIndexOfRandomAccess(List<?> list, @NullableDecl Object element) {
+  private static int lastIndexOfRandomAccess(List<?> list, @Nullable Object element) {
     if (element == null) {
       for (int i = list.size() - 1; i >= 0; i--) {
         if (list.get(i) == null) {

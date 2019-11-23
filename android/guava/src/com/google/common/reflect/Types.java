@@ -105,15 +105,15 @@ final class Types {
   /** Decides what owner type to use for constructing {@link ParameterizedType} from a raw class. */
   private enum ClassOwnership {
     OWNED_BY_ENCLOSING_CLASS {
-      @NullableDecl
       @Override
+      @NullableDecl
       Class<?> getOwnerType(Class<?> rawType) {
         return rawType.getEnclosingClass();
       }
     },
     LOCAL_CLASS_HAS_NO_OWNER {
-      @NullableDecl
       @Override
+      @NullableDecl
       Class<?> getOwnerType(Class<?> rawType) {
         if (rawType.isLocalClass()) {
           return null;
@@ -166,11 +166,7 @@ final class Types {
   /**
    * Returns human readable string representation of {@code type}.
    *
-   * <ul>
-   *   <li>For array type {@code Foo[]}, {@code "com.mypackage.Foo[]"} are returned.
-   *   <li>For any class, {@code theClass.getName()} are returned.
-   *   <li>For all other types, {@code type.toString()} are returned.
-   * </ul>
+   * <p>The format is subject to change.
    */
   static String toString(Type type) {
     return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();
@@ -518,7 +514,7 @@ final class Types {
   }
 
   private static Type[] toArray(Collection<Type> types) {
-    return types.toArray(new Type[types.size()]);
+    return types.toArray(new Type[0]);
   }
 
   private static Iterable<Type> filterUpperBounds(Iterable<Type> bounds) {
@@ -595,7 +591,14 @@ final class Types {
           return (String) getTypeName.invoke(type);
         } catch (NoSuchMethodException e) {
           throw new AssertionError("Type.getTypeName should be available in Java 8");
-        } catch (InvocationTargetException | IllegalAccessException e) {
+          /*
+           * Do not merge the 2 catch blocks below. javac would infer a type of
+           * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
+           * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
+           */
+        } catch (InvocationTargetException e) {
+          throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
           throw new RuntimeException(e);
         }
       }
@@ -644,20 +647,20 @@ final class Types {
 
     abstract Type usedInGenericType(Type type);
 
-    String typeName(Type type) {
-      return Types.toString(type);
-    }
-
-    boolean jdkTypeDuplicatesOwnerName() {
-      return true;
-    }
-
     final ImmutableList<Type> usedInGenericType(Type[] types) {
       ImmutableList.Builder<Type> builder = ImmutableList.builder();
       for (Type type : types) {
         builder.add(usedInGenericType(type));
       }
       return builder.build();
+    }
+
+    String typeName(Type type) {
+      return Types.toString(type);
+    }
+
+    boolean jdkTypeDuplicatesOwnerName() {
+      return true;
     }
   }
 

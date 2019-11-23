@@ -39,7 +39,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * LocalCache emulation for GWT.
@@ -241,6 +241,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private V load(Object key) throws ExecutionException {
     long startTime = ticker.read();
     V calculatedValue;
@@ -300,6 +301,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return load(key);
   }
 
+  @SuppressWarnings("GoodTime") // timestamps as numeric primitives
   private static class Timestamped<V> {
     private final V value;
     private final Ticker ticker;
@@ -375,7 +377,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    @NullableDecl
+    @Nullable
     public V getIfPresent(Object key) {
       return localCache.getIfPresent(key);
     }
@@ -476,7 +478,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
         boolean accessOrder,
         long maximumSize,
         StatsCounter statsCounter,
-        @NullableDecl RemovalListener removalListener) {
+        @Nullable RemovalListener removalListener) {
       super(initialCapacity, loadFactor, accessOrder);
       this.maximumSize = maximumSize;
       this.statsCounter = statsCounter;
@@ -682,7 +684,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
         Entry<?, ?> that = (Entry<?, ?>) object;

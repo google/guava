@@ -203,7 +203,7 @@ public final class EndpointPairTest {
   }
 
   @Test
-  public void endpointPair_containment() {
+  public void endpointPair_undirected_contains() {
     MutableGraph<Integer> undirectedGraph = GraphBuilder.undirected().allowsSelfLoops(true).build();
     undirectedGraph.putEdge(N1, N1);
     undirectedGraph.putEdge(N1, N2);
@@ -214,9 +214,30 @@ public final class EndpointPairTest {
     assertThat(edges).contains(EndpointPair.unordered(N1, N2));
     assertThat(edges).contains(EndpointPair.unordered(N2, N1)); // equal to unordered(N1, N2)
 
-    assertThat(edges).doesNotContain(EndpointPair.unordered(N2, N2));
-    assertThat(edges).doesNotContain(EndpointPair.ordered(N1, N2)); // graph not directed
+    // ordered endpoints OK for undirected graph (because ordering is irrelevant)
+    assertThat(edges).contains(EndpointPair.ordered(N1, N2));
+
+    assertThat(edges).doesNotContain(EndpointPair.unordered(N2, N2)); // edge not present
     assertThat(edges).doesNotContain(EndpointPair.unordered(N3, N4)); // nodes not in graph
+  }
+
+  @Test
+  public void endpointPair_directed_contains() {
+    MutableGraph<Integer> directedGraph = GraphBuilder.directed().allowsSelfLoops(true).build();
+    directedGraph.putEdge(N1, N1);
+    directedGraph.putEdge(N1, N2);
+    Set<EndpointPair<Integer>> edges = directedGraph.edges();
+
+    assertThat(edges).hasSize(2);
+    assertThat(edges).contains(EndpointPair.ordered(N1, N1));
+    assertThat(edges).contains(EndpointPair.ordered(N1, N2));
+
+    // unordered endpoints not OK for directed graph (undefined behavior)
+    assertThat(edges).doesNotContain(EndpointPair.unordered(N1, N2));
+
+    assertThat(edges).doesNotContain(EndpointPair.ordered(N2, N1)); // wrong order
+    assertThat(edges).doesNotContain(EndpointPair.ordered(N2, N2)); // edge not present
+    assertThat(edges).doesNotContain(EndpointPair.ordered(N3, N4)); // nodes not in graph
   }
 
   private static void containsExactlySanityCheck(Collection<?> collection, Object... varargs) {

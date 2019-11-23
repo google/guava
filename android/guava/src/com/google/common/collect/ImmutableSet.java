@@ -112,8 +112,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
-        others.length <= Integer.MAX_VALUE - 6,
-        "the total number of elements must fit in an int");
+        others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
     final int paramCount = 6;
     Object[] elements = new Object[paramCount + others.length];
     elements[0] = e1;
@@ -338,7 +337,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @NullableDecl @RetainedWith private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith @NullableDecl private transient ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -348,40 +347,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
 
   ImmutableList<E> createAsList() {
     return ImmutableList.asImmutableList(toArray());
-  }
-
-  abstract static class Indexed<E> extends ImmutableSet<E> {
-    abstract E get(int index);
-
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    int copyIntoArray(Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableList<E>() {
-        @Override
-        public E get(int index) {
-          return Indexed.this.get(index);
-        }
-
-        @Override
-        boolean isPartialView() {
-          return Indexed.this.isPartialView();
-        }
-
-        @Override
-        public int size() {
-          return Indexed.this.size();
-        }
-      };
-    }
   }
 
   /*
@@ -494,23 +459,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       }
     }
 
-    private void addDeduping(E element) {
-      int mask = hashTable.length - 1;
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); ; i++) {
-        i &= mask;
-        Object previous = hashTable[i];
-        if (previous == null) {
-          hashTable[i] = element;
-          hashCode += hash;
-          super.add(element);
-          return;
-        } else if (previous.equals(element)) {
-          return;
-        }
-      }
-    }
-
     /**
      * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate
      * elements (only the first duplicate element is added).
@@ -530,6 +478,23 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         super.add(elements);
       }
       return this;
+    }
+
+    private void addDeduping(E element) {
+      int mask = hashTable.length - 1;
+      int hash = element.hashCode();
+      for (int i = Hashing.smear(hash); ; i++) {
+        i &= mask;
+        Object previous = hashTable[i];
+        if (previous == null) {
+          hashTable[i] = element;
+          hashCode += hash;
+          super.add(element);
+          return;
+        } else if (previous.equals(element)) {
+          return;
+        }
+      }
     }
 
     /**

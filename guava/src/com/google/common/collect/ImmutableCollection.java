@@ -17,22 +17,20 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Collection} whose contents will never change, and which offers a few additional
@@ -87,9 +85,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * appropriate {@code copyOf} method itself.
  *
  * <p>Expressing the immutability guarantee directly in the type that user code references is a
- * powerful advantage. Although Java 9 offers certain immutable collection factory methods, like <a
+ * powerful advantage. Although Java offers certain immutable collection factory methods, such as
+ * {@link Collections#singleton(Object)} and <a
  * href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable">{@code Set.of}</a>,
- * we recommend continuing to use these immutable collection classes for this reason.
+ * we recommend using <i>these</i> classes instead for this reason (as well as for consistency).
  *
  * <h4>Creation</h4>
  *
@@ -186,13 +185,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   @Override
   public final Object[] toArray() {
-    int size = size();
-    if (size == 0) {
-      return EMPTY_ARRAY;
-    }
-    Object[] result = new Object[size];
-    copyIntoArray(result, 0);
-    return result;
+    return toArray(EMPTY_ARRAY);
   }
 
   @CanIgnoreReturnValue
@@ -200,7 +193,12 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
   public final <T> T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
+
     if (other.length < size) {
+      Object[] internal = internalArray();
+      if (internal != null) {
+        return Platform.copy(internal, internalArrayStart(), internalArrayEnd(), other);
+      }
       other = ObjectArrays.newArray(other, size);
     } else if (other.length > size) {
       other[size] = null;
@@ -209,8 +207,30 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     return other;
   }
 
+  /** If this collection is backed by an array of its elements in insertion order, returns it. */
+  @Nullable
+  Object[] internalArray() {
+    return null;
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements start.
+   */
+  int internalArrayStart() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements end.
+   */
+  int internalArrayEnd() {
+    throw new UnsupportedOperationException();
+  }
+
   @Override
-  public abstract boolean contains(@NullableDecl Object object);
+  public abstract boolean contains(@Nullable Object object);
 
   /**
    * Guaranteed to throw an exception and leave the collection unmodified.
@@ -447,77 +467,5 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
      * ImmutableCollection} from this method.
      */
     public abstract ImmutableCollection<E> build();
-  }
-
-  abstract static class ArrayBasedBuilder<E> extends ImmutableCollection.Builder<E> {
-    Object[] contents;
-    int size;
-    boolean forceCopy;
-
-    ArrayBasedBuilder(int initialCapacity) {
-      checkNonnegative(initialCapacity, "initialCapacity");
-      this.contents = new Object[initialCapacity];
-      this.size = 0;
-    }
-
-    /*
-     * Expand the absolute capacity of the builder so it can accept at least the specified number of
-     * elements without being resized. Also, if we've already built a collection backed by the
-     * current array, create a new array.
-     */
-    private void getReadyToExpandTo(int minCapacity) {
-      if (contents.length < minCapacity) {
-        this.contents =
-            Arrays.copyOf(this.contents, expandedCapacity(contents.length, minCapacity));
-        forceCopy = false;
-      } else if (forceCopy) {
-        this.contents = contents.clone();
-        forceCopy = false;
-      }
-    }
-
-    @CanIgnoreReturnValue
-    @Override
-    public ArrayBasedBuilder<E> add(E element) {
-      checkNotNull(element);
-      getReadyToExpandTo(size + 1);
-      contents[size++] = element;
-      return this;
-    }
-
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> add(E... elements) {
-      checkElementsNotNull(elements);
-      getReadyToExpandTo(size + elements.length);
-      System.arraycopy(elements, 0, contents, size, elements.length);
-      size += elements.length;
-      return this;
-    }
-
-    @CanIgnoreReturnValue
-    @Override
-    public Builder<E> addAll(Iterable<? extends E> elements) {
-      if (elements instanceof Collection) {
-        Collection<?> collection = (Collection<?>) elements;
-        getReadyToExpandTo(size + collection.size());
-        if (collection instanceof ImmutableCollection) {
-          ImmutableCollection<?> immutableCollection = (ImmutableCollection<?>) collection;
-          size = immutableCollection.copyIntoArray(contents, size);
-          return this;
-        }
-      }
-      super.addAll(elements);
-      return this;
-    }
-
-    @CanIgnoreReturnValue
-    ArrayBasedBuilder<E> combine(ArrayBasedBuilder<E> builder) {
-      checkNotNull(builder);
-      getReadyToExpandTo(size + builder.size);
-      System.arraycopy(builder.contents, 0, this.contents, size, builder.size);
-      size += builder.size;
-      return this;
-    }
   }
 }

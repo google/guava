@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableCollection}.
@@ -43,7 +43,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   public abstract UnmodifiableIterator<E> iterator();
 
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     return object != null && super.contains(object);
   }
 
@@ -89,6 +89,28 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     }
   }
 
+  /** If this collection is backed by an array of its elements in insertion order, returns it. */
+  @Nullable
+  Object[] internalArray() {
+    return null;
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements start.
+   */
+  int internalArrayStart() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * If this collection is backed by an array of its elements in insertion order, returns the offset
+   * where this collection's elements end.
+   */
+  int internalArrayEnd() {
+    throw new UnsupportedOperationException();
+  }
+
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {
     return new ForwardingImmutableCollection<E>(delegate);
   }
@@ -103,7 +125,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     Builder() {}
 
     static int expandedCapacity(int oldCapacity, int minCapacity) {
-      if (minCapacity < 0) { 
+      if (minCapacity < 0) {
         throw new AssertionError("cannot store more than MAX_VALUE elements");
       }
       // careful of overflow!

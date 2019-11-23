@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not already found in
@@ -359,11 +359,11 @@ public final class Longs {
    * @param string the string representation of a long value
    * @return the long value represented by {@code string}, or {@code null} if {@code string} has a
    *     length of zero or cannot be parsed as a long value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta
-  @NullableDecl
-  public static Long tryParse(String string) {
+  public static @Nullable Long tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -384,11 +384,11 @@ public final class Longs {
    *     {@code string} has a length of zero or cannot be parsed as a long value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
    *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta
-  @NullableDecl
-  public static Long tryParse(String string, int radix) {
+  public static @Nullable Long tryParse(String string, int radix) {
     if (checkNotNull(string).isEmpty()) {
       return null;
     }
@@ -743,7 +743,7 @@ public final class Longs {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }

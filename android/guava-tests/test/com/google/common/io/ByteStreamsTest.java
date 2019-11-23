@@ -193,7 +193,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readFully(actual);
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -275,7 +275,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readByte();
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -288,7 +288,7 @@ public class ByteStreamsTest extends IoTestCase {
       in.readUnsignedByte();
       fail("expected exception");
     } catch (IllegalStateException ex) {
-      assertThat(ex.getCause()).isInstanceOf(EOFException.class);
+      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -430,28 +430,63 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(new byte[] {0x12, 0x34, 0x56, 0x78}, baos.toByteArray());
   }
 
+  private static final byte[] PRE_FILLED_100 = newPreFilledByteArray(100);
+
+  public void testToByteArray() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertEquals(PRE_FILLED_100, b);
+  }
+
+  public void testToByteArray_emptyStream() throws IOException {
+    InputStream in = newTestStream(0);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertEquals(new byte[0], b);
+  }
+
+  public void testToByteArray_largeStream() throws IOException {
+    // well, large enough to require multiple buffers
+    byte[] expected = newPreFilledByteArray(10000000);
+    InputStream in = new ByteArrayInputStream(expected);
+    byte[] b = ByteStreams.toByteArray(in);
+    assertEquals(expected, b);
+  }
+
   public void testToByteArray_withSize_givenCorrectSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 100);
-    assertEquals(100, b.length);
+    assertEquals(PRE_FILLED_100, b);
   }
 
   public void testToByteArray_withSize_givenSmallerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 80);
-    assertEquals(100, b.length);
+    assertEquals(PRE_FILLED_100, b);
   }
 
   public void testToByteArray_withSize_givenLargerSize() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 120);
-    assertEquals(100, b.length);
+    assertEquals(PRE_FILLED_100, b);
   }
 
   public void testToByteArray_withSize_givenSizeZero() throws IOException {
-    InputStream in = newTestStream(100);
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
     byte[] b = ByteStreams.toByteArray(in, 0);
-    assertEquals(100, b.length);
+    assertEquals(PRE_FILLED_100, b);
+  }
+
+  public void testToByteArray_withSize_givenSizeOneSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    // this results in toByteArrayInternal being called when the stream is actually exhausted
+    byte[] b = ByteStreams.toByteArray(in, 99);
+    assertEquals(PRE_FILLED_100, b);
+  }
+
+  public void testToByteArray_withSize_givenSizeTwoSmallerThanActual() throws IOException {
+    InputStream in = new ByteArrayInputStream(PRE_FILLED_100);
+    byte[] b = ByteStreams.toByteArray(in, 98);
+    assertEquals(PRE_FILLED_100, b);
   }
 
   public void testExhaust() throws IOException {
@@ -615,7 +650,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not set");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not set");
     }
   }
 
@@ -626,7 +661,7 @@ public class ByteStreamsTest extends IoTestCase {
       lin.reset();
       fail();
     } catch (IOException expected) {
-      assertThat(expected).hasMessage("Mark not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("Mark not supported");
     }
   }
 

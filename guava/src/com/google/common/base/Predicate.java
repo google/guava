@@ -16,7 +16,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Legacy version of {@link java.util.function.Predicate java.util.function.Predicate}. Determines a
@@ -59,7 +59,7 @@ public interface Predicate<T> extends java.util.function.Predicate<T> {
    *     arguments
    */
   @CanIgnoreReturnValue
-  boolean apply(@NullableDecl T input);
+  boolean apply(@Nullable T input);
 
   /**
    * Indicates whether another object is equal to this predicate.
@@ -72,10 +72,10 @@ public interface Predicate<T> extends java.util.function.Predicate<T> {
    * predicates are known <i>not</i> to be interchangeable.
    */
   @Override
-  boolean equals(@NullableDecl Object object);
+  boolean equals(@Nullable Object object);
 
   @Override
-  default boolean test(@NullableDecl T input) {
+  default boolean test(@Nullable T input) {
     return apply(input);
   }
 }

@@ -59,6 +59,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
           public Iterator<Integer> iterator() {
             Iterator<Integer> powersOfTwo =
                 new AbstractSequentialIterator<Integer>(1) {
+                  @Override
                   protected Integer computeNext(Integer previous) {
                     return (previous == 1 << 30) ? null : previous * 2;
                   }

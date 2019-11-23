@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
@@ -73,9 +74,7 @@ import java.nio.charset.Charset;
  *       these feats has become computationally feasible, the function is deemed "broken" and should
  *       no longer be used for secure purposes. (This is the likely eventual fate of <i>all</i>
  *       cryptographic hashes.)
- *   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration. We have
- *       published <a href="#noWeHaventYet">microbenchmark results</a> for many common hash
- *       functions.
+ *   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
  * </ul>
  *
  * <h3>Providing input to a hash function</h3>
@@ -117,6 +116,7 @@ import java.nio.charset.Charset;
  * @since 11.0
  */
 @Beta
+@Immutable
 public interface HashFunction {
   /**
    * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}

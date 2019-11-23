@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Platform.checkGwtRpcEnabled;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -34,8 +36,11 @@ public class Absent_CustomFieldSerializer {
   public static void deserialize(SerializationStreamReader reader, Absent<?> instance) {}
 
   public static Absent<?> instantiate(SerializationStreamReader reader) {
+    checkGwtRpcEnabled();
     return Absent.INSTANCE;
   }
 
-  public static void serialize(SerializationStreamWriter writer, Absent<?> instance) {}
+  public static void serialize(SerializationStreamWriter writer, Absent<?> instance) {
+    checkGwtRpcEnabled();
+  }
 }

@@ -25,6 +25,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -168,9 +169,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   static void checkNoConflict(
       boolean safe, String conflictDescription, Entry<?, ?> entry1, Entry<?, ?> entry2) {
     if (!safe) {
-      throw new IllegalArgumentException(
-          "Multiple entries with same " + conflictDescription + ": " + entry1 + " and " + entry2);
+      throw conflictException(conflictDescription, entry1, entry2);
     }
+  }
+
+  static IllegalArgumentException conflictException(
+      String conflictDescription, Object entry1, Object entry2) {
+    return new IllegalArgumentException(
+        "Multiple entries with same " + conflictDescription + ": " + entry1 + " and " + entry2);
   }
 
   /**
@@ -409,7 +415,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
-      @WeakOuter
       class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
         @Override
         ImmutableMap<K, V> map() {
@@ -518,7 +523,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return (result != null) ? result : defaultValue;
   }
 
-  @LazyInit private transient ImmutableSet<Entry<K, V>> entrySet;
+  @LazyInit @RetainedWith private transient ImmutableSet<Entry<K, V>> entrySet;
 
   /**
    * Returns an immutable set of the mappings in this map. The iteration order is specified by the
@@ -532,7 +537,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  @LazyInit private transient ImmutableSet<K> keySet;
+  @LazyInit @RetainedWith private transient ImmutableSet<K> keySet;
 
   /**
    * Returns an immutable set of the keys in this map, in the same order that they appear in {@link
@@ -566,7 +571,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     };
   }
 
-  @LazyInit private transient ImmutableCollection<V> values;
+  @LazyInit @RetainedWith private transient ImmutableCollection<V> values;
 
   /**
    * Returns an immutable collection of the values in this map, in the same order that they appear

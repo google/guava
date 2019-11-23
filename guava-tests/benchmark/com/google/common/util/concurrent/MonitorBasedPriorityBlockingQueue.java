@@ -30,7 +30,7 @@ import java.util.Queue;
 import java.util.SortedSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An unbounded {@linkplain BlockingQueue blocking queue} that uses the same ordering rules as class
@@ -124,7 +124,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @throws IllegalArgumentException if <tt>initialCapacity</tt> is less than 1
    */
   public MonitorBasedPriorityBlockingQueue(
-      int initialCapacity, @NullableDecl Comparator<? super E> comparator) {
+      int initialCapacity, @Nullable Comparator<? super E> comparator) {
     q = new PriorityQueue<E>(initialCapacity, comparator);
   }
 
@@ -186,20 +186,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * will never block.
    *
    * @param e the element to add
-   * @throws ClassCastException if the specified element cannot be compared with elements currently
-   *     in the priority queue according to the priority queue's ordering
-   * @throws NullPointerException if the specified element is null
-   */
-  @Override
-  public void put(E e) {
-    offer(e); // never need to block
-  }
-
-  /**
-   * Inserts the specified element into this priority queue. As the queue is unbounded this method
-   * will never block.
-   *
-   * @param e the element to add
    * @param timeout This parameter is ignored as the method never blocks
    * @param unit This parameter is ignored as the method never blocks
    * @return <tt>true</tt>
@@ -213,21 +199,24 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     return offer(e); // never need to block
   }
 
+  /**
+   * Inserts the specified element into this priority queue. As the queue is unbounded this method
+   * will never block.
+   *
+   * @param e the element to add
+   * @throws ClassCastException if the specified element cannot be compared with elements currently
+   *     in the priority queue according to the priority queue's ordering
+   * @throws NullPointerException if the specified element is null
+   */
+  @Override
+  public void put(E e) {
+    offer(e); // never need to block
+  }
+
   @Override
   public E poll() {
     final Monitor monitor = this.monitor;
     monitor.enter();
-    try {
-      return q.poll();
-    } finally {
-      monitor.leave();
-    }
-  }
-
-  @Override
-  public E take() throws InterruptedException {
-    final Monitor monitor = this.monitor;
-    monitor.enterWhen(notEmpty);
     try {
       return q.poll();
     } finally {
@@ -246,6 +235,17 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
       }
     } else {
       return null;
+    }
+  }
+
+  @Override
+  public E take() throws InterruptedException {
+    final Monitor monitor = this.monitor;
+    monitor.enterWhen(notEmpty);
+    try {
+      return q.poll();
+    } finally {
+      monitor.leave();
     }
   }
 
@@ -303,7 +303,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue changed as a result of the call
    */
   @Override
-  public boolean remove(@NullableDecl Object o) {
+  public boolean remove(@Nullable Object o) {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {
@@ -322,7 +322,7 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue contains the specified element
    */
   @Override
-  public boolean contains(@NullableDecl Object o) {
+  public boolean contains(@Nullable Object o) {
     final Monitor monitor = this.monitor;
     monitor.enter();
     try {
@@ -350,6 +350,46 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     monitor.enter();
     try {
       return q.toArray();
+    } finally {
+      monitor.leave();
+    }
+  }
+
+  /**
+   * Returns an array containing all of the elements in this queue; the runtime type of the returned
+   * array is that of the specified array. The returned array elements are in no particular order.
+   * If the queue fits in the specified array, it is returned therein. Otherwise, a new array is
+   * allocated with the runtime type of the specified array and the size of this queue.
+   *
+   * <p>If this queue fits in the specified array with room to spare (i.e., the array has more
+   * elements than this queue), the element in the array immediately following the end of the queue
+   * is set to <tt>null</tt>.
+   *
+   * <p>Like the {@link #toArray()} method, this method acts as bridge between array-based and
+   * collection-based APIs. Further, this method allows precise control over the runtime type of the
+   * output array, and may, under certain circumstances, be used to save allocation costs.
+   *
+   * <p>Suppose <tt>x</tt> is a queue known to contain only strings. The following code can be used
+   * to dump the queue into a newly allocated array of <tt>String</tt>:
+   *
+   * <pre>
+   *     String[] y = x.toArray(new String[0]);</pre>
+   *
+   * <p>Note that <tt>toArray(new Object[0])</tt> is identical in function to <tt>toArray()</tt>.
+   *
+   * @param a the array into which the elements of the queue are to be stored, if it is big enough;
+   *     otherwise, a new array of the same runtime type is allocated for this purpose
+   * @return an array containing all of the elements in this queue
+   * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of
+   *     the runtime type of every element in this queue
+   * @throws NullPointerException if the specified array is null
+   */
+  @Override
+  public <T> T[] toArray(T[] a) {
+    final Monitor monitor = this.monitor;
+    monitor.enter();
+    try {
+      return q.toArray(a);
     } finally {
       monitor.leave();
     }
@@ -427,46 +467,6 @@ public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     monitor.enter();
     try {
       q.clear();
-    } finally {
-      monitor.leave();
-    }
-  }
-
-  /**
-   * Returns an array containing all of the elements in this queue; the runtime type of the returned
-   * array is that of the specified array. The returned array elements are in no particular order.
-   * If the queue fits in the specified array, it is returned therein. Otherwise, a new array is
-   * allocated with the runtime type of the specified array and the size of this queue.
-   *
-   * <p>If this queue fits in the specified array with room to spare (i.e., the array has more
-   * elements than this queue), the element in the array immediately following the end of the queue
-   * is set to <tt>null</tt>.
-   *
-   * <p>Like the {@link #toArray()} method, this method acts as bridge between array-based and
-   * collection-based APIs. Further, this method allows precise control over the runtime type of the
-   * output array, and may, under certain circumstances, be used to save allocation costs.
-   *
-   * <p>Suppose <tt>x</tt> is a queue known to contain only strings. The following code can be used
-   * to dump the queue into a newly allocated array of <tt>String</tt>:
-   *
-   * <pre>
-   *     String[] y = x.toArray(new String[0]);</pre>
-   *
-   * <p>Note that <tt>toArray(new Object[0])</tt> is identical in function to <tt>toArray()</tt>.
-   *
-   * @param a the array into which the elements of the queue are to be stored, if it is big enough;
-   *     otherwise, a new array of the same runtime type is allocated for this purpose
-   * @return an array containing all of the elements in this queue
-   * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of
-   *     the runtime type of every element in this queue
-   * @throws NullPointerException if the specified array is null
-   */
-  @Override
-  public <T> T[] toArray(T[] a) {
-    final Monitor monitor = this.monitor;
-    monitor.enter();
-    try {
-      return q.toArray(a);
     } finally {
       monitor.leave();
     }

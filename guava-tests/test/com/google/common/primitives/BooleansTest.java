@@ -186,16 +186,6 @@ public class BooleansTest extends TestCase {
     testReverse(new boolean[] {true, true, false, false}, new boolean[] {false, false, true, true});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new boolean[] {}, 0, 0, new boolean[] {});
-    testReverse(new boolean[] {true}, 0, 1, new boolean[] {true});
-    testReverse(new boolean[] {false, true}, 0, 2, new boolean[] {true, false});
-    testReverse(new boolean[] {true, false, false}, 0, 2, new boolean[] {false, true, false});
-    testReverse(new boolean[] {true, false, false}, 0, 1, new boolean[] {true, false, false});
-    testReverse(
-        new boolean[] {true, true, false, false}, 1, 3, new boolean[] {true, false, true, false});
-  }
-
   private static void testReverse(boolean[] input, boolean[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Booleans.reverse(input);
@@ -207,6 +197,16 @@ public class BooleansTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     Booleans.reverse(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testReverseIndexed() {
+    testReverse(new boolean[] {}, 0, 0, new boolean[] {});
+    testReverse(new boolean[] {true}, 0, 1, new boolean[] {true});
+    testReverse(new boolean[] {false, true}, 0, 2, new boolean[] {true, false});
+    testReverse(new boolean[] {true, false, false}, 0, 2, new boolean[] {false, true, false});
+    testReverse(new boolean[] {true, false, false}, 0, 1, new boolean[] {true, false, false});
+    testReverse(
+        new boolean[] {true, true, false, false}, 1, 3, new boolean[] {true, false, true, false});
   }
 
   public void testToArray() {

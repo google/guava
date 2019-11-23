@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -97,7 +97,7 @@ public final class Collections2 {
    * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeContains(Collection<?> collection, @NullableDecl Object object) {
+  static boolean safeContains(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -110,7 +110,7 @@ public final class Collections2 {
    * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeRemove(Collection<?> collection, @NullableDecl Object object) {
+  static boolean safeRemove(Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -153,7 +153,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object element) {
+    public boolean contains(@Nullable Object element) {
       if (safeContains(unfiltered, element)) {
         @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
@@ -494,7 +494,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
@@ -509,8 +509,7 @@ public final class Collections2 {
   }
 
   private static final class OrderedPermutationIterator<E> extends AbstractIterator<List<E>> {
-    @NullableDecl
-    List<E> nextPermutation;
+    @Nullable List<E> nextPermutation;
     final Comparator<? super E> comparator;
 
     OrderedPermutationIterator(List<E> list, Comparator<? super E> comparator) {
@@ -606,7 +605,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);

@@ -339,6 +339,53 @@ public class ServiceManagerTest extends TestCase {
     manager.awaitStopped(10, TimeUnit.MILLISECONDS);
   }
 
+  public void testDoCancelStart() throws TimeoutException {
+    Service a =
+        new AbstractService() {
+          @Override
+          protected void doStart() {
+            // Never starts!
+          }
+
+          @Override
+          protected void doCancelStart() {
+            assertThat(state()).isEqualTo(Service.State.STOPPING);
+            notifyStopped();
+          }
+
+          @Override
+          protected void doStop() {
+            throw new AssertionError(); // Should not be called.
+          }
+        };
+
+    final ServiceManager manager = new ServiceManager(asList(a));
+    manager.startAsync();
+    manager.stopAsync();
+    manager.awaitStopped(10, TimeUnit.MILLISECONDS);
+    assertThat(manager.servicesByState().keySet()).containsExactly(Service.State.TERMINATED);
+  }
+
+  public void testNotifyStoppedAfterFailure() throws TimeoutException {
+    Service a =
+        new AbstractService() {
+          @Override
+          protected void doStart() {
+            notifyFailed(new IllegalStateException("start failure"));
+            notifyStopped(); // This will be a no-op.
+          }
+
+          @Override
+          protected void doStop() {
+            notifyStopped();
+          }
+        };
+    final ServiceManager manager = new ServiceManager(asList(a));
+    manager.startAsync();
+    manager.awaitStopped(10, TimeUnit.MILLISECONDS);
+    assertThat(manager.servicesByState().keySet()).containsExactly(Service.State.FAILED);
+  }
+
   private static void assertState(
       ServiceManager manager, Service.State state, Service... services) {
     Collection<Service> managerServices = manager.servicesByState().get(state);
@@ -561,7 +608,7 @@ public class ServiceManagerTest extends TestCase {
       }
       ServiceManager manager = new ServiceManager(services);
       manager.startAsync().awaitHealthy();
-      manager.stopAsync().awaitStopped(1, TimeUnit.SECONDS);
+      manager.stopAsync().awaitStopped(10, TimeUnit.SECONDS);
     }
   }
 

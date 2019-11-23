@@ -185,22 +185,6 @@ public class ListenerCallQueueTest extends TestCase {
     return incrementingEvent(counters, multiset(expectedListener, expectedCount));
   }
 
-  private static <T> ImmutableMultiset<T> multiset(T value, int count) {
-    return multiset(ImmutableMap.of(value, count));
-  }
-
-  private static <T> ImmutableMultiset<T> multiset(T value1, int count1, T value2, int count2) {
-    return multiset(ImmutableMap.of(value1, count1, value2, count2));
-  }
-
-  private static <T> ImmutableMultiset<T> multiset(Map<T, Integer> counts) {
-    ImmutableMultiset.Builder<T> builder = ImmutableMultiset.builder();
-    for (Entry<T, Integer> entry : counts.entrySet()) {
-      builder.addCopies(entry.getKey(), entry.getValue());
-    }
-    return builder.build();
-  }
-
   private ListenerCallQueue.Event<Object> incrementingEvent(
       final Multiset<Object> counters, final Multiset<Object> expected) {
     return new ListenerCallQueue.Event<Object>() {
@@ -215,6 +199,22 @@ public class ListenerCallQueueTest extends TestCase {
         return "incrementing";
       }
     };
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(T value, int count) {
+    return multiset(ImmutableMap.of(value, count));
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(T value1, int count1, T value2, int count2) {
+    return multiset(ImmutableMap.of(value1, count1, value2, count2));
+  }
+
+  private static <T> ImmutableMultiset<T> multiset(Map<T, Integer> counts) {
+    ImmutableMultiset.Builder<T> builder = ImmutableMultiset.builder();
+    for (Entry<T, Integer> entry : counts.entrySet()) {
+      builder.addCopies(entry.getKey(), entry.getValue());
+    }
+    return builder.build();
   }
 
   private ListenerCallQueue.Event<Object> countDownEvent(final CountDownLatch latch) {

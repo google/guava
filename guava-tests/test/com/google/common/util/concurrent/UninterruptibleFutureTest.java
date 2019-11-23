@@ -97,7 +97,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
     assertFalse(Thread.interrupted());
     try {
-      delayedFuture.get(10000, TimeUnit.MILLISECONDS);
+      delayedFuture.get(20000, TimeUnit.MILLISECONDS);
       fail("expected to be interrupted");
     } catch (InterruptedException expected) {
     } catch (TimeoutException e) {

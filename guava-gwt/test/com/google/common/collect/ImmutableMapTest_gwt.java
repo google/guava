@@ -33,9 +33,24 @@ public void testAsMultimapWhenEmpty() throws Exception {
   testCase.testAsMultimapWhenEmpty();
 }
 
+public void testBuilderPutAllEntryList() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testBuilderPutAllEntryList();
+}
+
+public void testBuilderPutAllEntryListJdkBacked() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testBuilderPutAllEntryListJdkBacked();
+}
+
 public void testCopyOfEnumMap() throws Exception {
   com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
   testCase.testCopyOfEnumMap();
+}
+
+public void testCopyOfMutableEntryList() throws Exception {
+  com.google.common.collect.ImmutableMapTest testCase = new com.google.common.collect.ImmutableMapTest();
+  testCase.testCopyOfMutableEntryList();
 }
 
 public void testEquals() throws Exception {

@@ -16,17 +16,13 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.j2objc.annotations.Weak;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@code entrySet()} implementation for {@link ImmutableMap}.
@@ -37,10 +33,14 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 @GwtCompatible(emulated = true)
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
-    @Weak private final transient ImmutableMap<K, V> map;
-    private final transient Entry<K, V>[] entries;
+    private final transient ImmutableMap<K, V> map;
+    private final transient ImmutableList<Entry<K, V>> entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
+      this(map, ImmutableList.<Entry<K, V>>asImmutableList(entries));
+    }
+
+    RegularEntrySet(ImmutableMap<K, V> map, ImmutableList<Entry<K, V>> entries) {
       this.map = map;
       this.entries = entries;
     }
@@ -53,26 +53,22 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     @Override
     @GwtIncompatible("not used in GWT")
     int copyIntoArray(Object[] dst, int offset) {
-      System.arraycopy(entries, 0, dst, offset, entries.length);
-      return offset + entries.length;
+      return entries.copyIntoArray(dst, offset);
     }
 
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return Iterators.forArray(entries);
+      return entries.iterator();
     }
 
     @Override
     public Spliterator<Entry<K, V>> spliterator() {
-      return Spliterators.spliterator(entries, ImmutableSet.SPLITERATOR_CHARACTERISTICS);
+      return entries.spliterator();
     }
 
     @Override
     public void forEach(Consumer<? super Entry<K, V>> action) {
-      checkNotNull(action);
-      for (Entry<K, V> entry : entries) {
-        action.accept(entry);
-      }
+      entries.forEach(action);
     }
 
     @Override
@@ -91,7 +87,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  public boolean contains(@NullableDecl Object object) {
+  public boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());

@@ -122,7 +122,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generates fresh instances of types that are different from each other (if possible).
@@ -179,7 +179,7 @@ class FreshValueGenerator {
    *   <li>null if no value can be generated.
    * </ul>
    */
-  @NullableDecl
+  @Nullable
   final Object generateFresh(TypeToken<?> type) {
     Object generated = generate(type);
     if (generated != null) {
@@ -188,7 +188,7 @@ class FreshValueGenerator {
     return generated;
   }
 
-  @NullableDecl
+  @Nullable
   final <T> T generateFresh(Class<T> type) {
     return Primitives.wrap(type).cast(generateFresh(TypeToken.of(type)));
   }
@@ -303,7 +303,7 @@ class FreshValueGenerator {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof FreshInvocationHandler) {
         FreshInvocationHandler that = (FreshInvocationHandler) obj;
         return identity == that.identity;
@@ -512,7 +512,14 @@ class FreshValueGenerator {
       @SuppressWarnings("unchecked") // getAvailableCurrencies() returns Set<Currency>.
       Set<Currency> currencies = (Set<Currency>) method.invoke(null);
       return pickInstance(currencies, Currency.getInstance(Locale.US));
-    } catch (NoSuchMethodException | InvocationTargetException notJava7) {
+      /*
+       * Do not merge the 2 catch blocks below. javac would infer a type of
+       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
+       * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
+       */
+    } catch (NoSuchMethodException notJava7) {
+      return preJava7FreshCurrency();
+    } catch (InvocationTargetException notJava7) {
       return preJava7FreshCurrency();
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible);

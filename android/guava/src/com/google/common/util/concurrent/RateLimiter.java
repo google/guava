@@ -158,6 +158,7 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
    *     warmupPeriod} is negative
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
     return create(
@@ -299,6 +300,7 @@ public abstract class RateLimiter {
    * @return {@code true} if the permit was acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(long timeout, TimeUnit unit) {
     return tryAcquire(1, timeout, unit);
   }
@@ -341,6 +343,7 @@ public abstract class RateLimiter {
    * @return {@code true} if the permits were acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
     long timeoutMicros = max(unit.toMicros(timeout), 0);
     checkPermits(permits);

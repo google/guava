@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -81,7 +81,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     FAILED,
   }
 
-  @NullableDecl private T next;
+  private @Nullable T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when

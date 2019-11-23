@@ -63,6 +63,11 @@ public void testCartesianProduct_contains() throws Exception {
   testCase.testCartesianProduct_contains();
 }
 
+public void testCartesianProduct_indexOf() throws Exception {
+  com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
+  testCase.testCartesianProduct_indexOf();
+}
+
 public void testCartesianProduct_unrelatedTypes() throws Exception {
   com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
   testCase.testCartesianProduct_unrelatedTypes();
@@ -256,5 +261,10 @@ public void testTransformViewRandomAccess() throws Exception {
 public void testTransformViewSequential() throws Exception {
   com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
   testCase.testTransformViewSequential();
+}
+
+public void testTransformedSequentialIterationUsesBackingListIterationOnly() throws Exception {
+  com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
+  testCase.testTransformedSequentialIterationUsesBackingListIterationOnly();
 }
 }

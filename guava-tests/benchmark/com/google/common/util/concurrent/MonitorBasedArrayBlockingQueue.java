@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A bounded {@linkplain BlockingQueue blocking queue} backed by an array. This queue orders
@@ -178,11 +178,6 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
         };
   }
 
-  @SuppressWarnings("unchecked") // please don't try this home, kids
-  private static <E> E[] newEArray(int capacity) {
-    return (E[]) new Object[capacity];
-  }
-
   /**
    * Creates an <tt>MonitorBasedArrayBlockingQueue</tt> with the given (fixed) capacity, the
    * specified access policy and initially containing the elements of the given collection, added in
@@ -201,6 +196,11 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     if (capacity < c.size()) throw new IllegalArgumentException();
 
     for (E e : c) add(e);
+  }
+
+  @SuppressWarnings("unchecked") // please don't try this home, kids
+  private static <E> E[] newEArray(int capacity) {
+    return (E[]) new Object[capacity];
   }
 
   /**
@@ -243,25 +243,6 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
   }
 
   /**
-   * Inserts the specified element at the tail of this queue, waiting for space to become available
-   * if the queue is full.
-   *
-   * @throws InterruptedException {@inheritDoc}
-   * @throws NullPointerException {@inheritDoc}
-   */
-  @Override
-  public void put(E e) throws InterruptedException {
-    if (e == null) throw new NullPointerException();
-    final Monitor monitor = this.monitor;
-    monitor.enterWhen(notFull);
-    try {
-      insert(e);
-    } finally {
-      monitor.leave();
-    }
-  }
-
-  /**
    * Inserts the specified element at the tail of this queue, waiting up to the specified wait time
    * for space to become available if the queue is full.
    *
@@ -285,10 +266,43 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     }
   }
 
+  /**
+   * Inserts the specified element at the tail of this queue, waiting for space to become available
+   * if the queue is full.
+   *
+   * @throws InterruptedException {@inheritDoc}
+   * @throws NullPointerException {@inheritDoc}
+   */
+  @Override
+  public void put(E e) throws InterruptedException {
+    if (e == null) throw new NullPointerException();
+    final Monitor monitor = this.monitor;
+    monitor.enterWhen(notFull);
+    try {
+      insert(e);
+    } finally {
+      monitor.leave();
+    }
+  }
+
   @Override
   public E poll() {
     final Monitor monitor = this.monitor;
     if (monitor.enterIf(notEmpty)) {
+      try {
+        return extract();
+      } finally {
+        monitor.leave();
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+    final Monitor monitor = this.monitor;
+    if (monitor.enterWhen(notEmpty, timeout, unit)) {
       try {
         return extract();
       } finally {
@@ -307,20 +321,6 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
       return extract();
     } finally {
       monitor.leave();
-    }
-  }
-
-  @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-    final Monitor monitor = this.monitor;
-    if (monitor.enterWhen(notEmpty, timeout, unit)) {
-      try {
-        return extract();
-      } finally {
-        monitor.leave();
-      }
-    } else {
-      return null;
     }
   }
 
@@ -388,7 +388,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue changed as a result of the call
    */
   @Override
-  public boolean remove(@NullableDecl Object o) {
+  public boolean remove(@Nullable Object o) {
     if (o == null) return false;
     final E[] items = this.items;
     final Monitor monitor = this.monitor;
@@ -418,7 +418,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
    * @return <tt>true</tt> if this queue contains the specified element
    */
   @Override
-  public boolean contains(@NullableDecl Object o) {
+  public boolean contains(@Nullable Object o) {
     if (o == null) return false;
     final E[] items = this.items;
     final Monitor monitor = this.monitor;

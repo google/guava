@@ -73,6 +73,13 @@ final class Platform {
     ((NativeArray) array).setLength(newSize);
   }
 
+  /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+    T[] result = newArray(arrayOfType, to - from);
+    System.arraycopy(source, from, result, 0, to - from);
+    return result;
+  }
+
   // TODO(user): Move this logic to a utility class.
   @JsType(isNative = true, name = "Array", namespace = JsPackage.GLOBAL)
   private interface NativeArray {
@@ -91,6 +98,17 @@ final class Platform {
   static int reduceExponentIfGwt(int exponent) {
     return exponent / 2;
   }
+
+  /*
+   * We will eventually disable GWT-RPC on the server side, but we'll leave it nominally enabled on
+   * the client side. There's little practical difference: If it's disabled on the server, it won't
+   * work. It's just a matter of how quickly it fails. I'm not sure if failing on the client would
+   * be better or not, but it's harder: GWT's System.getProperty reads from a different property
+   * list than Java's, so anyone who needs to reenable GWT-RPC in an emergency would have to figure
+   * out how to set both properties. It's easier to have to set only one, and it might as well be
+   * the Java property, since Guava already reads another Java property.
+   */
+  static void checkGwtRpcEnabled() {}
 
   private Platform() {}
 }

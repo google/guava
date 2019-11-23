@@ -27,6 +27,7 @@ import java.util.Arrays;
  *
  * @author Kevin Bourrillion
  */
+@SuppressWarnings("ComparableType")
 @GwtCompatible
 class LegacyComparable implements Comparable, Serializable {
   static final LegacyComparable X = new LegacyComparable("x");

@@ -138,6 +138,15 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
     return schedule(java.util.concurrent.Executors.callable(command), delay, unit);
   }
 
+  @Override
+  public <V> ListenableScheduledFuture<V> schedule(
+      final Callable<V> callable, long delay, TimeUnit unit) {
+    Preconditions.checkNotNull(callable, "callable must not be null!");
+    Preconditions.checkNotNull(unit, "unit must not be null!");
+    ListenableFuture<V> delegateFuture = submit(callable);
+    return new ImmediateScheduledFuture<V>(delegateFuture);
+  }
+
   private static class ImmediateScheduledFuture<V> extends SimpleForwardingListenableFuture<V>
       implements ListenableScheduledFuture<V> {
     private ExecutionException exception;
@@ -164,15 +173,6 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
       Preconditions.checkNotNull(other, "other must not be null!");
       return 0;
     }
-  }
-
-  @Override
-  public <V> ListenableScheduledFuture<V> schedule(
-      final Callable<V> callable, long delay, TimeUnit unit) {
-    Preconditions.checkNotNull(callable, "callable must not be null!");
-    Preconditions.checkNotNull(unit, "unit must not be null!");
-    ListenableFuture<V> delegateFuture = submit(callable);
-    return new ImmediateScheduledFuture<V>(delegateFuture);
   }
 
   @Override

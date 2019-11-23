@@ -66,6 +66,21 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   }
 
   @Override
+  Object[] internalArray() {
+    return delegateList.internalArray();
+  }
+
+  @Override
+  int internalArrayStart() {
+    return delegateList.internalArrayStart();
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return delegateList.internalArrayEnd();
+  }
+
+  @Override
   public E get(int index) {
     return delegateList.get(index);
   }

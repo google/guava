@@ -325,6 +325,7 @@ public final class ServiceManager {
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
    *     become {@linkplain #isHealthy() healthy}.
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public void awaitHealthy(long timeout, TimeUnit unit) throws TimeoutException {
     state.awaitHealthy(timeout, unit);
   }
@@ -361,6 +362,7 @@ public final class ServiceManager {
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have stopped within the deadline
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public void awaitStopped(long timeout, TimeUnit unit) throws TimeoutException {
     state.awaitStopped(timeout, unit);
   }

@@ -30,6 +30,7 @@ import junit.framework.TestCase;
  * @author Jim McMaster
  */
 @GwtCompatible
+@SuppressWarnings("MissingTestCall")
 public class EqualsTesterTest extends TestCase {
   private ValidTestObject reference;
   private EqualsTester equalsTester;
@@ -325,6 +326,7 @@ public class EqualsTesterTest extends TestCase {
       this.aspect2 = aspect2;
     }
 
+    @SuppressWarnings("EqualsHashCode")
     @Override
     public boolean equals(Object o) {
       if (!(o instanceof InvalidHashCodeObject)) {

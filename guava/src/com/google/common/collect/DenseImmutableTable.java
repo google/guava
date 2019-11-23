@@ -14,14 +14,12 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** A {@code RegularImmutableTable} optimized for dense data. */
 @GwtCompatible
@@ -69,7 +67,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       int rowIndex = rowKeyToIndex.get(rowKey);
       int columnIndex = columnKeyToIndex.get(columnKey);
       V existingValue = values[rowIndex][columnIndex];
-      checkArgument(existingValue == null, "duplicate key: (%s, %s)", rowKey, columnKey);
+      checkNoDuplicate(rowKey, columnKey, existingValue, cell.getValue());
       values[rowIndex][columnIndex] = cell.getValue();
       rowCounts[rowIndex]++;
       columnCounts[columnIndex]++;
@@ -101,8 +99,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       return keyToIndex().keySet().asList().get(index);
     }
 
-    @NullableDecl
-    abstract V getValue(int keyIndex);
+    abstract @Nullable V getValue(int keyIndex);
 
     @Override
     ImmutableSet<K> createKeySet() {
@@ -115,7 +112,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    public V get(@NullableDecl Object key) {
+    public V get(@Nullable Object key) {
       Integer keyIndex = keyToIndex().get(key);
       return (keyIndex == null) ? null : getValue(keyIndex);
     }
@@ -247,7 +244,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
   }
 
   @Override
-  public V get(@NullableDecl Object rowKey, @NullableDecl Object columnKey) {
+  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     return ((rowIndex == null) || (columnIndex == null)) ? null : values[rowIndex][columnIndex];

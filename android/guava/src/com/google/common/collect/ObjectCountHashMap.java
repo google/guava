@@ -404,11 +404,6 @@ class ObjectCountHashMap<K> {
     return remove(key, smearedHash(key));
   }
 
-  @CanIgnoreReturnValue
-  int removeEntry(int entryIndex) {
-    return remove(keys[entryIndex], getHash(entries[entryIndex]));
-  }
-
   private int remove(@NullableDecl Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
@@ -439,6 +434,11 @@ class ObjectCountHashMap<K> {
       next = getNext(entries[next]);
     } while (next != UNSET);
     return 0;
+  }
+
+  @CanIgnoreReturnValue
+  int removeEntry(int entryIndex) {
+    return remove(keys[entryIndex], getHash(entries[entryIndex]));
   }
 
   /**

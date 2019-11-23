@@ -134,6 +134,14 @@ public class UnsignedBytesTest extends TestCase {
     }
   }
 
+  private static void assertParseFails(String value, int radix) {
+    try {
+      UnsignedBytes.parseUnsignedByte(value, radix);
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+  }
+
   public void testParseUnsignedByte() {
     // We can easily afford to test this exhaustively.
     for (int i = 0; i <= 0xff; i++) {
@@ -148,14 +156,6 @@ public class UnsignedBytesTest extends TestCase {
   public void testMaxValue() {
     assertTrue(
         UnsignedBytes.compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);
-  }
-
-  private static void assertParseFails(String value, int radix) {
-    try {
-      UnsignedBytes.parseUnsignedByte(value, radix);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
   }
 
   public void testParseUnsignedByteWithRadix() throws NumberFormatException {
@@ -318,17 +318,17 @@ public class UnsignedBytesTest extends TestCase {
     assertTrue(Arrays.equals(expected, input));
   }
 
+  static void testSort(byte[] input, int from, int to, byte[] expected) {
+    input = Arrays.copyOf(input, input.length);
+    UnsignedBytes.sort(input, from, to);
+    assertTrue(Arrays.equals(expected, input));
+  }
+
   public void testSortIndexed() {
     testSort(new byte[] {}, 0, 0, new byte[] {});
     testSort(new byte[] {2}, 0, 1, new byte[] {2});
     testSort(new byte[] {2, 1, 0}, 0, 2, new byte[] {1, 2, 0});
     testSort(new byte[] {2, GREATEST, 1, LEAST}, 1, 4, new byte[] {2, LEAST, 1, GREATEST});
-  }
-
-  static void testSort(byte[] input, int from, int to, byte[] expected) {
-    input = Arrays.copyOf(input, input.length);
-    UnsignedBytes.sort(input, from, to);
-    assertTrue(Arrays.equals(expected, input));
   }
 
   public void testSortDescending() {
@@ -339,19 +339,6 @@ public class UnsignedBytesTest extends TestCase {
     testSortDescending(
         new byte[] {GREATEST - 1, 1, GREATEST - 2, 2},
         new byte[] {GREATEST - 1, GREATEST - 2, 2, 1});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new byte[] {}, 0, 0, new byte[] {});
-    testSortDescending(new byte[] {1}, 0, 1, new byte[] {1});
-    testSortDescending(new byte[] {1, 2}, 0, 2, new byte[] {2, 1});
-    testSortDescending(new byte[] {1, 3, 1}, 0, 2, new byte[] {3, 1, 1});
-    testSortDescending(new byte[] {1, 3, 1}, 0, 1, new byte[] {1, 3, 1});
-    testSortDescending(
-        new byte[] {GREATEST - 1, 1, GREATEST - 2, 2},
-        1,
-        3,
-        new byte[] {GREATEST - 1, GREATEST - 2, 1, 2});
   }
 
   private static void testSortDescending(byte[] input, byte[] expectedOutput) {
@@ -365,6 +352,19 @@ public class UnsignedBytesTest extends TestCase {
     input = Arrays.copyOf(input, input.length);
     UnsignedBytes.sortDescending(input, fromIndex, toIndex);
     assertTrue(Arrays.equals(expectedOutput, input));
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new byte[] {}, 0, 0, new byte[] {});
+    testSortDescending(new byte[] {1}, 0, 1, new byte[] {1});
+    testSortDescending(new byte[] {1, 2}, 0, 2, new byte[] {2, 1});
+    testSortDescending(new byte[] {1, 3, 1}, 0, 2, new byte[] {3, 1, 1});
+    testSortDescending(new byte[] {1, 3, 1}, 0, 1, new byte[] {1, 3, 1});
+    testSortDescending(
+        new byte[] {GREATEST - 1, 1, GREATEST - 2, 2},
+        1,
+        3,
+        new byte[] {GREATEST - 1, GREATEST - 2, 1, 2});
   }
 
   public void testNulls() {

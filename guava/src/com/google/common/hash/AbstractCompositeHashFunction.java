@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
@@ -27,7 +28,10 @@ import java.nio.charset.Charset;
  *
  * @author Dimitris Andreou
  */
+@Immutable
 abstract class AbstractCompositeHashFunction extends AbstractHashFunction {
+
+  @SuppressWarnings("Immutable") // array not modified after creation
   final HashFunction[] functions;
 
   AbstractCompositeHashFunction(HashFunction... functions) {

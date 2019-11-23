@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for {@link ImmutableGraph} and {@link ImmutableValueGraph} . */
+/** Tests for {@link ImmutableGraph}. */
 @RunWith(JUnit4.class)
 public class ImmutableGraphTest {
 
@@ -40,34 +40,72 @@ public class ImmutableGraphTest {
   }
 
   @Test
-  public void immutableValueGraph() {
-    MutableValueGraph<String, Integer> mutableValueGraph = ValueGraphBuilder.directed().build();
-    mutableValueGraph.addNode("A");
-    ImmutableValueGraph<String, Integer> immutableValueGraph =
-        ImmutableValueGraph.copyOf(mutableValueGraph);
-
-    assertThat(immutableValueGraph.asGraph()).isInstanceOf(ImmutableGraph.class);
-    assertThat(immutableValueGraph).isNotInstanceOf(MutableValueGraph.class);
-    assertThat(immutableValueGraph).isEqualTo(mutableValueGraph);
-
-    mutableValueGraph.addNode("B");
-    assertThat(immutableValueGraph).isNotEqualTo(mutableValueGraph);
-  }
-
-  @Test
   public void copyOfImmutableGraph_optimized() {
     Graph<String> graph1 = ImmutableGraph.copyOf(GraphBuilder.directed().<String>build());
     Graph<String> graph2 = ImmutableGraph.copyOf(graph1);
 
-    assertThat(graph2).isSameAs(graph1);
+    assertThat(graph2).isSameInstanceAs(graph1);
   }
 
   @Test
-  public void copyOfImmutableValueGraph_optimized() {
-    ValueGraph<String, Integer> graph1 =
-        ImmutableValueGraph.copyOf(ValueGraphBuilder.directed().<String, Integer>build());
-    ValueGraph<String, Integer> graph2 = ImmutableValueGraph.copyOf(graph1);
+  public void immutableGraphBuilder_appliesGraphBuilderConfig() {
+    ImmutableGraph<String> emptyGraph =
+        GraphBuilder.directed()
+            .allowsSelfLoops(true)
+            .nodeOrder(ElementOrder.<String>natural())
+            .immutable()
+            .build();
 
-    assertThat(graph2).isSameAs(graph1);
+    assertThat(emptyGraph.isDirected()).isTrue();
+    assertThat(emptyGraph.allowsSelfLoops()).isTrue();
+    assertThat(emptyGraph.nodeOrder()).isEqualTo(ElementOrder.<String>natural());
+  }
+
+  /**
+   * Tests that the ImmutableGraph.Builder doesn't change when the creating GraphBuilder changes.
+   */
+  @Test
+  @SuppressWarnings("CheckReturnValue")
+  public void immutableGraphBuilder_copiesGraphBuilder() {
+    GraphBuilder<String> graphBuilder =
+        GraphBuilder.directed()
+            .allowsSelfLoops(true)
+            .<String>nodeOrder(ElementOrder.<String>natural());
+    ImmutableGraph.Builder<String> immutableGraphBuilder = graphBuilder.immutable();
+
+    // Update GraphBuilder, but this shouldn't impact immutableGraphBuilder
+    graphBuilder.allowsSelfLoops(false).nodeOrder(ElementOrder.<String>unordered());
+
+    ImmutableGraph<String> emptyGraph = immutableGraphBuilder.build();
+
+    assertThat(emptyGraph.isDirected()).isTrue();
+    assertThat(emptyGraph.allowsSelfLoops()).isTrue();
+    assertThat(emptyGraph.nodeOrder()).isEqualTo(ElementOrder.<String>natural());
+  }
+
+  @Test
+  public void immutableGraphBuilder_addNode() {
+    ImmutableGraph<String> graph = GraphBuilder.directed().<String>immutable().addNode("A").build();
+
+    assertThat(graph.nodes()).containsExactly("A");
+    assertThat(graph.edges()).isEmpty();
+  }
+
+  @Test
+  public void immutableGraphBuilder_putEdgeFromNodes() {
+    ImmutableGraph<String> graph =
+        GraphBuilder.directed().<String>immutable().putEdge("A", "B").build();
+
+    assertThat(graph.nodes()).containsExactly("A", "B");
+    assertThat(graph.edges()).containsExactly(EndpointPair.ordered("A", "B"));
+  }
+
+  @Test
+  public void immutableGraphBuilder_putEdgeFromEndpointPair() {
+    ImmutableGraph<String> graph =
+        GraphBuilder.directed().<String>immutable().putEdge(EndpointPair.ordered("A", "B")).build();
+
+    assertThat(graph.nodes()).containsExactly("A", "B");
+    assertThat(graph.edges()).containsExactly(EndpointPair.ordered("A", "B"));
   }
 }

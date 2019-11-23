@@ -16,8 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Strings.lenientFormat;
+import static java.lang.Boolean.parseBoolean;
+
 import com.google.common.annotations.GwtCompatible;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,6 +90,11 @@ final class Platform {
     return result;
   }
 
+  /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+    return Arrays.copyOfRange(source, from, to, (Class<? extends T[]>) arrayOfType.getClass());
+  }
+
   /**
    * Configures the given map maker to use weak keys, if possible; does nothing otherwise (i.e., in
    * GWT). This is sometimes acceptable, when only server-side code could generate enough volume
@@ -101,6 +110,21 @@ final class Platform {
 
   static int reduceExponentIfGwt(int exponent) {
     return exponent;
+  }
+
+  private static final String GWT_RPC_PROPERTY_NAME = "guava.gwt.emergency_reenable_rpc";
+
+  static void checkGwtRpcEnabled() {
+    if (!parseBoolean(System.getProperty(GWT_RPC_PROPERTY_NAME, "true"))) {
+      throw new UnsupportedOperationException(
+          lenientFormat(
+              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
+                  + " support by setting the system property %s to true. For more about system"
+                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
+              GWT_RPC_PROPERTY_NAME,
+              "https://stackoverflow.com/q/5189914/28465",
+              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
+    }
   }
 
   private Platform() {}

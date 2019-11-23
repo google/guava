@@ -23,7 +23,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -116,20 +116,25 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
-    checkNotNull(nodeU);
-    checkNotNull(nodeV);
-    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    return (connectionsU != null) && connectionsU.successors().contains(nodeV);
+    return hasEdgeConnecting_internal(checkNotNull(nodeU), checkNotNull(nodeV));
   }
 
   @Override
-  @NullableDecl
-  public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {
-    checkNotNull(nodeU);
-    checkNotNull(nodeV);
-    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
-    return value == null ? defaultValue : value;
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    checkNotNull(endpoints);
+    return isOrderingCompatible(endpoints)
+        && hasEdgeConnecting_internal(endpoints.nodeU(), endpoints.nodeV());
+  }
+
+  @Override
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    return edgeValueOrDefault_internal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
+  }
+
+  @Override
+  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
+    validateEndpoints(endpoints);
+    return edgeValueOrDefault_internal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
 
   @Override
@@ -146,7 +151,18 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  protected final boolean containsNode(@NullableDecl N node) {
+  protected final boolean containsNode(@Nullable N node) {
     return nodeConnections.containsKey(node);
+  }
+
+  protected final boolean hasEdgeConnecting_internal(N nodeU, N nodeV) {
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
+    return (connectionsU != null) && connectionsU.successors().contains(nodeV);
+  }
+
+  protected final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
+    GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
+    V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
+    return value == null ? defaultValue : value;
   }
 }

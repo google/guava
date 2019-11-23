@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -64,8 +64,31 @@ public final class TypeResolver {
     this.typeTable = typeTable;
   }
 
-  static TypeResolver accordingTo(Type type) {
-    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(type));
+  /**
+   * Returns a resolver that resolves types "covariantly".
+   *
+   * <p>For example, when resolving {@code List<T>} in the context of {@code ArrayList<?>}, {@code
+   * <T>} is covariantly resolved to {@code <?>} such that return type of {@code List::get} is
+   * {@code <?>}.
+   */
+  static TypeResolver covariantly(Type contextType) {
+    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(contextType));
+  }
+
+  /**
+   * Returns a resolver that resolves types "invariantly".
+   *
+   * <p>For example, when resolving {@code List<T>} in the context of {@code ArrayList<?>}, {@code
+   * <T>} cannot be invariantly resolved to {@code <?>} because otherwise the parameter type of
+   * {@code List::set} will be {@code <?>} and it'll falsely say any object can be passed into
+   * {@code ArrayList<?>::set}.
+   *
+   * <p>Instead, {@code <?>} will be resolved to a capture in the form of a type variable {@code
+   * <capture-of-? extends Object>}, effectively preventing {@code set} from accepting any type.
+   */
+  static TypeResolver invariantly(Type contextType) {
+    Type invariantContext = WildcardCapturer.INSTANCE.capture(contextType);
+    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(invariantContext));
   }
 
   /**
@@ -99,7 +122,7 @@ public final class TypeResolver {
   }
 
   private static void populateTypeMappings(
-      final Map<TypeVariableKey, Type> mappings, Type from, final Type to) {
+      final Map<TypeVariableKey, Type> mappings, final Type from, final Type to) {
     if (from.equals(to)) {
       return;
     }
@@ -202,6 +225,13 @@ public final class TypeResolver {
       // if Class<?>, no resolution needed, we are done.
       return type;
     }
+  }
+
+  Type[] resolveTypesInPlace(Type[] types) {
+    for (int i = 0; i < types.length; i++) {
+      types[i] = resolveType(types[i]);
+    }
+    return types;
   }
 
   private Type[] resolveTypes(Type[] types) {
@@ -341,8 +371,6 @@ public final class TypeResolver {
 
   private static final class TypeMappingIntrospector extends TypeVisitor {
 
-    private static final WildcardCapturer wildcardCapturer = new WildcardCapturer();
-
     private final Map<TypeVariableKey, Type> mappings = Maps.newHashMap();
 
     /**
@@ -350,8 +378,9 @@ public final class TypeResolver {
      * superclass and the super interfaces of {@code contextClass}.
      */
     static ImmutableMap<TypeVariableKey, Type> getTypeMappings(Type contextType) {
+      checkNotNull(contextType);
       TypeMappingIntrospector introspector = new TypeMappingIntrospector();
-      introspector.visit(wildcardCapturer.capture(contextType));
+      introspector.visit(contextType);
       return ImmutableMap.copyOf(introspector.mappings);
     }
 
@@ -417,9 +446,11 @@ public final class TypeResolver {
   // Instead, it should create a capture of the wildcard so that set() rejects any List<T>.
   private static class WildcardCapturer {
 
+    static final WildcardCapturer INSTANCE = new WildcardCapturer();
+
     private final AtomicInteger id;
 
-    WildcardCapturer() {
+    private WildcardCapturer() {
       this(new AtomicInteger());
     }
 
@@ -496,7 +527,7 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(@NullableDecl Type type) {
+    private Type captureNullable(@Nullable Type type) {
       if (type == null) {
         return null;
       }

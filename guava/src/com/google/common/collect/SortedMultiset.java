@@ -47,6 +47,7 @@ public interface SortedMultiset<E> extends SortedMultisetBridge<E>, SortedIterab
    * Returns the comparator that orders this multiset, or {@link Ordering#natural()} if the natural
    * ordering of the elements is used.
    */
+  @Override
   Comparator<? super E> comparator();
 
   /**

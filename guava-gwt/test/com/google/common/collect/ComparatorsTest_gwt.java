@@ -23,6 +23,11 @@ public void testEmptiesFirst() throws Exception {
   testCase.testEmptiesFirst();
 }
 
+public void testEmptiesLast() throws Exception {
+  com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
+  testCase.testEmptiesLast();
+}
+
 public void testGreatestCollector() throws Exception {
   com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
   testCase.testGreatestCollector();

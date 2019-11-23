@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map which forwards all its method calls to another map. Subclasses should override one or more
@@ -86,17 +86,17 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
   }
 
   @Override
-  public boolean containsKey(@NullableDecl Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate().containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@NullableDecl Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
-  public V get(@NullableDecl Object key) {
+  public V get(@Nullable Object key) {
     return delegate().get(key);
   }
 
@@ -127,7 +127,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -158,7 +158,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
    * @since 7.0
    */
   @Beta
-  protected V standardRemove(@NullableDecl Object key) {
+  protected V standardRemove(@Nullable Object key) {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
     while (entryIterator.hasNext()) {
       Entry<K, V> entry = entryIterator.next();
@@ -207,7 +207,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
    * @since 7.0
    */
   @Beta
-  protected boolean standardContainsKey(@NullableDecl Object key) {
+  protected boolean standardContainsKey(@Nullable Object key) {
     return Maps.containsKeyImpl(this, key);
   }
 
@@ -235,7 +235,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
    *
    * @since 7.0
    */
-  protected boolean standardContainsValue(@NullableDecl Object value) {
+  protected boolean standardContainsValue(@Nullable Object value) {
     return Maps.containsValueImpl(this, value);
   }
 
@@ -277,7 +277,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject implements Ma
    *
    * @since 7.0
    */
-  protected boolean standardEquals(@NullableDecl Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 

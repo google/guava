@@ -20,7 +20,7 @@
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
-      <artifactId>checker-compat-qual</artifactId>
+      <artifactId>checker-qual</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>

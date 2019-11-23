@@ -61,6 +61,7 @@ import com.google.common.testing.TestLogHandler;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -694,6 +695,22 @@ public class LocalCacheTest extends TestCase {
     assertFalse(map.values() instanceof Set);
     assertTrue(map.values().removeAll(ImmutableSet.of("bar")));
     assertEquals(1, map.size());
+  }
+
+  public void testComputeIfAbsent_RemovalListener() {
+    List<RemovalNotification<Object, Object>> notifications = new ArrayList<>();
+    RemovalListener<Object, Object> removalListener =
+        new RemovalListener<Object, Object>() {
+          @Override
+          public void onRemoval(RemovalNotification<Object, Object> notification) {
+            notifications.add(notification);
+          }
+        };
+    Cache<Object, Object> cache =
+        CacheBuilder.newBuilder().removalListener(removalListener).build();
+    cache.put("a", "b");
+    cache.asMap().computeIfAbsent("a", k -> "c");
+    assertTrue(notifications.toString(), notifications.isEmpty());
   }
 
   public void testCopyEntry_computing() {
@@ -2445,7 +2462,7 @@ public class LocalCacheTest extends TestCase {
         ReferenceEntry<Object, Object> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -2475,7 +2492,7 @@ public class LocalCacheTest extends TestCase {
         ValueReference<Object, Object> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         map.put(keyTwo, valueTwo);
@@ -2503,7 +2520,7 @@ public class LocalCacheTest extends TestCase {
         ReferenceEntry<Object, Object> entry = segment.getEntry(keyOne, hashOne);
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) entry;
+        Reference<Object> reference = (Reference<Object>) entry;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {
@@ -2534,7 +2551,7 @@ public class LocalCacheTest extends TestCase {
         ValueReference<Object, Object> valueReference = entry.getValueReference();
 
         @SuppressWarnings("unchecked")
-        Reference<Object> reference = (Reference) valueReference;
+        Reference<Object> reference = (Reference<Object>) valueReference;
         reference.enqueue();
 
         for (int i = 0; i < SMALL_MAX_SIZE; i++) {

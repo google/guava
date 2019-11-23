@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -214,10 +215,7 @@ public abstract class ByteSource {
     }
   }
 
-  /**
-   * Counts the bytes in the given input stream using skip if possible. Returns SKIP_FAILED if the
-   * first call to skip threw, in which case skip may just not be supported.
-   */
+  /** Counts the bytes in the given input stream using skip if possible. */
   private long countBySkipping(InputStream in) throws IOException {
     long count = 0;
     long skipped;
@@ -282,7 +280,10 @@ public abstract class ByteSource {
     Closer closer = Closer.create();
     try {
       InputStream in = closer.register(openStream());
-      return ByteStreams.toByteArray(in);
+      Optional<Long> size = sizeIfKnown();
+      return size.isPresent()
+          ? ByteStreams.toByteArray(in, size.get())
+          : ByteStreams.toByteArray(in);
     } catch (Throwable e) {
       throw closer.rethrow(e);
     } finally {
@@ -414,6 +415,11 @@ public abstract class ByteSource {
   /**
    * Returns a view of the given byte array as a {@link ByteSource}. To view only a specific range
    * in the array, use {@code ByteSource.wrap(b).slice(offset, length)}.
+   *
+   * <p>Note that the given byte array may be be passed directly to methods on, for example, {@code
+   * OutputStream} (when {@code copyTo(OutputStream)} is called on the resulting {@code
+   * ByteSource}). This could allow a malicious {@code OutputStream} implementation to modify the
+   * contents of the array, but provides better performance in the normal case.
    *
    * @since 15.0 (since 14.0 as {@code ByteStreams.asByteSource(byte[])}).
    */
@@ -596,17 +602,17 @@ public abstract class ByteSource {
       return Arrays.copyOfRange(bytes, offset, offset + length);
     }
 
-    @Override
-    public long copyTo(OutputStream output) throws IOException {
-      output.write(bytes, offset, length);
-      return length;
-    }
-
     @SuppressWarnings("CheckReturnValue") // it doesn't matter what processBytes returns here
     @Override
     public <T> T read(ByteProcessor<T> processor) throws IOException {
       processor.processBytes(bytes, offset, length);
       return processor.getResult();
+    }
+
+    @Override
+    public long copyTo(OutputStream output) throws IOException {
+      output.write(bytes, offset, length);
+      return length;
     }
 
     @Override
@@ -683,6 +689,14 @@ public abstract class ByteSource {
 
     @Override
     public Optional<Long> sizeIfKnown() {
+      if (!(sources instanceof Collection)) {
+        // Infinite Iterables can cause problems here. Of course, it's true that most of the other
+        // methods on this class also have potential problems with infinite  Iterables. But unlike
+        // those, this method can cause issues even if the user is dealing with a (finite) slice()
+        // of this source, since the slice's sizeIfKnown() method needs to know the size of the
+        // underlying source to know what its size actually is.
+        return Optional.absent();
+      }
       long result = 0L;
       for (ByteSource source : sources) {
         Optional<Long> sizeIfKnown = source.sizeIfKnown();
@@ -690,6 +704,14 @@ public abstract class ByteSource {
           return Optional.absent();
         }
         result += sizeIfKnown.get();
+        if (result < 0) {
+          // Overflow (or one or more sources that returned a negative size, but all bets are off in
+          // that case)
+          // Can't represent anything higher, and realistically there probably isn't anything that
+          // can actually be done anyway with the supposed 8+ exbibytes of data the source is
+          // claiming to have if we get here, so just stop.
+          return Optional.of(Long.MAX_VALUE);
+        }
       }
       return Optional.of(result);
     }
@@ -699,6 +721,14 @@ public abstract class ByteSource {
       long result = 0L;
       for (ByteSource source : sources) {
         result += source.size();
+        if (result < 0) {
+          // Overflow (or one or more sources that returned a negative size, but all bets are off in
+          // that case)
+          // Can't represent anything higher, and realistically there probably isn't anything that
+          // can actually be done anyway with the supposed 8+ exbibytes of data the source is
+          // claiming to have if we get here, so just stop.
+          return Long.MAX_VALUE;
+        }
       }
       return result;
     }

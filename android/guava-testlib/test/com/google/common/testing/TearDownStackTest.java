@@ -83,7 +83,7 @@ public class TearDownStackTest extends TestCase {
       stack.runTearDown();
       fail("runTearDown should have thrown an exception");
     } catch (ClusterException expected) {
-      assertThat(expected.getCause()).hasMessage("two");
+      assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("two");
     } catch (RuntimeException e) {
       throw new RuntimeException(
           "A ClusterException should have been thrown, rather than a " + e.getClass().getName(), e);

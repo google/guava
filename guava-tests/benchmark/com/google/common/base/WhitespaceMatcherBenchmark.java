@@ -19,7 +19,6 @@ package com.google.common.base;
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.runner.CaliperMain;
 import java.util.BitSet;
 import java.util.Random;
 
@@ -50,10 +49,6 @@ public class WhitespaceMatcherBenchmark {
 
   private String teststring;
   private CharMatcher matcher;
-
-  public static void main(String[] args) throws Exception {
-    CaliperMain.main(WhitespaceMatcherBenchmark.class, new String[] {});
-  }
 
   @BeforeExperiment
   protected void setUp() {

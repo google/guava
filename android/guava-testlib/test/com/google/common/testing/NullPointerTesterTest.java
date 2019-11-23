@@ -85,8 +85,7 @@ public class NullPointerTesterTest extends TestCase {
       // null?  no problem
     }
 
-    public static void staticOneArgJsr305NullableCorrectlyDoesNotThrowNPE(
-        @javax.annotation.Nullable String s) {
+    public static void staticOneArgJsr305NullableCorrectlyDoesNotThrowNPE(@NullableDecl String s) {
       // null?  no problem
     }
 
@@ -340,21 +339,25 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Two-arg method with no Nullable params. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNormal(String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the second param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNullable(String first, @NullableDecl Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the first param Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNormal(@NullableDecl String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the both params Nullable. */
+    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNullable(@NullableDecl String first, @NullableDecl Integer second) {
       reactToNullParameters(first, second);
     }
@@ -484,13 +487,13 @@ public class NullPointerTesterTest extends TestCase {
       checkNotNull(s);
     }
 
+    public void twoMixedArgs(@NullableDecl Integer i, String s) {
+      checkNotNull(s);
+    }
+
     public void twoMixedArgsThrows(String s, @NullableDecl Integer i) {
       checkNotNull(s);
       doThrow(i);
-    }
-
-    public void twoMixedArgs(@NullableDecl Integer i, String s) {
-      checkNotNull(s);
     }
 
     public void twoMixedArgsThrows(@NullableDecl Integer i, String s) {
@@ -498,7 +501,7 @@ public class NullPointerTesterTest extends TestCase {
       doThrow(i);
     }
 
-    public void twoNullableArgs(@NullableDecl String s, @javax.annotation.Nullable Integer i) {}
+    public void twoNullableArgs(@NullableDecl String s, @NullableDecl Integer i) {}
 
     public void twoNullableArgsThrowsFirstArg(@NullableDecl String s, @NullableDecl Integer i) {
       doThrow(s);
@@ -1385,6 +1388,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   static class OverridesEquals {
+    @SuppressWarnings("EqualsHashCode")
     @Override
     public boolean equals(Object o) {
       return true;

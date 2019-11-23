@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -31,6 +33,7 @@ public class Range_CustomFieldSerializer {
 
   public static Range<?> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
 
     Cut lowerBound;
     boolean hasLowerBound = reader.readBoolean();
@@ -59,6 +62,7 @@ public class Range_CustomFieldSerializer {
 
   public static void serialize(SerializationStreamWriter writer, Range<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
 
     if (instance.hasLowerBound()) {
       writer.writeBoolean(true);

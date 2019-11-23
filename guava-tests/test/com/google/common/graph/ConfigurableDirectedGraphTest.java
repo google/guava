@@ -59,9 +59,8 @@ public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGra
     putEdge(N1, N1);
     assertThat(graph.incidentEdges(N1)).containsExactly(EndpointPair.ordered(N1, N1));
     putEdge(N1, N2);
-    assertThat(graph.incidentEdges(N1)).containsExactly(
-        EndpointPair.ordered(N1, N1),
-        EndpointPair.ordered(N1, N2));
+    assertThat(graph.incidentEdges(N1))
+        .containsExactly(EndpointPair.ordered(N1, N1), EndpointPair.ordered(N1, N2));
   }
 
   @Test

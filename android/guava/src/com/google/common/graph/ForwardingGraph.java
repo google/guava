@@ -91,4 +91,9 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
     return delegate().hasEdgeConnecting(nodeU, nodeV);
   }
+
+  @Override
+  public boolean hasEdgeConnecting(EndpointPair<N> endpoints) {
+    return delegate().hasEdgeConnecting(endpoints);
+  }
 }

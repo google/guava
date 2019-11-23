@@ -46,8 +46,18 @@
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
+      <artifactId>failureaccess</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-promise</artifactId>
+      <version>1.0.0-RC1</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -95,20 +105,48 @@
       <classifier>gwt</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Yes, we want to exclude this 3 times: -->
+            <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 2. Don't include the source in the jar (since that would let users depend on it from GWT client code, which is compiled from source). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 3. Don't include it in the source jar (since it's really more of a "test" than it is production code). -->
+            <exclude>**/ForceGuavaCompilation*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- No meaningful public classes, just sources for the GWT compiler, some internal serialization classes, and dummy entry-point class to force compilation. -->
+          <!-- And soon, the serialization classes will be going away, and the entry point won't compile after we move gwt-user to test scope. -->
+          <skip>true</skip>
+        </configuration>
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
       <plugin>
@@ -120,6 +158,20 @@
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
+          <execution>
+            <id>unpack-failureaccess-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>failureaccess</includeArtifactIds>
+              <classifier>sources</classifier>
+              <excludeTransitive>true</excludeTransitive>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/failureaccess-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
           <execution>
             <id>unpack-guava-sources</id>
             <phase>generate-resources</phase>
@@ -180,6 +232,12 @@
         <dependencies>
           <dependency>
             <groupId>com.google.guava</groupId>
+            <artifactId>failureaccess</artifactId>
+            <version>1.0.1</version>
+            <classifier>sources</classifier>
+          </dependency>
+          <dependency>
+            <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
@@ -218,6 +276,22 @@
                     <contains text="@GwtCompatible"/>
                   </fileset>
                 </copy>
+                <!-- The following don't contain @GwtCompatible for dependency reasons. -->
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/guava-sources">
+                    <include name="**/ListenableFuture.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutures.java" />
+                  </fileset>
+                </copy>
+                <copy toDir="${project.build.directory}/guava-gwt-sources">
+                  <fileset dir="${project.build.directory}/failureaccess-sources">
+                    <include name="**/InternalFutureFailureAccess.java" />
+                  </fileset>
+                </copy>
                 <copy toDir="${project.build.directory}/guava-test-gwt-sources">
                   <fileset dir="${project.build.directory}/guava-test-sources">
                     <contains text="@GwtCompatible"/>
@@ -244,6 +318,12 @@
               <logLevel>${gwt.logLevel}</logLevel>
               <validateOnly>true</validateOnly>
               <sourceLevel>1.8</sourceLevel>
+              <!--
+                To avoid "java.io.IOException: User limit of inotify watches reached" under JDK10.
+                Presumably we don't need inotify, since we don't intend to change files during the
+                build?
+                -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
           <!--
@@ -291,11 +371,14 @@
               <mode>htmlunit</mode>
               <htmlunit>FF38</htmlunit>
               <productionMode>true</productionMode>
+              <!-- Fix OutOfMemoryError under Travis. -->
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
               <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
               <testTimeOut>86400 <!-- seconds --></testTimeOut>
               <testMethodTimeout>1440 <!-- minutes --></testMethodTimeout>
+              <!-- Presumably we want watchFileChanges=false here, since we want it for compile: -->
+              <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
           </execution>
         </executions>

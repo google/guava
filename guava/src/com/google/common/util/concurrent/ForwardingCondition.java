@@ -28,6 +28,11 @@ abstract class ForwardingCondition implements Condition {
   }
 
   @Override
+  public boolean await(long time, TimeUnit unit) throws InterruptedException {
+    return delegate().await(time, unit);
+  }
+
+  @Override
   public void awaitUninterruptibly() {
     delegate().awaitUninterruptibly();
   }
@@ -35,11 +40,6 @@ abstract class ForwardingCondition implements Condition {
   @Override
   public long awaitNanos(long nanosTimeout) throws InterruptedException {
     return delegate().awaitNanos(nanosTimeout);
-  }
-
-  @Override
-  public boolean await(long time, TimeUnit unit) throws InterruptedException {
-    return delegate().await(time, unit);
   }
 
   @Override

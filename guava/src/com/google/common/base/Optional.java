@@ -21,7 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable object that may contain a non-null reference to another object. Each instance of
@@ -110,7 +110,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.ofNullable}.
    */
-  public static <T> Optional<T> fromNullable(@NullableDecl T nullableReference) {
+  public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
     return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
   }
 
@@ -120,8 +120,8 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 21.0
    */
-  @NullableDecl
-  public static <T> Optional<T> fromJavaUtil(@NullableDecl java.util.Optional<T> javaUtilOptional) {
+  public static <T> @Nullable Optional<T> fromJavaUtil(
+      java.util.@Nullable Optional<T> javaUtilOptional) {
     return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));
   }
 
@@ -138,9 +138,22 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 21.0
    */
-  @NullableDecl
-  public static <T> java.util.Optional<T> toJavaUtil(@NullableDecl Optional<T> googleOptional) {
+  public static <T> java.util.@Nullable Optional<T> toJavaUtil(
+      @Nullable Optional<T> googleOptional) {
     return googleOptional == null ? null : googleOptional.toJavaUtil();
+  }
+
+  /**
+   * Returns the equivalent {@code java.util.Optional} value to this optional.
+   *
+   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
+   * could refer to either the static or instance version of this method. Write out the lambda
+   * expression {@code o -> o.toJavaUtil()} instead.
+   *
+   * @since 21.0
+   */
+  public java.util.Optional<T> toJavaUtil() {
+    return java.util.Optional.ofNullable(orNull());
   }
 
   Optional() {}
@@ -233,8 +246,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method is equivalent to Java 8's
    * {@code Optional.orElse(null)}.
    */
-  @NullableDecl
-  public abstract T orNull();
+  public abstract @Nullable T orNull();
 
   /**
    * Returns an immutable singleton {@link Set} whose only element is the contained instance if it
@@ -255,6 +267,8 @@ public abstract class Optional<T> implements Serializable {
    * possibleFoo.ifPresent(foo -> doSomethingWith(foo));
    * }</pre>
    *
+   * <p><b>Java 9 users:</b> some use cases can be written with calls to {@code optional.stream()}.
+   *
    * @since 11.0
    */
   public abstract Set<T> asSet();
@@ -273,19 +287,6 @@ public abstract class Optional<T> implements Serializable {
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**
-   * Returns the equivalent {@code java.util.Optional} value to this optional.
-   *
-   * <p>Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it
-   * could refer to either the static or instance version of this method. Write out the lambda
-   * expression {@code o -> o.toJavaUtil()} instead.
-   *
-   * @since 21.0
-   */
-  public java.util.Optional<T> toJavaUtil() {
-    return java.util.Optional.ofNullable(orNull());
-  }
-
-  /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the
    * contained references are {@linkplain Object#equals equal} to each other or both are absent.
    * Note that {@code Optional} instances of differing parameterized types can be equal.
@@ -293,7 +294,7 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> no differences.
    */
   @Override
-  public abstract boolean equals(@NullableDecl Object object);
+  public abstract boolean equals(@Nullable Object object);
 
   /**
    * Returns a hash code for this instance.
@@ -321,6 +322,8 @@ public abstract class Optional<T> implements Serializable {
    * <p><b>Comparison to {@code java.util.Optional}:</b> this method has no equivalent in Java 8's
    * {@code Optional} class; use {@code
    * optionals.stream().filter(Optional::isPresent).map(Optional::get)} instead.
+   *
+   * <p><b>Java 9 users:</b> use {@code optionals.stream().flatMap(Optional::stream)} instead.
    *
    * @since 11.0 (generics widened in 13.0)
    */

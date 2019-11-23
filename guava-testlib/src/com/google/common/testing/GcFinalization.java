@@ -66,7 +66,7 @@ import java.util.concurrent.TimeoutException;
  * <p>Here's an example that uses a user-defined finalization predicate:
  *
  * <pre>{@code
- * final WeakHashMap<Object, Object> map = new WeakHashMap<Object, Object>();
+ * final WeakHashMap<Object, Object> map = new WeakHashMap<>();
  * map.put(new Object(), Boolean.TRUE);
  * GcFinalization.awaitDone(new FinalizationPredicate() {
  *   public boolean isDone() {
@@ -82,7 +82,7 @@ import java.util.concurrent.TimeoutException;
  * // Helper function keeps victim stack-unreachable.
  * private WeakReference<Foo> fooWeakRef() {
  *   Foo x = ....;
- *   WeakReference<Foo> weakRef = new WeakReference<Foo>(x);
+ *   WeakReference<Foo> weakRef = new WeakReference<>(x);
  *   // ... use x ...
  *   x = null;  // Hint to the JIT that x is stack-unreachable
  *   return weakRef;
@@ -160,6 +160,34 @@ public final class GcFinalization {
   }
 
   /**
+   * Waits until the given predicate returns true, invoking the garbage collector as necessary to
+   * try to ensure that this will happen.
+   *
+   * @throws RuntimeException if timed out or interrupted while waiting
+   */
+  public static void awaitDone(FinalizationPredicate predicate) {
+    if (predicate.isDone()) {
+      return;
+    }
+    final long timeoutSeconds = timeoutSeconds();
+    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
+    do {
+      System.runFinalization();
+      if (predicate.isDone()) {
+        return;
+      }
+      CountDownLatch done = new CountDownLatch(1);
+      createUnreachableLatchFinalizer(done);
+      await(done);
+      if (predicate.isDone()) {
+        return;
+      }
+    } while (System.nanoTime() - deadline < 0);
+    throw formatRuntimeException(
+        "Predicate did not become true within %d second timeout", timeoutSeconds);
+  }
+
+  /**
    * Waits until the given latch has {@linkplain CountDownLatch#countDown counted down} to zero,
    * invoking the garbage collector as necessary to try to ensure that this will happen.
    *
@@ -218,34 +246,6 @@ public final class GcFinalization {
   }
 
   /**
-   * Waits until the given predicate returns true, invoking the garbage collector as necessary to
-   * try to ensure that this will happen.
-   *
-   * @throws RuntimeException if timed out or interrupted while waiting
-   */
-  public static void awaitDone(FinalizationPredicate predicate) {
-    if (predicate.isDone()) {
-      return;
-    }
-    final long timeoutSeconds = timeoutSeconds();
-    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
-    do {
-      System.runFinalization();
-      if (predicate.isDone()) {
-        return;
-      }
-      CountDownLatch done = new CountDownLatch(1);
-      createUnreachableLatchFinalizer(done);
-      await(done);
-      if (predicate.isDone()) {
-        return;
-      }
-    } while (System.nanoTime() - deadline < 0);
-    throw formatRuntimeException(
-        "Predicate did not become true within %d second timeout", timeoutSeconds);
-  }
-
-  /**
    * Waits until the given weak reference is cleared, invoking the garbage collector as necessary to
    * try to ensure that this will happen.
    *
@@ -264,6 +264,7 @@ public final class GcFinalization {
   public static void awaitClear(final WeakReference<?> ref) {
     awaitDone(
         new FinalizationPredicate() {
+          @Override
           public boolean isDone() {
             return ref.get() == null;
           }

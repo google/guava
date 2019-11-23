@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 /**
@@ -337,15 +338,6 @@ public class DoublesTest extends TestCase {
     testReverse(new double[] {-1, 1, -2, 2}, new double[] {2, -2, 1, -1});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new double[] {}, 0, 0, new double[] {});
-    testReverse(new double[] {1}, 0, 1, new double[] {1});
-    testReverse(new double[] {1, 2}, 0, 2, new double[] {2, 1});
-    testReverse(new double[] {3, 1, 1}, 0, 2, new double[] {1, 3, 1});
-    testReverse(new double[] {3, 1, 1}, 0, 1, new double[] {3, 1, 1});
-    testReverse(new double[] {-1, 1, -2, 2}, 1, 3, new double[] {-1, -2, 1, 2});
-  }
-
   private static void testReverse(double[] input, double[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Doubles.reverse(input);
@@ -359,6 +351,15 @@ public class DoublesTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testReverseIndexed() {
+    testReverse(new double[] {}, 0, 0, new double[] {});
+    testReverse(new double[] {1}, 0, 1, new double[] {1});
+    testReverse(new double[] {1, 2}, 0, 2, new double[] {2, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 2, new double[] {1, 3, 1});
+    testReverse(new double[] {3, 1, 1}, 0, 1, new double[] {3, 1, 1});
+    testReverse(new double[] {-1, 1, -2, 2}, 1, 3, new double[] {-1, -2, 1, 2});
+  }
+
   public void testSortDescending() {
     testSortDescending(new double[] {}, new double[] {});
     testSortDescending(new double[] {1}, new double[] {1});
@@ -368,17 +369,6 @@ public class DoublesTest extends TestCase {
     testSortDescending(
         new double[] {-1, 1, Double.NaN, -2, -0, 0, 2},
         new double[] {Double.NaN, 2, 1, 0, -0, -1, -2});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new double[] {}, 0, 0, new double[] {});
-    testSortDescending(new double[] {1}, 0, 1, new double[] {1});
-    testSortDescending(new double[] {1, 2}, 0, 2, new double[] {2, 1});
-    testSortDescending(new double[] {1, 3, 1}, 0, 2, new double[] {3, 1, 1});
-    testSortDescending(new double[] {1, 3, 1}, 0, 1, new double[] {1, 3, 1});
-    testSortDescending(new double[] {-1, -2, 1, 2}, 1, 3, new double[] {-1, 1, -2, 2});
-    testSortDescending(
-        new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
   }
 
   private static void testSortDescending(double[] input, double[] expectedOutput) {
@@ -398,6 +388,17 @@ public class DoublesTest extends TestCase {
     for (int i = 0; i < input.length; i++) {
       assertEquals(0, Double.compare(expectedOutput[i], input[i]));
     }
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new double[] {}, 0, 0, new double[] {});
+    testSortDescending(new double[] {1}, 0, 1, new double[] {1});
+    testSortDescending(new double[] {1, 2}, 0, 2, new double[] {2, 1});
+    testSortDescending(new double[] {1, 3, 1}, 0, 2, new double[] {3, 1, 1});
+    testSortDescending(new double[] {1, 3, 1}, 0, 1, new double[] {1, 3, 1});
+    testSortDescending(new double[] {-1, -2, 1, 2}, 1, 3, new double[] {-1, 1, -2, 2});
+    testSortDescending(
+        new double[] {-1, 1, Double.NaN, -2, 2}, 1, 4, new double[] {-1, Double.NaN, 1, -2, 2});
   }
 
   @GwtIncompatible // SerializableTester
@@ -539,7 +540,10 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible // Doubles.tryParse
   private static void checkTryParse(double expected, String input) {
     assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
-    assertThat(input).matches(Doubles.FLOATING_POINT_PATTERN);
+    assertThat(input)
+        .matches(
+            Pattern.compile(
+                Doubles.FLOATING_POINT_PATTERN.pattern(), Doubles.FLOATING_POINT_PATTERN.flags()));
   }
 
   @GwtIncompatible // Doubles.tryParse
@@ -621,7 +625,11 @@ public class DoublesTest extends TestCase {
   @GwtIncompatible // Doubles.tryParse
   public void testTryParseFailures() {
     for (String badInput : BAD_TRY_PARSE_INPUTS) {
-      assertThat(badInput).doesNotMatch(Doubles.FLOATING_POINT_PATTERN);
+      assertThat(badInput)
+          .doesNotMatch(
+              Pattern.compile(
+                  Doubles.FLOATING_POINT_PATTERN.pattern(),
+                  Doubles.FLOATING_POINT_PATTERN.flags()));
       assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
       assertNull(Doubles.tryParse(badInput));
     }

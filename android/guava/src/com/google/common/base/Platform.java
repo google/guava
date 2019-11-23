@@ -14,6 +14,9 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Strings.lenientFormat;
+import static java.lang.Boolean.parseBoolean;
+
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -36,6 +39,7 @@ final class Platform {
   private Platform() {}
 
   /** Calls {@link System#nanoTime()}. */
+  @SuppressWarnings("GoodTime") // reading system time without TimeSource
   static long systemNanoTime() {
     return System.nanoTime();
   }
@@ -57,13 +61,21 @@ final class Platform {
     return string == null || string.isEmpty();
   }
 
+  static String nullToEmpty(@NullableDecl String string) {
+    return (string == null) ? "" : string;
+  }
+
+  static String emptyToNull(@NullableDecl String string) {
+    return stringIsNullOrEmpty(string) ? null : string;
+  }
+
   static CommonPattern compilePattern(String pattern) {
     Preconditions.checkNotNull(pattern);
     return patternCompiler.compile(pattern);
   }
 
-  static boolean usingJdkPatternCompiler() {
-    return patternCompiler instanceof JdkPatternCompiler;
+  static boolean patternCompilerIsPcreLike() {
+    return patternCompiler.isPcreLike();
   }
 
   private static PatternCompiler loadPatternCompiler() {
@@ -83,6 +95,26 @@ final class Platform {
     @Override
     public CommonPattern compile(String pattern) {
       return new JdkPattern(Pattern.compile(pattern));
+    }
+
+    @Override
+    public boolean isPcreLike() {
+      return true;
+    }
+  }
+
+  private static final String GWT_RPC_PROPERTY_NAME = "guava.gwt.emergency_reenable_rpc";
+
+  static void checkGwtRpcEnabled() {
+    if (!parseBoolean(System.getProperty(GWT_RPC_PROPERTY_NAME, "true"))) {
+      throw new UnsupportedOperationException(
+          lenientFormat(
+              "We are removing GWT-RPC support for Guava types. You can temporarily reenable"
+                  + " support by setting the system property %s to true. For more about system"
+                  + " properties, see %s. For more about Guava's GWT-RPC support, see %s.",
+              GWT_RPC_PROPERTY_NAME,
+              "https://stackoverflow.com/q/5189914/28465",
+              "https://groups.google.com/d/msg/guava-announce/zHZTFg7YF3o/rQNnwdHeEwAJ"));
     }
   }
 }

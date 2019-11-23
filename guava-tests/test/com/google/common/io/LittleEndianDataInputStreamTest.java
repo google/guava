@@ -98,7 +98,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
       in.readLine();
       fail();
     } catch (UnsupportedOperationException expected) {
-      assertThat(expected).hasMessage("readLine is not supported");
+      assertThat(expected).hasMessageThat().isEqualTo("readLine is not supported");
     }
   }
 

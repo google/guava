@@ -64,7 +64,7 @@ public final class PercentEscaper extends UnicodeEscaper {
 
   /**
    * An array of flags where for any {@code char c} if {@code safeOctets[c]} is true then {@code c}
-   * should remain unmodified in the output. If {@code c > safeOctets.length} then it should be
+   * should remain unmodified in the output. If {@code c >= safeOctets.length} then it should be
    * escaped.
    */
   private final boolean[] safeOctets;
@@ -83,8 +83,8 @@ public final class PercentEscaper extends UnicodeEscaper {
    * @throws IllegalArgumentException if any of the parameters were invalid
    */
   public PercentEscaper(String safeChars, boolean plusForSpace) {
-    // TODO(user): Switch to static factory methods for creation now that class is final.
-    // TODO(user): Support escapers where alphanumeric chars are not safe.
+    // TODO(dbeaumont): Switch to static factory methods for creation now that class is final.
+    // TODO(dbeaumont): Support escapers where alphanumeric chars are not safe.
     checkNotNull(safeChars); // eager for GWT.
     // Avoid any misunderstandings about the behavior of this escaper
     if (safeChars.matches(".*[0-9A-Za-z].*")) {

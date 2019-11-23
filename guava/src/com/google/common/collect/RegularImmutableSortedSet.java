@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -38,7 +38,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Louis Wasserman
  */
 @GwtCompatible(serializable = true, emulated = true)
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "rawtypes"})
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
@@ -48,6 +48,21 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   RegularImmutableSortedSet(ImmutableList<E> elements, Comparator<? super E> comparator) {
     super(comparator);
     this.elements = elements;
+  }
+
+  @Override
+  Object[] internalArray() {
+    return elements.internalArray();
+  }
+
+  @Override
+  int internalArrayStart() {
+    return elements.internalArrayStart();
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return elements.internalArrayEnd();
   }
 
   @Override
@@ -77,7 +92,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(@NullableDecl Object o) {
+  public boolean contains(@Nullable Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
@@ -152,7 +167,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -282,7 +297,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(@NullableDecl Object target) {
+  int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }

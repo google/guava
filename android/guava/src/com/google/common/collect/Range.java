@@ -161,6 +161,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    *
    * @throws IllegalArgumentException if {@code lower} is greater than <i>or equal to</i> {@code
    *     upper}
+   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable
    * @since 14.0
    */
   public static <C extends Comparable<?>> Range<C> open(C lower, C upper) {
@@ -172,6 +173,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * or equal to {@code upper}.
    *
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable
    * @since 14.0
    */
   public static <C extends Comparable<?>> Range<C> closed(C lower, C upper) {
@@ -183,6 +185,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * less than {@code upper}.
    *
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable
    * @since 14.0
    */
   public static <C extends Comparable<?>> Range<C> closedOpen(C lower, C upper) {
@@ -194,6 +197,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * equal to {@code upper}.
    *
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable
    * @since 14.0
    */
   public static <C extends Comparable<?>> Range<C> openClosed(C lower, C upper) {
@@ -205,6 +209,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * endpoint may be either inclusive (closed) or exclusive (open).
    *
    * @throws IllegalArgumentException if {@code lower} is greater than {@code upper}
+   * @throws ClassCastException if {@code lower} and {@code upper} are not mutually comparable
    * @since 14.0
    */
   public static <C extends Comparable<?>> Range<C> range(
@@ -315,7 +320,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * Returns the minimal range that {@linkplain Range#contains(Comparable) contains} all of the
    * given values. The returned range is {@linkplain BoundType#CLOSED closed} on both ends.
    *
-   * @throws ClassCastException if the parameters are not <i>mutually comparable</i>
+   * @throws ClassCastException if the values are not mutually comparable
    * @throws NoSuchElementException if {@code values} is empty
    * @throws NullPointerException if any of {@code values} is null
    * @since 14.0
@@ -551,6 +556,30 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
       Cut<C> newUpper = (upperCmp <= 0) ? upperBound : connectedRange.upperBound;
       return create(newLower, newUpper);
     }
+  }
+
+  /**
+   * Returns the maximal range lying between this range and {@code otherRange}, if such a range
+   * exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.
+   *
+   * <p>For example, the gap of {@code [1..5]} and {@code (7..10)} is {@code (5..7]}. The resulting
+   * range may be empty; for example, the gap between {@code [1..5)} {@code [5..7)} yields the empty
+   * range {@code [5..5)}.
+   *
+   * <p>The gap exists if and only if the two ranges are either disconnected or immediately adjacent
+   * (any intersection must be an empty range).
+   *
+   * <p>The gap operation is commutative.
+   *
+   * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty
+   *     intersection
+   * @since 27.0
+   */
+  public Range<C> gap(Range<C> otherRange) {
+    boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) < 0;
+    Range<C> firstRange = isThisFirst ? this : otherRange;
+    Range<C> secondRange = isThisFirst ? otherRange : this;
+    return create(firstRange.upperBound, secondRange.lowerBound);
   }
 
   /**

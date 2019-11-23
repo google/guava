@@ -18,6 +18,7 @@ import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.TestingCacheLoaders.constantLoader;
 import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
@@ -122,7 +123,7 @@ public class NullCacheTest extends TestCase {
       map.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException uee) {
-      assertSame(e, uee.getCause());
+      assertThat(uee).hasCauseThat().isSameInstanceAs(e);
     }
     assertTrue(listener.isEmpty());
     checkEmpty(map);

@@ -28,11 +28,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -534,9 +537,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned. The iterator will be left exhausted: its {@code
    * hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).min(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied minimum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).min(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied minimum element is returned).
    *
    * @param iterator the iterator whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -544,7 +546,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
@@ -561,8 +562,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * least values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.min(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.min(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).min(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied minimum element is returned)
    *
@@ -571,7 +571,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(Iterable<E> iterable) {
     return min(iterable.iterator());
   }
@@ -591,7 +590,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(@NullableDecl E a, @NullableDecl E b) {
     return (compare(a, b) <= 0) ? a : b;
   }
@@ -610,7 +608,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E min(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
@@ -626,9 +623,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned. The iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).max(thisComparator).get()} instead (but note that it does
-   * not guarantee which tied maximum element is returned).
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).max(thisComparator).get()} instead
+   * (but note that it does not guarantee which tied maximum element is returned).
    *
    * @param iterator the iterator whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterator} is empty
@@ -636,7 +632,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     ordering.
    * @since 11.0
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
@@ -653,8 +648,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * greatest values, the first of those is returned.
    *
    * <p><b>Java 8 users:</b> If {@code iterable} is a {@link Collection}, use {@code
-   * Collections.max(collection, thisComparator)} instead. Otherwise, continue to use this method
-   * for now. After the next release of Guava, use {@code
+   * Collections.max(collection, thisComparator)} instead. Otherwise, use {@code
    * Streams.stream(iterable).max(thisComparator).get()} instead. Note that these alternatives do
    * not guarantee which tied maximum element is returned)
    *
@@ -663,7 +657,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(Iterable<E> iterable) {
     return max(iterable.iterator());
   }
@@ -683,7 +676,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@NullableDecl E a, @NullableDecl E b) {
     return (compare(a, b) >= 0) ? a : b;
   }
@@ -702,7 +694,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually comparable</i> under this
    *     ordering.
    */
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> E max(@NullableDecl E a, @NullableDecl E b, @NullableDecl E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
@@ -757,8 +748,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.least(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.least(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} least elements in ascending
    *     order
@@ -817,8 +808,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting algorithm; when multiple
    * elements are equivalent, it is undefined which will come first.
    *
-   * <p><b>Java 8 users:</b> Continue to use this method for now. After the next release of Guava,
-   * use {@code Streams.stream(iterator).collect(Comparators.greatest(k, thisComparator))} instead.
+   * <p><b>Java 8 users:</b> Use {@code Streams.stream(iterator).collect(Comparators.greatest(k,
+   * thisComparator))} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest elements in
    *     <i>descending order</i>
@@ -845,7 +836,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * calling {@link Collections#sort(List)}.
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this
   public <E extends T> List<E> sortedCopy(Iterable<E> elements) {
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
@@ -869,7 +859,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @since 3.0
    */
   // TODO(kevinb): rerun benchmarks including new options
-  @CanIgnoreReturnValue // TODO(kak): Consider removing this before internal migration
   public <E extends T> ImmutableList<E> immutableSortedCopy(Iterable<E> elements) {
     return ImmutableList.sortedCopyOf(this, elements);
   }

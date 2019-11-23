@@ -24,6 +24,7 @@ import static com.google.common.collect.Sets.powerSet;
 import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.io.ObjectStreamConstants.TC_REFERENCE;
 import static java.io.ObjectStreamConstants.baseWireHandle;
 import static java.util.Collections.emptySet;
@@ -76,7 +77,7 @@ import java.util.stream.Stream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Unit test for {@code Sets}.
@@ -929,6 +930,12 @@ public class SetsTest extends TestCase {
     }
 
     try {
+      Set<Set<Integer>> unused = powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2));
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+
+    try {
       powerSet(singleton(null));
       fail();
     } catch (NullPointerException expected) {
@@ -1038,8 +1045,8 @@ public class SetsTest extends TestCase {
                     return input.size() == size;
                   }
                 });
-        assertThat(Sets.combinations(sampleSet, k))
-            .named("Sets.combinations(%s, %s)", sampleSet, k)
+        assertWithMessage("Sets.combinations(%s, %s)", sampleSet, k)
+            .that(Sets.combinations(sampleSet, k))
             .containsExactlyElementsIn(expected)
             .inOrder();
       }
@@ -1074,7 +1081,7 @@ public class SetsTest extends TestCase {
    * same as the given comparator.
    */
   private static <E> void verifySortedSetContents(
-      SortedSet<E> set, Iterable<E> iterable, @NullableDecl Comparator<E> comparator) {
+      SortedSet<E> set, Iterable<E> iterable, @Nullable Comparator<E> comparator) {
     assertSame(comparator, set.comparator());
     verifySetContents(set, iterable);
   }

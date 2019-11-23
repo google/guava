@@ -34,6 +34,7 @@ import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -49,6 +50,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Dimitris Andreou
  * @author Kurt Alfred Kluever
  */
+@Immutable
 final class Murmur3_32HashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
 

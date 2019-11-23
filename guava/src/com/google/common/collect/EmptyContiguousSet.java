@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An empty contiguous set.
@@ -26,7 +26,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   EmptyContiguousSet(DiscreteDomain<C> domain) {
     super(domain);
@@ -121,7 +121,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
       Set<?> that = (Set<?>) object;
       return that.isEmpty();
@@ -162,6 +162,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @GwtIncompatible // NavigableSet
+  @Override
   ImmutableSortedSet<C> createDescendingSet() {
     return ImmutableSortedSet.emptySet(Ordering.natural().reverse());
   }

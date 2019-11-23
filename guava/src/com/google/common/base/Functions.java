@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Map;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
@@ -88,8 +88,7 @@ public final class Functions {
     INSTANCE;
 
     @Override
-    @NullableDecl
-    public Object apply(@NullableDecl Object o) {
+    public @Nullable Object apply(@Nullable Object o) {
       return o;
     }
 
@@ -116,6 +115,23 @@ public final class Functions {
     return new FunctionForMapNoDefault<>(map);
   }
 
+  /**
+   * Returns a function which performs a map lookup with a default value. The function created by
+   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
+   * set. See also {@link #forMap(Map)}, which throws an exception in this case.
+   *
+   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
+   * map.getOrDefault(k, defaultValue)} instead.
+   *
+   * @param map source map that determines the function behavior
+   * @param defaultValue the value to return for inputs that aren't map keys
+   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
+   *     defaultValue} otherwise
+   */
+  public static <K, V> Function<K, V> forMap(Map<K, ? extends V> map, @Nullable V defaultValue) {
+    return new ForMapWithDefault<>(map, defaultValue);
+  }
+
   private static class FunctionForMapNoDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, V> map;
 
@@ -124,14 +140,14 @@ public final class Functions {
     }
 
     @Override
-    public V apply(@NullableDecl K key) {
+    public V apply(@Nullable K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
       return result;
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof FunctionForMapNoDefault) {
         FunctionForMapNoDefault<?, ?> that = (FunctionForMapNoDefault<?, ?>) o;
         return map.equals(that.map);
@@ -152,41 +168,23 @@ public final class Functions {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a function which performs a map lookup with a default value. The function created by
-   * this method returns {@code defaultValue} for all inputs that do not belong to the map's key
-   * set. See also {@link #forMap(Map)}, which throws an exception in this case.
-   *
-   * <p><b>Java 8 users:</b> you can just write the lambda expression {@code k ->
-   * map.getWithDefault(k, defaultValue)} instead.
-   *
-   * @param map source map that determines the function behavior
-   * @param defaultValue the value to return for inputs that aren't map keys
-   * @return function that returns {@code map.get(a)} when {@code a} is a key, or {@code
-   *     defaultValue} otherwise
-   */
-  public static <K, V> Function<K, V> forMap(
-      Map<K, ? extends V> map, @NullableDecl V defaultValue) {
-    return new ForMapWithDefault<>(map, defaultValue);
-  }
-
   private static class ForMapWithDefault<K, V> implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
-    @NullableDecl final V defaultValue;
+    final @Nullable V defaultValue;
 
-    ForMapWithDefault(Map<K, ? extends V> map, @NullableDecl V defaultValue) {
+    ForMapWithDefault(Map<K, ? extends V> map, @Nullable V defaultValue) {
       this.map = checkNotNull(map);
       this.defaultValue = defaultValue;
     }
 
     @Override
-    public V apply(@NullableDecl K key) {
+    public V apply(@Nullable K key) {
       V result = map.get(key);
       return (result != null || map.containsKey(key)) ? result : defaultValue;
     }
 
     @Override
-    public boolean equals(@NullableDecl Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof ForMapWithDefault) {
         ForMapWithDefault<?, ?> that = (ForMapWithDefault<?, ?>) o;
         return map.equals(that.map) && Objects.equal(defaultValue, that.defaultValue);
@@ -234,12 +232,12 @@ public final class Functions {
     }
 
     @Override
-    public C apply(@NullableDecl A a) {
+    public C apply(@Nullable A a) {
       return g.apply(f.apply(a));
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof FunctionComposition) {
         FunctionComposition<?, ?, ?> that = (FunctionComposition<?, ?, ?>) obj;
         return f.equals(that.f) && g.equals(that.g);
@@ -282,12 +280,12 @@ public final class Functions {
     }
 
     @Override
-    public Boolean apply(@NullableDecl T t) {
+    public Boolean apply(@Nullable T t) {
       return predicate.apply(t);
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof PredicateFunction) {
         PredicateFunction<?> that = (PredicateFunction<?>) obj;
         return predicate.equals(that.predicate);
@@ -316,24 +314,24 @@ public final class Functions {
    * @param value the constant value for the function to return
    * @return a function that always returns {@code value}
    */
-  public static <E> Function<Object, E> constant(@NullableDecl E value) {
+  public static <E> Function<Object, E> constant(@Nullable E value) {
     return new ConstantFunction<E>(value);
   }
 
   private static class ConstantFunction<E> implements Function<Object, E>, Serializable {
-    @NullableDecl private final E value;
+    private final @Nullable E value;
 
-    public ConstantFunction(@NullableDecl E value) {
+    public ConstantFunction(@Nullable E value) {
       this.value = value;
     }
 
     @Override
-    public E apply(@NullableDecl Object from) {
+    public E apply(@Nullable Object from) {
       return value;
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof ConstantFunction) {
         ConstantFunction<?> that = (ConstantFunction<?>) obj;
         return Objects.equal(value, that.value);
@@ -375,12 +373,12 @@ public final class Functions {
     }
 
     @Override
-    public T apply(@NullableDecl Object input) {
+    public T apply(@Nullable Object input) {
       return supplier.get();
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierFunction) {
         SupplierFunction<?> that = (SupplierFunction<?>) obj;
         return this.supplier.equals(that.supplier);

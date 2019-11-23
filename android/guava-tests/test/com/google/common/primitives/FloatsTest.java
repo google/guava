@@ -320,15 +320,6 @@ public class FloatsTest extends TestCase {
     testReverse(new float[] {-1, 1, -2, 2}, new float[] {2, -2, 1, -1});
   }
 
-  public void testReverseIndexed() {
-    testReverse(new float[] {}, 0, 0, new float[] {});
-    testReverse(new float[] {1}, 0, 1, new float[] {1});
-    testReverse(new float[] {1, 2}, 0, 2, new float[] {2, 1});
-    testReverse(new float[] {3, 1, 1}, 0, 2, new float[] {1, 3, 1});
-    testReverse(new float[] {3, 1, 1}, 0, 1, new float[] {3, 1, 1});
-    testReverse(new float[] {-1, 1, -2, 2}, 1, 3, new float[] {-1, -2, 1, 2});
-  }
-
   private static void testReverse(float[] input, float[] expectedOutput) {
     input = Arrays.copyOf(input, input.length);
     Floats.reverse(input);
@@ -342,6 +333,15 @@ public class FloatsTest extends TestCase {
     assertTrue(Arrays.equals(expectedOutput, input));
   }
 
+  public void testReverseIndexed() {
+    testReverse(new float[] {}, 0, 0, new float[] {});
+    testReverse(new float[] {1}, 0, 1, new float[] {1});
+    testReverse(new float[] {1, 2}, 0, 2, new float[] {2, 1});
+    testReverse(new float[] {3, 1, 1}, 0, 2, new float[] {1, 3, 1});
+    testReverse(new float[] {3, 1, 1}, 0, 1, new float[] {3, 1, 1});
+    testReverse(new float[] {-1, 1, -2, 2}, 1, 3, new float[] {-1, -2, 1, 2});
+  }
+
   public void testSortDescending() {
     testSortDescending(new float[] {}, new float[] {});
     testSortDescending(new float[] {1}, new float[] {1});
@@ -350,17 +350,6 @@ public class FloatsTest extends TestCase {
     testSortDescending(new float[] {-1, 1, -2, 2}, new float[] {2, 1, -1, -2});
     testSortDescending(
         new float[] {-1, 1, Float.NaN, -2, -0, 0, 2}, new float[] {Float.NaN, 2, 1, 0, -0, -1, -2});
-  }
-
-  public void testSortDescendingIndexed() {
-    testSortDescending(new float[] {}, 0, 0, new float[] {});
-    testSortDescending(new float[] {1}, 0, 1, new float[] {1});
-    testSortDescending(new float[] {1, 2}, 0, 2, new float[] {2, 1});
-    testSortDescending(new float[] {1, 3, 1}, 0, 2, new float[] {3, 1, 1});
-    testSortDescending(new float[] {1, 3, 1}, 0, 1, new float[] {1, 3, 1});
-    testSortDescending(new float[] {-1, -2, 1, 2}, 1, 3, new float[] {-1, 1, -2, 2});
-    testSortDescending(
-        new float[] {-1, 1, Float.NaN, -2, 2}, 1, 4, new float[] {-1, Float.NaN, 1, -2, 2});
   }
 
   private static void testSortDescending(float[] input, float[] expectedOutput) {
@@ -380,6 +369,17 @@ public class FloatsTest extends TestCase {
     for (int i = 0; i < input.length; i++) {
       assertEquals(0, Float.compare(expectedOutput[i], input[i]));
     }
+  }
+
+  public void testSortDescendingIndexed() {
+    testSortDescending(new float[] {}, 0, 0, new float[] {});
+    testSortDescending(new float[] {1}, 0, 1, new float[] {1});
+    testSortDescending(new float[] {1, 2}, 0, 2, new float[] {2, 1});
+    testSortDescending(new float[] {1, 3, 1}, 0, 2, new float[] {3, 1, 1});
+    testSortDescending(new float[] {1, 3, 1}, 0, 1, new float[] {1, 3, 1});
+    testSortDescending(new float[] {-1, -2, 1, 2}, 1, 3, new float[] {-1, 1, -2, 2});
+    testSortDescending(
+        new float[] {-1, 1, Float.NaN, -2, 2}, 1, 4, new float[] {-1, Float.NaN, 1, -2, 2});
   }
 
   @GwtIncompatible // SerializableTester

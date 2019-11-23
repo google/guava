@@ -51,8 +51,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this class's counterparts
@@ -148,7 +148,7 @@ public final class Sets {
                 Accumulator::toImmutableSet,
                 Collector.Characteristics.UNORDERED);
 
-    @MonotonicNonNullDecl private EnumSet<E> set;
+    @MonotonicNonNull private EnumSet<E> set;
 
     void add(E e) {
       if (set == null) {
@@ -181,7 +181,6 @@ public final class Sets {
    *
    * @since 21.0
    */
-  @Beta
   public static <E extends Enum<E>> Collector<E, ?, ImmutableSet<E>> toImmutableEnumSet() {
     return (Collector) Accumulator.TO_IMMUTABLE_ENUM_SET;
   }
@@ -236,22 +235,6 @@ public final class Sets {
   }
 
   /**
-   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
-   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
-   * is what most users want and expect it to do.
-   *
-   * <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
-   *
-   * @param expectedSize the number of elements you expect to add to the returned set
-   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
-   *     without resizing
-   * @throws IllegalArgumentException if {@code expectedSize} is negative
-   */
-  public static <E> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
-    return new HashSet<E>(Maps.capacity(expectedSize));
-  }
-
-  /**
    * Creates a <i>mutable</i> {@code HashSet} instance containing the given elements. A very thin
    * convenience for creating an empty set then calling {@link Collection#addAll} or {@link
    * Iterables#addAll}.
@@ -291,6 +274,22 @@ public final class Sets {
     HashSet<E> set = newHashSet();
     Iterators.addAll(set, elements);
     return set;
+  }
+
+  /**
+   * Returns a new hash set using the smallest initial table size that can hold {@code expectedSize}
+   * elements without resizing. Note that this is not what {@link HashSet#HashSet(int)} does, but it
+   * is what most users want and expect it to do.
+   *
+   * <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
+   *
+   * @param expectedSize the number of elements you expect to add to the returned set
+   * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
+   *     without resizing
+   * @throws IllegalArgumentException if {@code expectedSize} is negative
+   */
+  public static <E> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {
+    return new HashSet<E>(Maps.capacity(expectedSize));
   }
 
   /**
@@ -344,22 +343,6 @@ public final class Sets {
   }
 
   /**
-   * Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it
-   * <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
-   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
-   * that the method isn't inadvertently <i>oversizing</i> the returned set.
-   *
-   * @param expectedSize the number of elements you expect to add to the returned set
-   * @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}
-   *     elements without resizing
-   * @throws IllegalArgumentException if {@code expectedSize} is negative
-   * @since 11.0
-   */
-  public static <E> LinkedHashSet<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
-    return new LinkedHashSet<E>(Maps.capacity(expectedSize));
-  }
-
-  /**
    * Creates a <i>mutable</i> {@code LinkedHashSet} instance containing the given elements in order.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
@@ -381,6 +364,22 @@ public final class Sets {
     LinkedHashSet<E> set = newLinkedHashSet();
     Iterables.addAll(set, elements);
     return set;
+  }
+
+  /**
+   * Creates a {@code LinkedHashSet} instance, with a high enough "initial capacity" that it
+   * <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
+   * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
+   * that the method isn't inadvertently <i>oversizing</i> the returned set.
+   *
+   * @param expectedSize the number of elements you expect to add to the returned set
+   * @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}
+   *     elements without resizing
+   * @throws IllegalArgumentException if {@code expectedSize} is negative
+   * @since 11.0
+   */
+  public static <E> LinkedHashSet<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+    return new LinkedHashSet<E>(Maps.capacity(expectedSize));
   }
 
   // TreeSet
@@ -868,7 +867,7 @@ public final class Sets {
 
       @Override
       public boolean isEmpty() {
-        return Collections.disjoint(set1, set2);
+        return Collections.disjoint(set2, set1);
       }
 
       @Override
@@ -1060,22 +1059,6 @@ public final class Sets {
     return new FilteredSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  private static class FilteredSet<E> extends FilteredCollection<E> implements Set<E> {
-    FilteredSet(Set<E> unfiltered, Predicate<? super E> predicate) {
-      super(unfiltered, predicate);
-    }
-
-    @Override
-    public boolean equals(@NullableDecl Object object) {
-      return equalsImpl(this, object);
-    }
-
-    @Override
-    public int hashCode() {
-      return hashCodeImpl(this);
-    }
-  }
-
   /**
    * Returns the elements of a {@code SortedSet}, {@code unfiltered}, that satisfy a predicate. The
    * returned set is a live view of {@code unfiltered}; changes to one affect the other.
@@ -1110,6 +1093,61 @@ public final class Sets {
     }
 
     return new FilteredSortedSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
+  }
+
+  /**
+   * Returns the elements of a {@code NavigableSet}, {@code unfiltered}, that satisfy a predicate.
+   * The returned set is a live view of {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting set's iterator does not support {@code remove()}, but all other set methods
+   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code
+   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods
+   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements
+   * that satisfy the filter will be removed from the underlying set.
+   *
+   * <p>The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.
+   *
+   * <p>Many of the filtered set's methods, such as {@code size()}, iterate across every element in
+   * the underlying set and determine which elements satisfy the filter. When a live view is
+   * <i>not</i> needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and
+   * use the copy.
+   *
+   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>, as documented at
+   * {@link Predicate#apply}. Do not provide a predicate such as {@code
+   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
+   * Iterables#filter(Iterable, Class)} for related functionality.)
+   *
+   * @since 14.0
+   */
+  @GwtIncompatible // NavigableSet
+  @SuppressWarnings("unchecked")
+  public static <E> NavigableSet<E> filter(
+      NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
+    if (unfiltered instanceof FilteredSet) {
+      // Support clear(), removeAll(), and retainAll() when filtering a filtered
+      // collection.
+      FilteredSet<E> filtered = (FilteredSet<E>) unfiltered;
+      Predicate<E> combinedPredicate = Predicates.<E>and(filtered.predicate, predicate);
+      return new FilteredNavigableSet<E>((NavigableSet<E>) filtered.unfiltered, combinedPredicate);
+    }
+
+    return new FilteredNavigableSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
+  }
+
+  private static class FilteredSet<E> extends FilteredCollection<E> implements Set<E> {
+    FilteredSet(Set<E> unfiltered, Predicate<? super E> predicate) {
+      super(unfiltered, predicate);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object object) {
+      return equalsImpl(this, object);
+    }
+
+    @Override
+    public int hashCode() {
+      return hashCodeImpl(this);
+    }
   }
 
   private static class FilteredSortedSet<E> extends FilteredSet<E> implements SortedSet<E> {
@@ -1157,45 +1195,6 @@ public final class Sets {
     }
   }
 
-  /**
-   * Returns the elements of a {@code NavigableSet}, {@code unfiltered}, that satisfy a predicate.
-   * The returned set is a live view of {@code unfiltered}; changes to one affect the other.
-   *
-   * <p>The resulting set's iterator does not support {@code remove()}, but all other set methods
-   * are supported. When given an element that doesn't satisfy the predicate, the set's {@code
-   * add()} and {@code addAll()} methods throw an {@link IllegalArgumentException}. When methods
-   * such as {@code removeAll()} and {@code clear()} are called on the filtered set, only elements
-   * that satisfy the filter will be removed from the underlying set.
-   *
-   * <p>The returned set isn't threadsafe or serializable, even if {@code unfiltered} is.
-   *
-   * <p>Many of the filtered set's methods, such as {@code size()}, iterate across every element in
-   * the underlying set and determine which elements satisfy the filter. When a live view is
-   * <i>not</i> needed, it may be faster to copy {@code Iterables.filter(unfiltered, predicate)} and
-   * use the copy.
-   *
-   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>, as documented at
-   * {@link Predicate#apply}. Do not provide a predicate such as {@code
-   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See {@link
-   * Iterables#filter(Iterable, Class)} for related functionality.)
-   *
-   * @since 14.0
-   */
-  @GwtIncompatible // NavigableSet
-  @SuppressWarnings("unchecked")
-  public static <E> NavigableSet<E> filter(
-      NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
-    if (unfiltered instanceof FilteredSet) {
-      // Support clear(), removeAll(), and retainAll() when filtering a filtered
-      // collection.
-      FilteredSet<E> filtered = (FilteredSet<E>) unfiltered;
-      Predicate<E> combinedPredicate = Predicates.<E>and(filtered.predicate, predicate);
-      return new FilteredNavigableSet<E>((NavigableSet<E>) filtered.unfiltered, combinedPredicate);
-    }
-
-    return new FilteredNavigableSet<E>(checkNotNull(unfiltered), checkNotNull(predicate));
-  }
-
   @GwtIncompatible // NavigableSet
   private static class FilteredNavigableSet<E> extends FilteredSortedSet<E>
       implements NavigableSet<E> {
@@ -1208,14 +1207,12 @@ public final class Sets {
     }
 
     @Override
-    @NullableDecl
-    public E lower(E e) {
+    public @Nullable E lower(E e) {
       return Iterators.find(unfiltered().headSet(e, false).descendingIterator(), predicate, null);
     }
 
     @Override
-    @NullableDecl
-    public E floor(E e) {
+    public @Nullable E floor(E e) {
       return Iterators.find(unfiltered().headSet(e, true).descendingIterator(), predicate, null);
     }
 
@@ -1380,6 +1377,7 @@ public final class Sets {
    *     provided set is null
    * @since 2.0
    */
+  @SafeVarargs
   public static <B> Set<List<B>> cartesianProduct(Set<? extends B>... sets) {
     return cartesianProduct(Arrays.asList(sets));
   }
@@ -1430,7 +1428,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
       if (object instanceof CartesianSet) {
@@ -1530,7 +1528,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object o) {
+    public boolean contains(@Nullable Object o) {
       Integer index = inputSet.get(o);
       return index != null && (mask & (1 << index)) != 0;
     }
@@ -1540,9 +1538,9 @@ public final class Sets {
     final ImmutableMap<E, Integer> inputSet;
 
     PowerSet(Set<E> input) {
-      this.inputSet = Maps.indexMap(input);
       checkArgument(
-          inputSet.size() <= 30, "Too many elements to create power set: %s > 30", inputSet.size());
+          input.size() <= 30, "Too many elements to create power set: %s > 30", input.size());
+      this.inputSet = Maps.indexMap(input);
     }
 
     @Override
@@ -1566,7 +1564,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean contains(@NullableDecl Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof Set) {
         Set<?> set = (Set<?>) obj;
         return inputSet.keySet().containsAll(set);
@@ -1575,7 +1573,7 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
         return inputSet.equals(that.inputSet);
@@ -1635,7 +1633,7 @@ public final class Sets {
     }
     return new AbstractSet<Set<E>>() {
       @Override
-      public boolean contains(@NullableDecl Object o) {
+      public boolean contains(@Nullable Object o) {
         if (o instanceof Set) {
           Set<?> s = (Set<?>) o;
           return s.size() == size && index.keySet().containsAll(s);
@@ -1680,7 +1678,7 @@ public final class Sets {
             final BitSet copy = (BitSet) bits.clone();
             return new AbstractSet<E>() {
               @Override
-              public boolean contains(@NullableDecl Object o) {
+              public boolean contains(@Nullable Object o) {
                 Integer i = index.get(o);
                 return i != null && copy.get(i);
               }
@@ -1735,7 +1733,7 @@ public final class Sets {
   }
 
   /** An implementation for {@link Set#equals(Object)}. */
-  static boolean equalsImpl(Set<?> s, @NullableDecl Object object) {
+  static boolean equalsImpl(Set<?> s, @Nullable Object object) {
     if (s == object) {
       return true;
     }
@@ -1838,7 +1836,7 @@ public final class Sets {
       throw new UnsupportedOperationException();
     }
 
-    @MonotonicNonNullDecl private transient UnmodifiableNavigableSet<E> descendingSet;
+    private transient @MonotonicNonNull UnmodifiableNavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {
@@ -2013,13 +2011,28 @@ public final class Sets {
     }
 
     @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
+      return standardSubSet(fromElement, toElement);
+    }
+
+    @Override
     public NavigableSet<E> headSet(E toElement, boolean inclusive) {
       return forward.tailSet(toElement, inclusive).descendingSet();
     }
 
     @Override
+    public SortedSet<E> headSet(E toElement) {
+      return standardHeadSet(toElement);
+    }
+
+    @Override
     public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
       return forward.headSet(fromElement, inclusive).descendingSet();
+    }
+
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
+      return standardTailSet(fromElement);
     }
 
     @SuppressWarnings("unchecked")
@@ -2044,23 +2057,8 @@ public final class Sets {
     }
 
     @Override
-    public SortedSet<E> headSet(E toElement) {
-      return standardHeadSet(toElement);
-    }
-
-    @Override
     public E last() {
       return forward.first();
-    }
-
-    @Override
-    public SortedSet<E> subSet(E fromElement, E toElement) {
-      return standardSubSet(fromElement, toElement);
-    }
-
-    @Override
-    public SortedSet<E> tailSet(E fromElement) {
-      return standardTailSet(fromElement);
     }
 
     @Override

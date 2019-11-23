@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
@@ -209,6 +211,45 @@ public class StringsTest extends TestCase {
     assertFalse(Strings.validSurrogatePairAt("\uD8AB\uDCAB", 2));
     assertFalse(Strings.validSurrogatePairAt("x\uDCAB", 0));
     assertFalse(Strings.validSurrogatePairAt("\uD8ABx", 0));
+  }
+
+  public void testLenientFormat() {
+    assertEquals("%s", Strings.lenientFormat("%s"));
+    assertEquals("5", Strings.lenientFormat("%s", 5));
+    assertEquals("foo [5]", Strings.lenientFormat("foo", 5));
+    assertEquals("foo [5, 6, 7]", Strings.lenientFormat("foo", 5, 6, 7));
+    assertEquals("%s 1 2", Strings.lenientFormat("%s %s %s", "%s", 1, 2));
+    assertEquals(" [5, 6]", Strings.lenientFormat("", 5, 6));
+    assertEquals("123", Strings.lenientFormat("%s%s%s", 1, 2, 3));
+    assertEquals("1%s%s", Strings.lenientFormat("%s%s%s", 1));
+    assertEquals("5 + 6 = 11", Strings.lenientFormat("%s + 6 = 11", 5));
+    assertEquals("5 + 6 = 11", Strings.lenientFormat("5 + %s = 11", 6));
+    assertEquals("5 + 6 = 11", Strings.lenientFormat("5 + 6 = %s", 11));
+    assertEquals("5 + 6 = 11", Strings.lenientFormat("%s + %s = %s", 5, 6, 11));
+    assertEquals("null [null, null]", Strings.lenientFormat("%s", null, null, null));
+    assertEquals("null [5, 6]", Strings.lenientFormat(null, 5, 6));
+    assertEquals("null", Strings.lenientFormat("%s", (Object) null));
+    assertEquals("(Object[])null", Strings.lenientFormat("%s", (Object[]) null));
+  }
+
+  @GwtIncompatible // GWT reflection includes less data
+  public void testLenientFormat_badArgumentToString() {
+    assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
+        .matches(
+            "boiler <com\\.google\\.common\\.base\\.StringsTest\\$ThrowsOnToString@[0-9a-f]+ "
+                + "threw java\\.lang\\.UnsupportedOperationException> plate");
+  }
+
+  public void testLenientFormat_badArgumentToString_gwtFriendly() {
+    assertThat(Strings.lenientFormat("boiler %s plate", new ThrowsOnToString()))
+        .matches("boiler <.*> plate");
+  }
+
+  private static class ThrowsOnToString {
+    @Override
+    public String toString() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   @GwtIncompatible // NullPointerTester

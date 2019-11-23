@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.lang.reflect.Modifier.STATIC;
-import static org.mockito.Mockito.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +30,9 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
+import com.google.common.reflect.TypeToken;
 import com.google.common.testing.ArbitraryInstances;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
@@ -225,14 +227,14 @@ public class ForwardingMapTest extends TestCase {
             };
           }
         };
-    callAllPublicMethods(Set.class, forward.entrySet());
+    callAllPublicMethods(new TypeToken<Set<Entry<String, Boolean>>>() {}, forward.entrySet());
 
     // These are the methods specified by StandardEntrySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
-    verify(map, atLeast(0)).get(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
+    verify(map, atLeast(0)).get(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verifyNoMoreInteractions(map);
   }
@@ -253,13 +255,13 @@ public class ForwardingMapTest extends TestCase {
             return new StandardKeySet();
           }
         };
-    callAllPublicMethods(Set.class, forward.keySet());
+    callAllPublicMethods(new TypeToken<Set<String>>() {}, forward.keySet());
 
     // These are the methods specified by StandardKeySet
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsKey(anyObject());
+    verify(map, atLeast(0)).containsKey(any());
     verify(map, atLeast(0)).isEmpty();
-    verify(map, atLeast(0)).remove(anyObject());
+    verify(map, atLeast(0)).remove(any());
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
     verifyNoMoreInteractions(map);
@@ -281,11 +283,11 @@ public class ForwardingMapTest extends TestCase {
             return new StandardValues();
           }
         };
-    callAllPublicMethods(Collection.class, forward.values());
+    callAllPublicMethods(new TypeToken<Collection<Boolean>>() {}, forward.values());
 
     // These are the methods specified by StandardValues
     verify(map, atLeast(0)).clear();
-    verify(map, atLeast(0)).containsValue(anyObject());
+    verify(map, atLeast(0)).containsValue(any());
     verify(map, atLeast(0)).isEmpty();
     verify(map, atLeast(0)).size();
     verify(map, atLeast(0)).entrySet();
@@ -327,26 +329,34 @@ public class ForwardingMapTest extends TestCase {
     };
   }
 
-  private static Object getDefaultValue(Class<?> returnType) {
-    Object defaultValue = ArbitraryInstances.get(returnType);
+  private static final ImmutableMap<String, String> JUF_METHODS =
+      ImmutableMap.of(
+          "java.util.function.Predicate", "test",
+          "java.util.function.Consumer", "accept",
+          "java.util.function.IntFunction", "apply");
+
+  private static Object getDefaultValue(final TypeToken<?> type) {
+    Class<?> rawType = type.getRawType();
+    Object defaultValue = ArbitraryInstances.get(rawType);
     if (defaultValue != null) {
       return defaultValue;
     }
-    if ("java.util.function.Predicate".equals(returnType.getCanonicalName())
-        || ("java.util.function.Consumer".equals(returnType.getCanonicalName()))) {
+
+    final String typeName = rawType.getCanonicalName();
+    if (JUF_METHODS.containsKey(typeName)) {
       // Generally, methods that accept java.util.function.* instances
       // don't like to get null values.  We generate them dynamically
       // using Proxy so that we can have Java 7 compliant code.
       return Reflection.newProxy(
-          returnType,
+          rawType,
           new AbstractInvocationHandler() {
             @Override
             public Object handleInvocation(Object proxy, Method method, Object[] args) {
               // Crude, but acceptable until we can use Java 8.  Other
               // methods have default implementations, and it is hard to
               // distinguish.
-              if ("test".equals(method.getName()) || "accept".equals(method.getName())) {
-                return getDefaultValue(method.getReturnType());
+              if (method.getName().equals(JUF_METHODS.get(typeName))) {
+                return getDefaultValue(type.method(method).getReturnType());
               }
               throw new IllegalStateException("Unexpected " + method + " invoked on " + proxy);
             }
@@ -356,20 +366,20 @@ public class ForwardingMapTest extends TestCase {
     }
   }
 
-  private static <T> void callAllPublicMethods(Class<T> theClass, T object)
+  private static <T> void callAllPublicMethods(TypeToken<T> type, T object)
       throws InvocationTargetException {
-    for (Method method : theClass.getMethods()) {
+    for (Method method : type.getRawType().getMethods()) {
       if ((method.getModifiers() & STATIC) != 0) {
         continue;
       }
-      Class<?>[] parameterTypes = method.getParameterTypes();
-      Object[] parameters = new Object[parameterTypes.length];
-      for (int i = 0; i < parameterTypes.length; i++) {
-        parameters[i] = getDefaultValue(parameterTypes[i]);
+      ImmutableList<Parameter> parameters = type.method(method).getParameters();
+      Object[] args = new Object[parameters.size()];
+      for (int i = 0; i < parameters.size(); i++) {
+        args[i] = getDefaultValue(parameters.get(i).getType());
       }
       try {
         try {
-          method.invoke(object, parameters);
+          method.invoke(object, args);
         } catch (InvocationTargetException ex) {
           try {
             throw ex.getCause();
@@ -378,8 +388,7 @@ public class ForwardingMapTest extends TestCase {
           }
         }
       } catch (Throwable cause) {
-        throw new InvocationTargetException(
-            cause, method + " with args: " + Arrays.toString(parameters));
+        throw new InvocationTargetException(cause, method + " with args: " + Arrays.toString(args));
       }
     }
   }

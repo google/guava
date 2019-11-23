@@ -33,7 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -41,8 +41,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * <p>Advantages compared to {@code long[]}:
  *
  * <ul>
- *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, second
- *       edition, Item 15).
+ *   <li>All the many well-known advantages of immutability (read <i>Effective Java</i>, third
+ *       edition, Item 17).
  *   <li>Has the value-based (not identity-based) {@link #equals}, {@link #hashCode}, and {@link
  *       #toString} behavior you expect.
  *   <li>Offers useful operations beyond just {@code get} and {@code length}, so you don't have to
@@ -137,8 +137,7 @@ public final class ImmutableLongArray implements Serializable {
   // okay since we have to copy the just-created array anyway.
   public static ImmutableLongArray of(long first, long... rest) {
     checkArgument(
-        rest.length <= Integer.MAX_VALUE - 1,
-        "the total number of elements must fit in an int");
+        rest.length <= Integer.MAX_VALUE - 1, "the total number of elements must fit in an int");
     long[] array = new long[rest.length + 1];
     array[0] = first;
     System.arraycopy(rest, 0, array, 1, rest.length);
@@ -509,7 +508,7 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@NullableDecl Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -549,7 +548,7 @@ public final class ImmutableLongArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@NullableDecl Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

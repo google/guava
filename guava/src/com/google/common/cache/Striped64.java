@@ -13,7 +13,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic
@@ -134,7 +134,7 @@ abstract class Striped64 extends Number {
   static final int NCPU = Runtime.getRuntime().availableProcessors();
 
   /** Table of cells. When non-null, size is a power of 2. */
-  @NullableDecl transient volatile Cell[] cells;
+  transient volatile Cell @Nullable [] cells;
 
   /**
    * Base value, used mainly when there is no contention, but also as a fallback during table
@@ -293,6 +293,7 @@ abstract class Striped64 extends Number {
     try {
       return java.security.AccessController.doPrivileged(
           new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+            @Override
             public sun.misc.Unsafe run() throws Exception {
               Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
               for (java.lang.reflect.Field f : k.getDeclaredFields()) {

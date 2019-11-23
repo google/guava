@@ -124,6 +124,10 @@ public class FinalizableReferenceQueue implements Closeable {
    *
    * If any of this fails along the way, we fall back to loading Finalizer directly in the
    * application class loader.
+   *
+   * NOTE: The tests for this behavior (FinalizableReferenceQueueClassLoaderUnloadingTest) fail
+   * strangely when run in JDK 9. We are considering this a known issue. Please see
+   * https://github.com/google/guava/issues/3086 for more information.
    */
 
   private static final Logger logger = Logger.getLogger(FinalizableReferenceQueue.class.getName());
@@ -237,8 +241,8 @@ public class FinalizableReferenceQueue implements Closeable {
     // finding Finalizer on the system class path even if it is there.
     @VisibleForTesting static boolean disabled;
 
-    @NullableDecl
     @Override
+    @NullableDecl
     public Class<?> loadFinalizer() {
       if (disabled) {
         return null;
@@ -275,8 +279,8 @@ public class FinalizableReferenceQueue implements Closeable {
             + "loader. To support reclaiming this class loader, either resolve the underlying "
             + "issue, or move Guava to your system class path.";
 
-    @NullableDecl
     @Override
+    @NullableDecl
     public Class<?> loadFinalizer() {
       try {
         /*

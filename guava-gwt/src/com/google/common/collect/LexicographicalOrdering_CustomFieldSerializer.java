@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Platform.checkGwtRpcEnabled;
+
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
@@ -33,12 +35,14 @@ public class LexicographicalOrdering_CustomFieldSerializer {
   @SuppressWarnings("unchecked") // deserialization is unsafe
   public static LexicographicalOrdering<Object> instantiate(SerializationStreamReader reader)
       throws SerializationException {
+    checkGwtRpcEnabled();
     return new LexicographicalOrdering<>((Ordering<Object>) reader.readObject());
   }
 
   public static void serialize(
       SerializationStreamWriter writer, LexicographicalOrdering<?> instance)
       throws SerializationException {
+    checkGwtRpcEnabled();
     writer.writeObject(instance.elementOrder);
   }
 }

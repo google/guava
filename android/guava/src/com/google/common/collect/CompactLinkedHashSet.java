@@ -21,37 +21,40 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order
- * that matches the insertion order. All optional operations (adding and
- * removing) are supported. All elements, including {@code null}, are permitted.
+ * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that
+ * matches the insertion order. All optional operations (adding and removing) are supported. All
+ * elements, including {@code null}, are permitted.
  *
  * <p>{@code contains(x)}, {@code add(x)} and {@code remove(x)}, are all (expected and amortized)
- * constant time operations. Expected in the hashtable sense (depends on the hash function
- * doing a good job of distributing the elements to the buckets to a distribution not far from
- * uniform), and amortized since some operations can trigger a hash table resize.
+ * constant time operations. Expected in the hashtable sense (depends on the hash function doing a
+ * good job of distributing the elements to the buckets to a distribution not far from uniform), and
+ * amortized since some operations can trigger a hash table resize.
  *
- * <p>This implementation consumes significantly less memory than {@code java.util.LinkedHashSet}
- * or even {@code java.util.HashSet}, and places considerably less load on the garbage collector.
- * Like {@code java.util.LinkedHashSet}, it offers insertion-order iteration, with identical
- * behavior.
+ * <p>This implementation consumes significantly less memory than {@code java.util.LinkedHashSet} or
+ * even {@code java.util.HashSet}, and places considerably less load on the garbage collector. Like
+ * {@code java.util.LinkedHashSet}, it offers insertion-order iteration, with identical behavior.
+ *
+ * <p>This class should not be assumed to be universally superior to {@code
+ * java.util.LinkedHashSet}. Generally speaking, this class reduces object allocation and memory
+ * consumption at the price of moderately increased constant factors of CPU. Only use this class
+ * when there is a specific reason to prioritize memory over CPU.
  *
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
 class CompactLinkedHashSet<E> extends CompactHashSet<E> {
 
-  /**
-   * Creates an empty {@code CompactLinkedHashSet} instance.
-   */
+  /** Creates an empty {@code CompactLinkedHashSet} instance. */
   public static <E> CompactLinkedHashSet<E> create() {
-    return new CompactLinkedHashSet<E>();
+    return new CompactLinkedHashSet<>();
   }
 
   /**
-   * Creates a <i>mutable</i> {@code CompactLinkedHashSet} instance containing the elements
-   * of the given collection in the order returned by the collection's iterator.
+   * Creates a <i>mutable</i> {@code CompactLinkedHashSet} instance containing the elements of the
+   * given collection in the order returned by the collection's iterator.
    *
    * @param collection the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
@@ -63,12 +66,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   /**
-   * Creates a {@code CompactLinkedHashSet} instance containing the given elements in
-   * unspecified order.
+   * Creates a {@code CompactLinkedHashSet} instance containing the given elements in unspecified
+   * order.
    *
    * @param elements the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
+  @SafeVarargs
   public static <E> CompactLinkedHashSet<E> create(E... elements) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
@@ -76,23 +80,22 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   /**
-   * Creates a {@code CompactLinkedHashSet} instance, with a high enough "initial capacity"
-   * that it <i>should</i> hold {@code expectedSize} elements without rebuilding internal
-   * data structures.
+   * Creates a {@code CompactLinkedHashSet} instance, with a high enough "initial capacity" that it
+   * <i>should</i> hold {@code expectedSize} elements without rebuilding internal data structures.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code CompactLinkedHashSet} with enough capacity to hold {@code
-   *         expectedSize} elements without resizing
+   *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E> CompactLinkedHashSet<E> createWithExpectedSize(int expectedSize) {
-    return new CompactLinkedHashSet<E>(expectedSize);
+    return new CompactLinkedHashSet<>(expectedSize);
   }
 
   private static final int ENDPOINT = -2;
 
   // TODO(user): predecessors and successors should be collocated (reducing cache misses).
-  // Might also explore collocating all of [hash, next, predecessor, succesor] fields of an
+  // Might also explore collocating all of [hash, next, predecessor, successor] fields of an
   // entry in a *single* long[], though that reduces the maximum size of the set by a factor of 2
 
   /**
@@ -107,7 +110,10 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    */
   @MonotonicNonNullDecl private transient int[] successor;
 
+  /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
+
+  /** Pointer to the last node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int lastEntry;
 
   CompactLinkedHashSet() {
@@ -119,72 +125,87 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  void init(int expectedSize, float loadFactor) {
-    super.init(expectedSize, loadFactor);
-    this.predecessor = new int[expectedSize];
-    this.successor = new int[expectedSize];
-
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
+  void init(int expectedSize) {
+    super.init(expectedSize);
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
   }
 
-  private void succeeds(int pred, int succ) {
+  @Override
+  int allocArrays() {
+    int expectedSize = super.allocArrays();
+    this.predecessor = new int[expectedSize];
+    this.successor = new int[expectedSize];
+    return expectedSize;
+  }
+
+  private int getPredecessor(int entry) {
+    return predecessor[entry] - 1;
+  }
+
+  @Override
+  int getSuccessor(int entry) {
+    return successor[entry] - 1;
+  }
+
+  private void setSuccessor(int entry, int succ) {
+    successor[entry] = succ + 1;
+  }
+
+  private void setPredecessor(int entry, int pred) {
+    predecessor[entry] = pred + 1;
+  }
+
+  private void setSucceeds(int pred, int succ) {
     if (pred == ENDPOINT) {
       firstEntry = succ;
     } else {
-      successor[pred] = succ;
+      setSuccessor(pred, succ);
     }
 
     if (succ == ENDPOINT) {
       lastEntry = pred;
     } else {
-      predecessor[succ] = pred;
+      setPredecessor(succ, pred);
     }
   }
 
   @Override
-  void insertEntry(int entryIndex, E object, int hash) {
-    super.insertEntry(entryIndex, object, hash);
-    succeeds(lastEntry, entryIndex);
-    succeeds(entryIndex, ENDPOINT);
+  void insertEntry(int entryIndex, @NullableDecl E object, int hash, int mask) {
+    super.insertEntry(entryIndex, object, hash, mask);
+    setSucceeds(lastEntry, entryIndex);
+    setSucceeds(entryIndex, ENDPOINT);
   }
 
   @Override
-  void moveEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex, int mask) {
     int srcIndex = size() - 1;
-    super.moveEntry(dstIndex);
+    super.moveLastEntry(dstIndex, mask);
 
-    succeeds(predecessor[dstIndex], successor[dstIndex]);
-    if (srcIndex != dstIndex) {
-      succeeds(predecessor[srcIndex], dstIndex);
-      succeeds(dstIndex, successor[srcIndex]);
+    setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
+    if (dstIndex < srcIndex) {
+      setSucceeds(getPredecessor(srcIndex), dstIndex);
+      setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    predecessor[srcIndex] = UNSET;
-    successor[srcIndex] = UNSET;
-  }
-
-  @Override
-  public void clear() {
-    super.clear();
-    firstEntry = ENDPOINT;
-    lastEntry = ENDPOINT;
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
+    predecessor[srcIndex] = 0;
+    successor[srcIndex] = 0;
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    int oldCapacity = predecessor.length;
     predecessor = Arrays.copyOf(predecessor, newCapacity);
     successor = Arrays.copyOf(successor, newCapacity);
+  }
 
-    if (oldCapacity < newCapacity) {
-      Arrays.fill(predecessor, oldCapacity, newCapacity, UNSET);
-      Arrays.fill(successor, oldCapacity, newCapacity, UNSET);
-    }
+  @Override
+  int firstEntryIndex() {
+    return firstEntry;
+  }
+
+  @Override
+  int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
+    return (indexBeforeRemove >= size()) ? indexRemoved : indexBeforeRemove;
   }
 
   @Override
@@ -198,17 +219,14 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  int firstEntryIndex() {
-    return firstEntry;
-  }
-
-  @Override
-  int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
-    return (indexBeforeRemove == size()) ? indexRemoved : indexBeforeRemove;
-  }
-
-  @Override
-  int getSuccessor(int entryIndex) {
-    return successor[entryIndex];
+  public void clear() {
+    if (needsAllocArrays()) {
+      return;
+    }
+    this.firstEntry = ENDPOINT;
+    this.lastEntry = ENDPOINT;
+    Arrays.fill(predecessor, 0, size(), 0);
+    Arrays.fill(successor, 0, size(), 0);
+    super.clear();
   }
 }

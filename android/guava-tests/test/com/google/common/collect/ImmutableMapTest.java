@@ -647,6 +647,37 @@ public class ImmutableMapTest extends TestCase {
       assertMapEquals(copy, "one", 1, "two", 2, "three", 3);
       assertSame(copy, ImmutableMap.copyOf(copy));
     }
+
+    public static void hashtableTestHelper(ImmutableList<Integer> sizes) {
+      for (int size : sizes) {
+        Builder<Integer, Integer> builder = ImmutableMap.builderWithExpectedSize(size);
+        for (int i = 0; i < size; i++) {
+          Integer integer = i;
+          builder.put(integer, integer);
+        }
+        ImmutableMap<Integer, Integer> map = builder.build();
+        assertEquals(size, map.size());
+        int entries = 0;
+        for (Integer key : map.keySet()) {
+          assertEquals(entries, key.intValue());
+          assertSame(key, map.get(key));
+          entries++;
+        }
+        assertEquals(size, entries);
+      }
+    }
+
+    public void testByteArrayHashtable() {
+      hashtableTestHelper(ImmutableList.of(2, 89));
+    }
+
+    public void testShortArrayHashtable() {
+      hashtableTestHelper(ImmutableList.of(90, 22937));
+    }
+
+    public void testIntArrayHashtable() {
+      hashtableTestHelper(ImmutableList.of(22938));
+    }
   }
 
   public void testNullGet() {

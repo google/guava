@@ -109,7 +109,7 @@ public class ResourcesTest extends IoTestCase {
       Resources.getResource("no such resource");
       fail();
     } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessage("resource no such resource not found.");
+      assertThat(e).hasMessageThat().isEqualTo("resource no such resource not found.");
     }
   }
 
@@ -123,7 +123,8 @@ public class ResourcesTest extends IoTestCase {
       fail();
     } catch (IllegalArgumentException e) {
       assertThat(e)
-          .hasMessage(
+          .hasMessageThat()
+          .isEqualTo(
               "resource com/google/common/io/testdata/i18n.txt"
                   + " relative to com.google.common.io.ResourcesTest not found.");
     }

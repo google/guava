@@ -467,7 +467,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       future.get();
       fail("Expected ExecutionException");
     } catch (ExecutionException e) {
-      assertSame(expectedCause, e.getCause());
+      assertThat(e).hasCauseThat().isSameInstanceAs(expectedCause);
     }
   }
 
@@ -525,7 +525,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
       invokeAnyImpl(e, l, false, 0, TimeUnit.NANOSECONDS);
       fail();
     } catch (ExecutionException success) {
-      assertThat(success.getCause()).isInstanceOf(NullPointerException.class);
+      assertThat(success).hasCauseThat().isInstanceOf(NullPointerException.class);
     } finally {
       joinPool(e);
     }

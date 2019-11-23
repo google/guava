@@ -87,7 +87,7 @@ public final class Parameter implements AnnotatedElement {
   // @Override on JDK8
   @Override
   public Annotation[] getDeclaredAnnotations() {
-    return annotations.toArray(new Annotation[annotations.size()]);
+    return annotations.toArray(new Annotation[0]);
   }
 
   /** @since 18.0 */
