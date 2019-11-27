@@ -23,8 +23,10 @@ import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
 import static com.google.common.graph.Graphs.checkNonNegative;
 import static com.google.common.graph.Graphs.checkPositive;
 
+import com.google.common.base.Function;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -319,6 +322,63 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       @Override
       public boolean contains(@Nullable Object obj) {
         return isSuccessor(adjacentNodeValues.get(obj));
+      }
+    };
+  }
+
+  @Override
+  public Iterator<EndpointPair<N>> incidentEdgeIterator(final N thisNode) {
+    final Iterator<EndpointPair<N>> resultWithDoubleSelfLoop;
+    if (orderedNodeConnections == null) {
+      resultWithDoubleSelfLoop =
+          Iterators.concat(
+              Iterators.transform(
+                  predecessors().iterator(),
+                  new Function<N, EndpointPair<N>>() {
+                    @Override
+                    public EndpointPair<N> apply(N predecessor) {
+                      return EndpointPair.ordered(predecessor, thisNode);
+                    }
+                  }),
+              Iterators.transform(
+                  successors().iterator(),
+                  new Function<N, EndpointPair<N>>() {
+                    @Override
+                    public EndpointPair<N> apply(N successor) {
+                      return EndpointPair.ordered(thisNode, successor);
+                    }
+                  }));
+    } else {
+      resultWithDoubleSelfLoop =
+          Iterators.transform(
+              orderedNodeConnections.iterator(),
+              new Function<NodeConnection<N>, EndpointPair<N>>() {
+                @Override
+                public EndpointPair<N> apply(NodeConnection<N> connection) {
+                  if (connection instanceof NodeConnection.Succ) {
+                    return EndpointPair.ordered(thisNode, connection.node);
+                  } else {
+                    return EndpointPair.ordered(connection.node, thisNode);
+                  }
+                }
+              });
+    }
+
+    final AtomicBoolean alreadySeenSelfLoop = new AtomicBoolean(false);
+    return new AbstractIterator<EndpointPair<N>>() {
+      @Override
+      protected EndpointPair<N> computeNext() {
+        while (resultWithDoubleSelfLoop.hasNext()) {
+          EndpointPair<N> edge = resultWithDoubleSelfLoop.next();
+          if (edge.nodeU().equals(edge.nodeV())) {
+            if (!alreadySeenSelfLoop.getAndSet(true)) {
+              return edge;
+            }
+          } else {
+            return edge;
+          }
+        }
+        return endOfData();
       }
     };
   }

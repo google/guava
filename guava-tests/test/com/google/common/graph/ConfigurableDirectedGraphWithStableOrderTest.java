@@ -73,17 +73,17 @@ public class ConfigurableDirectedGraphWithStableOrderTest
   // Note: Stable order means that the ordering doesn't change between iterations and versions.
   // Ideally, the ordering in test should never be updated.
   @Test
-  public void incidentEdges_returnsInStableOrder() {
+  public void incidentEdges_returnsInEdgeInsertionOrder() {
     populateStarShapedGraph(graph);
 
     assertThat(graph.incidentEdges(1))
         .containsExactly(
             EndpointPair.ordered(2, 1),
-            EndpointPair.ordered(5, 1),
-            EndpointPair.ordered(3, 1),
             EndpointPair.ordered(1, 4),
             EndpointPair.ordered(1, 3),
-            EndpointPair.ordered(1, 2))
+            EndpointPair.ordered(5, 1),
+            EndpointPair.ordered(1, 2),
+            EndpointPair.ordered(3, 1))
         .inOrder();
   }
 
