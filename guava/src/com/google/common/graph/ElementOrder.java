@@ -100,7 +100,7 @@ public final class ElementOrder<T> {
    *         <li>{@code adjacentNodes(node)}: Connecting edge insertion order
    *         <li>{@code predecessors(node)}: Connecting edge insertion order
    *         <li>{@code successors(node)}: Connecting edge insertion order
-   *         <li>{@code incidentEdges(node)}: Stable order
+   *         <li>{@code incidentEdges(node)}: Edge insertion order
    *       </ul>
    *   <li>For {@link Network}:
    *       <ul>
