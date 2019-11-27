@@ -19,6 +19,7 @@ import elemental2.promise.Promise;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsOptional;
 
 /**
  * Java super source for ListenableFuture, implementing a structural thenable via a default method.
@@ -37,7 +38,7 @@ public interface ListenableFuture<V> extends Future<V>, Thenable<V> {
   @Override
   default <R> IThenable<R> then(
       IThenable.ThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
-      IThenable.ThenOnRejectedCallbackFn<? extends R> onRejected) {
+      @JsOptional IThenable.ThenOnRejectedCallbackFn<? extends R> onRejected) {
     return new Promise<V>(
             (resolve, reject) -> {
               Futures.addCallback(
