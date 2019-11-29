@@ -28,18 +28,24 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public final class StandardMutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {
 
-  @Parameters
+  @Parameters(name = "[allowsSelfLoops={0}, incidentEdgeOrder={1}]")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[][] {
-          {false}, {true},
+          {false, ElementOrder.unordered()},
+          {true, ElementOrder.unordered()},
+          {false, ElementOrder.stable()},
+          {true, ElementOrder.stable()},
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final ElementOrder<Integer> incidentEdgeOrder;
 
-  public StandardMutableDirectedGraphTest(boolean allowsSelfLoops) {
+  public StandardMutableDirectedGraphTest(
+      boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.incidentEdgeOrder = incidentEdgeOrder;
   }
 
   @Override
@@ -48,8 +54,16 @@ public final class StandardMutableDirectedGraphTest extends AbstractStandardDire
   }
 
   @Override
+  ElementOrder<Integer> incidentEdgeOrder() {
+    return incidentEdgeOrder;
+  }
+
+  @Override
   public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.directed().allowsSelfLoops(allowsSelfLoops()).build();
+    return GraphBuilder.directed()
+        .allowsSelfLoops(allowsSelfLoops())
+        .incidentEdgeOrder(incidentEdgeOrder)
+        .build();
   }
 
   @CanIgnoreReturnValue
