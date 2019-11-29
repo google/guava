@@ -23,23 +23,28 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-/** Tests for an undirected {@link ConfigurableMutableGraph}. */
+/** Tests for a directed {@link ConfigurableMutableGraph}. */
 @AndroidIncompatible
 @RunWith(Parameterized.class)
-public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirectedGraphTest {
+public final class StandardImmutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {
 
-  @Parameters(name = "allowsSelfLoops={0}")
+  @Parameters(name = "allowsSelfLoops={0}, incidentEdgeOrder={1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[][] {
-          {false}, {true},
+          {false, ElementOrder.unordered()},
+          {true, ElementOrder.unordered()},
+          // TODO(b/142723300): Add ElementOrder.stable() once it is supported
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final ElementOrder<Integer> incidentEdgeOrder;
 
-  public StandardMutableUndirectedGraphTest(boolean allowsSelfLoops) {
+  public StandardImmutableDirectedGraphTest(
+      boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.incidentEdgeOrder = incidentEdgeOrder;
   }
 
   @Override
@@ -48,19 +53,34 @@ public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirect
   }
 
   @Override
-  public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops()).build();
+  ElementOrder<Integer> incidentEdgeOrder() {
+    return incidentEdgeOrder;
+  }
+
+  @Override
+  public Graph<Integer> createGraph() {
+    return GraphBuilder.directed()
+        .allowsSelfLoops(allowsSelfLoops())
+        .incidentEdgeOrder(incidentEdgeOrder)
+        .immutable()
+        .build();
   }
 
   @CanIgnoreReturnValue
   @Override
   final boolean addNode(Integer n) {
-    return graphAsMutableGraph.addNode(n);
+    MutableGraph<Integer> mutableGraph = Graphs.copyOf(graph);
+    boolean somethingChanged = mutableGraph.addNode(n);
+    graph = ImmutableGraph.copyOf(mutableGraph);
+    return somethingChanged;
   }
 
   @CanIgnoreReturnValue
   @Override
   final boolean putEdge(Integer n1, Integer n2) {
-    return graphAsMutableGraph.putEdge(n1, n2);
+    MutableGraph<Integer> mutableGraph = Graphs.copyOf(graph);
+    boolean somethingChanged = mutableGraph.putEdge(n1, n2);
+    graph = ImmutableGraph.copyOf(mutableGraph);
+    return somethingChanged;
   }
 }

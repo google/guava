@@ -46,6 +46,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Override
   @Test
   public void nodes_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     Set<Integer> nodes = graph.nodes();
     try {
       nodes.add(N2);
@@ -59,6 +61,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Override
   @Test
   public void adjacentNodes_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<Integer> adjacentNodes = graph.adjacentNodes(N1);
     try {
@@ -73,6 +77,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Override
   @Test
   public void predecessors_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N2);
     Set<Integer> predecessors = graph.predecessors(N2);
     try {
@@ -87,6 +93,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Override
   @Test
   public void successors_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<Integer> successors = graph.successors(N1);
     try {
@@ -101,6 +109,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   @Override
   @Test
   public void incidentEdges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<EndpointPair<Integer>> incidentEdges = graph.incidentEdges(N1);
     try {
