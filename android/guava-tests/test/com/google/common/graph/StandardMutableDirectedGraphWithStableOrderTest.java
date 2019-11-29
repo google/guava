@@ -18,18 +18,39 @@ package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /** Tests for a directed {@link ConfigurableMutableGraph} with stable incident edge order. */
 @RunWith(JUnit4.class)
-public class ConfigurableDirectedGraphWithStableOrderTest
-    extends ConfigurableSimpleDirectedGraphTest {
+public final class StandardMutableDirectedGraphWithStableOrderTest
+    extends AbstractStandardDirectedGraphTest {
+
+  @Override
+  boolean allowsSelfLoops() {
+    return true;
+  }
 
   @Override
   public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    return GraphBuilder.directed()
+        .allowsSelfLoops(allowsSelfLoops())
+        .incidentEdgeOrder(ElementOrder.stable())
+        .build();
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  final boolean addNode(Integer n) {
+    return graphAsMutableGraph.addNode(n);
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  final boolean putEdge(Integer n1, Integer n2) {
+    return graphAsMutableGraph.putEdge(n1, n2);
   }
 
   // Note: Stable order means that the ordering doesn't change between iterations and versions.

@@ -22,36 +22,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.testing.EqualsTester;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
- * Tests for an undirected {@link ConfigurableMutableGraph}, creating a simple undirected graph
- * (self-loop edges are not allowed).
+ * Abstract base class for testing undirected {@link Graph} implementations defined in this package.
  */
-@RunWith(JUnit4.class)
-public class ConfigurableSimpleUndirectedGraphTest extends AbstractGraphTest {
+public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphTest {
 
-  @Override
-  public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.undirected().allowsSelfLoops(false).build();
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  final boolean addNode(Integer n) {
-    return graphAsMutableGraph.addNode(n);
-  }
-
-  @CanIgnoreReturnValue
-  @Override
-  final boolean putEdge(Integer n1, Integer n2) {
-    return graphAsMutableGraph.putEdge(n1, n2);
-  }
+  abstract boolean allowsSelfLoops();
 
   @After
   public void validateUndirectedEdges() {
@@ -182,6 +162,76 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isTrue();
   }
 
+  @Test
+  public void adjacentNodes_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    putEdge(N1, N2);
+    assertThat(graph.adjacentNodes(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void predecessors_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N1);
+    putEdge(N1, N2);
+    assertThat(graph.predecessors(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void successors_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.successors(N1)).containsExactly(N1);
+    putEdge(N2, N1);
+    assertThat(graph.successors(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void incidentEdges_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.incidentEdges(N1)).containsExactly(EndpointPair.unordered(N1, N1));
+    putEdge(N1, N2);
+    assertThat(graph.incidentEdges(N1))
+        .containsExactly(EndpointPair.unordered(N1, N1), EndpointPair.unordered(N1, N2));
+  }
+
+  @Test
+  public void degree_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.degree(N1)).isEqualTo(2);
+    putEdge(N1, N2);
+    assertThat(graph.degree(N1)).isEqualTo(3);
+  }
+
+  @Test
+  public void inDegree_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.inDegree(N1)).isEqualTo(2);
+    putEdge(N1, N2);
+    assertThat(graph.inDegree(N1)).isEqualTo(3);
+  }
+
+  @Test
+  public void outDegree_selfLoop() {
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graph.outDegree(N1)).isEqualTo(2);
+    putEdge(N2, N1);
+    assertThat(graph.outDegree(N1)).isEqualTo(3);
+  }
+
   // Element Mutation
 
   @Test
@@ -216,18 +266,6 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graphAsMutableGraph.removeEdge(N2, N1)).isFalse();
   }
 
-  @Test
-  public void addEdge_selfLoop() {
-    assume().that(graphIsMutable()).isTrue();
-
-    try {
-      putEdge(N1, N1);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
-    }
-  }
-
   /**
    * Tests that the method {@code addEdge} will silently add the missing nodes to the graph, then
    * add the edge connecting them. We are not using the proxy methods here as we want to test {@code
@@ -247,5 +285,58 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractGraphTest {
     assertThat(graph.adjacentNodes(N3)).containsExactly(N2);
     assertThat(graph.adjacentNodes(N4)).containsExactly(N1);
     assertThat(graph.adjacentNodes(N5)).containsExactly(N1);
+  }
+
+  @Test
+  public void addEdge_doesntAllowSelfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isFalse();
+
+    try {
+      putEdge(N1, N1);
+      fail(ERROR_ADDED_SELF_LOOP);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
+    }
+  }
+
+  @Test
+  public void addEdge_allowsSelfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    assertThat(putEdge(N1, N1)).isTrue();
+    assertThat(graph.adjacentNodes(N1)).containsExactly(N1);
+  }
+
+  @Test
+  public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(putEdge(N1, N1)).isFalse();
+  }
+
+  @Test
+  public void removeNode_existingNodeWithSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    addNode(N1);
+    putEdge(N1, N1);
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
+    assertThat(graph.nodes()).isEmpty();
+  }
+
+  @Test
+  public void removeEdge_existingSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(N1, N1);
+    assertThat(graphAsMutableGraph.removeEdge(N1, N1)).isTrue();
+    assertThat(graph.nodes()).containsExactly(N1);
+    assertThat(graph.adjacentNodes(N1)).isEmpty();
   }
 }
