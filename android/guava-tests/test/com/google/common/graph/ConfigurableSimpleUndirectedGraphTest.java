@@ -21,8 +21,10 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -32,7 +34,7 @@ import org.junit.runners.JUnit4;
  * (self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
-public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGraphTest {
+public class ConfigurableSimpleUndirectedGraphTest extends AbstractGraphTest {
 
   @Override
   public MutableGraph<Integer> createGraph() {
@@ -49,6 +51,16 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
   @Override
   final boolean putEdge(Integer n1, Integer n2) {
     return graphAsMutableGraph.putEdge(n1, n2);
+  }
+
+  @After
+  public void validateUndirectedEdges() {
+    for (Integer node : graph.nodes()) {
+      new EqualsTester()
+          .addEqualityGroup(
+              graph.predecessors(node), graph.successors(node), graph.adjacentNodes(node))
+          .testEquals();
+    }
   }
 
   @Override
@@ -120,7 +132,89 @@ public class ConfigurableSimpleUndirectedGraphTest extends AbstractUndirectedGra
     }
   }
 
+  @Test
+  public void predecessors_oneEdge() {
+    putEdge(N1, N2);
+    assertThat(graph.predecessors(N2)).containsExactly(N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N2);
+  }
+
+  @Test
+  public void successors_oneEdge() {
+    putEdge(N1, N2);
+    assertThat(graph.successors(N1)).containsExactly(N2);
+    assertThat(graph.successors(N2)).containsExactly(N1);
+  }
+
+  @Test
+  public void incidentEdges_oneEdge() {
+    putEdge(N1, N2);
+    EndpointPair<Integer> expectedEndpoints = EndpointPair.unordered(N1, N2);
+    assertThat(graph.incidentEdges(N1)).containsExactly(expectedEndpoints);
+    assertThat(graph.incidentEdges(N2)).containsExactly(expectedEndpoints);
+  }
+
+  @Test
+  public void inDegree_oneEdge() {
+    putEdge(N1, N2);
+    assertThat(graph.inDegree(N2)).isEqualTo(1);
+    assertThat(graph.inDegree(N1)).isEqualTo(1);
+  }
+
+  @Test
+  public void outDegree_oneEdge() {
+    putEdge(N1, N2);
+    assertThat(graph.outDegree(N1)).isEqualTo(1);
+    assertThat(graph.outDegree(N2)).isEqualTo(1);
+  }
+
+  @Test
+  public void hasEdgeConnecting_correct() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N1, N2))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N2, N1))).isTrue();
+  }
+
+  @Test
+  public void hasEdgeConnecting_mismatch() {
+    putEdge(N1, N2);
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N1, N2))).isTrue();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N2, N1))).isTrue();
+  }
+
   // Element Mutation
+
+  @Test
+  public void addEdge_existingNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
+    // Adding nodes initially for safety (insulating from possible future
+    // modifications to proxy methods)
+    addNode(N1);
+    addNode(N2);
+    assertThat(putEdge(N1, N2)).isTrue();
+  }
+
+  @Test
+  public void addEdge_existingEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
+    putEdge(N1, N2);
+    assertThat(putEdge(N2, N1)).isFalse();
+  }
+
+  @Test
+  public void removeEdge_antiparallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+
+    putEdge(N1, N2);
+    putEdge(N2, N1); // no-op
+
+    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isTrue();
+    assertThat(graph.adjacentNodes(N1)).isEmpty();
+    assertThat(graph.edges()).isEmpty();
+    assertThat(graphAsMutableGraph.removeEdge(N2, N1)).isFalse();
+  }
 
   @Test
   public void addEdge_selfLoop() {
