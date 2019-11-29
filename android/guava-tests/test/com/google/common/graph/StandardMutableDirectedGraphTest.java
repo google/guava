@@ -28,7 +28,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public final class StandardMutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {
 
-  @Parameters(name = "[allowsSelfLoops={0}, incidentEdgeOrder={1}]")
+  @Parameters(name = "allowsSelfLoops={0}, incidentEdgeOrder={1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[][] {
