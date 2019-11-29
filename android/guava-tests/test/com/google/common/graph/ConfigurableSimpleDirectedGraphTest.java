@@ -17,9 +17,11 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +37,18 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   @Override
   public MutableGraph<Integer> createGraph() {
     return GraphBuilder.directed().allowsSelfLoops(false).build();
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  final boolean addNode(Integer n) {
+    return graphAsMutableGraph.addNode(n);
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  final boolean putEdge(Integer n1, Integer n2) {
+    return graphAsMutableGraph.putEdge(n1, n2);
   }
 
   @Override
@@ -110,6 +124,8 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
 
   @Test
   public void addEdge_selfLoop() {
+    assume().that(graphIsMutable()).isTrue();
+
     try {
       putEdge(N1, N1);
       fail(ERROR_ADDED_SELF_LOOP);
@@ -119,17 +135,18 @@ public class ConfigurableSimpleDirectedGraphTest extends AbstractDirectedGraphTe
   }
 
   /**
-   * This test checks an implementation dependent feature. It tests that the method {@code addEdge}
-   * will silently add the missing nodes to the graph, then add the edge connecting them. We are not
-   * using the proxy methods here as we want to test {@code addEdge} when the end-points are not
-   * elements of the graph.
+   * Tests that the method {@code addEdge} will silently add the missing nodes to the graph, then
+   * add the edge connecting them. We are not using the proxy methods here as we want to test {@code
+   * addEdge} when the end-points are not elements of the graph.
    */
   @Test
   public void addEdge_nodesNotInGraph() {
-    graph.addNode(N1);
-    assertTrue(graph.putEdge(N1, N5));
-    assertTrue(graph.putEdge(N4, N1));
-    assertTrue(graph.putEdge(N2, N3));
+    assume().that(graphIsMutable()).isTrue();
+
+    graphAsMutableGraph.addNode(N1);
+    assertTrue(graphAsMutableGraph.putEdge(N1, N5));
+    assertTrue(graphAsMutableGraph.putEdge(N4, N1));
+    assertTrue(graphAsMutableGraph.putEdge(N2, N3));
     assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
     assertThat(graph.successors(N1)).containsExactly(N5);
     assertThat(graph.successors(N2)).containsExactly(N3);
