@@ -105,14 +105,14 @@ public class ConfigurableDirectedGraphTest extends ConfigurableSimpleDirectedGra
   public void removeNode_existingNodeWithSelfLoopEdge() {
     addNode(N1);
     putEdge(N1, N1);
-    assertThat(graph.removeNode(N1)).isTrue();
+    assertThat(graphAsMutableGraph.removeNode(N1)).isTrue();
     assertThat(graph.nodes()).isEmpty();
   }
 
   @Test
   public void removeEdge_existingSelfLoopEdge() {
     putEdge(N1, N1);
-    assertThat(graph.removeEdge(N1, N1)).isTrue();
+    assertThat(graphAsMutableGraph.removeEdge(N1, N1)).isTrue();
     assertThat(graph.nodes()).containsExactly(N1);
     assertThat(graph.successors(N1)).isEmpty();
   }

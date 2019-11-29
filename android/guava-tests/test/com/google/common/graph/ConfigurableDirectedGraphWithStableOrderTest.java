@@ -36,7 +36,7 @@ public class ConfigurableDirectedGraphWithStableOrderTest
   // Ideally, the ordering in test should never be updated.
   @Test
   public void edges_returnsInStableOrder() {
-    populateStarShapedGraph(graph);
+    populateStarShapedGraph(graphAsMutableGraph);
 
     assertThat(graph.edges())
         .containsExactly(
@@ -51,21 +51,21 @@ public class ConfigurableDirectedGraphWithStableOrderTest
 
   @Test
   public void adjacentNodes_returnsInConnectingEdgeInsertionOrder() {
-    populateStarShapedGraph(graph);
+    populateStarShapedGraph(graphAsMutableGraph);
 
     assertThat(graph.adjacentNodes(1)).containsExactly(2, 4, 3, 5).inOrder();
   }
 
   @Test
   public void predecessors_returnsInConnectingEdgeInsertionOrder() {
-    populateStarShapedGraph(graph);
+    populateStarShapedGraph(graphAsMutableGraph);
 
     assertThat(graph.predecessors(1)).containsExactly(2, 5, 3).inOrder();
   }
 
   @Test
   public void successors_returnsInConnectingEdgeInsertionOrder() {
-    populateStarShapedGraph(graph);
+    populateStarShapedGraph(graphAsMutableGraph);
 
     assertThat(graph.successors(1)).containsExactly(4, 3, 2).inOrder();
   }
@@ -74,7 +74,7 @@ public class ConfigurableDirectedGraphWithStableOrderTest
   // Ideally, the ordering in test should never be updated.
   @Test
   public void incidentEdges_returnsInEdgeInsertionOrder() {
-    populateStarShapedGraph(graph);
+    populateStarShapedGraph(graphAsMutableGraph);
 
     assertThat(graph.incidentEdges(1))
         .containsExactly(

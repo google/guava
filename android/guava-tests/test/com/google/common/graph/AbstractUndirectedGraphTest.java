@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.testing.EqualsTester;
 import org.junit.After;
@@ -95,6 +96,8 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void addEdge_existingNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
     // Adding nodes initially for safety (insulating from possible future
     // modifications to proxy methods)
     addNode(N1);
@@ -104,18 +107,22 @@ public abstract class AbstractUndirectedGraphTest extends AbstractGraphTest {
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     assertThat(putEdge(N2, N1)).isFalse();
   }
 
   @Test
   public void removeEdge_antiparallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+
     putEdge(N1, N2);
     putEdge(N2, N1); // no-op
 
-    assertThat(graph.removeEdge(N1, N2)).isTrue();
+    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isTrue();
     assertThat(graph.adjacentNodes(N1)).isEmpty();
     assertThat(graph.edges()).isEmpty();
-    assertThat(graph.removeEdge(N2, N1)).isFalse();
+    assertThat(graphAsMutableGraph.removeEdge(N2, N1)).isFalse();
   }
 }
