@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import elemental2.promise.IThenable;
+import jsinterop.annotations.JsOptional;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
@@ -28,5 +29,5 @@ import jsinterop.annotations.JsType;
 interface Thenable<T> {
   <V> IThenable<V> then(
       IThenable.ThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      IThenable.ThenOnRejectedCallbackFn<? extends V> onRejected);
+      @JsOptional IThenable.ThenOnRejectedCallbackFn<? extends V> onRejected);
 }
