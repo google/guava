@@ -216,6 +216,40 @@ public interface TimeLimiter {
     return callUninterruptiblyWithTimeout(
         callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
+  
+  	/**
+	 * Invokes a specified Callable, timing out after the specified time limit. If
+	 * the target method call finished before the limit is reached, the return value
+	 * or exception is propagated to the caller exactly as-is. If, on the other
+	 * hand, the time limit is reached, we attempt to abort the call to the target,
+	 * and throw an {@link UncheckedTimeoutException} to the caller.
+	 * <p>
+	 * <b>Warning:</b> This method has been superceded by
+	 * {@link #callWithTimeout(Callable, long, TimeUnit)} and
+	 * {@link #callUninterruptiblyWithTimeout(Callable, long, TimeUnit)}.
+	 *
+	 * @param callable        the Callable to execute
+	 * @param timeoutDuration with timeoutUnit, the maximum length of time to wait
+	 * @param timeoutUnit     with timeoutDuration, the maximum length of time to
+	 *                        wait
+	 * @param interruptible   whether to respond to thread interruption by aborting
+	 *                        the operation and throwing InterruptedException; if
+	 *                        false, the operation is allowed to complete or time
+	 *                        out, and the current thread's interrupt status is
+	 *                        re-asserted.
+	 * @return the result returned by the Callable
+	 * @throws InterruptedException      if {@code interruptible} is true and our
+	 *                                   thread is interrupted during execution
+	 * @throws UncheckedTimeoutException if the time limit is reached
+	 * @throws Exception
+	 * @deprecated as of Guava 22.0. This method was declared by the beta version
+	 * of this interface, which was introduced in Guava 19.0 and replaced by the
+	 * final interface in Guava 22.0.
+	 * 
+	 */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  <T> T callWithTimeout(Callable<T> callable, long timeoutDuration,
+      TimeUnit timeoutUnit, boolean interruptible) throws Exception;
 
   /**
    * Invokes a specified Runnable, timing out after the specified time limit. If the target method

@@ -49,7 +49,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;
 
-  private SimpleTimeLimiter(ExecutorService executor) {
+  public SimpleTimeLimiter(ExecutorService executor) {
     this.executor = checkNotNull(executor);
   }
 
@@ -113,7 +113,9 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
-  private <T> T callWithTimeout(
+  @CanIgnoreReturnValue
+  @Override
+  public <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
     checkNotNull(callable);
