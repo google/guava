@@ -597,7 +597,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.226">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.228">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/AbstractNetwork.html" title="type parameter in AbstractNetwork">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#hasEdgeConnecting-com.google.common.graph.EndpointPair-">Network</a></code></span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>).
@@ -617,7 +617,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>validateEndpoints</h4>
-<pre>protected final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.238">validateEndpoints</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
+<pre>protected final&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.240">validateEndpoints</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
 <div class="block">Throws an IllegalArgumentException if the ordering of <code>endpoints</code> is not compatible with
  the directionality of this graph.</div>
 </li>
@@ -628,7 +628,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>isOrderingCompatible</h4>
-<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.243">isOrderingCompatible</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
+<pre>protected final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.245">isOrderingCompatible</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</pre>
 </li>
 </ul>
 <a name="equals-java.lang.Object-">
@@ -637,7 +637,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.248">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
+<pre>public final&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.250">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#equals-java.lang.Object-">Network</a></code></span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
  same structural relationships as those in this network.
@@ -671,7 +671,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.263">hashCode</a>()</pre>
+<pre>public final&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.265">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../com/google/common/graph/Network.html#hashCode--">Network</a></code></span></div>
 <div class="block">Returns the hash code for this network. The hash code of a network is defined as the hash code
  of a map from each of its <a href="../../../../com/google/common/graph/Network.html#edges--"><code>edges</code></a> to their <a href="../../../../com/google/common/graph/Network.html#incidentNodes-E-"><code>incident nodes</code></a>.
@@ -691,7 +691,7 @@ implements <a href="../../../../com/google/common/graph/Network.html" title="int
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.269">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/AbstractNetwork.html#line.271">toString</a>()</pre>
 <div class="block">Returns a string representation of this network.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
