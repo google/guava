@@ -936,7 +936,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
    * @since NEXT
    */
-  public static Inet4Address fromIpv4BigInteger(BigInteger address) {
+  public static Inet4Address fromIPv4BigInteger(BigInteger address) {
     return (Inet4Address) fromBigInteger(address, false);
   }
   /**
@@ -947,7 +947,7 @@ public final class InetAddresses {
    * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
    * @since NEXT
    */
-  public static Inet6Address fromIpv6BigInteger(BigInteger address) {
+  public static Inet6Address fromIPv6BigInteger(BigInteger address) {
     return (Inet6Address) fromBigInteger(address, true);
   }
 
