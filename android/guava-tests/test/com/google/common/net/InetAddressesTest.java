@@ -770,7 +770,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testFromIpv4BigIntegerThrowsLessThanZero() {
     try {
-      InetAddresses.fromIpv4BigInteger(BigInteger.valueOf(-1L));
+      InetAddresses.fromIPv4BigInteger(BigInteger.valueOf(-1L));
       fail();
     } catch (IllegalArgumentException expected) {
       assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
@@ -779,7 +779,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testFromIpv6BigIntegerThrowsLessThanZero() {
     try {
-      InetAddresses.fromIpv6BigInteger(BigInteger.valueOf(-1L));
+      InetAddresses.fromIPv6BigInteger(BigInteger.valueOf(-1L));
       fail();
     } catch (IllegalArgumentException expected) {
       assertEquals("BigInteger must be greater than or equal to 0", expected.getMessage());
@@ -810,7 +810,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testFromIpv4BigIntegerInputTooLarge() {
     try {
-      InetAddresses.fromIpv4BigInteger(BigInteger.ONE.shiftLeft(32).add(BigInteger.ONE));
+      InetAddresses.fromIPv4BigInteger(BigInteger.ONE.shiftLeft(32).add(BigInteger.ONE));
       fail();
     } catch (IllegalArgumentException expected) {
       assertEquals(
@@ -822,7 +822,7 @@ public class InetAddressesTest extends TestCase {
 
   public void testFromIpv6BigIntegerInputTooLarge() {
     try {
-      InetAddresses.fromIpv6BigInteger(BigInteger.ONE.shiftLeft(128).add(BigInteger.ONE));
+      InetAddresses.fromIPv6BigInteger(BigInteger.ONE.shiftLeft(128).add(BigInteger.ONE));
       fail();
     } catch (IllegalArgumentException expected) {
       assertEquals(
@@ -840,7 +840,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(
         address,
         isIpv6
-            ? InetAddresses.fromIpv6BigInteger(bigIntegerIp)
-            : InetAddresses.fromIpv4BigInteger(bigIntegerIp));
+            ? InetAddresses.fromIPv6BigInteger(bigIntegerIp)
+            : InetAddresses.fromIPv4BigInteger(bigIntegerIp));
   }
 }
