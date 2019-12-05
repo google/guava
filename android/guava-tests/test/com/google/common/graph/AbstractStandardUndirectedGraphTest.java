@@ -245,44 +245,33 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   // Element Mutation
 
   @Test
-  public void addEdge_existingNodes() {
+  public void putEdge_existingNodes() {
     assume().that(graphIsMutable()).isTrue();
 
     // Adding nodes initially for safety (insulating from possible future
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(putEdge(N1, N2)).isTrue();
+
+    assertThat(graphAsMutableGraph.putEdge(N1, N2)).isTrue();
   }
 
   @Test
-  public void addEdge_existingEdgeBetweenSameNodes() {
+  public void putEdge_existingEdgeBetweenSameNodes() {
     assume().that(graphIsMutable()).isTrue();
 
     putEdge(N1, N2);
-    assertThat(putEdge(N2, N1)).isFalse();
-  }
 
-  @Test
-  public void removeEdge_antiparallelEdges() {
-    assume().that(graphIsMutable()).isTrue();
-
-    putEdge(N1, N2);
-    putEdge(N2, N1); // no-op
-
-    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isTrue();
-    assertThat(graph.adjacentNodes(N1)).isEmpty();
-    assertThat(graph.edges()).isEmpty();
-    assertThat(graphAsMutableGraph.removeEdge(N2, N1)).isFalse();
+    assertThat(graphAsMutableGraph.putEdge(N2, N1)).isFalse();
   }
 
   /**
-   * Tests that the method {@code addEdge} will silently add the missing nodes to the graph, then
+   * Tests that the method {@code putEdge} will silently add the missing nodes to the graph, then
    * add the edge connecting them. We are not using the proxy methods here as we want to test {@code
-   * addEdge} when the end-points are not elements of the graph.
+   * putEdge} when the end-points are not elements of the graph.
    */
   @Test
-  public void addEdge_nodesNotInGraph() {
+  public void putEdge_nodesNotInGraph() {
     assume().that(graphIsMutable()).isTrue();
 
     graphAsMutableGraph.addNode(N1);
@@ -298,7 +287,7 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   }
 
   @Test
-  public void addEdge_doesntAllowSelfLoops() {
+  public void putEdge_doesntAllowSelfLoops() {
     assume().that(graphIsMutable()).isTrue();
     assume().that(allowsSelfLoops()).isFalse();
 
@@ -311,21 +300,34 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   }
 
   @Test
-  public void addEdge_allowsSelfLoops() {
+  public void putEdge_allowsSelfLoops() {
     assume().that(graphIsMutable()).isTrue();
     assume().that(allowsSelfLoops()).isTrue();
 
-    assertThat(putEdge(N1, N1)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N1, N1)).isTrue();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N1);
   }
 
   @Test
-  public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
+  public void putEdge_existingSelfLoopEdgeBetweenSameNodes() {
     assume().that(graphIsMutable()).isTrue();
     assume().that(allowsSelfLoops()).isTrue();
 
     putEdge(N1, N1);
-    assertThat(putEdge(N1, N1)).isFalse();
+    assertThat(graphAsMutableGraph.putEdge(N1, N1)).isFalse();
+  }
+
+  @Test
+  public void removeEdge_antiparallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+
+    putEdge(N1, N2);
+    putEdge(N2, N1); // no-op
+
+    assertThat(graphAsMutableGraph.removeEdge(N1, N2)).isTrue();
+    assertThat(graph.adjacentNodes(N1)).isEmpty();
+    assertThat(graph.edges()).isEmpty();
+    assertThat(graphAsMutableGraph.removeEdge(N2, N1)).isFalse();
   }
 
   @Test
