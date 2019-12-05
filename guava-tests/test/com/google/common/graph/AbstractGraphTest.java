@@ -97,13 +97,13 @@ public abstract class AbstractGraphTest {
   @CanIgnoreReturnValue
   abstract boolean putEdge(Integer n1, Integer n2);
 
-  final boolean graphIsMutable() {
-    return graphAsMutableGraph != null;
-  }
-
   @CanIgnoreReturnValue
   final boolean putEdge(EndpointPair<Integer> endpoints) {
     return putEdge(endpoints.nodeU(), endpoints.nodeV());
+  }
+
+  final boolean graphIsMutable() {
+    return graphAsMutableGraph != null;
   }
 
   @Before
