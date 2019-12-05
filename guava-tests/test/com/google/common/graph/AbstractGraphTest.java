@@ -470,6 +470,7 @@ public abstract class AbstractGraphTest {
 
     putEdge(N1, N2);
     addNode(N3);
+
     assertThat(graphAsMutableGraph.removeEdge(N1, N3)).isFalse();
     assertThat(graph.successors(N1)).contains(N2);
   }

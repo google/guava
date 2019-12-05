@@ -334,15 +334,16 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(putEdge(N1, N2)).isTrue();
+
+    assertThat(graphAsMutableGraph.putEdge(N1, N2)).isTrue();
   }
 
   @Test
   public void putEdge_existingEdgeBetweenSameNodes() {
     assume().that(graphIsMutable()).isTrue();
 
-    assertThat(putEdge(N1, N2)).isTrue();
-    assertThat(putEdge(N1, N2)).isFalse();
+    assertThat(graphAsMutableGraph.putEdge(N1, N2)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N1, N2)).isFalse();
   }
 
   @Test
@@ -356,6 +357,59 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     } catch (IllegalArgumentException e) {
       assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
     }
+  }
+
+  /**
+   * Tests that the method {@code putEdge} will silently add the missing nodes to the graph, then
+   * add the edge connecting them. We are not using the proxy methods here as we want to test {@code
+   * putEdge} when the end-points are not elements of the graph.
+   */
+  @Test
+  public void putEdge_nodesNotInGraph() {
+    assume().that(graphIsMutable()).isTrue();
+
+    graphAsMutableGraph.addNode(N1);
+    assertTrue(graphAsMutableGraph.putEdge(N1, N5));
+    assertTrue(graphAsMutableGraph.putEdge(N4, N1));
+    assertTrue(graphAsMutableGraph.putEdge(N2, N3));
+    assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
+    assertThat(graph.successors(N1)).containsExactly(N5);
+    assertThat(graph.successors(N2)).containsExactly(N3);
+    assertThat(graph.successors(N3)).isEmpty();
+    assertThat(graph.successors(N4)).containsExactly(N1);
+    assertThat(graph.successors(N5)).isEmpty();
+  }
+
+  @Test
+  public void putEdge_doesntAllowSelfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isFalse();
+
+    try {
+      graphAsMutableGraph.putEdge(N1, N1);
+      fail(ERROR_ADDED_SELF_LOOP);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
+    }
+  }
+
+  @Test
+  public void putEdge_allowsSelfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    assertThat(graphAsMutableGraph.putEdge(N1, N1)).isTrue();
+    assertThat(graph.successors(N1)).containsExactly(N1);
+    assertThat(graph.predecessors(N1)).containsExactly(N1);
+  }
+
+  @Test
+  public void putEdge_existingSelfLoopEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(allowsSelfLoops()).isTrue();
+
+    graphAsMutableGraph.putEdge(N1, N1);
+    assertThat(graphAsMutableGraph.putEdge(N1, N1)).isFalse();
   }
 
   @Test
@@ -388,59 +442,6 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     } catch (IllegalArgumentException e) {
       assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
     }
-  }
-
-  /**
-   * Tests that the method {@code addEdge} will silently add the missing nodes to the graph, then
-   * add the edge connecting them. We are not using the proxy methods here as we want to test {@code
-   * addEdge} when the end-points are not elements of the graph.
-   */
-  @Test
-  public void addEdge_nodesNotInGraph() {
-    assume().that(graphIsMutable()).isTrue();
-
-    graphAsMutableGraph.addNode(N1);
-    assertTrue(graphAsMutableGraph.putEdge(N1, N5));
-    assertTrue(graphAsMutableGraph.putEdge(N4, N1));
-    assertTrue(graphAsMutableGraph.putEdge(N2, N3));
-    assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
-    assertThat(graph.successors(N1)).containsExactly(N5);
-    assertThat(graph.successors(N2)).containsExactly(N3);
-    assertThat(graph.successors(N3)).isEmpty();
-    assertThat(graph.successors(N4)).containsExactly(N1);
-    assertThat(graph.successors(N5)).isEmpty();
-  }
-
-  @Test
-  public void addEdge_doesntAllowSelfLoops() {
-    assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isFalse();
-
-    try {
-      putEdge(N1, N1);
-      fail(ERROR_ADDED_SELF_LOOP);
-    } catch (IllegalArgumentException e) {
-      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
-    }
-  }
-
-  @Test
-  public void addEdge_allowsSelfLoops() {
-    assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
-
-    assertThat(putEdge(N1, N1)).isTrue();
-    assertThat(graph.successors(N1)).containsExactly(N1);
-    assertThat(graph.predecessors(N1)).containsExactly(N1);
-  }
-
-  @Test
-  public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
-    assume().that(graphIsMutable()).isTrue();
-    assume().that(allowsSelfLoops()).isTrue();
-
-    putEdge(N1, N1);
-    assertThat(putEdge(N1, N1)).isFalse();
   }
 
   @Test
