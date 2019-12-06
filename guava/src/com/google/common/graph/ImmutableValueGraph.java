@@ -94,7 +94,7 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
         };
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), successorNodeToValueFn))
+            node, graph.incidentEdges(node), successorNodeToValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
   }

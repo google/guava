@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.runner.RunWith;
@@ -52,15 +51,13 @@ public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirect
     return GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops()).build();
   }
 
-  @CanIgnoreReturnValue
   @Override
-  final boolean addNode(Integer n) {
-    return graphAsMutableGraph.addNode(n);
+  final void addNode(Integer n) {
+    graphAsMutableGraph.addNode(n);
   }
 
-  @CanIgnoreReturnValue
   @Override
-  final boolean putEdge(Integer n1, Integer n2) {
-    return graphAsMutableGraph.putEdge(n1, n2);
+  final void putEdge(Integer n1, Integer n2) {
+    graphAsMutableGraph.putEdge(n1, n2);
   }
 }

@@ -25,7 +25,6 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.After;
@@ -81,25 +80,18 @@ public abstract class AbstractGraphTest {
    * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable
    * graph implementations, this method should replace {@link #graph} with a new graph that includes
    * this node.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
    */
-  @CanIgnoreReturnValue
-  abstract boolean addNode(Integer n);
+  abstract void addNode(Integer n);
 
   /**
    * A proxy method that adds the edge {@code e} to the graph being tested. In case of Immutable
    * graph implementations, this method should replace {@link #graph} with a new graph that includes
    * this edge.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
    */
-  @CanIgnoreReturnValue
-  abstract boolean putEdge(Integer n1, Integer n2);
+  abstract void putEdge(Integer n1, Integer n2);
 
-  @CanIgnoreReturnValue
-  final boolean putEdge(EndpointPair<Integer> endpoints) {
-    return putEdge(endpoints.nodeU(), endpoints.nodeV());
+  final void putEdge(EndpointPair<Integer> endpoints) {
+    putEdge(endpoints.nodeU(), endpoints.nodeV());
   }
 
   final boolean graphIsMutable() {

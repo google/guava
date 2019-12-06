@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
@@ -25,7 +26,7 @@ import static com.google.common.graph.Graphs.checkPositive;
 
 import com.google.common.base.Function;
 import com.google.common.collect.AbstractIterator;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.AbstractSet;
@@ -175,21 +176,55 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   static <N, V> DirectedGraphConnections<N, V> ofImmutable(
-      Set<N> predecessors, Map<N, V> successorValues) {
+      N thisNode, Iterable<EndpointPair<N>> incidentEdges, Function<N, V> successorNodeToValueFn) {
     Map<N, Object> adjacentNodeValues = new HashMap<>();
-    adjacentNodeValues.putAll(successorValues);
-    for (N predecessor : predecessors) {
-      Object value = adjacentNodeValues.put(predecessor, PRED);
-      if (value != null) {
-        adjacentNodeValues.put(predecessor, new PredAndSucc(value));
+    ImmutableList.Builder<NodeConnection<N>> orderedNodeConnectionsBuilder =
+        ImmutableList.builder();
+    int predecessorCount = 0;
+    int successorCount = 0;
+
+    for (EndpointPair<N> incidentEdge : incidentEdges) {
+      if (incidentEdge.nodeU().equals(thisNode) && incidentEdge.nodeV().equals(thisNode)) {
+        // incidentEdge is a self-loop
+
+        adjacentNodeValues.put(thisNode, new PredAndSucc(successorNodeToValueFn.apply(thisNode)));
+
+        orderedNodeConnectionsBuilder.add(new NodeConnection.Pred<>(thisNode));
+        orderedNodeConnectionsBuilder.add(new NodeConnection.Succ<>(thisNode));
+        predecessorCount++;
+        successorCount++;
+      } else if (incidentEdge.nodeV().equals(thisNode)) { // incidentEdge is an inEdge
+        N predecessor = incidentEdge.nodeU();
+
+        Object existingValue = adjacentNodeValues.put(predecessor, PRED);
+        if (existingValue != null) {
+          adjacentNodeValues.put(predecessor, new PredAndSucc(existingValue));
+        }
+
+        orderedNodeConnectionsBuilder.add(new NodeConnection.Pred<>(predecessor));
+        predecessorCount++;
+      } else { // incidentEdge is an outEdge
+        checkArgument(incidentEdge.nodeU().equals(thisNode));
+
+        N successor = incidentEdge.nodeV();
+        V value = successorNodeToValueFn.apply(successor);
+
+        Object existingValue = adjacentNodeValues.put(successor, value);
+        if (existingValue != null) {
+          checkArgument(existingValue == PRED);
+          adjacentNodeValues.put(successor, new PredAndSucc(value));
+        }
+
+        orderedNodeConnectionsBuilder.add(new NodeConnection.Succ<>(successor));
+        successorCount++;
       }
     }
+
     return new DirectedGraphConnections<>(
-        /* adjacentNodeValues = */ ImmutableMap.copyOf(adjacentNodeValues),
-        // TODO(b/142723300): Pass in an ImmutableList here with the ordered node connections
-        /* orderedNodeConnections = */ null,
-        /* predecessorCount = */ predecessors.size(),
-        /* successorCount = */ successorValues.size());
+        adjacentNodeValues,
+        orderedNodeConnectionsBuilder.build(),
+        predecessorCount,
+        successorCount);
   }
 
   @Override
