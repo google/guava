@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
@@ -136,6 +137,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    *
    * @since 2.0
    */
+  @DoNotMock
   public static class Builder<K, V> {
     Map<K, Collection<V>> builderMap;
     @MonotonicNonNullDecl Comparator<? super K> keyComparator;
