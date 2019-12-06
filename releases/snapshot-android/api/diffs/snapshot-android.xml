@@ -49518,7 +49518,7 @@
  @return {@link Inet4Address} equivalent of the argument]]>
       </doc>
     </method>
-    <method name="fromIpv4BigInteger" return="java.net.Inet4Address"
+    <method name="fromIPv4BigInteger" return="java.net.Inet4Address"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
@@ -49532,7 +49532,7 @@
  @since NEXT]]>
       </doc>
     </method>
-    <method name="fromIpv6BigInteger" return="java.net.Inet6Address"
+    <method name="fromIPv6BigInteger" return="java.net.Inet6Address"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">

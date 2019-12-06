@@ -1,6 +1,6 @@
 OK: com.google.common.math.StatsAccumulator Method addAll(com.google.common.math.StatsAccumulator)
-OK: com.google.common.net.InetAddresses Method fromIpv4BigInteger(java.math.BigInteger)
-OK: com.google.common.net.InetAddresses Method fromIpv6BigInteger(java.math.BigInteger)
+OK: com.google.common.net.InetAddresses Method fromIPv4BigInteger(java.math.BigInteger)
+OK: com.google.common.net.InetAddresses Method fromIPv6BigInteger(java.math.BigInteger)
 OK: com.google.common.util.concurrent.Futures Method submit(java.util.concurrent.Callable<O>, java.util.concurrent.Executor)
 OK: com.google.common.util.concurrent.Futures Method submit(java.lang.Runnable, java.util.concurrent.Executor)
 OK: com.google.common.net.InetAddresses Method toBigInteger(java.net.InetAddress)

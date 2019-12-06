@@ -102,7 +102,7 @@
 <span class="sourceLineNo">094</span>        };<a name="line.94"></a>
 <span class="sourceLineNo">095</span>    return graph.isDirected()<a name="line.95"></a>
 <span class="sourceLineNo">096</span>        ? DirectedGraphConnections.ofImmutable(<a name="line.96"></a>
-<span class="sourceLineNo">097</span>            graph.predecessors(node), Maps.asMap(graph.successors(node), successorNodeToValueFn))<a name="line.97"></a>
+<span class="sourceLineNo">097</span>            node, graph.incidentEdges(node), successorNodeToValueFn)<a name="line.97"></a>
 <span class="sourceLineNo">098</span>        : UndirectedGraphConnections.ofImmutable(<a name="line.98"></a>
 <span class="sourceLineNo">099</span>            Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));<a name="line.99"></a>
 <span class="sourceLineNo">100</span>  }<a name="line.100"></a>
