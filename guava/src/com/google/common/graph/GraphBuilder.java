@@ -22,6 +22,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * A builder for constructing instances of {@link MutableGraph} or {@link ImmutableGraph} with
@@ -62,6 +63,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
+@DoNotMock
 public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */
