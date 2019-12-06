@@ -16,7 +16,6 @@
 
 package com.google.common.graph;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.runner.RunWith;
@@ -34,12 +33,14 @@ public final class StandardImmutableDirectedGraphTest extends AbstractStandardDi
         new Object[][] {
           {false, ElementOrder.unordered()},
           {true, ElementOrder.unordered()},
-          // TODO(b/142723300): Add ElementOrder.stable() once it is supported
+          {false, ElementOrder.stable()},
+          {true, ElementOrder.stable()}
         });
   }
 
   private final boolean allowsSelfLoops;
   private final ElementOrder<Integer> incidentEdgeOrder;
+  private ImmutableGraph.Builder<Integer> graphBuilder;
 
   public StandardImmutableDirectedGraphTest(
       boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
@@ -59,28 +60,23 @@ public final class StandardImmutableDirectedGraphTest extends AbstractStandardDi
 
   @Override
   public Graph<Integer> createGraph() {
-    return GraphBuilder.directed()
-        .allowsSelfLoops(allowsSelfLoops())
-        .incidentEdgeOrder(incidentEdgeOrder)
-        .immutable()
-        .build();
+    graphBuilder =
+        GraphBuilder.directed()
+            .allowsSelfLoops(allowsSelfLoops())
+            .incidentEdgeOrder(incidentEdgeOrder)
+            .immutable();
+    return graphBuilder.build();
   }
 
-  @CanIgnoreReturnValue
   @Override
-  final boolean addNode(Integer n) {
-    MutableGraph<Integer> mutableGraph = Graphs.copyOf(graph);
-    boolean somethingChanged = mutableGraph.addNode(n);
-    graph = ImmutableGraph.copyOf(mutableGraph);
-    return somethingChanged;
+  final void addNode(Integer n) {
+    graphBuilder.addNode(n);
+    graph = graphBuilder.build();
   }
 
-  @CanIgnoreReturnValue
   @Override
-  final boolean putEdge(Integer n1, Integer n2) {
-    MutableGraph<Integer> mutableGraph = Graphs.copyOf(graph);
-    boolean somethingChanged = mutableGraph.putEdge(n1, n2);
-    graph = ImmutableGraph.copyOf(mutableGraph);
-    return somethingChanged;
+  final void putEdge(Integer n1, Integer n2) {
+    graphBuilder.putEdge(n1, n2);
+    graph = graphBuilder.build();
   }
 }

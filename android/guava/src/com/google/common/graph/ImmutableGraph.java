@@ -84,11 +84,12 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return nodeConnections.build();
   }
 
+  @SuppressWarnings("unchecked")
   private static <N> GraphConnections<N, Presence> connectionsOf(Graph<N> graph, N node) {
-    Function<Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
+    Function<N, Presence> edgeValueFn =
+        (Function<N, Presence>) Functions.constant(Presence.EDGE_EXISTS);
     return graph.isDirected()
-        ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), edgeValueFn))
+        ? DirectedGraphConnections.ofImmutable(node, graph.incidentEdges(node), edgeValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), edgeValueFn));
   }
