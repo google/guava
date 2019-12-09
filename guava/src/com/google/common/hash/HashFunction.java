@@ -16,7 +16,6 @@ package com.google.common.hash;
 
 import com.google.common.annotations.Beta;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -117,7 +116,6 @@ import java.nio.charset.Charset;
  * @since 11.0
  */
 @Beta
-@DoNotMock("Use a real instance from Hashing")
 @Immutable
 public interface HashFunction {
   /**
