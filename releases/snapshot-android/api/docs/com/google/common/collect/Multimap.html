@@ -109,8 +109,9 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/Multimap.html#line.159">Multimap</a>&lt;K,V&gt;</pre>
+<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use ImmutableMultimap, HashMultimap, or another implementation")
+ <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public interface <a href="../../../../src-html/com/google/common/collect/Multimap.html#line.161">Multimap</a>&lt;K,V&gt;</pre>
 <div class="block">A collection that maps keys to values, similar to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util"><code>Map</code></a>, but in which each key may be
  associated with <i>multiple</i> values. You can visualize the contents of a multimap either as a
  map from keys to <i>nonempty</i> collections of values:
@@ -405,7 +406,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>size</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.169">size</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.171">size</a>()</pre>
 <div class="block">Returns the number of key-value pairs in this multimap.
 
  <p><b>Note:</b> this method does not return the number of <i>distinct keys</i> in the multimap,
@@ -419,7 +420,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.175">isEmpty</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.177">isEmpty</a>()</pre>
 <div class="block">Returns <code>true</code> if this multimap contains no key-value pairs. Equivalent to <code>size()
  == 0</code>, but can in some cases be more efficient.</div>
 </li>
@@ -430,7 +431,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsKey</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.181">containsKey</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.183">containsKey</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                     <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>key</code>.</div>
 </li>
@@ -441,7 +442,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsValue</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.187">containsValue</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.189">containsValue</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the value
  <code>value</code>.</div>
@@ -453,7 +454,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <ul class="blockList">
 <li class="blockList">
 <h4>containsEntry</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.193">containsEntry</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.195">containsEntry</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                       <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
@@ -469,7 +470,7 @@ public interface <a href="../../../../src-html/com/google/common/collect/Multima
 <li class="blockList">
 <h4>put</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.210">put</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.212">put</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                   <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
                                   <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                   <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&nbsp;value)</pre>
@@ -492,7 +493,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <li class="blockList">
 <h4>remove</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.220">remove</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.222">remove</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                                      <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="V") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
@@ -514,7 +515,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <li class="blockList">
 <h4>putAll</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.241">putAll</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.243">putAll</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                      <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
                                      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all using the same key,
@@ -540,7 +541,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <li class="blockList">
 <h4>putAll</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.250">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;multimap)</pre>
+boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.252">putAll</a>(<a href="../../../../com/google/common/collect/Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;multimap)</pre>
 <div class="block">Stores all key-value pairs of <code>multimap</code> in this multimap, in the order returned by
  <code>multimap.entries()</code>.</div>
 <dl>
@@ -558,7 +559,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <li class="blockList">
 <h4>replaceValues</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.262">replaceValues</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.264">replaceValues</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                                   <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key,
                                                   <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;? extends <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;values)</pre>
 <div class="block">Stores a collection of values with the same key, replacing any existing values for that key.
@@ -579,7 +580,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <li class="blockList">
 <h4>removeAll</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.274">removeAll</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.276">removeAll</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CompatibleWith</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="K") <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                               <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key)</pre>
 <div class="block">Removes all values associated with the key <code>key</code>.
 
@@ -598,7 +599,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>clear</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.277">clear</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.279">clear</a>()</pre>
 <div class="block">Removes all key-value pairs from the multimap, leaving it <a href="../../../../com/google/common/collect/Multimap.html#isEmpty--">empty</a>.</div>
 </li>
 </ul>
@@ -610,7 +611,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>get</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.288">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.290">get</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                   <a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&nbsp;key)</pre>
 <div class="block">Returns a view collection of the values associated with <code>key</code> in this multimap, if any.
  Note that when <code>containsKey(key)</code> is false, this returns an empty collection, not <code>null</code>.
@@ -624,7 +625,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>keySet</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.297">keySet</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.299">keySet</a>()</pre>
 <div class="block">Returns a view collection of all <i>distinct</i> keys contained in this multimap. Note that the
  key set contains a key if and only if this multimap maps that key to at least one value.
 
@@ -638,7 +639,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>keys</h4>
-<pre><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.307">keys</a>()</pre>
+<pre><a href="../../../../com/google/common/collect/Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.309">keys</a>()</pre>
 <div class="block">Returns a view collection containing the key from each key-value pair in this multimap,
  <i>without</i> collapsing duplicates. This collection has the same size as this multimap, and
  <code>keys().count(k) == get(k).size()</code> for all <code>k</code>.
@@ -653,7 +654,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>values</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.316">values</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.318">values</a>()</pre>
 <div class="block">Returns a view collection containing the <i>value</i> from each key-value pair contained in
  this multimap, without collapsing duplicates (so <code>values().size() == size()</code>).
 
@@ -667,7 +668,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>entries</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.325">entries</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.327">entries</a>()</pre>
 <div class="block">Returns a view collection of all key-value pairs contained in this multimap, as <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util"><code>Map.Entry</code></a>
  instances.
 
@@ -681,7 +682,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>asMap</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.337">asMap</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">K</a>,<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multimap.html" title="type parameter in Multimap">V</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.339">asMap</a>()</pre>
 <div class="block">Returns a view of this multimap as a <code>Map</code> from each distinct key to the nonempty
  collection of that key's associated values. Note that <code>this.asMap().get(k)</code> is equivalent
  to <code>this.get(k)</code> only when <code>k</code> is a key contained in the multimap; otherwise it
@@ -698,7 +699,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.355">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.357">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block">Compares the specified object with this multimap for equality. Two multimaps are equal when
  their map views, as returned by <a href="../../../../com/google/common/collect/Multimap.html#asMap--"><code>asMap()</code></a>, are also equal.
@@ -723,7 +724,7 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.369">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/Multimap.html#line.371">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this multimap.
 
  <p>The hash code of a multimap is defined as the hash code of the map view, as returned by

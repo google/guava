@@ -105,8 +105,9 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public interface <a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.35">PeekingIterator</a>&lt;E&gt;
+<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use Iterators.peekingIterator")
+ <a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
+public interface <a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.37">PeekingIterator</a>&lt;E&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;E&gt;</pre>
 <div class="block">An iterator that supports a one-element lookahead while iterating.
 
@@ -178,7 +179,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 <ul class="blockList">
 <li class="blockList">
 <h4>peek</h4>
-<pre><a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.45">peek</a>()</pre>
+<pre><a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.47">peek</a>()</pre>
 <div class="block">Returns the next element in the iteration, without advancing the iteration.
 
  <p>Calls to <code>peek()</code> should not change the state of the iteration, except that it
@@ -196,7 +197,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 <li class="blockList">
 <h4>next</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-<a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.55">next</a>()</pre>
+<a href="../../../../com/google/common/collect/PeekingIterator.html" title="type parameter in PeekingIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.57">next</a>()</pre>
 <div class="block">
 
  <p>The objects returned by consecutive calls to <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>peek()</code></a> then <a href="../../../../com/google/common/collect/PeekingIterator.html#next--"><code>next()</code></a> are
@@ -213,7 +214,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.ht
 <ul class="blockListLast">
 <li class="blockList">
 <h4>remove</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.68">remove</a>()</pre>
+<pre>void&nbsp;<a href="../../../../src-html/com/google/common/collect/PeekingIterator.html#line.70">remove</a>()</pre>
 <div class="block">
 
  <p>Implementations may or may not support removal when a call to <a href="../../../../com/google/common/collect/PeekingIterator.html#peek--"><code>peek()</code></a> has occurred

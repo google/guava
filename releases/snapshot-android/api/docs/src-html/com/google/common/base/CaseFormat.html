@@ -143,7 +143,7 @@
 <span class="sourceLineNo">135</span>    while ((j = wordBoundary.indexIn(s, ++j)) != -1) {<a name="line.135"></a>
 <span class="sourceLineNo">136</span>      if (i == 0) {<a name="line.136"></a>
 <span class="sourceLineNo">137</span>        // include some extra space for separators<a name="line.137"></a>
-<span class="sourceLineNo">138</span>        out = new StringBuilder(s.length() + 4 * wordSeparator.length());<a name="line.138"></a>
+<span class="sourceLineNo">138</span>        out = new StringBuilder(s.length() + 4 * format.wordSeparator.length());<a name="line.138"></a>
 <span class="sourceLineNo">139</span>        out.append(format.normalizeFirstWord(s.substring(i, j)));<a name="line.139"></a>
 <span class="sourceLineNo">140</span>      } else {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>        out.append(format.normalizeWord(s.substring(i, j)));<a name="line.141"></a>

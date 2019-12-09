@@ -105,7 +105,8 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>public static interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.87">MapDifference.ValueDifference</a>&lt;V&gt;</pre>
+<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use Maps.difference")
+public static interface <a href="../../../../src-html/com/google/common/collect/MapDifference.html#line.90">MapDifference.ValueDifference</a>&lt;V&gt;</pre>
 <div class="block">A difference between the mappings from two maps with the same key. The <a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html#leftValue--"><code>leftValue()</code></a> and
  <a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html#rightValue--"><code>rightValue()</code></a> are not equal, and one but not both of them may be null.</div>
 <dl>
@@ -176,7 +177,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>leftValue</h4>
-<pre><a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.89">leftValue</a>()</pre>
+<pre><a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.92">leftValue</a>()</pre>
 <div class="block">Returns the value from the left map (possibly null).</div>
 </li>
 </ul>
@@ -186,7 +187,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>rightValue</h4>
-<pre><a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.92">rightValue</a>()</pre>
+<pre><a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html" title="type parameter in MapDifference.ValueDifference">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.95">rightValue</a>()</pre>
 <div class="block">Returns the value from the right map (possibly null).</div>
 </li>
 </ul>
@@ -196,7 +197,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.99">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;other)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.102">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;other)</pre>
 <div class="block">Two instances are considered equal if their <a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html#leftValue--"><code>leftValue()</code></a> values are equal and their
  <a href="../../../../com/google/common/collect/MapDifference.ValueDifference.html#rightValue--"><code>rightValue()</code></a> values are also equal.</div>
 <dl>
@@ -211,7 +212,7 @@ var activeTableTab = "activeTableTab";
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.105">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/collect/MapDifference.ValueDifference.html#line.108">hashCode</a>()</pre>
 <div class="block">The hash code equals the value <code>Arrays.asList(leftValue(), rightValue()).hashCode()</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>

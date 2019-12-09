@@ -114,7 +114,8 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/graph/Graph.html#line.104">Graph</a>&lt;N&gt;</pre>
+ <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use GraphBuilder to create a real instance")
+public interface <a href="../../../../src-html/com/google/common/graph/Graph.html#line.106">Graph</a>&lt;N&gt;</pre>
 <div class="block">An interface for <a
  href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
  whose edges are anonymous entities with no identity or information of their own.
@@ -334,7 +335,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>nodes</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.111">nodes</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.113">nodes</a>()</pre>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="../../../../com/google/common/graph/Graph.html#nodeOrder--"><code>nodeOrder()</code></a>.</div>
 </li>
 </ul>
@@ -344,7 +345,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>edges</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.115">edges</a>()</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.117">edges</a>()</pre>
 <div class="block">Returns all edges in this graph.</div>
 </li>
 </ul>
@@ -354,7 +355,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>isDirected</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.127">isDirected</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.129">isDirected</a>()</pre>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="../../../../com/google/common/graph/EndpointPair.html#source--"><code>source node</code></a> to a <a href="../../../../com/google/common/graph/EndpointPair.html#target--"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </li>
@@ -365,7 +366,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>allowsSelfLoops</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.135">allowsSelfLoops</a>()</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.137">allowsSelfLoops</a>()</pre>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
  to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang"><code>IllegalArgumentException</code></a>.</div>
 </li>
@@ -376,7 +377,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>nodeOrder</h4>
-<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.139">nodeOrder</a>()</pre>
+<pre><a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.141">nodeOrder</a>()</pre>
 <div class="block">Returns the order of iteration for the elements of <a href="../../../../com/google/common/graph/Graph.html#nodes--"><code>nodes()</code></a>.</div>
 </li>
 </ul>
@@ -388,7 +389,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>adjacentNodes</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.153">adjacentNodes</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.155">adjacentNodes</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the nodes which have an incident edge in common with <code>node</code> in this graph.
 
  <p>This is equal to the union of <a href="../../../../com/google/common/graph/Graph.html#predecessors-N-"><code>predecessors(Object)</code></a> and <a href="../../../../com/google/common/graph/Graph.html#successors-N-"><code>successors(Object)</code></a>.</div>
@@ -406,7 +407,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>predecessors</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.164">predecessors</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.166">predecessors</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
@@ -425,7 +426,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>successors</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.178">successors</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.180">successors</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
  <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
@@ -447,7 +448,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdges</h4>
-<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.189">incidentEdges</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.191">incidentEdges</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.
 
  <p>This is equal to the union of incoming and outgoing edges.</div>
@@ -467,7 +468,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>degree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.205">degree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.207">degree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -491,7 +492,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>inDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.216">inDegree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.218">inDegree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="../../../../com/google/common/graph/Graph.html#degree-N-"><code>degree(Object)</code></a>.
 
@@ -510,7 +511,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>outDegree</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.227">outDegree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.229">outDegree</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</pre>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="../../../../com/google/common/graph/Graph.html#degree-N-"><code>degree(Object)</code></a>.
 
@@ -529,7 +530,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.238">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.240">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
                           <a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeV)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -547,7 +548,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>hasEdgeConnecting</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.254">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.256">hasEdgeConnecting</a>(<a href="../../../../com/google/common/graph/EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="../../../../com/google/common/graph/Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</pre>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>edges().contains(endpoints)</code>.
 
@@ -568,7 +569,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.280">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
+<pre>boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.282">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/qual/Nullable.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.qual">@Nullable</a> <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="../../../../com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
  same structural relationships as those in this graph.
 
@@ -598,7 +599,7 @@ public interface <a href="../../../../src-html/com/google/common/graph/Graph.htm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.289">hashCode</a>()</pre>
+<pre>int&nbsp;<a href="../../../../src-html/com/google/common/graph/Graph.html#line.291">hashCode</a>()</pre>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of
  the set returned by <a href="../../../../com/google/common/graph/Graph.html#edges--"><code>edges()</code></a>.
 

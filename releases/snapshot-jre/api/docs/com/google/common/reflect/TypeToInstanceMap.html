@@ -114,7 +114,8 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.42">TypeToInstanceMap</a>&lt;B&gt;
+ <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@DoNotMock</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html?is-external=true#value--" title="class or interface in com.google.errorprone.annotations">value</a>="Use ImmutableTypeToInstanceMap or MutableTypeToInstanceMap")
+public interface <a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.44">TypeToInstanceMap</a>&lt;B&gt;
 extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends B&gt;,B&gt;</pre>
 <div class="block">A map, each entry of which maps a <a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect"><code>TypeToken</code></a> to an instance of that type. In addition to
  implementing <code>Map</code>, the additional type-safe operations <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#putInstance-java.lang.Class-T-"><code>putInstance(java.lang.Class&lt;T&gt;, T)</code></a> and <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html#getInstance-java.lang.Class-"><code>getInstance(java.lang.Class&lt;T&gt;)</code></a> are available.
@@ -223,7 +224,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre>&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.52">getInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
+<pre>&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.54">getInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified class is mapped to, or <code>null</code> if no entry for this class
  is present. This will only return a value that was bound to this specific class, not a value
  that may have been bound to a subtype.
@@ -237,7 +238,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <ul class="blockList">
 <li class="blockList">
 <h4>getInstance</h4>
-<pre>&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.59">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
+<pre>&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.61">getInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type)</pre>
 <div class="block">Returns the value the specified type is mapped to, or <code>null</code> if no entry for this type is
  present. This will only return a value that was bound to this specific type, not a value that
  may have been bound to a subtype.</div>
@@ -252,7 +253,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <li class="blockList">
 <h4>putInstance</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.72">putInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.74">putInstance</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;T&gt;&nbsp;type,
                                                   T&nbsp;value)</pre>
 <div class="block">Maps the specified class to the specified value. Does <i>not</i> associate this value with any
  of the class's supertypes.
@@ -273,7 +274,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is
 <li class="blockList">
 <h4>putInstance</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
-&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.82">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
+&lt;T extends <a href="../../../../com/google/common/reflect/TypeToInstanceMap.html" title="type parameter in TypeToInstanceMap">B</a>&gt;&nbsp;T&nbsp;<a href="../../../../src-html/com/google/common/reflect/TypeToInstanceMap.html#line.84">putInstance</a>(<a href="../../../../com/google/common/reflect/TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;T&gt;&nbsp;type,
                                                   T&nbsp;value)</pre>
 <div class="block">Maps the specified type to the specified value. Does <i>not</i> associate this value with any
  of the type's supertypes.</div>
