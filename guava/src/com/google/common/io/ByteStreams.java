@@ -901,6 +901,9 @@ public final class ByteStreams {
    * @param len an int specifying the number of bytes to read
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
+   * @throws NullPointerException if {@code b} is null
+   * @throws IndexOutOfBoundsException if {@code off} is negative, or {@code len} is negative, or
+   *     {@code off+len} is greater than the length of the array {@code b}
    */
   @Beta
   @CanIgnoreReturnValue
