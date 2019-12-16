@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -901,6 +902,8 @@ public final class ByteStreams {
    * @param len an int specifying the number of bytes to read
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
+   * @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if
+   *     {@code off + len} is greater than {@code b.length}
    */
   @Beta
   @CanIgnoreReturnValue
@@ -910,8 +913,9 @@ public final class ByteStreams {
     checkNotNull(in);
     checkNotNull(b);
     if (len < 0) {
-      throw new IndexOutOfBoundsException("len is negative");
+      throw new IndexOutOfBoundsException(String.format("len (%s) cannot be negative", len));
     }
+    checkPositionIndexes(off, off + len, b.length);
     int total = 0;
     while (total < len) {
       int result = in.read(b, off + total, len - total);
