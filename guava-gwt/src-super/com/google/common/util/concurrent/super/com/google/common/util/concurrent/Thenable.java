@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import elemental2.promise.IThenable;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsOptional;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -25,9 +26,19 @@ import jsinterop.annotations.JsType;
  * Subset of the elemental2 IThenable interface without the single-parameter overload, which allows
  * us to implement it using a default implementation in J2cl ListenableFuture.
  */
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "IThenable")
 interface Thenable<T> {
   <V> IThenable<V> then(
-      IThenable.ThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
-      @JsOptional IThenable.ThenOnRejectedCallbackFn<? extends V> onRejected);
+      @JsOptional ThenOnFulfilledCallbackFn<? super T, ? extends V> onFulfilled,
+      @JsOptional ThenOnRejectedCallbackFn<? extends V> onRejected);
+
+  @JsFunction
+  interface ThenOnFulfilledCallbackFn<T, V> {
+    V onInvoke(T p0);
+  }
+
+  @JsFunction
+  interface ThenOnRejectedCallbackFn<V> {
+    V onInvoke(Object p0);
+  }
 }
