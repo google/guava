@@ -37,8 +37,8 @@ public interface ListenableFuture<V> extends Future<V>, Thenable<V> {
   @JsMethod
   @Override
   default <R> IThenable<R> then(
-      IThenable.ThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
-      @JsOptional IThenable.ThenOnRejectedCallbackFn<? extends R> onRejected) {
+      @JsOptional ThenOnFulfilledCallbackFn<? super V, ? extends R> onFulfilled,
+      @JsOptional ThenOnRejectedCallbackFn<? extends R> onRejected) {
     return new Promise<V>(
             (resolve, reject) -> {
               Futures.addCallback(
@@ -56,7 +56,9 @@ public interface ListenableFuture<V> extends Future<V>, Thenable<V> {
                   },
                   MoreExecutors.directExecutor());
             })
-        .then(onFulfilled, onRejected);
+        .then(
+            (IThenable.ThenOnFulfilledCallbackFn) onFulfilled,
+            (IThenable.ThenOnRejectedCallbackFn) onRejected);
   }
 
   // TODO(b/141673833): If this would work, it would allow us to implement IThenable properly:
