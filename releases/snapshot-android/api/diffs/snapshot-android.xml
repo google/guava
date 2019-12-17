@@ -42545,7 +42545,9 @@
  @param off an int specifying the offset into the data
  @param len an int specifying the number of bytes to read
  @return the number of bytes read
- @throws IOException if an I/O error occurs]]>
+ @throws IOException if an I/O error occurs
+ @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if
+     {@code off + len} is greater than {@code b.length}]]>
       </doc>
     </method>
     <doc>
