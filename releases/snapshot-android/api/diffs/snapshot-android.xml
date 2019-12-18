@@ -43545,7 +43545,7 @@
 
  @param fileThreshold the number of bytes before the stream should switch to buffering to a file
  @param resetOnFinalize if true, the {@link #reset} method will be called when the {@link
-     ByteSource} returned by {@link #asByteSource} is finalized]]>
+     ByteSource} returned by {@link #asByteSource} is finalized.]]>
       </doc>
     </constructor>
     <method name="asByteSource" return="com.google.common.io.ByteSource"
@@ -43608,6 +43608,17 @@
     <doc>
     <![CDATA[An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
  once the data reaches a configurable size.
+
+ <p>Temporary files created by this stream may live in the local filesystem until either:
+
+ <ul>
+   <li>{@link #reset} is called (removing the data in this stream and deleting the file), or...
+   <li>this stream (or, more precisely, its {@link #asByteSource} view) is finalized during
+       garbage collection, <strong>AND</strong> this stream was not constructed with {@linkplain
+       #FileBackedOutputStream(int) the 1-arg constructor} or the {@linkplain
+       #FileBackedOutputStream(int, boolean) 2-arg constructor} passing {@code false} in the
+       second parameter.
+ </ul>
 
  <p>This class is thread-safe.
 
