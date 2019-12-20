@@ -18,7 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -112,6 +115,19 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     return expectedSize;
   }
 
+  @Override
+  Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashMap<K, V>(tableSize, 1.0f, accessOrder);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Map<K, V> convertToHashFloodingResistantImplementation() {
+    Map<K, V> result = super.convertToHashFloodingResistantImplementation();
+    links = null;
+    return result;
+  }
+
   private int getPredecessor(int entry) {
     return ((int) (links[entry] >>> 32)) - 1;
   }
@@ -200,7 +216,9 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(links, 0, size(), 0);
+    if (links != null) {
+      Arrays.fill(links, 0, size(), 0);
+    }
     super.clear();
   }
 }
