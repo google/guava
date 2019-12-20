@@ -18,9 +18,12 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -115,6 +118,19 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     int expectedSize = super.allocArrays();
     this.links = new long[expectedSize];
     return expectedSize;
+  }
+
+  @Override
+  Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashMap<K, V>(tableSize, 1.0f, accessOrder);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Map<K, V> convertToHashFloodingResistantImplementation() {
+    Map<K, V> result = super.convertToHashFloodingResistantImplementation();
+    links = null;
+    return result;
   }
 
   private int getPredecessor(int entry) {
@@ -261,7 +277,9 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(links, 0, size(), 0);
+    if (links != null) {
+      Arrays.fill(links, 0, size(), 0);
+    }
     super.clear();
   }
 }
