@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -131,6 +132,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    *
    * @since 11.0
    */
+  @DoNotMock
   public static final class Builder<R, C, V> {
     private final List<Cell<R, C, V>> cells = Lists.newArrayList();
     @MonotonicNonNullDecl private Comparator<? super R> rowComparator;

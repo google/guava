@@ -41,9 +41,12 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N, V>
     implements MutableValueGraph<N, V> {
 
+  private final ElementOrder<N> incidentEdgeOrder;
+
   /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
     super(builder);
+    incidentEdgeOrder = builder.incidentEdgeOrder.cast();
   }
 
   @Override
@@ -167,7 +170,7 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   private GraphConnections<N, V> newConnections() {
     return isDirected()
-        ? DirectedGraphConnections.<N, V>of()
+        ? DirectedGraphConnections.<N, V>of(incidentEdgeOrder)
         : UndirectedGraphConnections.<N, V>of();
   }
 }

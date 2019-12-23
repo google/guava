@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.DoNotMock;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -26,6 +27,7 @@ import com.google.common.annotations.GwtCompatible;
  * @since 10.0
  */
 @Beta
+@DoNotMock("Implement with a lambda")
 @GwtCompatible
 public interface TearDownAccepter {
   /**

@@ -231,6 +231,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     return expireWrite || expireAccess;
   }
 
+  @SuppressWarnings("GoodTime")
   private long currentTimeNanos() {
     return ticker.read();
   }

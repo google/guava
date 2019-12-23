@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -112,6 +113,18 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   @Override
   public Set<N> successors(N node) {
     return checkedConnections(node).successors();
+  }
+
+  @Override
+  public Set<EndpointPair<N>> incidentEdges(N node) {
+    final GraphConnections<N, V> connections = checkedConnections(node);
+
+    return new IncidentEdgeSet<N>(this, node) {
+      @Override
+      public Iterator<EndpointPair<N>> iterator() {
+        return connections.incidentEdgeIterator(node);
+      }
+    };
   }
 
   @Override

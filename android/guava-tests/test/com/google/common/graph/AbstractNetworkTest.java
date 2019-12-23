@@ -534,6 +534,22 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
+  public void hasEdgeConnecting_disconnectedNodes() {
+    addNode(N1);
+    addNode(N2);
+    assertThat(network.hasEdgeConnecting(N1, N2)).isFalse();
+  }
+
+  @Test
+  public void hasEdgesConnecting_nodesNotInGraph() {
+    addNode(N1);
+    addNode(N2);
+    assertThat(network.hasEdgeConnecting(N1, NODE_NOT_IN_GRAPH)).isFalse();
+    assertThat(network.hasEdgeConnecting(NODE_NOT_IN_GRAPH, N2)).isFalse();
+    assertThat(network.hasEdgeConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH)).isFalse();
+  }
+
+  @Test
   public void inEdges_noInEdges() {
     addNode(N1);
     assertThat(network.inEdges(N1)).isEmpty();

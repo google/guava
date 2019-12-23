@@ -219,7 +219,9 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
-    return !edgesConnecting(nodeU, nodeV).isEmpty();
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
+    return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
   }
 
   @Override
@@ -228,7 +230,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     if (!isOrderingCompatible(endpoints)) {
       return false;
     }
-    return !edgesConnecting(endpoints.nodeU(), endpoints.nodeV()).isEmpty();
+    return hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV());
   }
 
   /**

@@ -16,6 +16,7 @@ package com.google.common.escape;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -53,6 +54,7 @@ import com.google.common.base.Function;
  * @author David Beaumont
  * @since 15.0
  */
+@DoNotMock("Use Escapers.nullEscaper() or another methods from the *Escapers classes")
 @GwtCompatible
 public abstract class Escaper {
   // TODO(dbeaumont): evaluate custom implementations, considering package private constructor.

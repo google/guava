@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeoutException;
  * @since 1.0
  */
 @Beta
+@DoNotMock("Use FakeTimeLimiter")
 @GwtIncompatible
 @SuppressWarnings("GoodTime") // should have java.time.Duration overloads
 public interface TimeLimiter {

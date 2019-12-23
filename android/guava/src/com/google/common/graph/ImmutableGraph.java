@@ -84,11 +84,12 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return nodeConnections.build();
   }
 
+  @SuppressWarnings("unchecked")
   private static <N> GraphConnections<N, Presence> connectionsOf(Graph<N> graph, N node) {
-    Function<Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
+    Function<N, Presence> edgeValueFn =
+        (Function<N, Presence>) Functions.constant(Presence.EDGE_EXISTS);
     return graph.isDirected()
-        ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), edgeValueFn))
+        ? DirectedGraphConnections.ofImmutable(node, graph.incidentEdges(node), edgeValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), edgeValueFn));
   }
@@ -124,7 +125,9 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     private final MutableGraph<N> mutableGraph;
 
     Builder(GraphBuilder<N> graphBuilder) {
-      this.mutableGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableGraph = graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

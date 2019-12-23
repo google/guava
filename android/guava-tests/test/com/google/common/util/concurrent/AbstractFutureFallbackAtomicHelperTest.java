@@ -39,7 +39,7 @@ import junit.framework.TestSuite;
  * </ul>
  *
  * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of {@code
- * com.google.common.util.concurrent} in degenerate class loaders which make certain platform
+ * com.google.common.util.concurrent}) in degenerate class loaders which make certain platform
  * classes unavailable. Then we construct a test suite so we can run the normal AbstractFutureTest
  * test methods in these degenerate classloaders.
  */

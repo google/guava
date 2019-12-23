@@ -73,6 +73,11 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   }
 
   @Override
+  public Set<EndpointPair<N>> incidentEdges(N node) {
+    return delegate().incidentEdges(node);
+  }
+
+  @Override
   public int degree(N node) {
     return delegate().degree(node);
   }
