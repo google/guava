@@ -111,7 +111,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   static final double HASH_FLOODING_FPP = 0.001;
 
   /**
-   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.LinkedHashMap-based
    * implementation. Experimentally determined.
    */
   private static final int MAX_HASH_BUCKET_LENGTH = 9;

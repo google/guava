@@ -718,4 +718,7 @@ public class ImmutableBiMapTest extends TestCase {
       public abstract ImmutableBiMap<Object, Object> create(List<Map.Entry<?, ?>> entries);
     }
   }
+
+  /** No-op test so that the class has at least one method, making Maven's test runner happy. */
+  public void testNoop() {}
 }
