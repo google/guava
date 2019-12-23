@@ -35,12 +35,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * performance.
  */
 @GwtCompatible
-public class AbstractHashFloodingTest<T> extends TestCase {
+public abstract class AbstractHashFloodingTest<T> extends TestCase {
   private final List<Construction<T>> constructions;
   private final IntToDoubleFunction constructionAsymptotics;
   private final List<QueryOp<T>> queries;
 
-  public AbstractHashFloodingTest(
+  AbstractHashFloodingTest(
       List<Construction<T>> constructions,
       IntToDoubleFunction constructionAsymptotics,
       List<QueryOp<T>> queries) {
