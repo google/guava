@@ -200,7 +200,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     Preconditions.checkArgument(expectedSize >= 0, "Expected size must be >= 0");
 
     // Save expectedSize for use in allocArrays()
-    this.metadata = Math.max(1, Math.min(CompactHashing.MAX_SIZE, expectedSize));
+    this.metadata = Ints.constrainToRange(expectedSize, 1, CompactHashing.MAX_SIZE);
   }
 
   /** Returns whether arrays need to be allocated. */
