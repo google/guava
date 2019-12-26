@@ -543,7 +543,7 @@ public final class MediaType {
    * href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
    * the IANA.
    *
-   * @since NEXT
+   * @since 28.2
    */
   public static final MediaType MEDIA_PRESENTATION_DESCRIPTION =
       createConstant(APPLICATION_TYPE, "dash+xml");
@@ -600,7 +600,7 @@ public final class MediaType {
    * Description files are XML files that describe how a website can be used as a search engine by
    * consumers (e.g. web browsers).
    *
-   * @since NEXT
+   * @since 28.2
    */
   public static final MediaType OPENSEARCH_DESCRIPTION_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "opensearchdescription+xml");

@@ -269,7 +269,7 @@ public final class HttpHeaders {
   /**
    * The HTTP Cross-Origin-Opener-Policy header field name.
    *
-   * @since NEXT
+   * @since 28.2
    */
   public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";
   /** The HTTP {@code ETag} header field name. */

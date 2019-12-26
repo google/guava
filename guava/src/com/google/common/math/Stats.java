@@ -161,7 +161,7 @@ public final class Stats implements Serializable {
    * the values using {@link #toStats()} instead.
    *
    * @param values a series of values
-   * @since NEXT
+   * @since 28.2
    */
   public static Stats of(DoubleStream values) {
     return values
@@ -177,7 +177,7 @@ public final class Stats implements Serializable {
    * the values using {@link #toStats()} instead.
    *
    * @param values a series of values
-   * @since NEXT
+   * @since 28.2
    */
   public static Stats of(IntStream values) {
     return values
@@ -194,7 +194,7 @@ public final class Stats implements Serializable {
    *
    * @param values a series of values, which will be converted to {@code double} values (this may
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
-   * @since NEXT
+   * @since 28.2
    */
   public static Stats of(LongStream values) {
     return values
@@ -211,7 +211,7 @@ public final class Stats implements Serializable {
    * <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
    * LongStream}, you should use the factory method {@link #of} instead.
    *
-   * @since NEXT
+   * @since 28.2
    */
   public static Collector<Number, StatsAccumulator, Stats> toStats() {
     return Collector.of(

@@ -161,7 +161,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
    *
    * @throws RejectedExecutionException if the task cannot be scheduled for execution
-   * @since NEXT
+   * @since 28.2
    */
   @Beta
   public static <O> ListenableFuture<O> submit(Callable<O> callable, Executor executor) {
@@ -175,7 +175,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * will complete after execution.
    *
    * @throws RejectedExecutionException if the task cannot be scheduled for execution
-   * @since NEXT
+   * @since 28.2
    */
   @Beta
   public static ListenableFuture<Void> submit(Runnable runnable, Executor executor) {
