@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2014 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.DoNotMock;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * A functional interface for &lt;a<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)"&gt;graph&lt;/a&gt;-structured data.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * &lt;p&gt;This interface is meant to be used as the type of a parameter to graph algorithms (such as<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * topological sort) that only need a way of accessing the predecessors of a node in a graph.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;h3&gt;Usage&lt;/h3&gt;<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * Given an algorithm, for example:<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * &lt;pre&gt;{@code<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * public &lt;N&gt; someGraphAlgorithm(N startNode, PredecessorsFunction&lt;N&gt; predecessorsFunction);<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * }&lt;/pre&gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * you will invoke it depending on the graph representation you're using.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * &lt;p&gt;If you have an instance of one of the primary {@code common.graph} types ({@link Graph},<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * {@link ValueGraph}, and {@link Network}):<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;pre&gt;{@code<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * someGraphAlgorithm(startNode, graph);<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * }&lt;/pre&gt;<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * This works because those types each implement {@code PredecessorsFunction}. It will also work<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * with any other implementation of this interface.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;p&gt;If you have your own graph implementation based around a custom node type {@code MyNode},<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * which has a method {@code getParents()} that retrieves its predecessors in a graph:<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;pre&gt;{@code<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * someGraphAlgorithm(startNode, MyNode::getParents);<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * }&lt;/pre&gt;<a name="line.54"></a>
+<span class="sourceLineNo">055</span> *<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * &lt;p&gt;If you have some other mechanism for returning the predecessors of a node, or one that doesn't<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * return a {@code Iterable&lt;? extends N&gt;}, then you can use a lambda to perform a more general<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * transformation:<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * &lt;pre&gt;{@code<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * someGraphAlgorithm(startNode, node -&gt; ImmutableList.of(node.mother(), node.father()));<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * }&lt;/pre&gt;<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * &lt;p&gt;Graph algorithms that need additional capabilities (accessing both predecessors and<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * successors, iterating over the edges, etc.) should declare their input to be of a type that<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.<a name="line.66"></a>
+<span class="sourceLineNo">067</span> *<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * &lt;h3&gt;Additional documentation&lt;/h3&gt;<a name="line.68"></a>
+<span class="sourceLineNo">069</span> *<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * &lt;p&gt;See the Guava User Guide for the {@code common.graph} package (&lt;a<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * href="https://github.com/google/guava/wiki/GraphsExplained"&gt;"Graphs Explained"&lt;/a&gt;) for<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * additional documentation, including &lt;a<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors"&gt;notes for<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * implementors&lt;/a&gt;<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * @author Joshua O'Madadhain<a name="line.76"></a>
+<span class="sourceLineNo">077</span> * @author Jens Nyman<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * @param &lt;N&gt; Node parameter type<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * @since 23.0<a name="line.79"></a>
+<span class="sourceLineNo">080</span> */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>@Beta<a name="line.81"></a>
+<span class="sourceLineNo">082</span>@DoNotMock("Implement with a lambda, or use GraphBuilder to build a Graph with the desired edges")<a name="line.82"></a>
+<span class="sourceLineNo">083</span>public interface PredecessorsFunction&lt;N&gt; {<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * &lt;p&gt;Some algorithms that operate on a {@code PredecessorsFunction} may produce undesired results<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * if the returned {@link Iterable} contains duplicate elements. Implementations of such<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * algorithms should document their behavior in the presence of duplicates.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * &lt;p&gt;The elements of the returned {@code Iterable} must each be:<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * &lt;ul&gt;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *   &lt;li&gt;Non-null<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   *   &lt;li&gt;Usable as {@code Map} keys (see the Guava User Guide's section on &lt;a<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   *       href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges"&gt;<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   *       graph elements&lt;/a&gt; for details)<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * &lt;/ul&gt;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   *<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  Iterable&lt;? extends N&gt; predecessors(N node);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>}<a name="line.105"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

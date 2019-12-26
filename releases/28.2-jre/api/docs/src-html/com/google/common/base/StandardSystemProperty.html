@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2012 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Represents a {@linkplain System#getProperties() standard system property}.<a name="line.21"></a>
+<span class="sourceLineNo">022</span> *<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * @author Kurt Alfred Kluever<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * @since 15.0<a name="line.24"></a>
+<span class="sourceLineNo">025</span> */<a name="line.25"></a>
+<span class="sourceLineNo">026</span>@GwtIncompatible // java.lang.System#getProperty<a name="line.26"></a>
+<span class="sourceLineNo">027</span>public enum StandardSystemProperty {<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>  /** Java Runtime Environment version. */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  JAVA_VERSION("java.version"),<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>  /** Java Runtime Environment vendor. */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  JAVA_VENDOR("java.vendor"),<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>  /** Java vendor URL. */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  JAVA_VENDOR_URL("java.vendor.url"),<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /** Java installation directory. */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  JAVA_HOME("java.home"),<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /** Java Virtual Machine specification version. */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  JAVA_VM_SPECIFICATION_VERSION("java.vm.specification.version"),<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  /** Java Virtual Machine specification vendor. */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  JAVA_VM_SPECIFICATION_VENDOR("java.vm.specification.vendor"),<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>  /** Java Virtual Machine specification name. */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  JAVA_VM_SPECIFICATION_NAME("java.vm.specification.name"),<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /** Java Virtual Machine implementation version. */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  JAVA_VM_VERSION("java.vm.version"),<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  /** Java Virtual Machine implementation vendor. */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  JAVA_VM_VENDOR("java.vm.vendor"),<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /** Java Virtual Machine implementation name. */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  JAVA_VM_NAME("java.vm.name"),<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  /** Java Runtime Environment specification version. */<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  JAVA_SPECIFICATION_VERSION("java.specification.version"),<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /** Java Runtime Environment specification vendor. */<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  JAVA_SPECIFICATION_VENDOR("java.specification.vendor"),<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /** Java Runtime Environment specification name. */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  JAVA_SPECIFICATION_NAME("java.specification.name"),<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /** Java class format version number. */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  JAVA_CLASS_VERSION("java.class.version"),<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /** Java class path. */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  JAVA_CLASS_PATH("java.class.path"),<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /** List of paths to search when loading libraries. */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  JAVA_LIBRARY_PATH("java.library.path"),<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>  /** Default temp file path. */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  JAVA_IO_TMPDIR("java.io.tmpdir"),<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  /** Name of JIT compiler to use. */<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  JAVA_COMPILER("java.compiler"),<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /** Path of extension directory or directories. */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  JAVA_EXT_DIRS("java.ext.dirs"),<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /** Operating system name. */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  OS_NAME("os.name"),<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  /** Operating system architecture. */<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  OS_ARCH("os.arch"),<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /** Operating system version. */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  OS_VERSION("os.version"),<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  /** File separator ("/" on UNIX). */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  FILE_SEPARATOR("file.separator"),<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /** Path separator (":" on UNIX). */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  PATH_SEPARATOR("path.separator"),<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /** Line separator ("\n" on UNIX). */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  LINE_SEPARATOR("line.separator"),<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  /** User's account name. */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  USER_NAME("user.name"),<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /** User's home directory. */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  USER_HOME("user.home"),<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>  /** User's current working directory. */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  USER_DIR("user.dir");<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  private final String key;<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  StandardSystemProperty(String key) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    this.key = key;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /** Returns the key used to lookup this system property. */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public String key() {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    return key;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Returns the current value for this system property by delegating to {@link<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * System#getProperty(String)}.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  public @Nullable String value() {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    return System.getProperty(key);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>  /** Returns a string representation of this system property. */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  @Override<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  public String toString() {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    return key() + "=" + value();<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span>}<a name="line.137"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

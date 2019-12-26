@@ -1,0 +1,462 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2014 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Arrays;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>/**<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * Helper functions that operate on any {@code Object}, and are not already provided in {@link<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * java.util.Objects}.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * &lt;p&gt;See the Guava User Guide on &lt;a<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained"&gt;writing {@code Object}<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * methods with {@code MoreObjects}&lt;/a&gt;.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * @author Laurence Gonsalves<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * @since 18.0 (since 2.0 as {@code Objects})<a name="line.33"></a>
+<span class="sourceLineNo">034</span> */<a name="line.34"></a>
+<span class="sourceLineNo">035</span>@GwtCompatible<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public final class MoreObjects {<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  /**<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * Returns the first of two given parameters that is not {@code null}, if either is, or otherwise<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * throws a {@link NullPointerException}.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * &lt;p&gt;To find the first non-null element in an iterable, use {@code Iterables.find(iterable,<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * Predicates.notNull())}. For varargs, use {@code Iterables.find(Arrays.asList(a, b, c, ...),<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * Predicates.notNull())}, static importing as necessary.<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   *<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; if {@code first} is represented as an {@link Optional}, this can be<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * accomplished with {@link Optional#or(Object) first.or(second)}. That approach also allows for<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * lazy evaluation of the fallback instance, using {@link Optional#or(Supplier)<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * first.or(supplier)}.<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   *<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * &lt;p&gt;&lt;b&gt;Java 9 users:&lt;/b&gt; use {@code java.util.Objects.requireNonNullElse(first, second)}<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * instead.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   *<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * @return {@code first} if it is non-null; otherwise {@code second} if it is non-null<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * @throws NullPointerException if both {@code first} and {@code second} are null<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  public static &lt;T&gt; T firstNonNull(@Nullable T first, @Nullable T second) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    if (first != null) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      return first;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    }<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    if (second != null) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      return second;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    }<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    throw new NullPointerException("Both parameters are null");<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Creates an instance of {@link ToStringHelper}.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * &lt;p&gt;This is helpful for implementing {@link Object#toString()}. Specification by example:<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   *<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * &lt;pre&gt;{@code<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * // Returns "ClassName{}"<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * MoreObjects.toStringHelper(this)<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *     .toString();<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   *<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * // Returns "ClassName{x=1}"<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * MoreObjects.toStringHelper(this)<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *     .add("x", 1)<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   *     .toString();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   *<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * // Returns "MyObject{x=1}"<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * MoreObjects.toStringHelper("MyObject")<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   *     .add("x", 1)<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *     .toString();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * // Returns "ClassName{x=1, y=foo}"<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * MoreObjects.toStringHelper(this)<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   *     .add("x", 1)<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   *     .add("y", "foo")<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   *     .toString();<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * // Returns "ClassName{x=1}"<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * MoreObjects.toStringHelper(this)<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   *     .omitNullValues()<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *     .add("x", 1)<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   *     .add("y", null)<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   *     .toString();<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * }&lt;/pre&gt;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   *<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * &lt;p&gt;Note that in GWT, class names are often obfuscated.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   *<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * @param self the object to generate the string for (typically {@code this}), used only for its<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   *     class name<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}).<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  public static ToStringHelper toStringHelper(Object self) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    return new ToStringHelper(self.getClass().getSimpleName());<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * Creates an instance of {@link ToStringHelper} in the same manner as {@link<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * #toStringHelper(Object)}, but using the simple name of {@code clazz} instead of using an<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * instance's {@link Object#getClass()}.<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   *<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * &lt;p&gt;Note that in GWT, class names are often obfuscated.<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   *<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * @param clazz the {@link Class} of the instance<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public static ToStringHelper toStringHelper(Class&lt;?&gt; clazz) {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    return new ToStringHelper(clazz.getSimpleName());<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>  /**<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * Creates an instance of {@link ToStringHelper} in the same manner as {@link<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * #toStringHelper(Object)}, but using {@code className} instead of using an instance's {@link<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * Object#getClass()}.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * @param className the name of the instance type<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public static ToStringHelper toStringHelper(String className) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    return new ToStringHelper(className);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * Support class for {@link MoreObjects#toStringHelper}.<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   *<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * @author Jason Lee<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * @since 18.0 (since 2.0 as {@code Objects.ToStringHelper}).<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  public static final class ToStringHelper {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    private final String className;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    private final ValueHolder holderHead = new ValueHolder();<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    private ValueHolder holderTail = holderHead;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    private boolean omitNullValues = false;<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>    /** Use {@link MoreObjects#toStringHelper(Object)} to create an instance. */<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    private ToStringHelper(String className) {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      this.className = checkNotNull(className);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>    /**<a name="line.154"></a>
+<span class="sourceLineNo">155</span>     * Configures the {@link ToStringHelper} so {@link #toString()} will ignore properties with null<a name="line.155"></a>
+<span class="sourceLineNo">156</span>     * value. The order of calling this method, relative to the {@code add()}/{@code addValue()}<a name="line.156"></a>
+<span class="sourceLineNo">157</span>     * methods, is not significant.<a name="line.157"></a>
+<span class="sourceLineNo">158</span>     *<a name="line.158"></a>
+<span class="sourceLineNo">159</span>     * @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).<a name="line.159"></a>
+<span class="sourceLineNo">160</span>     */<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    @CanIgnoreReturnValue<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    public ToStringHelper omitNullValues() {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      omitNullValues = true;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      return this;<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>    /**<a name="line.167"></a>
+<span class="sourceLineNo">168</span>     * Adds a name/value pair to the formatted output in {@code name=value} format. If {@code value}<a name="line.168"></a>
+<span class="sourceLineNo">169</span>     * is {@code null}, the string {@code "null"} is used, unless {@link #omitNullValues()} is<a name="line.169"></a>
+<span class="sourceLineNo">170</span>     * called, in which case this name/value pair will not be added.<a name="line.170"></a>
+<span class="sourceLineNo">171</span>     */<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    @CanIgnoreReturnValue<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    public ToStringHelper add(String name, @Nullable Object value) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      return addHolder(name, value);<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    }<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>    /**<a name="line.177"></a>
+<span class="sourceLineNo">178</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.178"></a>
+<span class="sourceLineNo">179</span>     *<a name="line.179"></a>
+<span class="sourceLineNo">180</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.180"></a>
+<span class="sourceLineNo">181</span>     */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    @CanIgnoreReturnValue<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    public ToStringHelper add(String name, boolean value) {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>      return addHolder(name, String.valueOf(value));<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>    /**<a name="line.187"></a>
+<span class="sourceLineNo">188</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>     *<a name="line.189"></a>
+<span class="sourceLineNo">190</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.190"></a>
+<span class="sourceLineNo">191</span>     */<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    @CanIgnoreReturnValue<a name="line.192"></a>
+<span class="sourceLineNo">193</span>    public ToStringHelper add(String name, char value) {<a name="line.193"></a>
+<span class="sourceLineNo">194</span>      return addHolder(name, String.valueOf(value));<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    }<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>    /**<a name="line.197"></a>
+<span class="sourceLineNo">198</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>     *<a name="line.199"></a>
+<span class="sourceLineNo">200</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.200"></a>
+<span class="sourceLineNo">201</span>     */<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    @CanIgnoreReturnValue<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    public ToStringHelper add(String name, double value) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>      return addHolder(name, String.valueOf(value));<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>    /**<a name="line.207"></a>
+<span class="sourceLineNo">208</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>     *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.210"></a>
+<span class="sourceLineNo">211</span>     */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    @CanIgnoreReturnValue<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    public ToStringHelper add(String name, float value) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>      return addHolder(name, String.valueOf(value));<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>    /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>     *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.220"></a>
+<span class="sourceLineNo">221</span>     */<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    @CanIgnoreReturnValue<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    public ToStringHelper add(String name, int value) {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      return addHolder(name, String.valueOf(value));<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>    /**<a name="line.227"></a>
+<span class="sourceLineNo">228</span>     * Adds a name/value pair to the formatted output in {@code name=value} format.<a name="line.228"></a>
+<span class="sourceLineNo">229</span>     *<a name="line.229"></a>
+<span class="sourceLineNo">230</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).<a name="line.230"></a>
+<span class="sourceLineNo">231</span>     */<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    @CanIgnoreReturnValue<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    public ToStringHelper add(String name, long value) {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      return addHolder(name, String.valueOf(value));<a name="line.234"></a>
+<span class="sourceLineNo">235</span>    }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>    /**<a name="line.237"></a>
+<span class="sourceLineNo">238</span>     * Adds an unnamed value to the formatted output.<a name="line.238"></a>
+<span class="sourceLineNo">239</span>     *<a name="line.239"></a>
+<span class="sourceLineNo">240</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, Object)} instead and give value a<a name="line.240"></a>
+<span class="sourceLineNo">241</span>     * readable name.<a name="line.241"></a>
+<span class="sourceLineNo">242</span>     */<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    @CanIgnoreReturnValue<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    public ToStringHelper addValue(@Nullable Object value) {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      return addHolder(value);<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    }<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>    /**<a name="line.248"></a>
+<span class="sourceLineNo">249</span>     * Adds an unnamed value to the formatted output.<a name="line.249"></a>
+<span class="sourceLineNo">250</span>     *<a name="line.250"></a>
+<span class="sourceLineNo">251</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, boolean)} instead and give value a<a name="line.251"></a>
+<span class="sourceLineNo">252</span>     * readable name.<a name="line.252"></a>
+<span class="sourceLineNo">253</span>     *<a name="line.253"></a>
+<span class="sourceLineNo">254</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.254"></a>
+<span class="sourceLineNo">255</span>     */<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    @CanIgnoreReturnValue<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    public ToStringHelper addValue(boolean value) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      return addHolder(String.valueOf(value));<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    }<a name="line.259"></a>
+<span class="sourceLineNo">260</span><a name="line.260"></a>
+<span class="sourceLineNo">261</span>    /**<a name="line.261"></a>
+<span class="sourceLineNo">262</span>     * Adds an unnamed value to the formatted output.<a name="line.262"></a>
+<span class="sourceLineNo">263</span>     *<a name="line.263"></a>
+<span class="sourceLineNo">264</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, char)} instead and give value a<a name="line.264"></a>
+<span class="sourceLineNo">265</span>     * readable name.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>     *<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     */<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    @CanIgnoreReturnValue<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    public ToStringHelper addValue(char value) {<a name="line.270"></a>
+<span class="sourceLineNo">271</span>      return addHolder(String.valueOf(value));<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    }<a name="line.272"></a>
+<span class="sourceLineNo">273</span><a name="line.273"></a>
+<span class="sourceLineNo">274</span>    /**<a name="line.274"></a>
+<span class="sourceLineNo">275</span>     * Adds an unnamed value to the formatted output.<a name="line.275"></a>
+<span class="sourceLineNo">276</span>     *<a name="line.276"></a>
+<span class="sourceLineNo">277</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, double)} instead and give value a<a name="line.277"></a>
+<span class="sourceLineNo">278</span>     * readable name.<a name="line.278"></a>
+<span class="sourceLineNo">279</span>     *<a name="line.279"></a>
+<span class="sourceLineNo">280</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.280"></a>
+<span class="sourceLineNo">281</span>     */<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    @CanIgnoreReturnValue<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    public ToStringHelper addValue(double value) {<a name="line.283"></a>
+<span class="sourceLineNo">284</span>      return addHolder(String.valueOf(value));<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    }<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>    /**<a name="line.287"></a>
+<span class="sourceLineNo">288</span>     * Adds an unnamed value to the formatted output.<a name="line.288"></a>
+<span class="sourceLineNo">289</span>     *<a name="line.289"></a>
+<span class="sourceLineNo">290</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, float)} instead and give value a<a name="line.290"></a>
+<span class="sourceLineNo">291</span>     * readable name.<a name="line.291"></a>
+<span class="sourceLineNo">292</span>     *<a name="line.292"></a>
+<span class="sourceLineNo">293</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.293"></a>
+<span class="sourceLineNo">294</span>     */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    @CanIgnoreReturnValue<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    public ToStringHelper addValue(float value) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      return addHolder(String.valueOf(value));<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    }<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>    /**<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     * Adds an unnamed value to the formatted output.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>     *<a name="line.302"></a>
+<span class="sourceLineNo">303</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, int)} instead and give value a<a name="line.303"></a>
+<span class="sourceLineNo">304</span>     * readable name.<a name="line.304"></a>
+<span class="sourceLineNo">305</span>     *<a name="line.305"></a>
+<span class="sourceLineNo">306</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.306"></a>
+<span class="sourceLineNo">307</span>     */<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    @CanIgnoreReturnValue<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    public ToStringHelper addValue(int value) {<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      return addHolder(String.valueOf(value));<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    }<a name="line.311"></a>
+<span class="sourceLineNo">312</span><a name="line.312"></a>
+<span class="sourceLineNo">313</span>    /**<a name="line.313"></a>
+<span class="sourceLineNo">314</span>     * Adds an unnamed value to the formatted output.<a name="line.314"></a>
+<span class="sourceLineNo">315</span>     *<a name="line.315"></a>
+<span class="sourceLineNo">316</span>     * &lt;p&gt;It is strongly encouraged to use {@link #add(String, long)} instead and give value a<a name="line.316"></a>
+<span class="sourceLineNo">317</span>     * readable name.<a name="line.317"></a>
+<span class="sourceLineNo">318</span>     *<a name="line.318"></a>
+<span class="sourceLineNo">319</span>     * @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).<a name="line.319"></a>
+<span class="sourceLineNo">320</span>     */<a name="line.320"></a>
+<span class="sourceLineNo">321</span>    @CanIgnoreReturnValue<a name="line.321"></a>
+<span class="sourceLineNo">322</span>    public ToStringHelper addValue(long value) {<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      return addHolder(String.valueOf(value));<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    }<a name="line.324"></a>
+<span class="sourceLineNo">325</span><a name="line.325"></a>
+<span class="sourceLineNo">326</span>    /**<a name="line.326"></a>
+<span class="sourceLineNo">327</span>     * Returns a string in the format specified by {@link MoreObjects#toStringHelper(Object)}.<a name="line.327"></a>
+<span class="sourceLineNo">328</span>     *<a name="line.328"></a>
+<span class="sourceLineNo">329</span>     * &lt;p&gt;After calling this method, you can keep adding more properties to later call toString()<a name="line.329"></a>
+<span class="sourceLineNo">330</span>     * again and get a more complete representation of the same object; but properties cannot be<a name="line.330"></a>
+<span class="sourceLineNo">331</span>     * removed, so this only allows limited reuse of the helper instance. The helper allows<a name="line.331"></a>
+<span class="sourceLineNo">332</span>     * duplication of properties (multiple name/value pairs with the same name can be added).<a name="line.332"></a>
+<span class="sourceLineNo">333</span>     */<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    @Override<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    public String toString() {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>      // create a copy to keep it consistent in case value changes<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      boolean omitNullValuesSnapshot = omitNullValues;<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      String nextSeparator = "";<a name="line.338"></a>
+<span class="sourceLineNo">339</span>      StringBuilder builder = new StringBuilder(32).append(className).append('{');<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      for (ValueHolder valueHolder = holderHead.next;<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          valueHolder != null;<a name="line.341"></a>
+<span class="sourceLineNo">342</span>          valueHolder = valueHolder.next) {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>        Object value = valueHolder.value;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>        if (!omitNullValuesSnapshot || value != null) {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>          builder.append(nextSeparator);<a name="line.345"></a>
+<span class="sourceLineNo">346</span>          nextSeparator = ", ";<a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>          if (valueHolder.name != null) {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>            builder.append(valueHolder.name).append('=');<a name="line.349"></a>
+<span class="sourceLineNo">350</span>          }<a name="line.350"></a>
+<span class="sourceLineNo">351</span>          if (value != null &amp;&amp; value.getClass().isArray()) {<a name="line.351"></a>
+<span class="sourceLineNo">352</span>            Object[] objectArray = {value};<a name="line.352"></a>
+<span class="sourceLineNo">353</span>            String arrayString = Arrays.deepToString(objectArray);<a name="line.353"></a>
+<span class="sourceLineNo">354</span>            builder.append(arrayString, 1, arrayString.length() - 1);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>          } else {<a name="line.355"></a>
+<span class="sourceLineNo">356</span>            builder.append(value);<a name="line.356"></a>
+<span class="sourceLineNo">357</span>          }<a name="line.357"></a>
+<span class="sourceLineNo">358</span>        }<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      }<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      return builder.append('}').toString();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    }<a name="line.361"></a>
+<span class="sourceLineNo">362</span><a name="line.362"></a>
+<span class="sourceLineNo">363</span>    private ValueHolder addHolder() {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>      ValueHolder valueHolder = new ValueHolder();<a name="line.364"></a>
+<span class="sourceLineNo">365</span>      holderTail = holderTail.next = valueHolder;<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      return valueHolder;<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    }<a name="line.367"></a>
+<span class="sourceLineNo">368</span><a name="line.368"></a>
+<span class="sourceLineNo">369</span>    private ToStringHelper addHolder(@Nullable Object value) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      ValueHolder valueHolder = addHolder();<a name="line.370"></a>
+<span class="sourceLineNo">371</span>      valueHolder.value = value;<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      return this;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    }<a name="line.373"></a>
+<span class="sourceLineNo">374</span><a name="line.374"></a>
+<span class="sourceLineNo">375</span>    private ToStringHelper addHolder(String name, @Nullable Object value) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      ValueHolder valueHolder = addHolder();<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      valueHolder.value = value;<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      valueHolder.name = checkNotNull(name);<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      return this;<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    }<a name="line.380"></a>
+<span class="sourceLineNo">381</span><a name="line.381"></a>
+<span class="sourceLineNo">382</span>    private static final class ValueHolder {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      @Nullable String name;<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      @Nullable Object value;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      @Nullable ValueHolder next;<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>  }<a name="line.387"></a>
+<span class="sourceLineNo">388</span><a name="line.388"></a>
+<span class="sourceLineNo">389</span>  private MoreObjects() {}<a name="line.389"></a>
+<span class="sourceLineNo">390</span>}<a name="line.390"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

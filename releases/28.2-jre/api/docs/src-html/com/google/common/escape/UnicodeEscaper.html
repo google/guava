@@ -1,0 +1,374 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.escape;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * An {@link Escaper} that converts literal text into a format safe for inclusion in a particular<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * context (such as an XML document). Typically (but not always), the inverse process of<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * "unescaping" the text is performed automatically by the relevant parser.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt;For example, an XML escaper would convert the literal string {@code "Foo&lt;Bar&gt;"} into {@code<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * "Foo&amp;lt;Bar&amp;gt;"} to prevent {@code "&lt;Bar&gt;"} from being confused with an XML tag. When the<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * resulting XML document is parsed, the parser API will return this text as the original literal<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * string {@code "Foo&lt;Bar&gt;"}.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This class is similar to {@link CharEscaper} but with one very important<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * difference. A CharEscaper can only process Java &lt;a<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * href="http://en.wikipedia.org/wiki/UTF-16"&gt;UTF16&lt;/a&gt; characters in isolation and may not cope<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * when it encounters surrogate pairs. This class facilitates the correct escaping of all Unicode<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * characters.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;p&gt;As there are important reasons, including potential security issues, to handle Unicode<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * correctly if you are considering implementing a new escaper you should favor using UnicodeEscaper<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * wherever possible.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;A {@code UnicodeEscaper} instance is required to be stateless, and safe when used concurrently<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * by multiple threads.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;p&gt;Popular escapers are defined as constants in classes like {@link<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * com.google.common.html.HtmlEscapers} and {@link com.google.common.xml.XmlEscapers}. To create<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * your own escapers extend this class and implement the {@link #escape(int)} method.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * @author David Beaumont<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * @since 15.0<a name="line.50"></a>
+<span class="sourceLineNo">051</span> */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>@Beta<a name="line.52"></a>
+<span class="sourceLineNo">053</span>@GwtCompatible<a name="line.53"></a>
+<span class="sourceLineNo">054</span>public abstract class UnicodeEscaper extends Escaper {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  /** The amount of padding (chars) to use when growing the escape buffer. */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private static final int DEST_PAD = 32;<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /** Constructor for use by subclasses. */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  protected UnicodeEscaper() {}<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * Returns the escaped form of the given Unicode code point, or {@code null} if this code point<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * does not need to be escaped. When called as part of an escaping operation, the given code point<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * is guaranteed to be in the range {@code 0 &lt;= cp &lt;= Character#MAX_CODE_POINT}.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * &lt;p&gt;If an empty array is returned, this effectively strips the input character from the<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * resulting text.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   *<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * &lt;p&gt;If the character does not need to be escaped, this method should return {@code null}, rather<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * than an array containing the character representation of the code point. This enables the<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * escaping algorithm to perform more efficiently.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * &lt;p&gt;If the implementation of this method cannot correctly handle a particular code point then it<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * should either throw an appropriate runtime exception or return a suitable replacement<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * character. It must never silently discard invalid input as this may constitute a security risk.<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   *<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * @param cp the Unicode code point to escape if necessary<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @return the replacement characters, or {@code null} if no escaping was needed<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  protected abstract char[] escape(int cp);<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * Returns the escaped form of a given literal string.<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   *<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * &lt;p&gt;If you are escaping input in arbitrary successive chunks, then it is not generally safe to<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * use this method. If an input string ends with an unmatched high surrogate character, then this<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * method will throw {@link IllegalArgumentException}. You should ensure your input is valid &lt;a<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * href="http://en.wikipedia.org/wiki/UTF-16"&gt;UTF-16&lt;/a&gt; before calling this method.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   *<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; When implementing an escaper it is a good idea to override this method for<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * efficiency by inlining the implementation of {@link #nextEscapeIndex(CharSequence, int, int)}<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * directly. Doing this for {@link com.google.common.net.PercentEscaper} more than doubled the<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * performance for unescaped strings (as measured by {@code CharEscapersBenchmark}).<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @param string the literal string to be escaped<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * @return the escaped form of {@code string}<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @throws NullPointerException if {@code string} is null<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * @throws IllegalArgumentException if invalid surrogate characters are encountered<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   */<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  @Override<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  public String escape(String string) {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    checkNotNull(string);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    int end = string.length();<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    int index = nextEscapeIndex(string, 0, end);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    return index == end ? string : escapeSlow(string, index);<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * Scans a sub-sequence of characters from a given {@link CharSequence}, returning the index of<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * the next character that requires escaping.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; When implementing an escaper, it is a good idea to override this method for<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * efficiency. The base class implementation determines successive Unicode code points and invokes<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * {@link #escape(int)} for each of them. If the semantics of your escaper are such that code<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * points in the supplementary range are either all escaped or all unescaped, this method can be<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * implemented more efficiently using {@link CharSequence#charAt(int)}.<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   *<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * &lt;p&gt;Note however that if your escaper does not escape characters in the supplementary range, you<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * should either continue to validate the correctness of any surrogate characters encountered or<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * provide a clear warning to users that your escaper does not validate its input.<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   *<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * &lt;p&gt;See {@link com.google.common.net.PercentEscaper} for an example.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * @param csq a sequence of characters<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * @param start the index of the first character to be scanned<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * @param end the index immediately after the last character to be scanned<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * @throws IllegalArgumentException if the scanned sub-sequence of {@code csq} contains invalid<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *     surrogate pairs<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  protected int nextEscapeIndex(CharSequence csq, int start, int end) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    int index = start;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    while (index &lt; end) {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      int cp = codePointAt(csq, index, end);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      if (cp &lt; 0 || escape(cp) != null) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        break;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      }<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    return index;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * Returns the escaped form of a given literal string, starting at the given index. This method is<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * called by the {@link #escape(String)} method when it discovers that escaping is required. It is<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * protected to allow subclasses to override the fastpath escaping function to inline their<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * escaping test. See {@link CharEscaperBuilder} for an example usage.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   *<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   * &lt;p&gt;This method is not reentrant and may only be invoked by the top level {@link<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * #escape(String)} method.<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   *<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * @param s the literal string to be escaped<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * @param index the index to start escaping from<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * @return the escaped form of {@code string}<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @throws NullPointerException if {@code string} is null<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * @throws IllegalArgumentException if invalid surrogate characters are encountered<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   */<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  protected final String escapeSlow(String s, int index) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    int end = s.length();<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>    // Get a destination buffer and setup some loop variables.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    char[] dest = Platform.charBufferFromThreadLocal();<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    int destIndex = 0;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    int unescapedChunkStart = 0;<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>    while (index &lt; end) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>      int cp = codePointAt(s, index, end);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>      if (cp &lt; 0) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>        throw new IllegalArgumentException("Trailing high surrogate at end of input");<a name="line.168"></a>
+<span class="sourceLineNo">169</span>      }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>      // It is possible for this to return null because nextEscapeIndex() may<a name="line.170"></a>
+<span class="sourceLineNo">171</span>      // (for performance reasons) yield some false positives but it must never<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      // give false negatives.<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      char[] escaped = escape(cp);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);<a name="line.174"></a>
+<span class="sourceLineNo">175</span>      if (escaped != null) {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        int charsSkipped = index - unescapedChunkStart;<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>        // This is the size needed to add the replacement, not the full<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        // size needed by the string. We only regrow when we absolutely must.<a name="line.179"></a>
+<span class="sourceLineNo">180</span>        int sizeNeeded = destIndex + charsSkipped + escaped.length;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        if (dest.length &lt; sizeNeeded) {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>          int destLength = sizeNeeded + (end - index) + DEST_PAD;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>          dest = growBuffer(dest, destIndex, destLength);<a name="line.183"></a>
+<span class="sourceLineNo">184</span>        }<a name="line.184"></a>
+<span class="sourceLineNo">185</span>        // If we have skipped any characters, we need to copy them now.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        if (charsSkipped &gt; 0) {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>          s.getChars(unescapedChunkStart, index, dest, destIndex);<a name="line.187"></a>
+<span class="sourceLineNo">188</span>          destIndex += charsSkipped;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>        }<a name="line.189"></a>
+<span class="sourceLineNo">190</span>        if (escaped.length &gt; 0) {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>          System.arraycopy(escaped, 0, dest, destIndex, escaped.length);<a name="line.191"></a>
+<span class="sourceLineNo">192</span>          destIndex += escaped.length;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        // If we dealt with an escaped character, reset the unescaped range.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>        unescapedChunkStart = nextIndex;<a name="line.195"></a>
+<span class="sourceLineNo">196</span>      }<a name="line.196"></a>
+<span class="sourceLineNo">197</span>      index = nextEscapeIndex(s, nextIndex, end);<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    }<a name="line.198"></a>
+<span class="sourceLineNo">199</span><a name="line.199"></a>
+<span class="sourceLineNo">200</span>    // Process trailing unescaped characters - no need to account for escaped<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    // length or padding the allocation.<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    int charsSkipped = end - unescapedChunkStart;<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    if (charsSkipped &gt; 0) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>      int endIndex = destIndex + charsSkipped;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      if (dest.length &lt; endIndex) {<a name="line.205"></a>
+<span class="sourceLineNo">206</span>        dest = growBuffer(dest, destIndex, endIndex);<a name="line.206"></a>
+<span class="sourceLineNo">207</span>      }<a name="line.207"></a>
+<span class="sourceLineNo">208</span>      s.getChars(unescapedChunkStart, end, dest, destIndex);<a name="line.208"></a>
+<span class="sourceLineNo">209</span>      destIndex = endIndex;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    }<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    return new String(dest, 0, destIndex);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>  /**<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * Returns the Unicode code point of the character at the given index.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   *<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * &lt;p&gt;Unlike {@link Character#codePointAt(CharSequence, int)} or {@link String#codePointAt(int)}<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * this method will never fail silently when encountering an invalid surrogate pair.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * &lt;p&gt;The behaviour of this method is as follows:<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   *<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * &lt;ol&gt;<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   *   &lt;li&gt;If {@code index &gt;= end}, {@link IndexOutOfBoundsException} is thrown.<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   *   &lt;li&gt;&lt;b&gt;If the character at the specified index is not a surrogate, it is returned.&lt;/b&gt;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   *   &lt;li&gt;If the first character was a high surrogate value, then an attempt is made to read the<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   *       next character.<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   *       &lt;ol&gt;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   *         &lt;li&gt;&lt;b&gt;If the end of the sequence was reached, the negated value of the trailing high<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   *             surrogate is returned.&lt;/b&gt;<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   *         &lt;li&gt;&lt;b&gt;If the next character was a valid low surrogate, the code point value of the<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   *             high/low surrogate pair is returned.&lt;/b&gt;<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   *         &lt;li&gt;If the next character was not a low surrogate value, then {@link<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   *             IllegalArgumentException} is thrown.<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   *       &lt;/ol&gt;<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   *   &lt;li&gt;If the first character was a low surrogate value, {@link IllegalArgumentException} is<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   *       thrown.<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * &lt;/ol&gt;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   *<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * @param seq the sequence of characters from which to decode the code point<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * @param index the index of the first character to decode<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * @param end the index beyond the last valid character to decode<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * @return the Unicode code point for the given index or the negated value of the trailing high<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   *     surrogate character at the end of the sequence<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   */<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  protected static int codePointAt(CharSequence seq, int index, int end) {<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    checkNotNull(seq);<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    if (index &lt; end) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      char c1 = seq.charAt(index++);<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      if (c1 &lt; Character.MIN_HIGH_SURROGATE || c1 &gt; Character.MAX_LOW_SURROGATE) {<a name="line.249"></a>
+<span class="sourceLineNo">250</span>        // Fast path (first test is probably all we need to do)<a name="line.250"></a>
+<span class="sourceLineNo">251</span>        return c1;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>      } else if (c1 &lt;= Character.MAX_HIGH_SURROGATE) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>        // If the high surrogate was the last character, return its inverse<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        if (index == end) {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>          return -c1;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        }<a name="line.256"></a>
+<span class="sourceLineNo">257</span>        // Otherwise look for the low surrogate following it<a name="line.257"></a>
+<span class="sourceLineNo">258</span>        char c2 = seq.charAt(index);<a name="line.258"></a>
+<span class="sourceLineNo">259</span>        if (Character.isLowSurrogate(c2)) {<a name="line.259"></a>
+<span class="sourceLineNo">260</span>          return Character.toCodePoint(c1, c2);<a name="line.260"></a>
+<span class="sourceLineNo">261</span>        }<a name="line.261"></a>
+<span class="sourceLineNo">262</span>        throw new IllegalArgumentException(<a name="line.262"></a>
+<span class="sourceLineNo">263</span>            "Expected low surrogate but got char '"<a name="line.263"></a>
+<span class="sourceLineNo">264</span>                + c2<a name="line.264"></a>
+<span class="sourceLineNo">265</span>                + "' with value "<a name="line.265"></a>
+<span class="sourceLineNo">266</span>                + (int) c2<a name="line.266"></a>
+<span class="sourceLineNo">267</span>                + " at index "<a name="line.267"></a>
+<span class="sourceLineNo">268</span>                + index<a name="line.268"></a>
+<span class="sourceLineNo">269</span>                + " in '"<a name="line.269"></a>
+<span class="sourceLineNo">270</span>                + seq<a name="line.270"></a>
+<span class="sourceLineNo">271</span>                + "'");<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      } else {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>        throw new IllegalArgumentException(<a name="line.273"></a>
+<span class="sourceLineNo">274</span>            "Unexpected low surrogate character '"<a name="line.274"></a>
+<span class="sourceLineNo">275</span>                + c1<a name="line.275"></a>
+<span class="sourceLineNo">276</span>                + "' with value "<a name="line.276"></a>
+<span class="sourceLineNo">277</span>                + (int) c1<a name="line.277"></a>
+<span class="sourceLineNo">278</span>                + " at index "<a name="line.278"></a>
+<span class="sourceLineNo">279</span>                + (index - 1)<a name="line.279"></a>
+<span class="sourceLineNo">280</span>                + " in '"<a name="line.280"></a>
+<span class="sourceLineNo">281</span>                + seq<a name="line.281"></a>
+<span class="sourceLineNo">282</span>                + "'");<a name="line.282"></a>
+<span class="sourceLineNo">283</span>      }<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    }<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    throw new IndexOutOfBoundsException("Index exceeds specified range");<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>  /**<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * Helper method to grow the character buffer as needed, this only happens once in a while so it's<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * ok if it's in a method call. If the index passed in is 0 then no copying will be done.<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   */<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  private static char[] growBuffer(char[] dest, int index, int size) {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    if (size &lt; 0) { // overflow - should be OutOfMemoryError but GWT/j2cl don't support it<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      throw new AssertionError("Cannot increase internal buffer any further");<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    char[] copy = new char[size];<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    if (index &gt; 0) {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      System.arraycopy(dest, 0, copy, 0, index);<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    }<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    return copy;<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  }<a name="line.301"></a>
+<span class="sourceLineNo">302</span>}<a name="line.302"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2016 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.ArrayList;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.List;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.NoSuchElementException;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Optional;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.stream.Collector;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>/**<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * with a {@code com.google.common} type.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * @author Louis Wasserman<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * @since 21.0<a name="line.34"></a>
+<span class="sourceLineNo">035</span> */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>@GwtCompatible<a name="line.36"></a>
+<span class="sourceLineNo">037</span>public final class MoreCollectors {<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  /*<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * TODO(lowasser): figure out if we can convert this to a concurrent AtomicReference-based<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * collector without breaking j2cl?<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  private static final Collector&lt;Object, ?, Optional&lt;Object&gt;&gt; TO_OPTIONAL =<a name="line.43"></a>
+<span class="sourceLineNo">044</span>      Collector.of(<a name="line.44"></a>
+<span class="sourceLineNo">045</span>          ToOptionalState::new,<a name="line.45"></a>
+<span class="sourceLineNo">046</span>          ToOptionalState::add,<a name="line.46"></a>
+<span class="sourceLineNo">047</span>          ToOptionalState::combine,<a name="line.47"></a>
+<span class="sourceLineNo">048</span>          ToOptionalState::getOptional,<a name="line.48"></a>
+<span class="sourceLineNo">049</span>          Collector.Characteristics.UNORDERED);<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * A collector that converts a stream of zero or one elements to an {@code Optional}. The returned<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * collector throws an {@code IllegalArgumentException} if the stream consists of two or more<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * elements, and a {@code NullPointerException} if the stream consists of exactly one element,<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * which is null.<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  @SuppressWarnings("unchecked")<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public static &lt;T&gt; Collector&lt;T, ?, Optional&lt;T&gt;&gt; toOptional() {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    return (Collector) TO_OPTIONAL;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  private static final Object NULL_PLACEHOLDER = new Object();<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>  private static final Collector&lt;Object, ?, Object&gt; ONLY_ELEMENT =<a name="line.64"></a>
+<span class="sourceLineNo">065</span>      Collector.of(<a name="line.65"></a>
+<span class="sourceLineNo">066</span>          ToOptionalState::new,<a name="line.66"></a>
+<span class="sourceLineNo">067</span>          (state, o) -&gt; state.add((o == null) ? NULL_PLACEHOLDER : o),<a name="line.67"></a>
+<span class="sourceLineNo">068</span>          ToOptionalState::combine,<a name="line.68"></a>
+<span class="sourceLineNo">069</span>          state -&gt; {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>            Object result = state.getElement();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>            return (result == NULL_PLACEHOLDER) ? null : result;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>          },<a name="line.72"></a>
+<span class="sourceLineNo">073</span>          Collector.Characteristics.UNORDERED);<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * A collector that takes a stream containing exactly one element and returns that element. The<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * returned collector throws an {@code IllegalArgumentException} if the stream consists of two or<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * more elements, and a {@code NoSuchElementException} if the stream is empty.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @SuppressWarnings("unchecked")<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public static &lt;T&gt; Collector&lt;T, ?, T&gt; onlyElement() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    return (Collector) ONLY_ELEMENT;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * This atrocity is here to let us report several of the elements in the stream if there were more<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * than one, not just two.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  private static final class ToOptionalState {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    static final int MAX_EXTRAS = 4;<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>    @Nullable Object element;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    @Nullable List&lt;Object&gt; extras;<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>    ToOptionalState() {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      element = null;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      extras = null;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>    IllegalArgumentException multiples(boolean overflow) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      StringBuilder sb =<a name="line.101"></a>
+<span class="sourceLineNo">102</span>          new StringBuilder().append("expected one element but was: &lt;").append(element);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      for (Object o : extras) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        sb.append(", ").append(o);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      }<a name="line.105"></a>
+<span class="sourceLineNo">106</span>      if (overflow) {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        sb.append(", ...");<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      }<a name="line.108"></a>
+<span class="sourceLineNo">109</span>      sb.append('&gt;');<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      throw new IllegalArgumentException(sb.toString());<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>    void add(Object o) {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      checkNotNull(o);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      if (element == null) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>        this.element = o;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>      } else if (extras == null) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>        extras = new ArrayList&lt;&gt;(MAX_EXTRAS);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        extras.add(o);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      } else if (extras.size() &lt; MAX_EXTRAS) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>        extras.add(o);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>      } else {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>        throw multiples(true);<a name="line.123"></a>
+<span class="sourceLineNo">124</span>      }<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>    ToOptionalState combine(ToOptionalState other) {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      if (element == null) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        return other;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      } else if (other.element == null) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        return this;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      } else {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>        if (extras == null) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>          extras = new ArrayList&lt;&gt;();<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        }<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        extras.add(other.element);<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        if (other.extras != null) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>          this.extras.addAll(other.extras);<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        }<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        if (extras.size() &gt; MAX_EXTRAS) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>          extras.subList(MAX_EXTRAS, extras.size()).clear();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>          throw multiples(true);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        }<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        return this;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>      }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    }<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>    Optional&lt;Object&gt; getOptional() {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>      if (extras == null) {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>        return Optional.ofNullable(element);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      } else {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>        throw multiples(false);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>      }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    }<a name="line.154"></a>
+<span class="sourceLineNo">155</span><a name="line.155"></a>
+<span class="sourceLineNo">156</span>    Object getElement() {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>      if (element == null) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        throw new NoSuchElementException();<a name="line.158"></a>
+<span class="sourceLineNo">159</span>      } else if (extras == null) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>        return element;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>      } else {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>        throw multiples(false);<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      }<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    }<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  private MoreCollectors() {}<a name="line.167"></a>
+<span class="sourceLineNo">168</span>}<a name="line.168"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

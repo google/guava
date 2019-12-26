@@ -1,0 +1,714 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.net;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkState;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Ascii;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.CharMatcher;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.base.Joiner;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.base.Optional;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.base.Splitter;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.collect.ImmutableList;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.errorprone.annotations.Immutable;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.google.thirdparty.publicsuffix.PublicSuffixPatterns;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import com.google.thirdparty.publicsuffix.PublicSuffixType;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.List;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>/**<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * An immutable well-formed internet domain name, such as {@code com} or {@code foo.co.uk}. Only<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * syntactic analysis is performed; no DNS lookups or other network interactions take place. Thus<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * there is no guarantee that the domain actually exists on the internet.<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;p&gt;One common use of this class is to determine whether a given string is likely to represent an<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * addressable domain on the web -- that is, for a candidate string {@code "xxx"}, might browsing to<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * {@code "http://xxx/"} result in a webpage being displayed? In the past, this test was frequently<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * done by determining whether the domain ended with a {@linkplain #isPublicSuffix() public suffix}<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * but was not itself a public suffix. However, this test is no longer accurate. There are many<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * domains which are both public suffixes and addressable as hosts; {@code "uk.com"} is one example.<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * Using the subset of public suffixes that are {@linkplain #isRegistrySuffix() registry suffixes},<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * one can get a better result, as only a few registry suffixes are addressable. However, the most<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * useful test to determine if a domain is a plausible web host is {@link #hasPublicSuffix()}. This<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * will return {@code true} for many domains which (currently) are not hosts, such as {@code "com"},<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * but given that any public suffix may become a host without warning, it is better to err on the<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * side of permissiveness and thus avoid spurious rejection of valid sites. Of course, to actually<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * determine addressability of any host, clients of this class will need to perform their own DNS<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * lookups.<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;p&gt;During construction, names are normalized in two ways:<a name="line.55"></a>
+<span class="sourceLineNo">056</span> *<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * &lt;ol&gt;<a name="line.57"></a>
+<span class="sourceLineNo">058</span> *   &lt;li&gt;ASCII uppercase characters are converted to lowercase.<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *   &lt;li&gt;Unicode dot separators other than the ASCII period ({@code '.'}) are converted to the ASCII<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *       period.<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * &lt;/ol&gt;<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * &lt;p&gt;The normalized values will be returned from {@link #toString()} and {@link #parts()}, and will<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * be reflected in the result of {@link #equals(Object)}.<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/Internationalized_domain_name"&gt;Internationalized domain<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * names&lt;/a&gt; such as {@code 网络.cn} are supported, as are the equivalent &lt;a<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * href="http://en.wikipedia.org/wiki/Internationalized_domain_name"&gt;IDNA Punycode-encoded&lt;/a&gt;<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * versions.<a name="line.69"></a>
+<span class="sourceLineNo">070</span> *<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * @author Catherine Berry<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * @since 5.0<a name="line.72"></a>
+<span class="sourceLineNo">073</span> */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>@Beta<a name="line.74"></a>
+<span class="sourceLineNo">075</span>@GwtCompatible<a name="line.75"></a>
+<span class="sourceLineNo">076</span>@Immutable<a name="line.76"></a>
+<span class="sourceLineNo">077</span>public final class InternetDomainName {<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private static final Splitter DOT_SPLITTER = Splitter.on('.');<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  private static final Joiner DOT_JOINER = Joiner.on('.');<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * Value of {@link #publicSuffixIndex} or {@link #registrySuffixIndex} which indicates that no<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * relevant suffix was found.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  private static final int NO_SUFFIX_FOUND = -1;<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * Maximum parts (labels) in a domain name. This value arises from the 255-octet limit described<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * in &lt;a href="http://www.ietf.org/rfc/rfc2181.txt"&gt;RFC 2181&lt;/a&gt; part 11 with the fact that the<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * encoding of each part occupies at least two bytes (dot plus label externally, length byte plus<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * label internally). Thus, if all labels have the minimum size of one byte, 127 of them will fit.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  private static final int MAX_PARTS = 127;<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * Maximum length of a full domain name, including separators, and leaving room for the root<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * label. See &lt;a href="http://www.ietf.org/rfc/rfc2181.txt"&gt;RFC 2181&lt;/a&gt; part 11.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  private static final int MAX_LENGTH = 253;<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * Maximum size of a single part of a domain name. See &lt;a<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * href="http://www.ietf.org/rfc/rfc2181.txt"&gt;RFC 2181&lt;/a&gt; part 11.<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  private static final int MAX_DOMAIN_PART_LENGTH = 63;<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /** The full domain name, converted to lower case. */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  private final String name;<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  /** The parts of the domain name, converted to lower case. */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  private final ImmutableList&lt;String&gt; parts;<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * The index in the {@link #parts()} list at which the public suffix begins. For example, for the<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * domain name {@code myblog.blogspot.co.uk}, the value would be 1 (the index of the {@code<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * blogspot} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no public<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * suffix was found.<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  private final int publicSuffixIndex;<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * The index in the {@link #parts()} list at which the registry suffix begins. For example, for<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * the domain name {@code myblog.blogspot.co.uk}, the value would be 2 (the index of the {@code<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * co} part). The value is negative (specifically, {@link #NO_SUFFIX_FOUND}) if no registry suffix<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * was found.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   */<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  private final int registrySuffixIndex;<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  /** Constructor used to implement {@link #from(String)}, and from subclasses. */<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  InternetDomainName(String name) {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    // Normalize:<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    // * ASCII characters to lowercase<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    // * All dot-like characters to '.'<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    // * Strip trailing '.'<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>    name = Ascii.toLowerCase(DOTS_MATCHER.replaceFrom(name, '.'));<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>    if (name.endsWith(".")) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>      name = name.substring(0, name.length() - 1);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    }<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>    checkArgument(name.length() &lt;= MAX_LENGTH, "Domain name too long: '%s':", name);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    this.name = name;<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span>    this.parts = ImmutableList.copyOf(DOT_SPLITTER.split(name));<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    checkArgument(parts.size() &lt;= MAX_PARTS, "Domain has too many parts: '%s'", name);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    checkArgument(validateSyntax(parts), "Not a valid domain name: '%s'", name);<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>    this.publicSuffixIndex = findSuffixOfType(Optional.&lt;PublicSuffixType&gt;absent());<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    this.registrySuffixIndex = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  /**<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * Returns the index of the leftmost part of the suffix, or -1 if not found. Note that the value<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * defined as a suffix may not produce {@code true} results from {@link #isPublicSuffix()} or<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * {@link #isRegistrySuffix()} if the domain ends with an excluded domain pattern such as {@code<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * "nhs.uk"}.<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   *<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * &lt;p&gt;If a {@code desiredType} is specified, this method only finds suffixes of the given type.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * Otherwise, it finds the first suffix of any type.<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  private int findSuffixOfType(Optional&lt;PublicSuffixType&gt; desiredType) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    final int partsSize = parts.size();<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>    for (int i = 0; i &lt; partsSize; i++) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));<a name="line.168"></a>
+<span class="sourceLineNo">169</span><a name="line.169"></a>
+<span class="sourceLineNo">170</span>      if (matchesType(<a name="line.170"></a>
+<span class="sourceLineNo">171</span>          desiredType, Optional.fromNullable(PublicSuffixPatterns.EXACT.get(ancestorName)))) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>        return i;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>      }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>      // Excluded domains (e.g. !nhs.uk) use the next highest<a name="line.175"></a>
+<span class="sourceLineNo">176</span>      // domain as the effective public suffix (e.g. uk).<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>      if (PublicSuffixPatterns.EXCLUDED.containsKey(ancestorName)) {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        return i + 1;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>      }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>      if (matchesWildcardSuffixType(desiredType, ancestorName)) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>        return i;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>      }<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>    return NO_SUFFIX_FOUND;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * Returns an instance of {@link InternetDomainName} after lenient validation. Specifically,<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * validation against &lt;a href="http://www.ietf.org/rfc/rfc3490.txt"&gt;RFC 3490&lt;/a&gt;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * ("Internationalizing Domain Names in Applications") is skipped, while validation against &lt;a<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * href="http://www.ietf.org/rfc/rfc1035.txt"&gt;RFC 1035&lt;/a&gt; is relaxed in the following ways:<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * &lt;ul&gt;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   *   &lt;li&gt;Any part containing non-ASCII characters is considered valid.<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   *   &lt;li&gt;Underscores ('_') are permitted wherever dashes ('-') are permitted.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   *   &lt;li&gt;Parts other than the final part may start with a digit, as mandated by &lt;a<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   *       href="https://tools.ietf.org/html/rfc1123#section-2"&gt;RFC 1123&lt;/a&gt;.<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * &lt;/ul&gt;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   *<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   *<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * @param domain A domain name (not IP address)<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * @throws IllegalArgumentException if {@code domain} is not syntactically valid according to<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *     {@link #isValid}<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @since 10.0 (previously named {@code fromLenient})<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  public static InternetDomainName from(String domain) {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    return new InternetDomainName(checkNotNull(domain));<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  }<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>  /**<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * Validation method used by {@code from} to ensure that the domain name is syntactically valid<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * according to RFC 1035.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   *<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * @return Is the domain name syntactically valid?<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   */<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  private static boolean validateSyntax(List&lt;String&gt; parts) {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    final int lastIndex = parts.size() - 1;<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>    // Validate the last part specially, as it has different syntax rules.<a name="line.222"></a>
+<span class="sourceLineNo">223</span><a name="line.223"></a>
+<span class="sourceLineNo">224</span>    if (!validatePart(parts.get(lastIndex), true)) {<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      return false;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    }<a name="line.226"></a>
+<span class="sourceLineNo">227</span><a name="line.227"></a>
+<span class="sourceLineNo">228</span>    for (int i = 0; i &lt; lastIndex; i++) {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      String part = parts.get(i);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>      if (!validatePart(part, false)) {<a name="line.230"></a>
+<span class="sourceLineNo">231</span>        return false;<a name="line.231"></a>
+<span class="sourceLineNo">232</span>      }<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    }<a name="line.233"></a>
+<span class="sourceLineNo">234</span><a name="line.234"></a>
+<span class="sourceLineNo">235</span>    return true;<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  }<a name="line.236"></a>
+<span class="sourceLineNo">237</span><a name="line.237"></a>
+<span class="sourceLineNo">238</span>  private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>  private static final CharMatcher DIGIT_MATCHER = CharMatcher.inRange('0', '9');<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  private static final CharMatcher LETTER_MATCHER =<a name="line.242"></a>
+<span class="sourceLineNo">243</span>      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z'));<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  private static final CharMatcher PART_CHAR_MATCHER =<a name="line.245"></a>
+<span class="sourceLineNo">246</span>      DIGIT_MATCHER.or(LETTER_MATCHER).or(DASH_MATCHER);<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * Helper method for {@link #validateSyntax(List)}. Validates that one part of a domain name is<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * valid.<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   *<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * @param part The domain name part to be validated<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * @param isFinalPart Is this the final (rightmost) domain part?<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * @return Whether the part is valid<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   */<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  private static boolean validatePart(String part, boolean isFinalPart) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span><a name="line.257"></a>
+<span class="sourceLineNo">258</span>    // These tests could be collapsed into one big boolean expression, but<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    // they have been left as independent tests for clarity.<a name="line.259"></a>
+<span class="sourceLineNo">260</span><a name="line.260"></a>
+<span class="sourceLineNo">261</span>    if (part.length() &lt; 1 || part.length() &gt; MAX_DOMAIN_PART_LENGTH) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      return false;<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    }<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>    /*<a name="line.265"></a>
+<span class="sourceLineNo">266</span>     * GWT claims to support java.lang.Character's char-classification methods, but it actually only<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * works for ASCII. So for now, assume any non-ASCII characters are valid. The only place this<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     * seems to be documented is here:<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     * https://groups.google.com/d/topic/google-web-toolkit-contributors/1UEzsryq1XI<a name="line.269"></a>
+<span class="sourceLineNo">270</span>     *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>     * &lt;p&gt;ASCII characters in the part are expected to be valid per RFC 1035, with underscore also<a name="line.271"></a>
+<span class="sourceLineNo">272</span>     * being allowed due to widespread practice.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>     */<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>    String asciiChars = CharMatcher.ascii().retainFrom(part);<a name="line.275"></a>
+<span class="sourceLineNo">276</span><a name="line.276"></a>
+<span class="sourceLineNo">277</span>    if (!PART_CHAR_MATCHER.matchesAllOf(asciiChars)) {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      return false;<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    }<a name="line.279"></a>
+<span class="sourceLineNo">280</span><a name="line.280"></a>
+<span class="sourceLineNo">281</span>    // No initial or final dashes or underscores.<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>    if (DASH_MATCHER.matches(part.charAt(0))<a name="line.283"></a>
+<span class="sourceLineNo">284</span>        || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>      return false;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>    /*<a name="line.288"></a>
+<span class="sourceLineNo">289</span>     * Note that we allow (in contravention of a strict interpretation of the relevant RFCs) domain<a name="line.289"></a>
+<span class="sourceLineNo">290</span>     * parts other than the last may begin with a digit (for example, "3com.com"). It's important to<a name="line.290"></a>
+<span class="sourceLineNo">291</span>     * disallow an initial digit in the last part; it's the only thing that stops an IPv4 numeric<a name="line.291"></a>
+<span class="sourceLineNo">292</span>     * address like 127.0.0.1 from looking like a valid domain name.<a name="line.292"></a>
+<span class="sourceLineNo">293</span>     */<a name="line.293"></a>
+<span class="sourceLineNo">294</span><a name="line.294"></a>
+<span class="sourceLineNo">295</span>    if (isFinalPart &amp;&amp; DIGIT_MATCHER.matches(part.charAt(0))) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      return false;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    }<a name="line.297"></a>
+<span class="sourceLineNo">298</span><a name="line.298"></a>
+<span class="sourceLineNo">299</span>    return true;<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * Returns the individual components of this domain name, normalized to all lower case. For<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * example, for the domain name {@code mail.google.com}, this method returns the list {@code<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * ["mail", "google", "com"]}.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  public ImmutableList&lt;String&gt; parts() {<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    return parts;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  }<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>  /**<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * Indicates whether this domain name represents a &lt;i&gt;public suffix&lt;/i&gt;, as defined by the Mozilla<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * Foundation's &lt;a href="http://publicsuffix.org/"&gt;Public Suffix List&lt;/a&gt; (PSL). A public suffix<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * is one under which Internet users can directly register names, such as {@code com}, {@code<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * co.uk} or {@code pvt.k12.wy.us}. Examples of domain names that are &lt;i&gt;not&lt;/i&gt; public suffixes<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * include {@code google.com}, {@code foo.co.uk}, and {@code myblog.blogspot.com}.<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   *<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * &lt;p&gt;Public suffixes are a proper superset of {@linkplain #isRegistrySuffix() registry suffixes}.<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   * The list of public suffixes additionally contains privately owned domain names under which<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   * Internet users can register subdomains. An example of a public suffix that is not a registry<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * suffix is {@code blogspot.com}. Note that it is true that all public suffixes &lt;i&gt;have&lt;/i&gt;<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * registry suffixes, since domain name registries collectively control all internet domain names.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   *<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * &lt;p&gt;For considerations on whether the public suffix or registry suffix designation is more<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * suitable for your application, see &lt;a<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * href="https://github.com/google/guava/wiki/InternetDomainNameExplained"&gt;this article&lt;/a&gt;.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   *<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * @return {@code true} if this domain name appears exactly on the public suffix list<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * @since 6.0<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   */<a name="line.330"></a>
+<span class="sourceLineNo">331</span>  public boolean isPublicSuffix() {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    return publicSuffixIndex == 0;<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  }<a name="line.333"></a>
+<span class="sourceLineNo">334</span><a name="line.334"></a>
+<span class="sourceLineNo">335</span>  /**<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * Indicates whether this domain name ends in a {@linkplain #isPublicSuffix() public suffix},<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * including if it is a public suffix itself. For example, returns {@code true} for {@code<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code invalid} or {@code<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   * google.invalid}. This is the recommended method for determining whether a domain is potentially<a name="line.339"></a>
+<span class="sourceLineNo">340</span>   * an addressable host.<a name="line.340"></a>
+<span class="sourceLineNo">341</span>   *<a name="line.341"></a>
+<span class="sourceLineNo">342</span>   * &lt;p&gt;Note that this method is equivalent to {@link #hasRegistrySuffix()} because all registry<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * suffixes are public suffixes &lt;i&gt;and&lt;/i&gt; all public suffixes have registry suffixes.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   *<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   * @since 6.0<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   */<a name="line.346"></a>
+<span class="sourceLineNo">347</span>  public boolean hasPublicSuffix() {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    return publicSuffixIndex != NO_SUFFIX_FOUND;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>  }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the domain name, or {@code<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * null} if no public suffix is present.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * @since 6.0<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   */<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  public InternetDomainName publicSuffix() {<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  }<a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /**<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * Indicates whether this domain name ends in a {@linkplain #isPublicSuffix() public suffix},<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * while not being a public suffix itself. For example, returns {@code true} for {@code<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * www.google.com}, {@code foo.co.uk} and {@code myblog.blogspot.com}, but not for {@code com},<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * {@code co.uk}, {@code google.invalid}, or {@code blogspot.com}.<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   *<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * &lt;p&gt;This method can be used to determine whether it will probably be possible to set cookies on<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * the domain, though even that depends on individual browsers' implementations of cookie<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * controls. See &lt;a href="http://www.ietf.org/rfc/rfc2109.txt"&gt;RFC 2109&lt;/a&gt; for details.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   *<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   * @since 6.0<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   */<a name="line.372"></a>
+<span class="sourceLineNo">373</span>  public boolean isUnderPublicSuffix() {<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    return publicSuffixIndex &gt; 0;<a name="line.374"></a>
+<span class="sourceLineNo">375</span>  }<a name="line.375"></a>
+<span class="sourceLineNo">376</span><a name="line.376"></a>
+<span class="sourceLineNo">377</span>  /**<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * Indicates whether this domain name is composed of exactly one subdomain component followed by a<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   * {@linkplain #isPublicSuffix() public suffix}. For example, returns {@code true} for {@code<a name="line.379"></a>
+<span class="sourceLineNo">380</span>   * google.com} {@code foo.co.uk}, and {@code myblog.blogspot.com}, but not for {@code<a name="line.380"></a>
+<span class="sourceLineNo">381</span>   * www.google.com}, {@code co.uk}, or {@code blogspot.com}.<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   *<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * &lt;p&gt;This method can be used to determine whether a domain is probably the highest level for<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * which cookies may be set, though even that depends on individual browsers' implementations of<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * cookie controls. See &lt;a href="http://www.ietf.org/rfc/rfc2109.txt"&gt;RFC 2109&lt;/a&gt; for details.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * @since 6.0<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   */<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  public boolean isTopPrivateDomain() {<a name="line.389"></a>
+<span class="sourceLineNo">390</span>    return publicSuffixIndex == 1;<a name="line.390"></a>
+<span class="sourceLineNo">391</span>  }<a name="line.391"></a>
+<span class="sourceLineNo">392</span><a name="line.392"></a>
+<span class="sourceLineNo">393</span>  /**<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * Returns the portion of this domain name that is one level beneath the {@linkplain<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   * #isPublicSuffix() public suffix}. For example, for {@code x.adwords.google.co.uk} it returns<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * {@code google.co.uk}, since {@code co.uk} is a public suffix. Similarly, for {@code<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   * myblog.blogspot.com} it returns the same domain, {@code myblog.blogspot.com}, since {@code<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * blogspot.com} is a public suffix.<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   *<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * &lt;p&gt;If {@link #isTopPrivateDomain()} is true, the current domain name instance is returned.<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   *<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * &lt;p&gt;This method can be used to determine the probable highest level parent domain for which<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * cookies may be set, though even that depends on individual browsers' implementations of cookie<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * controls.<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   *<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * @throws IllegalStateException if this domain does not end with a public suffix<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   * @since 6.0<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   */<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  public InternetDomainName topPrivateDomain() {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    if (isTopPrivateDomain()) {<a name="line.410"></a>
+<span class="sourceLineNo">411</span>      return this;<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    }<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    checkState(isUnderPublicSuffix(), "Not under a public suffix: %s", name);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    return ancestor(publicSuffixIndex - 1);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>  }<a name="line.415"></a>
+<span class="sourceLineNo">416</span><a name="line.416"></a>
+<span class="sourceLineNo">417</span>  /**<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * Indicates whether this domain name represents a &lt;i&gt;registry suffix&lt;/i&gt;, as defined by a subset<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * of the Mozilla Foundation's &lt;a href="http://publicsuffix.org/"&gt;Public Suffix List&lt;/a&gt; (PSL). A<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   * registry suffix is one under which Internet users can directly register names via a domain name<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   * registrar, and have such registrations lawfully protected by internet-governing bodies such as<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   * ICANN. Examples of registry suffixes include {@code com}, {@code co.uk}, and {@code<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   * pvt.k12.wy.us}. Examples of domain names that are &lt;i&gt;not&lt;/i&gt; registry suffixes include {@code<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * google.com} and {@code foo.co.uk}.<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   *<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * &lt;p&gt;Registry suffixes are a proper subset of {@linkplain #isPublicSuffix() public suffixes}. The<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   * list of public suffixes additionally contains privately owned domain names under which Internet<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * users can register subdomains. An example of a public suffix that is not a registry suffix is<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * {@code blogspot.com}. Note that it is true that all public suffixes &lt;i&gt;have&lt;/i&gt; registry<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   * suffixes, since domain name registries collectively control all internet domain names.<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   *<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * &lt;p&gt;For considerations on whether the public suffix or registry suffix designation is more<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * suitable for your application, see &lt;a<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * href="https://github.com/google/guava/wiki/InternetDomainNameExplained"&gt;this article&lt;/a&gt;.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   *<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * @return {@code true} if this domain name appears exactly on the public suffix list as part of<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   *     the registry suffix section (labelled "ICANN").<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * @since 23.3<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   */<a name="line.439"></a>
+<span class="sourceLineNo">440</span>  public boolean isRegistrySuffix() {<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    return registrySuffixIndex == 0;<a name="line.441"></a>
+<span class="sourceLineNo">442</span>  }<a name="line.442"></a>
+<span class="sourceLineNo">443</span><a name="line.443"></a>
+<span class="sourceLineNo">444</span>  /**<a name="line.444"></a>
+<span class="sourceLineNo">445</span>   * Indicates whether this domain name ends in a {@linkplain #isRegistrySuffix() registry suffix},<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   * including if it is a registry suffix itself. For example, returns {@code true} for {@code<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   * www.google.com}, {@code foo.co.uk} and {@code com}, but not for {@code invalid} or {@code<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * google.invalid}.<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   *<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * &lt;p&gt;Note that this method is equivalent to {@link #hasPublicSuffix()} because all registry<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   * suffixes are public suffixes &lt;i&gt;and&lt;/i&gt; all public suffixes have registry suffixes.<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   *<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * @since 23.3<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   */<a name="line.454"></a>
+<span class="sourceLineNo">455</span>  public boolean hasRegistrySuffix() {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>    return registrySuffixIndex != NO_SUFFIX_FOUND;<a name="line.456"></a>
+<span class="sourceLineNo">457</span>  }<a name="line.457"></a>
+<span class="sourceLineNo">458</span><a name="line.458"></a>
+<span class="sourceLineNo">459</span>  /**<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   * Returns the {@linkplain #isRegistrySuffix() registry suffix} portion of the domain name, or<a name="line.460"></a>
+<span class="sourceLineNo">461</span>   * {@code null} if no registry suffix is present.<a name="line.461"></a>
+<span class="sourceLineNo">462</span>   *<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   * @since 23.3<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   */<a name="line.464"></a>
+<span class="sourceLineNo">465</span>  public InternetDomainName registrySuffix() {<a name="line.465"></a>
+<span class="sourceLineNo">466</span>    return hasRegistrySuffix() ? ancestor(registrySuffixIndex) : null;<a name="line.466"></a>
+<span class="sourceLineNo">467</span>  }<a name="line.467"></a>
+<span class="sourceLineNo">468</span><a name="line.468"></a>
+<span class="sourceLineNo">469</span>  /**<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * Indicates whether this domain name ends in a {@linkplain #isRegistrySuffix() registry suffix},<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * while not being a registry suffix itself. For example, returns {@code true} for {@code<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   * www.google.com}, {@code foo.co.uk} and {@code blogspot.com}, but not for {@code com}, {@code<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * co.uk}, or {@code google.invalid}.<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   *<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * @since 23.3<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   */<a name="line.476"></a>
+<span class="sourceLineNo">477</span>  public boolean isUnderRegistrySuffix() {<a name="line.477"></a>
+<span class="sourceLineNo">478</span>    return registrySuffixIndex &gt; 0;<a name="line.478"></a>
+<span class="sourceLineNo">479</span>  }<a name="line.479"></a>
+<span class="sourceLineNo">480</span><a name="line.480"></a>
+<span class="sourceLineNo">481</span>  /**<a name="line.481"></a>
+<span class="sourceLineNo">482</span>   * Indicates whether this domain name is composed of exactly one subdomain component followed by a<a name="line.482"></a>
+<span class="sourceLineNo">483</span>   * {@linkplain #isRegistrySuffix() registry suffix}. For example, returns {@code true} for {@code<a name="line.483"></a>
+<span class="sourceLineNo">484</span>   * google.com}, {@code foo.co.uk}, and {@code blogspot.com}, but not for {@code www.google.com},<a name="line.484"></a>
+<span class="sourceLineNo">485</span>   * {@code co.uk}, or {@code myblog.blogspot.com}.<a name="line.485"></a>
+<span class="sourceLineNo">486</span>   *<a name="line.486"></a>
+<span class="sourceLineNo">487</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method should not be used to determine the probable highest level<a name="line.487"></a>
+<span class="sourceLineNo">488</span>   * parent domain for which cookies may be set. Use {@link #topPrivateDomain()} for that purpose.<a name="line.488"></a>
+<span class="sourceLineNo">489</span>   *<a name="line.489"></a>
+<span class="sourceLineNo">490</span>   * @since 23.3<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   */<a name="line.491"></a>
+<span class="sourceLineNo">492</span>  public boolean isTopDomainUnderRegistrySuffix() {<a name="line.492"></a>
+<span class="sourceLineNo">493</span>    return registrySuffixIndex == 1;<a name="line.493"></a>
+<span class="sourceLineNo">494</span>  }<a name="line.494"></a>
+<span class="sourceLineNo">495</span><a name="line.495"></a>
+<span class="sourceLineNo">496</span>  /**<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   * Returns the portion of this domain name that is one level beneath the {@linkplain<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * #isRegistrySuffix() registry suffix}. For example, for {@code x.adwords.google.co.uk} it<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * returns {@code google.co.uk}, since {@code co.uk} is a registry suffix. Similarly, for {@code<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * myblog.blogspot.com} it returns {@code blogspot.com}, since {@code com} is a registry suffix.<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   *<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * &lt;p&gt;If {@link #isTopDomainUnderRegistrySuffix()} is true, the current domain name instance is<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * returned.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   *<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method should not be used to determine whether a domain is probably the<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * highest level for which cookies may be set. Use {@link #isTopPrivateDomain()} for that purpose.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   *<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * @throws IllegalStateException if this domain does not end with a registry suffix<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * @since 23.3<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   */<a name="line.510"></a>
+<span class="sourceLineNo">511</span>  public InternetDomainName topDomainUnderRegistrySuffix() {<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    if (isTopDomainUnderRegistrySuffix()) {<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      return this;<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    }<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    checkState(isUnderRegistrySuffix(), "Not under a registry suffix: %s", name);<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    return ancestor(registrySuffixIndex - 1);<a name="line.516"></a>
+<span class="sourceLineNo">517</span>  }<a name="line.517"></a>
+<span class="sourceLineNo">518</span><a name="line.518"></a>
+<span class="sourceLineNo">519</span>  /** Indicates whether this domain is composed of two or more parts. */<a name="line.519"></a>
+<span class="sourceLineNo">520</span>  public boolean hasParent() {<a name="line.520"></a>
+<span class="sourceLineNo">521</span>    return parts.size() &gt; 1;<a name="line.521"></a>
+<span class="sourceLineNo">522</span>  }<a name="line.522"></a>
+<span class="sourceLineNo">523</span><a name="line.523"></a>
+<span class="sourceLineNo">524</span>  /**<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   * Returns an {@code InternetDomainName} that is the immediate ancestor of this one; that is, the<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   * current domain with the leftmost part removed. For example, the parent of {@code<a name="line.526"></a>
+<span class="sourceLineNo">527</span>   * www.google.com} is {@code google.com}.<a name="line.527"></a>
+<span class="sourceLineNo">528</span>   *<a name="line.528"></a>
+<span class="sourceLineNo">529</span>   * @throws IllegalStateException if the domain has no parent, as determined by {@link #hasParent}<a name="line.529"></a>
+<span class="sourceLineNo">530</span>   */<a name="line.530"></a>
+<span class="sourceLineNo">531</span>  public InternetDomainName parent() {<a name="line.531"></a>
+<span class="sourceLineNo">532</span>    checkState(hasParent(), "Domain '%s' has no parent", name);<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    return ancestor(1);<a name="line.533"></a>
+<span class="sourceLineNo">534</span>  }<a name="line.534"></a>
+<span class="sourceLineNo">535</span><a name="line.535"></a>
+<span class="sourceLineNo">536</span>  /**<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   * Returns the ancestor of the current domain at the given number of levels "higher" (rightward)<a name="line.537"></a>
+<span class="sourceLineNo">538</span>   * in the subdomain list. The number of levels must be non-negative, and less than {@code N-1},<a name="line.538"></a>
+<span class="sourceLineNo">539</span>   * where {@code N} is the number of parts in the domain.<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   *<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * &lt;p&gt;TODO: Reasonable candidate for addition to public API.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   */<a name="line.542"></a>
+<span class="sourceLineNo">543</span>  private InternetDomainName ancestor(int levels) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>    return from(DOT_JOINER.join(parts.subList(levels, parts.size())));<a name="line.544"></a>
+<span class="sourceLineNo">545</span>  }<a name="line.545"></a>
+<span class="sourceLineNo">546</span><a name="line.546"></a>
+<span class="sourceLineNo">547</span>  /**<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * Creates and returns a new {@code InternetDomainName} by prepending the argument and a dot to<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   * the current name. For example, {@code InternetDomainName.from("foo.com").child("www.bar")}<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   * returns a new {@code InternetDomainName} with the value {@code www.bar.foo.com}. Only lenient<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   * validation is performed, as described {@link #from(String) here}.<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   *<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * @throws NullPointerException if leftParts is null<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * @throws IllegalArgumentException if the resulting name is not valid<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   */<a name="line.555"></a>
+<span class="sourceLineNo">556</span>  public InternetDomainName child(String leftParts) {<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    return from(checkNotNull(leftParts) + "." + name);<a name="line.557"></a>
+<span class="sourceLineNo">558</span>  }<a name="line.558"></a>
+<span class="sourceLineNo">559</span><a name="line.559"></a>
+<span class="sourceLineNo">560</span>  /**<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * Indicates whether the argument is a syntactically valid domain name using lenient validation.<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * Specifically, validation against &lt;a href="http://www.ietf.org/rfc/rfc3490.txt"&gt;RFC 3490&lt;/a&gt;<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * ("Internationalizing Domain Names in Applications") is skipped.<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   *<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   * &lt;p&gt;The following two code snippets are equivalent:<a name="line.565"></a>
+<span class="sourceLineNo">566</span>   *<a name="line.566"></a>
+<span class="sourceLineNo">567</span>   * &lt;pre&gt;{@code<a name="line.567"></a>
+<span class="sourceLineNo">568</span>   * domainName = InternetDomainName.isValid(name)<a name="line.568"></a>
+<span class="sourceLineNo">569</span>   *     ? InternetDomainName.from(name)<a name="line.569"></a>
+<span class="sourceLineNo">570</span>   *     : DEFAULT_DOMAIN;<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   * }&lt;/pre&gt;<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   *<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   * &lt;pre&gt;{@code<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   * try {<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   *   domainName = InternetDomainName.from(name);<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   * } catch (IllegalArgumentException e) {<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   *   domainName = DEFAULT_DOMAIN;<a name="line.577"></a>
+<span class="sourceLineNo">578</span>   * }<a name="line.578"></a>
+<span class="sourceLineNo">579</span>   * }&lt;/pre&gt;<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   *<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * @since 8.0 (previously named {@code isValidLenient})<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   */<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  public static boolean isValid(String name) {<a name="line.583"></a>
+<span class="sourceLineNo">584</span>    try {<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      from(name);<a name="line.585"></a>
+<span class="sourceLineNo">586</span>      return true;<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    } catch (IllegalArgumentException e) {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      return false;<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    }<a name="line.589"></a>
+<span class="sourceLineNo">590</span>  }<a name="line.590"></a>
+<span class="sourceLineNo">591</span><a name="line.591"></a>
+<span class="sourceLineNo">592</span>  /**<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * Does the domain name match one of the "wildcard" patterns (e.g. {@code "*.ar"})? If a {@code<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   * desiredType} is specified, the wildcard pattern must also match that type.<a name="line.594"></a>
+<span class="sourceLineNo">595</span>   */<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  private static boolean matchesWildcardSuffixType(<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      Optional&lt;PublicSuffixType&gt; desiredType, String domain) {<a name="line.597"></a>
+<span class="sourceLineNo">598</span>    List&lt;String&gt; pieces = DOT_SPLITTER.limit(2).splitToList(domain);<a name="line.598"></a>
+<span class="sourceLineNo">599</span>    return pieces.size() == 2<a name="line.599"></a>
+<span class="sourceLineNo">600</span>        &amp;&amp; matchesType(<a name="line.600"></a>
+<span class="sourceLineNo">601</span>            desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(pieces.get(1))));<a name="line.601"></a>
+<span class="sourceLineNo">602</span>  }<a name="line.602"></a>
+<span class="sourceLineNo">603</span><a name="line.603"></a>
+<span class="sourceLineNo">604</span>  /**<a name="line.604"></a>
+<span class="sourceLineNo">605</span>   * If a {@code desiredType} is specified, returns true only if the {@code actualType} is<a name="line.605"></a>
+<span class="sourceLineNo">606</span>   * identical. Otherwise, returns true as long as {@code actualType} is present.<a name="line.606"></a>
+<span class="sourceLineNo">607</span>   */<a name="line.607"></a>
+<span class="sourceLineNo">608</span>  private static boolean matchesType(<a name="line.608"></a>
+<span class="sourceLineNo">609</span>      Optional&lt;PublicSuffixType&gt; desiredType, Optional&lt;PublicSuffixType&gt; actualType) {<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    return desiredType.isPresent() ? desiredType.equals(actualType) : actualType.isPresent();<a name="line.610"></a>
+<span class="sourceLineNo">611</span>  }<a name="line.611"></a>
+<span class="sourceLineNo">612</span><a name="line.612"></a>
+<span class="sourceLineNo">613</span>  /** Returns the domain name, normalized to all lower case. */<a name="line.613"></a>
+<span class="sourceLineNo">614</span>  @Override<a name="line.614"></a>
+<span class="sourceLineNo">615</span>  public String toString() {<a name="line.615"></a>
+<span class="sourceLineNo">616</span>    return name;<a name="line.616"></a>
+<span class="sourceLineNo">617</span>  }<a name="line.617"></a>
+<span class="sourceLineNo">618</span><a name="line.618"></a>
+<span class="sourceLineNo">619</span>  /**<a name="line.619"></a>
+<span class="sourceLineNo">620</span>   * Equality testing is based on the text supplied by the caller, after normalization as described<a name="line.620"></a>
+<span class="sourceLineNo">621</span>   * in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode<a name="line.621"></a>
+<span class="sourceLineNo">622</span>   * version of the same domain name would not be considered equal.<a name="line.622"></a>
+<span class="sourceLineNo">623</span>   */<a name="line.623"></a>
+<span class="sourceLineNo">624</span>  @Override<a name="line.624"></a>
+<span class="sourceLineNo">625</span>  public boolean equals(@Nullable Object object) {<a name="line.625"></a>
+<span class="sourceLineNo">626</span>    if (object == this) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      return true;<a name="line.627"></a>
+<span class="sourceLineNo">628</span>    }<a name="line.628"></a>
+<span class="sourceLineNo">629</span><a name="line.629"></a>
+<span class="sourceLineNo">630</span>    if (object instanceof InternetDomainName) {<a name="line.630"></a>
+<span class="sourceLineNo">631</span>      InternetDomainName that = (InternetDomainName) object;<a name="line.631"></a>
+<span class="sourceLineNo">632</span>      return this.name.equals(that.name);<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    }<a name="line.633"></a>
+<span class="sourceLineNo">634</span><a name="line.634"></a>
+<span class="sourceLineNo">635</span>    return false;<a name="line.635"></a>
+<span class="sourceLineNo">636</span>  }<a name="line.636"></a>
+<span class="sourceLineNo">637</span><a name="line.637"></a>
+<span class="sourceLineNo">638</span>  @Override<a name="line.638"></a>
+<span class="sourceLineNo">639</span>  public int hashCode() {<a name="line.639"></a>
+<span class="sourceLineNo">640</span>    return name.hashCode();<a name="line.640"></a>
+<span class="sourceLineNo">641</span>  }<a name="line.641"></a>
+<span class="sourceLineNo">642</span>}<a name="line.642"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
