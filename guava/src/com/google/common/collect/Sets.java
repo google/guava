@@ -1319,6 +1319,7 @@ public final class Sets {
    * @return the Cartesian product, as an immutable set containing immutable lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets}, or any element of a
    *     provided set is null
+   * @throws IllegalArgumentException if the cartesian product size exceeds the {@code int} range
    * @since 2.0
    */
   public static <B> Set<List<B>> cartesianProduct(List<? extends Set<? extends B>> sets) {
@@ -1375,6 +1376,7 @@ public final class Sets {
    * @return the Cartesian product, as an immutable set containing immutable lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets}, or any element of a
    *     provided set is null
+   * @throws IllegalArgumentException if the cartesian product size exceeds the {@code int} range
    * @since 2.0
    */
   @SafeVarargs
