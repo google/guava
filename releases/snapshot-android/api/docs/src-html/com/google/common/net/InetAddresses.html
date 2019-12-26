@@ -925,7 +925,7 @@
 <span class="sourceLineNo">917</span>   *<a name="line.917"></a>
 <span class="sourceLineNo">918</span>   * @param address {@link InetAddress} to convert<a name="line.918"></a>
 <span class="sourceLineNo">919</span>   * @return {@code BigInteger} representation of the address<a name="line.919"></a>
-<span class="sourceLineNo">920</span>   * @since NEXT<a name="line.920"></a>
+<span class="sourceLineNo">920</span>   * @since 28.2<a name="line.920"></a>
 <span class="sourceLineNo">921</span>   */<a name="line.921"></a>
 <span class="sourceLineNo">922</span>  public static BigInteger toBigInteger(InetAddress address) {<a name="line.922"></a>
 <span class="sourceLineNo">923</span>    return new BigInteger(1, address.getAddress());<a name="line.923"></a>
@@ -947,7 +947,7 @@
 <span class="sourceLineNo">939</span>   * @param address BigInteger representing the IPv4 address<a name="line.939"></a>
 <span class="sourceLineNo">940</span>   * @return Inet4Address representation of the given BigInteger<a name="line.940"></a>
 <span class="sourceLineNo">941</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1<a name="line.941"></a>
-<span class="sourceLineNo">942</span>   * @since NEXT<a name="line.942"></a>
+<span class="sourceLineNo">942</span>   * @since 28.2<a name="line.942"></a>
 <span class="sourceLineNo">943</span>   */<a name="line.943"></a>
 <span class="sourceLineNo">944</span>  public static Inet4Address fromIPv4BigInteger(BigInteger address) {<a name="line.944"></a>
 <span class="sourceLineNo">945</span>    return (Inet4Address) fromBigInteger(address, false);<a name="line.945"></a>
@@ -958,7 +958,7 @@
 <span class="sourceLineNo">950</span>   * @param address BigInteger representing the IPv6 address<a name="line.950"></a>
 <span class="sourceLineNo">951</span>   * @return Inet6Address representation of the given BigInteger<a name="line.951"></a>
 <span class="sourceLineNo">952</span>   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1<a name="line.952"></a>
-<span class="sourceLineNo">953</span>   * @since NEXT<a name="line.953"></a>
+<span class="sourceLineNo">953</span>   * @since 28.2<a name="line.953"></a>
 <span class="sourceLineNo">954</span>   */<a name="line.954"></a>
 <span class="sourceLineNo">955</span>  public static Inet6Address fromIPv6BigInteger(BigInteger address) {<a name="line.955"></a>
 <span class="sourceLineNo">956</span>    return (Inet6Address) fromBigInteger(address, true);<a name="line.956"></a>

@@ -169,7 +169,7 @@
 <span class="sourceLineNo">161</span>   * the values using {@link #toStats()} instead.<a name="line.161"></a>
 <span class="sourceLineNo">162</span>   *<a name="line.162"></a>
 <span class="sourceLineNo">163</span>   * @param values a series of values<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   * @since NEXT<a name="line.164"></a>
+<span class="sourceLineNo">164</span>   * @since 28.2<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   */<a name="line.165"></a>
 <span class="sourceLineNo">166</span>  public static Stats of(DoubleStream values) {<a name="line.166"></a>
 <span class="sourceLineNo">167</span>    return values<a name="line.167"></a>
@@ -185,7 +185,7 @@
 <span class="sourceLineNo">177</span>   * the values using {@link #toStats()} instead.<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   *<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   * @param values a series of values<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   * @since NEXT<a name="line.180"></a>
+<span class="sourceLineNo">180</span>   * @since 28.2<a name="line.180"></a>
 <span class="sourceLineNo">181</span>   */<a name="line.181"></a>
 <span class="sourceLineNo">182</span>  public static Stats of(IntStream values) {<a name="line.182"></a>
 <span class="sourceLineNo">183</span>    return values<a name="line.183"></a>
@@ -202,7 +202,7 @@
 <span class="sourceLineNo">194</span>   *<a name="line.194"></a>
 <span class="sourceLineNo">195</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.195"></a>
 <span class="sourceLineNo">196</span>   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   * @since NEXT<a name="line.197"></a>
+<span class="sourceLineNo">197</span>   * @since 28.2<a name="line.197"></a>
 <span class="sourceLineNo">198</span>   */<a name="line.198"></a>
 <span class="sourceLineNo">199</span>  public static Stats of(LongStream values) {<a name="line.199"></a>
 <span class="sourceLineNo">200</span>    return values<a name="line.200"></a>
@@ -219,7 +219,7 @@
 <span class="sourceLineNo">211</span>   * &lt;p&gt;If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code<a name="line.211"></a>
 <span class="sourceLineNo">212</span>   * LongStream}, you should use the factory method {@link #of} instead.<a name="line.212"></a>
 <span class="sourceLineNo">213</span>   *<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   * @since NEXT<a name="line.214"></a>
+<span class="sourceLineNo">214</span>   * @since 28.2<a name="line.214"></a>
 <span class="sourceLineNo">215</span>   */<a name="line.215"></a>
 <span class="sourceLineNo">216</span>  public static Collector&lt;Number, StatsAccumulator, Stats&gt; toStats() {<a name="line.216"></a>
 <span class="sourceLineNo">217</span>    return Collector.of(<a name="line.217"></a>

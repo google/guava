@@ -143,7 +143,7 @@
 <span class="sourceLineNo">135</span>   * Adds the given values to the dataset. The stream will be completely consumed by this method.<a name="line.135"></a>
 <span class="sourceLineNo">136</span>   *<a name="line.136"></a>
 <span class="sourceLineNo">137</span>   * @param values a series of values<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * @since NEXT<a name="line.138"></a>
+<span class="sourceLineNo">138</span>   * @since 28.2<a name="line.138"></a>
 <span class="sourceLineNo">139</span>   */<a name="line.139"></a>
 <span class="sourceLineNo">140</span>  public void addAll(DoubleStream values) {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));<a name="line.141"></a>
@@ -153,7 +153,7 @@
 <span class="sourceLineNo">145</span>   * Adds the given values to the dataset. The stream will be completely consumed by this method.<a name="line.145"></a>
 <span class="sourceLineNo">146</span>   *<a name="line.146"></a>
 <span class="sourceLineNo">147</span>   * @param values a series of values<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   * @since NEXT<a name="line.148"></a>
+<span class="sourceLineNo">148</span>   * @since 28.2<a name="line.148"></a>
 <span class="sourceLineNo">149</span>   */<a name="line.149"></a>
 <span class="sourceLineNo">150</span>  public void addAll(IntStream values) {<a name="line.150"></a>
 <span class="sourceLineNo">151</span>    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));<a name="line.151"></a>
@@ -164,7 +164,7 @@
 <span class="sourceLineNo">156</span>   *<a name="line.156"></a>
 <span class="sourceLineNo">157</span>   * @param values a series of values, which will be converted to {@code double} values (this may<a name="line.157"></a>
 <span class="sourceLineNo">158</span>   *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * @since NEXT<a name="line.159"></a>
+<span class="sourceLineNo">159</span>   * @since 28.2<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   */<a name="line.160"></a>
 <span class="sourceLineNo">161</span>  public void addAll(LongStream values) {<a name="line.161"></a>
 <span class="sourceLineNo">162</span>    addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));<a name="line.162"></a>
@@ -185,7 +185,7 @@
 <span class="sourceLineNo">177</span>   * Adds the given statistics to the dataset, as if the individual values used to compute the<a name="line.177"></a>
 <span class="sourceLineNo">178</span>   * statistics had been added directly.<a name="line.178"></a>
 <span class="sourceLineNo">179</span>   *<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   * @since NEXT<a name="line.180"></a>
+<span class="sourceLineNo">180</span>   * @since 28.2<a name="line.180"></a>
 <span class="sourceLineNo">181</span>   */<a name="line.181"></a>
 <span class="sourceLineNo">182</span>  public void addAll(StatsAccumulator values) {<a name="line.182"></a>
 <span class="sourceLineNo">183</span>    if (values.count() == 0) {<a name="line.183"></a>

@@ -5659,7 +5659,7 @@
 
  @param sequence the sequence of characters to split
  @return a stream over the segments split from the parameter
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="withKeyValueSeparator" return="com.google.common.base.Splitter.MapSplitter"
@@ -49375,7 +49375,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -49391,7 +49391,7 @@
  the values using {@link #toStats()} instead.
 
  @param values a series of values
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.math.Stats"
@@ -49408,7 +49408,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="toStats" return="java.util.stream.Collector&lt;java.lang.Number, com.google.common.math.StatsAccumulator, com.google.common.math.Stats&gt;"
@@ -49424,7 +49424,7 @@
  <p>If you have any of the primitive streams {@code DoubleStream}, {@code IntStream}, or {@code
  LongStream}, you should use the factory method {@link #of} instead.
 
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="count" return="long"
@@ -49849,7 +49849,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="addAll"
@@ -49861,7 +49861,7 @@
       <![CDATA[Adds the given values to the dataset. The stream will be completely consumed by this method.
 
  @param values a series of values
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="addAll"
@@ -49874,7 +49874,7 @@
 
  @param values a series of values, which will be converted to {@code double} values (this may
      cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="addAll"
@@ -49896,7 +49896,7 @@
       <![CDATA[Adds the given statistics to the dataset, as if the individual values used to compute the
  statistics had been added directly.
 
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="snapshot" return="com.google.common.math.Stats"
@@ -50926,7 +50926,7 @@
       <doc>
       <![CDATA[The HTTP Cross-Origin-Opener-Policy header field name.
 
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </field>
     <field name="ETAG" type="java.lang.String"
@@ -51927,7 +51927,7 @@
 
  @param address {@link InetAddress} to convert
  @return {@code BigInteger} representation of the address
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="fromInteger" return="java.net.Inet4Address"
@@ -51953,7 +51953,7 @@
  @param address BigInteger representing the IPv4 address
  @return Inet4Address representation of the given BigInteger
  @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="fromIPv6BigInteger" return="java.net.Inet6Address"
@@ -51967,7 +51967,7 @@
  @param address BigInteger representing the IPv6 address
  @return Inet6Address representation of the given BigInteger
  @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="fromLittleEndianByteArray" return="java.net.InetAddress"
@@ -53386,7 +53386,7 @@
  href="https://www.iana.org/assignments/media-types/application/dash+xml">registered</a> with
  the IANA.
 
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </field>
     <field name="WASM_APPLICATION" type="com.google.common.net.MediaType"
@@ -53478,7 +53478,7 @@
  Description files are XML files that describe how a website can be used as a search engine by
  consumers (e.g. web browsers).
 
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </field>
     <field name="PDF" type="com.google.common.net.MediaType"
@@ -65038,7 +65038,7 @@
       <![CDATA[Executes {@code callable} on the specified {@code executor}, returning a {@code Future}.
 
  @throws RejectedExecutionException if the task cannot be scheduled for execution
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;java.lang.Void&gt;"
@@ -65052,7 +65052,7 @@
  will complete after execution.
 
  @throws RejectedExecutionException if the task cannot be scheduled for execution
- @since NEXT]]>
+ @since 28.2]]>
       </doc>
     </method>
     <method name="submitAsync" return="com.google.common.util.concurrent.ListenableFuture&lt;O&gt;"
