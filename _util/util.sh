@@ -59,7 +59,7 @@ function git_checkout_ref {
   echo " Done."
 
   # If we're on master, pull to get the latest
-  if [ $ref == "master" ]; then
+  if [[ $ref == "master" ]]; then
     echo -n "Pulling to get latest changes..."
     git pull -q --ff-only
     echo " Done."
