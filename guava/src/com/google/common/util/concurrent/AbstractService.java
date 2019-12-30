@@ -216,7 +216,7 @@ public abstract class AbstractService implements Service {
    *
    * <p>If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not
    * invoked immediately. Instead, it will be deferred until after the service is {@link
-   * State#RUNNING}. Services that need to cancel startup work can override {#link #doCancelStart}.
+   * State#RUNNING}. Services that need to cancel startup work can override {@link #doCancelStart}.
    */
   @ForOverride
   protected abstract void doStop();
