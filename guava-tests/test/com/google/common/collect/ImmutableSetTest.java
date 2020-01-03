@@ -391,7 +391,13 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
       super(
           Arrays.asList(ConstructionPathway.values()),
           n -> n * Math.log(n),
-          ImmutableList.of(QueryOp.create("contains", Set::contains, Math::log)));
+          ImmutableList.of(
+              QueryOp.create(
+                  "contains",
+                  (s, o) -> {
+                    boolean unused = s.contains(o);
+                  },
+                  Math::log)));
     }
     /** All the ways to construct an ImmutableSet. */
     enum ConstructionPathway implements Construction<Set<Object>> {
