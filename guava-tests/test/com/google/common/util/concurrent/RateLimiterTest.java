@@ -25,6 +25,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
@@ -487,6 +488,30 @@ public class RateLimiterTest extends TestCase {
         }
       }
     }
+  }
+
+  public void testUserProvidedTicker() {
+    FakeTicker ticker = new FakeTicker();
+    RateLimiter limiter = RateLimiter.create(1, ticker);
+    assertTrue("Should acquire initial permit", limiter.tryAcquire());
+    assertFalse("Should not acquire additional permit", limiter.tryAcquire());
+    ticker.advance(500, MILLISECONDS);
+    assertFalse("Should not acquire permit after 0.5s", limiter.tryAcquire());
+    ticker.advance(500, MILLISECONDS);
+    assertTrue("Should acquire permit after 1s", limiter.tryAcquire());
+  }
+
+  public void testUserProvidedTickerWithWarmUpPeriod() {
+    FakeTicker ticker = new FakeTicker();
+    RateLimiter limiter = RateLimiter.create(1, 500, MILLISECONDS, ticker);
+    assertTrue("Should acquire initial permit", limiter.tryAcquire());
+    assertFalse("Should not acquire additional permit", limiter.tryAcquire());
+    ticker.advance(500, MILLISECONDS);
+    assertFalse("Should not acquire permit after 0.5s", limiter.tryAcquire());
+    ticker.advance(500, MILLISECONDS);
+    assertFalse("Should not acquire permit after 1s", limiter.tryAcquire());
+    ticker.advance(500, MILLISECONDS);
+    assertTrue("Should acquire permit after 1.5s", limiter.tryAcquire());
   }
 
   public void testNulls() {

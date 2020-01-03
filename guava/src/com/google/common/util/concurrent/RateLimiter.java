@@ -24,6 +24,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
+import com.google.common.base.Ticker;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;
 import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -124,7 +125,28 @@ public abstract class RateLimiter {
      * Due to the slight delay of T1, T2 would have to sleep till 2.05 seconds, and T3 would also
      * have to sleep till 3.05 seconds.
      */
-    return create(permitsPerSecond, SleepingStopwatch.createFromSystemTimer());
+    return create(permitsPerSecond, Ticker.systemTicker());
+  }
+
+  /**
+   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
+   * second" (commonly referred to as <i>QPS</i>, queries per second), and using the specified time
+   * source.
+   *
+   * <p>The returned {@code RateLimiter} ensures that on average no more than {@code
+   * permitsPerSecond} are issued during any given second, with sustained requests being smoothly
+   * spread over each second. When the incoming request rate exceeds {@code permitsPerSecond} the
+   * rate limiter will release one permit every {@code (1.0 / permitsPerSecond)} seconds. When the
+   * rate limiter is unused, bursts of up to {@code permitsPerSecond} permits will be allowed, with
+   * subsequent requests being smoothly limited at the stable rate of {@code permitsPerSecond}.
+   *
+   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
+   *     permits become available per second
+   * @param ticker time source
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
+   */
+  public static RateLimiter create(double permitsPerSecond, Ticker ticker) {
+    return create((permitsPerSecond), SleepingStopwatch.create(ticker));
   }
 
   @VisibleForTesting
@@ -162,6 +184,41 @@ public abstract class RateLimiter {
     checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
     return create(
         permitsPerSecond, warmupPeriod, unit, 3.0, SleepingStopwatch.createFromSystemTimer());
+  }
+
+  /**
+   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
+   * second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
+   * during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum
+   * rate at the end of the period (as long as there are enough requests to saturate it), and using
+   * the specified time source. If the {@code RateLimiter} is left <i>unused</i> for a duration of
+   * {@code warmupPeriod}, it will gradually return to its "cold" state, i.e. it will go through the
+   * same warming up process as when it was first created.
+   *
+   * <p>The returned {@code RateLimiter} is intended for cases where the resource that actually
+   * fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being
+   * immediately accessed at the stable (maximum) rate.
+   *
+   * <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will
+   * follow), and if it is left unused for long enough, it will return to that state.
+   *
+   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
+   *     permits become available per second
+   * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
+   *     before reaching its stable (maximum) rate
+   * @param unit the time unit of the warmupPeriod argument
+   * @param ticker time source
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
+   *     warmupPeriod} is negative
+   */
+  public static RateLimiter create(
+      double permitsPerSecond,
+      long warmupPeriod,
+      TimeUnit unit,
+      Ticker ticker) {
+    checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
+    return create(
+        permitsPerSecond, warmupPeriod, unit, 3.0, SleepingStopwatch.create(ticker));
   }
 
   @VisibleForTesting
@@ -407,8 +464,12 @@ public abstract class RateLimiter {
     protected abstract void sleepMicrosUninterruptibly(long micros);
 
     public static SleepingStopwatch createFromSystemTimer() {
+      return create(Ticker.systemTicker());
+    }
+
+    public static SleepingStopwatch create(Ticker ticker) {
       return new SleepingStopwatch() {
-        final Stopwatch stopwatch = Stopwatch.createStarted();
+        final Stopwatch stopwatch = Stopwatch.createStarted(ticker);
 
         @Override
         protected long readMicros() {
