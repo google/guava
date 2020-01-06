@@ -116,9 +116,11 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <excludes>
-            <!-- Yes, we want to exclude this 3 times: -->
+            <!-- Yes, we want to exclude ForceGuavaCompilation 4 times: -->
+            <!-- (And we might as well exclude DummyJavadocClass 3 times (though it would be harmless to include).) -->
             <!-- 1. Don't compile it (since that requires a *non-test* dep on gwt-user. -->
             <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -128,6 +130,7 @@
           <excludes>
             <!-- 2. Don't include the source in the jar (since that would let users depend on it from GWT client code, which is compiled from source). -->
             <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -137,15 +140,19 @@
           <excludes>
             <!-- 3. Don't include it in the source jar (since it's really more of a "test" than it is production code). -->
             <exclude>**/ForceGuavaCompilation*</exclude>
+            <exclude>**/DummyJavadocClass*</exclude>
           </excludes>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <!-- No meaningful public classes, just sources for the GWT compiler, some internal serialization classes, and dummy entry-point class to force compilation. -->
-          <!-- And soon, the serialization classes will be going away, and the entry point won't compile after we move gwt-user to test scope. -->
-          <skip>true</skip>
+          <sourceFileExcludes>
+            <!-- 4. Don't build Javadoc for it (since that, too, would require a *non-test* dep on gwt-user. -->
+            <sourceFileExclude>**/ForceGuavaCompilation*</sourceFileExclude>
+          </sourceFileExcludes>
+          <!-- After removing GWT-RPC support, we will have no real classes to build Javadoc for. This would result in an empty Javadoc jar, which the Sonatype repository manager would reject. To avoid that, we've introduced a dummy class. But we made it package-private so that no one can depend on it. That in turn forced us to configure Javadoc to show package-private APIs. -->
+          <show>package</show>
         </configuration>
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
