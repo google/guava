@@ -399,7 +399,7 @@ public final class ValueGraphTest {
   }
 
   @Test
-  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder() {
+  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder_directed() {
     graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
     graph.putEdgeValue(2, 1, "2-1");
     graph.putEdgeValue(2, 3, "2-3");
@@ -408,6 +408,22 @@ public final class ValueGraphTest {
     assertThat(graph.incidentEdges(2))
         .containsExactly(
             EndpointPair.ordered(2, 1), EndpointPair.ordered(2, 3), EndpointPair.ordered(1, 2))
+        .inOrder();
+  }
+
+  @Test
+  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder_undirected() {
+    graph = ValueGraphBuilder.undirected().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(2, 3, "2-3");
+    graph.putEdgeValue(2, 1, "2-1");
+    graph.putEdgeValue(2, 4, "2-4");
+    graph.putEdgeValue(1, 2, "1-2"); // Duplicate nodes, different value
+
+    assertThat(graph.incidentEdges(2))
+        .containsExactly(
+            EndpointPair.unordered(2, 3),
+            EndpointPair.unordered(1, 2),
+            EndpointPair.unordered(2, 4))
         .inOrder();
   }
 
