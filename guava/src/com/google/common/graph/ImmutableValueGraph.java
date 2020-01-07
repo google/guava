@@ -125,7 +125,10 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
     private final MutableValueGraph<N, V> mutableValueGraph;
 
     Builder(ValueGraphBuilder<N, V> graphBuilder) {
-      this.mutableValueGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableValueGraph =
+          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

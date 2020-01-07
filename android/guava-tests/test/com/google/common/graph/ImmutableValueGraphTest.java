@@ -122,4 +122,20 @@ public class ImmutableValueGraphTest {
     assertThat(graph.edges()).containsExactly(EndpointPair.ordered("A", "B"));
     assertThat(graph.edgeValueOrDefault("A", "B", null)).isEqualTo(10);
   }
+
+  @Test
+  public void immutableValueGraphBuilder_incidentEdges_preservesIncidentEdgesOrder() {
+    ImmutableValueGraph<Integer, String> graph =
+        ValueGraphBuilder.directed()
+            .<Integer, String>immutable()
+            .putEdgeValue(2, 1, "2-1")
+            .putEdgeValue(2, 3, "2-3")
+            .putEdgeValue(1, 2, "1-2")
+            .build();
+
+    assertThat(graph.incidentEdges(2))
+        .containsExactly(
+            EndpointPair.ordered(2, 1), EndpointPair.ordered(2, 3), EndpointPair.ordered(1, 2))
+        .inOrder();
+  }
 }
