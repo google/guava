@@ -399,6 +399,19 @@ public final class ValueGraphTest {
   }
 
   @Test
+  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(2, 1, "2-1");
+    graph.putEdgeValue(2, 3, "2-3");
+    graph.putEdgeValue(1, 2, "1-2");
+
+    assertThat(graph.incidentEdges(2))
+        .containsExactly(
+            EndpointPair.ordered(2, 1), EndpointPair.ordered(2, 3), EndpointPair.ordered(1, 2))
+        .inOrder();
+  }
+
+  @Test
   public void concurrentIteration() throws Exception {
     graph = ValueGraphBuilder.directed().build();
     graph.putEdgeValue(1, 2, "A");
