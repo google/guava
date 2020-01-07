@@ -27,18 +27,24 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirectedGraphTest {
 
-  @Parameters(name = "allowsSelfLoops={0}")
+  @Parameters(name = "allowsSelfLoops={0}, incidentEdgeOrder={1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[][] {
-          {false}, {true},
+          {false, ElementOrder.unordered()},
+          {true, ElementOrder.unordered()},
+          {false, ElementOrder.stable()},
+          {true, ElementOrder.stable()},
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final ElementOrder<Integer> incidentEdgeOrder;
 
-  public StandardMutableUndirectedGraphTest(boolean allowsSelfLoops) {
+  public StandardMutableUndirectedGraphTest(
+      boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.incidentEdgeOrder = incidentEdgeOrder;
   }
 
   @Override
@@ -47,8 +53,16 @@ public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirect
   }
 
   @Override
+  ElementOrder<Integer> incidentEdgeOrder() {
+    return incidentEdgeOrder;
+  }
+
+  @Override
   public MutableGraph<Integer> createGraph() {
-    return GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops()).build();
+    return GraphBuilder.undirected()
+        .allowsSelfLoops(allowsSelfLoops)
+        .incidentEdgeOrder(incidentEdgeOrder)
+        .build();
   }
 
   @Override

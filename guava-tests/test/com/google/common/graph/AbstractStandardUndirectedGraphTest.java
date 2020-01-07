@@ -33,6 +33,8 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
 
   abstract boolean allowsSelfLoops();
 
+  abstract ElementOrder<Integer> incidentEdgeOrder();
+
   @After
   public void validateUndirectedEdges() {
     for (Integer node : graph.nodes()) {
@@ -240,6 +242,82 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
     assertThat(graph.outDegree(N1)).isEqualTo(2);
     putEdge(N2, N1);
     assertThat(graph.outDegree(N1)).isEqualTo(3);
+  }
+
+  // Stable order tests
+
+  // Note: Stable order means that the ordering doesn't change between iterations and versions.
+  // Ideally, the ordering in test should never be updated.
+  @Test
+  public void stableIncidentEdgeOrder_edges_returnsInStableOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+
+    populateTShapedGraph();
+
+    assertThat(graph.edges())
+        .containsExactly(
+            EndpointPair.unordered(1, 2),
+            EndpointPair.unordered(1, 4),
+            EndpointPair.unordered(1, 3),
+            EndpointPair.unordered(4, 5))
+        .inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_adjacentNodes_returnsInConnectingEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+
+    populateTShapedGraph();
+
+    assertThat(graph.adjacentNodes(1)).containsExactly(2, 4, 3).inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_predecessors_returnsInConnectingEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+
+    populateTShapedGraph();
+
+    assertThat(graph.adjacentNodes(1)).containsExactly(2, 4, 3).inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_successors_returnsInConnectingEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+
+    populateTShapedGraph();
+
+    assertThat(graph.adjacentNodes(1)).containsExactly(2, 4, 3).inOrder();
+  }
+
+  // Note: Stable order means that the ordering doesn't change between iterations and versions.
+  // Ideally, the ordering in test should never be updated.
+  @Test
+  public void stableIncidentEdgeOrder_incidentEdges_returnsInEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+
+    populateTShapedGraph();
+
+    assertThat(graph.incidentEdges(1))
+        .containsExactly(
+            EndpointPair.unordered(1, 2),
+            EndpointPair.unordered(1, 4),
+            EndpointPair.unordered(1, 3))
+        .inOrder();
+  }
+
+  /**
+   * Populates the graph with nodes and edges in a star shape with node `1` in the middle.
+   *
+   * <p>Note that the edges are added in a shuffled order to properly test the effect of the
+   * insertion order.
+   */
+  private void populateTShapedGraph() {
+    putEdge(2, 1);
+    putEdge(1, 4);
+    putEdge(1, 3);
+    putEdge(1, 2); // Duplicate
+    putEdge(4, 5);
   }
 
   // Element Mutation
