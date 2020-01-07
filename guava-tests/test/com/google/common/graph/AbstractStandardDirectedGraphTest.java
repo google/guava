@@ -290,8 +290,6 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     assertThat(graph.successors(1)).containsExactly(4, 3, 2).inOrder();
   }
 
-  // Note: Stable order means that the ordering doesn't change between iterations and versions.
-  // Ideally, the ordering in test should never be updated.
   @Test
   public void stableIncidentEdgeOrder_incidentEdges_returnsInEdgeInsertionOrder() {
     assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
@@ -306,6 +304,25 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
             EndpointPair.ordered(5, 1),
             EndpointPair.ordered(1, 2),
             EndpointPair.ordered(3, 1))
+        .inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_incidentEdges_withSelfLoop_returnsInEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(2, 1);
+    putEdge(1, 1);
+    putEdge(1, 3);
+    putEdge(1, 2);
+
+    assertThat(graph.incidentEdges(1))
+        .containsExactly(
+            EndpointPair.ordered(2, 1),
+            EndpointPair.ordered(1, 1),
+            EndpointPair.ordered(1, 3),
+            EndpointPair.ordered(1, 2))
         .inOrder();
   }
 
