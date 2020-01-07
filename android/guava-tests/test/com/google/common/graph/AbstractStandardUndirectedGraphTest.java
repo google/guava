@@ -290,8 +290,6 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
     assertThat(graph.adjacentNodes(1)).containsExactly(2, 4, 3).inOrder();
   }
 
-  // Note: Stable order means that the ordering doesn't change between iterations and versions.
-  // Ideally, the ordering in test should never be updated.
   @Test
   public void stableIncidentEdgeOrder_incidentEdges_returnsInEdgeInsertionOrder() {
     assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
@@ -302,6 +300,23 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
         .containsExactly(
             EndpointPair.unordered(1, 2),
             EndpointPair.unordered(1, 4),
+            EndpointPair.unordered(1, 3))
+        .inOrder();
+  }
+
+  @Test
+  public void stableIncidentEdgeOrder_incidentEdges_withSelfLoop_returnsInEdgeInsertionOrder() {
+    assume().that(incidentEdgeOrder().type()).isEqualTo(ElementOrder.Type.STABLE);
+    assume().that(allowsSelfLoops()).isTrue();
+
+    putEdge(2, 1);
+    putEdge(1, 1);
+    putEdge(1, 3);
+
+    assertThat(graph.incidentEdges(1))
+        .containsExactly(
+            EndpointPair.unordered(2, 1),
+            EndpointPair.unordered(1, 1),
             EndpointPair.unordered(1, 3))
         .inOrder();
   }
