@@ -116,8 +116,7 @@ public final class ElementOrder<T> {
    *       </ul>
    * </ul>
    */
-  // TODO(b/142723300): Make this method public
-  static <S> ElementOrder<S> stable() {
+  public static <S> ElementOrder<S> stable() {
     return new ElementOrder<S>(Type.STABLE, null);
   }
 
