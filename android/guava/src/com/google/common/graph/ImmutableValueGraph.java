@@ -67,6 +67,11 @@ public final class ImmutableValueGraph<N, V> extends ConfigurableValueGraph<N, V
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
+  }
+
+  @Override
   public ImmutableGraph<N> asGraph() {
     return new ImmutableGraph<N>(this); // safe because the view is effectively immutable
   }

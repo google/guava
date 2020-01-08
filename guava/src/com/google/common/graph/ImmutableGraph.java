@@ -72,6 +72,11 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return checkNotNull(graph);
   }
 
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
+  }
+
   private static <N> ImmutableMap<N, GraphConnections<N, Presence>> getNodeConnections(
       Graph<N> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have

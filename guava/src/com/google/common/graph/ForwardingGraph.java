@@ -58,6 +58,11 @@ abstract class ForwardingGraph<N> extends AbstractGraph<N> {
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return delegate().incidentEdgeOrder();
+  }
+
+  @Override
   public Set<N> adjacentNodes(N node) {
     return delegate().adjacentNodes(node);
   }

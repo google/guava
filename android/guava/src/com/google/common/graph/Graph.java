@@ -140,6 +140,14 @@ public interface Graph<N> extends BaseGraph<N> {
   @Override
   ElementOrder<N> nodeOrder();
 
+  /**
+   * Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
+   * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
+   * #successors(Object)} and {@link #incidentEdges(Object)}.
+   */
+  @Override
+  ElementOrder<N> incidentEdgeOrder();
+
   //
   // Element-level accessors
   //
