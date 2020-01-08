@@ -30,10 +30,6 @@ import org.junit.Test;
  */
 public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTest {
 
-  abstract boolean allowsSelfLoops();
-
-  abstract ElementOrder<Integer> incidentEdgeOrder();
-
   @Override
   @Test
   public void nodes_checkReturnedSetMutability() {

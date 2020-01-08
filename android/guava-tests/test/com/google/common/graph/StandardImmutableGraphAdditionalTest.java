@@ -87,6 +87,22 @@ public class StandardImmutableGraphAdditionalTest {
   }
 
   @Test
+  public void copyOf_incidentEdgeOrder() {
+    ImmutableGraph<Object> graph = ImmutableGraph.copyOf(GraphBuilder.undirected().build());
+
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
+  public void copyOf_fromUnorderedGraph_incidentEdgeOrder() {
+    ImmutableGraph<Object> graph =
+        ImmutableGraph.copyOf(
+            GraphBuilder.undirected().incidentEdgeOrder(ElementOrder.unordered()).build());
+
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
   public void immutableGraphBuilder_addNode() {
     ImmutableGraph<String> graph = GraphBuilder.directed().<String>immutable().addNode("A").build();
 

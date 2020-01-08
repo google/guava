@@ -53,6 +53,7 @@ public final class ValueGraphTest {
     assertThat(graph.nodes()).isEqualTo(asGraph.nodes());
     assertThat(graph.edges()).isEqualTo(asGraph.edges());
     assertThat(graph.nodeOrder()).isEqualTo(asGraph.nodeOrder());
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(asGraph.incidentEdgeOrder());
     assertThat(graph.isDirected()).isEqualTo(asGraph.isDirected());
     assertThat(graph.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
 
@@ -120,6 +121,18 @@ public final class ValueGraphTest {
     assertThat(toString).contains("valueB");
     assertThat(toString).contains("valueC");
     assertThat(toString).contains("valueD");
+  }
+
+  @Test
+  public void incidentEdgeOrder_unordered() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.unordered()).build();
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.unordered());
+  }
+
+  @Test
+  public void incidentEdgeOrder_stable() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
   }
 
   @Test

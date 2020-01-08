@@ -51,6 +51,25 @@ public class ImmutableValueGraphTest {
   }
 
   @Test
+  public void incidentEdgeOrder_stable() {
+    ImmutableValueGraph<String, Integer> immutableValueGraph =
+        ImmutableValueGraph.copyOf(ValueGraphBuilder.directed().<String, Integer>build());
+
+    assertThat(immutableValueGraph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
+  public void incidentEdgeOrder_fromUnorderedGraph_stable() {
+    ImmutableValueGraph<String, Integer> immutableValueGraph =
+        ImmutableValueGraph.copyOf(
+            ValueGraphBuilder.directed()
+                .incidentEdgeOrder(ElementOrder.unordered())
+                .<String, Integer>build());
+
+    assertThat(immutableValueGraph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
   public void immutableValueGraphBuilder_appliesGraphBuilderConfig() {
     ImmutableValueGraph<String, Integer> emptyGraph =
         ValueGraphBuilder.directed()
@@ -137,5 +156,24 @@ public class ImmutableValueGraphTest {
         .containsExactly(
             EndpointPair.ordered(2, 1), EndpointPair.ordered(2, 3), EndpointPair.ordered(1, 2))
         .inOrder();
+  }
+
+  @Test
+  public void immutableValueGraphBuilder_incidentEdgeOrder_stable() {
+    ImmutableValueGraph<Integer, String> graph =
+        ValueGraphBuilder.directed().<Integer, String>immutable().build();
+
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
+  public void immutableValueGraphBuilder_fromUnorderedBuilder_incidentEdgeOrder_stable() {
+    ImmutableValueGraph<Integer, String> graph =
+        ValueGraphBuilder.directed()
+            .incidentEdgeOrder(ElementOrder.unordered())
+            .<Integer, String>immutable()
+            .build();
+
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
   }
 }
