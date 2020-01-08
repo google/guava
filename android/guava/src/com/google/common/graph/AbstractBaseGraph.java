@@ -98,6 +98,11 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.unordered();
+  }
+
+  @Override
   public Set<EndpointPair<N>> incidentEdges(N node) {
     checkNotNull(node);
     checkArgument(nodes().contains(node), "Node %s is not an element of this graph.", node);

@@ -28,25 +28,16 @@ import org.junit.runners.Parameterized.Parameters;
 public final class StandardImmutableUndirectedGraphTest
     extends AbstractStandardUndirectedGraphTest {
 
-  @Parameters(name = "allowsSelfLoops={0}, incidentEdgeOrder={1}")
+  @Parameters(name = "allowsSelfLoops={0}")
   public static Collection<Object[]> parameters() {
-    return Arrays.asList(
-        new Object[][] {
-          {false, ElementOrder.unordered()},
-          {true, ElementOrder.unordered()},
-          {false, ElementOrder.stable()},
-          {true, ElementOrder.stable()}
-        });
+    return Arrays.asList(new Object[][] {{false}, {true}});
   }
 
   private final boolean allowsSelfLoops;
-  private final ElementOrder<Integer> incidentEdgeOrder;
   private ImmutableGraph.Builder<Integer> graphBuilder;
 
-  public StandardImmutableUndirectedGraphTest(
-      boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
+  public StandardImmutableUndirectedGraphTest(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
-    this.incidentEdgeOrder = incidentEdgeOrder;
   }
 
   @Override
@@ -56,16 +47,12 @@ public final class StandardImmutableUndirectedGraphTest
 
   @Override
   ElementOrder<Integer> incidentEdgeOrder() {
-    return incidentEdgeOrder;
+    return ElementOrder.stable();
   }
 
   @Override
   public Graph<Integer> createGraph() {
-    graphBuilder =
-        GraphBuilder.undirected()
-            .allowsSelfLoops(allowsSelfLoops())
-            .incidentEdgeOrder(incidentEdgeOrder)
-            .immutable();
+    graphBuilder = GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops()).immutable();
     return graphBuilder.build();
   }
 

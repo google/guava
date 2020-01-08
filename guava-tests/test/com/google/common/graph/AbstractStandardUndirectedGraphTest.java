@@ -31,10 +31,6 @@ import org.junit.Test;
  */
 public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphTest {
 
-  abstract boolean allowsSelfLoops();
-
-  abstract ElementOrder<Integer> incidentEdgeOrder();
-
   @After
   public void validateUndirectedEdges() {
     for (Integer node : graph.nodes()) {

@@ -50,6 +50,11 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return incidentEdgeOrder;
+  }
+
+  @Override
   @CanIgnoreReturnValue
   public boolean addNode(N node) {
     checkNotNull(node, "node");

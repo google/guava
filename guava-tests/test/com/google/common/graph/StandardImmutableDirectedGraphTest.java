@@ -27,25 +27,16 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public final class StandardImmutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {
 
-  @Parameters(name = "allowsSelfLoops={0}, incidentEdgeOrder={1}")
+  @Parameters(name = "allowsSelfLoops={0}")
   public static Collection<Object[]> parameters() {
-    return Arrays.asList(
-        new Object[][] {
-          {false, ElementOrder.unordered()},
-          {true, ElementOrder.unordered()},
-          {false, ElementOrder.stable()},
-          {true, ElementOrder.stable()}
-        });
+    return Arrays.asList(new Object[][] {{false}, {true}});
   }
 
   private final boolean allowsSelfLoops;
-  private final ElementOrder<Integer> incidentEdgeOrder;
   private ImmutableGraph.Builder<Integer> graphBuilder;
 
-  public StandardImmutableDirectedGraphTest(
-      boolean allowsSelfLoops, ElementOrder<Integer> incidentEdgeOrder) {
+  public StandardImmutableDirectedGraphTest(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
-    this.incidentEdgeOrder = incidentEdgeOrder;
   }
 
   @Override
@@ -55,16 +46,12 @@ public final class StandardImmutableDirectedGraphTest extends AbstractStandardDi
 
   @Override
   ElementOrder<Integer> incidentEdgeOrder() {
-    return incidentEdgeOrder;
+    return ElementOrder.stable();
   }
 
   @Override
   public Graph<Integer> createGraph() {
-    graphBuilder =
-        GraphBuilder.directed()
-            .allowsSelfLoops(allowsSelfLoops())
-            .incidentEdgeOrder(incidentEdgeOrder)
-            .immutable();
+    graphBuilder = GraphBuilder.directed().allowsSelfLoops(allowsSelfLoops()).immutable();
     return graphBuilder.build();
   }
 

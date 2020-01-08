@@ -94,8 +94,8 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
   public static <N, V> ValueGraphBuilder<N, V> from(ValueGraph<N, V> graph) {
     return new ValueGraphBuilder<N, V>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder());
-    // TODO(b/142723300): Add incidentEdgeOrder
+        .nodeOrder(graph.nodeOrder())
+        .incidentEdgeOrder(graph.incidentEdgeOrder());
   }
 
   /**
