@@ -37844,6 +37844,45 @@
       <![CDATA[Returns an instance which specifies that no ordering is guaranteed.]]>
       </doc>
     </method>
+    <method name="stable" return="com.google.common.graph.ElementOrder&lt;S&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an instance which specifies that ordering is guaranteed to be always be the same across
+ iterations, and across releases. Some methods may have stronger guarantees.
+
+ <p>This instance is only useful in combination with {@code incidentEdgeOrder}, e.g. {@code
+ graphBuilder.incidentEdgeOrder(ElementOrder.stable())}.
+
+ <h3>In combination with {@code incidentEdgeOrder}</h3>
+
+ <p>{@code incidentEdgeOrder(ElementOrder.stable())} guarantees the ordering of the returned
+ collections of the following methods:
+
+ <ul>
+   <li>For {@link Graph} and {@link ValueGraph}:
+       <ul>
+         <li>{@code edges()}: Stable order
+         <li>{@code adjacentNodes(node)}: Connecting edge insertion order
+         <li>{@code predecessors(node)}: Connecting edge insertion order
+         <li>{@code successors(node)}: Connecting edge insertion order
+         <li>{@code incidentEdges(node)}: Edge insertion order
+       </ul>
+   <li>For {@link Network}:
+       <ul>
+         <li>{@code adjacentNodes(node)}: Stable order
+         <li>{@code predecessors(node)}: Connecting edge insertion order
+         <li>{@code successors(node)}: Connecting edge insertion order
+         <li>{@code incidentEdges(node)}: Stable order
+         <li>{@code inEdges(node)}: Edge insertion order
+         <li>{@code outEdges(node)}: Edge insertion order
+         <li>{@code adjacentEdges(edge)}: Stable order
+         <li>{@code edgesConnecting(nodeU, nodeV)}: Edge insertion order
+       </ul>
+ </ul>]]>
+      </doc>
+    </method>
     <method name="insertion" return="com.google.common.graph.ElementOrder&lt;S&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
@@ -38122,6 +38161,16 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
+      </doc>
+    </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
+ {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
+ #successors(Object)} and {@link #incidentEdges(Object)}.]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -38464,6 +38513,24 @@
  <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
       </doc>
     </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.GraphBuilder&lt;N1&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="incidentEdgeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
+      <doc>
+      <![CDATA[Specifies the order of iteration for the elements of {@link Graph#edges()}, {@link
+ Graph#adjacentNodes(Object)}, {@link Graph#predecessors(Object)}, {@link
+ Graph#successors(Object)} and {@link Graph#incidentEdges(Object)}.
+
+ <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+ immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+ stable} order.
+
+ @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+     ElementOrder.unordered()} or {@code ElementOrder.stable()}.]]>
+      </doc>
+    </method>
     <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -38710,6 +38777,11 @@
 
  @deprecated no need to use this]]>
       </doc>
+    </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
     </method>
     <method name="delegate" return="com.google.common.graph.BaseGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -39012,6 +39084,11 @@
 
  @deprecated no need to use this]]>
       </doc>
+    </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
     </method>
     <method name="asGraph" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -40703,6 +40780,16 @@
       <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
       </doc>
     </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
+ {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
+ #successors(Object)} and {@link #incidentEdges(Object)}.]]>
+      </doc>
+    </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -41118,6 +41205,24 @@
       <![CDATA[Specifies the order of iteration for the elements of {@link Graph#nodes()}.
 
  <p>The default value is {@link ElementOrder#insertion() insertion order}.]]>
+      </doc>
+    </method>
+    <method name="incidentEdgeOrder" return="com.google.common.graph.ValueGraphBuilder&lt;N1, V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="incidentEdgeOrder" type="com.google.common.graph.ElementOrder&lt;N1&gt;"/>
+      <doc>
+      <![CDATA[Specifies the order of iteration for the elements of {@link ValueGraph#edges()}, {@link
+ ValueGraph#adjacentNodes(Object)}, {@link ValueGraph#predecessors(Object)}, {@link
+ ValueGraph#successors(Object)} and {@link ValueGraph#incidentEdges(Object)}.
+
+ <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+ immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+ stable} order.
+
+ @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+     ElementOrder.unordered()} or {@code ElementOrder.stable()}.]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableValueGraph&lt;N1, V1&gt;"

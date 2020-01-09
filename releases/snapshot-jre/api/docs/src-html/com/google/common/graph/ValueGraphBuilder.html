@@ -102,8 +102,8 @@
 <span class="sourceLineNo">094</span>  public static &lt;N, V&gt; ValueGraphBuilder&lt;N, V&gt; from(ValueGraph&lt;N, V&gt; graph) {<a name="line.94"></a>
 <span class="sourceLineNo">095</span>    return new ValueGraphBuilder&lt;N, V&gt;(graph.isDirected())<a name="line.95"></a>
 <span class="sourceLineNo">096</span>        .allowsSelfLoops(graph.allowsSelfLoops())<a name="line.96"></a>
-<span class="sourceLineNo">097</span>        .nodeOrder(graph.nodeOrder());<a name="line.97"></a>
-<span class="sourceLineNo">098</span>    // TODO(b/142723300): Add incidentEdgeOrder<a name="line.98"></a>
+<span class="sourceLineNo">097</span>        .nodeOrder(graph.nodeOrder())<a name="line.97"></a>
+<span class="sourceLineNo">098</span>        .incidentEdgeOrder(graph.incidentEdgeOrder());<a name="line.98"></a>
 <span class="sourceLineNo">099</span>  }<a name="line.99"></a>
 <span class="sourceLineNo">100</span><a name="line.100"></a>
 <span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
@@ -167,8 +167,8 @@
 <span class="sourceLineNo">159</span>   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.<a name="line.160"></a>
 <span class="sourceLineNo">161</span>   */<a name="line.161"></a>
-<span class="sourceLineNo">162</span>  // TODO(b/142723300): Make this method public<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  &lt;N1 extends N&gt; ValueGraphBuilder&lt;N1, V&gt; incidentEdgeOrder(ElementOrder&lt;N1&gt; incidentEdgeOrder) {<a name="line.163"></a>
+<span class="sourceLineNo">162</span>  public &lt;N1 extends N&gt; ValueGraphBuilder&lt;N1, V&gt; incidentEdgeOrder(<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      ElementOrder&lt;N1&gt; incidentEdgeOrder) {<a name="line.163"></a>
 <span class="sourceLineNo">164</span>    checkArgument(<a name="line.164"></a>
 <span class="sourceLineNo">165</span>        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED<a name="line.165"></a>
 <span class="sourceLineNo">166</span>            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,<a name="line.166"></a>

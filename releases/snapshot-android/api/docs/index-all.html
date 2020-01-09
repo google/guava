@@ -8885,6 +8885,28 @@
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is a
  member of the given collection.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#incidentEdgeOrder--">incidentEdgeOrder()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
+<dd>
+<div class="block">Returns an <a href="com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
+ <a href="com/google/common/graph/Graph.html#edges--"><code>Graph.edges()</code></a>, <a href="com/google/common/graph/Graph.html#adjacentNodes-N-"><code>Graph.adjacentNodes(Object)</code></a>, <a href="com/google/common/graph/Graph.html#predecessors-N-"><code>Graph.predecessors(Object)</code></a>, <a href="com/google/common/graph/Graph.html#successors-N-"><code>Graph.successors(Object)</code></a> and <a href="com/google/common/graph/Graph.html#incidentEdges-N-"><code>Graph.incidentEdges(Object)</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/GraphBuilder.html#incidentEdgeOrder-com.google.common.graph.ElementOrder-">incidentEdgeOrder(ElementOrder&lt;N1&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
+<dd>
+<div class="block">Specifies the order of iteration for the elements of <a href="com/google/common/graph/Graph.html#edges--"><code>Graph.edges()</code></a>, <a href="com/google/common/graph/Graph.html#adjacentNodes-N-"><code>Graph.adjacentNodes(Object)</code></a>, <a href="com/google/common/graph/Graph.html#predecessors-N-"><code>Graph.predecessors(Object)</code></a>, <a href="com/google/common/graph/Graph.html#successors-N-"><code>Graph.successors(Object)</code></a> and <a href="com/google/common/graph/Graph.html#incidentEdges-N-"><code>Graph.incidentEdges(Object)</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.html#incidentEdgeOrder--">incidentEdgeOrder()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableValueGraph.html#incidentEdgeOrder--">incidentEdgeOrder()</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraph.html#incidentEdgeOrder--">incidentEdgeOrder()</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
+<dd>
+<div class="block">Returns an <a href="com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
+ <a href="com/google/common/graph/ValueGraph.html#edges--"><code>ValueGraph.edges()</code></a>, <a href="com/google/common/graph/ValueGraph.html#adjacentNodes-N-"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="com/google/common/graph/ValueGraph.html#predecessors-N-"><code>ValueGraph.predecessors(Object)</code></a>, <a href="com/google/common/graph/ValueGraph.html#successors-N-"><code>ValueGraph.successors(Object)</code></a> and <a href="com/google/common/graph/ValueGraph.html#incidentEdges-N-"><code>ValueGraph.incidentEdges(Object)</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ValueGraphBuilder.html#incidentEdgeOrder-com.google.common.graph.ElementOrder-">incidentEdgeOrder(ElementOrder&lt;N1&gt;)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
+<dd>
+<div class="block">Specifies the order of iteration for the elements of <a href="com/google/common/graph/ValueGraph.html#edges--"><code>ValueGraph.edges()</code></a>, <a href="com/google/common/graph/ValueGraph.html#adjacentNodes-N-"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="com/google/common/graph/ValueGraph.html#predecessors-N-"><code>ValueGraph.predecessors(Object)</code></a>, <a href="com/google/common/graph/ValueGraph.html#successors-N-"><code>ValueGraph.successors(Object)</code></a> and <a href="com/google/common/graph/ValueGraph.html#incidentEdges-N-"><code>ValueGraph.incidentEdges(Object)</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/Graph.html#incidentEdges-N-">incidentEdges(N)</a></span> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the edges in this graph whose endpoints include <code>node</code>.</div>
@@ -15803,6 +15825,11 @@
 <dt><span class="memberNameLink"><a href="com/google/common/math/LongMath.html#sqrt-long-java.math.RoundingMode-">sqrt(long, RoundingMode)</a></span> - Static method in class com.google.common.math.<a href="com/google/common/math/LongMath.html" title="class in com.google.common.math">LongMath</a></dt>
 <dd>
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/google/common/graph/ElementOrder.html#stable--">stable()</a></span> - Static method in class com.google.common.graph.<a href="com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a></dt>
+<dd>
+<div class="block">Returns an instance which specifies that ordering is guaranteed to be always be the same across
+ iterations, and across releases.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/collect/ForwardingList.html#standardAdd-E-">standardAdd(E)</a></span> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingList.html" title="class in com.google.common.collect">ForwardingList</a></dt>
 <dd>
