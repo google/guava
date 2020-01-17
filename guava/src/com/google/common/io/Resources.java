@@ -202,6 +202,7 @@ public final class Resources {
    *
    * @throws IllegalArgumentException if the resource is not found
    */
+  @CanIgnoreReturnValue // being used to check if a resource exists
   public static URL getResource(Class<?> contextClass, String resourceName) {
     URL url = contextClass.getResource(resourceName);
     checkArgument(
