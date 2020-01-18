@@ -396,8 +396,9 @@ public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/net/U
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getResource</h4>
-<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net">URL</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.205">getResource</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;contextClass,
-                              <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;resourceName)</pre>
+<pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
+public static&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/net/URL.html?is-external=true" title="class or interface in java.net">URL</a>&nbsp;<a href="../../../../src-html/com/google/common/io/Resources.html#line.206">getResource</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;?&gt;&nbsp;contextClass,
+                                                    <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;resourceName)</pre>
 <div class="block">Given a <code>resourceName</code> that is relative to <code>contextClass</code>, returns a <code>URL</code>
  pointing to the named resource.</div>
 <dl>

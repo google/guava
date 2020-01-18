@@ -210,13 +210,14 @@
 <span class="sourceLineNo">202</span>   *<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   * @throws IllegalArgumentException if the resource is not found<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   */<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  public static URL getResource(Class&lt;?&gt; contextClass, String resourceName) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    URL url = contextClass.getResource(resourceName);<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    checkArgument(<a name="line.207"></a>
-<span class="sourceLineNo">208</span>        url != null, "resource %s relative to %s not found.", resourceName, contextClass.getName());<a name="line.208"></a>
-<span class="sourceLineNo">209</span>    return url;<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
-<span class="sourceLineNo">211</span>}<a name="line.211"></a>
+<span class="sourceLineNo">205</span>  @CanIgnoreReturnValue // being used to check if a resource exists<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  public static URL getResource(Class&lt;?&gt; contextClass, String resourceName) {<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    URL url = contextClass.getResource(resourceName);<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    checkArgument(<a name="line.208"></a>
+<span class="sourceLineNo">209</span>        url != null, "resource %s relative to %s not found.", resourceName, contextClass.getName());<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    return url;<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  }<a name="line.211"></a>
+<span class="sourceLineNo">212</span>}<a name="line.212"></a>
 
 
 
