@@ -833,9 +833,8 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @SuppressWarnings("unchecked") // known to be a V
-    @Nullable
     @Override
-    public V getValue() {
+    public @Nullable V getValue() {
       @Nullable Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return delegate.get(key);

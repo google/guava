@@ -179,8 +179,7 @@ class FreshValueGenerator {
    *   <li>null if no value can be generated.
    * </ul>
    */
-  @Nullable
-  final Object generateFresh(TypeToken<?> type) {
+  final @Nullable Object generateFresh(TypeToken<?> type) {
     Object generated = generate(type);
     if (generated != null) {
       freshness.incrementAndGet();
@@ -188,8 +187,7 @@ class FreshValueGenerator {
     return generated;
   }
 
-  @Nullable
-  final <T> T generateFresh(Class<T> type) {
+  final <T> @Nullable T generateFresh(Class<T> type) {
     return Primitives.wrap(type).cast(generateFresh(TypeToken.of(type)));
   }
 
