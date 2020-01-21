@@ -999,8 +999,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * @since 27.0
    */
   @Override
-  @Nullable
-  protected final Throwable tryInternalFastPathGetFailure() {
+  protected final @Nullable Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {
       Object obj = value;
       if (obj instanceof Failure) {

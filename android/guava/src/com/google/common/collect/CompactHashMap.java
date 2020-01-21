@@ -762,8 +762,8 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @SuppressWarnings("unchecked") // known to be a V
-    @NullableDecl
     @Override
+    @NullableDecl
     public V getValue() {
       @NullableDecl Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {

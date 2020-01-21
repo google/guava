@@ -378,8 +378,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    @Nullable
-    public V getIfPresent(Object key) {
+    public @Nullable V getIfPresent(Object key) {
       return localCache.getIfPresent(key);
     }
 
