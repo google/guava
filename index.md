@@ -3,9 +3,11 @@ layout: default
 title: Guava
 ---
 
-Guava is a set of core libraries from Google that includes new collection types
+Guava is a set of core Java libraries from Google that includes new collection types
 (such as multimap and multiset), immutable collections, a graph library, and
-utilities for concurrency, I/O, hashing, primitives, strings, and more!
+utilities for concurrency, I/O, hashing, caching, primitives, strings, and more! It
+is widely used on most Java projects within Google, and widely used by many
+other companies as well.
 
 Guava comes in two flavors.
 
@@ -46,7 +48,7 @@ dependencies {
 }
 ```
 
-## Snapshots
+## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
 using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
