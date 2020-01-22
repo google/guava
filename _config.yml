@@ -18,6 +18,9 @@ exclude:
   - vendor
   - "*.sh"
 
+plugins:
+  - jekyll-redirect-from
+
 # Release data
 # Do not change! updaterelease.sh automatically updates these fields
 latest_release: 28.2-jre
