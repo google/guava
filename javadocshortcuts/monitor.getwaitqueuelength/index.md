@@ -1,0 +1,5 @@
+---
+title: monitor.getwaitqueuelength
+permalink: /monitor.getwaitqueuelength/
+redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/util/concurrent/Monitor.html#getWaitQueueLength-com.google.common.util.concurrent.Monitor.Guard-
+---

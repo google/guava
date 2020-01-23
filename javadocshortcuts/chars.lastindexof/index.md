@@ -1,0 +1,5 @@
+---
+title: chars.lastindexof
+permalink: /chars.lastindexof/
+redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/primitives/Chars.html#lastIndexOf-char:A-char-
+---

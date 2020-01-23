@@ -1,0 +1,5 @@
+---
+title: forwardingtable.putall
+permalink: /forwardingtable.putall/
+redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/collect/ForwardingTable.html#putAll-com.google.common.collect.Table-
+---
