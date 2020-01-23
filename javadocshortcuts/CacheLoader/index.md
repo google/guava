@@ -1,0 +1,5 @@
+---
+title: CacheLoader
+permalink: /CacheLoader/
+redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/cache/CacheLoader.html
+---

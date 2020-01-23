@@ -1,0 +1,5 @@
+---
+title: ElementOrder.type
+permalink: /ElementOrder.type/
+redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/graph/ElementOrder.html#type--
+---
