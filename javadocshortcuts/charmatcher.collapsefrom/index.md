@@ -1,5 +1,0 @@
----
-title: charmatcher.collapsefrom
-permalink: /charmatcher.collapsefrom/
-redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/base/CharMatcher.html#collapseFrom-java.lang.CharSequence-char-
----

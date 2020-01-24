@@ -1,5 +1,0 @@
----
-title: forwardingexecutorservice.submit
-permalink: /forwardingexecutorservice.submit/
-redirect_to: https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/util/concurrent/ForwardingExecutorService.html#submit-java.lang.Runnable-
----
