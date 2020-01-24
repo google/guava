@@ -114,8 +114,8 @@ flavor.
     correctly in other environments. For the Android flavor, our unit tests run
     on API level 15 (Ice Cream Sandwich).
 
-[guava-snapshot-api-docs]: https://google.github.io/guava/releases/snapshot-jre/api/docs/
-[guava-snapshot-api-diffs]: https://google.github.io/guava/releases/snapshot-jre/api/diffs/
+[guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
+[guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
 [Guava Explained]: https://github.com/google/guava/wiki/Home
 [Guava Beta Checker]: https://github.com/google/guava-beta-checker
 
