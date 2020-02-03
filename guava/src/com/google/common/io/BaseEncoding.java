@@ -28,6 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -831,8 +832,8 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    private transient @MonotonicNonNull BaseEncoding upperCase;
-    private transient @MonotonicNonNull BaseEncoding lowerCase;
+    @LazyInit @MonotonicNonNull private transient BaseEncoding upperCase;
+    @LazyInit @MonotonicNonNull private transient BaseEncoding lowerCase;
 
     @Override
     public BaseEncoding upperCase() {
