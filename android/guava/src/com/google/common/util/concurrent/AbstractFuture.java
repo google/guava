@@ -69,9 +69,20 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
-  private static final boolean GENERATE_CANCELLATION_CAUSES =
-      Boolean.parseBoolean(
-          System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
+  private static final boolean GENERATE_CANCELLATION_CAUSES;
+
+  static {
+    // System.getProperty may throw if the security policy does not permit access.
+    boolean generateCancellationCauses;
+    try {
+      generateCancellationCauses =
+          Boolean.parseBoolean(
+              System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
+    } catch (SecurityException e) {
+      generateCancellationCauses = false;
+    }
+    GENERATE_CANCELLATION_CAUSES = generateCancellationCauses;
+  }
 
   /**
    * Tag interface marking trusted subclasses. This enables some optimizations. The implementation
