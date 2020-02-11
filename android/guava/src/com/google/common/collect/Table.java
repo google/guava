@@ -98,6 +98,7 @@ public interface Table<R, C, V> {
    * @param rowKey key of row to search for
    * @param columnKey key of column to search for
    */
+  @NullableDecl
   V get(
       @NullableDecl @CompatibleWith("R") Object rowKey,
       @NullableDecl @CompatibleWith("C") Object columnKey);
