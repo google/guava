@@ -3,9 +3,11 @@
 [![Latest release](https://img.shields.io/github/release/google/guava.svg)](https://github.com/google/guava/releases/latest)
 [![Build Status](https://travis-ci.org/google/guava.svg?branch=master)](https://travis-ci.org/google/guava)
 
-Guava is a set of core libraries that includes new collection types (such as
-multimap and multiset), immutable collections, a graph library, and utilities
-for concurrency, I/O, hashing, primitives, strings, and more!
+Guava is a set of core Java libraries from Google that includes new collection types
+(such as multimap and multiset), immutable collections, a graph library, and
+utilities for concurrency, I/O, hashing, caching, primitives, strings, and more! It
+is widely used on most Java projects within Google, and widely used by many
+other companies as well.
 
 Guava comes in two flavors.
 
@@ -60,7 +62,7 @@ For more information on when to use `api` and when to use `implementation`,
 consult the
 [Gradle documentation on API and implementation separation](https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation).
 
-## Snapshots
+## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
 using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
