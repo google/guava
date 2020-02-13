@@ -176,7 +176,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * ValueGraphBuilder}.
    */
   public <N1 extends N, V1 extends V> MutableValueGraph<N1, V1> build() {
-    return new ConfigurableMutableValueGraph<>(this);
+    return new StandardMutableValueGraph<>(this);
   }
 
   ValueGraphBuilder<N, V> copy() {

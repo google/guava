@@ -28,12 +28,12 @@ import com.google.common.graph.GraphConstants.Presence;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-final class ConfigurableMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
+final class StandardMutableGraph<N> extends ForwardingGraph<N> implements MutableGraph<N> {
   private final MutableValueGraph<N, Presence> backingValueGraph;
 
   /** Constructs a {@link MutableGraph} with the properties specified in {@code builder}. */
-  ConfigurableMutableGraph(AbstractGraphBuilder<? super N> builder) {
-    this.backingValueGraph = new ConfigurableMutableValueGraph<>(builder);
+  StandardMutableGraph(AbstractGraphBuilder<? super N> builder) {
+    this.backingValueGraph = new StandardMutableValueGraph<>(builder);
   }
 
   @Override

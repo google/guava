@@ -58,7 +58,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(
-            new ConfigurableValueGraph<N, Presence>(
+            new StandardValueGraph<N, Presence>(
                 GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size()));
   }
 

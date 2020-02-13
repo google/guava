@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-/** Tests for an undirected {@link ConfigurableMutableGraph}. */
+/** Tests for an undirected {@link StandardMutableGraph}. */
 @AndroidIncompatible
 @RunWith(Parameterized.class)
 public final class StandardImmutableUndirectedGraphTest
