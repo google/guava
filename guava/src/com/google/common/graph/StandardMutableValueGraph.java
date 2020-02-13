@@ -38,13 +38,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N, V>
+final class StandardMutableValueGraph<N, V> extends StandardValueGraph<N, V>
     implements MutableValueGraph<N, V> {
 
   private final ElementOrder<N> incidentEdgeOrder;
 
   /** Constructs a mutable graph with the properties specified in {@code builder}. */
-  ConfigurableMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
+  StandardMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
     super(builder);
     incidentEdgeOrder = builder.incidentEdgeOrder.cast();
   }

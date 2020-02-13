@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -43,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
+class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
@@ -53,7 +53,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   protected long edgeCount; // must be updated when edges are added or removed
 
   /** Constructs a graph with the properties specified in {@code builder}. */
-  ConfigurableValueGraph(AbstractGraphBuilder<? super N> builder) {
+  StandardValueGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
         builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
@@ -65,7 +65,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with the given
    * node map.
    */
-  ConfigurableValueGraph(
+  StandardValueGraph(
       AbstractGraphBuilder<? super N> builder,
       Map<N, GraphConnections<N, V>> nodeConnections,
       long edgeCount) {
@@ -140,12 +140,14 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+  @NullableDecl
+  public V edgeValueOrDefault(N nodeU, N nodeV, @NullableDecl V defaultValue) {
     return edgeValueOrDefault_internal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
   }
 
   @Override
-  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
+  @NullableDecl
+  public V edgeValueOrDefault(EndpointPair<N> endpoints, @NullableDecl V defaultValue) {
     validateEndpoints(endpoints);
     return edgeValueOrDefault_internal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
@@ -164,7 +166,7 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  protected final boolean containsNode(@Nullable N node) {
+  protected final boolean containsNode(@NullableDecl N node) {
     return nodeConnections.containsKey(node);
   }
 
