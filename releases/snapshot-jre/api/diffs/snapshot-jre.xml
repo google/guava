@@ -39069,7 +39069,7 @@
   </class>
   <!-- end class com.google.common.graph.ImmutableNetwork.Builder -->
   <!-- start class com.google.common.graph.ImmutableValueGraph -->
-  <class name="ImmutableValueGraph" extends="com.google.common.graph.ConfigurableValueGraph&lt;N, V&gt;"
+  <class name="ImmutableValueGraph" extends="com.google.common.graph.StandardValueGraph&lt;N, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
