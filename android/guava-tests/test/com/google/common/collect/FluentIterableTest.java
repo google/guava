@@ -76,7 +76,7 @@ public class FluentIterableTest extends TestCase {
         Lists.newArrayList(FluentIterable.from(ImmutableList.of(1, 2, 3, 4))));
   }
 
-  @SuppressWarnings("deprecation") // test of deprecated method
+  @SuppressWarnings({"deprecation", "DoNotCall"}) // test of deprecated method
   public void testFrom_alreadyFluentIterable() {
     FluentIterable<Integer> iterable = FluentIterable.from(asList(1));
     assertSame(iterable, FluentIterable.from(iterable));
