@@ -124,7 +124,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p><b>Warning:</b> The comparators or comparables used must be <i>consistent with equals</i> as
  explained by the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang"><code>Comparable</code></a> class specification. Otherwise, the resulting multiset will
- violate the general contract of <a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a>, which it is specified in terms of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>.
+ violate the general contract of <a href="../../../../com/google/common/collect/SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a>, which is specified in terms of <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>.
 
  <p>The collections returned by <code>keySet</code> and <code>asMap</code> iterate through the keys
  according to the key comparator ordering or the natural ordering of the keys. Similarly, <code>get</code>, <code>removeAll</code>, and <code>replaceValues</code> return collections that iterate through the
