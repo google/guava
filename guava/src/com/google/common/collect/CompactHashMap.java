@@ -1010,6 +1010,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     if (delegate != null) {
       metadata =
           Ints.constrainToRange(size(), CompactHashing.DEFAULT_SIZE, CompactHashing.MAX_SIZE);
+      delegate.clear(); // invalidate any iterators left over!
       table = null;
       size = 0;
     } else {
