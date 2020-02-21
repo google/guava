@@ -86,8 +86,7 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
     final TestSortedSetGenerator<E> delegate =
         (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
-    List<Feature<?>> features = new ArrayList<>();
-    features.addAll(parentBuilder.getFeatures());
+    List<Feature<?>> features = new ArrayList<>(parentBuilder.getFeatures());
     features.remove(CollectionFeature.ALLOWS_NULL_VALUES);
     features.add(CollectionFeature.SUBSET_VIEW);
 
