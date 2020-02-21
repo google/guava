@@ -266,8 +266,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<>();
-    features.addAll(parentBuilder.getFeatures());
+    Set<Feature<?>> features = new HashSet<>(parentBuilder.getFeatures());
     features.remove(SERIALIZABLE);
     features.remove(SERIALIZABLE_INCLUDING_VIEWS);
 
