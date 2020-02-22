@@ -488,7 +488,8 @@ public final class DerivedCollectionGenerators {
       }
 
       // the regular values should be visible after filtering
-      List<Entry<?, ?>> allEntries = new ArrayList<>(extremeValues);
+      List<Entry<?, ?>> allEntries = new ArrayList<>();
+      allEntries.addAll(extremeValues);
       for (Object entry : entries) {
         allEntries.add((Entry<?, ?>) entry);
       }
