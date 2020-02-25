@@ -24,7 +24,6 @@ import static com.google.common.util.concurrent.Service.State.STARTING;
 import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.util.concurrent.Monitor.Guard;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
@@ -47,7 +46,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =

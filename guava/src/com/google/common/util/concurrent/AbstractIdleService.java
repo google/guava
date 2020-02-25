@@ -14,7 +14,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -31,7 +30,6 @@ import java.util.concurrent.TimeoutException;
  * @author Chris Nokleberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractIdleService implements Service {
 
