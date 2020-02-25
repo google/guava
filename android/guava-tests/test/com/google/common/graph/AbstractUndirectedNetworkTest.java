@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
@@ -128,11 +129,13 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
 
   @Test
   public void addEdge_existingNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
     // Adding nodes initially for safety (insulating from possible future
     // modifications to proxy methods)
     addNode(N1);
     addNode(N2);
-    assertThat(addEdge(N1, N2, E12)).isTrue();
+    assertThat(networkAsMutableNetwork.addEdge(N1, N2, E12)).isTrue();
     assertThat(network.edges()).contains(E12);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
     assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12);
@@ -140,20 +143,24 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
 
   @Test
   public void addEdge_existingEdgeBetweenSameNodes() {
-    assertThat(addEdge(N1, N2, E12)).isTrue();
+    assume().that(graphIsMutable()).isTrue();
+
+    assertThat(networkAsMutableNetwork.addEdge(N1, N2, E12)).isTrue();
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertThat(addEdge(N1, N2, E12)).isFalse();
+    assertThat(networkAsMutableNetwork.addEdge(N1, N2, E12)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
-    assertThat(addEdge(N2, N1, E12)).isFalse();
+    assertThat(networkAsMutableNetwork.addEdge(N2, N1, E12)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
   public void addEdge_existingEdgeBetweenDifferentNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     try {
       // Edge between totally different nodes
-      addEdge(N4, N5, E12);
+      networkAsMutableNetwork.addEdge(N4, N5, E12);
       fail(ERROR_ADDED_EXISTING_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
@@ -162,15 +169,17 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
 
   @Test
   public void addEdge_parallelEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     try {
-      addEdge(N1, N2, EDGE_NOT_IN_GRAPH);
+      networkAsMutableNetwork.addEdge(N1, N2, EDGE_NOT_IN_GRAPH);
       fail(ERROR_ADDED_PARALLEL_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
     try {
-      addEdge(N2, N1, EDGE_NOT_IN_GRAPH);
+      networkAsMutableNetwork.addEdge(N2, N1, EDGE_NOT_IN_GRAPH);
       fail(ERROR_ADDED_PARALLEL_EDGE);
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
@@ -179,7 +188,9 @@ public abstract class AbstractUndirectedNetworkTest extends AbstractNetworkTest 
 
   @Test
   public void addEdge_orderMismatch() {
+    assume().that(graphIsMutable()).isTrue();
+
     EndpointPair<Integer> endpoints = EndpointPair.ordered(N1, N2);
-    assertThat(addEdge(endpoints, E12)).isTrue();
+    assertThat(networkAsMutableNetwork.addEdge(endpoints, E12)).isTrue();
   }
 }

@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
@@ -31,6 +32,16 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
   @Override
   public MutableNetwork<Integer, String> createGraph() {
     return NetworkBuilder.undirected().allowsSelfLoops(true).build();
+  }
+
+  @Override
+  void addNode(Integer n) {
+    networkAsMutableNetwork.addNode(n);
+  }
+
+  @Override
+  void addEdge(Integer n1, Integer n2, String e) {
+    networkAsMutableNetwork.addEdge(n1, n2, e);
   }
 
   @Test
@@ -135,37 +146,43 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
   @Override
   @Test
   public void addEdge_selfLoop() {
-    assertThat(addEdge(N1, N1, E11)).isTrue();
+    assume().that(graphIsMutable()).isTrue();
+
+    assertThat(networkAsMutableNetwork.addEdge(N1, N1, E11)).isTrue();
     assertThat(network.edges()).contains(E11);
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
   }
 
   @Test
   public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N1, E11);
     ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertThat(addEdge(N1, N1, E11)).isFalse();
+    assertThat(networkAsMutableNetwork.addEdge(N1, N1, E11)).isFalse();
     assertThat(network.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
   public void addEdge_existingEdgeBetweenDifferentNodes_selfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N1, E11);
     try {
-      addEdge(N1, N2, E11);
+      networkAsMutableNetwork.addEdge(N1, N2, E11);
       fail("Reusing an existing self-loop edge to connect different nodes succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
     }
     try {
-      addEdge(N2, N2, E11);
+      networkAsMutableNetwork.addEdge(N2, N2, E11);
       fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
     }
     addEdge(N1, N2, E12);
     try {
-      addEdge(N1, N1, E12);
+      networkAsMutableNetwork.addEdge(N1, N1, E12);
       fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
@@ -174,9 +191,11 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
 
   @Test
   public void addEdge_parallelSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N1, E11);
     try {
-      addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
+      networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
       fail("Adding a parallel self-loop edge succeeded");
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
@@ -185,17 +204,21 @@ public class ConfigurableUndirectedNetworkTest extends ConfigurableSimpleUndirec
 
   @Test
   public void removeNode_existingNodeWithSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     addEdge(N1, N1, E11);
-    assertThat(network.removeNode(N1)).isTrue();
+    assertThat(networkAsMutableNetwork.removeNode(N1)).isTrue();
     assertThat(network.nodes()).isEmpty();
     assertThat(network.edges()).doesNotContain(E11);
   }
 
   @Test
   public void removeEdge_existingSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N1, E11);
-    assertThat(network.removeEdge(E11)).isTrue();
+    assertThat(networkAsMutableNetwork.removeEdge(E11)).isTrue();
     assertThat(network.edges()).doesNotContain(E11);
     assertThat(network.edgesConnecting(N1, N1)).isEmpty();
   }
