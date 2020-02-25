@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.IntToDoubleFunction;
 import java.util.function.Supplier;
@@ -119,6 +120,14 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
         return map;
       };
     }
+
+    static Construction<Set<Object>> setFromElements(Supplier<Set<Object>> mutableSupplier) {
+      return elements -> {
+        Set<Object> set = mutableSupplier.get();
+        set.addAll(elements);
+        return set;
+      };
+    }
   }
 
   abstract static class QueryOp<T> {
@@ -144,6 +153,10 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
 
     static final QueryOp<Map<Object, Object>> MAP_GET =
         QueryOp.create("Map.get", Map::get, Math::log);
+
+    @SuppressWarnings("ReturnValueIgnored")
+    static final QueryOp<Set<Object>> SET_CONTAINS =
+        QueryOp.create("Set.contains", Set::contains, Math::log);
 
     abstract void apply(T collection, Object query);
 
