@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -35,6 +36,16 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
   @Override
   public MutableNetwork<Integer, String> createGraph() {
     return NetworkBuilder.directed().allowsParallelEdges(false).allowsSelfLoops(false).build();
+  }
+
+  @Override
+  void addNode(Integer n) {
+    networkAsMutableNetwork.addNode(n);
+  }
+
+  @Override
+  void addEdge(Integer n1, Integer n2, String e) {
+    networkAsMutableNetwork.addEdge(n1, n2, e);
   }
 
   @Override
@@ -179,8 +190,10 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
 
   @Test
   public void addEdge_selfLoop() {
+    assume().that(graphIsMutable()).isTrue();
+
     try {
-      addEdge(N1, N1, E11);
+      networkAsMutableNetwork.addEdge(N1, N1, E11);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
       assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
@@ -195,10 +208,12 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
    */
   @Test
   public void addEdge_nodesNotInGraph() {
-    network.addNode(N1);
-    assertTrue(network.addEdge(N1, N5, E15));
-    assertTrue(network.addEdge(N4, N1, E41));
-    assertTrue(network.addEdge(N2, N3, E23));
+    assume().that(graphIsMutable()).isTrue();
+
+    networkAsMutableNetwork.addNode(N1);
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N5, E15));
+    assertTrue(networkAsMutableNetwork.addEdge(N4, N1, E41));
+    assertTrue(networkAsMutableNetwork.addEdge(N2, N3, E23));
     assertThat(network.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
     assertThat(network.edges()).containsExactly(E15, E41, E23).inOrder();
     assertThat(network.edgesConnecting(N1, N5)).containsExactly(E15);

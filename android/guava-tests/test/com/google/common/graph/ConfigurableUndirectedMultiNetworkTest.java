@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -34,66 +35,87 @@ public class ConfigurableUndirectedMultiNetworkTest extends ConfigurableUndirect
     return NetworkBuilder.undirected().allowsParallelEdges(true).allowsSelfLoops(true).build();
   }
 
+  @Override
+  void addNode(Integer n) {
+    networkAsMutableNetwork.addNode(n);
+  }
+
+  @Override
+  void addEdge(Integer n1, Integer n2, String e) {
+    networkAsMutableNetwork.addEdge(n1, n2, e);
+  }
+
   @Test
   public void adjacentEdges_parallelEdges() {
     addEdge(N1, N2, E12);
     addEdge(N1, N2, E12_A);
     addEdge(N1, N2, E12_B);
     addEdge(N3, N4, E34);
+
     assertThat(network.adjacentEdges(E12)).containsExactly(E12_A, E12_B);
   }
 
   @Test
   public void edgesConnecting_parallelEdges() {
-    assertTrue(addEdge(N1, N2, E12));
-    assertTrue(addEdge(N1, N2, E12_A));
-    assertTrue(addEdge(N2, N1, E21));
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N2, N1, E21);
+
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
     assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
   }
 
   @Test
   public void edgesConnecting_parallelSelfLoopEdges() {
-    assertTrue(addEdge(N1, N1, E11));
-    assertTrue(addEdge(N1, N1, E11_A));
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Override
   @Test
   public void addEdge_parallelEdge() {
-    assertTrue(addEdge(N1, N2, E12));
-    assertTrue(addEdge(N1, N2, E12_A));
-    assertTrue(addEdge(N2, N1, E21));
+    assume().that(graphIsMutable()).isTrue();
+
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N2, E12));
+    assertTrue(networkAsMutableNetwork.addEdge(N2, N1, E21));
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N2, E12_A));
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
   }
 
   @Override
   @Test
   public void addEdge_parallelSelfLoopEdge() {
-    assertTrue(addEdge(N1, N1, E11));
-    assertTrue(addEdge(N1, N1, E11_A));
+    assume().that(graphIsMutable()).isTrue();
+
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N1, E11));
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N1, E11_A));
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
   public void removeEdge_parallelEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     addEdge(N1, N2, E12_A);
     addEdge(N2, N1, E21);
-    assertTrue(network.removeEdge(E12_A));
+    assertTrue(networkAsMutableNetwork.removeEdge(E12_A));
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E21);
   }
 
   @Test
   public void removeEdge_parallelSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N1, E11);
     addEdge(N1, N1, E11_A);
     addEdge(N1, N2, E12);
-    assertTrue(network.removeEdge(E11_A));
+    assertTrue(networkAsMutableNetwork.removeEdge(E11_A));
     assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
-    assertTrue(network.removeEdge(E11));
+    assertTrue(networkAsMutableNetwork.removeEdge(E11));
     assertThat(network.edgesConnecting(N1, N1)).isEmpty();
     assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
