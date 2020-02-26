@@ -23,6 +23,7 @@ import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
@@ -37,7 +38,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class RangeTest extends TestCase {
   public void testOpen() {
     Range<Integer> range = Range.open(4, 8);
@@ -568,6 +569,7 @@ public class RangeTest extends TestCase {
         .testEquals();
   }
 
+  @GwtIncompatible // TODO(b/148207871): Restore once Eclipse compiler no longer flakes for this.
   public void testLegacyComparable() {
     Range<LegacyComparable> range = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
