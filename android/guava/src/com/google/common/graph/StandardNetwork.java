@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
+class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   private final boolean isDirected;
   private final boolean allowsParallelEdges;
   private final boolean allowsSelfLoops;
@@ -62,7 +62,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
   protected final MapIteratorCache<E, N> edgeToReferenceNode; // referenceNode == source if directed
 
   /** Constructs a graph with the properties specified in {@code builder}. */
-  ConfigurableNetwork(NetworkBuilder<? super N, ? super E> builder) {
+  StandardNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
         builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
@@ -74,7 +74,7 @@ class ConfigurableNetwork<N, E> extends AbstractNetwork<N, E> {
    * Constructs a graph with the properties specified in {@code builder}, initialized with the given
    * node and edge maps.
    */
-  ConfigurableNetwork(
+  StandardNetwork(
       NetworkBuilder<? super N, ? super E> builder,
       Map<N, NetworkConnections<N, E>> nodeConnections,
       Map<E, N> edgeToReferenceNode) {

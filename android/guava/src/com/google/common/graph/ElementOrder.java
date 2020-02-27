@@ -137,7 +137,7 @@ public final class ElementOrder<T> {
    * determined by {@code comparator}.
    */
   public static <S> ElementOrder<S> sorted(Comparator<S> comparator) {
-    return new ElementOrder<S>(Type.SORTED, comparator);
+    return new ElementOrder<S>(Type.SORTED, checkNotNull(comparator));
   }
 
   /** Returns the type of ordering used. */

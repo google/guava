@@ -23,15 +23,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableMutableNetwork}, creating a simple directed sorted graph
+ * Tests for a directed {@link StandardMutableNetwork}, creating a simple directed sorted graph
  * (parallel and self-loop edges are not allowed).
  *
  * <p>The main purpose of this class is to run the inherited {@link #concurrentIteration} test
  * against a sorted graph so as to cover {@link MapRetrievalCache}.
  */
 @RunWith(JUnit4.class)
-public class ConfigurableSimpleDirectedSortedNetworkTest
-    extends ConfigurableSimpleDirectedNetworkTest {
+public class StandardSimpleDirectedSortedNetworkTest extends StandardSimpleDirectedNetworkTest {
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {

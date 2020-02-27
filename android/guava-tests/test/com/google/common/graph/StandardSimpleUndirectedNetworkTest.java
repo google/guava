@@ -27,15 +27,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for a directed {@link ConfigurableMutableNetwork}, creating a simple directed graph
+ * Tests for an undirected {@link StandardMutableNetwork}, creating a simple undirected graph
  * (parallel and self-loop edges are not allowed).
  */
 @RunWith(JUnit4.class)
-public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetworkTest {
+public class StandardSimpleUndirectedNetworkTest extends AbstractUndirectedNetworkTest {
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.directed().allowsParallelEdges(false).allowsSelfLoops(false).build();
+    return NetworkBuilder.undirected().allowsParallelEdges(false).allowsSelfLoops(false).build();
   }
 
   @Override
@@ -182,7 +182,7 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
       fail(ERROR_MODIFIABLE_COLLECTION);
     } catch (UnsupportedOperationException e) {
       addEdge(N1, N2, E12);
-      assertThat(successors).containsExactlyElementsIn(network.successors(N1));
+      assertThat(network.successors(N1)).containsExactlyElementsIn(successors);
     }
   }
 
@@ -219,7 +219,6 @@ public class ConfigurableSimpleDirectedNetworkTest extends AbstractDirectedNetwo
     assertThat(network.edgesConnecting(N1, N5)).containsExactly(E15);
     assertThat(network.edgesConnecting(N4, N1)).containsExactly(E41);
     assertThat(network.edgesConnecting(N2, N3)).containsExactly(E23);
-    // Direction of the added edge is correctly handled
-    assertThat(network.edgesConnecting(N3, N2)).isEmpty();
+    assertThat(network.edgesConnecting(N3, N2)).containsExactly(E23);
   }
 }
