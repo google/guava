@@ -27,7 +27,7 @@ import java.util.TreeMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
+ * Standard implementation of {@link ValueGraph} that supports the options supplied by {@link
  * AbstractGraphBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link GraphConnections}.
