@@ -306,19 +306,22 @@
 <span class="sourceLineNo">298</span>  }<a name="line.298"></a>
 <span class="sourceLineNo">299</span><a name="line.299"></a>
 <span class="sourceLineNo">300</span>  private static String lenientToString(@NullableDecl Object o) {<a name="line.300"></a>
-<span class="sourceLineNo">301</span>    try {<a name="line.301"></a>
-<span class="sourceLineNo">302</span>      return String.valueOf(o);<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    } catch (Exception e) {<a name="line.303"></a>
-<span class="sourceLineNo">304</span>      // Default toString() behavior - see Object.toString()<a name="line.304"></a>
-<span class="sourceLineNo">305</span>      String objectToString =<a name="line.305"></a>
-<span class="sourceLineNo">306</span>          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      Logger.getLogger("com.google.common.base.Strings")<a name="line.308"></a>
-<span class="sourceLineNo">309</span>          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);<a name="line.309"></a>
-<span class="sourceLineNo">310</span>      return "&lt;" + objectToString + " threw " + e.getClass().getName() + "&gt;";<a name="line.310"></a>
-<span class="sourceLineNo">311</span>    }<a name="line.311"></a>
-<span class="sourceLineNo">312</span>  }<a name="line.312"></a>
-<span class="sourceLineNo">313</span>}<a name="line.313"></a>
+<span class="sourceLineNo">301</span>    if (o == null) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      return "null";<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    }<a name="line.303"></a>
+<span class="sourceLineNo">304</span>    try {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      return o.toString();<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    } catch (Exception e) {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      // Default toString() behavior - see Object.toString()<a name="line.307"></a>
+<span class="sourceLineNo">308</span>      String objectToString =<a name="line.308"></a>
+<span class="sourceLineNo">309</span>          o.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(o));<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      // Logger is created inline with fixed name to avoid forcing Proguard to create another class.<a name="line.310"></a>
+<span class="sourceLineNo">311</span>      Logger.getLogger("com.google.common.base.Strings")<a name="line.311"></a>
+<span class="sourceLineNo">312</span>          .log(WARNING, "Exception during lenientFormat for " + objectToString, e);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      return "&lt;" + objectToString + " threw " + e.getClass().getName() + "&gt;";<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  }<a name="line.315"></a>
+<span class="sourceLineNo">316</span>}<a name="line.316"></a>
 
 
 

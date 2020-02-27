@@ -38907,7 +38907,7 @@
   </class>
   <!-- end class com.google.common.graph.ImmutableGraph.Builder -->
   <!-- start class com.google.common.graph.ImmutableNetwork -->
-  <class name="ImmutableNetwork" extends="com.google.common.graph.ConfigurableNetwork&lt;N, E&gt;"
+  <class name="ImmutableNetwork" extends="com.google.common.graph.StandardNetwork&lt;N, E&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
