@@ -182,7 +182,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}. */
   public <N1 extends N, E1 extends E> MutableNetwork<N1, E1> build() {
-    return new ConfigurableMutableNetwork<>(this);
+    return new StandardMutableNetwork<>(this);
   }
 
   @SuppressWarnings("unchecked")

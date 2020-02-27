@@ -25,9 +25,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for a directed {@link ConfigurableMutableNetwork} allowing self-loops. */
+/** Tests for a directed {@link StandardMutableNetwork} allowing self-loops. */
 @RunWith(JUnit4.class)
-public class ConfigurableDirectedNetworkTest extends ConfigurableSimpleDirectedNetworkTest {
+public class StandardDirectedNetworkTest extends StandardSimpleDirectedNetworkTest {
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {
