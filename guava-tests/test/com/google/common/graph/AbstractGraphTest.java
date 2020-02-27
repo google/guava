@@ -94,10 +94,6 @@ public abstract class AbstractGraphTest {
    */
   abstract void putEdge(Integer n1, Integer n2);
 
-  final void putEdge(EndpointPair<Integer> endpoints) {
-    putEdge(endpoints.nodeU(), endpoints.nodeV());
-  }
-
   final boolean graphIsMutable() {
     return graphAsMutableGraph != null;
   }
