@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
- * Configurable implementation of {@link MutableNetwork} that supports both directed and undirected
+ * Standard implementation of {@link MutableNetwork} that supports both directed and undirected
  * graphs. Instances of this class should be constructed with {@link NetworkBuilder}.
  *
  * <p>Time complexities for mutation methods are all O(1) except for {@code removeNode(N node)},

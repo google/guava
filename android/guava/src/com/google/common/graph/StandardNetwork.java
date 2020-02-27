@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
- * Configurable implementation of {@link Network} that supports the options supplied by {@link
+ * Standard implementation of {@link Network} that supports the options supplied by {@link
  * NetworkBuilder}.
  *
  * <p>This class maintains a map of nodes to {@link NetworkConnections}. This class also maintains a
