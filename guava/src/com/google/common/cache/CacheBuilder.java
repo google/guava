@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
@@ -233,10 +233,10 @@ public final class CacheBuilder<K, V> {
   int concurrencyLevel = UNSET_INT;
   long maximumSize = UNSET_INT;
   long maximumWeight = UNSET_INT;
-  @MonotonicNonNull Weigher<? super K, ? super V> weigher;
+  @Nullable Weigher<? super K, ? super V> weigher;
 
-  @MonotonicNonNull Strength keyStrength;
-  @MonotonicNonNull Strength valueStrength;
+  @Nullable Strength keyStrength;
+  @Nullable Strength valueStrength;
 
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long expireAfterWriteNanos = UNSET_INT;
@@ -247,11 +247,11 @@ public final class CacheBuilder<K, V> {
   @SuppressWarnings("GoodTime") // should be a java.time.Duration
   long refreshNanos = UNSET_INT;
 
-  @MonotonicNonNull Equivalence<Object> keyEquivalence;
-  @MonotonicNonNull Equivalence<Object> valueEquivalence;
+  @Nullable Equivalence<Object> keyEquivalence;
+  @Nullable Equivalence<Object> valueEquivalence;
 
-  @MonotonicNonNull RemovalListener<? super K, ? super V> removalListener;
-  @MonotonicNonNull Ticker ticker;
+  @Nullable RemovalListener<? super K, ? super V> removalListener;
+  @Nullable Ticker ticker;
 
   Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 

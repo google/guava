@@ -35,7 +35,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -832,8 +831,8 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    @LazyInit @MonotonicNonNullDecl private transient BaseEncoding upperCase;
-    @LazyInit @MonotonicNonNullDecl private transient BaseEncoding lowerCase;
+    @LazyInit @NullableDecl private transient BaseEncoding upperCase;
+    @LazyInit @NullableDecl private transient BaseEncoding lowerCase;
 
     @Override
     public BaseEncoding upperCase() {

@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import java.util.Comparator;
 import java.util.NavigableSet;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multisets#unmodifiableSortedMultiset(SortedMultiset)}, split out into
@@ -56,7 +56,7 @@ final class UnmodifiableSortedMultiset<E> extends UnmodifiableMultiset<E>
     return (NavigableSet<E>) super.elementSet();
   }
 
-  private transient @MonotonicNonNull UnmodifiableSortedMultiset<E> descendingMultiset;
+  private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;
 
   @Override
   public SortedMultiset<E> descendingMultiset() {

@@ -85,7 +85,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -1886,7 +1885,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     int threshold;
 
     /** The per-segment table. */
-    volatile @MonotonicNonNull AtomicReferenceArray<ReferenceEntry<K, V>> table;
+    volatile @Nullable AtomicReferenceArray<ReferenceEntry<K, V>> table;
 
     /** The maximum weight of this segment. UNSET_INT if there is no maximum. */
     final long maxSegmentWeight;
@@ -4279,7 +4278,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  @MonotonicNonNull Set<K> keySet;
+  @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -4288,7 +4287,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (ks != null) ? ks : (keySet = new KeySet(this));
   }
 
-  @MonotonicNonNull Collection<V> values;
+  @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -4297,7 +4296,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return (vs != null) ? vs : (values = new Values(this));
   }
 
-  @MonotonicNonNull Set<Entry<K, V>> entrySet;
+  @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   @GwtIncompatible // Not supported.
@@ -4313,8 +4312,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     int nextSegmentIndex;
     int nextTableIndex;
-    @MonotonicNonNull Segment<K, V> currentSegment;
-    @MonotonicNonNull AtomicReferenceArray<ReferenceEntry<K, V>> currentTable;
+    @Nullable Segment<K, V> currentSegment;
+    @Nullable AtomicReferenceArray<ReferenceEntry<K, V>> currentTable;
     @Nullable ReferenceEntry<K, V> nextEntry;
     @Nullable WriteThroughEntry nextExternal;
     @Nullable WriteThroughEntry lastReturned;
@@ -4701,7 +4700,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final @Nullable Ticker ticker;
     final CacheLoader<? super K, V> loader;
 
-    transient @MonotonicNonNull Cache<K, V> delegate;
+    transient @Nullable Cache<K, V> delegate;
 
     ManualSerializationProxy(LocalCache<K, V> cache) {
       this(
@@ -4806,7 +4805,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       implements LoadingCache<K, V>, Serializable {
     private static final long serialVersionUID = 1;
 
-    transient @MonotonicNonNull LoadingCache<K, V> autoDelegate;
+    transient @Nullable LoadingCache<K, V> autoDelegate;
 
     LoadingSerializationProxy(LocalCache<K, V> cache) {
       super(cache);

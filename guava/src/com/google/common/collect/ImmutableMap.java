@@ -47,7 +47,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -248,7 +247,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @DoNotMock
   public static class Builder<K, V> {
-    @MonotonicNonNull Comparator<? super V> valueComparator;
+    @Nullable Comparator<? super V> valueComparator;
     Entry<K, V>[] entries;
     int size;
     boolean entriesUsed;

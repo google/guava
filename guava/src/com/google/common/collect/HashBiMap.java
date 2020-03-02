@@ -40,7 +40,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -558,7 +557,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
   }
 
-  @LazyInit @MonotonicNonNull @RetainedWith private transient BiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {

@@ -35,7 +35,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -173,8 +172,8 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    @MonotonicNonNullDecl private volatile Future<?> runningTask;
-    @MonotonicNonNullDecl private volatile ScheduledExecutorService executorService;
+    @NullableDecl private volatile Future<?> runningTask;
+    @NullableDecl private volatile ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
     // shutDown or runOneIteration) run concurrently with one another.

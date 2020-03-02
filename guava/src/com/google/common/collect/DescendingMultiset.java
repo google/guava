@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and
@@ -34,7 +34,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
-  private transient @MonotonicNonNull Comparator<? super E> comparator;
+  private transient @Nullable Comparator<? super E> comparator;
 
   @Override
   public Comparator<? super E> comparator() {
@@ -45,7 +45,7 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
     return result;
   }
 
-  private transient @MonotonicNonNull NavigableSet<E> elementSet;
+  private transient @Nullable NavigableSet<E> elementSet;
 
   @Override
   public NavigableSet<E> elementSet() {
@@ -106,7 +106,7 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
 
   abstract Iterator<Entry<E>> entryIterator();
 
-  private transient @MonotonicNonNull Set<Entry<E>> entrySet;
+  private transient @Nullable Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {

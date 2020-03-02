@@ -47,7 +47,6 @@ import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -612,7 +611,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  private transient @MonotonicNonNull Set<K> keySetView;
+  private transient @Nullable Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -721,7 +720,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  private transient @MonotonicNonNull Set<Entry<K, V>> entrySetView;
+  private transient @Nullable Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -887,7 +886,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return false;
   }
 
-  private transient @MonotonicNonNull Collection<V> valuesView;
+  private transient @Nullable Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {

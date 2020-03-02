@@ -48,7 +48,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -1724,7 +1723,7 @@ public final class Sets {
       throw new UnsupportedOperationException();
     }
 
-    @MonotonicNonNullDecl private transient UnmodifiableNavigableSet<E> descendingSet;
+    @NullableDecl private transient UnmodifiableNavigableSet<E> descendingSet;
 
     @Override
     public NavigableSet<E> descendingSet() {
