@@ -34,7 +34,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -900,7 +899,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
   }
 
-  @LazyInit @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
+  @LazyInit @RetainedWith @NullableDecl private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {

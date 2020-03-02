@@ -43,7 +43,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -597,7 +596,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
   }
 
-  @MonotonicNonNullDecl private transient Set<K> keySetView;
+  @NullableDecl private transient Set<K> keySetView;
 
   @Override
   public Set<K> keySet() {
@@ -653,7 +652,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     };
   }
 
-  @MonotonicNonNullDecl private transient Set<Entry<K, V>> entrySetView;
+  @NullableDecl private transient Set<Entry<K, V>> entrySetView;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -817,7 +816,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     return false;
   }
 
-  @MonotonicNonNullDecl private transient Collection<V> valuesView;
+  @NullableDecl private transient Collection<V> valuesView;
 
   @Override
   public Collection<V> values() {
