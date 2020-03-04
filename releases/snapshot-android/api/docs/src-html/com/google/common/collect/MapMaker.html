@@ -38,7 +38,7 @@
 <span class="sourceLineNo">030</span>import java.util.Map;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import java.util.concurrent.ConcurrentHashMap;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>import java.util.concurrent.ConcurrentMap;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
 <span class="sourceLineNo">036</span> * A builder of {@link ConcurrentMap} instances that can have keys or values automatically wrapped<a name="line.36"></a>
@@ -106,10 +106,10 @@
 <span class="sourceLineNo">098</span>  int initialCapacity = UNSET_INT;<a name="line.98"></a>
 <span class="sourceLineNo">099</span>  int concurrencyLevel = UNSET_INT;<a name="line.99"></a>
 <span class="sourceLineNo">100</span><a name="line.100"></a>
-<span class="sourceLineNo">101</span>  @MonotonicNonNullDecl Strength keyStrength;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  @MonotonicNonNullDecl Strength valueStrength;<a name="line.102"></a>
+<span class="sourceLineNo">101</span>  @NullableDecl Strength keyStrength;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  @NullableDecl Strength valueStrength;<a name="line.102"></a>
 <span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  @MonotonicNonNullDecl Equivalence&lt;Object&gt; keyEquivalence;<a name="line.104"></a>
+<span class="sourceLineNo">104</span>  @NullableDecl Equivalence&lt;Object&gt; keyEquivalence;<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   * Constructs a new {@code MapMaker} instance with default settings, including strong keys, strong<a name="line.107"></a>

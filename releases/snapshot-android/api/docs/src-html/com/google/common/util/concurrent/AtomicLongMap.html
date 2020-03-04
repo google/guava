@@ -36,7 +36,7 @@
 <span class="sourceLineNo">028</span>import java.util.Map.Entry;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>import java.util.concurrent.ConcurrentHashMap;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>import java.util.concurrent.atomic.AtomicLong;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;<a name="line.31"></a>
+<span class="sourceLineNo">031</span>import org.checkerframework.checker.nullness.compatqual.NullableDecl;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
 <span class="sourceLineNo">033</span>/**<a name="line.33"></a>
 <span class="sourceLineNo">034</span> * A map containing {@code long} values that can be atomically updated. While writes to a<a name="line.34"></a>
@@ -333,7 +333,7 @@
 <span class="sourceLineNo">325</span>    return sum;<a name="line.325"></a>
 <span class="sourceLineNo">326</span>  }<a name="line.326"></a>
 <span class="sourceLineNo">327</span><a name="line.327"></a>
-<span class="sourceLineNo">328</span>  @MonotonicNonNullDecl private transient Map&lt;K, Long&gt; asMap;<a name="line.328"></a>
+<span class="sourceLineNo">328</span>  @NullableDecl private transient Map&lt;K, Long&gt; asMap;<a name="line.328"></a>
 <span class="sourceLineNo">329</span><a name="line.329"></a>
 <span class="sourceLineNo">330</span>  /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */<a name="line.330"></a>
 <span class="sourceLineNo">331</span>  public Map&lt;K, Long&gt; asMap() {<a name="line.331"></a>
