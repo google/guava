@@ -19,6 +19,7 @@ import static com.google.common.io.BaseEncoding.base16;
 import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
+import static com.google.common.io.BaseEncoding.base64Url;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -105,6 +106,11 @@ public class BaseEncodingTest extends TestCase {
     testDecodes(base64(), "Zg====", "f");
   }
 
+  public void testBase64Url() {
+    testDecodesByBytes(base64Url(), "_zzz", new byte[] {-1, 60, -13});
+    testDecodesByBytes(base64Url(), "-zzz", new byte[] {-5, 60, -13});
+  }
+
   public void testBase64InvalidDecodings() {
     // These contain bytes not in the decodabet.
     assertFailsToDecode(base64(), "A\u007f", "Unrecognized character: 0x7f");
@@ -117,6 +123,11 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base64(), "AB=C", "Unrecognized character: =");
     assertFailsToDecode(base64(), "A=BCD", "Invalid input length 5");
     assertFailsToDecode(base64(), "?", "Invalid input length 1");
+  }
+
+  public void testBase64UrlInvalidDecodings() {
+    assertFailsToDecode(base64Url(), "+zzz", "Unrecognized character: +");
+    assertFailsToDecode(base64Url(), "/zzz", "Unrecognized character: /");
   }
 
   public void testBase64CannotUpperCase() {
@@ -382,6 +393,11 @@ public class BaseEncodingTest extends TestCase {
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
     assertTrue(encoding.canDecode(encoded));
     assertThat(encoding.decode(encoded)).isEqualTo(decoded.getBytes(UTF_8));
+  }
+
+  private static void testDecodesByBytes(BaseEncoding encoding, String encoded, byte[] decoded) {
+    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.decode(encoded)).isEqualTo(decoded);
   }
 
   private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
