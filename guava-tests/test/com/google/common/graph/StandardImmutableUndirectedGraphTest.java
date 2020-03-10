@@ -41,18 +41,8 @@ public final class StandardImmutableUndirectedGraphTest
   }
 
   @Override
-  boolean allowsSelfLoops() {
-    return allowsSelfLoops;
-  }
-
-  @Override
-  ElementOrder<Integer> incidentEdgeOrder() {
-    return ElementOrder.stable();
-  }
-
-  @Override
   public Graph<Integer> createGraph() {
-    graphBuilder = GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops()).immutable();
+    graphBuilder = GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops).immutable();
     return graphBuilder.build();
   }
 
