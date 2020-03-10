@@ -27,7 +27,7 @@ import org.junit.runners.JUnit4;
 
 /** Tests for an undirected {@link StandardMutableNetwork} allowing self-loops. */
 @RunWith(JUnit4.class)
-public class StandardUndirectedNetworkTest extends StandardSimpleUndirectedNetworkTest {
+public class StandardMutableUndirectedNetworkTest extends AbstractStandardUndirectedNetworkTest {
 
   @Override
   public MutableNetwork<Integer, String> createGraph() {

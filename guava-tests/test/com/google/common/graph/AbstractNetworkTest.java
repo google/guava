@@ -122,10 +122,6 @@ public abstract class AbstractNetworkTest {
    */
   abstract void addEdge(Integer n1, Integer n2, String e);
 
-  final void addEdge(EndpointPair<Integer> endpoints, String e) {
-    addEdge(endpoints.nodeU(), endpoints.nodeV(), e);
-  }
-
   final boolean graphIsMutable() {
     return networkAsMutableNetwork != null;
   }
