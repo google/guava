@@ -34,7 +34,7 @@ import org.junit.runners.JUnit4;
 public class StandardSimpleDirectedNetworkTest extends AbstractDirectedNetworkTest {
 
   @Override
-  public MutableNetwork<Integer, String> createGraph() {
+  MutableNetwork<Integer, String> createGraph() {
     return NetworkBuilder.directed().allowsParallelEdges(false).allowsSelfLoops(false).build();
   }
 

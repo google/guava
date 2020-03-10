@@ -106,7 +106,7 @@ public abstract class AbstractNetworkTest {
       "Reusing an existing edge to connect different nodes succeeded";
 
   /** Creates and returns an instance of the graph to be tested. */
-  public abstract Network<Integer, String> createGraph();
+  abstract Network<Integer, String> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable

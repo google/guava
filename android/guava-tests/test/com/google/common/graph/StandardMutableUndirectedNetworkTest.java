@@ -16,16 +16,35 @@
 
 package com.google.common.graph;
 
+import java.util.Arrays;
+import java.util.Collection;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
-/** Tests for an undirected {@link StandardMutableNetwork} allowing self-loops. */
-@RunWith(JUnit4.class)
-public class StandardMutableUndirectedNetworkTest extends AbstractStandardUndirectedNetworkTest {
+/** Tests for an undirected {@link StandardMutableNetwork}. */
+@AndroidIncompatible
+@RunWith(Parameterized.class)
+public final class StandardMutableUndirectedNetworkTest
+    extends AbstractStandardUndirectedNetworkTest {
+
+  @Parameters(name = "allowsSelfLoops={0}")
+  public static Collection<Object[]> parameters() {
+    return Arrays.asList(
+        new Object[][] {
+          {false}, {true},
+        });
+  }
+
+  private final boolean allowsSelfLoops;
+
+  public StandardMutableUndirectedNetworkTest(boolean allowsSelfLoops) {
+    this.allowsSelfLoops = allowsSelfLoops;
+  }
 
   @Override
-  public MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.undirected().allowsSelfLoops(true).build();
+  MutableNetwork<Integer, String> createGraph() {
+    return NetworkBuilder.undirected().allowsSelfLoops(allowsSelfLoops).build();
   }
 
   @Override
