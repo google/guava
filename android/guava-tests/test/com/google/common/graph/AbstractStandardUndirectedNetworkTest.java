@@ -255,6 +255,131 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assertThat(network.outDegree(N2)).isEqualTo(1);
   }
 
+  @Test
+  public void edges_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.edges()).containsExactly(E11);
+  }
+
+  @Test
+  public void incidentEdges_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.incidentEdges(N1)).containsExactly(E11);
+  }
+
+  @Test
+  public void incidentNodes_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.incidentNodes(E11).nodeU()).isEqualTo(N1);
+    assertThat(network.incidentNodes(E11).nodeV()).isEqualTo(N1);
+  }
+
+  @Test
+  public void adjacentNodes_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N2, E12);
+    assertThat(network.adjacentNodes(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void adjacentEdges_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N2, E12);
+    assertThat(network.adjacentEdges(E11)).containsExactly(E12);
+  }
+
+  @Test
+  public void edgesConnecting_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+    addEdge(N1, N2, E12);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+  }
+
+  @Test
+  public void inEdges_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.inEdges(N1)).containsExactly(E11);
+    addEdge(N1, N2, E12);
+    assertThat(network.inEdges(N1)).containsExactly(E11, E12);
+  }
+
+  @Test
+  public void outEdges_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.outEdges(N1)).containsExactly(E11);
+    addEdge(N2, N1, E12);
+    assertThat(network.outEdges(N1)).containsExactly(E11, E12);
+  }
+
+  @Test
+  public void predecessors_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.predecessors(N1)).containsExactly(N1);
+    addEdge(N1, N2, E12);
+    assertThat(network.predecessors(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void successors_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.successors(N1)).containsExactly(N1);
+    addEdge(N2, N1, E12);
+    assertThat(network.successors(N1)).containsExactly(N1, N2);
+  }
+
+  @Test
+  public void degree_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.degree(N1)).isEqualTo(2);
+    addEdge(N1, N2, E12);
+    assertThat(network.degree(N1)).isEqualTo(3);
+  }
+
+  @Test
+  public void inDegree_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.inDegree(N1)).isEqualTo(2);
+    addEdge(N1, N2, E12);
+    assertThat(network.inDegree(N1)).isEqualTo(3);
+  }
+
+  @Test
+  public void outDegree_selfLoop() {
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(network.outDegree(N1)).isEqualTo(2);
+    addEdge(N2, N1, E12);
+    assertThat(network.outDegree(N1)).isEqualTo(3);
+  }
+
   // Element Mutation
 
   @Test
@@ -325,8 +450,9 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   }
 
   @Test
-  public void addEdge_selfLoop() {
+  public void addEdge_selfLoop_notAllowed() {
     assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isFalse();
 
     try {
       networkAsMutableNetwork.addEdge(N1, N1, E11);
@@ -356,5 +482,90 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     assertThat(network.edgesConnecting(N4, N1)).containsExactly(E41);
     assertThat(network.edgesConnecting(N2, N3)).containsExactly(E23);
     assertThat(network.edgesConnecting(N3, N2)).containsExactly(E23);
+  }
+
+  @Test
+  public void addEdge_selfLoop() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    assertThat(networkAsMutableNetwork.addEdge(N1, N1, E11)).isTrue();
+    assertThat(network.edges()).contains(E11);
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+  }
+
+  @Test
+  public void addEdge_existingSelfLoopEdgeBetweenSameNodes() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
+    assertThat(networkAsMutableNetwork.addEdge(N1, N1, E11)).isFalse();
+    assertThat(network.edges()).containsExactlyElementsIn(edges);
+  }
+
+  @Test
+  public void addEdge_existingEdgeBetweenDifferentNodes_selfLoops() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    try {
+      networkAsMutableNetwork.addEdge(N1, N2, E11);
+      fail("Reusing an existing self-loop edge to connect different nodes succeeded");
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    }
+    try {
+      networkAsMutableNetwork.addEdge(N2, N2, E11);
+      fail("Reusing an existing self-loop edge to make a different self-loop edge succeeded");
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    }
+    addEdge(N1, N2, E12);
+    try {
+      networkAsMutableNetwork.addEdge(N1, N1, E12);
+      fail("Reusing an existing edge to add a self-loop edge between different nodes succeeded");
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_REUSE_EDGE);
+    }
+  }
+
+  @Test
+  public void addEdge_parallelSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    try {
+      networkAsMutableNetwork.addEdge(N1, N1, EDGE_NOT_IN_GRAPH);
+      fail("Adding a parallel self-loop edge succeeded");
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
+    }
+  }
+
+  @Test
+  public void removeNode_existingNodeWithSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addNode(N1);
+    addEdge(N1, N1, E11);
+    assertThat(networkAsMutableNetwork.removeNode(N1)).isTrue();
+    assertThat(network.nodes()).isEmpty();
+    assertThat(network.edges()).doesNotContain(E11);
+  }
+
+  @Test
+  public void removeEdge_existingSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    assertThat(networkAsMutableNetwork.removeEdge(E11)).isTrue();
+    assertThat(network.edges()).doesNotContain(E11);
+    assertThat(network.edgesConnecting(N1, N1)).isEmpty();
   }
 }
