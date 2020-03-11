@@ -332,7 +332,7 @@ public final class Maps {
       // can make.  0.75 is the default load factor.
       return (int) ((float) expectedSize / 0.75F + 1.0F);
     }
-    return Integer.MAX_VALUE; // any large value
+    return Ints.MAX_POWER_OF_TWO; // Maximum capacity used by JDK 8
   }
 
   /**
