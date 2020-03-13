@@ -35,6 +35,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.Maps.ValueDifferenceImpl;
 import com.google.common.collect.SetsTest.Derived;
+import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -188,11 +189,17 @@ public class MapsTest extends TestCase {
           Integer.MAX_VALUE - 1,
           Integer.MAX_VALUE
         };
-    for (int expectedSize : largeExpectedSizes) {
-      int capacity = Maps.capacity(expectedSize);
-      assertTrue(
-          "capacity (" + capacity + ") must be >= expectedSize (" + expectedSize + ")",
-          capacity >= expectedSize);
+    for (int expectedSize: largeExpectedSizes) {
+        int capacity = Maps.capacity(expectedSize);
+        if (expectedSize < Ints.MAX_POWER_OF_TWO) {
+            assertTrue(
+                "capacity (" + capacity + ") must be >= expectedSize (" + expectedSize + ")",
+                capacity >= expectedSize);
+        } else {
+            assertTrue(
+                "capacity (" + capacity + ") must be <= Ints.MAX_POWER_OF_TWO (" + expectedSize + ")",
+                capacity <= Ints.MAX_POWER_OF_TWO);
+        }
     }
   }
 
