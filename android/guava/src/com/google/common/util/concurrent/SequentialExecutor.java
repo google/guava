@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunning
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.QUEUED;
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.QUEUING;
 import static com.google.common.util.concurrent.SequentialExecutor.WorkerRunningState.RUNNING;
+import static java.lang.System.identityHashCode;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
@@ -238,5 +239,10 @@ final class SequentialExecutor implements Executor {
         }
       }
     }
+  }
+
+  @Override
+  public String toString() {
+    return "SequentialExecutor@" + identityHashCode(this) + "{" + executor + "}";
   }
 }

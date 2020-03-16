@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.MoreExecutors.newSequentialExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.collect.ImmutableList;
@@ -347,5 +348,22 @@ public class SequentialExecutorTest extends TestCase {
     } catch (ExecutionException expected) {
       assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
     }
+  }
+
+  public void testToString() {
+    Executor delegate =
+        new Executor() {
+          @Override
+          public void execute(Runnable task) {}
+
+          @Override
+          public String toString() {
+            return "theDelegate";
+          }
+        };
+    Executor sequential1 = newSequentialExecutor(delegate);
+    Executor sequential2 = newSequentialExecutor(delegate);
+    assertThat(sequential1.toString()).contains("theDelegate");
+    assertThat(sequential1.toString()).isNotEqualTo(sequential2.toString());
   }
 }
