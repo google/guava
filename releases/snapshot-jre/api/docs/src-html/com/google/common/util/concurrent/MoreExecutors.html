@@ -1098,19 +1098,24 @@
 <span class="sourceLineNo">1090</span>                  thrownFromDelegate = false;<a name="line.1090"></a>
 <span class="sourceLineNo">1091</span>                  command.run();<a name="line.1091"></a>
 <span class="sourceLineNo">1092</span>                }<a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>              });<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span>        } catch (RejectedExecutionException e) {<a name="line.1094"></a>
-<span class="sourceLineNo">1095</span>          if (thrownFromDelegate) {<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>            // wrap exception?<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>            future.setException(e);<a name="line.1097"></a>
-<span class="sourceLineNo">1098</span>          }<a name="line.1098"></a>
-<span class="sourceLineNo">1099</span>          // otherwise it must have been thrown from a transitive call and the delegate runnable<a name="line.1099"></a>
-<span class="sourceLineNo">1100</span>          // should have handled it.<a name="line.1100"></a>
-<span class="sourceLineNo">1101</span>        }<a name="line.1101"></a>
-<span class="sourceLineNo">1102</span>      }<a name="line.1102"></a>
-<span class="sourceLineNo">1103</span>    };<a name="line.1103"></a>
-<span class="sourceLineNo">1104</span>  }<a name="line.1104"></a>
-<span class="sourceLineNo">1105</span>}<a name="line.1105"></a>
+<span class="sourceLineNo">1093</span><a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>                @Override<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>                public String toString() {<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>                  return command.toString();<a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>                }<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span>              });<a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>        } catch (RejectedExecutionException e) {<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>          if (thrownFromDelegate) {<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span>            // wrap exception?<a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>            future.setException(e);<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>          }<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>          // otherwise it must have been thrown from a transitive call and the delegate runnable<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>          // should have handled it.<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span>        }<a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>      }<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>    };<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>  }<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>}<a name="line.1110"></a>
 
 
 
