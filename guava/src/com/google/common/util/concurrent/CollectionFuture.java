@@ -41,7 +41,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
       boolean allMustSucceed) {
     super(futures, allMustSucceed, true);
 
-    this.values =
+    List<Present<V>> values =
         futures.isEmpty()
             ? ImmutableList.<Present<V>>of()
             : Lists.<Present<V>>newArrayListWithCapacity(futures.size());
@@ -50,6 +50,8 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
     for (int i = 0; i < futures.size(); ++i) {
       values.add(null);
     }
+
+    this.values = values;
   }
 
   @Override
