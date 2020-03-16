@@ -985,6 +985,11 @@ public final class MoreExecutors {
                   thrownFromDelegate = false;
                   command.run();
                 }
+
+                @Override
+                public String toString() {
+                  return command.toString();
+                }
               });
         } catch (RejectedExecutionException e) {
           if (thrownFromDelegate) {
