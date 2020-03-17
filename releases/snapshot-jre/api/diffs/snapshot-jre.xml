@@ -66445,6 +66445,18 @@
       <![CDATA[@since 15.0 (previously returned ScheduledFuture)]]>
       </doc>
     </method>
+    <method name="schedule" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;?&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="command" type="java.lang.Runnable"/>
+      <param name="delay" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="schedule" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;V&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -66454,6 +66466,18 @@
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
       <![CDATA[@since 15.0 (previously returned ScheduledFuture)]]>
+      </doc>
+    </method>
+    <method name="schedule" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;V&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="callable" type="java.util.concurrent.Callable&lt;V&gt;"/>
+      <param name="delay" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="scheduleAtFixedRate" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;?&gt;"
@@ -66468,6 +66492,19 @@
       <![CDATA[@since 15.0 (previously returned ScheduledFuture)]]>
       </doc>
     </method>
+    <method name="scheduleAtFixedRate" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;?&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="command" type="java.lang.Runnable"/>
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="period" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #scheduleAtFixedRate(Runnable, long, long, TimeUnit)}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="scheduleWithFixedDelay" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;?&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -66478,6 +66515,19 @@
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
       <![CDATA[@since 15.0 (previously returned ScheduledFuture)]]>
+      </doc>
+    </method>
+    <method name="scheduleWithFixedDelay" return="com.google.common.util.concurrent.ListenableScheduledFuture&lt;?&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="command" type="java.lang.Runnable"/>
+      <param name="initialDelay" type="java.time.Duration"/>
+      <param name="delay" type="java.time.Duration"/>
+      <doc>
+      <![CDATA[Duration-based overload of {@link #scheduleWithFixedDelay(Runnable, long, long, TimeUnit)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <doc>
