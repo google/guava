@@ -664,9 +664,11 @@ public final class Lists {
   private static class Partition<T> extends AbstractList<List<T>> {
     final List<T> list;
     final int size;
+    final int listSize;
 
     Partition(List<T> list, int size) {
       this.list = list;
+      this.listSize = IntMath.divide(list.size(), size, RoundingMode.CEILING);
       this.size = size;
     }
 
@@ -680,7 +682,7 @@ public final class Lists {
 
     @Override
     public int size() {
-      return IntMath.divide(list.size(), size, RoundingMode.CEILING);
+      return this.listSize;
     }
 
     @Override
