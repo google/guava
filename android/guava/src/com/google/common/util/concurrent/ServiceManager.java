@@ -268,6 +268,7 @@ public final class ServiceManager {
    * <p>RuntimeExceptions thrown by a listener will be caught and logged.
    *
    * @param listener the listener to run when the manager changes state
+   * @since 15.0
    */
   public void addListener(Listener listener) {
     state.addListener(listener, directExecutor());
