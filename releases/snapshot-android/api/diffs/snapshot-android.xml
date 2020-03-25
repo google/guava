@@ -65261,7 +65261,8 @@
 
  <p>RuntimeExceptions thrown by a listener will be caught and logged.
 
- @param listener the listener to run when the manager changes state]]>
+ @param listener the listener to run when the manager changes state
+ @since 15.0]]>
       </doc>
     </method>
     <method name="startAsync" return="com.google.common.util.concurrent.ServiceManager"
