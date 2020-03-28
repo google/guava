@@ -243,8 +243,9 @@ public final class ServiceManager {
    * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
    * logged.
    *
-   * <p>For fast, lightweight listeners that would be safe to execute in any thread, consider
-   * calling {@link #addListener(Listener)}.
+   * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
+   * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation.
    *
    * @param listener the listener to run when the manager changes state
    * @param executor the executor in which the listeners callback methods will be run.
@@ -269,7 +270,14 @@ public final class ServiceManager {
    *
    * @param listener the listener to run when the manager changes state
    * @since 15.0
+   * @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
+   *     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
+   *     consider whether another executor would be more appropriate, as discussed in the docs for
+   *     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
+   *     for deletion in October 2020.
    */
+  @Beta // currently redundant, but ensures we keep this @Beta when we gradate the class!
+  @Deprecated
   public void addListener(Listener listener) {
     state.addListener(listener, directExecutor());
   }
