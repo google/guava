@@ -68334,8 +68334,9 @@
  during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
  logged.
 
- <p>For fast, lightweight listeners that would be safe to execute in any thread, consider
- calling {@link #addListener(Listener)}.
+ <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
+ the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+ documentation.
 
  @param listener the listener to run when the manager changes state
  @param executor the executor in which the listeners callback methods will be run.]]>
@@ -68344,7 +68345,11 @@
     <method name="addListener"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
+     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
+     consider whether another executor would be more appropriate, as discussed in the docs for
+     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
+     for deletion in October 2020.">
       <param name="listener" type="com.google.common.util.concurrent.ServiceManager.Listener"/>
       <doc>
       <![CDATA[Registers a {@link Listener} to be run when this {@link ServiceManager} changes state. The
@@ -68361,7 +68366,12 @@
  <p>RuntimeExceptions thrown by a listener will be caught and logged.
 
  @param listener the listener to run when the manager changes state
- @since 15.0]]>
+ @since 15.0
+ @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
+     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
+     consider whether another executor would be more appropriate, as discussed in the docs for
+     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
+     for deletion in October 2020.]]>
       </doc>
     </method>
     <method name="startAsync" return="com.google.common.util.concurrent.ServiceManager"

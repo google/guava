@@ -768,7 +768,13 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/util/concurrent/ServiceManager.html#addListener-com.google.common.util.concurrent.ServiceManager.Listener-">addListener(ServiceManager.Listener)</a></span> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent">ServiceManager</a></dt>
 <dd>
-<div class="block">Registers a <a href="com/google/common/util/concurrent/ServiceManager.Listener.html" title="class in com.google.common.util.concurrent"><code>ServiceManager.Listener</code></a> to be run when this <a href="com/google/common/util/concurrent/ServiceManager.html" title="class in com.google.common.util.concurrent"><code>ServiceManager</code></a> changes state.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Use <a href="com/google/common/util/concurrent/ServiceManager.html#addListener-com.google.common.util.concurrent.ServiceManager.Listener-java.util.concurrent.Executor-">the overload that accepts an
+     executor</a>. For equivalent behavior, pass <a href="com/google/common/util/concurrent/MoreExecutors.html#directExecutor--"><code>MoreExecutors.directExecutor()</code></a>. However,
+     consider whether another executor would be more appropriate, as discussed in the docs for
+     <a href="com/google/common/util/concurrent/ListenableFuture.html#addListener-java.lang.Runnable-java.util.concurrent.Executor-"><code>ListenableFuture.addListener</code></a>. This method is scheduled
+     for deletion in October 2020.</span></div>
+</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/google/common/graph/ImmutableGraph.Builder.html#addNode-N-">addNode(N)</a></span> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.Builder.html" title="class in com.google.common.graph">ImmutableGraph.Builder</a></dt>
 <dd>
