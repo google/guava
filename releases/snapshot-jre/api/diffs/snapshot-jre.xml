@@ -65120,6 +65120,17 @@
  {@code isDone()} method always returns {@code true}.]]>
       </doc>
     </method>
+    <method name="immediateVoidFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;java.lang.Void&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a successful {@code ListenableFuture<Void>}. This method is equivalent to {@code
+ immediateFuture(null)} except that it is restricted to produce futures of type {@code Void}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
