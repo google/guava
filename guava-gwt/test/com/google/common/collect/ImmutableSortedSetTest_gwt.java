@@ -68,6 +68,21 @@ public void testBuilderWithNonDuplicateElements() throws Exception {
   testCase.testBuilderWithNonDuplicateElements();
 }
 
+public void testCeiling_elementAbsent() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testCeiling_elementAbsent();
+}
+
+public void testCeiling_elementPresent() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testCeiling_elementPresent();
+}
+
+public void testCeiling_emptySet() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testCeiling_emptySet();
+}
+
 public void testComplexBuilder() throws Exception {
   com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
   testCase.testComplexBuilder();
@@ -451,6 +466,21 @@ public void testExplicit_subSet() throws Exception {
 public void testExplicit_tailSet() throws Exception {
   com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
   testCase.testExplicit_tailSet();
+}
+
+public void testFloor_elementAbsent() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testFloor_elementAbsent();
+}
+
+public void testFloor_elementPresent() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testFloor_elementPresent();
+}
+
+public void testFloor_emptySet() throws Exception {
+  com.google.common.collect.ImmutableSortedSetTest testCase = new com.google.common.collect.ImmutableSortedSetTest();
+  testCase.testFloor_emptySet();
 }
 
 public void testHeadSetExclusive() throws Exception {
