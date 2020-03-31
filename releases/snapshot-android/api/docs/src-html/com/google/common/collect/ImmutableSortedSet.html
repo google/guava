@@ -551,202 +551,200 @@
 <span class="sourceLineNo">543</span>  }<a name="line.543"></a>
 <span class="sourceLineNo">544</span><a name="line.544"></a>
 <span class="sourceLineNo">545</span>  /** @since 12.0 */<a name="line.545"></a>
-<span class="sourceLineNo">546</span>  @GwtIncompatible // NavigableSet<a name="line.546"></a>
-<span class="sourceLineNo">547</span>  @Override<a name="line.547"></a>
-<span class="sourceLineNo">548</span>  public ImmutableSortedSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.548"></a>
-<span class="sourceLineNo">549</span>    return headSetImpl(checkNotNull(toElement), inclusive);<a name="line.549"></a>
-<span class="sourceLineNo">550</span>  }<a name="line.550"></a>
-<span class="sourceLineNo">551</span><a name="line.551"></a>
-<span class="sourceLineNo">552</span>  /**<a name="line.552"></a>
-<span class="sourceLineNo">553</span>   * {@inheritDoc}<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   *<a name="line.554"></a>
-<span class="sourceLineNo">555</span>   * &lt;p&gt;This method returns a serializable {@code ImmutableSortedSet}.<a name="line.555"></a>
-<span class="sourceLineNo">556</span>   *<a name="line.556"></a>
-<span class="sourceLineNo">557</span>   * &lt;p&gt;The {@link SortedSet#subSet} documentation states that a subset of a subset throws an {@link<a name="line.557"></a>
-<span class="sourceLineNo">558</span>   * IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code<a name="line.558"></a>
-<span class="sourceLineNo">559</span>   * fromElement}. However, this method doesn't throw an exception in that situation, but instead<a name="line.559"></a>
-<span class="sourceLineNo">560</span>   * keeps the original {@code fromElement}. Similarly, this method keeps the original {@code<a name="line.560"></a>
-<span class="sourceLineNo">561</span>   * toElement}, instead of throwing an exception, if passed a {@code toElement} greater than an<a name="line.561"></a>
-<span class="sourceLineNo">562</span>   * earlier {@code toElement}.<a name="line.562"></a>
-<span class="sourceLineNo">563</span>   */<a name="line.563"></a>
-<span class="sourceLineNo">564</span>  @Override<a name="line.564"></a>
-<span class="sourceLineNo">565</span>  public ImmutableSortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.565"></a>
-<span class="sourceLineNo">566</span>    return subSet(fromElement, true, toElement, false);<a name="line.566"></a>
-<span class="sourceLineNo">567</span>  }<a name="line.567"></a>
-<span class="sourceLineNo">568</span><a name="line.568"></a>
-<span class="sourceLineNo">569</span>  /** @since 12.0 */<a name="line.569"></a>
-<span class="sourceLineNo">570</span>  @GwtIncompatible // NavigableSet<a name="line.570"></a>
-<span class="sourceLineNo">571</span>  @Override<a name="line.571"></a>
-<span class="sourceLineNo">572</span>  public ImmutableSortedSet&lt;E&gt; subSet(<a name="line.572"></a>
-<span class="sourceLineNo">573</span>      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {<a name="line.573"></a>
-<span class="sourceLineNo">574</span>    checkNotNull(fromElement);<a name="line.574"></a>
-<span class="sourceLineNo">575</span>    checkNotNull(toElement);<a name="line.575"></a>
-<span class="sourceLineNo">576</span>    checkArgument(comparator.compare(fromElement, toElement) &lt;= 0);<a name="line.576"></a>
-<span class="sourceLineNo">577</span>    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);<a name="line.577"></a>
-<span class="sourceLineNo">578</span>  }<a name="line.578"></a>
-<span class="sourceLineNo">579</span><a name="line.579"></a>
-<span class="sourceLineNo">580</span>  /**<a name="line.580"></a>
-<span class="sourceLineNo">581</span>   * {@inheritDoc}<a name="line.581"></a>
-<span class="sourceLineNo">582</span>   *<a name="line.582"></a>
-<span class="sourceLineNo">583</span>   * &lt;p&gt;This method returns a serializable {@code ImmutableSortedSet}.<a name="line.583"></a>
-<span class="sourceLineNo">584</span>   *<a name="line.584"></a>
-<span class="sourceLineNo">585</span>   * &lt;p&gt;The {@link SortedSet#tailSet} documentation states that a subset of a subset throws an<a name="line.585"></a>
-<span class="sourceLineNo">586</span>   * {@link IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * fromElement}. However, this method doesn't throw an exception in that situation, but instead<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   * keeps the original {@code fromElement}.<a name="line.588"></a>
-<span class="sourceLineNo">589</span>   */<a name="line.589"></a>
-<span class="sourceLineNo">590</span>  @Override<a name="line.590"></a>
-<span class="sourceLineNo">591</span>  public ImmutableSortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.591"></a>
-<span class="sourceLineNo">592</span>    return tailSet(fromElement, true);<a name="line.592"></a>
-<span class="sourceLineNo">593</span>  }<a name="line.593"></a>
-<span class="sourceLineNo">594</span><a name="line.594"></a>
-<span class="sourceLineNo">595</span>  /** @since 12.0 */<a name="line.595"></a>
-<span class="sourceLineNo">596</span>  @GwtIncompatible // NavigableSet<a name="line.596"></a>
-<span class="sourceLineNo">597</span>  @Override<a name="line.597"></a>
-<span class="sourceLineNo">598</span>  public ImmutableSortedSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.598"></a>
-<span class="sourceLineNo">599</span>    return tailSetImpl(checkNotNull(fromElement), inclusive);<a name="line.599"></a>
-<span class="sourceLineNo">600</span>  }<a name="line.600"></a>
-<span class="sourceLineNo">601</span><a name="line.601"></a>
-<span class="sourceLineNo">602</span>  /*<a name="line.602"></a>
-<span class="sourceLineNo">603</span>   * These methods perform most headSet, subSet, and tailSet logic, besides<a name="line.603"></a>
-<span class="sourceLineNo">604</span>   * parameter validation.<a name="line.604"></a>
-<span class="sourceLineNo">605</span>   */<a name="line.605"></a>
-<span class="sourceLineNo">606</span>  abstract ImmutableSortedSet&lt;E&gt; headSetImpl(E toElement, boolean inclusive);<a name="line.606"></a>
-<span class="sourceLineNo">607</span><a name="line.607"></a>
-<span class="sourceLineNo">608</span>  abstract ImmutableSortedSet&lt;E&gt; subSetImpl(<a name="line.608"></a>
-<span class="sourceLineNo">609</span>      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);<a name="line.609"></a>
+<span class="sourceLineNo">546</span>  @Override<a name="line.546"></a>
+<span class="sourceLineNo">547</span>  public ImmutableSortedSet&lt;E&gt; headSet(E toElement, boolean inclusive) {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    return headSetImpl(checkNotNull(toElement), inclusive);<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>  /**<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   * {@inheritDoc}<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   *<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * &lt;p&gt;This method returns a serializable {@code ImmutableSortedSet}.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   *<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * &lt;p&gt;The {@link SortedSet#subSet} documentation states that a subset of a subset throws an {@link<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   * IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code<a name="line.557"></a>
+<span class="sourceLineNo">558</span>   * fromElement}. However, this method doesn't throw an exception in that situation, but instead<a name="line.558"></a>
+<span class="sourceLineNo">559</span>   * keeps the original {@code fromElement}. Similarly, this method keeps the original {@code<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * toElement}, instead of throwing an exception, if passed a {@code toElement} greater than an<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * earlier {@code toElement}.<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   */<a name="line.562"></a>
+<span class="sourceLineNo">563</span>  @Override<a name="line.563"></a>
+<span class="sourceLineNo">564</span>  public ImmutableSortedSet&lt;E&gt; subSet(E fromElement, E toElement) {<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    return subSet(fromElement, true, toElement, false);<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  /** @since 12.0 */<a name="line.568"></a>
+<span class="sourceLineNo">569</span>  @GwtIncompatible // NavigableSet<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  @Override<a name="line.570"></a>
+<span class="sourceLineNo">571</span>  public ImmutableSortedSet&lt;E&gt; subSet(<a name="line.571"></a>
+<span class="sourceLineNo">572</span>      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {<a name="line.572"></a>
+<span class="sourceLineNo">573</span>    checkNotNull(fromElement);<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    checkNotNull(toElement);<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    checkArgument(comparator.compare(fromElement, toElement) &lt;= 0);<a name="line.575"></a>
+<span class="sourceLineNo">576</span>    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);<a name="line.576"></a>
+<span class="sourceLineNo">577</span>  }<a name="line.577"></a>
+<span class="sourceLineNo">578</span><a name="line.578"></a>
+<span class="sourceLineNo">579</span>  /**<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * {@inheritDoc}<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   *<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   * &lt;p&gt;This method returns a serializable {@code ImmutableSortedSet}.<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   *<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   * &lt;p&gt;The {@link SortedSet#tailSet} documentation states that a subset of a subset throws an<a name="line.584"></a>
+<span class="sourceLineNo">585</span>   * {@link IllegalArgumentException} if passed a {@code fromElement} smaller than an earlier {@code<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * fromElement}. However, this method doesn't throw an exception in that situation, but instead<a name="line.586"></a>
+<span class="sourceLineNo">587</span>   * keeps the original {@code fromElement}.<a name="line.587"></a>
+<span class="sourceLineNo">588</span>   */<a name="line.588"></a>
+<span class="sourceLineNo">589</span>  @Override<a name="line.589"></a>
+<span class="sourceLineNo">590</span>  public ImmutableSortedSet&lt;E&gt; tailSet(E fromElement) {<a name="line.590"></a>
+<span class="sourceLineNo">591</span>    return tailSet(fromElement, true);<a name="line.591"></a>
+<span class="sourceLineNo">592</span>  }<a name="line.592"></a>
+<span class="sourceLineNo">593</span><a name="line.593"></a>
+<span class="sourceLineNo">594</span>  /** @since 12.0 */<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  @Override<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  public ImmutableSortedSet&lt;E&gt; tailSet(E fromElement, boolean inclusive) {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>    return tailSetImpl(checkNotNull(fromElement), inclusive);<a name="line.597"></a>
+<span class="sourceLineNo">598</span>  }<a name="line.598"></a>
+<span class="sourceLineNo">599</span><a name="line.599"></a>
+<span class="sourceLineNo">600</span>  /*<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * These methods perform most headSet, subSet, and tailSet logic, besides<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   * parameter validation.<a name="line.602"></a>
+<span class="sourceLineNo">603</span>   */<a name="line.603"></a>
+<span class="sourceLineNo">604</span>  abstract ImmutableSortedSet&lt;E&gt; headSetImpl(E toElement, boolean inclusive);<a name="line.604"></a>
+<span class="sourceLineNo">605</span><a name="line.605"></a>
+<span class="sourceLineNo">606</span>  abstract ImmutableSortedSet&lt;E&gt; subSetImpl(<a name="line.606"></a>
+<span class="sourceLineNo">607</span>      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);<a name="line.607"></a>
+<span class="sourceLineNo">608</span><a name="line.608"></a>
+<span class="sourceLineNo">609</span>  abstract ImmutableSortedSet&lt;E&gt; tailSetImpl(E fromElement, boolean inclusive);<a name="line.609"></a>
 <span class="sourceLineNo">610</span><a name="line.610"></a>
-<span class="sourceLineNo">611</span>  abstract ImmutableSortedSet&lt;E&gt; tailSetImpl(E fromElement, boolean inclusive);<a name="line.611"></a>
-<span class="sourceLineNo">612</span><a name="line.612"></a>
-<span class="sourceLineNo">613</span>  /** @since 12.0 */<a name="line.613"></a>
-<span class="sourceLineNo">614</span>  @GwtIncompatible // NavigableSet<a name="line.614"></a>
-<span class="sourceLineNo">615</span>  @Override<a name="line.615"></a>
-<span class="sourceLineNo">616</span>  public E lower(E e) {<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    return Iterators.getNext(headSet(e, false).descendingIterator(), null);<a name="line.617"></a>
-<span class="sourceLineNo">618</span>  }<a name="line.618"></a>
-<span class="sourceLineNo">619</span><a name="line.619"></a>
-<span class="sourceLineNo">620</span>  /** @since 12.0 */<a name="line.620"></a>
-<span class="sourceLineNo">621</span>  @Override<a name="line.621"></a>
-<span class="sourceLineNo">622</span>  public E floor(E e) {<a name="line.622"></a>
-<span class="sourceLineNo">623</span>    return Iterators.getNext(headSet(e, true).descendingIterator(), null);<a name="line.623"></a>
-<span class="sourceLineNo">624</span>  }<a name="line.624"></a>
-<span class="sourceLineNo">625</span><a name="line.625"></a>
-<span class="sourceLineNo">626</span>  /** @since 12.0 */<a name="line.626"></a>
-<span class="sourceLineNo">627</span>  @Override<a name="line.627"></a>
-<span class="sourceLineNo">628</span>  public E ceiling(E e) {<a name="line.628"></a>
-<span class="sourceLineNo">629</span>    return Iterables.getFirst(tailSet(e, true), null);<a name="line.629"></a>
-<span class="sourceLineNo">630</span>  }<a name="line.630"></a>
-<span class="sourceLineNo">631</span><a name="line.631"></a>
-<span class="sourceLineNo">632</span>  /** @since 12.0 */<a name="line.632"></a>
-<span class="sourceLineNo">633</span>  @GwtIncompatible // NavigableSet<a name="line.633"></a>
-<span class="sourceLineNo">634</span>  @Override<a name="line.634"></a>
-<span class="sourceLineNo">635</span>  public E higher(E e) {<a name="line.635"></a>
-<span class="sourceLineNo">636</span>    return Iterables.getFirst(tailSet(e, false), null);<a name="line.636"></a>
-<span class="sourceLineNo">637</span>  }<a name="line.637"></a>
-<span class="sourceLineNo">638</span><a name="line.638"></a>
-<span class="sourceLineNo">639</span>  @Override<a name="line.639"></a>
-<span class="sourceLineNo">640</span>  public E first() {<a name="line.640"></a>
-<span class="sourceLineNo">641</span>    return iterator().next();<a name="line.641"></a>
-<span class="sourceLineNo">642</span>  }<a name="line.642"></a>
-<span class="sourceLineNo">643</span><a name="line.643"></a>
-<span class="sourceLineNo">644</span>  @Override<a name="line.644"></a>
-<span class="sourceLineNo">645</span>  public E last() {<a name="line.645"></a>
-<span class="sourceLineNo">646</span>    return descendingIterator().next();<a name="line.646"></a>
-<span class="sourceLineNo">647</span>  }<a name="line.647"></a>
-<span class="sourceLineNo">648</span><a name="line.648"></a>
-<span class="sourceLineNo">649</span>  /**<a name="line.649"></a>
-<span class="sourceLineNo">650</span>   * Guaranteed to throw an exception and leave the set unmodified.<a name="line.650"></a>
-<span class="sourceLineNo">651</span>   *<a name="line.651"></a>
-<span class="sourceLineNo">652</span>   * @since 12.0<a name="line.652"></a>
-<span class="sourceLineNo">653</span>   * @throws UnsupportedOperationException always<a name="line.653"></a>
-<span class="sourceLineNo">654</span>   * @deprecated Unsupported operation.<a name="line.654"></a>
-<span class="sourceLineNo">655</span>   */<a name="line.655"></a>
-<span class="sourceLineNo">656</span>  @CanIgnoreReturnValue<a name="line.656"></a>
-<span class="sourceLineNo">657</span>  @Deprecated<a name="line.657"></a>
-<span class="sourceLineNo">658</span>  @GwtIncompatible // NavigableSet<a name="line.658"></a>
-<span class="sourceLineNo">659</span>  @Override<a name="line.659"></a>
-<span class="sourceLineNo">660</span>  public final E pollFirst() {<a name="line.660"></a>
-<span class="sourceLineNo">661</span>    throw new UnsupportedOperationException();<a name="line.661"></a>
-<span class="sourceLineNo">662</span>  }<a name="line.662"></a>
-<span class="sourceLineNo">663</span><a name="line.663"></a>
-<span class="sourceLineNo">664</span>  /**<a name="line.664"></a>
-<span class="sourceLineNo">665</span>   * Guaranteed to throw an exception and leave the set unmodified.<a name="line.665"></a>
-<span class="sourceLineNo">666</span>   *<a name="line.666"></a>
-<span class="sourceLineNo">667</span>   * @since 12.0<a name="line.667"></a>
-<span class="sourceLineNo">668</span>   * @throws UnsupportedOperationException always<a name="line.668"></a>
-<span class="sourceLineNo">669</span>   * @deprecated Unsupported operation.<a name="line.669"></a>
-<span class="sourceLineNo">670</span>   */<a name="line.670"></a>
-<span class="sourceLineNo">671</span>  @CanIgnoreReturnValue<a name="line.671"></a>
-<span class="sourceLineNo">672</span>  @Deprecated<a name="line.672"></a>
-<span class="sourceLineNo">673</span>  @GwtIncompatible // NavigableSet<a name="line.673"></a>
-<span class="sourceLineNo">674</span>  @Override<a name="line.674"></a>
-<span class="sourceLineNo">675</span>  public final E pollLast() {<a name="line.675"></a>
-<span class="sourceLineNo">676</span>    throw new UnsupportedOperationException();<a name="line.676"></a>
-<span class="sourceLineNo">677</span>  }<a name="line.677"></a>
-<span class="sourceLineNo">678</span><a name="line.678"></a>
-<span class="sourceLineNo">679</span>  @GwtIncompatible // NavigableSet<a name="line.679"></a>
-<span class="sourceLineNo">680</span>  @LazyInit<a name="line.680"></a>
-<span class="sourceLineNo">681</span>  transient ImmutableSortedSet&lt;E&gt; descendingSet;<a name="line.681"></a>
-<span class="sourceLineNo">682</span><a name="line.682"></a>
-<span class="sourceLineNo">683</span>  /** @since 12.0 */<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  @GwtIncompatible // NavigableSet<a name="line.684"></a>
-<span class="sourceLineNo">685</span>  @Override<a name="line.685"></a>
-<span class="sourceLineNo">686</span>  public ImmutableSortedSet&lt;E&gt; descendingSet() {<a name="line.686"></a>
-<span class="sourceLineNo">687</span>    // racy single-check idiom<a name="line.687"></a>
-<span class="sourceLineNo">688</span>    ImmutableSortedSet&lt;E&gt; result = descendingSet;<a name="line.688"></a>
-<span class="sourceLineNo">689</span>    if (result == null) {<a name="line.689"></a>
-<span class="sourceLineNo">690</span>      result = descendingSet = createDescendingSet();<a name="line.690"></a>
-<span class="sourceLineNo">691</span>      result.descendingSet = this;<a name="line.691"></a>
-<span class="sourceLineNo">692</span>    }<a name="line.692"></a>
-<span class="sourceLineNo">693</span>    return result;<a name="line.693"></a>
-<span class="sourceLineNo">694</span>  }<a name="line.694"></a>
-<span class="sourceLineNo">695</span><a name="line.695"></a>
-<span class="sourceLineNo">696</span>  // Most classes should implement this as new DescendingImmutableSortedSet&lt;E&gt;(this),<a name="line.696"></a>
-<span class="sourceLineNo">697</span>  // but we push down that implementation because ProGuard can't eliminate it even when it's always<a name="line.697"></a>
-<span class="sourceLineNo">698</span>  // overridden.<a name="line.698"></a>
-<span class="sourceLineNo">699</span>  @GwtIncompatible // NavigableSet<a name="line.699"></a>
-<span class="sourceLineNo">700</span>  abstract ImmutableSortedSet&lt;E&gt; createDescendingSet();<a name="line.700"></a>
-<span class="sourceLineNo">701</span><a name="line.701"></a>
-<span class="sourceLineNo">702</span>  /** @since 12.0 */<a name="line.702"></a>
-<span class="sourceLineNo">703</span>  @GwtIncompatible // NavigableSet<a name="line.703"></a>
-<span class="sourceLineNo">704</span>  @Override<a name="line.704"></a>
-<span class="sourceLineNo">705</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.705"></a>
-<span class="sourceLineNo">706</span><a name="line.706"></a>
-<span class="sourceLineNo">707</span>  /** Returns the position of an element within the set, or -1 if not present. */<a name="line.707"></a>
-<span class="sourceLineNo">708</span>  abstract int indexOf(@NullableDecl Object target);<a name="line.708"></a>
-<span class="sourceLineNo">709</span><a name="line.709"></a>
-<span class="sourceLineNo">710</span>  /*<a name="line.710"></a>
-<span class="sourceLineNo">711</span>   * This class is used to serialize all ImmutableSortedSet instances,<a name="line.711"></a>
-<span class="sourceLineNo">712</span>   * regardless of implementation type. It captures their "logical contents"<a name="line.712"></a>
-<span class="sourceLineNo">713</span>   * only. This is necessary to ensure that the existence of a particular<a name="line.713"></a>
-<span class="sourceLineNo">714</span>   * implementation type is an implementation detail.<a name="line.714"></a>
-<span class="sourceLineNo">715</span>   */<a name="line.715"></a>
-<span class="sourceLineNo">716</span>  private static class SerializedForm&lt;E&gt; implements Serializable {<a name="line.716"></a>
-<span class="sourceLineNo">717</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.717"></a>
-<span class="sourceLineNo">718</span>    final Object[] elements;<a name="line.718"></a>
-<span class="sourceLineNo">719</span><a name="line.719"></a>
-<span class="sourceLineNo">720</span>    public SerializedForm(Comparator&lt;? super E&gt; comparator, Object[] elements) {<a name="line.720"></a>
-<span class="sourceLineNo">721</span>      this.comparator = comparator;<a name="line.721"></a>
-<span class="sourceLineNo">722</span>      this.elements = elements;<a name="line.722"></a>
-<span class="sourceLineNo">723</span>    }<a name="line.723"></a>
-<span class="sourceLineNo">724</span><a name="line.724"></a>
-<span class="sourceLineNo">725</span>    @SuppressWarnings("unchecked")<a name="line.725"></a>
-<span class="sourceLineNo">726</span>    Object readResolve() {<a name="line.726"></a>
-<span class="sourceLineNo">727</span>      return new Builder&lt;E&gt;(comparator).add((E[]) elements).build();<a name="line.727"></a>
-<span class="sourceLineNo">728</span>    }<a name="line.728"></a>
-<span class="sourceLineNo">729</span><a name="line.729"></a>
-<span class="sourceLineNo">730</span>    private static final long serialVersionUID = 0;<a name="line.730"></a>
-<span class="sourceLineNo">731</span>  }<a name="line.731"></a>
-<span class="sourceLineNo">732</span><a name="line.732"></a>
-<span class="sourceLineNo">733</span>  private void readObject(ObjectInputStream unused) throws InvalidObjectException {<a name="line.733"></a>
-<span class="sourceLineNo">734</span>    throw new InvalidObjectException("Use SerializedForm");<a name="line.734"></a>
-<span class="sourceLineNo">735</span>  }<a name="line.735"></a>
-<span class="sourceLineNo">736</span><a name="line.736"></a>
-<span class="sourceLineNo">737</span>  @Override<a name="line.737"></a>
-<span class="sourceLineNo">738</span>  Object writeReplace() {<a name="line.738"></a>
-<span class="sourceLineNo">739</span>    return new SerializedForm&lt;E&gt;(comparator, toArray());<a name="line.739"></a>
-<span class="sourceLineNo">740</span>  }<a name="line.740"></a>
-<span class="sourceLineNo">741</span>}<a name="line.741"></a>
+<span class="sourceLineNo">611</span>  /** @since 12.0 */<a name="line.611"></a>
+<span class="sourceLineNo">612</span>  @GwtIncompatible // NavigableSet<a name="line.612"></a>
+<span class="sourceLineNo">613</span>  @Override<a name="line.613"></a>
+<span class="sourceLineNo">614</span>  public E lower(E e) {<a name="line.614"></a>
+<span class="sourceLineNo">615</span>    return Iterators.getNext(headSet(e, false).descendingIterator(), null);<a name="line.615"></a>
+<span class="sourceLineNo">616</span>  }<a name="line.616"></a>
+<span class="sourceLineNo">617</span><a name="line.617"></a>
+<span class="sourceLineNo">618</span>  /** @since 12.0 */<a name="line.618"></a>
+<span class="sourceLineNo">619</span>  @Override<a name="line.619"></a>
+<span class="sourceLineNo">620</span>  public E floor(E e) {<a name="line.620"></a>
+<span class="sourceLineNo">621</span>    return Iterators.getNext(headSet(e, true).descendingIterator(), null);<a name="line.621"></a>
+<span class="sourceLineNo">622</span>  }<a name="line.622"></a>
+<span class="sourceLineNo">623</span><a name="line.623"></a>
+<span class="sourceLineNo">624</span>  /** @since 12.0 */<a name="line.624"></a>
+<span class="sourceLineNo">625</span>  @Override<a name="line.625"></a>
+<span class="sourceLineNo">626</span>  public E ceiling(E e) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>    return Iterables.getFirst(tailSet(e, true), null);<a name="line.627"></a>
+<span class="sourceLineNo">628</span>  }<a name="line.628"></a>
+<span class="sourceLineNo">629</span><a name="line.629"></a>
+<span class="sourceLineNo">630</span>  /** @since 12.0 */<a name="line.630"></a>
+<span class="sourceLineNo">631</span>  @GwtIncompatible // NavigableSet<a name="line.631"></a>
+<span class="sourceLineNo">632</span>  @Override<a name="line.632"></a>
+<span class="sourceLineNo">633</span>  public E higher(E e) {<a name="line.633"></a>
+<span class="sourceLineNo">634</span>    return Iterables.getFirst(tailSet(e, false), null);<a name="line.634"></a>
+<span class="sourceLineNo">635</span>  }<a name="line.635"></a>
+<span class="sourceLineNo">636</span><a name="line.636"></a>
+<span class="sourceLineNo">637</span>  @Override<a name="line.637"></a>
+<span class="sourceLineNo">638</span>  public E first() {<a name="line.638"></a>
+<span class="sourceLineNo">639</span>    return iterator().next();<a name="line.639"></a>
+<span class="sourceLineNo">640</span>  }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>  @Override<a name="line.642"></a>
+<span class="sourceLineNo">643</span>  public E last() {<a name="line.643"></a>
+<span class="sourceLineNo">644</span>    return descendingIterator().next();<a name="line.644"></a>
+<span class="sourceLineNo">645</span>  }<a name="line.645"></a>
+<span class="sourceLineNo">646</span><a name="line.646"></a>
+<span class="sourceLineNo">647</span>  /**<a name="line.647"></a>
+<span class="sourceLineNo">648</span>   * Guaranteed to throw an exception and leave the set unmodified.<a name="line.648"></a>
+<span class="sourceLineNo">649</span>   *<a name="line.649"></a>
+<span class="sourceLineNo">650</span>   * @since 12.0<a name="line.650"></a>
+<span class="sourceLineNo">651</span>   * @throws UnsupportedOperationException always<a name="line.651"></a>
+<span class="sourceLineNo">652</span>   * @deprecated Unsupported operation.<a name="line.652"></a>
+<span class="sourceLineNo">653</span>   */<a name="line.653"></a>
+<span class="sourceLineNo">654</span>  @CanIgnoreReturnValue<a name="line.654"></a>
+<span class="sourceLineNo">655</span>  @Deprecated<a name="line.655"></a>
+<span class="sourceLineNo">656</span>  @GwtIncompatible // NavigableSet<a name="line.656"></a>
+<span class="sourceLineNo">657</span>  @Override<a name="line.657"></a>
+<span class="sourceLineNo">658</span>  public final E pollFirst() {<a name="line.658"></a>
+<span class="sourceLineNo">659</span>    throw new UnsupportedOperationException();<a name="line.659"></a>
+<span class="sourceLineNo">660</span>  }<a name="line.660"></a>
+<span class="sourceLineNo">661</span><a name="line.661"></a>
+<span class="sourceLineNo">662</span>  /**<a name="line.662"></a>
+<span class="sourceLineNo">663</span>   * Guaranteed to throw an exception and leave the set unmodified.<a name="line.663"></a>
+<span class="sourceLineNo">664</span>   *<a name="line.664"></a>
+<span class="sourceLineNo">665</span>   * @since 12.0<a name="line.665"></a>
+<span class="sourceLineNo">666</span>   * @throws UnsupportedOperationException always<a name="line.666"></a>
+<span class="sourceLineNo">667</span>   * @deprecated Unsupported operation.<a name="line.667"></a>
+<span class="sourceLineNo">668</span>   */<a name="line.668"></a>
+<span class="sourceLineNo">669</span>  @CanIgnoreReturnValue<a name="line.669"></a>
+<span class="sourceLineNo">670</span>  @Deprecated<a name="line.670"></a>
+<span class="sourceLineNo">671</span>  @GwtIncompatible // NavigableSet<a name="line.671"></a>
+<span class="sourceLineNo">672</span>  @Override<a name="line.672"></a>
+<span class="sourceLineNo">673</span>  public final E pollLast() {<a name="line.673"></a>
+<span class="sourceLineNo">674</span>    throw new UnsupportedOperationException();<a name="line.674"></a>
+<span class="sourceLineNo">675</span>  }<a name="line.675"></a>
+<span class="sourceLineNo">676</span><a name="line.676"></a>
+<span class="sourceLineNo">677</span>  @GwtIncompatible // NavigableSet<a name="line.677"></a>
+<span class="sourceLineNo">678</span>  @LazyInit<a name="line.678"></a>
+<span class="sourceLineNo">679</span>  transient ImmutableSortedSet&lt;E&gt; descendingSet;<a name="line.679"></a>
+<span class="sourceLineNo">680</span><a name="line.680"></a>
+<span class="sourceLineNo">681</span>  /** @since 12.0 */<a name="line.681"></a>
+<span class="sourceLineNo">682</span>  @GwtIncompatible // NavigableSet<a name="line.682"></a>
+<span class="sourceLineNo">683</span>  @Override<a name="line.683"></a>
+<span class="sourceLineNo">684</span>  public ImmutableSortedSet&lt;E&gt; descendingSet() {<a name="line.684"></a>
+<span class="sourceLineNo">685</span>    // racy single-check idiom<a name="line.685"></a>
+<span class="sourceLineNo">686</span>    ImmutableSortedSet&lt;E&gt; result = descendingSet;<a name="line.686"></a>
+<span class="sourceLineNo">687</span>    if (result == null) {<a name="line.687"></a>
+<span class="sourceLineNo">688</span>      result = descendingSet = createDescendingSet();<a name="line.688"></a>
+<span class="sourceLineNo">689</span>      result.descendingSet = this;<a name="line.689"></a>
+<span class="sourceLineNo">690</span>    }<a name="line.690"></a>
+<span class="sourceLineNo">691</span>    return result;<a name="line.691"></a>
+<span class="sourceLineNo">692</span>  }<a name="line.692"></a>
+<span class="sourceLineNo">693</span><a name="line.693"></a>
+<span class="sourceLineNo">694</span>  // Most classes should implement this as new DescendingImmutableSortedSet&lt;E&gt;(this),<a name="line.694"></a>
+<span class="sourceLineNo">695</span>  // but we push down that implementation because ProGuard can't eliminate it even when it's always<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  // overridden.<a name="line.696"></a>
+<span class="sourceLineNo">697</span>  @GwtIncompatible // NavigableSet<a name="line.697"></a>
+<span class="sourceLineNo">698</span>  abstract ImmutableSortedSet&lt;E&gt; createDescendingSet();<a name="line.698"></a>
+<span class="sourceLineNo">699</span><a name="line.699"></a>
+<span class="sourceLineNo">700</span>  /** @since 12.0 */<a name="line.700"></a>
+<span class="sourceLineNo">701</span>  @GwtIncompatible // NavigableSet<a name="line.701"></a>
+<span class="sourceLineNo">702</span>  @Override<a name="line.702"></a>
+<span class="sourceLineNo">703</span>  public abstract UnmodifiableIterator&lt;E&gt; descendingIterator();<a name="line.703"></a>
+<span class="sourceLineNo">704</span><a name="line.704"></a>
+<span class="sourceLineNo">705</span>  /** Returns the position of an element within the set, or -1 if not present. */<a name="line.705"></a>
+<span class="sourceLineNo">706</span>  abstract int indexOf(@NullableDecl Object target);<a name="line.706"></a>
+<span class="sourceLineNo">707</span><a name="line.707"></a>
+<span class="sourceLineNo">708</span>  /*<a name="line.708"></a>
+<span class="sourceLineNo">709</span>   * This class is used to serialize all ImmutableSortedSet instances,<a name="line.709"></a>
+<span class="sourceLineNo">710</span>   * regardless of implementation type. It captures their "logical contents"<a name="line.710"></a>
+<span class="sourceLineNo">711</span>   * only. This is necessary to ensure that the existence of a particular<a name="line.711"></a>
+<span class="sourceLineNo">712</span>   * implementation type is an implementation detail.<a name="line.712"></a>
+<span class="sourceLineNo">713</span>   */<a name="line.713"></a>
+<span class="sourceLineNo">714</span>  private static class SerializedForm&lt;E&gt; implements Serializable {<a name="line.714"></a>
+<span class="sourceLineNo">715</span>    final Comparator&lt;? super E&gt; comparator;<a name="line.715"></a>
+<span class="sourceLineNo">716</span>    final Object[] elements;<a name="line.716"></a>
+<span class="sourceLineNo">717</span><a name="line.717"></a>
+<span class="sourceLineNo">718</span>    public SerializedForm(Comparator&lt;? super E&gt; comparator, Object[] elements) {<a name="line.718"></a>
+<span class="sourceLineNo">719</span>      this.comparator = comparator;<a name="line.719"></a>
+<span class="sourceLineNo">720</span>      this.elements = elements;<a name="line.720"></a>
+<span class="sourceLineNo">721</span>    }<a name="line.721"></a>
+<span class="sourceLineNo">722</span><a name="line.722"></a>
+<span class="sourceLineNo">723</span>    @SuppressWarnings("unchecked")<a name="line.723"></a>
+<span class="sourceLineNo">724</span>    Object readResolve() {<a name="line.724"></a>
+<span class="sourceLineNo">725</span>      return new Builder&lt;E&gt;(comparator).add((E[]) elements).build();<a name="line.725"></a>
+<span class="sourceLineNo">726</span>    }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>    private static final long serialVersionUID = 0;<a name="line.728"></a>
+<span class="sourceLineNo">729</span>  }<a name="line.729"></a>
+<span class="sourceLineNo">730</span><a name="line.730"></a>
+<span class="sourceLineNo">731</span>  private void readObject(ObjectInputStream unused) throws InvalidObjectException {<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    throw new InvalidObjectException("Use SerializedForm");<a name="line.732"></a>
+<span class="sourceLineNo">733</span>  }<a name="line.733"></a>
+<span class="sourceLineNo">734</span><a name="line.734"></a>
+<span class="sourceLineNo">735</span>  @Override<a name="line.735"></a>
+<span class="sourceLineNo">736</span>  Object writeReplace() {<a name="line.736"></a>
+<span class="sourceLineNo">737</span>    return new SerializedForm&lt;E&gt;(comparator, toArray());<a name="line.737"></a>
+<span class="sourceLineNo">738</span>  }<a name="line.738"></a>
+<span class="sourceLineNo">739</span>}<a name="line.739"></a>
 
 
 
