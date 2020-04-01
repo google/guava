@@ -77,7 +77,7 @@ public class QueuesTest extends TestCase {
   @Override
   public void tearDown() throws InterruptedException {
     threadPool.shutdown();
-    assertTrue("Some worker didn't finish in time", threadPool.awaitTermination(1, SECONDS));
+    assertTrue("Some worker didn't finish in time", threadPool.awaitTermination(10, SECONDS));
   }
 
   private static <T> int drain(
