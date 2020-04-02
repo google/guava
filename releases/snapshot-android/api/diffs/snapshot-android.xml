@@ -52440,7 +52440,7 @@
   </class>
   <!-- end class com.google.common.primitives.Chars -->
   <!-- start class com.google.common.primitives.Doubles -->
-  <class name="Doubles" extends="java.lang.Object"
+  <class name="Doubles" extends="com.google.common.primitives.DoublesMethodsForWeb"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -52846,7 +52846,7 @@
   </class>
   <!-- end class com.google.common.primitives.Doubles -->
   <!-- start class com.google.common.primitives.Floats -->
-  <class name="Floats" extends="java.lang.Object"
+  <class name="Floats" extends="com.google.common.primitives.FloatsMethodsForWeb"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -54474,7 +54474,7 @@
   </class>
   <!-- end class com.google.common.primitives.ImmutableLongArray.Builder -->
   <!-- start class com.google.common.primitives.Ints -->
-  <class name="Ints" extends="java.lang.Object"
+  <class name="Ints" extends="com.google.common.primitives.IntsMethodsForWeb"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -55502,7 +55502,7 @@
   </class>
   <!-- end class com.google.common.primitives.Primitives -->
   <!-- start class com.google.common.primitives.Shorts -->
-  <class name="Shorts" extends="java.lang.Object"
+  <class name="Shorts" extends="com.google.common.primitives.ShortsMethodsForWeb"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
