@@ -61660,6 +61660,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
+      </doc>
+    </method>
+    <method name="awaitRunning"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
@@ -61673,6 +61683,16 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[@since 15.0]]>
+      </doc>
+    </method>
+    <method name="awaitTerminated"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
       </doc>
     </method>
     <method name="awaitTerminated"
@@ -62073,6 +62093,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
+      </doc>
+    </method>
+    <method name="awaitRunning"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
@@ -62086,6 +62116,16 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[@since 15.0]]>
+      </doc>
+    </method>
+    <method name="awaitTerminated"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
       </doc>
     </method>
     <method name="awaitTerminated"
@@ -62327,6 +62367,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
+      </doc>
+    </method>
+    <method name="awaitRunning"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
@@ -62340,6 +62390,16 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[@since 15.0]]>
+      </doc>
+    </method>
+    <method name="awaitTerminated"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
       </doc>
     </method>
     <method name="awaitTerminated"
@@ -62635,6 +62695,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
+      </doc>
+    </method>
+    <method name="awaitRunning"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
@@ -62643,6 +62713,16 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
       deprecated="not deprecated">
+    </method>
+    <method name="awaitTerminated"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="true" visibility="public"
+      deprecated="not deprecated">
+      <param name="timeout" type="java.time.Duration"/>
+      <exception name="TimeoutException" type="java.util.concurrent.TimeoutException"/>
+      <doc>
+      <![CDATA[@since 28.0]]>
+      </doc>
     </method>
     <method name="awaitTerminated"
       abstract="false" native="false" synchronized="false"

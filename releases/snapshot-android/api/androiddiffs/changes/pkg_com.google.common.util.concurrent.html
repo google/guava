@@ -55,10 +55,34 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractExecutionThreadService"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractExecutionThreadService.html">AbstractExecutionThreadService</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Base class for services that can implement <A HREF="../../docs/com/google/common/util/concurrent/AbstractExecutionThreadService/.html#startUp"><TT>.startUp</TT></A>, <A HREF="../../docs/com/google/common/util/concurrent/AbstractExecutionThreadService/.html#run"><TT>.run</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractExecutionThreadService/.html#shutDown"><TT>.shutDown</TT></A>
+ methods.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="AbstractFuture"></A>
   <nobr><A HREF="com.google.common.util.concurrent.AbstractFuture.html">AbstractFuture</A></nobr>
   </TD>
   <TD VALIGN="TOP">An abstract implementation of <A HREF="../../docs/com/google/common/util/concurrent/AbstractFuture/ListenableFuture.html"><TT>ListenableFuture</TT></A>, intended for advanced users only.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractIdleService"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractIdleService.html">AbstractIdleService</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Base class for services that do not need a thread while "running" but may need one during startup
+ and shutdown.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractScheduledService"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractScheduledService.html">AbstractScheduledService</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Base class for services that can implement <A HREF="../../docs/com/google/common/util/concurrent/AbstractScheduledService/.html#startUp"><TT>.startUp</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractScheduledService/.html#shutDown"><TT>.shutDown</TT></A> but while in
+ the "running" state need to perform a periodic task.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -67,6 +91,15 @@ Package <A HREF="../../docs/com/google/common/util/concurrent/package-summary.ht
   </TD>
   <TD VALIGN="TOP">A scheduler defines the policy for how the <A HREF="../../docs/com/google/common/util/concurrent/AbstractScheduledService/Scheduler/AbstractScheduledService.html"><TT>AbstractScheduledService</TT></A> should run its
  task.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="AbstractService"></A>
+  <nobr><A HREF="com.google.common.util.concurrent.AbstractService.html">AbstractService</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Base class for implementing services that can handle <A HREF="../../docs/com/google/common/util/concurrent/AbstractService/.html#doStart"><TT>.doStart</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractService/.html#doStop"><TT>.doStop</TT></A>
+ requests, responding to them with <A HREF="../../docs/com/google/common/util/concurrent/AbstractService/.html#notifyStarted()"><TT>.notifyStarted()</TT></A> and <A HREF="../../docs/com/google/common/util/concurrent/AbstractService/.html#notifyStopped()"><TT>.notifyStopped()</TT></A>
+ callbacks.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
