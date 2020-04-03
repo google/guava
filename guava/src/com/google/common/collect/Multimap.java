@@ -142,6 +142,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Multimaps#index Multimaps.index}. See the {@link Multimaps} class for these and other static
  * utilities related to multimaps.
  *
+ * <p><b>Warning:</b> A ConcurrentModificationException will be thrown when interating over an instance 
+ * of Multimap and when the last element of an entry's collection is removed. This has the affect of 
+ * removing the Multimap entry and thus modifying a collection outside of the iterator.
+ *
  * <h3>Other Notes</h3>
  *
  * <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified if key objects
