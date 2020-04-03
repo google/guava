@@ -329,6 +329,8 @@ public abstract class Equivalence<T> {
 
     static final Equals INSTANCE = new Equals();
 
+    private Equals() {}
+
     @Override
     protected boolean doEquivalent(Object a, Object b) {
       return a.equals(b);
@@ -349,6 +351,8 @@ public abstract class Equivalence<T> {
   static final class Identity extends Equivalence<Object> implements Serializable {
 
     static final Identity INSTANCE = new Identity();
+
+    private Identity() {}
 
     @Override
     protected boolean doEquivalent(Object a, Object b) {
