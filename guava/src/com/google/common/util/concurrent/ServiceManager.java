@@ -40,7 +40,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
@@ -123,7 +122,7 @@ import java.util.logging.Logger;
  */
 @Beta
 @GwtIncompatible
-public final class ServiceManager {
+public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
       new ListenerCallQueue.Event<Listener>() {
@@ -426,8 +425,11 @@ public final class ServiceManager {
    *
    * <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
    * correspond to a point in time view of the services.
+   *
+   * @since NEXT (present with return type {@code ImmutableMultimap} since 14.0)
    */
-  public ImmutableMultimap<State, Service> servicesByState() {
+  @Override
+  public ImmutableSetMultimap<State, Service> servicesByState() {
     return state.servicesByState();
   }
 
@@ -631,7 +633,7 @@ public final class ServiceManager {
       }
     }
 
-    ImmutableMultimap<State, Service> servicesByState() {
+    ImmutableSetMultimap<State, Service> servicesByState() {
       ImmutableSetMultimap.Builder<State, Service> builder = ImmutableSetMultimap.builder();
       monitor.enter();
       try {
