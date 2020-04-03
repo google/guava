@@ -68391,6 +68391,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <implements name="com.google.common.util.concurrent.ServiceManagerBridge"/>
     <constructor name="ServiceManager" type="java.lang.Iterable&lt;? extends com.google.common.util.concurrent.Service&gt;"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68593,7 +68594,7 @@
  get detailed information about which services are not running.]]>
       </doc>
     </method>
-    <method name="servicesByState" return="com.google.common.collect.ImmutableMultimap&lt;com.google.common.util.concurrent.Service.State, com.google.common.util.concurrent.Service&gt;"
+    <method name="servicesByState" return="com.google.common.collect.ImmutableSetMultimap&lt;com.google.common.util.concurrent.Service.State, com.google.common.util.concurrent.Service&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
@@ -68601,7 +68602,9 @@
       <![CDATA[Provides a snapshot of the current state of all the services under management.
 
  <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
- correspond to a point in time view of the services.]]>
+ correspond to a point in time view of the services.
+
+ @since NEXT (present with return type {@code ImmutableMultimap} since 14.0)]]>
       </doc>
     </method>
     <method name="startupTimes" return="com.google.common.collect.ImmutableMap&lt;com.google.common.util.concurrent.Service, java.lang.Long&gt;"

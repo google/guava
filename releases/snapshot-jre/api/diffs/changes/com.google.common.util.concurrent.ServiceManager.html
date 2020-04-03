@@ -47,6 +47,7 @@ FIELDS
 <H2>
 Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/util/concurrent/ServiceManager.html" target="_top"><tt>ServiceManager</tt></A>
 </H2>
+<p><font size="+1">Added interface <code>com.google.common.util.concurrent.ServiceManagerBridge</code>.<br></font>
 <a NAME="constructors"></a>
 <a NAME="methods"></a>
 <p>
@@ -54,6 +55,16 @@ Class com.google.common.util.concurrent.<A HREF="../../docs/com/google/common/ut
 <TABLE summary="Changed Methods" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
   <TD VALIGN="TOP" COLSPAN=3><FONT SIZE="+1"><B>Changed Methods</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.util.concurrent.ServiceManager.servicesByState_changed()"></A>
+  <nobr><code>ImmutableSetMultimap&lt;State, Service&gt;</code>&nbsp;<A HREF="../../docs/com/google/common/util/concurrent/ServiceManager.html#servicesByState()" target="_top"><tt>servicesByState</tt></A>()  </nobr>
+  </TD>
+  <TD VALIGN="TOP" WIDTH="30%">
+Change in return type from (<code>ImmutableMultimap&lt;State, Service&gt;</code>) to (<code>ImmutableSetMultimap&lt;State, Service&gt;</code>).<br>
+  </TD>
+  <TD VALIGN="TOP">Provides a snapshot of the current state of all the services under management.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
