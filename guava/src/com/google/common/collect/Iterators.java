@@ -1154,6 +1154,30 @@ public final class Iterators {
     }
   }
 
+  private static class AbstractIteratorPeekingImpl<E> extends UnmodifiableIterator<E>
+      implements PeekingIterator<E> {
+    private final AbstractIterator<? extends E> iterator;
+
+    public AbstractIteratorPeekingImpl(AbstractIterator<? extends E> iterator) {
+      this.iterator = checkNotNull(iterator);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return iterator.hasNext();
+    }
+
+    @Override
+    public E next() {
+      return iterator.next();
+    }
+
+    @Override
+    public E peek() {
+      return iterator.peek();
+    }
+  }
+
   /**
    * Returns a {@code PeekingIterator} backed by the given iterator.
    *
@@ -1197,6 +1221,22 @@ public final class Iterators {
       @SuppressWarnings("unchecked")
       PeekingImpl<T> peeking = (PeekingImpl<T>) iterator;
       return peeking;
+    }
+    if (iterator instanceof AbstractIteratorPeekingImpl) {
+      // Safe to cast <? extends T> to <T> because AbstractIteratorPeekingImpl
+      // only uses T covariantly (and cannot be subclassed to add non-covariant
+      // uses).
+      @SuppressWarnings("unchecked")
+      AbstractIteratorPeekingImpl<T> peeking = (AbstractIteratorPeekingImpl<T>) iterator;
+      return peeking;
+    }
+    return peekingImpl(iterator);
+  }
+
+  /* Captures the iterator's element type so the downcast does not cause warnings. */
+  private static <T, E extends T> PeekingIterator<T> peekingImpl(Iterator<E> iterator) {
+    if (iterator instanceof AbstractIterator) {
+      return new AbstractIteratorPeekingImpl<T>((AbstractIterator<E>) iterator);
     }
     return new PeekingImpl<T>(iterator);
   }
