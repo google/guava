@@ -496,6 +496,18 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
+  public void adjacentEdges_parallelEdges() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N1, N2, E12_B);
+    addEdge(N3, N4, E34);
+
+    assertThat(network.adjacentEdges(E12)).containsExactly(E12_A, E12_B);
+  }
+
+  @Test
   public void edgesConnecting_disconnectedNodes() {
     addNode(N1);
     addNode(N2);
@@ -524,6 +536,44 @@ public abstract class AbstractNetworkTest {
     } catch (IllegalArgumentException e) {
       assertNodeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void edgesConnecting_parallelEdges_directed() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.isDirected()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
+    // Passed nodes should be in the correct edge direction, first is the
+    // source node and the second is the target node
+    assertThat(network.edgesConnecting(N2, N1)).isEmpty();
+  }
+
+  @Test
+  public void edgesConnecting_parallelEdges_undirected() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.isDirected()).isFalse();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N2, N1, E21);
+
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
+    assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
+  }
+
+  @Test
+  public void edgesConnecting_parallelSelfLoopEdges() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
@@ -712,6 +762,34 @@ public abstract class AbstractNetworkTest {
     } catch (IllegalArgumentException e) {
       assertEdgeNotInGraphErrorMessage(e);
     }
+  }
+
+  @Test
+  public void removeEdge_parallelEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    assertTrue(networkAsMutableNetwork.removeEdge(E12_A));
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+  }
+
+  @Test
+  public void removeEdge_parallelSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+    addEdge(N1, N2, E12);
+    assertTrue(networkAsMutableNetwork.removeEdge(E11_A));
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(networkAsMutableNetwork.removeEdge(E11));
+    assertThat(network.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
   }
 
   @Test
