@@ -28,23 +28,31 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class StandardMutableDirectedNetworkTest extends AbstractStandardDirectedNetworkTest {
 
-  @Parameters(name = "allowsSelfLoops={0}, nodeOrder={1}, edgeOrder={2}")
+  @Parameters(name = "allowsSelfLoops={0}, allowsParallelEdges={1}, nodeOrder={2}, edgeOrder={3}")
   public static Collection<Object[]> parameters() {
+    ElementOrder<?> naturalElementOrder = ElementOrder.sorted(Ordering.natural());
+
     return Arrays.asList(
         new Object[][] {
-          {false, ElementOrder.insertion(), ElementOrder.insertion()},
-          {true, ElementOrder.insertion(), ElementOrder.insertion()},
-          {false, ElementOrder.sorted(Ordering.natural()), ElementOrder.sorted(Ordering.natural())},
+          {false, false, ElementOrder.insertion(), ElementOrder.insertion()},
+          {true, false, ElementOrder.insertion(), ElementOrder.insertion()},
+          {false, false, naturalElementOrder, naturalElementOrder},
+          {true, true, ElementOrder.insertion(), ElementOrder.insertion()},
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final boolean allowsParallelEdges;
   private final ElementOrder<Integer> nodeOrder;
   private final ElementOrder<String> edgeOrder;
 
   public StandardMutableDirectedNetworkTest(
-      boolean allowsSelfLoops, ElementOrder<Integer> nodeOrder, ElementOrder<String> edgeOrder) {
+      boolean allowsSelfLoops,
+      boolean allowsParallelEdges,
+      ElementOrder<Integer> nodeOrder,
+      ElementOrder<String> edgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.allowsParallelEdges = allowsParallelEdges;
     this.nodeOrder = nodeOrder;
     this.edgeOrder = edgeOrder;
   }
@@ -53,6 +61,7 @@ public class StandardMutableDirectedNetworkTest extends AbstractStandardDirected
   MutableNetwork<Integer, String> createGraph() {
     return NetworkBuilder.directed()
         .allowsSelfLoops(allowsSelfLoops)
+        .allowsParallelEdges(allowsParallelEdges)
         .nodeOrder(nodeOrder)
         .edgeOrder(edgeOrder)
         .build();
