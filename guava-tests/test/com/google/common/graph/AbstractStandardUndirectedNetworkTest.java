@@ -438,8 +438,9 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   }
 
   @Test
-  public void addEdge_parallelEdge() {
+  public void addEdge_parallelEdge_notAllowed() {
     assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isFalse();
 
     addEdge(N1, N2, E12);
     try {
@@ -454,6 +455,17 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
+  }
+
+  @Test
+  public void addEdge_parallelEdge_allowsParallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N2, E12));
+    assertTrue(networkAsMutableNetwork.addEdge(N2, N1, E21));
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N2, E12_A));
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
   }
 
   @Test
@@ -548,9 +560,10 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
   }
 
   @Test
-  public void addEdge_parallelSelfLoopEdge() {
+  public void addEdge_parallelSelfLoopEdge_notAllowed() {
     assume().that(graphIsMutable()).isTrue();
     assume().that(network.allowsSelfLoops()).isTrue();
+    assume().that(network.allowsParallelEdges()).isFalse();
 
     addEdge(N1, N1, E11);
     try {
@@ -559,6 +572,17 @@ public abstract class AbstractStandardUndirectedNetworkTest extends AbstractNetw
     } catch (IllegalArgumentException e) {
       assertThat(e.getMessage()).contains(ERROR_PARALLEL_EDGE);
     }
+  }
+
+  @Test
+  public void addEdge_parallelSelfLoopEdge_allowsParallelEdges() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N1, E11));
+    assertTrue(networkAsMutableNetwork.addEdge(N1, N1, E11_A));
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
   }
 
   @Test
