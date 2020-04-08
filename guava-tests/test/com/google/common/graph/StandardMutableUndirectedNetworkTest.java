@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import com.google.common.collect.Ordering;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.runner.RunWith;
@@ -28,23 +29,43 @@ import org.junit.runners.Parameterized.Parameters;
 public final class StandardMutableUndirectedNetworkTest
     extends AbstractStandardUndirectedNetworkTest {
 
-  @Parameters(name = "allowsSelfLoops={0}")
+  @Parameters(name = "allowsSelfLoops={0}, allowsParallelEdges={1}, nodeOrder={2}, edgeOrder={3}")
   public static Collection<Object[]> parameters() {
+    ElementOrder<?> naturalElementOrder = ElementOrder.sorted(Ordering.natural());
+
     return Arrays.asList(
         new Object[][] {
-          {false}, {true},
+          {false, false, ElementOrder.insertion(), ElementOrder.insertion()},
+          {true, false, ElementOrder.insertion(), ElementOrder.insertion()},
+          {false, false, naturalElementOrder, naturalElementOrder},
+          {true, true, ElementOrder.insertion(), ElementOrder.insertion()},
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final boolean allowsParallelEdges;
+  private final ElementOrder<Integer> nodeOrder;
+  private final ElementOrder<String> edgeOrder;
 
-  public StandardMutableUndirectedNetworkTest(boolean allowsSelfLoops) {
+  public StandardMutableUndirectedNetworkTest(
+      boolean allowsSelfLoops,
+      boolean allowsParallelEdges,
+      ElementOrder<Integer> nodeOrder,
+      ElementOrder<String> edgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.allowsParallelEdges = allowsParallelEdges;
+    this.nodeOrder = nodeOrder;
+    this.edgeOrder = edgeOrder;
   }
 
   @Override
   MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.undirected().allowsSelfLoops(allowsSelfLoops).build();
+    return NetworkBuilder.undirected()
+        .allowsSelfLoops(allowsSelfLoops)
+        .allowsParallelEdges(allowsParallelEdges)
+        .nodeOrder(nodeOrder)
+        .edgeOrder(edgeOrder)
+        .build();
   }
 
   @Override
