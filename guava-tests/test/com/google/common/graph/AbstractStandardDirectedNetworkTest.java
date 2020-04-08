@@ -62,6 +62,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void nodes_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     Set<Integer> nodes = network.nodes();
     try {
       nodes.add(N2);
@@ -75,6 +77,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void edges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     Set<String> edges = network.edges();
     try {
       edges.add(E12);
@@ -88,6 +92,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void incidentEdges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<String> incidentEdges = network.incidentEdges(N1);
     try {
@@ -102,6 +108,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void adjacentNodes_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<Integer> adjacentNodes = network.adjacentNodes(N1);
     try {
@@ -115,6 +123,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
 
   @Override
   public void adjacentEdges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     Set<String> adjacentEdges = network.adjacentEdges(E12);
     try {
@@ -129,6 +139,10 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void edgesConnecting_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     addNode(N2);
     Set<String> edgesConnecting = network.edgesConnecting(N1, N2);
@@ -144,6 +158,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void inEdges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N2);
     Set<String> inEdges = network.inEdges(N2);
     try {
@@ -158,6 +174,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void outEdges_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<String> outEdges = network.outEdges(N1);
     try {
@@ -172,6 +190,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void predecessors_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N2);
     Set<Integer> predecessors = network.predecessors(N2);
     try {
@@ -186,6 +206,8 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   @Override
   @Test
   public void successors_checkReturnedSetMutability() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
     Set<Integer> successors = network.successors(N1);
     try {
