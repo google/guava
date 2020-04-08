@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import com.google.common.collect.Ordering;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.runner.RunWith;
@@ -27,23 +28,34 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class StandardMutableDirectedNetworkTest extends AbstractStandardDirectedNetworkTest {
 
-  @Parameters(name = "allowsSelfLoops={0}")
+  @Parameters(name = "allowsSelfLoops={0}, nodeOrder={1}, edgeOrder={2}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[][] {
-          {false}, {true},
+          {false, ElementOrder.insertion(), ElementOrder.insertion()},
+          {true, ElementOrder.insertion(), ElementOrder.insertion()},
+          {false, ElementOrder.sorted(Ordering.natural()), ElementOrder.sorted(Ordering.natural())},
         });
   }
 
   private final boolean allowsSelfLoops;
+  private final ElementOrder<Integer> nodeOrder;
+  private final ElementOrder<String> edgeOrder;
 
-  public StandardMutableDirectedNetworkTest(boolean allowsSelfLoops) {
+  public StandardMutableDirectedNetworkTest(
+      boolean allowsSelfLoops, ElementOrder<Integer> nodeOrder, ElementOrder<String> edgeOrder) {
     this.allowsSelfLoops = allowsSelfLoops;
+    this.nodeOrder = nodeOrder;
+    this.edgeOrder = edgeOrder;
   }
 
   @Override
   MutableNetwork<Integer, String> createGraph() {
-    return NetworkBuilder.directed().allowsSelfLoops(allowsSelfLoops).build();
+    return NetworkBuilder.directed()
+        .allowsSelfLoops(allowsSelfLoops)
+        .nodeOrder(nodeOrder)
+        .edgeOrder(edgeOrder)
+        .build();
   }
 
   @Override
