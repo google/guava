@@ -249,11 +249,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#ceilingEntry-K-">ceilingEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#ceilingEntry-K-">ceilingEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns a key-value mapping associated with the least key
+ greater than or equal to the given key, or <code>null</code> if
+ there is no such key.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#ceilingKey-K-">ceilingKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#ceilingKey-K-">ceilingKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns the least key greater than or equal to the given key,
+ or <code>null</code> if there is no such key.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
@@ -263,60 +270,102 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingKeySet--">descendingKeySet</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingKeySet--">descendingKeySet</a></span>()</code>
+<div class="block">Returns a reverse order <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the keys contained in this map.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingMap--">descendingMap</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#descendingMap--">descendingMap</a></span>()</code>
+<div class="block">Returns a reverse order view of the mappings contained in this map.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#firstEntry--">firstEntry</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#firstEntry--">firstEntry</a></span>()</code>
+<div class="block">Returns a key-value mapping associated with the least
+ key in this map, or <code>null</code> if the map is empty.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#floorEntry-K-">floorEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#floorEntry-K-">floorEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns a key-value mapping associated with the greatest key
+ less than or equal to the given key, or <code>null</code> if there
+ is no such key.</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#floorKey-K-">floorKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#floorKey-K-">floorKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns the greatest key less than or equal to the given key,
+ or <code>null</code> if there is no such key.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#headMap-K-boolean-">headMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
-       boolean&nbsp;inclusive)</code>&nbsp;</td>
+       boolean&nbsp;inclusive)</code>
+<div class="block">Returns a view of the portion of this map whose keys are less than (or
+ equal to, if <code>inclusive</code> is true) <code>toKey</code>.</div>
+</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#higherEntry-K-">higherEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#higherEntry-K-">higherEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns a key-value mapping associated with the least key
+ strictly greater than the given key, or <code>null</code> if there
+ is no such key.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#higherKey-K-">higherKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#higherKey-K-">higherKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns the least key strictly greater than the given key, or
+ <code>null</code> if there is no such key.</div>
+</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lastEntry--">lastEntry</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lastEntry--">lastEntry</a></span>()</code>
+<div class="block">Returns a key-value mapping associated with the greatest
+ key in this map, or <code>null</code> if the map is empty.</div>
+</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lowerEntry-K-">lowerEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lowerEntry-K-">lowerEntry</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns a key-value mapping associated with the greatest key
+ strictly less than the given key, or <code>null</code> if there is
+ no such key.</div>
+</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lowerKey-K-">lowerKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#lowerKey-K-">lowerKey</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</code>
+<div class="block">Returns the greatest key strictly less than the given key, or
+ <code>null</code> if there is no such key.</div>
+</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#navigableKeySet--">navigableKeySet</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#navigableKeySet--">navigableKeySet</a></span>()</code>
+<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the keys contained in this map.</div>
+</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#pollFirstEntry--">pollFirstEntry</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#pollFirstEntry--">pollFirstEntry</a></span>()</code>
+<div class="block">Removes and returns a key-value mapping associated with
+ the least key in this map, or <code>null</code> if the map is empty.</div>
+</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#pollLastEntry--">pollLastEntry</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#pollLastEntry--">pollLastEntry</a></span>()</code>
+<div class="block">Removes and returns a key-value mapping associated with
+ the greatest key in this map, or <code>null</code> if the map is empty.</div>
+</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
@@ -435,12 +484,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#subMap-K-boolean-K-boolean-">subMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
       boolean&nbsp;fromInclusive,
       <a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
-      boolean&nbsp;toInclusive)</code>&nbsp;</td>
+      boolean&nbsp;toInclusive)</code>
+<div class="block">Returns a view of the portion of this map whose keys range from
+ <code>fromKey</code> to <code>toKey</code>.</div>
+</td>
 </tr>
 <tr id="i36" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingNavigableMap.html#tailMap-K-boolean-">tailMap</a></span>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
-       boolean&nbsp;inclusive)</code>&nbsp;</td>
+       boolean&nbsp;inclusive)</code>
+<div class="block">Returns a view of the portion of this map whose keys are greater than (or
+ equal to, if <code>inclusive</code> is true) <code>fromKey</code>.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -551,9 +606,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>lowerEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.68">lowerEntry</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lowerEntry-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the greatest key
+ strictly less than the given key, or <code>null</code> if there is
+ no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lowerEntry-K-" title="class or interface in java.util">lowerEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the greatest key less than <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -578,9 +642,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>lowerKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.82">lowerKey</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lowerKey-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns the greatest key strictly less than the given key, or
+ <code>null</code> if there is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lowerKey-K-" title="class or interface in java.util">lowerKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the greatest key less than <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -607,9 +679,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>floorEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.96">floorEntry</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#floorEntry-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the greatest key
+ less than or equal to the given key, or <code>null</code> if there
+ is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#floorEntry-K-" title="class or interface in java.util">floorEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the greatest key less than or equal to
+         <code>key</code>, or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -634,9 +715,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>floorKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.110">floorKey</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#floorKey-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns the greatest key less than or equal to the given key,
+ or <code>null</code> if there is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#floorKey-K-" title="class or interface in java.util">floorKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the greatest key less than or equal to <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -663,9 +752,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>ceilingEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.124">ceilingEntry</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#ceilingEntry-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the least key
+ greater than or equal to the given key, or <code>null</code> if
+ there is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#ceilingEntry-K-" title="class or interface in java.util">ceilingEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the least key greater than or equal to
+         <code>key</code>, or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -690,9 +788,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>ceilingKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.138">ceilingKey</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#ceilingKey-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns the least key greater than or equal to the given key,
+ or <code>null</code> if there is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#ceilingKey-K-" title="class or interface in java.util">ceilingKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the least key greater than or equal to <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -719,9 +825,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>higherEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.152">higherEntry</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#higherEntry-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the least key
+ strictly greater than the given key, or <code>null</code> if there
+ is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#higherEntry-K-" title="class or interface in java.util">higherEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the least key greater than <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -746,9 +861,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>higherKey</h4>
 <pre>public&nbsp;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.166">higherKey</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#higherKey-K-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns the least key strictly greater than the given key, or
+ <code>null</code> if there is no such key.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#higherKey-K-" title="class or interface in java.util">higherKey</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the least key greater than <code>key</code>,
+         or <code>null</code> if there is no such key</dd>
 </dl>
 </li>
 </ul>
@@ -773,9 +896,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>firstEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.180">firstEntry</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#firstEntry--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the least
+ key in this map, or <code>null</code> if the map is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#firstEntry--" title="class or interface in java.util">firstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the least key,
+         or <code>null</code> if this map is empty</dd>
 </dl>
 </li>
 </ul>
@@ -809,9 +938,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>lastEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.208">lastEntry</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lastEntry--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a key-value mapping associated with the greatest
+ key in this map, or <code>null</code> if the map is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#lastEntry--" title="class or interface in java.util">lastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an entry with the greatest key,
+         or <code>null</code> if this map is empty</dd>
 </dl>
 </li>
 </ul>
@@ -843,9 +978,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>pollFirstEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.235">pollFirstEntry</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#pollFirstEntry--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Removes and returns a key-value mapping associated with
+ the least key in this map, or <code>null</code> if the map is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#pollFirstEntry--" title="class or interface in java.util">pollFirstEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the removed first entry of this map,
+         or <code>null</code> if this map is empty</dd>
 </dl>
 </li>
 </ul>
@@ -867,9 +1008,15 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>pollLastEntry</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.Entry.html?is-external=true" title="class or interface in java.util">Map.Entry</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.249">pollLastEntry</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#pollLastEntry--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Removes and returns a key-value mapping associated with
+ the greatest key in this map, or <code>null</code> if the map is empty.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#pollLastEntry--" title="class or interface in java.util">pollLastEntry</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the removed last entry of this map,
+         or <code>null</code> if this map is empty</dd>
 </dl>
 </li>
 </ul>
@@ -891,9 +1038,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>descendingMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.263">descendingMap</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#descendingMap--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a reverse order view of the mappings contained in this map.
+ The descending map is backed by this map, so changes to the map are
+ reflected in the descending map, and vice-versa.  If either map is
+ modified while an iteration over a collection view of either map
+ is in progress (except through the iterator's own <code>remove</code>
+ operation), the results of the iteration are undefined.
+
+ <p>The returned map has an ordering equivalent to
+ <tt><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collections.html?is-external=true#reverseOrder-java.util.Comparator-" title="class or interface in java.util"><code>Collections.reverseOrder</code></a>(comparator())</tt>.
+ The expression <code>m.descendingMap().descendingMap()</code> returns a
+ view of <code>m</code> essentially equivalent to <code>m</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#descendingMap--" title="class or interface in java.util">descendingMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a reverse order view of this map</dd>
 </dl>
 </li>
 </ul>
@@ -904,9 +1065,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>navigableKeySet</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.328">navigableKeySet</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#navigableKeySet--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the keys contained in this map.
+ The set's iterator returns the keys in ascending order.
+ The set is backed by the map, so changes to the map are reflected in
+ the set, and vice-versa.  If the map is modified while an iteration
+ over the set is in progress (except through the iterator's own <code>remove</code> operation), the results of the iteration are undefined.  The
+ set supports element removal, which removes the corresponding mapping
+ from the map, via the <code>Iterator.remove</code>, <code>Set.remove</code>,
+ <code>removeAll</code>, <code>retainAll</code>, and <code>clear</code> operations.
+ It does not support the <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#navigableKeySet--" title="class or interface in java.util">navigableKeySet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a navigable set view of the keys in this map</dd>
 </dl>
 </li>
 </ul>
@@ -917,9 +1090,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navigabl
 <li class="blockList">
 <h4>descendingKeySet</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util">NavigableSet</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.349">descendingKeySet</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#descendingKeySet--" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a reverse order <a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableSet.html?is-external=true" title="class or interface in java.util"><code>NavigableSet</code></a> view of the keys contained in this map.
+ The set's iterator returns the keys in descending order.
+ The set is backed by the map, so changes to the map are reflected in
+ the set, and vice-versa.  If the map is modified while an iteration
+ over the set is in progress (except through the iterator's own <code>remove</code> operation), the results of the iteration are undefined.  The
+ set supports element removal, which removes the corresponding mapping
+ from the map, via the <code>Iterator.remove</code>, <code>Set.remove</code>,
+ <code>removeAll</code>, <code>retainAll</code>, and <code>clear</code> operations.
+ It does not support the <code>add</code> or <code>addAll</code> operations.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#descendingKeySet--" title="class or interface in java.util">descendingKeySet</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a reverse order navigable set view of the keys in this map</dd>
 </dl>
 </li>
 </ul>
@@ -966,9 +1151,31 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
                                 boolean&nbsp;fromInclusive,
                                 <a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
                                 boolean&nbsp;toInclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#subMap-K-boolean-K-boolean-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys range from
+ <code>fromKey</code> to <code>toKey</code>.  If <code>fromKey</code> and
+ <code>toKey</code> are equal, the returned map is empty unless
+ <code>fromInclusive</code> and <code>toInclusive</code> are both true.  The
+ returned map is backed by this map, so changes in the returned map are
+ reflected in this map, and vice-versa.  The returned map supports all
+ optional map operations that this map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside of its range, or to construct a
+ submap either of whose endpoints lie outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#subMap-K-boolean-K-boolean-" title="class or interface in java.util">subMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromKey</code> - low endpoint of the keys in the returned map</dd>
+<dd><code>fromInclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dd><code>toKey</code> - high endpoint of the keys in the returned map</dd>
+<dd><code>toInclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys range from
+         <code>fromKey</code> to <code>toKey</code></dd>
 </dl>
 </li>
 </ul>
@@ -982,9 +1189,25 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <h4>headMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.381">headMap</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;toKey,
                                  boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#headMap-K-boolean-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys are less than (or
+ equal to, if <code>inclusive</code> is true) <code>toKey</code>.  The returned
+ map is backed by this map, so changes in the returned map are reflected
+ in this map, and vice-versa.  The returned map supports all optional
+ map operations that this map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#headMap-K-boolean-" title="class or interface in java.util">headMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toKey</code> - high endpoint of the keys in the returned map</dd>
+<dd><code>inclusive</code> - <code>true</code> if the high endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys are less than
+         (or equal to, if <code>inclusive</code> is true) <code>toKey</code></dd>
 </dl>
 </li>
 </ul>
@@ -998,9 +1221,25 @@ protected&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Navi
 <h4>tailMap</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingNavigableMap.html#line.386">tailMap</a>(<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>&nbsp;fromKey,
                                  boolean&nbsp;inclusive)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#tailMap-K-boolean-" title="class or interface in java.util">java.util.NavigableMap</a></code></span></div>
+<div class="block">Returns a view of the portion of this map whose keys are greater than (or
+ equal to, if <code>inclusive</code> is true) <code>fromKey</code>.  The returned
+ map is backed by this map, so changes in the returned map are reflected
+ in this map, and vice-versa.  The returned map supports all optional
+ map operations that this map supports.
+
+ <p>The returned map will throw an <code>IllegalArgumentException</code>
+ on an attempt to insert a key outside its range.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true#tailMap-K-boolean-" title="class or interface in java.util">tailMap</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/NavigableMap.html?is-external=true" title="class or interface in java.util">NavigableMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingNavigableMap.html" title="type parameter in ForwardingNavigableMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>fromKey</code> - low endpoint of the keys in the returned map</dd>
+<dd><code>inclusive</code> - <code>true</code> if the low endpoint
+        is to be included in the returned view</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a view of the portion of this map whose keys are greater than
+         (or equal to, if <code>inclusive</code> is true) <code>fromKey</code></dd>
 </dl>
 </li>
 </ul>

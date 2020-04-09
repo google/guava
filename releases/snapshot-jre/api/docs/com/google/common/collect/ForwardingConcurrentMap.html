@@ -212,23 +212,32 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html#putIfAbsent-K-V-">putIfAbsent</a></span>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
-           <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code>&nbsp;</td>
+           <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code>
+<div class="block">If the specified key is not already associated
+ with a value, associate it with the given value.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html#remove-java.lang.Object-java.lang.Object-">remove</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
-      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>&nbsp;</td>
+      <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</code>
+<div class="block">Removes the entry for a key only if currently mapped to a given value.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html#replace-K-V-">replace</a></span>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
-       <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code>&nbsp;</td>
+       <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</code>
+<div class="block">Replaces the entry for a key only if currently mapped to some value.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html#replace-K-V-V-">replace</a></span>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
        <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;oldValue,
-       <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;newValue)</code>&nbsp;</td>
+       <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;newValue)</code>
+<div class="block">Replaces the entry for a key only if currently mapped to a given value.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -327,11 +336,32 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.50">putIfAbsent</a>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                                            <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#putIfAbsent-K-V-" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</a></code></span></div>
+<div class="block">If the specified key is not already associated
+ with a value, associate it with the given value.
+ This is equivalent to
+  <pre> <code>
+ if (!map.containsKey(key))
+   return map.put(key, value);
+ else
+   return map.get(key);
+ </code></pre>
+
+ except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#putIfAbsent-K-V-" title="class or interface in java.util.concurrent">putIfAbsent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#putIfAbsent-K-V-" title="class or interface in java.util">putIfAbsent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - key with which the specified value is to be associated</dd>
+<dd><code>value</code> - value to be associated with the specified key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the previous value associated with the specified key, or
+         <code>null</code> if there was no mapping for the key.
+         (A <code>null</code> return can also indicate that the map
+         previously associated <code>null</code> with the key,
+         if the implementation supports null values.)</dd>
 </dl>
 </li>
 </ul>
@@ -344,11 +374,28 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingConcurrentM
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.56">remove</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;key,
                                             <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;value)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove-java.lang.Object-java.lang.Object-" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</a></code></span></div>
+<div class="block">Removes the entry for a key only if currently mapped to a given value.
+ This is equivalent to
+  <pre> <code>
+ if (map.containsKey(key) &amp;&amp; Objects.equals(map.get(key), value)) {
+   map.remove(key);
+   return true;
+ } else
+   return false;
+ </code></pre>
+
+ except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#remove-java.lang.Object-java.lang.Object-" title="class or interface in java.util.concurrent">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#remove-java.lang.Object-java.lang.Object-" title="class or interface in java.util">remove</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - key with which the specified value is associated</dd>
+<dd><code>value</code> - value expected to be associated with the specified key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if the value was removed</dd>
 </dl>
 </li>
 </ul>
@@ -363,11 +410,31 @@ public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.62">replace</a>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                                        <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;value)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</a></code></span></div>
+<div class="block">Replaces the entry for a key only if currently mapped to some value.
+ This is equivalent to
+  <pre> <code>
+ if (map.containsKey(key)) {
+   return map.put(key, value);
+ } else
+   return null;
+ </code></pre>
+
+ except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-" title="class or interface in java.util.concurrent">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace-K-V-" title="class or interface in java.util">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - key with which the specified value is associated</dd>
+<dd><code>value</code> - value to be associated with the specified key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the previous value associated with the specified key, or
+         <code>null</code> if there was no mapping for the key.
+         (A <code>null</code> return can also indicate that the map
+         previously associated <code>null</code> with the key,
+         if the implementation supports null values.)</dd>
 </dl>
 </li>
 </ul>
@@ -383,11 +450,29 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingConcurrentM
 public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingConcurrentMap.html#line.68">replace</a>(<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>&nbsp;key,
                                              <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;oldValue,
                                              <a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&nbsp;newValue)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-V-" title="class or interface in java.util.concurrent">java.util.concurrent.ConcurrentMap</a></code></span></div>
+<div class="block">Replaces the entry for a key only if currently mapped to a given value.
+ This is equivalent to
+  <pre> <code>
+ if (map.containsKey(key) &amp;&amp; Objects.equals(map.get(key), oldValue)) {
+   map.put(key, newValue);
+   return true;
+ } else
+   return false;
+ </code></pre>
+
+ except that the action is performed atomically.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true#replace-K-V-V-" title="class or interface in java.util.concurrent">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ConcurrentMap.html?is-external=true" title="class or interface in java.util.concurrent">ConcurrentMap</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true#replace-K-V-V-" title="class or interface in java.util">replace</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">K</a>,<a href="../../../../com/google/common/collect/ForwardingConcurrentMap.html" title="type parameter in ForwardingConcurrentMap">V</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - key with which the specified value is associated</dd>
+<dd><code>oldValue</code> - value expected to be associated with the specified key</dd>
+<dd><code>newValue</code> - value to be associated with the specified key</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if the value was replaced</dd>
 </dl>
 </li>
 </ul>

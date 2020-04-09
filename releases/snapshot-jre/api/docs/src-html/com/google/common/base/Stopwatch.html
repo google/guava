@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span> *<a name="line.37"></a>
 <span class="sourceLineNo">038</span> * &lt;p&gt;In contrast, &lt;i&gt;wall time&lt;/i&gt; is a reading of "now" as given by a method like<a name="line.38"></a>
 <span class="sourceLineNo">039</span> * {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * &lt;i&gt;can&lt;/i&gt; be subtracted to obtain a {@link Duration} (such as by {@link Duration#between}), but<a name="line.40"></a>
+<span class="sourceLineNo">040</span> * &lt;i&gt;can&lt;/i&gt; be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * doing so does &lt;i&gt;not&lt;/i&gt; give a reliable measurement of elapsed time, because wall time readings<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * are inherently approximate, routinely affected by periodic clock corrections. Because this class<a name="line.42"></a>
 <span class="sourceLineNo">043</span> * (by default) uses {@link System#nanoTime}, it is unaffected by these changes.<a name="line.43"></a>
@@ -210,7 +210,7 @@
 <span class="sourceLineNo">202</span>   *<a name="line.202"></a>
 <span class="sourceLineNo">203</span>   * &lt;p&gt;It is generally not a good idea to use an ambiguous, unitless {@code long} to represent<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   * elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a<a name="line.204"></a>
-<span class="sourceLineNo">205</span>   * strongly-typed {@link Duration} instance.<a name="line.205"></a>
+<span class="sourceLineNo">205</span>   * strongly-typed {@code Duration} instance.<a name="line.205"></a>
 <span class="sourceLineNo">206</span>   *<a name="line.206"></a>
 <span class="sourceLineNo">207</span>   * @since 14.0 (since 10.0 as {@code elapsedTime()})<a name="line.207"></a>
 <span class="sourceLineNo">208</span>   */<a name="line.208"></a>

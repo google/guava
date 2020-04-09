@@ -197,35 +197,58 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo-java.util.Collection-">drainTo</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo-java.util.Collection-">drainTo</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</code>
+<div class="block">Removes all available elements from this queue and adds them
+ to the given collection.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#drainTo-java.util.Collection-int-">drainTo</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
-       int&nbsp;maxElements)</code>&nbsp;</td>
+       int&nbsp;maxElements)</code>
+<div class="block">Removes at most the given number of available elements from
+ this queue and adds them to the given collection.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#offer-E-long-java.util.concurrent.TimeUnit-">offer</a></span>(<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e,
      long&nbsp;timeout,
-     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+     <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block">Inserts the specified element into this queue, waiting up to the
+ specified wait time if necessary for space to become available.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#poll-long-java.util.concurrent.TimeUnit-">poll</a></span>(long&nbsp;timeout,
-    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>&nbsp;</td>
+    <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)</code>
+<div class="block">Retrieves and removes the head of this queue, waiting up to the
+ specified wait time if necessary for an element to become available.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#put-E-">put</a></span>(<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#put-E-">put</a></span>(<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)</code>
+<div class="block">Inserts the specified element into this queue, waiting if necessary
+ for space to become available.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#remainingCapacity--">remainingCapacity</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#remainingCapacity--">remainingCapacity</a></span>()</code>
+<div class="block">Returns the number of additional elements that this queue can ideally
+ (in the absence of memory or resource constraints) accept without
+ blocking, or <code>Integer.MAX_VALUE</code> if there is no intrinsic
+ limit.</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#take--">take</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html#take--">take</a></span>()</code>
+<div class="block">Retrieves and removes the head of this queue, waiting if necessary
+ until an element becomes available.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -342,9 +365,24 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <h4>drainTo</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.50">drainTo</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c,
                    int&nbsp;maxElements)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo-java.util.Collection-int-" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Removes at most the given number of available elements from
+ this queue and adds them to the given collection.  A failure
+ encountered while attempting to add elements to
+ collection <code>c</code> may result in elements being in neither,
+ either or both collections when the associated exception is
+ thrown.  Attempts to drain a queue to itself result in
+ <code>IllegalArgumentException</code>. Further, the behavior of
+ this operation is undefined if the specified collection is
+ modified while the operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo-java.util.Collection-int-" title="class or interface in java.util.concurrent">drainTo</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>c</code> - the collection to transfer elements into</dd>
+<dd><code>maxElements</code> - the maximum number of elements to transfer</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the number of elements transferred</dd>
 </dl>
 </li>
 </ul>
@@ -355,9 +393,24 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <li class="blockList">
 <h4>drainTo</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.55">drainTo</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;? super <a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;&nbsp;c)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo-java.util.Collection-" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Removes all available elements from this queue and adds them
+ to the given collection.  This operation may be more
+ efficient than repeatedly polling this queue.  A failure
+ encountered while attempting to add elements to
+ collection <code>c</code> may result in elements being in neither,
+ either or both collections when the associated exception is
+ thrown.  Attempts to drain a queue to itself result in
+ <code>IllegalArgumentException</code>. Further, the behavior of
+ this operation is undefined if the specified collection is
+ modified while the operation is in progress.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#drainTo-java.util.Collection-" title="class or interface in java.util.concurrent">drainTo</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>c</code> - the collection to transfer elements into</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the number of elements transferred</dd>
 </dl>
 </li>
 </ul>
@@ -373,11 +426,23 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
                      long&nbsp;timeout,
                      <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
               throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#offer-E-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Inserts the specified element into this queue, waiting up to the
+ specified wait time if necessary for space to become available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#offer-E-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">offer</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the element to add</dd>
+<dd><code>timeout</code> - how long to wait before giving up, in units of
+        <code>unit</code></dd>
+<dd><code>unit</code> - a <code>TimeUnit</code> determining how to interpret the
+        <code>timeout</code> parameter</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if successful, or <code>false</code> if
+         the specified waiting time elapses before space is available</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -390,11 +455,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.65">poll</a>(long&nbsp;timeout,
               <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html?is-external=true" title="class or interface in java.util.concurrent">TimeUnit</a>&nbsp;unit)
        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#poll-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Retrieves and removes the head of this queue, waiting up to the
+ specified wait time if necessary for an element to become available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#poll-long-java.util.concurrent.TimeUnit-" title="class or interface in java.util.concurrent">poll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>timeout</code> - how long to wait before giving up, in units of
+        <code>unit</code></dd>
+<dd><code>unit</code> - a <code>TimeUnit</code> determining how to interpret the
+        <code>timeout</code> parameter</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the head of this queue, or <code>null</code> if the
+         specified waiting time elapses before an element is available</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -408,11 +484,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <h4>put</h4>
 <pre>public&nbsp;void&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.70">put</a>(<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;e)
          throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put-E-" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Inserts the specified element into this queue, waiting if necessary
+ for space to become available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#put-E-" title="class or interface in java.util.concurrent">put</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>e</code> - the element to add</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>
@@ -423,9 +504,21 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <li class="blockList">
 <h4>remainingCapacity</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.75">remainingCapacity</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity--" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Returns the number of additional elements that this queue can ideally
+ (in the absence of memory or resource constraints) accept without
+ blocking, or <code>Integer.MAX_VALUE</code> if there is no intrinsic
+ limit.
+
+ <p>Note that you <em>cannot</em> always tell if an attempt to insert
+ an element will succeed by inspecting <code>remainingCapacity</code>
+ because it may be the case that another thread is about to
+ insert or remove an element.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#remainingCapacity--" title="class or interface in java.util.concurrent">remainingCapacity</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the remaining capacity</dd>
 </dl>
 </li>
 </ul>
@@ -437,11 +530,16 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurre
 <h4>take</h4>
 <pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingQueue.html#line.80">take</a>()
        throws <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take--" title="class or interface in java.util.concurrent">java.util.concurrent.BlockingQueue</a></code></span></div>
+<div class="block">Retrieves and removes the head of this queue, waiting if necessary
+ until an element becomes available.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true#take--" title="class or interface in java.util.concurrent">take</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/BlockingQueue.html?is-external=true" title="class or interface in java.util.concurrent">BlockingQueue</a>&lt;<a href="../../../../../com/google/common/util/concurrent/ForwardingBlockingQueue.html" title="type parameter in ForwardingBlockingQueue">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the head of this queue</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/InterruptedException.html?is-external=true" title="class or interface in java.lang">InterruptedException</a></code> - if interrupted while waiting</dd>
 </dl>
 </li>
 </ul>

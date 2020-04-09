@@ -262,7 +262,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#iterator--">iterator</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#iterator--">iterator</a></span>()</code>
+<div class="block">Returns an iterator over the elements in this collection.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -279,11 +281,17 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#removeAll-java.util.Collection-">removeAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</code>
+<div class="block">Removes all of this collection's elements that are also contained in the
+ specified collection (optional operation).</div>
+</td>
 </tr>
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">retainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#retainAll-java.util.Collection-">retainAll</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</code>
+<div class="block">Retains only the elements in this collection that are contained in the
+ specified collection (optional operation).</div>
+</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>int</code></td>
@@ -309,7 +317,9 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></span>()</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/Multiset.html#toString--">toString</a></span>()</code>
+<div class="block">Returns a string representation of the object.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -354,6 +364,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#size--" title="class or interface in java.util">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the number of elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -621,6 +633,14 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.util">equals</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>object</code> - the reference object with which to compare.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if this object is the same as the obj
+          argument; <code>false</code> otherwise.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang"><code>Object.hashCode()</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html?is-external=true" title="class or interface in java.util"><code>HashMap</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -644,6 +664,11 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#hashCode--" title="class or interface in java.util">hashCode</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a hash code value for this object.</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang"><code>Object.equals(java.lang.Object)</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#identityHashCode-java.lang.Object-" title="class or interface in java.lang"><code>System.identityHashCode(java.lang.Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -654,7 +679,23 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>toString</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.354">toString</a>()</pre>
-<div class="block">
+<div class="block">Returns a string representation of the object. In general, the
+ <code>toString</code> method returns a string that
+ "textually represents" this object. The result should
+ be a concise but informative representation that is easy for a
+ person to read.
+ It is recommended that all subclasses override this method.
+ <p>
+ The <code>toString</code> method for class <code>Object</code>
+ returns a string consisting of the name of the class of which the
+ object is an instance, the at-sign character `<code>@</code>', and
+ the unsigned hexadecimal representation of the hash code of the
+ object. In other words, this method returns a string equal to the
+ value of:
+ <blockquote>
+ <pre>
+ getClass().getName() + '@' + Integer.toHexString(hashCode())
+ </pre></blockquote>
 
  <p>It is recommended, though not mandatory, that this method return the result of invoking
  <a href="../../../../com/google/common/collect/Multiset.html#toString--"><code>toString()</code></a> on the <a href="../../../../com/google/common/collect/Multiset.html#entrySet--"><code>entrySet()</code></a>, yielding a result such as <code>[a x 3, c, d x 2,
@@ -662,6 +703,8 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>
@@ -672,7 +715,10 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <li class="blockList">
 <h4>iterator</h4>
 <pre><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Iterator.html?is-external=true" title="class or interface in java.util">Iterator</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.365">iterator</a>()</pre>
-<div class="block">
+<div class="block">Returns an iterator over the elements in this collection.  There are no
+ guarantees concerning the order in which the elements are returned
+ (unless this collection is an instance of some class that provides a
+ guarantee).
 
  <p>Elements that occur multiple times in the multiset will appear multiple times in this
  iterator, though not necessarily sequentially.</div>
@@ -681,6 +727,8 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#iterator--" title="class or interface in java.util">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true#iterator--" title="class or interface in java.lang">iterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an <tt>Iterator</tt> over the elements in this collection</dd>
 </dl>
 </li>
 </ul>
@@ -733,6 +781,8 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
      contained in <code>elements</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/NullPointerException.html?is-external=true" title="class or interface in java.lang">NullPointerException</a></code> - if <code>elements</code> is null</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>Collection.contains(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -744,7 +794,10 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <h4>removeAll</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.412">removeAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
-<div class="block">
+<div class="block">Removes all of this collection's elements that are also contained in the
+ specified collection (optional operation).  After this call returns,
+ this collection will contain no elements in common with the specified
+ collection.
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
  cares whether or not an element appears at all. If you wish to remove one occurrence in this
@@ -756,6 +809,14 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#removeAll-java.util.Collection-" title="class or interface in java.util">removeAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>c</code> - collection containing elements to be removed from this collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection changed as a result of the
+         call</dd>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#remove-java.lang.Object-" title="class or interface in java.util"><code>Collection.remove(Object)</code></a>, 
+<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#contains-java.lang.Object-" title="class or interface in java.util"><code>Collection.contains(Object)</code></a></dd>
 </dl>
 </li>
 </ul>
@@ -767,7 +828,10 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <h4>retainAll</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.html#line.429">retainAll</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&nbsp;c)</pre>
-<div class="block">
+<div class="block">Retains only the elements in this collection that are contained in the
+ specified collection (optional operation).  In other words, removes from
+ this collection all of its elements that are not contained in the
+ specified collection.
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
  cares whether or not an element appears at all. If you wish to remove one occurrence in this
@@ -779,6 +843,10 @@ boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/Multiset.ht
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true#retainAll-java.util.Collection-" title="class or interface in java.util">retainAll</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="../../../../com/google/common/collect/Multiset.html" title="type parameter in Multiset">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>c</code> - collection containing elements to be retained in this collection</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><tt>true</tt> if this collection changed as a result of the call</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../com/google/common/collect/Multisets.html#retainOccurrences-com.google.common.collect.Multiset-com.google.common.collect.Multiset-"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></dd>
 </dl>

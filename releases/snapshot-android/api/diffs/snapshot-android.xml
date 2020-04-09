@@ -5923,7 +5923,7 @@
  <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
  {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values
 
- <p><i>can</i> be subtracted to obtain a {@link Duration} (such as by {@link Duration#between}),
+ <p><i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}),
  but doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time
  readings are inherently approximate, routinely affected by periodic clock corrections. Because
  this class (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
@@ -8309,9 +8309,8 @@
    <li>automatic loading of entries into the cache
    <li>least-recently-used eviction when a maximum size is exceeded
    <li>time-based expiration of entries, measured since last access or last write
-   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
-   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
-       SoftReference soft} references
+   <li>keys automatically wrapped in {@code WeakReference}
+   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
    <li>notification of evicted (or otherwise removed) entries
    <li>accumulation of cache access statistics
  </ul>
@@ -64441,10 +64440,11 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Creates an executor service that runs each task in the thread that invokes {@code
- execute/submit}, as in {@link CallerRunsPolicy} This applies both to individually submitted
- tasks and to collections of tasks submitted via {@code invokeAll} or {@code invokeAny}. In the
- latter case, tasks will run serially on the calling thread. Tasks are run to completion before
- a {@code Future} is returned to the caller (unless the executor has been shutdown).
+ execute/submit}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}. This applies both to
+ individually submitted tasks and to collections of tasks submitted via {@code invokeAll} or
+ {@code invokeAny}. In the latter case, tasks will run serially on the calling thread. Tasks are
+ run to completion before a {@code Future} is returned to the caller (unless the executor has
+ been shutdown).
 
  <p>Although all tasks are immediately executed in the thread that submitted the task, this
  {@code ExecutorService} imposes a small locking overhead on each task submission in order to
@@ -64471,7 +64471,7 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an {@link Executor} that runs each task in the thread that invokes {@link
- Executor#execute execute}, as in {@link CallerRunsPolicy}.
+ Executor#execute execute}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}.
 
  <p>This instance is equivalent to:
 
@@ -64629,7 +64629,7 @@
     </method>
     <doc>
     <![CDATA[Factory and utility methods for {@link java.util.concurrent.Executor}, {@link ExecutorService},
- and {@link ThreadFactory}.
+ and {@link java.util.concurrent.ThreadFactory}.
 
  @author Eric Fellheimer
  @author Kyle Littlefield

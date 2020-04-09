@@ -173,25 +173,39 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RunnableFuture.html?is-external=true" title="class or interface in java.util.concurrent">RunnableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#newTaskFor-java.util.concurrent.Callable-">newTaskFor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#newTaskFor-java.util.concurrent.Callable-">newTaskFor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable)</code>
+<div class="block">Returns a <code>RunnableFuture</code> for the given callable task.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RunnableFuture.html?is-external=true" title="class or interface in java.util.concurrent">RunnableFuture</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#newTaskFor-java.lang.Runnable-T-">newTaskFor</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
-          T&nbsp;value)</code>&nbsp;</td>
+          T&nbsp;value)</code>
+<div class="block">Returns a <code>RunnableFuture</code> for the given runnable and default
+ value.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</code>
+<div class="block">Submits a value-returning task for execution and returns a
+ Future representing the pending results of the task.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</code>
+<div class="block">Submits a Runnable task for execution and returns a Future
+ representing that task.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/google/common/util/concurrent/AbstractListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></span>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
-      T&nbsp;result)</code>&nbsp;</td>
+      T&nbsp;result)</code>
+<div class="block">Submits a Runnable task for execution and returns a Future
+ representing that task.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -270,9 +284,22 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <h4>newTaskFor</h4>
 <pre>protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RunnableFuture.html?is-external=true" title="class or interface in java.util.concurrent">RunnableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractListeningExecutorService.html#line.44">newTaskFor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;runnable,
                                                  T&nbsp;value)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#newTaskFor-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">java.util.concurrent.AbstractExecutorService</a></code></span></div>
+<div class="block">Returns a <code>RunnableFuture</code> for the given runnable and default
+ value.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#newTaskFor-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">newTaskFor</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">AbstractExecutorService</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type of the given value</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>runnable</code> - the runnable task being wrapped</dd>
+<dd><code>value</code> - the default value for the returned future</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>RunnableFuture</code> which, when run, will run the
+ underlying runnable and which, as a <code>Future</code>, will yield
+ the given value as its result and provide for cancellation of
+ the underlying task</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0 (present with return type <code>ListenableFutureTask</code> since 14.0)</dd>
 </dl>
@@ -285,9 +312,20 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <li class="blockList">
 <h4>newTaskFor</h4>
 <pre>protected final&nbsp;&lt;T&gt;&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/RunnableFuture.html?is-external=true" title="class or interface in java.util.concurrent">RunnableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractListeningExecutorService.html#line.50">newTaskFor</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;callable)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#newTaskFor-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">java.util.concurrent.AbstractExecutorService</a></code></span></div>
+<div class="block">Returns a <code>RunnableFuture</code> for the given callable task.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#newTaskFor-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">newTaskFor</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">AbstractExecutorService</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type of the callable's result</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>callable</code> - the callable task being wrapped</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>RunnableFuture</code> which, when run, will call the
+ underlying callable and which, as a <code>Future</code>, will yield
+ the callable's result as its result and provide for
+ cancellation of the underlying task</dd>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>19.0 (present with return type <code>ListenableFutureTask</code> since 14.0)</dd>
 </dl>
@@ -300,6 +338,10 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <li class="blockList">
 <h4>submit</h4>
 <pre>public&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;?&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractListeningExecutorService.html#line.55">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
+<div class="block">Submits a Runnable task for execution and returns a Future
+ representing that task. The Future's <code>get</code> method will
+ return <code>null</code> upon <em>successful</em> completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-">submit</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
@@ -307,8 +349,10 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#submit-java.lang.Runnable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">AbstractExecutorService</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
+<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -323,6 +367,10 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractListeningExecutorService.html#line.60">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html?is-external=true" title="class or interface in java.lang">Runnable</a>&nbsp;task,
                                       <a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                                       T&nbsp;result)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
+<div class="block">Submits a Runnable task for execution and returns a Future
+ representing that task. The Future's <code>get</code> method will
+ return the given result upon successful completion.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.lang.Runnable-T-">submit</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
@@ -330,8 +378,13 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#submit-java.lang.Runnable-T-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">AbstractExecutorService</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type of the result</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>task</code> - the task to submit</dd>
+<dd><code>result</code> - the result to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
+<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>
@@ -342,6 +395,21 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <li class="blockList">
 <h4>submit</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;T&gt;&nbsp;<a href="../../../../../src-html/com/google/common/util/concurrent/AbstractListeningExecutorService.html#line.65">submit</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent">Callable</a>&lt;T&gt;&nbsp;task)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">java.util.concurrent.ExecutorService</a></code></span></div>
+<div class="block">Submits a value-returning task for execution and returns a
+ Future representing the pending results of the task. The
+ Future's <code>get</code> method will return the task's result upon
+ successful completion.
+
+ <p>
+ If you would like to immediately block waiting
+ for a task, you can use constructions of the form
+ <code>result = exec.submit(aCallable).get();</code>
+
+ <p>Note: The <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Executors.html?is-external=true" title="class or interface in java.util.concurrent"><code>Executors</code></a> class includes a set of methods
+ that can convert some other common closure-like objects,
+ for example, <a href="https://docs.oracle.com/javase/9/docs/api/java/security/PrivilegedAction.html?is-external=true" title="class or interface in java.security"><code>PrivilegedAction</code></a> to
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html?is-external=true" title="class or interface in java.util.concurrent"><code>Callable</code></a> form so they can be submitted.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html#submit-java.util.concurrent.Callable-">submit</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/google/common/util/concurrent/ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></code></dd>
@@ -349,8 +417,12 @@ implements <a href="../../../../../com/google/common/util/concurrent/ListeningEx
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true#submit-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></dd>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true#submit-java.util.concurrent.Callable-" title="class or interface in java.util.concurrent">submit</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/AbstractExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">AbstractExecutorService</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type of the task's result</dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>task</code> - the task to submit</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>ListenableFuture</code> representing pending completion of the task</dd>
+<dd>a Future representing pending completion of the task</dd>
 </dl>
 </li>
 </ul>

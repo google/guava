@@ -117,7 +117,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 
  <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
  <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#currentTimeMillis--" title="class or interface in java.lang"><code>System.currentTimeMillis()</code></a>, best represented as an <code>Instant</code>. Such values
- <i>can</i> be subtracted to obtain a <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time"><code>Duration</code></a> (such as by <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true#between-java.time.temporal.Temporal-java.time.temporal.Temporal-" title="class or interface in java.time"><code>Duration.between(java.time.temporal.Temporal, java.time.temporal.Temporal)</code></a>), but
+ <i>can</i> be subtracted to obtain a <code>Duration</code> (such as by <code>Duration.between</code>), but
  doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
  are inherently approximate, routinely affected by periodic clock corrections. Because this class
  (by default) uses <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/System.html?is-external=true#nanoTime--" title="class or interface in java.lang"><code>System.nanoTime()</code></a>, it is unaffected by these changes.
@@ -408,7 +408,7 @@ public&nbsp;<a href="../../../../com/google/common/base/Stopwatch.html" title="c
 
  <p>It is generally not a good idea to use an ambiguous, unitless <code>long</code> to represent
  elapsed time. Therefore, we recommend using <a href="../../../../com/google/common/base/Stopwatch.html#elapsed--"><code>elapsed()</code></a> instead, which returns a
- strongly-typed <a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duration.html?is-external=true" title="class or interface in java.time"><code>Duration</code></a> instance.</div>
+ strongly-typed <code>Duration</code> instance.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>14.0 (since 10.0 as <code>elapsedTime()</code>)</dd>
@@ -441,6 +441,8 @@ public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/time/Duratio
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a string representation of the object.</dd>
 </dl>
 </li>
 </ul>

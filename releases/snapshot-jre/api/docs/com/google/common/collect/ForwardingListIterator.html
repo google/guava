@@ -182,7 +182,9 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#add-E-">add</a></span>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#add-E-">add</a></span>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code>
+<div class="block">Inserts the specified element into the list (optional operation).</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></td>
@@ -192,23 +194,38 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#hasPrevious--">hasPrevious</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#hasPrevious--">hasPrevious</a></span>()</code>
+<div class="block">Returns <code>true</code> if this list iterator has more elements when
+ traversing the list in the reverse direction.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#nextIndex--">nextIndex</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#nextIndex--">nextIndex</a></span>()</code>
+<div class="block">Returns the index of the element that would be returned by a
+ subsequent call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a>.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#previous--">previous</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#previous--">previous</a></span>()</code>
+<div class="block">Returns the previous element in the list and moves the cursor
+ position backwards.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#previousIndex--">previousIndex</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#previousIndex--">previousIndex</a></span>()</code>
+<div class="block">Returns the index of the element that would be returned by a
+ subsequent call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a>.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#set-E-">set</a></span>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/google/common/collect/ForwardingListIterator.html#set-E-">set</a></span>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</code>
+<div class="block">Replaces the last element returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a> or
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a> with the specified element (optional operation).</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -305,9 +322,22 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <li class="blockList">
 <h4>add</h4>
 <pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.49">add</a>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#add-E-" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Inserts the specified element into the list (optional operation).
+ The element is inserted immediately before the element that
+ would be returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a>, if any, and after the element
+ that would be returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a>, if any.  (If the
+ list contains no elements, the new element becomes the sole element
+ on the list.)  The new element is inserted before the implicit
+ cursor: a subsequent call to <code>next</code> would be unaffected, and a
+ subsequent call to <code>previous</code> would return the new element.
+ (This call increases by one the value that would be returned by a
+ call to <code>nextIndex</code> or <code>previousIndex</code>.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#add-E-" title="class or interface in java.util">add</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>element</code> - the element to insert</dd>
 </dl>
 </li>
 </ul>
@@ -318,9 +348,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <li class="blockList">
 <h4>hasPrevious</h4>
 <pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.54">hasPrevious</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#hasPrevious--" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Returns <code>true</code> if this list iterator has more elements when
+ traversing the list in the reverse direction.  (In other words,
+ returns <code>true</code> if <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a> would return an element
+ rather than throwing an exception.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#hasPrevious--" title="class or interface in java.util">hasPrevious</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd><code>true</code> if the list iterator has more elements when
+         traversing the list in the reverse direction</dd>
 </dl>
 </li>
 </ul>
@@ -331,9 +369,17 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <li class="blockList">
 <h4>nextIndex</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.59">nextIndex</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#nextIndex--" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Returns the index of the element that would be returned by a
+ subsequent call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a>. (Returns list size if the list
+ iterator is at the end of the list.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#nextIndex--" title="class or interface in java.util">nextIndex</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the index of the element that would be returned by a
+         subsequent call to <code>next</code>, or list size if the list
+         iterator is at the end of the list</dd>
 </dl>
 </li>
 </ul>
@@ -345,9 +391,18 @@ implements <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIter
 <h4>previous</h4>
 <pre><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html?is-external=true" title="class or interface in com.google.errorprone.annotations">@CanIgnoreReturnValue</a>
 public&nbsp;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.65">previous</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Returns the previous element in the list and moves the cursor
+ position backwards.  This method may be called repeatedly to
+ iterate through the list backwards, or intermixed with calls to
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a> to go back and forth.  (Note that alternating calls
+ to <code>next</code> and <code>previous</code> will return the same
+ element repeatedly.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util">previous</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the previous element in the list</dd>
 </dl>
 </li>
 </ul>
@@ -358,9 +413,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingListIterato
 <li class="blockList">
 <h4>previousIndex</h4>
 <pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.70">previousIndex</a>()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previousIndex--" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Returns the index of the element that would be returned by a
+ subsequent call to <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a>. (Returns -1 if the list
+ iterator is at the beginning of the list.)</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previousIndex--" title="class or interface in java.util">previousIndex</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the index of the element that would be returned by a
+         subsequent call to <code>previous</code>, or -1 if the list
+         iterator is at the beginning of the list</dd>
 </dl>
 </li>
 </ul>
@@ -373,9 +436,17 @@ public&nbsp;<a href="../../../../com/google/common/collect/ForwardingListIterato
 <li class="blockList">
 <h4>set</h4>
 <pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/google/common/collect/ForwardingListIterator.html#line.75">set</a>(<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&nbsp;element)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#set-E-" title="class or interface in java.util">java.util.ListIterator</a></code></span></div>
+<div class="block">Replaces the last element returned by <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#next--" title="class or interface in java.util"><code>ListIterator.next()</code></a> or
+ <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#previous--" title="class or interface in java.util"><code>ListIterator.previous()</code></a> with the specified element (optional operation).
+ This call can be made only if neither <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#remove--" title="class or interface in java.util"><code>ListIterator.remove()</code></a> nor <a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#add-E-" title="class or interface in java.util"><code>ListIterator.add(E)</code></a> have been called after the last call to <code>next</code> or
+ <code>previous</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true#set-E-" title="class or interface in java.util">set</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/util/ListIterator.html?is-external=true" title="class or interface in java.util">ListIterator</a>&lt;<a href="../../../../com/google/common/collect/ForwardingListIterator.html" title="type parameter in ForwardingListIterator">E</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>element</code> - the element with which to replace the last element returned by
+          <code>next</code> or <code>previous</code></dd>
 </dl>
 </li>
 </ul>
