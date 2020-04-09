@@ -49,9 +49,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  *   <li>automatic loading of entries into the cache
  *   <li>least-recently-used eviction when a maximum size is exceeded
  *   <li>time-based expiration of entries, measured since last access or last write
- *   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
- *   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
- *       SoftReference soft} references
+ *   <li>keys automatically wrapped in {@code WeakReference}
+ *   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
  *   <li>notification of evicted (or otherwise removed) entries
  *   <li>accumulation of cache access statistics
  * </ul>
