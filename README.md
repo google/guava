@@ -19,7 +19,7 @@ Guava comes in two flavors.
 
 ## Adding Guava to your build
 
-Guava's Maven group ID is `com.google.guava` and its artifact ID is `guava`.
+Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or Java 7 or by any library that wants to be compatible with
 either of those. These flavors are specified in the Maven version field as
@@ -89,8 +89,8 @@ flavor.
 
 1.  APIs marked with the `@Beta` annotation at the class or method level are
     subject to change. They can be modified in any way, or even removed, at any
-    time. If your code is a library itself (i.e. it is used on the CLASSPATH of
-    users outside your own control), you should not use beta APIs, unless you
+    time. If your code is a library itself (i.e., it is used on the CLASSPATH of
+    users outside your own control), you should not use beta APIs unless you
     [repackage] them. **If your code is a library, we strongly recommend using
     the [Guava Beta Checker] to ensure that you do not use any `@Beta` APIs!**
 
