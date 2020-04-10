@@ -120,7 +120,6 @@ import java.util.logging.Logger;
  * @author Luke Sandberg
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
 public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
@@ -158,7 +157,6 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 14.0)
    */
-  @Beta // Should come out of Beta when ServiceManager does
   public abstract static class Listener {
     /**
      * Called when the service initially becomes healthy.
@@ -277,7 +275,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    *     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
    *     for deletion in October 2020.
    */
-  @Beta // currently redundant, but ensures we keep this @Beta when we gradate the class!
+  @Beta
   @Deprecated
   public void addListener(Listener listener) {
     state.addListener(listener, directExecutor());

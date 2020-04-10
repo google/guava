@@ -14,10 +14,9 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-import com.google.errorprone.annotations.DoNotMock;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -52,7 +51,6 @@ import java.util.concurrent.TimeoutException;
  * @author Luke Sandberg
  * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
  */
-@Beta
 @DoNotMock("Create an AbstractIdleService")
 @GwtIncompatible
 public interface Service {
@@ -175,7 +173,6 @@ public interface Service {
    *
    * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})
    */
-  @Beta // should come out of Beta when Service does
   enum State {
     /** A service in this state is inactive. It does minimal work and consumes minimal resources. */
     NEW {
@@ -243,7 +240,6 @@ public interface Service {
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 13.0)
    */
-  @Beta // should come out of Beta when Service does
   abstract class Listener {
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain

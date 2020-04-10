@@ -48,7 +48,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Luke Sandberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
@@ -236,6 +235,7 @@ public abstract class AbstractService implements Service {
    *
    * @since 27.0
    */
+  @Beta
   @ForOverride
   protected void doCancelStart() {}
 
