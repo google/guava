@@ -36134,7 +36134,7 @@
        </ul>
  </ul>
 
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="insertion" return="com.google.common.graph.ElementOrder&lt;S&gt;"
@@ -36426,7 +36426,7 @@
  {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
  #successors(Object)} and {@link #incidentEdges(Object)}.
 
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -36785,7 +36785,7 @@
 
  @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
      ElementOrder.unordered()} or {@code ElementOrder.stable()}.
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
@@ -39008,7 +39008,7 @@
  {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
  #successors(Object)} and {@link #incidentEdges(Object)}.
 
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -39412,7 +39412,7 @@
 
  @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
      ElementOrder.unordered()} or {@code ElementOrder.stable()}.
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableValueGraph&lt;N1, V1&gt;"
@@ -62495,7 +62495,7 @@
       <![CDATA[Returns a successful {@code ListenableFuture<Void>}. This method is equivalent to {@code
  immediateFuture(null)} except that it is restricted to produce futures of type {@code Void}.
 
- @since NEXT]]>
+ @since 29.0]]>
       </doc>
     </method>
     <method name="immediateFailedFuture" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
@@ -65405,7 +65405,7 @@
  <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
  correspond to a point in time view of the services.
 
- @since NEXT (present with return type {@code ImmutableMultimap} since 14.0)]]>
+ @since 29.0 (present with return type {@code ImmutableMultimap} since 14.0)]]>
       </doc>
     </method>
     <method name="startupTimes" return="com.google.common.collect.ImmutableMap&lt;com.google.common.util.concurrent.Service, java.lang.Long&gt;"
