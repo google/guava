@@ -141,7 +141,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Returns a successful {@code ListenableFuture<Void>}. This method is equivalent to {@code
    * immediateFuture(null)} except that it is restricted to produce futures of type {@code Void}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   @SuppressWarnings("unchecked")
   public static ListenableFuture<Void> immediateVoidFuture() {

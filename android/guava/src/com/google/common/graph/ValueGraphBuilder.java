@@ -158,7 +158,7 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
    *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
-   * @since NEXT
+   * @since 29.0
    */
   public <N1 extends N> ValueGraphBuilder<N1, V> incidentEdgeOrder(
       ElementOrder<N1> incidentEdgeOrder) {

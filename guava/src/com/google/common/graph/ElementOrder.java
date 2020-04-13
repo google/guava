@@ -115,7 +115,7 @@ public final class ElementOrder<T> {
    *       </ul>
    * </ul>
    *
-   * @since NEXT
+   * @since 29.0
    */
   public static <S> ElementOrder<S> stable() {
     return new ElementOrder<S>(Type.STABLE, null);

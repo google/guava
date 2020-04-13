@@ -61,7 +61,7 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
    * #successors(Object)} and {@link #incidentEdges(Object)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   ElementOrder<N> incidentEdgeOrder();
 

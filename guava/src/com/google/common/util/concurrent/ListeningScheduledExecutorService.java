@@ -42,7 +42,7 @@ public interface ListeningScheduledExecutorService
   /**
    * Duration-based overload of {@link #schedule(Runnable, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   default ListenableScheduledFuture<?> schedule(Runnable command, Duration delay) {
     return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
@@ -55,7 +55,7 @@ public interface ListeningScheduledExecutorService
   /**
    * Duration-based overload of {@link #schedule(Callable, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   default <V> ListenableScheduledFuture<V> schedule(Callable<V> callable, Duration delay) {
     return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
@@ -69,7 +69,7 @@ public interface ListeningScheduledExecutorService
   /**
    * Duration-based overload of {@link #scheduleAtFixedRate(Runnable, long, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   default ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, Duration initialDelay, Duration period) {
@@ -85,7 +85,7 @@ public interface ListeningScheduledExecutorService
   /**
    * Duration-based overload of {@link #scheduleWithFixedDelay(Runnable, long, long, TimeUnit)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   default ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, Duration initialDelay, Duration delay) {

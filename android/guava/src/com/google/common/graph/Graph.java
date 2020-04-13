@@ -145,7 +145,7 @@ public interface Graph<N> extends BaseGraph<N> {
    * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
    * #successors(Object)} and {@link #incidentEdges(Object)}.
    *
-   * @since NEXT
+   * @since 29.0
    */
   @Override
   ElementOrder<N> incidentEdgeOrder();
