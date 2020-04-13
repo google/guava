@@ -115,6 +115,8 @@ public final class ElementOrder<T> {
    *         <li>{@code edgesConnecting(nodeU, nodeV)}: Edge insertion order
    *       </ul>
    * </ul>
+   *
+   * @since NEXT
    */
   public static <S> ElementOrder<S> stable() {
     return new ElementOrder<S>(Type.STABLE, null);

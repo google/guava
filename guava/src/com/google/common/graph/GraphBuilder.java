@@ -154,6 +154,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    *
    * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
    *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   * @since NEXT
    */
   public <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
     checkArgument(

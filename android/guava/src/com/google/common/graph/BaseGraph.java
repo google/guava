@@ -60,6 +60,8 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
    * Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
    * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
    * #successors(Object)} and {@link #incidentEdges(Object)}.
+   *
+   * @since NEXT
    */
   ElementOrder<N> incidentEdgeOrder();
 
