@@ -178,7 +178,7 @@ final class SubscriberRegistry {
     Set<MethodIdentifier> identifiers = new HashSet<>();
     return supertypes
       .stream()
-      .filter(cls -> !Object.class.equals(cls))
+      .filter(cls -> !Objects.equal(cls, Object.class))
       .flatMap(supertype -> {
         Method[] methods;
         try {
@@ -189,7 +189,7 @@ final class SubscriberRegistry {
         return Arrays.stream(methods)
           .filter(method -> method.isAnnotationPresent(Subscribe.class))
           .filter(method -> !method.isSynthetic())
-          .filter(method -> {
+          .peek(method -> {
             Class<?>[] parameterTypes = method.getParameterTypes();
             checkArgument(
                     parameterTypes.length == 1,
@@ -197,7 +197,6 @@ final class SubscriberRegistry {
                             + "Subscriber methods must have exactly 1 parameter.",
                     method,
                     parameterTypes.length);
-            return true;
           }
         );
         }
