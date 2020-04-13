@@ -37887,7 +37887,9 @@
          <li>{@code adjacentEdges(edge)}: Stable order
          <li>{@code edgesConnecting(nodeU, nodeV)}: Edge insertion order
        </ul>
- </ul>]]>
+ </ul>
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="insertion" return="com.google.common.graph.ElementOrder&lt;S&gt;"
@@ -38177,7 +38179,9 @@
       <doc>
       <![CDATA[Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
  {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
- #successors(Object)} and {@link #incidentEdges(Object)}.]]>
+ #successors(Object)} and {@link #incidentEdges(Object)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -38535,7 +38539,8 @@
  stable} order.
 
  @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
-     ElementOrder.unordered()} or {@code ElementOrder.stable()}.]]>
+     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+ @since NEXT]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableGraph&lt;N1&gt;"
@@ -40794,7 +40799,9 @@
       <doc>
       <![CDATA[Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
  {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
- #successors(Object)} and {@link #incidentEdges(Object)}.]]>
+ #successors(Object)} and {@link #incidentEdges(Object)}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
@@ -41229,7 +41236,8 @@
  stable} order.
 
  @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
-     ElementOrder.unordered()} or {@code ElementOrder.stable()}.]]>
+     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+ @since NEXT]]>
       </doc>
     </method>
     <method name="build" return="com.google.common.graph.MutableValueGraph&lt;N1, V1&gt;"

@@ -267,7 +267,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>stable</h4>
-<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.119">stable</a>()</pre>
+<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.121">stable</a>()</pre>
 <div class="block">Returns an instance which specifies that ordering is guaranteed to be always be the same across
  iterations, and across releases. Some methods may have stronger guarantees.
 
@@ -299,6 +299,10 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
          <li><code>edgesConnecting(nodeU, nodeV)</code>: Edge insertion order
        </ul>
  </ul></div>
+<dl>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
+</dl>
 </li>
 </ul>
 <a name="insertion--">
@@ -307,7 +311,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>insertion</h4>
-<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.124">insertion</a>()</pre>
+<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.126">insertion</a>()</pre>
 <div class="block">Returns an instance which specifies that insertion ordering is guaranteed.</div>
 </li>
 </ul>
@@ -317,7 +321,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>natural</h4>
-<pre>public static&nbsp;&lt;S extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super S&gt;&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.131">natural</a>()</pre>
+<pre>public static&nbsp;&lt;S extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Comparable.html?is-external=true" title="class or interface in java.lang">Comparable</a>&lt;? super S&gt;&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.133">natural</a>()</pre>
 <div class="block">Returns an instance which specifies that the natural ordering of the elements is guaranteed.</div>
 </li>
 </ul>
@@ -327,7 +331,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>sorted</h4>
-<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.139">sorted</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;S&gt;&nbsp;comparator)</pre>
+<pre>public static&nbsp;&lt;S&gt;&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;S&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.141">sorted</a>(<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;S&gt;&nbsp;comparator)</pre>
 <div class="block">Returns an instance which specifies that the ordering of the elements is guaranteed to be
  determined by <code>comparator</code>.</div>
 </li>
@@ -338,7 +342,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>type</h4>
-<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.144">type</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.146">type</a>()</pre>
 <div class="block">Returns the type of ordering used.</div>
 </li>
 </ul>
@@ -348,7 +352,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>comparator</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="../../../../com/google/common/graph/ElementOrder.html" title="type parameter in ElementOrder">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.153">comparator</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util">Comparator</a>&lt;<a href="../../../../com/google/common/graph/ElementOrder.html" title="type parameter in ElementOrder">T</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.155">comparator</a>()</pre>
 <div class="block">Returns the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Comparator.html?is-external=true" title="class or interface in java.util"><code>Comparator</code></a> used.</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -362,7 +366,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.161">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.163">equals</a>(<a href="https://checkerframework.org/api/org/checkerframework/checker/nullness/compatqual/NullableDecl.html?is-external=true" title="class or interface in org.checkerframework.checker.nullness.compatqual">@NullableDecl</a>
                       <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;obj)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Indicates whether some other object is "equal to" this one.
@@ -423,7 +427,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.174">hashCode</a>()</pre>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.176">hashCode</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a hash code value for the object. This method is
  supported for the benefit of hash tables such as those provided by
@@ -471,7 +475,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>toString</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.179">toString</a>()</pre>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/9/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;<a href="../../../../src-html/com/google/common/graph/ElementOrder.html#line.181">toString</a>()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">java.lang.Object</a></code></span></div>
 <div class="block">Returns a string representation of the object. In general, the
  <code>toString</code> method returns a string that

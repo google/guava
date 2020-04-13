@@ -346,7 +346,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockList">
 <li class="blockList">
 <h4>incidentEdgeOrder</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,<a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.162">incidentEdgeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a>&lt;N1,<a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.163">incidentEdgeOrder</a>(<a href="../../../../com/google/common/graph/ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;incidentEdgeOrder)</pre>
 <div class="block">Specifies the order of iteration for the elements of <a href="../../../../com/google/common/graph/ValueGraph.html#edges--"><code>ValueGraph.edges()</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html#adjacentNodes-N-"><code>ValueGraph.adjacentNodes(Object)</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html#predecessors-N-"><code>ValueGraph.predecessors(Object)</code></a>, <a href="../../../../com/google/common/graph/ValueGraph.html#successors-N-"><code>ValueGraph.successors(Object)</code></a> and <a href="../../../../com/google/common/graph/ValueGraph.html#incidentEdges-N-"><code>ValueGraph.incidentEdges(Object)</code></a>.
 
  <p>The default value is <a href="../../../../com/google/common/graph/ElementOrder.html#unordered--"><code>unordered</code></a> for mutable graphs. For
@@ -354,6 +354,8 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/9/docs/api/java/lang/IllegalArgumentException.html?is-external=true" title="class or interface in java.lang">IllegalArgumentException</a></code> - if <code>incidentEdgeOrder</code> is not either <code>ElementOrder.unordered()</code> or <code>ElementOrder.stable()</code>.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>NEXT</dd>
 </dl>
 </li>
 </ul>
@@ -363,7 +365,7 @@ extends <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/Object.html
 <ul class="blockListLast">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,V1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.178">build</a>()</pre>
+<pre>public&nbsp;&lt;N1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">N</a>,V1 extends <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="type parameter in ValueGraphBuilder">V</a>&gt;&nbsp;<a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N1,V1&gt;&nbsp;<a href="../../../../src-html/com/google/common/graph/ValueGraphBuilder.html#line.179">build</a>()</pre>
 <div class="block">Returns an empty <a href="../../../../com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a> with the properties of this <a href="../../../../com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a>.</div>
 </li>
 </ul>

@@ -162,38 +162,39 @@
 <span class="sourceLineNo">154</span>   *<a name="line.154"></a>
 <span class="sourceLineNo">155</span>   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code<a name="line.155"></a>
 <span class="sourceLineNo">156</span>   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.<a name="line.156"></a>
-<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  public &lt;N1 extends N&gt; GraphBuilder&lt;N1&gt; incidentEdgeOrder(ElementOrder&lt;N1&gt; incidentEdgeOrder) {<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    checkArgument(<a name="line.159"></a>
-<span class="sourceLineNo">160</span>        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED<a name="line.160"></a>
-<span class="sourceLineNo">161</span>            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,<a name="line.161"></a>
-<span class="sourceLineNo">162</span>        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"<a name="line.162"></a>
-<span class="sourceLineNo">163</span>            + " ElementOrder.unordered() and ElementOrder.stable().",<a name="line.163"></a>
-<span class="sourceLineNo">164</span>        incidentEdgeOrder);<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    GraphBuilder&lt;N1&gt; newBuilder = cast();<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    return newBuilder;<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  }<a name="line.168"></a>
-<span class="sourceLineNo">169</span><a name="line.169"></a>
-<span class="sourceLineNo">170</span>  /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  public &lt;N1 extends N&gt; MutableGraph&lt;N1&gt; build() {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    return new StandardMutableGraph&lt;N1&gt;(this);<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
-<span class="sourceLineNo">174</span><a name="line.174"></a>
-<span class="sourceLineNo">175</span>  GraphBuilder&lt;N&gt; copy() {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    GraphBuilder&lt;N&gt; newBuilder = new GraphBuilder&lt;&gt;(directed);<a name="line.176"></a>
-<span class="sourceLineNo">177</span>    newBuilder.allowsSelfLoops = allowsSelfLoops;<a name="line.177"></a>
-<span class="sourceLineNo">178</span>    newBuilder.nodeOrder = nodeOrder;<a name="line.178"></a>
-<span class="sourceLineNo">179</span>    newBuilder.expectedNodeCount = expectedNodeCount;<a name="line.179"></a>
-<span class="sourceLineNo">180</span>    newBuilder.incidentEdgeOrder = incidentEdgeOrder;<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    return newBuilder;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  @SuppressWarnings("unchecked")<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  private &lt;N1 extends N&gt; GraphBuilder&lt;N1&gt; cast() {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    return (GraphBuilder&lt;N1&gt;) this;<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
-<span class="sourceLineNo">188</span>}<a name="line.188"></a>
+<span class="sourceLineNo">157</span>   * @since NEXT<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   */<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  public &lt;N1 extends N&gt; GraphBuilder&lt;N1&gt; incidentEdgeOrder(ElementOrder&lt;N1&gt; incidentEdgeOrder) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    checkArgument(<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED<a name="line.161"></a>
+<span class="sourceLineNo">162</span>            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,<a name="line.162"></a>
+<span class="sourceLineNo">163</span>        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"<a name="line.163"></a>
+<span class="sourceLineNo">164</span>            + " ElementOrder.unordered() and ElementOrder.stable().",<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        incidentEdgeOrder);<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    GraphBuilder&lt;N1&gt; newBuilder = cast();<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return newBuilder;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  public &lt;N1 extends N&gt; MutableGraph&lt;N1&gt; build() {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    return new StandardMutableGraph&lt;N1&gt;(this);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
+<span class="sourceLineNo">175</span><a name="line.175"></a>
+<span class="sourceLineNo">176</span>  GraphBuilder&lt;N&gt; copy() {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    GraphBuilder&lt;N&gt; newBuilder = new GraphBuilder&lt;&gt;(directed);<a name="line.177"></a>
+<span class="sourceLineNo">178</span>    newBuilder.allowsSelfLoops = allowsSelfLoops;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    newBuilder.nodeOrder = nodeOrder;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    newBuilder.expectedNodeCount = expectedNodeCount;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    newBuilder.incidentEdgeOrder = incidentEdgeOrder;<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    return newBuilder;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  }<a name="line.183"></a>
+<span class="sourceLineNo">184</span><a name="line.184"></a>
+<span class="sourceLineNo">185</span>  @SuppressWarnings("unchecked")<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  private &lt;N1 extends N&gt; GraphBuilder&lt;N1&gt; cast() {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    return (GraphBuilder&lt;N1&gt;) this;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
+<span class="sourceLineNo">189</span>}<a name="line.189"></a>
 
 
 
