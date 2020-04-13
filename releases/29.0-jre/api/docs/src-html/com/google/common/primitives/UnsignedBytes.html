@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.primitives;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkPositionIndexes;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtIncompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.annotations.VisibleForTesting;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.nio.ByteOrder;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Arrays;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.Comparator;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import sun.misc.Unsafe;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>/**<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * Static utility methods pertaining to {@code byte} primitives that interpret values as<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;i&gt;unsigned&lt;/i&gt; (that is, any negative value {@code b} is treated as the positive value {@code<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * 256 + b}). The corresponding methods that treat the values as signed are found in {@link<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * SignedBytes}, and the methods for which signedness is not an issue are in {@link Bytes}.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * &lt;p&gt;See the Guava User Guide article on &lt;a<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * href="https://github.com/google/guava/wiki/PrimitivesExplained"&gt;primitive utilities&lt;/a&gt;.<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * @author Kevin Bourrillion<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * @author Martin Buchholz<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * @author Hiroshi Yamauchi<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * @author Louis Wasserman<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * @since 1.0<a name="line.43"></a>
+<span class="sourceLineNo">044</span> */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>@GwtIncompatible<a name="line.45"></a>
+<span class="sourceLineNo">046</span>public final class UnsignedBytes {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private UnsignedBytes() {}<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  /**<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * The largest power of two that can be represented as an unsigned {@code byte}.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   *<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @since 10.0<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static final byte MAX_POWER_OF_TWO = (byte) 0x80;<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * The largest value that fits into an unsigned byte.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   *<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * @since 13.0<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  public static final byte MAX_VALUE = (byte) 0xFF;<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private static final int UNSIGNED_MASK = 0xFF;<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * Returns the value of the given byte as an integer, when treated as unsigned. That is, returns<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * {@code value + 256} if {@code value} is negative; {@code value} itself otherwise.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   *<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; use {@link Byte#toUnsignedInt(byte)} instead.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   *<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * @since 6.0<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  public static int toInt(byte value) {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    return value &amp; UNSIGNED_MASK;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * Returns the {@code byte} value that, when treated as unsigned, is equal to {@code value}, if<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * possible.<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   *<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * @param value a value between 0 and 255 inclusive<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * @return the {@code byte} value that, when treated as unsigned, equals {@code value}<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * @throws IllegalArgumentException if {@code value} is negative or greater than 255<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @CanIgnoreReturnValue<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public static byte checkedCast(long value) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    checkArgument(value &gt;&gt; Byte.SIZE == 0, "out of range: %s", value);<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    return (byte) value;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * Returns the {@code byte} value that, when treated as unsigned, is nearest in value to {@code<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * value}.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @param value any {@code long} value<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * @return {@code (byte) 255} if {@code value &gt;= 255}, {@code (byte) 0} if {@code value &lt;= 0}, and<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   *     {@code value} cast to {@code byte} otherwise<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  public static byte saturatedCast(long value) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    if (value &gt; toInt(MAX_VALUE)) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      return MAX_VALUE; // -1<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    }<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    if (value &lt; 0) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>      return (byte) 0;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    }<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    return (byte) value;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /**<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * Compares the two specified {@code byte} values, treating them as unsigned values between 0 and<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * 255 inclusive. For example, {@code (byte) -127} is considered greater than {@code (byte) 127}<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * because it is seen as having the value of positive {@code 129}.<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   *<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * @param a the first {@code byte} to compare<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * @param b the second {@code byte} to compare<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   *     greater than {@code b}; or zero if they are equal<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public static int compare(byte a, byte b) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return toInt(a) - toInt(b);<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Returns the least value present in {@code array}, treating values as unsigned.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   *<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code byte} values<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * @return the value present in {@code array} that is less than or equal to every other value in<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *     the array according to {@link #compare}<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * @throws IllegalArgumentException if {@code array} is empty<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public static byte min(byte... array) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    checkArgument(array.length &gt; 0);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    int min = toInt(array[0]);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>      int next = toInt(array[i]);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      if (next &lt; min) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        min = next;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    }<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    return (byte) min;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * Returns the greatest value present in {@code array}, treating values as unsigned.<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   *<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * @param array a &lt;i&gt;nonempty&lt;/i&gt; array of {@code byte} values<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * @return the value present in {@code array} that is greater than or equal to every other value<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   *     in the array according to {@link #compare}<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * @throws IllegalArgumentException if {@code array} is empty<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   */<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  public static byte max(byte... array) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    checkArgument(array.length &gt; 0);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    int max = toInt(array[0]);<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>      int next = toInt(array[i]);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>      if (next &gt; max) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>        max = next;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>      }<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    }<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    return (byte) max;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  }<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>  /**<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * Returns a string representation of x, where x is treated as unsigned.<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   *<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * @since 13.0<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @Beta<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public static String toString(byte x) {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return toString(x, 10);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated as<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * unsigned.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   *<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * @param x the value to convert to a string.<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * @param radix the radix to use while working with {@code x}<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   *     and {@link Character#MAX_RADIX}.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * @since 13.0<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   */<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  @Beta<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  public static String toString(byte x, int radix) {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    checkArgument(<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        radix &gt;= Character.MIN_RADIX &amp;&amp; radix &lt;= Character.MAX_RADIX,<a name="line.186"></a>
+<span class="sourceLineNo">187</span>        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",<a name="line.187"></a>
+<span class="sourceLineNo">188</span>        radix);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    // Benchmarks indicate this is probably not worth optimizing.<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return Integer.toString(toInt(x), radix);<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * Returns the unsigned {@code byte} value represented by the given decimal string.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   *     value<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * @throws NullPointerException if {@code string} is null (in contrast to {@link<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   *     Byte#parseByte(String)})<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * @since 13.0<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   */<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  @Beta<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  @CanIgnoreReturnValue<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  public static byte parseUnsignedByte(String string) {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    return parseUnsignedByte(string, 10);<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  }<a name="line.206"></a>
+<span class="sourceLineNo">207</span><a name="line.207"></a>
+<span class="sourceLineNo">208</span>  /**<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * Returns the unsigned {@code byte} value represented by a string with the given radix.<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   *<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * @param string the string containing the unsigned {@code byte} representation to be parsed.<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * @param radix the radix to use while parsing {@code string}<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte} with<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   *     the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX} and {@link<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   *     Character#MAX_RADIX}.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * @throws NullPointerException if {@code string} is null (in contrast to {@link<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   *     Byte#parseByte(String)})<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * @since 13.0<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  @Beta<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  @CanIgnoreReturnValue<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  public static byte parseUnsignedByte(String string, int radix) {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    int parse = Integer.parseInt(checkNotNull(string), radix);<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    // We need to throw a NumberFormatException, so we have to duplicate checkedCast. =(<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    if (parse &gt;&gt; Byte.SIZE == 0) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      return (byte) parse;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    } else {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>      throw new NumberFormatException("out of range: " + parse);<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    }<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  }<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * Returns a string containing the supplied {@code byte} values separated by {@code separator}.<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * For example, {@code join(":", (byte) 1, (byte) 2, (byte) 255)} returns the string {@code<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * "1:2:255"}.<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   *<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * @param separator the text that should appear between consecutive values in the resulting string<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   *     (but not at the start or end)<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * @param array an array of {@code byte} values, possibly empty<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   */<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  public static String join(String separator, byte... array) {<a name="line.241"></a>
+<span class="sourceLineNo">242</span>    checkNotNull(separator);<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    if (array.length == 0) {<a name="line.243"></a>
+<span class="sourceLineNo">244</span>      return "";<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    }<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>    // For pre-sizing a builder, just get the right order of magnitude<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    StringBuilder builder = new StringBuilder(array.length * (3 + separator.length()));<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    builder.append(toInt(array[0]));<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    for (int i = 1; i &lt; array.length; i++) {<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      builder.append(separator).append(toString(array[i]));<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    return builder.toString();<a name="line.253"></a>
+<span class="sourceLineNo">254</span>  }<a name="line.254"></a>
+<span class="sourceLineNo">255</span><a name="line.255"></a>
+<span class="sourceLineNo">256</span>  /**<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * Returns a comparator that compares two {@code byte} arrays &lt;a<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * href="http://en.wikipedia.org/wiki/Lexicographical_order"&gt;lexicographically&lt;/a&gt;. That is, it<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   * compares, using {@link #compare(byte, byte)}), the first pair of values that follow any common<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * prefix, or when one array is a prefix of the other, treats the shorter array as the lesser. For<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * example, {@code [] &lt; [0x01] &lt; [0x01, 0x7F] &lt; [0x01, 0x80] &lt; [0x02]}. Values are treated as<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * unsigned.<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   *<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * &lt;p&gt;The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * support only identity equality), but it is consistent with {@link<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * java.util.Arrays#equals(byte[], byte[])}.<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * @since 2.0<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   */<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  public static Comparator&lt;byte[]&gt; lexicographicalComparator() {<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    return LexicographicalComparatorHolder.BEST_COMPARATOR;<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  }<a name="line.272"></a>
+<span class="sourceLineNo">273</span><a name="line.273"></a>
+<span class="sourceLineNo">274</span>  @VisibleForTesting<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  static Comparator&lt;byte[]&gt; lexicographicalComparatorJavaImpl() {<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    return LexicographicalComparatorHolder.PureJavaComparator.INSTANCE;<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * Provides a lexicographical comparator implementation; either a Java implementation or a faster<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * implementation based on {@link Unsafe}.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   *<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * &lt;p&gt;Uses reflection to gracefully fall back to the Java implementation if {@code Unsafe} isn't<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * available.<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  @VisibleForTesting<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  static class LexicographicalComparatorHolder {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    static final String UNSAFE_COMPARATOR_NAME =<a name="line.288"></a>
+<span class="sourceLineNo">289</span>        LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>    static final Comparator&lt;byte[]&gt; BEST_COMPARATOR = getBestComparator();<a name="line.291"></a>
+<span class="sourceLineNo">292</span><a name="line.292"></a>
+<span class="sourceLineNo">293</span>    @VisibleForTesting<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    enum UnsafeComparator implements Comparator&lt;byte[]&gt; {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      INSTANCE;<a name="line.295"></a>
+<span class="sourceLineNo">296</span><a name="line.296"></a>
+<span class="sourceLineNo">297</span>      static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);<a name="line.297"></a>
+<span class="sourceLineNo">298</span><a name="line.298"></a>
+<span class="sourceLineNo">299</span>      /*<a name="line.299"></a>
+<span class="sourceLineNo">300</span>       * The following static final fields exist for performance reasons.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>       *<a name="line.301"></a>
+<span class="sourceLineNo">302</span>       * In UnsignedBytesBenchmark, accessing the following objects via static final fields is the<a name="line.302"></a>
+<span class="sourceLineNo">303</span>       * fastest (more than twice as fast as the Java implementation, vs ~1.5x with non-final static<a name="line.303"></a>
+<span class="sourceLineNo">304</span>       * fields, on x86_32) under the Hotspot server compiler. The reason is obviously that the<a name="line.304"></a>
+<span class="sourceLineNo">305</span>       * non-final fields need to be reloaded inside the loop.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>       *<a name="line.306"></a>
+<span class="sourceLineNo">307</span>       * And, no, defining (final or not) local variables out of the loop still isn't as good<a name="line.307"></a>
+<span class="sourceLineNo">308</span>       * because the null check on the theUnsafe object remains inside the loop and<a name="line.308"></a>
+<span class="sourceLineNo">309</span>       * BYTE_ARRAY_BASE_OFFSET doesn't get constant-folded.<a name="line.309"></a>
+<span class="sourceLineNo">310</span>       *<a name="line.310"></a>
+<span class="sourceLineNo">311</span>       * The compiler can treat static final fields as compile-time constants and can constant-fold<a name="line.311"></a>
+<span class="sourceLineNo">312</span>       * them while (final or not) local variables are run time values.<a name="line.312"></a>
+<span class="sourceLineNo">313</span>       */<a name="line.313"></a>
+<span class="sourceLineNo">314</span><a name="line.314"></a>
+<span class="sourceLineNo">315</span>      static final Unsafe theUnsafe = getUnsafe();<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>      /** The offset to the first element in a byte array. */<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);<a name="line.318"></a>
+<span class="sourceLineNo">319</span><a name="line.319"></a>
+<span class="sourceLineNo">320</span>      static {<a name="line.320"></a>
+<span class="sourceLineNo">321</span>        // fall back to the safer pure java implementation unless we're in<a name="line.321"></a>
+<span class="sourceLineNo">322</span>        // a 64-bit JVM with an 8-byte aligned field offset.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>        if (!("64".equals(System.getProperty("sun.arch.data.model"))<a name="line.323"></a>
+<span class="sourceLineNo">324</span>            &amp;&amp; (BYTE_ARRAY_BASE_OFFSET % 8) == 0<a name="line.324"></a>
+<span class="sourceLineNo">325</span>            // sanity check - this should never fail<a name="line.325"></a>
+<span class="sourceLineNo">326</span>            &amp;&amp; theUnsafe.arrayIndexScale(byte[].class) == 1)) {<a name="line.326"></a>
+<span class="sourceLineNo">327</span>          throw new Error(); // force fallback to PureJavaComparator<a name="line.327"></a>
+<span class="sourceLineNo">328</span>        }<a name="line.328"></a>
+<span class="sourceLineNo">329</span>      }<a name="line.329"></a>
+<span class="sourceLineNo">330</span><a name="line.330"></a>
+<span class="sourceLineNo">331</span>      /**<a name="line.331"></a>
+<span class="sourceLineNo">332</span>       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple<a name="line.332"></a>
+<span class="sourceLineNo">333</span>       * call to Unsafe.getUnsafe when integrating into a jdk.<a name="line.333"></a>
+<span class="sourceLineNo">334</span>       *<a name="line.334"></a>
+<span class="sourceLineNo">335</span>       * @return a sun.misc.Unsafe<a name="line.335"></a>
+<span class="sourceLineNo">336</span>       */<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      private static sun.misc.Unsafe getUnsafe() {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>        try {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>          return sun.misc.Unsafe.getUnsafe();<a name="line.339"></a>
+<span class="sourceLineNo">340</span>        } catch (SecurityException e) {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          // that's okay; try reflection instead<a name="line.341"></a>
+<span class="sourceLineNo">342</span>        }<a name="line.342"></a>
+<span class="sourceLineNo">343</span>        try {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>          return java.security.AccessController.doPrivileged(<a name="line.344"></a>
+<span class="sourceLineNo">345</span>              new java.security.PrivilegedExceptionAction&lt;sun.misc.Unsafe&gt;() {<a name="line.345"></a>
+<span class="sourceLineNo">346</span>                @Override<a name="line.346"></a>
+<span class="sourceLineNo">347</span>                public sun.misc.Unsafe run() throws Exception {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>                  Class&lt;sun.misc.Unsafe&gt; k = sun.misc.Unsafe.class;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>                  for (java.lang.reflect.Field f : k.getDeclaredFields()) {<a name="line.349"></a>
+<span class="sourceLineNo">350</span>                    f.setAccessible(true);<a name="line.350"></a>
+<span class="sourceLineNo">351</span>                    Object x = f.get(null);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>                    if (k.isInstance(x)) {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>                      return k.cast(x);<a name="line.353"></a>
+<span class="sourceLineNo">354</span>                    }<a name="line.354"></a>
+<span class="sourceLineNo">355</span>                  }<a name="line.355"></a>
+<span class="sourceLineNo">356</span>                  throw new NoSuchFieldError("the Unsafe");<a name="line.356"></a>
+<span class="sourceLineNo">357</span>                }<a name="line.357"></a>
+<span class="sourceLineNo">358</span>              });<a name="line.358"></a>
+<span class="sourceLineNo">359</span>        } catch (java.security.PrivilegedActionException e) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>          throw new RuntimeException("Could not initialize intrinsics", e.getCause());<a name="line.360"></a>
+<span class="sourceLineNo">361</span>        }<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      }<a name="line.362"></a>
+<span class="sourceLineNo">363</span><a name="line.363"></a>
+<span class="sourceLineNo">364</span>      @Override<a name="line.364"></a>
+<span class="sourceLineNo">365</span>      public int compare(byte[] left, byte[] right) {<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        final int stride = 8;<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        int minLength = Math.min(left.length, right.length);<a name="line.367"></a>
+<span class="sourceLineNo">368</span>        int strideLimit = minLength &amp; ~(stride - 1);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>        int i;<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>        /*<a name="line.371"></a>
+<span class="sourceLineNo">372</span>         * Compare 8 bytes at a time. Benchmarking on x86 shows a stride of 8 bytes is no slower<a name="line.372"></a>
+<span class="sourceLineNo">373</span>         * than 4 bytes even on 32-bit. On the other hand, it is substantially faster on 64-bit.<a name="line.373"></a>
+<span class="sourceLineNo">374</span>         */<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        for (i = 0; i &lt; strideLimit; i += stride) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>          long lw = theUnsafe.getLong(left, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.376"></a>
+<span class="sourceLineNo">377</span>          long rw = theUnsafe.getLong(right, BYTE_ARRAY_BASE_OFFSET + (long) i);<a name="line.377"></a>
+<span class="sourceLineNo">378</span>          if (lw != rw) {<a name="line.378"></a>
+<span class="sourceLineNo">379</span>            if (BIG_ENDIAN) {<a name="line.379"></a>
+<span class="sourceLineNo">380</span>              return UnsignedLongs.compare(lw, rw);<a name="line.380"></a>
+<span class="sourceLineNo">381</span>            }<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>            /*<a name="line.383"></a>
+<span class="sourceLineNo">384</span>             * We want to compare only the first index where left[index] != right[index]. This<a name="line.384"></a>
+<span class="sourceLineNo">385</span>             * corresponds to the least significant nonzero byte in lw ^ rw, since lw and rw are<a name="line.385"></a>
+<span class="sourceLineNo">386</span>             * little-endian. Long.numberOfTrailingZeros(diff) tells us the least significant<a name="line.386"></a>
+<span class="sourceLineNo">387</span>             * nonzero bit, and zeroing out the first three bits of L.nTZ gives us the shift to get<a name="line.387"></a>
+<span class="sourceLineNo">388</span>             * that least significant nonzero byte.<a name="line.388"></a>
+<span class="sourceLineNo">389</span>             */<a name="line.389"></a>
+<span class="sourceLineNo">390</span>            int n = Long.numberOfTrailingZeros(lw ^ rw) &amp; ~0x7;<a name="line.390"></a>
+<span class="sourceLineNo">391</span>            return ((int) ((lw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK)) - ((int) ((rw &gt;&gt;&gt; n) &amp; UNSIGNED_MASK));<a name="line.391"></a>
+<span class="sourceLineNo">392</span>          }<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        }<a name="line.393"></a>
+<span class="sourceLineNo">394</span><a name="line.394"></a>
+<span class="sourceLineNo">395</span>        // The epilogue to cover the last (minLength % stride) elements.<a name="line.395"></a>
+<span class="sourceLineNo">396</span>        for (; i &lt; minLength; i++) {<a name="line.396"></a>
+<span class="sourceLineNo">397</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.397"></a>
+<span class="sourceLineNo">398</span>          if (result != 0) {<a name="line.398"></a>
+<span class="sourceLineNo">399</span>            return result;<a name="line.399"></a>
+<span class="sourceLineNo">400</span>          }<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        }<a name="line.401"></a>
+<span class="sourceLineNo">402</span>        return left.length - right.length;<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      }<a name="line.403"></a>
+<span class="sourceLineNo">404</span><a name="line.404"></a>
+<span class="sourceLineNo">405</span>      @Override<a name="line.405"></a>
+<span class="sourceLineNo">406</span>      public String toString() {<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        return "UnsignedBytes.lexicographicalComparator() (sun.misc.Unsafe version)";<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      }<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    }<a name="line.409"></a>
+<span class="sourceLineNo">410</span><a name="line.410"></a>
+<span class="sourceLineNo">411</span>    enum PureJavaComparator implements Comparator&lt;byte[]&gt; {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>      INSTANCE;<a name="line.412"></a>
+<span class="sourceLineNo">413</span><a name="line.413"></a>
+<span class="sourceLineNo">414</span>      @Override<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      public int compare(byte[] left, byte[] right) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        int minLength = Math.min(left.length, right.length);<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        for (int i = 0; i &lt; minLength; i++) {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>          int result = UnsignedBytes.compare(left[i], right[i]);<a name="line.418"></a>
+<span class="sourceLineNo">419</span>          if (result != 0) {<a name="line.419"></a>
+<span class="sourceLineNo">420</span>            return result;<a name="line.420"></a>
+<span class="sourceLineNo">421</span>          }<a name="line.421"></a>
+<span class="sourceLineNo">422</span>        }<a name="line.422"></a>
+<span class="sourceLineNo">423</span>        return left.length - right.length;<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      }<a name="line.424"></a>
+<span class="sourceLineNo">425</span><a name="line.425"></a>
+<span class="sourceLineNo">426</span>      @Override<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      public String toString() {<a name="line.427"></a>
+<span class="sourceLineNo">428</span>        return "UnsignedBytes.lexicographicalComparator() (pure Java version)";<a name="line.428"></a>
+<span class="sourceLineNo">429</span>      }<a name="line.429"></a>
+<span class="sourceLineNo">430</span>    }<a name="line.430"></a>
+<span class="sourceLineNo">431</span><a name="line.431"></a>
+<span class="sourceLineNo">432</span>    /**<a name="line.432"></a>
+<span class="sourceLineNo">433</span>     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable<a name="line.433"></a>
+<span class="sourceLineNo">434</span>     * to do so.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>     */<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    static Comparator&lt;byte[]&gt; getBestComparator() {<a name="line.436"></a>
+<span class="sourceLineNo">437</span>      try {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>        Class&lt;?&gt; theClass = Class.forName(UNSAFE_COMPARATOR_NAME);<a name="line.438"></a>
+<span class="sourceLineNo">439</span><a name="line.439"></a>
+<span class="sourceLineNo">440</span>        // yes, UnsafeComparator does implement Comparator&lt;byte[]&gt;<a name="line.440"></a>
+<span class="sourceLineNo">441</span>        @SuppressWarnings("unchecked")<a name="line.441"></a>
+<span class="sourceLineNo">442</span>        Comparator&lt;byte[]&gt; comparator = (Comparator&lt;byte[]&gt;) theClass.getEnumConstants()[0];<a name="line.442"></a>
+<span class="sourceLineNo">443</span>        return comparator;<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      } catch (Throwable t) { // ensure we really catch *everything*<a name="line.444"></a>
+<span class="sourceLineNo">445</span>        return lexicographicalComparatorJavaImpl();<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      }<a name="line.446"></a>
+<span class="sourceLineNo">447</span>    }<a name="line.447"></a>
+<span class="sourceLineNo">448</span>  }<a name="line.448"></a>
+<span class="sourceLineNo">449</span><a name="line.449"></a>
+<span class="sourceLineNo">450</span>  private static byte flip(byte b) {<a name="line.450"></a>
+<span class="sourceLineNo">451</span>    return (byte) (b ^ 0x80);<a name="line.451"></a>
+<span class="sourceLineNo">452</span>  }<a name="line.452"></a>
+<span class="sourceLineNo">453</span><a name="line.453"></a>
+<span class="sourceLineNo">454</span>  /**<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * Sorts the array, treating its elements as unsigned bytes.<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   *<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   * @since 23.1<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   */<a name="line.458"></a>
+<span class="sourceLineNo">459</span>  public static void sort(byte[] array) {<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    checkNotNull(array);<a name="line.460"></a>
+<span class="sourceLineNo">461</span>    sort(array, 0, array.length);<a name="line.461"></a>
+<span class="sourceLineNo">462</span>  }<a name="line.462"></a>
+<span class="sourceLineNo">463</span><a name="line.463"></a>
+<span class="sourceLineNo">464</span>  /**<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   * Sorts the array between {@code fromIndex} inclusive and {@code toIndex} exclusive, treating its<a name="line.465"></a>
+<span class="sourceLineNo">466</span>   * elements as unsigned bytes.<a name="line.466"></a>
+<span class="sourceLineNo">467</span>   *<a name="line.467"></a>
+<span class="sourceLineNo">468</span>   * @since 23.1<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   */<a name="line.469"></a>
+<span class="sourceLineNo">470</span>  public static void sort(byte[] array, int fromIndex, int toIndex) {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>    checkNotNull(array);<a name="line.471"></a>
+<span class="sourceLineNo">472</span>    checkPositionIndexes(fromIndex, toIndex, array.length);<a name="line.472"></a>
+<span class="sourceLineNo">473</span>    for (int i = fromIndex; i &lt; toIndex; i++) {<a name="line.473"></a>
+<span class="sourceLineNo">474</span>      array[i] = flip(array[i]);<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    }<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    Arrays.sort(array, fromIndex, toIndex);<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    for (int i = fromIndex; i &lt; toIndex; i++) {<a name="line.477"></a>
+<span class="sourceLineNo">478</span>      array[i] = flip(array[i]);<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    }<a name="line.479"></a>
+<span class="sourceLineNo">480</span>  }<a name="line.480"></a>
+<span class="sourceLineNo">481</span><a name="line.481"></a>
+<span class="sourceLineNo">482</span>  /**<a name="line.482"></a>
+<span class="sourceLineNo">483</span>   * Sorts the elements of {@code array} in descending order, interpreting them as unsigned 8-bit<a name="line.483"></a>
+<span class="sourceLineNo">484</span>   * integers.<a name="line.484"></a>
+<span class="sourceLineNo">485</span>   *<a name="line.485"></a>
+<span class="sourceLineNo">486</span>   * @since 23.1<a name="line.486"></a>
+<span class="sourceLineNo">487</span>   */<a name="line.487"></a>
+<span class="sourceLineNo">488</span>  public static void sortDescending(byte[] array) {<a name="line.488"></a>
+<span class="sourceLineNo">489</span>    checkNotNull(array);<a name="line.489"></a>
+<span class="sourceLineNo">490</span>    sortDescending(array, 0, array.length);<a name="line.490"></a>
+<span class="sourceLineNo">491</span>  }<a name="line.491"></a>
+<span class="sourceLineNo">492</span><a name="line.492"></a>
+<span class="sourceLineNo">493</span>  /**<a name="line.493"></a>
+<span class="sourceLineNo">494</span>   * Sorts the elements of {@code array} between {@code fromIndex} inclusive and {@code toIndex}<a name="line.494"></a>
+<span class="sourceLineNo">495</span>   * exclusive in descending order, interpreting them as unsigned 8-bit integers.<a name="line.495"></a>
+<span class="sourceLineNo">496</span>   *<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   * @since 23.1<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   */<a name="line.498"></a>
+<span class="sourceLineNo">499</span>  public static void sortDescending(byte[] array, int fromIndex, int toIndex) {<a name="line.499"></a>
+<span class="sourceLineNo">500</span>    checkNotNull(array);<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    checkPositionIndexes(fromIndex, toIndex, array.length);<a name="line.501"></a>
+<span class="sourceLineNo">502</span>    for (int i = fromIndex; i &lt; toIndex; i++) {<a name="line.502"></a>
+<span class="sourceLineNo">503</span>      array[i] ^= Byte.MAX_VALUE;<a name="line.503"></a>
+<span class="sourceLineNo">504</span>    }<a name="line.504"></a>
+<span class="sourceLineNo">505</span>    Arrays.sort(array, fromIndex, toIndex);<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    for (int i = fromIndex; i &lt; toIndex; i++) {<a name="line.506"></a>
+<span class="sourceLineNo">507</span>      array[i] ^= Byte.MAX_VALUE;<a name="line.507"></a>
+<span class="sourceLineNo">508</span>    }<a name="line.508"></a>
+<span class="sourceLineNo">509</span>  }<a name="line.509"></a>
+<span class="sourceLineNo">510</span>}<a name="line.510"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

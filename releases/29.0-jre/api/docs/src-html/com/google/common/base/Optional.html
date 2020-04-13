@@ -1,0 +1,431 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.errorprone.annotations.DoNotMock;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtCompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.io.Serializable;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.Iterator;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Set;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>/**<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * An immutable object that may contain a non-null reference to another object. Each instance of<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * this type either contains a non-null reference, or contains nothing (in which case we say that<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * the reference is "absent"); it is never said to "contain {@code null}".<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;A non-null {@code Optional&lt;T&gt;} reference can be used as a replacement for a nullable {@code T}<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * reference. It allows you to represent "a {@code T} that must be present" and a "a {@code T} that<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * might be absent" as two distinct types in your program, which can aid clarity.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * &lt;p&gt;Some uses of this class include<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;ul&gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *   &lt;li&gt;As a method return type, as an alternative to returning {@code null} to indicate that no<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *       value was available<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *   &lt;li&gt;To distinguish between "unknown" (for example, not present in a map) and "known to have no<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *       value" (present in the map, with value {@code Optional.absent()})<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *   &lt;li&gt;To wrap nullable references for storage in a collection that does not support {@code null}<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *       (though there are &lt;a<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *       href="https://github.com/google/guava/wiki/LivingWithNullHostileCollections"&gt;several other<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *       approaches to this&lt;/a&gt; that should be considered first)<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;/ul&gt;<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;p&gt;A common alternative to using this class is to find or create a suitable &lt;a<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * href="http://en.wikipedia.org/wiki/Null_Object_pattern"&gt;null object&lt;/a&gt; for the type in question.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;p&gt;This class is not intended as a direct analogue of any existing "option" or "maybe" construct<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * from other programming environments, though it may bear some similarities.<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional} (JDK 8 and higher):&lt;/b&gt; A new {@code Optional}<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * class was added for Java 8. The two classes are extremely similar, but incompatible (they cannot<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * share a common supertype). &lt;i&gt;All&lt;/i&gt; known differences are listed either here or with the<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * relevant methods below.<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * &lt;ul&gt;<a name="line.60"></a>
+<span class="sourceLineNo">061</span> *   &lt;li&gt;This class is serializable; {@code java.util.Optional} is not.<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *   &lt;li&gt;{@code java.util.Optional} has the additional methods {@code ifPresent}, {@code filter},<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *       {@code flatMap}, and {@code orElseThrow}.<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *   &lt;li&gt;{@code java.util} offers the primitive-specialized versions {@code OptionalInt}, {@code<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *       OptionalLong} and {@code OptionalDouble}, the use of which is recommended; Guava does not<a name="line.65"></a>
+<span class="sourceLineNo">066</span> *       have these.<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * &lt;/ul&gt;<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;p&gt;&lt;b&gt;There are no plans to deprecate this class in the foreseeable future.&lt;/b&gt; However, we do<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * gently recommend that you prefer the new, standard Java class whenever possible.<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * &lt;p&gt;See the Guava User Guide article on &lt;a<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * href="https://github.com/google/guava/wiki/UsingAndAvoidingNullExplained#optional"&gt;using {@code<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * Optional}&lt;/a&gt;.<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * @param &lt;T&gt; the type of instance that can be contained. {@code Optional} is naturally covariant on<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *     this type, so it is safe to cast an {@code Optional&lt;T&gt;} to {@code Optional&lt;S&gt;} for any<a name="line.77"></a>
+<span class="sourceLineNo">078</span> *     supertype {@code S} of {@code T}.<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * @author Kurt Alfred Kluever<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * @author Kevin Bourrillion<a name="line.80"></a>
+<span class="sourceLineNo">081</span> * @since 10.0<a name="line.81"></a>
+<span class="sourceLineNo">082</span> */<a name="line.82"></a>
+<span class="sourceLineNo">083</span>@DoNotMock("Use Optional.of(value) or Optional.absent()")<a name="line.83"></a>
+<span class="sourceLineNo">084</span>@GwtCompatible(serializable = true)<a name="line.84"></a>
+<span class="sourceLineNo">085</span>public abstract class Optional&lt;T&gt; implements Serializable {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Returns an {@code Optional} instance with no contained reference.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is equivalent to Java 8's<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * {@code Optional.empty}.<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public static &lt;T&gt; Optional&lt;T&gt; absent() {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    return Absent.withType();<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * Returns an {@code Optional} instance containing the given non-null reference. To have {@code<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * null} treated as {@link #absent}, use {@link #fromNullable} instead.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; no differences.<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   *<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * @throws NullPointerException if {@code reference} is null<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  public static &lt;T&gt; Optional&lt;T&gt; of(T reference) {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    return new Present&lt;T&gt;(checkNotNull(reference));<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * If {@code nullableReference} is non-null, returns an {@code Optional} instance containing that<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * reference; otherwise returns {@link Optional#absent}.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is equivalent to Java 8's<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * {@code Optional.ofNullable}.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public static &lt;T&gt; Optional&lt;T&gt; fromNullable(@Nullable T nullableReference) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return (nullableReference == null) ? Optional.&lt;T&gt;absent() : new Present&lt;T&gt;(nullableReference);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * Returns the equivalent {@code com.google.common.base.Optional} value to the given {@code<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * java.util.Optional}, or {@code null} if the argument is null.<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   *<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * @since 21.0<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public static &lt;T&gt; @Nullable Optional&lt;T&gt; fromJavaUtil(<a name="line.125"></a>
+<span class="sourceLineNo">126</span>      java.util.@Nullable Optional&lt;T&gt; javaUtilOptional) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    return (javaUtilOptional == null) ? null : fromNullable(javaUtilOptional.orElse(null));<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * Returns the equivalent {@code java.util.Optional} value to the given {@code<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * com.google.common.base.Optional}, or {@code null} if the argument is null.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   *<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * &lt;p&gt;If {@code googleOptional} is known to be non-null, use {@code googleOptional.toJavaUtil()}<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * instead.<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   *<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * &lt;p&gt;Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * could refer to either the static or instance version of this method. Write out the lambda<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * expression {@code o -&gt; Optional.toJavaUtil(o)} instead.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   *<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * @since 21.0<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  public static &lt;T&gt; java.util.@Nullable Optional&lt;T&gt; toJavaUtil(<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      @Nullable Optional&lt;T&gt; googleOptional) {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    return googleOptional == null ? null : googleOptional.toJavaUtil();<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  }<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * Returns the equivalent {@code java.util.Optional} value to this optional.<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   *<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * &lt;p&gt;Unfortunately, the method reference {@code Optional::toJavaUtil} will not work, because it<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * could refer to either the static or instance version of this method. Write out the lambda<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * expression {@code o -&gt; o.toJavaUtil()} instead.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   *<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * @since 21.0<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   */<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  public java.util.Optional&lt;T&gt; toJavaUtil() {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    return java.util.Optional.ofNullable(orNull());<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
+<span class="sourceLineNo">160</span><a name="line.160"></a>
+<span class="sourceLineNo">161</span>  Optional() {}<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>  /**<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * Returns {@code true} if this holder contains a (non-null) instance.<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   *<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; no differences.<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  public abstract boolean isPresent();<a name="line.168"></a>
+<span class="sourceLineNo">169</span><a name="line.169"></a>
+<span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * Returns the contained instance, which must be present. If the instance might be absent, use<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * {@link #or(Object)} or {@link #orNull} instead.<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   *<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; when the value is absent, this method<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * throws {@link IllegalStateException}, whereas the Java 8 counterpart throws {@link<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * java.util.NoSuchElementException NoSuchElementException}.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   *<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns {@code<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   *     false}); depending on this &lt;i&gt;specific&lt;/i&gt; exception type (over the more general {@link<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   *     RuntimeException}) is discouraged<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public abstract T get();<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  /**<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * Returns the contained instance if it is present; {@code defaultValue} otherwise. If no default<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * value should be required because the instance is known to be present, use {@link #get()}<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * instead. For a default value of {@code null}, use {@link #orNull}.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   *<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * &lt;p&gt;Note about generics: The signature {@code public T or(T defaultValue)} is overly<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * restrictive. However, the ideal signature, {@code public &lt;S super T&gt; S or(S)}, is not legal<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * Java. As a result, some sensible operations involving subtypes are compile errors:<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   *<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * &lt;pre&gt;{@code<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * Optional&lt;Integer&gt; optionalInt = getSomeOptionalInt();<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * Number value = optionalInt.or(0.5); // error<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   *<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * Optional&lt;? extends Number&gt; first = numbers.first();<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * Number value = first.or(0.5); // error<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * }&lt;/pre&gt;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   *<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * &lt;p&gt;As a workaround, it is always safe to cast an {@code Optional&lt;? extends T&gt;} to {@code<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * Optional&lt;T&gt;}. Casting either of the above example {@code Optional} instances to {@code<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Optional&lt;Number&gt;} (where {@code Number} is the desired output type) solves the problem:<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   *<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * &lt;pre&gt;{@code<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * Optional&lt;Number&gt; optionalInt = (Optional) getSomeOptionalInt();<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * Number value = optionalInt.or(0.5); // fine<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * Optional&lt;Number&gt; first = (Optional) numbers.first();<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * Number value = first.or(0.5); // fine<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * }&lt;/pre&gt;<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   *<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * Optional.orElse}, but will not accept {@code null} as a {@code defaultValue} ({@link #orNull}<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * must be used instead). As a result, the value returned by this method is guaranteed non-null,<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * which is not the case for the {@code java.util} equivalent.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  public abstract T or(T defaultValue);<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>  /**<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Returns this {@code Optional} if it has a value present; {@code secondChoice} otherwise.<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   *<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method has no equivalent in Java 8's<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * {@code Optional} class; write {@code thisOptional.isPresent() ? thisOptional : secondChoice}<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * instead.<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   */<a name="line.228"></a>
+<span class="sourceLineNo">229</span>  public abstract Optional&lt;T&gt; or(Optional&lt;? extends T&gt; secondChoice);<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>  /**<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * Returns the contained instance if it is present; {@code supplier.get()} otherwise.<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   *<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * Optional.orElseGet}, except when {@code supplier} returns {@code null}. In this case this<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * method throws an exception, whereas the Java 8 method returns the {@code null} to the caller.<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   *<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * @throws NullPointerException if this optional's value is absent and the supplier returns {@code<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   *     null}<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   */<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  @Beta<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  public abstract T or(Supplier&lt;? extends T&gt; supplier);<a name="line.242"></a>
+<span class="sourceLineNo">243</span><a name="line.243"></a>
+<span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * Returns the contained instance if it is present; {@code null} otherwise. If the instance is<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * known to be present, use {@link #get()} instead.<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   *<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is equivalent to Java 8's<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * {@code Optional.orElse(null)}.<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  public abstract @Nullable T orNull();<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * Returns an immutable singleton {@link Set} whose only element is the contained instance if it<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * is present; an empty immutable {@link Set} otherwise.<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   *<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method has no equivalent in Java 8's<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * {@code Optional} class. However, this common usage:<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   *<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * &lt;pre&gt;{@code<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * for (Foo foo : possibleFoo.asSet()) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *   doSomethingWith(foo);<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * }<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * }&lt;/pre&gt;<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   *<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * ... can be replaced with:<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * &lt;pre&gt;{@code<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * possibleFoo.ifPresent(foo -&gt; doSomethingWith(foo));<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * }&lt;/pre&gt;<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   *<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * &lt;p&gt;&lt;b&gt;Java 9 users:&lt;/b&gt; some use cases can be written with calls to {@code optional.stream()}.<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   *<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @since 11.0<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  public abstract Set&lt;T&gt; asSet();<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>  /**<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * If the instance is present, it is transformed with the given {@link Function}; otherwise,<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * {@link Optional#absent} is returned.<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   *<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * Optional.map}, except when {@code function} returns {@code null}. In this case this method<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * throws an exception, whereas the Java 8 method returns {@code Optional.absent()}.<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   *<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * @throws NullPointerException if the function returns {@code null}<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * @since 12.0<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   */<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  public abstract &lt;V&gt; Optional&lt;V&gt; transform(Function&lt;? super T, V&gt; function);<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  /**<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * contained references are {@linkplain Object#equals equal} to each other or both are absent.<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * Note that {@code Optional} instances of differing parameterized types can be equal.<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   *<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; no differences.<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   */<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  @Override<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  public abstract boolean equals(@Nullable Object object);<a name="line.299"></a>
+<span class="sourceLineNo">300</span><a name="line.300"></a>
+<span class="sourceLineNo">301</span>  /**<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * Returns a hash code for this instance.<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   *<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this class leaves the specific choice of<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * hash code unspecified, unlike the Java 8 equivalent.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  @Override<a name="line.307"></a>
+<span class="sourceLineNo">308</span>  public abstract int hashCode();<a name="line.308"></a>
+<span class="sourceLineNo">309</span><a name="line.309"></a>
+<span class="sourceLineNo">310</span>  /**<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * Returns a string representation for this instance.<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   *<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this class leaves the specific string<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * representation unspecified, unlike the Java 8 equivalent.<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   */<a name="line.315"></a>
+<span class="sourceLineNo">316</span>  @Override<a name="line.316"></a>
+<span class="sourceLineNo">317</span>  public abstract String toString();<a name="line.317"></a>
+<span class="sourceLineNo">318</span><a name="line.318"></a>
+<span class="sourceLineNo">319</span>  /**<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   * Returns the value of each present instance from the supplied {@code optionals}, in order,<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * skipping over occurrences of {@link Optional#absent}. Iterators are unmodifiable and are<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * evaluated lazily.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   *<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method has no equivalent in Java 8's<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * {@code Optional} class; use {@code<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * optionals.stream().filter(Optional::isPresent).map(Optional::get)} instead.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   *<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * &lt;p&gt;&lt;b&gt;Java 9 users:&lt;/b&gt; use {@code optionals.stream().flatMap(Optional::stream)} instead.<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   *<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * @since 11.0 (generics widened in 13.0)<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   */<a name="line.331"></a>
+<span class="sourceLineNo">332</span>  @Beta<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  public static &lt;T&gt; Iterable&lt;T&gt; presentInstances(<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      final Iterable&lt;? extends Optional&lt;? extends T&gt;&gt; optionals) {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    checkNotNull(optionals);<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    return new Iterable&lt;T&gt;() {<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      @Override<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      public Iterator&lt;T&gt; iterator() {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        return new AbstractIterator&lt;T&gt;() {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>          private final Iterator&lt;? extends Optional&lt;? extends T&gt;&gt; iterator =<a name="line.340"></a>
+<span class="sourceLineNo">341</span>              checkNotNull(optionals.iterator());<a name="line.341"></a>
+<span class="sourceLineNo">342</span><a name="line.342"></a>
+<span class="sourceLineNo">343</span>          @Override<a name="line.343"></a>
+<span class="sourceLineNo">344</span>          protected T computeNext() {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>            while (iterator.hasNext()) {<a name="line.345"></a>
+<span class="sourceLineNo">346</span>              Optional&lt;? extends T&gt; optional = iterator.next();<a name="line.346"></a>
+<span class="sourceLineNo">347</span>              if (optional.isPresent()) {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>                return optional.get();<a name="line.348"></a>
+<span class="sourceLineNo">349</span>              }<a name="line.349"></a>
+<span class="sourceLineNo">350</span>            }<a name="line.350"></a>
+<span class="sourceLineNo">351</span>            return endOfData();<a name="line.351"></a>
+<span class="sourceLineNo">352</span>          }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>        };<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      }<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    };<a name="line.355"></a>
+<span class="sourceLineNo">356</span>  }<a name="line.356"></a>
+<span class="sourceLineNo">357</span><a name="line.357"></a>
+<span class="sourceLineNo">358</span>  private static final long serialVersionUID = 0;<a name="line.358"></a>
+<span class="sourceLineNo">359</span>}<a name="line.359"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

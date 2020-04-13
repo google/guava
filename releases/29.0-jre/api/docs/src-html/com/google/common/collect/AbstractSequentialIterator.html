@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2010 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtCompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.NoSuchElementException;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * This class provides a skeletal implementation of the {@code Iterator} interface for sequences<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * whose next element can always be derived from the previous element. Null elements are not<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * supported, nor is the {@link #remove()} method.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * &lt;p&gt;Example:<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;pre&gt;{@code<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * Iterator&lt;Integer&gt; powersOfTwo =<a name="line.31"></a>
+<span class="sourceLineNo">032</span> *     new AbstractSequentialIterator&lt;Integer&gt;(1) {<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *       protected Integer computeNext(Integer previous) {<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *         return (previous == 1 &lt;&lt; 30) ? null : previous * 2;<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *       }<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *     };<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * }&lt;/pre&gt;<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * @author Chris Povirk<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)<a name="line.40"></a>
+<span class="sourceLineNo">041</span> */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>@GwtCompatible<a name="line.42"></a>
+<span class="sourceLineNo">043</span>public abstract class AbstractSequentialIterator&lt;T&gt; extends UnmodifiableIterator&lt;T&gt; {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  private @Nullable T nextOrNull;<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * Creates a new iterator with the given first element, or, if {@code firstOrNull} is null,<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * creates a new empty iterator.<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   */<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  protected AbstractSequentialIterator(@Nullable T firstOrNull) {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    this.nextOrNull = firstOrNull;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  /**<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * Returns the element that follows {@code previous}, or returns {@code null} if no elements<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * remain. This method is invoked during each call to {@link #next()} in order to compute the<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * result of a &lt;i&gt;future&lt;/i&gt; call to {@code next()}.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  protected abstract @Nullable T computeNext(T previous);<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  @Override<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  public final boolean hasNext() {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    return nextOrNull != null;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  }<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>  @Override<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public final T next() {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    if (!hasNext()) {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      throw new NoSuchElementException();<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    }<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    try {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      return nextOrNull;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    } finally {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      nextOrNull = computeNext(nextOrNull);<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    }<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span>}<a name="line.77"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

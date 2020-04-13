@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2012 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.math;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkState;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.primitives.Doubles.isFinite;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static java.lang.Double.NaN;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static java.lang.Double.isNaN;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.Beta;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.annotations.GwtIncompatible;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.primitives.Doubles;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>/**<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * A mutable object which accumulates paired double values (e.g. points on a plane) and tracks some<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * basic statistics over all the values added so far. This class is not thread safe.<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * @author Pete Gillin<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * @since 20.0<a name="line.31"></a>
+<span class="sourceLineNo">032</span> */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>@Beta<a name="line.33"></a>
+<span class="sourceLineNo">034</span>@GwtIncompatible<a name="line.34"></a>
+<span class="sourceLineNo">035</span>public final class PairedStatsAccumulator {<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>  // These fields must satisfy the requirements of PairedStats' constructor as well as those of the<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  // stat methods of this class.<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private final StatsAccumulator xStats = new StatsAccumulator();<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private final StatsAccumulator yStats = new StatsAccumulator();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private double sumOfProductsOfDeltas = 0.0;<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /** Adds the given pair of values to the dataset. */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  public void add(double x, double y) {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    // We extend the recursive expression for the one-variable case at Art of Computer Programming<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    // vol. 2, Knuth, 4.2.2, (16) to the two-variable case. We have two value series x_i and y_i.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    // We define the arithmetic means X_n = 1/n \sum_{i=1}^n x_i, and Y_n = 1/n \sum_{i=1}^n y_i.<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    // We also define the sum of the products of the differences from the means<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    //           C_n = \sum_{i=1}^n x_i y_i - n X_n Y_n<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    // for all n &gt;= 1. Then for all n &gt; 1:<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    //       C_{n-1} = \sum_{i=1}^{n-1} x_i y_i - (n-1) X_{n-1} Y_{n-1}<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    // C_n - C_{n-1} = x_n y_n - n X_n Y_n + (n-1) X_{n-1} Y_{n-1}<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    //               = x_n y_n - X_n [ y_n + (n-1) Y_{n-1} ] + [ n X_n - x_n ] Y_{n-1}<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    //               = x_n y_n - X_n y_n - x_n Y_{n-1} + X_n Y_{n-1}<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    //               = (x_n - X_n) (y_n - Y_{n-1})<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    xStats.add(x);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    if (isFinite(x) &amp;&amp; isFinite(y)) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      if (xStats.count() &gt; 1) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        sumOfProductsOfDeltas += (x - xStats.mean()) * (y - yStats.mean());<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      }<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    } else {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      sumOfProductsOfDeltas = NaN;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    }<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    yStats.add(y);<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Adds the given statistics to the dataset, as if the individual values used to compute the<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * statistics had been added directly.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   */<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  public void addAll(PairedStats values) {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    if (values.count() == 0) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      return;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>    xStats.addAll(values.xStats());<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    if (yStats.count() == 0) {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      sumOfProductsOfDeltas = values.sumOfProductsOfDeltas();<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    } else {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      // This is a generalized version of the calculation in add(double, double) above. Note that<a name="line.80"></a>
+<span class="sourceLineNo">081</span>      // non-finite inputs will have sumOfProductsOfDeltas = NaN, so non-finite values will result<a name="line.81"></a>
+<span class="sourceLineNo">082</span>      // in NaN naturally.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      sumOfProductsOfDeltas +=<a name="line.83"></a>
+<span class="sourceLineNo">084</span>          values.sumOfProductsOfDeltas()<a name="line.84"></a>
+<span class="sourceLineNo">085</span>              + (values.xStats().mean() - xStats.mean())<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                  * (values.yStats().mean() - yStats.mean())<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                  * values.count();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    }<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    yStats.addAll(values.yStats());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /** Returns an immutable snapshot of the current statistics. */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  public PairedStats snapshot() {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    return new PairedStats(xStats.snapshot(), yStats.snapshot(), sumOfProductsOfDeltas);<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>  /** Returns the number of pairs in the dataset. */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  public long count() {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    return xStats.count();<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /** Returns an immutable snapshot of the statistics on the {@code x} values alone. */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public Stats xStats() {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return xStats.snapshot();<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /** Returns an immutable snapshot of the statistics on the {@code y} values alone. */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public Stats yStats() {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    return yStats.snapshot();<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * Returns the population covariance of the values. The count must be non-zero.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   *<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * &lt;p&gt;This is guaranteed to return zero if the dataset contains a single pair of finite values. It<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * is not guaranteed to return zero when the dataset consists of the same pair of values multiple<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * times, due to numerical errors.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   *<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * &lt;h3&gt;Non-finite values&lt;/h3&gt;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * &lt;p&gt;If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * @throws IllegalStateException if the dataset is empty<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  public double populationCovariance() {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    checkState(count() != 0);<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    return sumOfProductsOfDeltas / count();<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Returns the sample covariance of the values. The count must be greater than one.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   *<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * &lt;p&gt;This is not guaranteed to return zero when the dataset consists of the same pair of values<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * multiple times, due to numerical errors.<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   *<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * &lt;h3&gt;Non-finite values&lt;/h3&gt;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   *<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * &lt;p&gt;If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   *<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * @throws IllegalStateException if the dataset is empty or contains a single pair of values<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   */<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  public final double sampleCovariance() {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    checkState(count() &gt; 1);<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    return sumOfProductsOfDeltas / (count() - 1);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>  /**<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * Returns the &lt;a href="http://mathworld.wolfram.com/CorrelationCoefficient.html"&gt;Pearson's or<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * product-moment correlation coefficient&lt;/a&gt; of the values. The count must greater than one, and<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * the {@code x} and {@code y} values must both have non-zero population variance (i.e. {@code<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() &gt; 0.0}). The result is not<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   *<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * &lt;h3&gt;Non-finite values&lt;/h3&gt;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   *<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * &lt;p&gt;If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   *     either the {@code x} and {@code y} dataset has zero population variance<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  public final double pearsonsCorrelationCoefficient() {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    checkState(count() &gt; 1);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    if (isNaN(sumOfProductsOfDeltas)) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      return NaN;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    }<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    double xSumOfSquaresOfDeltas = xStats.sumOfSquaresOfDeltas();<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    double ySumOfSquaresOfDeltas = yStats.sumOfSquaresOfDeltas();<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    checkState(xSumOfSquaresOfDeltas &gt; 0.0);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    checkState(ySumOfSquaresOfDeltas &gt; 0.0);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    // The product of two positive numbers can be zero if the multiplication underflowed. We<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    // force a positive value by effectively rounding up to MIN_VALUE.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    double productOfSumsOfSquaresOfDeltas =<a name="line.176"></a>
+<span class="sourceLineNo">177</span>        ensurePositive(xSumOfSquaresOfDeltas * ySumOfSquaresOfDeltas);<a name="line.177"></a>
+<span class="sourceLineNo">178</span>    return ensureInUnitRange(sumOfProductsOfDeltas / Math.sqrt(productOfSumsOfSquaresOfDeltas));<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * Returns a linear transformation giving the best fit to the data according to &lt;a<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * href="http://mathworld.wolfram.com/LeastSquaresFitting.html"&gt;Ordinary Least Squares linear<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * regression&lt;/a&gt; of {@code y} as a function of {@code x}. The count must be greater than one, and<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * either the {@code x} or {@code y} data must have a non-zero population variance (i.e. {@code<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * xStats().populationVariance() &gt; 0.0 || yStats().populationVariance() &gt; 0.0}). The result is<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * guaranteed to be horizontal if there is variance in the {@code x} data but not the {@code y}<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * data, and vertical if there is variance in the {@code y} data but not the {@code x} data.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   *<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * &lt;p&gt;This fit minimizes the root-mean-square error in {@code y} as a function of {@code x}. This<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * error is defined as the square root of the mean of the squares of the differences between the<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * actual {@code y} values of the data and the values predicted by the fit for the {@code x}<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * values (i.e. it is the square root of the mean of the squares of the vertical distances between<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * the data points and the best fit line). For this fit, this error is a fraction {@code sqrt(1 -<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * R*R)} of the population standard deviation of {@code y}, where {@code R} is the Pearson's<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * correlation coefficient (as given by {@link #pearsonsCorrelationCoefficient()}).<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   *<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * &lt;p&gt;The corresponding root-mean-square error in {@code x} as a function of {@code y} is a<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * fraction {@code sqrt(1/(R*R) - 1)} of the population standard deviation of {@code x}. This fit<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * does not normally minimize that error: to do that, you should swap the roles of {@code x} and<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * {@code y}.<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   *<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * &lt;h3&gt;Non-finite values&lt;/h3&gt;<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   *<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * &lt;p&gt;If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * LinearTransformation#forNaN()}.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   *     both the {@code x} and {@code y} dataset have zero population variance<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  public final LinearTransformation leastSquaresFit() {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    checkState(count() &gt; 1);<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    if (isNaN(sumOfProductsOfDeltas)) {<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      return LinearTransformation.forNaN();<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    }<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    double xSumOfSquaresOfDeltas = xStats.sumOfSquaresOfDeltas();<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    if (xSumOfSquaresOfDeltas &gt; 0.0) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      if (yStats.sumOfSquaresOfDeltas() &gt; 0.0) {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>        return LinearTransformation.mapping(xStats.mean(), yStats.mean())<a name="line.220"></a>
+<span class="sourceLineNo">221</span>            .withSlope(sumOfProductsOfDeltas / xSumOfSquaresOfDeltas);<a name="line.221"></a>
+<span class="sourceLineNo">222</span>      } else {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>        return LinearTransformation.horizontal(yStats.mean());<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      }<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    } else {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      checkState(yStats.sumOfSquaresOfDeltas() &gt; 0.0);<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      return LinearTransformation.vertical(xStats.mean());<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    }<a name="line.228"></a>
+<span class="sourceLineNo">229</span>  }<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>  private double ensurePositive(double value) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    if (value &gt; 0.0) {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      return value;<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    } else {<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      return Double.MIN_VALUE;<a name="line.235"></a>
+<span class="sourceLineNo">236</span>    }<a name="line.236"></a>
+<span class="sourceLineNo">237</span>  }<a name="line.237"></a>
+<span class="sourceLineNo">238</span><a name="line.238"></a>
+<span class="sourceLineNo">239</span>  private static double ensureInUnitRange(double value) {<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    return Doubles.constrainToRange(value, -1.0, 1.0);<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
+<span class="sourceLineNo">242</span>}<a name="line.242"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

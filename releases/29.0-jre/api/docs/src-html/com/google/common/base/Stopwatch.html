@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.base;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkState;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static java.util.concurrent.TimeUnit.DAYS;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static java.util.concurrent.TimeUnit.HOURS;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static java.util.concurrent.TimeUnit.MICROSECONDS;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static java.util.concurrent.TimeUnit.MILLISECONDS;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import static java.util.concurrent.TimeUnit.MINUTES;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import static java.util.concurrent.TimeUnit.NANOSECONDS;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import static java.util.concurrent.TimeUnit.SECONDS;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.annotations.GwtCompatible;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.annotations.GwtIncompatible;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.google.j2objc.annotations.J2ObjCIncompatible;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.time.Duration;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.concurrent.TimeUnit;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>/**<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * An object that accurately measures &lt;i&gt;elapsed time&lt;/i&gt;: the measured duration between two<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * successive readings of "now" in the same process.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;p&gt;In contrast, &lt;i&gt;wall time&lt;/i&gt; is a reading of "now" as given by a method like<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * {@link System#currentTimeMillis()}, best represented as an {@link Instant}. Such values<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;i&gt;can&lt;/i&gt; be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * doing so does &lt;i&gt;not&lt;/i&gt; give a reliable measurement of elapsed time, because wall time readings<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * are inherently approximate, routinely affected by periodic clock corrections. Because this class<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * (by default) uses {@link System#nanoTime}, it is unaffected by these changes.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * &lt;p&gt;Use this class instead of direct calls to {@link System#nanoTime} for two reasons:<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * &lt;ul&gt;<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *   &lt;li&gt;The raw {@code long} values returned by {@code nanoTime} are meaningless and unsafe to use<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *       in any other way than how {@code Stopwatch} uses them.<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;An alternative source of nanosecond ticks can be substituted, for example for testing or<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *       performance reasons, without affecting most of your code.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;/ul&gt;<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * &lt;p&gt;Basic usage:<a name="line.54"></a>
+<span class="sourceLineNo">055</span> *<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * &lt;pre&gt;{@code<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * Stopwatch stopwatch = Stopwatch.createStarted();<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * doSomething();<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * stopwatch.stop(); // optional<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * Duration duration = stopwatch.elapsed();<a name="line.61"></a>
+<span class="sourceLineNo">062</span> *<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * log.info("time: " + stopwatch); // formatted string like "12.3 ms"<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * }&lt;/pre&gt;<a name="line.64"></a>
+<span class="sourceLineNo">065</span> *<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * &lt;p&gt;The state-changing methods are not idempotent; it is an error to start or stop a stopwatch<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * that is already in the desired state.<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;p&gt;When testing code that uses this class, use {@link #createUnstarted(Ticker)} or {@link<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * #createStarted(Ticker)} to supply a fake or mock ticker. This allows you to simulate any valid<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * behavior of the stopwatch.<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This class is not thread-safe.<a name="line.73"></a>
+<span class="sourceLineNo">074</span> *<a name="line.74"></a>
+<span class="sourceLineNo">075</span> * &lt;p&gt;&lt;b&gt;Warning for Android users:&lt;/b&gt; a stopwatch with default behavior may not continue to keep<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * time while the device is asleep. Instead, create one like this:<a name="line.76"></a>
+<span class="sourceLineNo">077</span> *<a name="line.77"></a>
+<span class="sourceLineNo">078</span> * &lt;pre&gt;{@code<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * Stopwatch.createStarted(<a name="line.79"></a>
+<span class="sourceLineNo">080</span> *      new Ticker() {<a name="line.80"></a>
+<span class="sourceLineNo">081</span> *        public long read() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span> *          return android.os.SystemClock.elapsedRealtimeNanos();<a name="line.82"></a>
+<span class="sourceLineNo">083</span> *        }<a name="line.83"></a>
+<span class="sourceLineNo">084</span> *      });<a name="line.84"></a>
+<span class="sourceLineNo">085</span> * }&lt;/pre&gt;<a name="line.85"></a>
+<span class="sourceLineNo">086</span> *<a name="line.86"></a>
+<span class="sourceLineNo">087</span> * @author Kevin Bourrillion<a name="line.87"></a>
+<span class="sourceLineNo">088</span> * @since 10.0<a name="line.88"></a>
+<span class="sourceLineNo">089</span> */<a name="line.89"></a>
+<span class="sourceLineNo">090</span>@GwtCompatible(emulated = true)<a name="line.90"></a>
+<span class="sourceLineNo">091</span>@SuppressWarnings("GoodTime") // lots of violations<a name="line.91"></a>
+<span class="sourceLineNo">092</span>public final class Stopwatch {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  private final Ticker ticker;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  private boolean isRunning;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  private long elapsedNanos;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  private long startTick;<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Creates (but does not start) a new stopwatch using {@link System#nanoTime} as its time source.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   *<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * @since 15.0<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public static Stopwatch createUnstarted() {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return new Stopwatch();<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * Creates (but does not start) a new stopwatch, using the specified time source.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   *<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * @since 15.0<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  public static Stopwatch createUnstarted(Ticker ticker) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return new Stopwatch(ticker);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Creates (and starts) a new stopwatch using {@link System#nanoTime} as its time source.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   *<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * @since 15.0<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public static Stopwatch createStarted() {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    return new Stopwatch().start();<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>  /**<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * Creates (and starts) a new stopwatch, using the specified time source.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * @since 15.0<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  public static Stopwatch createStarted(Ticker ticker) {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    return new Stopwatch(ticker).start();<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>  Stopwatch() {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    this.ticker = Ticker.systemTicker();<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  Stopwatch(Ticker ticker) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    this.ticker = checkNotNull(ticker, "ticker");<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * Returns {@code true} if {@link #start()} has been called on this stopwatch, and {@link #stop()}<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * has not been called since the last call to {@code start()}.<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  public boolean isRunning() {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    return isRunning;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * Starts the stopwatch.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   *<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * @return this {@code Stopwatch} instance<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @throws IllegalStateException if the stopwatch is already running.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  @CanIgnoreReturnValue<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  public Stopwatch start() {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    checkState(!isRunning, "This stopwatch is already running.");<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    isRunning = true;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    startTick = ticker.read();<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    return this;<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * Stops the stopwatch. Future reads will return the fixed duration that had elapsed up to this<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * point.<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   *<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * @return this {@code Stopwatch} instance<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * @throws IllegalStateException if the stopwatch is already stopped.<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  @CanIgnoreReturnValue<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  public Stopwatch stop() {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    long tick = ticker.read();<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    checkState(isRunning, "This stopwatch is already stopped.");<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    isRunning = false;<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    elapsedNanos += tick - startTick;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    return this;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Sets the elapsed time for this stopwatch to zero, and places it in a stopped state.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   *<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * @return this {@code Stopwatch} instance<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  @CanIgnoreReturnValue<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  public Stopwatch reset() {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    elapsedNanos = 0;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    isRunning = false;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    return this;<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  }<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>  private long elapsedNanos() {<a name="line.192"></a>
+<span class="sourceLineNo">193</span>    return isRunning ? ticker.read() - startTick + elapsedNanos : elapsedNanos;<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
+<span class="sourceLineNo">195</span><a name="line.195"></a>
+<span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * Returns the current elapsed time shown on this stopwatch, expressed in the desired time unit,<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * with any fraction rounded down.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   *<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; the overhead of measurement can be more than a microsecond, so it is generally<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * not useful to specify {@link TimeUnit#NANOSECONDS} precision here.<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   *<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * &lt;p&gt;It is generally not a good idea to use an ambiguous, unitless {@code long} to represent<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * strongly-typed {@code Duration} instance.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @since 14.0 (since 10.0 as {@code elapsedTime()})<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  public long elapsed(TimeUnit desiredUnit) {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    return desiredUnit.convert(elapsedNanos(), NANOSECONDS);<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  }<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>  /**<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * Returns the current elapsed time shown on this stopwatch as a {@link Duration}. Unlike {@link<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * #elapsed(TimeUnit)}, this method does not lose any precision due to rounding.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   *<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * @since 22.0<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   */<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  @GwtIncompatible<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  @J2ObjCIncompatible<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  public Duration elapsed() {<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    return Duration.ofNanos(elapsedNanos());<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  }<a name="line.223"></a>
+<span class="sourceLineNo">224</span><a name="line.224"></a>
+<span class="sourceLineNo">225</span>  /** Returns a string representation of the current elapsed time. */<a name="line.225"></a>
+<span class="sourceLineNo">226</span>  @Override<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  public String toString() {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    long nanos = elapsedNanos();<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>    TimeUnit unit = chooseUnit(nanos);<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    double value = (double) nanos / NANOSECONDS.convert(1, unit);<a name="line.231"></a>
+<span class="sourceLineNo">232</span><a name="line.232"></a>
+<span class="sourceLineNo">233</span>    // Too bad this functionality is not exposed as a regular method call<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    return Platform.formatCompact4Digits(value) + " " + abbreviate(unit);<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  private static TimeUnit chooseUnit(long nanos) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    if (DAYS.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.238"></a>
+<span class="sourceLineNo">239</span>      return DAYS;<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    }<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    if (HOURS.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.241"></a>
+<span class="sourceLineNo">242</span>      return HOURS;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    }<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    if (MINUTES.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      return MINUTES;<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    }<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    if (SECONDS.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      return SECONDS;<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    }<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    if (MILLISECONDS.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      return MILLISECONDS;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    if (MICROSECONDS.convert(nanos, NANOSECONDS) &gt; 0) {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>      return MICROSECONDS;<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    }<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    return NANOSECONDS;<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  }<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  private static String abbreviate(TimeUnit unit) {<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    switch (unit) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      case NANOSECONDS:<a name="line.261"></a>
+<span class="sourceLineNo">262</span>        return "ns";<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      case MICROSECONDS:<a name="line.263"></a>
+<span class="sourceLineNo">264</span>        return "\u03bcs"; // μs<a name="line.264"></a>
+<span class="sourceLineNo">265</span>      case MILLISECONDS:<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        return "ms";<a name="line.266"></a>
+<span class="sourceLineNo">267</span>      case SECONDS:<a name="line.267"></a>
+<span class="sourceLineNo">268</span>        return "s";<a name="line.268"></a>
+<span class="sourceLineNo">269</span>      case MINUTES:<a name="line.269"></a>
+<span class="sourceLineNo">270</span>        return "min";<a name="line.270"></a>
+<span class="sourceLineNo">271</span>      case HOURS:<a name="line.271"></a>
+<span class="sourceLineNo">272</span>        return "h";<a name="line.272"></a>
+<span class="sourceLineNo">273</span>      case DAYS:<a name="line.273"></a>
+<span class="sourceLineNo">274</span>        return "d";<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      default:<a name="line.275"></a>
+<span class="sourceLineNo">276</span>        throw new AssertionError();<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    }<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
+<span class="sourceLineNo">279</span>}<a name="line.279"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

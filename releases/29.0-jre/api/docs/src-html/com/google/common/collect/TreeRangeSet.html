@@ -1,0 +1,997 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.collect;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtIncompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.VisibleForTesting;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.MoreObjects;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.io.Serializable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Collection;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Comparator;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.Iterator;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Map.Entry;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.NavigableMap;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.NoSuchElementException;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Set;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.TreeMap;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>/**<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * An implementation of {@link RangeSet} backed by a {@link TreeMap}.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * @author Louis Wasserman<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * @since 14.0<a name="line.39"></a>
+<span class="sourceLineNo">040</span> */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>@Beta<a name="line.41"></a>
+<span class="sourceLineNo">042</span>@GwtIncompatible // uses NavigableMap<a name="line.42"></a>
+<span class="sourceLineNo">043</span>public class TreeRangeSet&lt;C extends Comparable&lt;?&gt;&gt; extends AbstractRangeSet&lt;C&gt;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    implements Serializable {<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  @VisibleForTesting final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound;<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /** Creates an empty {@code TreeRangeSet} instance. */<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; TreeRangeSet&lt;C&gt; create() {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    return new TreeRangeSet&lt;C&gt;(new TreeMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;());<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  }<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  /** Returns a {@code TreeRangeSet} initialized with the ranges in the specified range set. */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; TreeRangeSet&lt;C&gt; create(RangeSet&lt;C&gt; rangeSet) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    TreeRangeSet&lt;C&gt; result = create();<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    result.addAll(rangeSet);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    return result;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * Returns a {@code TreeRangeSet} representing the union of the specified ranges.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   *<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * &lt;p&gt;This is the smallest {@code RangeSet} which encloses each of the specified ranges. An<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * element will be contained in this {@code RangeSet} if and only if it is contained in at least<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * one {@code Range} in {@code ranges}.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   *<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * @since 21.0<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public static &lt;C extends Comparable&lt;?&gt;&gt; TreeRangeSet&lt;C&gt; create(Iterable&lt;Range&lt;C&gt;&gt; ranges) {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    TreeRangeSet&lt;C&gt; result = create();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    result.addAll(ranges);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    return result;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  private TreeRangeSet(NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerCut) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    this.rangesByLowerBound = rangesByLowerCut;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  private transient @Nullable Set&lt;Range&lt;C&gt;&gt; asRanges;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private transient @Nullable Set&lt;Range&lt;C&gt;&gt; asDescendingSetOfRanges;<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  @Override<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  public Set&lt;Range&lt;C&gt;&gt; asRanges() {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    Set&lt;Range&lt;C&gt;&gt; result = asRanges;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    return (result == null) ? asRanges = new AsRanges(rangesByLowerBound.values()) : result;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public Set&lt;Range&lt;C&gt;&gt; asDescendingSetOfRanges() {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    Set&lt;Range&lt;C&gt;&gt; result = asDescendingSetOfRanges;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return (result == null)<a name="line.91"></a>
+<span class="sourceLineNo">092</span>        ? asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values())<a name="line.92"></a>
+<span class="sourceLineNo">093</span>        : result;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  final class AsRanges extends ForwardingCollection&lt;Range&lt;C&gt;&gt; implements Set&lt;Range&lt;C&gt;&gt; {<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>    final Collection&lt;Range&lt;C&gt;&gt; delegate;<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>    AsRanges(Collection&lt;Range&lt;C&gt;&gt; delegate) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      this.delegate = delegate;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>    @Override<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    protected Collection&lt;Range&lt;C&gt;&gt; delegate() {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>      return delegate;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>    @Override<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    public int hashCode() {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>      return Sets.hashCodeImpl(this);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    }<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>    @Override<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    public boolean equals(@Nullable Object o) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>      return Sets.equalsImpl(this, o);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    }<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>  @Override<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public @Nullable Range&lt;C&gt; rangeContaining(C value) {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    checkNotNull(value);<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; floorEntry = rangesByLowerBound.floorEntry(Cut.belowValue(value));<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    if (floorEntry != null &amp;&amp; floorEntry.getValue().contains(value)) {<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      return floorEntry.getValue();<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    } else {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      // TODO(kevinb): revisit this design choice<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      return null;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    }<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>  @Override<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public boolean intersects(Range&lt;C&gt; range) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    checkNotNull(range);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; ceilingEntry = rangesByLowerBound.ceilingEntry(range.lowerBound);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    if (ceilingEntry != null<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        &amp;&amp; ceilingEntry.getValue().isConnected(range)<a name="line.137"></a>
+<span class="sourceLineNo">138</span>        &amp;&amp; !ceilingEntry.getValue().intersection(range).isEmpty()) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>      return true;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    }<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; priorEntry = rangesByLowerBound.lowerEntry(range.lowerBound);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return priorEntry != null<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        &amp;&amp; priorEntry.getValue().isConnected(range)<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        &amp;&amp; !priorEntry.getValue().intersection(range).isEmpty();<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span>  @Override<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public boolean encloses(Range&lt;C&gt; range) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    checkNotNull(range);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    return floorEntry != null &amp;&amp; floorEntry.getValue().encloses(range);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>  private @Nullable Range&lt;C&gt; rangeEnclosing(Range&lt;C&gt; range) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    checkNotNull(range);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    return (floorEntry != null &amp;&amp; floorEntry.getValue().encloses(range))<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        ? floorEntry.getValue()<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        : null;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  }<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  @Override<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  public Range&lt;C&gt; span() {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; firstEntry = rangesByLowerBound.firstEntry();<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; lastEntry = rangesByLowerBound.lastEntry();<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    if (firstEntry == null) {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>      throw new NoSuchElementException();<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    }<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    return Range.create(firstEntry.getValue().lowerBound, lastEntry.getValue().upperBound);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>  @Override<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  public void add(Range&lt;C&gt; rangeToAdd) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    checkNotNull(rangeToAdd);<a name="line.174"></a>
+<span class="sourceLineNo">175</span><a name="line.175"></a>
+<span class="sourceLineNo">176</span>    if (rangeToAdd.isEmpty()) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>      return;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>    }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>    // We will use { } to illustrate ranges currently in the range set, and &lt; &gt;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    // to illustrate rangeToAdd.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    Cut&lt;C&gt; lbToAdd = rangeToAdd.lowerBound;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    Cut&lt;C&gt; ubToAdd = rangeToAdd.upperBound;<a name="line.183"></a>
+<span class="sourceLineNo">184</span><a name="line.184"></a>
+<span class="sourceLineNo">185</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLB = rangesByLowerBound.lowerEntry(lbToAdd);<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    if (entryBelowLB != null) {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>      // { &lt;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>      Range&lt;C&gt; rangeBelowLB = entryBelowLB.getValue();<a name="line.188"></a>
+<span class="sourceLineNo">189</span>      if (rangeBelowLB.upperBound.compareTo(lbToAdd) &gt;= 0) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>        // { &lt; }, and we will need to coalesce<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        if (rangeBelowLB.upperBound.compareTo(ubToAdd) &gt;= 0) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>          // { &lt; &gt; }<a name="line.192"></a>
+<span class="sourceLineNo">193</span>          ubToAdd = rangeBelowLB.upperBound;<a name="line.193"></a>
+<span class="sourceLineNo">194</span>          /*<a name="line.194"></a>
+<span class="sourceLineNo">195</span>           * TODO(cpovirk): can we just "return;" here? Or, can we remove this if() entirely? If<a name="line.195"></a>
+<span class="sourceLineNo">196</span>           * not, add tests to demonstrate the problem with each approach<a name="line.196"></a>
+<span class="sourceLineNo">197</span>           */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>        }<a name="line.198"></a>
+<span class="sourceLineNo">199</span>        lbToAdd = rangeBelowLB.lowerBound;<a name="line.199"></a>
+<span class="sourceLineNo">200</span>      }<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUB = rangesByLowerBound.floorEntry(ubToAdd);<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    if (entryBelowUB != null) {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      // { &gt;<a name="line.205"></a>
+<span class="sourceLineNo">206</span>      Range&lt;C&gt; rangeBelowUB = entryBelowUB.getValue();<a name="line.206"></a>
+<span class="sourceLineNo">207</span>      if (rangeBelowUB.upperBound.compareTo(ubToAdd) &gt;= 0) {<a name="line.207"></a>
+<span class="sourceLineNo">208</span>        // { &gt; }, and we need to coalesce<a name="line.208"></a>
+<span class="sourceLineNo">209</span>        ubToAdd = rangeBelowUB.upperBound;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>      }<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    }<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>    // Remove ranges which are strictly enclosed.<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    rangesByLowerBound.subMap(lbToAdd, ubToAdd).clear();<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>    replaceRangeWithSameLowerBound(Range.create(lbToAdd, ubToAdd));<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  }<a name="line.217"></a>
+<span class="sourceLineNo">218</span><a name="line.218"></a>
+<span class="sourceLineNo">219</span>  @Override<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  public void remove(Range&lt;C&gt; rangeToRemove) {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>    checkNotNull(rangeToRemove);<a name="line.221"></a>
+<span class="sourceLineNo">222</span><a name="line.222"></a>
+<span class="sourceLineNo">223</span>    if (rangeToRemove.isEmpty()) {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      return;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>    // We will use { } to illustrate ranges currently in the range set, and &lt; &gt;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    // to illustrate rangeToRemove.<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowLB = rangesByLowerBound.lowerEntry(rangeToRemove.lowerBound);<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    if (entryBelowLB != null) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>      // { &lt;<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      Range&lt;C&gt; rangeBelowLB = entryBelowLB.getValue();<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      if (rangeBelowLB.upperBound.compareTo(rangeToRemove.lowerBound) &gt;= 0) {<a name="line.234"></a>
+<span class="sourceLineNo">235</span>        // { &lt; }, and we will need to subdivide<a name="line.235"></a>
+<span class="sourceLineNo">236</span>        if (rangeToRemove.hasUpperBound()<a name="line.236"></a>
+<span class="sourceLineNo">237</span>            &amp;&amp; rangeBelowLB.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>          // { &lt; &gt; }<a name="line.238"></a>
+<span class="sourceLineNo">239</span>          replaceRangeWithSameLowerBound(<a name="line.239"></a>
+<span class="sourceLineNo">240</span>              Range.create(rangeToRemove.upperBound, rangeBelowLB.upperBound));<a name="line.240"></a>
+<span class="sourceLineNo">241</span>        }<a name="line.241"></a>
+<span class="sourceLineNo">242</span>        replaceRangeWithSameLowerBound(<a name="line.242"></a>
+<span class="sourceLineNo">243</span>            Range.create(rangeBelowLB.lowerBound, rangeToRemove.lowerBound));<a name="line.243"></a>
+<span class="sourceLineNo">244</span>      }<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    }<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>    Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; entryBelowUB = rangesByLowerBound.floorEntry(rangeToRemove.upperBound);<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    if (entryBelowUB != null) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      // { &gt;<a name="line.249"></a>
+<span class="sourceLineNo">250</span>      Range&lt;C&gt; rangeBelowUB = entryBelowUB.getValue();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      if (rangeToRemove.hasUpperBound()<a name="line.251"></a>
+<span class="sourceLineNo">252</span>          &amp;&amp; rangeBelowUB.upperBound.compareTo(rangeToRemove.upperBound) &gt;= 0) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>        // { &gt; }<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        replaceRangeWithSameLowerBound(<a name="line.254"></a>
+<span class="sourceLineNo">255</span>            Range.create(rangeToRemove.upperBound, rangeBelowUB.upperBound));<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      }<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    }<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>    rangesByLowerBound.subMap(rangeToRemove.lowerBound, rangeToRemove.upperBound).clear();<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  }<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>  private void replaceRangeWithSameLowerBound(Range&lt;C&gt; range) {<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    if (range.isEmpty()) {<a name="line.263"></a>
+<span class="sourceLineNo">264</span>      rangesByLowerBound.remove(range.lowerBound);<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    } else {<a name="line.265"></a>
+<span class="sourceLineNo">266</span>      rangesByLowerBound.put(range.lowerBound, range);<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    }<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  }<a name="line.268"></a>
+<span class="sourceLineNo">269</span><a name="line.269"></a>
+<span class="sourceLineNo">270</span>  private transient @Nullable RangeSet&lt;C&gt; complement;<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  @Override<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  public RangeSet&lt;C&gt; complement() {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    RangeSet&lt;C&gt; result = complement;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    return (result == null) ? complement = new Complement() : result;<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  }<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>  @VisibleForTesting<a name="line.278"></a>
+<span class="sourceLineNo">279</span>  static final class RangesByUpperBound&lt;C extends Comparable&lt;?&gt;&gt;<a name="line.279"></a>
+<span class="sourceLineNo">280</span>      extends AbstractNavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    private final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound;<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>    /**<a name="line.283"></a>
+<span class="sourceLineNo">284</span>     * upperBoundWindow represents the headMap/subMap/tailMap view of the entire "ranges by upper<a name="line.284"></a>
+<span class="sourceLineNo">285</span>     * bound" map; it's a constraint on the *keys*, and does not affect the values.<a name="line.285"></a>
+<span class="sourceLineNo">286</span>     */<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    private final Range&lt;Cut&lt;C&gt;&gt; upperBoundWindow;<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>    RangesByUpperBound(NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      this.rangesByLowerBound = rangesByLowerBound;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      this.upperBoundWindow = Range.all();<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    }<a name="line.292"></a>
+<span class="sourceLineNo">293</span><a name="line.293"></a>
+<span class="sourceLineNo">294</span>    private RangesByUpperBound(<a name="line.294"></a>
+<span class="sourceLineNo">295</span>        NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound, Range&lt;Cut&lt;C&gt;&gt; upperBoundWindow) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      this.rangesByLowerBound = rangesByLowerBound;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      this.upperBoundWindow = upperBoundWindow;<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    }<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>    private NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(Range&lt;Cut&lt;C&gt;&gt; window) {<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      if (window.isConnected(upperBoundWindow)) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>        return new RangesByUpperBound&lt;C&gt;(rangesByLowerBound, window.intersection(upperBoundWindow));<a name="line.302"></a>
+<span class="sourceLineNo">303</span>      } else {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>        return ImmutableSortedMap.of();<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      }<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    }<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>    @Override<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(<a name="line.309"></a>
+<span class="sourceLineNo">310</span>        Cut&lt;C&gt; fromKey, boolean fromInclusive, Cut&lt;C&gt; toKey, boolean toInclusive) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>      return subMap(<a name="line.311"></a>
+<span class="sourceLineNo">312</span>          Range.range(<a name="line.312"></a>
+<span class="sourceLineNo">313</span>              fromKey, BoundType.forBoolean(fromInclusive),<a name="line.313"></a>
+<span class="sourceLineNo">314</span>              toKey, BoundType.forBoolean(toInclusive)));<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    }<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>    @Override<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; headMap(Cut&lt;C&gt; toKey, boolean inclusive) {<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      return subMap(Range.upTo(toKey, BoundType.forBoolean(inclusive)));<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    }<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>    @Override<a name="line.322"></a>
+<span class="sourceLineNo">323</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; tailMap(Cut&lt;C&gt; fromKey, boolean inclusive) {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>      return subMap(Range.downTo(fromKey, BoundType.forBoolean(inclusive)));<a name="line.324"></a>
+<span class="sourceLineNo">325</span>    }<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>    @Override<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    public Comparator&lt;? super Cut&lt;C&gt;&gt; comparator() {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>      return Ordering.&lt;Cut&lt;C&gt;&gt;natural();<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    }<a name="line.330"></a>
+<span class="sourceLineNo">331</span><a name="line.331"></a>
+<span class="sourceLineNo">332</span>    @Override<a name="line.332"></a>
+<span class="sourceLineNo">333</span>    public boolean containsKey(@Nullable Object key) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      return get(key) != null;<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    }<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>    @Override<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    public Range&lt;C&gt; get(@Nullable Object key) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>      if (key instanceof Cut) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>        try {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          @SuppressWarnings("unchecked") // we catch CCEs<a name="line.341"></a>
+<span class="sourceLineNo">342</span>          Cut&lt;C&gt; cut = (Cut&lt;C&gt;) key;<a name="line.342"></a>
+<span class="sourceLineNo">343</span>          if (!upperBoundWindow.contains(cut)) {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>            return null;<a name="line.344"></a>
+<span class="sourceLineNo">345</span>          }<a name="line.345"></a>
+<span class="sourceLineNo">346</span>          Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; candidate = rangesByLowerBound.lowerEntry(cut);<a name="line.346"></a>
+<span class="sourceLineNo">347</span>          if (candidate != null &amp;&amp; candidate.getValue().upperBound.equals(cut)) {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>            return candidate.getValue();<a name="line.348"></a>
+<span class="sourceLineNo">349</span>          }<a name="line.349"></a>
+<span class="sourceLineNo">350</span>        } catch (ClassCastException e) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>          return null;<a name="line.351"></a>
+<span class="sourceLineNo">352</span>        }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      }<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      return null;<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    }<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>    @Override<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; entryIterator() {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      /*<a name="line.359"></a>
+<span class="sourceLineNo">360</span>       * We want to start the iteration at the first range where the upper bound is in<a name="line.360"></a>
+<span class="sourceLineNo">361</span>       * upperBoundWindow.<a name="line.361"></a>
+<span class="sourceLineNo">362</span>       */<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      final Iterator&lt;Range&lt;C&gt;&gt; backingItr;<a name="line.363"></a>
+<span class="sourceLineNo">364</span>      if (!upperBoundWindow.hasLowerBound()) {<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        backingItr = rangesByLowerBound.values().iterator();<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      } else {<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; lowerEntry =<a name="line.367"></a>
+<span class="sourceLineNo">368</span>            rangesByLowerBound.lowerEntry(upperBoundWindow.lowerEndpoint());<a name="line.368"></a>
+<span class="sourceLineNo">369</span>        if (lowerEntry == null) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>          backingItr = rangesByLowerBound.values().iterator();<a name="line.370"></a>
+<span class="sourceLineNo">371</span>        } else if (upperBoundWindow.lowerBound.isLessThan(lowerEntry.getValue().upperBound)) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>          backingItr = rangesByLowerBound.tailMap(lowerEntry.getKey(), true).values().iterator();<a name="line.372"></a>
+<span class="sourceLineNo">373</span>        } else {<a name="line.373"></a>
+<span class="sourceLineNo">374</span>          backingItr =<a name="line.374"></a>
+<span class="sourceLineNo">375</span>              rangesByLowerBound<a name="line.375"></a>
+<span class="sourceLineNo">376</span>                  .tailMap(upperBoundWindow.lowerEndpoint(), true)<a name="line.376"></a>
+<span class="sourceLineNo">377</span>                  .values()<a name="line.377"></a>
+<span class="sourceLineNo">378</span>                  .iterator();<a name="line.378"></a>
+<span class="sourceLineNo">379</span>        }<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      }<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.381"></a>
+<span class="sourceLineNo">382</span>        @Override<a name="line.382"></a>
+<span class="sourceLineNo">383</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>          if (!backingItr.hasNext()) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>            return endOfData();<a name="line.385"></a>
+<span class="sourceLineNo">386</span>          }<a name="line.386"></a>
+<span class="sourceLineNo">387</span>          Range&lt;C&gt; range = backingItr.next();<a name="line.387"></a>
+<span class="sourceLineNo">388</span>          if (upperBoundWindow.upperBound.isLessThan(range.upperBound)) {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>            return endOfData();<a name="line.389"></a>
+<span class="sourceLineNo">390</span>          } else {<a name="line.390"></a>
+<span class="sourceLineNo">391</span>            return Maps.immutableEntry(range.upperBound, range);<a name="line.391"></a>
+<span class="sourceLineNo">392</span>          }<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        }<a name="line.393"></a>
+<span class="sourceLineNo">394</span>      };<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>    @Override<a name="line.397"></a>
+<span class="sourceLineNo">398</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; descendingEntryIterator() {<a name="line.398"></a>
+<span class="sourceLineNo">399</span>      Collection&lt;Range&lt;C&gt;&gt; candidates;<a name="line.399"></a>
+<span class="sourceLineNo">400</span>      if (upperBoundWindow.hasUpperBound()) {<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        candidates =<a name="line.401"></a>
+<span class="sourceLineNo">402</span>            rangesByLowerBound<a name="line.402"></a>
+<span class="sourceLineNo">403</span>                .headMap(upperBoundWindow.upperEndpoint(), false)<a name="line.403"></a>
+<span class="sourceLineNo">404</span>                .descendingMap()<a name="line.404"></a>
+<span class="sourceLineNo">405</span>                .values();<a name="line.405"></a>
+<span class="sourceLineNo">406</span>      } else {<a name="line.406"></a>
+<span class="sourceLineNo">407</span>        candidates = rangesByLowerBound.descendingMap().values();<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      }<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      final PeekingIterator&lt;Range&lt;C&gt;&gt; backingItr = Iterators.peekingIterator(candidates.iterator());<a name="line.409"></a>
+<span class="sourceLineNo">410</span>      if (backingItr.hasNext()<a name="line.410"></a>
+<span class="sourceLineNo">411</span>          &amp;&amp; upperBoundWindow.upperBound.isLessThan(backingItr.peek().upperBound)) {<a name="line.411"></a>
+<span class="sourceLineNo">412</span>        backingItr.next();<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      }<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>        @Override<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>          if (!backingItr.hasNext()) {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>            return endOfData();<a name="line.418"></a>
+<span class="sourceLineNo">419</span>          }<a name="line.419"></a>
+<span class="sourceLineNo">420</span>          Range&lt;C&gt; range = backingItr.next();<a name="line.420"></a>
+<span class="sourceLineNo">421</span>          return upperBoundWindow.lowerBound.isLessThan(range.upperBound)<a name="line.421"></a>
+<span class="sourceLineNo">422</span>              ? Maps.immutableEntry(range.upperBound, range)<a name="line.422"></a>
+<span class="sourceLineNo">423</span>              : endOfData();<a name="line.423"></a>
+<span class="sourceLineNo">424</span>        }<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      };<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    }<a name="line.426"></a>
+<span class="sourceLineNo">427</span><a name="line.427"></a>
+<span class="sourceLineNo">428</span>    @Override<a name="line.428"></a>
+<span class="sourceLineNo">429</span>    public int size() {<a name="line.429"></a>
+<span class="sourceLineNo">430</span>      if (upperBoundWindow.equals(Range.all())) {<a name="line.430"></a>
+<span class="sourceLineNo">431</span>        return rangesByLowerBound.size();<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      }<a name="line.432"></a>
+<span class="sourceLineNo">433</span>      return Iterators.size(entryIterator());<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    }<a name="line.434"></a>
+<span class="sourceLineNo">435</span><a name="line.435"></a>
+<span class="sourceLineNo">436</span>    @Override<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    public boolean isEmpty() {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>      return upperBoundWindow.equals(Range.all())<a name="line.438"></a>
+<span class="sourceLineNo">439</span>          ? rangesByLowerBound.isEmpty()<a name="line.439"></a>
+<span class="sourceLineNo">440</span>          : !entryIterator().hasNext();<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    }<a name="line.441"></a>
+<span class="sourceLineNo">442</span>  }<a name="line.442"></a>
+<span class="sourceLineNo">443</span><a name="line.443"></a>
+<span class="sourceLineNo">444</span>  private static final class ComplementRangesByLowerBound&lt;C extends Comparable&lt;?&gt;&gt;<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      extends AbstractNavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>    private final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; positiveRangesByLowerBound;<a name="line.446"></a>
+<span class="sourceLineNo">447</span>    private final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; positiveRangesByUpperBound;<a name="line.447"></a>
+<span class="sourceLineNo">448</span><a name="line.448"></a>
+<span class="sourceLineNo">449</span>    /**<a name="line.449"></a>
+<span class="sourceLineNo">450</span>     * complementLowerBoundWindow represents the headMap/subMap/tailMap view of the entire<a name="line.450"></a>
+<span class="sourceLineNo">451</span>     * "complement ranges by lower bound" map; it's a constraint on the *keys*, and does not affect<a name="line.451"></a>
+<span class="sourceLineNo">452</span>     * the values.<a name="line.452"></a>
+<span class="sourceLineNo">453</span>     */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    private final Range&lt;Cut&lt;C&gt;&gt; complementLowerBoundWindow;<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>    ComplementRangesByLowerBound(NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; positiveRangesByLowerBound) {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>      this(positiveRangesByLowerBound, Range.&lt;Cut&lt;C&gt;&gt;all());<a name="line.457"></a>
+<span class="sourceLineNo">458</span>    }<a name="line.458"></a>
+<span class="sourceLineNo">459</span><a name="line.459"></a>
+<span class="sourceLineNo">460</span>    private ComplementRangesByLowerBound(<a name="line.460"></a>
+<span class="sourceLineNo">461</span>        NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; positiveRangesByLowerBound, Range&lt;Cut&lt;C&gt;&gt; window) {<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      this.positiveRangesByLowerBound = positiveRangesByLowerBound;<a name="line.462"></a>
+<span class="sourceLineNo">463</span>      this.positiveRangesByUpperBound = new RangesByUpperBound&lt;C&gt;(positiveRangesByLowerBound);<a name="line.463"></a>
+<span class="sourceLineNo">464</span>      this.complementLowerBoundWindow = window;<a name="line.464"></a>
+<span class="sourceLineNo">465</span>    }<a name="line.465"></a>
+<span class="sourceLineNo">466</span><a name="line.466"></a>
+<span class="sourceLineNo">467</span>    private NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(Range&lt;Cut&lt;C&gt;&gt; subWindow) {<a name="line.467"></a>
+<span class="sourceLineNo">468</span>      if (!complementLowerBoundWindow.isConnected(subWindow)) {<a name="line.468"></a>
+<span class="sourceLineNo">469</span>        return ImmutableSortedMap.of();<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      } else {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>        subWindow = subWindow.intersection(complementLowerBoundWindow);<a name="line.471"></a>
+<span class="sourceLineNo">472</span>        return new ComplementRangesByLowerBound&lt;C&gt;(positiveRangesByLowerBound, subWindow);<a name="line.472"></a>
+<span class="sourceLineNo">473</span>      }<a name="line.473"></a>
+<span class="sourceLineNo">474</span>    }<a name="line.474"></a>
+<span class="sourceLineNo">475</span><a name="line.475"></a>
+<span class="sourceLineNo">476</span>    @Override<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(<a name="line.477"></a>
+<span class="sourceLineNo">478</span>        Cut&lt;C&gt; fromKey, boolean fromInclusive, Cut&lt;C&gt; toKey, boolean toInclusive) {<a name="line.478"></a>
+<span class="sourceLineNo">479</span>      return subMap(<a name="line.479"></a>
+<span class="sourceLineNo">480</span>          Range.range(<a name="line.480"></a>
+<span class="sourceLineNo">481</span>              fromKey, BoundType.forBoolean(fromInclusive),<a name="line.481"></a>
+<span class="sourceLineNo">482</span>              toKey, BoundType.forBoolean(toInclusive)));<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    }<a name="line.483"></a>
+<span class="sourceLineNo">484</span><a name="line.484"></a>
+<span class="sourceLineNo">485</span>    @Override<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; headMap(Cut&lt;C&gt; toKey, boolean inclusive) {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>      return subMap(Range.upTo(toKey, BoundType.forBoolean(inclusive)));<a name="line.487"></a>
+<span class="sourceLineNo">488</span>    }<a name="line.488"></a>
+<span class="sourceLineNo">489</span><a name="line.489"></a>
+<span class="sourceLineNo">490</span>    @Override<a name="line.490"></a>
+<span class="sourceLineNo">491</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; tailMap(Cut&lt;C&gt; fromKey, boolean inclusive) {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>      return subMap(Range.downTo(fromKey, BoundType.forBoolean(inclusive)));<a name="line.492"></a>
+<span class="sourceLineNo">493</span>    }<a name="line.493"></a>
+<span class="sourceLineNo">494</span><a name="line.494"></a>
+<span class="sourceLineNo">495</span>    @Override<a name="line.495"></a>
+<span class="sourceLineNo">496</span>    public Comparator&lt;? super Cut&lt;C&gt;&gt; comparator() {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      return Ordering.&lt;Cut&lt;C&gt;&gt;natural();<a name="line.497"></a>
+<span class="sourceLineNo">498</span>    }<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>    @Override<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; entryIterator() {<a name="line.501"></a>
+<span class="sourceLineNo">502</span>      /*<a name="line.502"></a>
+<span class="sourceLineNo">503</span>       * firstComplementRangeLowerBound is the first complement range lower bound inside<a name="line.503"></a>
+<span class="sourceLineNo">504</span>       * complementLowerBoundWindow. Complement range lower bounds are either positive range upper<a name="line.504"></a>
+<span class="sourceLineNo">505</span>       * bounds, or Cut.belowAll().<a name="line.505"></a>
+<span class="sourceLineNo">506</span>       *<a name="line.506"></a>
+<span class="sourceLineNo">507</span>       * positiveItr starts at the first positive range with lower bound greater than<a name="line.507"></a>
+<span class="sourceLineNo">508</span>       * firstComplementRangeLowerBound. (Positive range lower bounds correspond to complement range<a name="line.508"></a>
+<span class="sourceLineNo">509</span>       * upper bounds.)<a name="line.509"></a>
+<span class="sourceLineNo">510</span>       */<a name="line.510"></a>
+<span class="sourceLineNo">511</span>      Collection&lt;Range&lt;C&gt;&gt; positiveRanges;<a name="line.511"></a>
+<span class="sourceLineNo">512</span>      if (complementLowerBoundWindow.hasLowerBound()) {<a name="line.512"></a>
+<span class="sourceLineNo">513</span>        positiveRanges =<a name="line.513"></a>
+<span class="sourceLineNo">514</span>            positiveRangesByUpperBound<a name="line.514"></a>
+<span class="sourceLineNo">515</span>                .tailMap(<a name="line.515"></a>
+<span class="sourceLineNo">516</span>                    complementLowerBoundWindow.lowerEndpoint(),<a name="line.516"></a>
+<span class="sourceLineNo">517</span>                    complementLowerBoundWindow.lowerBoundType() == BoundType.CLOSED)<a name="line.517"></a>
+<span class="sourceLineNo">518</span>                .values();<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      } else {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>        positiveRanges = positiveRangesByUpperBound.values();<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      }<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      final PeekingIterator&lt;Range&lt;C&gt;&gt; positiveItr =<a name="line.522"></a>
+<span class="sourceLineNo">523</span>          Iterators.peekingIterator(positiveRanges.iterator());<a name="line.523"></a>
+<span class="sourceLineNo">524</span>      final Cut&lt;C&gt; firstComplementRangeLowerBound;<a name="line.524"></a>
+<span class="sourceLineNo">525</span>      if (complementLowerBoundWindow.contains(Cut.&lt;C&gt;belowAll())<a name="line.525"></a>
+<span class="sourceLineNo">526</span>          &amp;&amp; (!positiveItr.hasNext() || positiveItr.peek().lowerBound != Cut.&lt;C&gt;belowAll())) {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>        firstComplementRangeLowerBound = Cut.belowAll();<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      } else if (positiveItr.hasNext()) {<a name="line.528"></a>
+<span class="sourceLineNo">529</span>        firstComplementRangeLowerBound = positiveItr.next().upperBound;<a name="line.529"></a>
+<span class="sourceLineNo">530</span>      } else {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>        return Iterators.emptyIterator();<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      }<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>        Cut&lt;C&gt; nextComplementRangeLowerBound = firstComplementRangeLowerBound;<a name="line.534"></a>
+<span class="sourceLineNo">535</span><a name="line.535"></a>
+<span class="sourceLineNo">536</span>        @Override<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.537"></a>
+<span class="sourceLineNo">538</span>          if (complementLowerBoundWindow.upperBound.isLessThan(nextComplementRangeLowerBound)<a name="line.538"></a>
+<span class="sourceLineNo">539</span>              || nextComplementRangeLowerBound == Cut.&lt;C&gt;aboveAll()) {<a name="line.539"></a>
+<span class="sourceLineNo">540</span>            return endOfData();<a name="line.540"></a>
+<span class="sourceLineNo">541</span>          }<a name="line.541"></a>
+<span class="sourceLineNo">542</span>          Range&lt;C&gt; negativeRange;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>          if (positiveItr.hasNext()) {<a name="line.543"></a>
+<span class="sourceLineNo">544</span>            Range&lt;C&gt; positiveRange = positiveItr.next();<a name="line.544"></a>
+<span class="sourceLineNo">545</span>            negativeRange = Range.create(nextComplementRangeLowerBound, positiveRange.lowerBound);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>            nextComplementRangeLowerBound = positiveRange.upperBound;<a name="line.546"></a>
+<span class="sourceLineNo">547</span>          } else {<a name="line.547"></a>
+<span class="sourceLineNo">548</span>            negativeRange = Range.create(nextComplementRangeLowerBound, Cut.&lt;C&gt;aboveAll());<a name="line.548"></a>
+<span class="sourceLineNo">549</span>            nextComplementRangeLowerBound = Cut.aboveAll();<a name="line.549"></a>
+<span class="sourceLineNo">550</span>          }<a name="line.550"></a>
+<span class="sourceLineNo">551</span>          return Maps.immutableEntry(negativeRange.lowerBound, negativeRange);<a name="line.551"></a>
+<span class="sourceLineNo">552</span>        }<a name="line.552"></a>
+<span class="sourceLineNo">553</span>      };<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    }<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>    @Override<a name="line.556"></a>
+<span class="sourceLineNo">557</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; descendingEntryIterator() {<a name="line.557"></a>
+<span class="sourceLineNo">558</span>      /*<a name="line.558"></a>
+<span class="sourceLineNo">559</span>       * firstComplementRangeUpperBound is the upper bound of the last complement range with lower<a name="line.559"></a>
+<span class="sourceLineNo">560</span>       * bound inside complementLowerBoundWindow.<a name="line.560"></a>
+<span class="sourceLineNo">561</span>       *<a name="line.561"></a>
+<span class="sourceLineNo">562</span>       * positiveItr starts at the first positive range with upper bound less than<a name="line.562"></a>
+<span class="sourceLineNo">563</span>       * firstComplementRangeUpperBound. (Positive range upper bounds correspond to complement range<a name="line.563"></a>
+<span class="sourceLineNo">564</span>       * lower bounds.)<a name="line.564"></a>
+<span class="sourceLineNo">565</span>       */<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      Cut&lt;C&gt; startingPoint =<a name="line.566"></a>
+<span class="sourceLineNo">567</span>          complementLowerBoundWindow.hasUpperBound()<a name="line.567"></a>
+<span class="sourceLineNo">568</span>              ? complementLowerBoundWindow.upperEndpoint()<a name="line.568"></a>
+<span class="sourceLineNo">569</span>              : Cut.&lt;C&gt;aboveAll();<a name="line.569"></a>
+<span class="sourceLineNo">570</span>      boolean inclusive =<a name="line.570"></a>
+<span class="sourceLineNo">571</span>          complementLowerBoundWindow.hasUpperBound()<a name="line.571"></a>
+<span class="sourceLineNo">572</span>              &amp;&amp; complementLowerBoundWindow.upperBoundType() == BoundType.CLOSED;<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      final PeekingIterator&lt;Range&lt;C&gt;&gt; positiveItr =<a name="line.573"></a>
+<span class="sourceLineNo">574</span>          Iterators.peekingIterator(<a name="line.574"></a>
+<span class="sourceLineNo">575</span>              positiveRangesByUpperBound<a name="line.575"></a>
+<span class="sourceLineNo">576</span>                  .headMap(startingPoint, inclusive)<a name="line.576"></a>
+<span class="sourceLineNo">577</span>                  .descendingMap()<a name="line.577"></a>
+<span class="sourceLineNo">578</span>                  .values()<a name="line.578"></a>
+<span class="sourceLineNo">579</span>                  .iterator());<a name="line.579"></a>
+<span class="sourceLineNo">580</span>      Cut&lt;C&gt; cut;<a name="line.580"></a>
+<span class="sourceLineNo">581</span>      if (positiveItr.hasNext()) {<a name="line.581"></a>
+<span class="sourceLineNo">582</span>        cut =<a name="line.582"></a>
+<span class="sourceLineNo">583</span>            (positiveItr.peek().upperBound == Cut.&lt;C&gt;aboveAll())<a name="line.583"></a>
+<span class="sourceLineNo">584</span>                ? positiveItr.next().lowerBound<a name="line.584"></a>
+<span class="sourceLineNo">585</span>                : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);<a name="line.585"></a>
+<span class="sourceLineNo">586</span>      } else if (!complementLowerBoundWindow.contains(Cut.&lt;C&gt;belowAll())<a name="line.586"></a>
+<span class="sourceLineNo">587</span>          || positiveRangesByLowerBound.containsKey(Cut.belowAll())) {<a name="line.587"></a>
+<span class="sourceLineNo">588</span>        return Iterators.emptyIterator();<a name="line.588"></a>
+<span class="sourceLineNo">589</span>      } else {<a name="line.589"></a>
+<span class="sourceLineNo">590</span>        cut = positiveRangesByLowerBound.higherKey(Cut.&lt;C&gt;belowAll());<a name="line.590"></a>
+<span class="sourceLineNo">591</span>      }<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      final Cut&lt;C&gt; firstComplementRangeUpperBound =<a name="line.592"></a>
+<span class="sourceLineNo">593</span>          MoreObjects.firstNonNull(cut, Cut.&lt;C&gt;aboveAll());<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.594"></a>
+<span class="sourceLineNo">595</span>        Cut&lt;C&gt; nextComplementRangeUpperBound = firstComplementRangeUpperBound;<a name="line.595"></a>
+<span class="sourceLineNo">596</span><a name="line.596"></a>
+<span class="sourceLineNo">597</span>        @Override<a name="line.597"></a>
+<span class="sourceLineNo">598</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.598"></a>
+<span class="sourceLineNo">599</span>          if (nextComplementRangeUpperBound == Cut.&lt;C&gt;belowAll()) {<a name="line.599"></a>
+<span class="sourceLineNo">600</span>            return endOfData();<a name="line.600"></a>
+<span class="sourceLineNo">601</span>          } else if (positiveItr.hasNext()) {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>            Range&lt;C&gt; positiveRange = positiveItr.next();<a name="line.602"></a>
+<span class="sourceLineNo">603</span>            Range&lt;C&gt; negativeRange =<a name="line.603"></a>
+<span class="sourceLineNo">604</span>                Range.create(positiveRange.upperBound, nextComplementRangeUpperBound);<a name="line.604"></a>
+<span class="sourceLineNo">605</span>            nextComplementRangeUpperBound = positiveRange.lowerBound;<a name="line.605"></a>
+<span class="sourceLineNo">606</span>            if (complementLowerBoundWindow.lowerBound.isLessThan(negativeRange.lowerBound)) {<a name="line.606"></a>
+<span class="sourceLineNo">607</span>              return Maps.immutableEntry(negativeRange.lowerBound, negativeRange);<a name="line.607"></a>
+<span class="sourceLineNo">608</span>            }<a name="line.608"></a>
+<span class="sourceLineNo">609</span>          } else if (complementLowerBoundWindow.lowerBound.isLessThan(Cut.&lt;C&gt;belowAll())) {<a name="line.609"></a>
+<span class="sourceLineNo">610</span>            Range&lt;C&gt; negativeRange = Range.create(Cut.&lt;C&gt;belowAll(), nextComplementRangeUpperBound);<a name="line.610"></a>
+<span class="sourceLineNo">611</span>            nextComplementRangeUpperBound = Cut.belowAll();<a name="line.611"></a>
+<span class="sourceLineNo">612</span>            return Maps.immutableEntry(Cut.&lt;C&gt;belowAll(), negativeRange);<a name="line.612"></a>
+<span class="sourceLineNo">613</span>          }<a name="line.613"></a>
+<span class="sourceLineNo">614</span>          return endOfData();<a name="line.614"></a>
+<span class="sourceLineNo">615</span>        }<a name="line.615"></a>
+<span class="sourceLineNo">616</span>      };<a name="line.616"></a>
+<span class="sourceLineNo">617</span>    }<a name="line.617"></a>
+<span class="sourceLineNo">618</span><a name="line.618"></a>
+<span class="sourceLineNo">619</span>    @Override<a name="line.619"></a>
+<span class="sourceLineNo">620</span>    public int size() {<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      return Iterators.size(entryIterator());<a name="line.621"></a>
+<span class="sourceLineNo">622</span>    }<a name="line.622"></a>
+<span class="sourceLineNo">623</span><a name="line.623"></a>
+<span class="sourceLineNo">624</span>    @Override<a name="line.624"></a>
+<span class="sourceLineNo">625</span>    public @Nullable Range&lt;C&gt; get(Object key) {<a name="line.625"></a>
+<span class="sourceLineNo">626</span>      if (key instanceof Cut) {<a name="line.626"></a>
+<span class="sourceLineNo">627</span>        try {<a name="line.627"></a>
+<span class="sourceLineNo">628</span>          @SuppressWarnings("unchecked")<a name="line.628"></a>
+<span class="sourceLineNo">629</span>          Cut&lt;C&gt; cut = (Cut&lt;C&gt;) key;<a name="line.629"></a>
+<span class="sourceLineNo">630</span>          // tailMap respects the current window<a name="line.630"></a>
+<span class="sourceLineNo">631</span>          Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; firstEntry = tailMap(cut, true).firstEntry();<a name="line.631"></a>
+<span class="sourceLineNo">632</span>          if (firstEntry != null &amp;&amp; firstEntry.getKey().equals(cut)) {<a name="line.632"></a>
+<span class="sourceLineNo">633</span>            return firstEntry.getValue();<a name="line.633"></a>
+<span class="sourceLineNo">634</span>          }<a name="line.634"></a>
+<span class="sourceLineNo">635</span>        } catch (ClassCastException e) {<a name="line.635"></a>
+<span class="sourceLineNo">636</span>          return null;<a name="line.636"></a>
+<span class="sourceLineNo">637</span>        }<a name="line.637"></a>
+<span class="sourceLineNo">638</span>      }<a name="line.638"></a>
+<span class="sourceLineNo">639</span>      return null;<a name="line.639"></a>
+<span class="sourceLineNo">640</span>    }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>    @Override<a name="line.642"></a>
+<span class="sourceLineNo">643</span>    public boolean containsKey(Object key) {<a name="line.643"></a>
+<span class="sourceLineNo">644</span>      return get(key) != null;<a name="line.644"></a>
+<span class="sourceLineNo">645</span>    }<a name="line.645"></a>
+<span class="sourceLineNo">646</span>  }<a name="line.646"></a>
+<span class="sourceLineNo">647</span><a name="line.647"></a>
+<span class="sourceLineNo">648</span>  private final class Complement extends TreeRangeSet&lt;C&gt; {<a name="line.648"></a>
+<span class="sourceLineNo">649</span>    Complement() {<a name="line.649"></a>
+<span class="sourceLineNo">650</span>      super(new ComplementRangesByLowerBound&lt;C&gt;(TreeRangeSet.this.rangesByLowerBound));<a name="line.650"></a>
+<span class="sourceLineNo">651</span>    }<a name="line.651"></a>
+<span class="sourceLineNo">652</span><a name="line.652"></a>
+<span class="sourceLineNo">653</span>    @Override<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    public void add(Range&lt;C&gt; rangeToAdd) {<a name="line.654"></a>
+<span class="sourceLineNo">655</span>      TreeRangeSet.this.remove(rangeToAdd);<a name="line.655"></a>
+<span class="sourceLineNo">656</span>    }<a name="line.656"></a>
+<span class="sourceLineNo">657</span><a name="line.657"></a>
+<span class="sourceLineNo">658</span>    @Override<a name="line.658"></a>
+<span class="sourceLineNo">659</span>    public void remove(Range&lt;C&gt; rangeToRemove) {<a name="line.659"></a>
+<span class="sourceLineNo">660</span>      TreeRangeSet.this.add(rangeToRemove);<a name="line.660"></a>
+<span class="sourceLineNo">661</span>    }<a name="line.661"></a>
+<span class="sourceLineNo">662</span><a name="line.662"></a>
+<span class="sourceLineNo">663</span>    @Override<a name="line.663"></a>
+<span class="sourceLineNo">664</span>    public boolean contains(C value) {<a name="line.664"></a>
+<span class="sourceLineNo">665</span>      return !TreeRangeSet.this.contains(value);<a name="line.665"></a>
+<span class="sourceLineNo">666</span>    }<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>    @Override<a name="line.668"></a>
+<span class="sourceLineNo">669</span>    public RangeSet&lt;C&gt; complement() {<a name="line.669"></a>
+<span class="sourceLineNo">670</span>      return TreeRangeSet.this;<a name="line.670"></a>
+<span class="sourceLineNo">671</span>    }<a name="line.671"></a>
+<span class="sourceLineNo">672</span>  }<a name="line.672"></a>
+<span class="sourceLineNo">673</span><a name="line.673"></a>
+<span class="sourceLineNo">674</span>  private static final class SubRangeSetRangesByLowerBound&lt;C extends Comparable&lt;?&gt;&gt;<a name="line.674"></a>
+<span class="sourceLineNo">675</span>      extends AbstractNavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; {<a name="line.675"></a>
+<span class="sourceLineNo">676</span>    /**<a name="line.676"></a>
+<span class="sourceLineNo">677</span>     * lowerBoundWindow is the headMap/subMap/tailMap view; it only restricts the keys, and does not<a name="line.677"></a>
+<span class="sourceLineNo">678</span>     * affect the values.<a name="line.678"></a>
+<span class="sourceLineNo">679</span>     */<a name="line.679"></a>
+<span class="sourceLineNo">680</span>    private final Range&lt;Cut&lt;C&gt;&gt; lowerBoundWindow;<a name="line.680"></a>
+<span class="sourceLineNo">681</span><a name="line.681"></a>
+<span class="sourceLineNo">682</span>    /**<a name="line.682"></a>
+<span class="sourceLineNo">683</span>     * restriction is the subRangeSet view; ranges are truncated to their intersection with<a name="line.683"></a>
+<span class="sourceLineNo">684</span>     * restriction.<a name="line.684"></a>
+<span class="sourceLineNo">685</span>     */<a name="line.685"></a>
+<span class="sourceLineNo">686</span>    private final Range&lt;C&gt; restriction;<a name="line.686"></a>
+<span class="sourceLineNo">687</span><a name="line.687"></a>
+<span class="sourceLineNo">688</span>    private final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound;<a name="line.688"></a>
+<span class="sourceLineNo">689</span>    private final NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByUpperBound;<a name="line.689"></a>
+<span class="sourceLineNo">690</span><a name="line.690"></a>
+<span class="sourceLineNo">691</span>    private SubRangeSetRangesByLowerBound(<a name="line.691"></a>
+<span class="sourceLineNo">692</span>        Range&lt;Cut&lt;C&gt;&gt; lowerBoundWindow,<a name="line.692"></a>
+<span class="sourceLineNo">693</span>        Range&lt;C&gt; restriction,<a name="line.693"></a>
+<span class="sourceLineNo">694</span>        NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; rangesByLowerBound) {<a name="line.694"></a>
+<span class="sourceLineNo">695</span>      this.lowerBoundWindow = checkNotNull(lowerBoundWindow);<a name="line.695"></a>
+<span class="sourceLineNo">696</span>      this.restriction = checkNotNull(restriction);<a name="line.696"></a>
+<span class="sourceLineNo">697</span>      this.rangesByLowerBound = checkNotNull(rangesByLowerBound);<a name="line.697"></a>
+<span class="sourceLineNo">698</span>      this.rangesByUpperBound = new RangesByUpperBound&lt;C&gt;(rangesByLowerBound);<a name="line.698"></a>
+<span class="sourceLineNo">699</span>    }<a name="line.699"></a>
+<span class="sourceLineNo">700</span><a name="line.700"></a>
+<span class="sourceLineNo">701</span>    private NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(Range&lt;Cut&lt;C&gt;&gt; window) {<a name="line.701"></a>
+<span class="sourceLineNo">702</span>      if (!window.isConnected(lowerBoundWindow)) {<a name="line.702"></a>
+<span class="sourceLineNo">703</span>        return ImmutableSortedMap.of();<a name="line.703"></a>
+<span class="sourceLineNo">704</span>      } else {<a name="line.704"></a>
+<span class="sourceLineNo">705</span>        return new SubRangeSetRangesByLowerBound&lt;C&gt;(<a name="line.705"></a>
+<span class="sourceLineNo">706</span>            lowerBoundWindow.intersection(window), restriction, rangesByLowerBound);<a name="line.706"></a>
+<span class="sourceLineNo">707</span>      }<a name="line.707"></a>
+<span class="sourceLineNo">708</span>    }<a name="line.708"></a>
+<span class="sourceLineNo">709</span><a name="line.709"></a>
+<span class="sourceLineNo">710</span>    @Override<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; subMap(<a name="line.711"></a>
+<span class="sourceLineNo">712</span>        Cut&lt;C&gt; fromKey, boolean fromInclusive, Cut&lt;C&gt; toKey, boolean toInclusive) {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>      return subMap(<a name="line.713"></a>
+<span class="sourceLineNo">714</span>          Range.range(<a name="line.714"></a>
+<span class="sourceLineNo">715</span>              fromKey,<a name="line.715"></a>
+<span class="sourceLineNo">716</span>              BoundType.forBoolean(fromInclusive),<a name="line.716"></a>
+<span class="sourceLineNo">717</span>              toKey,<a name="line.717"></a>
+<span class="sourceLineNo">718</span>              BoundType.forBoolean(toInclusive)));<a name="line.718"></a>
+<span class="sourceLineNo">719</span>    }<a name="line.719"></a>
+<span class="sourceLineNo">720</span><a name="line.720"></a>
+<span class="sourceLineNo">721</span>    @Override<a name="line.721"></a>
+<span class="sourceLineNo">722</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; headMap(Cut&lt;C&gt; toKey, boolean inclusive) {<a name="line.722"></a>
+<span class="sourceLineNo">723</span>      return subMap(Range.upTo(toKey, BoundType.forBoolean(inclusive)));<a name="line.723"></a>
+<span class="sourceLineNo">724</span>    }<a name="line.724"></a>
+<span class="sourceLineNo">725</span><a name="line.725"></a>
+<span class="sourceLineNo">726</span>    @Override<a name="line.726"></a>
+<span class="sourceLineNo">727</span>    public NavigableMap&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; tailMap(Cut&lt;C&gt; fromKey, boolean inclusive) {<a name="line.727"></a>
+<span class="sourceLineNo">728</span>      return subMap(Range.downTo(fromKey, BoundType.forBoolean(inclusive)));<a name="line.728"></a>
+<span class="sourceLineNo">729</span>    }<a name="line.729"></a>
+<span class="sourceLineNo">730</span><a name="line.730"></a>
+<span class="sourceLineNo">731</span>    @Override<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    public Comparator&lt;? super Cut&lt;C&gt;&gt; comparator() {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>      return Ordering.&lt;Cut&lt;C&gt;&gt;natural();<a name="line.733"></a>
+<span class="sourceLineNo">734</span>    }<a name="line.734"></a>
+<span class="sourceLineNo">735</span><a name="line.735"></a>
+<span class="sourceLineNo">736</span>    @Override<a name="line.736"></a>
+<span class="sourceLineNo">737</span>    public boolean containsKey(@Nullable Object key) {<a name="line.737"></a>
+<span class="sourceLineNo">738</span>      return get(key) != null;<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    }<a name="line.739"></a>
+<span class="sourceLineNo">740</span><a name="line.740"></a>
+<span class="sourceLineNo">741</span>    @Override<a name="line.741"></a>
+<span class="sourceLineNo">742</span>    public @Nullable Range&lt;C&gt; get(@Nullable Object key) {<a name="line.742"></a>
+<span class="sourceLineNo">743</span>      if (key instanceof Cut) {<a name="line.743"></a>
+<span class="sourceLineNo">744</span>        try {<a name="line.744"></a>
+<span class="sourceLineNo">745</span>          @SuppressWarnings("unchecked") // we catch CCE's<a name="line.745"></a>
+<span class="sourceLineNo">746</span>          Cut&lt;C&gt; cut = (Cut&lt;C&gt;) key;<a name="line.746"></a>
+<span class="sourceLineNo">747</span>          if (!lowerBoundWindow.contains(cut)<a name="line.747"></a>
+<span class="sourceLineNo">748</span>              || cut.compareTo(restriction.lowerBound) &lt; 0<a name="line.748"></a>
+<span class="sourceLineNo">749</span>              || cut.compareTo(restriction.upperBound) &gt;= 0) {<a name="line.749"></a>
+<span class="sourceLineNo">750</span>            return null;<a name="line.750"></a>
+<span class="sourceLineNo">751</span>          } else if (cut.equals(restriction.lowerBound)) {<a name="line.751"></a>
+<span class="sourceLineNo">752</span>            // it might be present, truncated on the left<a name="line.752"></a>
+<span class="sourceLineNo">753</span>            Range&lt;C&gt; candidate = Maps.valueOrNull(rangesByLowerBound.floorEntry(cut));<a name="line.753"></a>
+<span class="sourceLineNo">754</span>            if (candidate != null &amp;&amp; candidate.upperBound.compareTo(restriction.lowerBound) &gt; 0) {<a name="line.754"></a>
+<span class="sourceLineNo">755</span>              return candidate.intersection(restriction);<a name="line.755"></a>
+<span class="sourceLineNo">756</span>            }<a name="line.756"></a>
+<span class="sourceLineNo">757</span>          } else {<a name="line.757"></a>
+<span class="sourceLineNo">758</span>            Range&lt;C&gt; result = rangesByLowerBound.get(cut);<a name="line.758"></a>
+<span class="sourceLineNo">759</span>            if (result != null) {<a name="line.759"></a>
+<span class="sourceLineNo">760</span>              return result.intersection(restriction);<a name="line.760"></a>
+<span class="sourceLineNo">761</span>            }<a name="line.761"></a>
+<span class="sourceLineNo">762</span>          }<a name="line.762"></a>
+<span class="sourceLineNo">763</span>        } catch (ClassCastException e) {<a name="line.763"></a>
+<span class="sourceLineNo">764</span>          return null;<a name="line.764"></a>
+<span class="sourceLineNo">765</span>        }<a name="line.765"></a>
+<span class="sourceLineNo">766</span>      }<a name="line.766"></a>
+<span class="sourceLineNo">767</span>      return null;<a name="line.767"></a>
+<span class="sourceLineNo">768</span>    }<a name="line.768"></a>
+<span class="sourceLineNo">769</span><a name="line.769"></a>
+<span class="sourceLineNo">770</span>    @Override<a name="line.770"></a>
+<span class="sourceLineNo">771</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; entryIterator() {<a name="line.771"></a>
+<span class="sourceLineNo">772</span>      if (restriction.isEmpty()) {<a name="line.772"></a>
+<span class="sourceLineNo">773</span>        return Iterators.emptyIterator();<a name="line.773"></a>
+<span class="sourceLineNo">774</span>      }<a name="line.774"></a>
+<span class="sourceLineNo">775</span>      final Iterator&lt;Range&lt;C&gt;&gt; completeRangeItr;<a name="line.775"></a>
+<span class="sourceLineNo">776</span>      if (lowerBoundWindow.upperBound.isLessThan(restriction.lowerBound)) {<a name="line.776"></a>
+<span class="sourceLineNo">777</span>        return Iterators.emptyIterator();<a name="line.777"></a>
+<span class="sourceLineNo">778</span>      } else if (lowerBoundWindow.lowerBound.isLessThan(restriction.lowerBound)) {<a name="line.778"></a>
+<span class="sourceLineNo">779</span>        // starts at the first range with upper bound strictly greater than restriction.lowerBound<a name="line.779"></a>
+<span class="sourceLineNo">780</span>        completeRangeItr =<a name="line.780"></a>
+<span class="sourceLineNo">781</span>            rangesByUpperBound.tailMap(restriction.lowerBound, false).values().iterator();<a name="line.781"></a>
+<span class="sourceLineNo">782</span>      } else {<a name="line.782"></a>
+<span class="sourceLineNo">783</span>        // starts at the first range with lower bound above lowerBoundWindow.lowerBound<a name="line.783"></a>
+<span class="sourceLineNo">784</span>        completeRangeItr =<a name="line.784"></a>
+<span class="sourceLineNo">785</span>            rangesByLowerBound<a name="line.785"></a>
+<span class="sourceLineNo">786</span>                .tailMap(<a name="line.786"></a>
+<span class="sourceLineNo">787</span>                    lowerBoundWindow.lowerBound.endpoint(),<a name="line.787"></a>
+<span class="sourceLineNo">788</span>                    lowerBoundWindow.lowerBoundType() == BoundType.CLOSED)<a name="line.788"></a>
+<span class="sourceLineNo">789</span>                .values()<a name="line.789"></a>
+<span class="sourceLineNo">790</span>                .iterator();<a name="line.790"></a>
+<span class="sourceLineNo">791</span>      }<a name="line.791"></a>
+<span class="sourceLineNo">792</span>      final Cut&lt;Cut&lt;C&gt;&gt; upperBoundOnLowerBounds =<a name="line.792"></a>
+<span class="sourceLineNo">793</span>          Ordering.natural()<a name="line.793"></a>
+<span class="sourceLineNo">794</span>              .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));<a name="line.794"></a>
+<span class="sourceLineNo">795</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.795"></a>
+<span class="sourceLineNo">796</span>        @Override<a name="line.796"></a>
+<span class="sourceLineNo">797</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.797"></a>
+<span class="sourceLineNo">798</span>          if (!completeRangeItr.hasNext()) {<a name="line.798"></a>
+<span class="sourceLineNo">799</span>            return endOfData();<a name="line.799"></a>
+<span class="sourceLineNo">800</span>          }<a name="line.800"></a>
+<span class="sourceLineNo">801</span>          Range&lt;C&gt; nextRange = completeRangeItr.next();<a name="line.801"></a>
+<span class="sourceLineNo">802</span>          if (upperBoundOnLowerBounds.isLessThan(nextRange.lowerBound)) {<a name="line.802"></a>
+<span class="sourceLineNo">803</span>            return endOfData();<a name="line.803"></a>
+<span class="sourceLineNo">804</span>          } else {<a name="line.804"></a>
+<span class="sourceLineNo">805</span>            nextRange = nextRange.intersection(restriction);<a name="line.805"></a>
+<span class="sourceLineNo">806</span>            return Maps.immutableEntry(nextRange.lowerBound, nextRange);<a name="line.806"></a>
+<span class="sourceLineNo">807</span>          }<a name="line.807"></a>
+<span class="sourceLineNo">808</span>        }<a name="line.808"></a>
+<span class="sourceLineNo">809</span>      };<a name="line.809"></a>
+<span class="sourceLineNo">810</span>    }<a name="line.810"></a>
+<span class="sourceLineNo">811</span><a name="line.811"></a>
+<span class="sourceLineNo">812</span>    @Override<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    Iterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt; descendingEntryIterator() {<a name="line.813"></a>
+<span class="sourceLineNo">814</span>      if (restriction.isEmpty()) {<a name="line.814"></a>
+<span class="sourceLineNo">815</span>        return Iterators.emptyIterator();<a name="line.815"></a>
+<span class="sourceLineNo">816</span>      }<a name="line.816"></a>
+<span class="sourceLineNo">817</span>      Cut&lt;Cut&lt;C&gt;&gt; upperBoundOnLowerBounds =<a name="line.817"></a>
+<span class="sourceLineNo">818</span>          Ordering.natural()<a name="line.818"></a>
+<span class="sourceLineNo">819</span>              .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));<a name="line.819"></a>
+<span class="sourceLineNo">820</span>      final Iterator&lt;Range&lt;C&gt;&gt; completeRangeItr =<a name="line.820"></a>
+<span class="sourceLineNo">821</span>          rangesByLowerBound<a name="line.821"></a>
+<span class="sourceLineNo">822</span>              .headMap(<a name="line.822"></a>
+<span class="sourceLineNo">823</span>                  upperBoundOnLowerBounds.endpoint(),<a name="line.823"></a>
+<span class="sourceLineNo">824</span>                  upperBoundOnLowerBounds.typeAsUpperBound() == BoundType.CLOSED)<a name="line.824"></a>
+<span class="sourceLineNo">825</span>              .descendingMap()<a name="line.825"></a>
+<span class="sourceLineNo">826</span>              .values()<a name="line.826"></a>
+<span class="sourceLineNo">827</span>              .iterator();<a name="line.827"></a>
+<span class="sourceLineNo">828</span>      return new AbstractIterator&lt;Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt;&gt;() {<a name="line.828"></a>
+<span class="sourceLineNo">829</span>        @Override<a name="line.829"></a>
+<span class="sourceLineNo">830</span>        protected Entry&lt;Cut&lt;C&gt;, Range&lt;C&gt;&gt; computeNext() {<a name="line.830"></a>
+<span class="sourceLineNo">831</span>          if (!completeRangeItr.hasNext()) {<a name="line.831"></a>
+<span class="sourceLineNo">832</span>            return endOfData();<a name="line.832"></a>
+<span class="sourceLineNo">833</span>          }<a name="line.833"></a>
+<span class="sourceLineNo">834</span>          Range&lt;C&gt; nextRange = completeRangeItr.next();<a name="line.834"></a>
+<span class="sourceLineNo">835</span>          if (restriction.lowerBound.compareTo(nextRange.upperBound) &gt;= 0) {<a name="line.835"></a>
+<span class="sourceLineNo">836</span>            return endOfData();<a name="line.836"></a>
+<span class="sourceLineNo">837</span>          }<a name="line.837"></a>
+<span class="sourceLineNo">838</span>          nextRange = nextRange.intersection(restriction);<a name="line.838"></a>
+<span class="sourceLineNo">839</span>          if (lowerBoundWindow.contains(nextRange.lowerBound)) {<a name="line.839"></a>
+<span class="sourceLineNo">840</span>            return Maps.immutableEntry(nextRange.lowerBound, nextRange);<a name="line.840"></a>
+<span class="sourceLineNo">841</span>          } else {<a name="line.841"></a>
+<span class="sourceLineNo">842</span>            return endOfData();<a name="line.842"></a>
+<span class="sourceLineNo">843</span>          }<a name="line.843"></a>
+<span class="sourceLineNo">844</span>        }<a name="line.844"></a>
+<span class="sourceLineNo">845</span>      };<a name="line.845"></a>
+<span class="sourceLineNo">846</span>    }<a name="line.846"></a>
+<span class="sourceLineNo">847</span><a name="line.847"></a>
+<span class="sourceLineNo">848</span>    @Override<a name="line.848"></a>
+<span class="sourceLineNo">849</span>    public int size() {<a name="line.849"></a>
+<span class="sourceLineNo">850</span>      return Iterators.size(entryIterator());<a name="line.850"></a>
+<span class="sourceLineNo">851</span>    }<a name="line.851"></a>
+<span class="sourceLineNo">852</span>  }<a name="line.852"></a>
+<span class="sourceLineNo">853</span><a name="line.853"></a>
+<span class="sourceLineNo">854</span>  @Override<a name="line.854"></a>
+<span class="sourceLineNo">855</span>  public RangeSet&lt;C&gt; subRangeSet(Range&lt;C&gt; view) {<a name="line.855"></a>
+<span class="sourceLineNo">856</span>    return view.equals(Range.&lt;C&gt;all()) ? this : new SubRangeSet(view);<a name="line.856"></a>
+<span class="sourceLineNo">857</span>  }<a name="line.857"></a>
+<span class="sourceLineNo">858</span><a name="line.858"></a>
+<span class="sourceLineNo">859</span>  private final class SubRangeSet extends TreeRangeSet&lt;C&gt; {<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    private final Range&lt;C&gt; restriction;<a name="line.860"></a>
+<span class="sourceLineNo">861</span><a name="line.861"></a>
+<span class="sourceLineNo">862</span>    SubRangeSet(Range&lt;C&gt; restriction) {<a name="line.862"></a>
+<span class="sourceLineNo">863</span>      super(<a name="line.863"></a>
+<span class="sourceLineNo">864</span>          new SubRangeSetRangesByLowerBound&lt;C&gt;(<a name="line.864"></a>
+<span class="sourceLineNo">865</span>              Range.&lt;Cut&lt;C&gt;&gt;all(), restriction, TreeRangeSet.this.rangesByLowerBound));<a name="line.865"></a>
+<span class="sourceLineNo">866</span>      this.restriction = restriction;<a name="line.866"></a>
+<span class="sourceLineNo">867</span>    }<a name="line.867"></a>
+<span class="sourceLineNo">868</span><a name="line.868"></a>
+<span class="sourceLineNo">869</span>    @Override<a name="line.869"></a>
+<span class="sourceLineNo">870</span>    public boolean encloses(Range&lt;C&gt; range) {<a name="line.870"></a>
+<span class="sourceLineNo">871</span>      if (!restriction.isEmpty() &amp;&amp; restriction.encloses(range)) {<a name="line.871"></a>
+<span class="sourceLineNo">872</span>        Range&lt;C&gt; enclosing = TreeRangeSet.this.rangeEnclosing(range);<a name="line.872"></a>
+<span class="sourceLineNo">873</span>        return enclosing != null &amp;&amp; !enclosing.intersection(restriction).isEmpty();<a name="line.873"></a>
+<span class="sourceLineNo">874</span>      }<a name="line.874"></a>
+<span class="sourceLineNo">875</span>      return false;<a name="line.875"></a>
+<span class="sourceLineNo">876</span>    }<a name="line.876"></a>
+<span class="sourceLineNo">877</span><a name="line.877"></a>
+<span class="sourceLineNo">878</span>    @Override<a name="line.878"></a>
+<span class="sourceLineNo">879</span>    public @Nullable Range&lt;C&gt; rangeContaining(C value) {<a name="line.879"></a>
+<span class="sourceLineNo">880</span>      if (!restriction.contains(value)) {<a name="line.880"></a>
+<span class="sourceLineNo">881</span>        return null;<a name="line.881"></a>
+<span class="sourceLineNo">882</span>      }<a name="line.882"></a>
+<span class="sourceLineNo">883</span>      Range&lt;C&gt; result = TreeRangeSet.this.rangeContaining(value);<a name="line.883"></a>
+<span class="sourceLineNo">884</span>      return (result == null) ? null : result.intersection(restriction);<a name="line.884"></a>
+<span class="sourceLineNo">885</span>    }<a name="line.885"></a>
+<span class="sourceLineNo">886</span><a name="line.886"></a>
+<span class="sourceLineNo">887</span>    @Override<a name="line.887"></a>
+<span class="sourceLineNo">888</span>    public void add(Range&lt;C&gt; rangeToAdd) {<a name="line.888"></a>
+<span class="sourceLineNo">889</span>      checkArgument(<a name="line.889"></a>
+<span class="sourceLineNo">890</span>          restriction.encloses(rangeToAdd),<a name="line.890"></a>
+<span class="sourceLineNo">891</span>          "Cannot add range %s to subRangeSet(%s)",<a name="line.891"></a>
+<span class="sourceLineNo">892</span>          rangeToAdd,<a name="line.892"></a>
+<span class="sourceLineNo">893</span>          restriction);<a name="line.893"></a>
+<span class="sourceLineNo">894</span>      super.add(rangeToAdd);<a name="line.894"></a>
+<span class="sourceLineNo">895</span>    }<a name="line.895"></a>
+<span class="sourceLineNo">896</span><a name="line.896"></a>
+<span class="sourceLineNo">897</span>    @Override<a name="line.897"></a>
+<span class="sourceLineNo">898</span>    public void remove(Range&lt;C&gt; rangeToRemove) {<a name="line.898"></a>
+<span class="sourceLineNo">899</span>      if (rangeToRemove.isConnected(restriction)) {<a name="line.899"></a>
+<span class="sourceLineNo">900</span>        TreeRangeSet.this.remove(rangeToRemove.intersection(restriction));<a name="line.900"></a>
+<span class="sourceLineNo">901</span>      }<a name="line.901"></a>
+<span class="sourceLineNo">902</span>    }<a name="line.902"></a>
+<span class="sourceLineNo">903</span><a name="line.903"></a>
+<span class="sourceLineNo">904</span>    @Override<a name="line.904"></a>
+<span class="sourceLineNo">905</span>    public boolean contains(C value) {<a name="line.905"></a>
+<span class="sourceLineNo">906</span>      return restriction.contains(value) &amp;&amp; TreeRangeSet.this.contains(value);<a name="line.906"></a>
+<span class="sourceLineNo">907</span>    }<a name="line.907"></a>
+<span class="sourceLineNo">908</span><a name="line.908"></a>
+<span class="sourceLineNo">909</span>    @Override<a name="line.909"></a>
+<span class="sourceLineNo">910</span>    public void clear() {<a name="line.910"></a>
+<span class="sourceLineNo">911</span>      TreeRangeSet.this.remove(restriction);<a name="line.911"></a>
+<span class="sourceLineNo">912</span>    }<a name="line.912"></a>
+<span class="sourceLineNo">913</span><a name="line.913"></a>
+<span class="sourceLineNo">914</span>    @Override<a name="line.914"></a>
+<span class="sourceLineNo">915</span>    public RangeSet&lt;C&gt; subRangeSet(Range&lt;C&gt; view) {<a name="line.915"></a>
+<span class="sourceLineNo">916</span>      if (view.encloses(restriction)) {<a name="line.916"></a>
+<span class="sourceLineNo">917</span>        return this;<a name="line.917"></a>
+<span class="sourceLineNo">918</span>      } else if (view.isConnected(restriction)) {<a name="line.918"></a>
+<span class="sourceLineNo">919</span>        return new SubRangeSet(restriction.intersection(view));<a name="line.919"></a>
+<span class="sourceLineNo">920</span>      } else {<a name="line.920"></a>
+<span class="sourceLineNo">921</span>        return ImmutableRangeSet.of();<a name="line.921"></a>
+<span class="sourceLineNo">922</span>      }<a name="line.922"></a>
+<span class="sourceLineNo">923</span>    }<a name="line.923"></a>
+<span class="sourceLineNo">924</span>  }<a name="line.924"></a>
+<span class="sourceLineNo">925</span>}<a name="line.925"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

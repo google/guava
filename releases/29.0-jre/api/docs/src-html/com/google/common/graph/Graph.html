@@ -1,0 +1,374 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2014 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.DoNotMock;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Collection;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Set;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * An interface for &lt;a<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)"&gt;graph&lt;/a&gt;-structured data,<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * whose edges are anonymous entities with no identity or information of their own.<a name="line.28"></a>
+<span class="sourceLineNo">029</span> *<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;p&gt;A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;There are three primary interfaces provided to represent graphs. In order of increasing<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * complexity they are: {@link Graph}, {@link ValueGraph}, and {@link Network}. You should generally<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * prefer the simplest interface that satisfies your use case. See the &lt;a<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type"&gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * "Choosing the right graph type"&lt;/a&gt; section of the Guava User Guide for more details.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;h3&gt;Capabilities&lt;/h3&gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;p&gt;{@code Graph} supports the following use cases (&lt;a<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * href="https://github.com/google/guava/wiki/GraphsExplained#definitions"&gt;definitions of<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * terms&lt;/a&gt;):<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * &lt;ul&gt;<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *   &lt;li&gt;directed graphs<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *   &lt;li&gt;undirected graphs<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *   &lt;li&gt;graphs that do/don't allow self-loops<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *   &lt;li&gt;graphs whose nodes/edges are insertion-ordered, sorted, or unordered<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;/ul&gt;<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * &lt;p&gt;{@code Graph} explicitly does not support parallel edges, and forbids implementations or<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * extensions with parallel edges. If you need parallel edges, use {@link Network}.<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * &lt;h3&gt;Building a {@code Graph}&lt;/h3&gt;<a name="line.54"></a>
+<span class="sourceLineNo">055</span> *<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * &lt;p&gt;The implementation classes that {@code common.graph} provides are not public, by design. To<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * create an instance of one of the built-in implementations of {@code Graph}, use the {@link<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * GraphBuilder} class:<a name="line.58"></a>
+<span class="sourceLineNo">059</span> *<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * &lt;pre&gt;{@code<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * }&lt;/pre&gt;<a name="line.62"></a>
+<span class="sourceLineNo">063</span> *<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * &lt;p&gt;{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * need to mutate a graph (e.g. if you write a method than runs a read-only algorithm on the graph),<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * you should use the non-mutating {@link Graph} interface, or an {@link ImmutableGraph}.<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;p&gt;You can create an immutable copy of an existing {@code Graph} using {@link<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * ImmutableGraph#copyOf(Graph)}:<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * &lt;pre&gt;{@code<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * }&lt;/pre&gt;<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * &lt;p&gt;Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are<a name="line.76"></a>
+<span class="sourceLineNo">077</span> * contractually guaranteed to be unmodifiable and thread-safe.<a name="line.77"></a>
+<span class="sourceLineNo">078</span> *<a name="line.78"></a>
+<span class="sourceLineNo">079</span> * &lt;p&gt;The Guava User Guide has &lt;a<a name="line.79"></a>
+<span class="sourceLineNo">080</span> * href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances"&gt;more<a name="line.80"></a>
+<span class="sourceLineNo">081</span> * information on (and examples of) building graphs&lt;/a&gt;.<a name="line.81"></a>
+<span class="sourceLineNo">082</span> *<a name="line.82"></a>
+<span class="sourceLineNo">083</span> * &lt;h3&gt;Additional documentation&lt;/h3&gt;<a name="line.83"></a>
+<span class="sourceLineNo">084</span> *<a name="line.84"></a>
+<span class="sourceLineNo">085</span> * &lt;p&gt;See the Guava User Guide for the {@code common.graph} package (&lt;a<a name="line.85"></a>
+<span class="sourceLineNo">086</span> * href="https://github.com/google/guava/wiki/GraphsExplained"&gt;"Graphs Explained"&lt;/a&gt;) for<a name="line.86"></a>
+<span class="sourceLineNo">087</span> * additional documentation, including:<a name="line.87"></a>
+<span class="sourceLineNo">088</span> *<a name="line.88"></a>
+<span class="sourceLineNo">089</span> * &lt;ul&gt;<a name="line.89"></a>
+<span class="sourceLineNo">090</span> *   &lt;li&gt;&lt;a<a name="line.90"></a>
+<span class="sourceLineNo">091</span> *       href="https://github.com/google/guava/wiki/GraphsExplained#equals-hashcode-and-graph-equivalence"&gt;<a name="line.91"></a>
+<span class="sourceLineNo">092</span> *       {@code equals()}, {@code hashCode()}, and graph equivalence&lt;/a&gt;<a name="line.92"></a>
+<span class="sourceLineNo">093</span> *   &lt;li&gt;&lt;a href="https://github.com/google/guava/wiki/GraphsExplained#synchronization"&gt;<a name="line.93"></a>
+<span class="sourceLineNo">094</span> *       Synchronization policy&lt;/a&gt;<a name="line.94"></a>
+<span class="sourceLineNo">095</span> *   &lt;li&gt;&lt;a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors"&gt;Notes<a name="line.95"></a>
+<span class="sourceLineNo">096</span> *       for implementors&lt;/a&gt;<a name="line.96"></a>
+<span class="sourceLineNo">097</span> * &lt;/ul&gt;<a name="line.97"></a>
+<span class="sourceLineNo">098</span> *<a name="line.98"></a>
+<span class="sourceLineNo">099</span> * @author James Sexton<a name="line.99"></a>
+<span class="sourceLineNo">100</span> * @author Joshua O'Madadhain<a name="line.100"></a>
+<span class="sourceLineNo">101</span> * @param &lt;N&gt; Node parameter type<a name="line.101"></a>
+<span class="sourceLineNo">102</span> * @since 20.0<a name="line.102"></a>
+<span class="sourceLineNo">103</span> */<a name="line.103"></a>
+<span class="sourceLineNo">104</span>@Beta<a name="line.104"></a>
+<span class="sourceLineNo">105</span>@DoNotMock("Use GraphBuilder to create a real instance")<a name="line.105"></a>
+<span class="sourceLineNo">106</span>public interface Graph&lt;N&gt; extends BaseGraph&lt;N&gt; {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  //<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  // Graph-level accessors<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  //<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /** Returns all nodes in this graph, in the order specified by {@link #nodeOrder()}. */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  @Override<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  Set&lt;N&gt; nodes();<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /** Returns all edges in this graph. */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  Set&lt;EndpointPair&lt;N&gt;&gt; edges();<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  //<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  // Graph properties<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  //<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Returns true if the edges in this graph are directed. Directed edges connect a {@link<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * undirected edges connect a pair of nodes to each other.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  @Override<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  boolean isDirected();<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * to add a self-loop to a graph that does not allow them will throw an {@link<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * IllegalArgumentException}.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  @Override<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  boolean allowsSelfLoops();<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  /** Returns the order of iteration for the elements of {@link #nodes()}. */<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  @Override<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  ElementOrder&lt;N&gt; nodeOrder();<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * Returns an {@link ElementOrder} that specifies the order of iteration for the elements of<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * #successors(Object)} and {@link #incidentEdges(Object)}.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   *<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   * @since 29.0<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   */<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  @Override<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  ElementOrder&lt;N&gt; incidentEdgeOrder();<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  //<a name="line.153"></a>
+<span class="sourceLineNo">154</span>  // Element-level accessors<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  //<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * Returns the nodes which have an incident edge in common with {@code node} in this graph.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   *<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * &lt;p&gt;This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  @Override<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  Set&lt;N&gt; adjacentNodes(N node);<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * {@code node}'s incoming edges &lt;i&gt;against&lt;/i&gt; the direction (if any) of the edge.<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   *<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   *<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  @Override<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  Set&lt;N&gt; predecessors(N node);<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * Returns all nodes in this graph adjacent to {@code node} which can be reached by traversing<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * {@code node}'s outgoing edges in the direction (if any) of the edge.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   *<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * &lt;p&gt;In an undirected graph, this is equivalent to {@link #adjacentNodes(Object)}.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   *<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * &lt;p&gt;This is &lt;i&gt;not&lt;/i&gt; the same as "all nodes reachable from {@code node} by following outgoing<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   *<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  @Override<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  Set&lt;N&gt; successors(N node);<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>  /**<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * Returns the edges in this graph whose endpoints include {@code node}.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   *<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * &lt;p&gt;This is equal to the union of incoming and outgoing edges.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   *<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * @since 24.0<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   */<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  @Override<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  Set&lt;EndpointPair&lt;N&gt;&gt; incidentEdges(N node);<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Returns the count of {@code node}'s incident edges, counting self-loops twice (equivalently,<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * the number of times an edge touches {@code node}).<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * &lt;p&gt;For directed graphs, this is equal to {@code inDegree(node) + outDegree(node)}.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * &lt;p&gt;For undirected graphs, this is equal to {@code incidentEdges(node).size()} + (number of<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * self-loops incident to {@code node}).<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   *<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   *<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   */<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  @Override<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  int degree(N node);<a name="line.217"></a>
+<span class="sourceLineNo">218</span><a name="line.218"></a>
+<span class="sourceLineNo">219</span>  /**<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * Returns the count of {@code node}'s incoming edges (equal to {@code predecessors(node).size()})<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   *<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   *<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   */<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  @Override<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  int inDegree(N node);<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * Returns the count of {@code node}'s outgoing edges (equal to {@code successors(node).size()})<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * in a directed graph. In an undirected graph, returns the {@link #degree(Object)}.<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   *<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * &lt;p&gt;If the count is greater than {@code Integer.MAX_VALUE}, returns {@code Integer.MAX_VALUE}.<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   *<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * @throws IllegalArgumentException if {@code node} is not an element of this graph<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   */<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  @Override<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  int outDegree(N node);<a name="line.239"></a>
+<span class="sourceLineNo">240</span><a name="line.240"></a>
+<span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * Returns true if there is an edge that directly connects {@code nodeU} to {@code nodeV}. This is<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * equivalent to {@code nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)}.<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   *<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * &lt;p&gt;In an undirected graph, this is equal to {@code hasEdgeConnecting(nodeV, nodeU)}.<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   *<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * @since 23.0<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   */<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  @Override<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  boolean hasEdgeConnecting(N nodeU, N nodeV);<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * Returns true if there is an edge that directly connects {@code endpoints} (in the order, if<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * any, specified by {@code endpoints}). This is equivalent to {@code<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * edges().contains(endpoints)}.<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   *<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * &lt;p&gt;Unlike the other {@code EndpointPair}-accepting methods, this method does not throw if the<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * endpoints are unordered and the graph is directed; it simply returns {@code false}. This is for<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   * consistency with the behavior of {@link Collection#contains(Object)} (which does not generally<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * throw if the object cannot be present in the collection), and the desire to have this method's<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * behavior be compatible with {@code edges().contains(endpoints)}.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * @since 27.1<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   */<a name="line.264"></a>
+<span class="sourceLineNo">265</span>  @Override<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints);<a name="line.266"></a>
+<span class="sourceLineNo">267</span><a name="line.267"></a>
+<span class="sourceLineNo">268</span>  //<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  // Graph identity<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  //<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  /**<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * same structural relationships as those in this graph.<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   *<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * &lt;p&gt;Thus, two graphs A and B are equal if &lt;b&gt;all&lt;/b&gt; of the following are true:<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   *<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * &lt;ul&gt;<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   *   &lt;li&gt;A and B have equal {@link #isDirected() directedness}.<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   *   &lt;li&gt;A and B have equal {@link #nodes() node sets}.<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   *   &lt;li&gt;A and B have equal {@link #edges() edge sets}.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * &lt;/ul&gt;<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   *<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * &lt;p&gt;Graph properties besides {@link #isDirected() directedness} do &lt;b&gt;not&lt;/b&gt; affect equality.<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * For example, two graphs may be considered equal even if one allows self-loops and the other<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * doesn't. Additionally, the order in which nodes or edges are added to the graph, and the order<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * in which they are iterated over, are irrelevant.<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   *<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#equals(Object)}.<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   */<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  @Override<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  boolean equals(@Nullable Object object);<a name="line.292"></a>
+<span class="sourceLineNo">293</span><a name="line.293"></a>
+<span class="sourceLineNo">294</span>  /**<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * the set returned by {@link #edges()}.<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   *<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * &lt;p&gt;A reference implementation of this is provided by {@link AbstractGraph#hashCode()}.<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   */<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  @Override<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  int hashCode();<a name="line.301"></a>
+<span class="sourceLineNo">302</span>}<a name="line.302"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

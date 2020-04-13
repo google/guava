@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.Beta;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.GwtCompatible;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.GwtIncompatible;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Supplier;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.concurrent.Callable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>/**<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * Static utility methods pertaining to the {@link Callable} interface.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * @author Isaac Shum<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * @since 1.0<a name="line.30"></a>
+<span class="sourceLineNo">031</span> */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>@GwtCompatible(emulated = true)<a name="line.32"></a>
+<span class="sourceLineNo">033</span>public final class Callables {<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  private Callables() {}<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /** Creates a {@code Callable} which immediately returns a preset value each time it is called. */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  public static &lt;T&gt; Callable&lt;T&gt; returning(final @Nullable T value) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    return new Callable&lt;T&gt;() {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>      @Override<a name="line.39"></a>
+<span class="sourceLineNo">040</span>      public T call() {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        return value;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>      }<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    };<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  }<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * Creates an {@link AsyncCallable} from a {@link Callable}.<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   *<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * &lt;p&gt;The {@link AsyncCallable} returns the {@link ListenableFuture} resulting from {@link<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * ListeningExecutorService#submit(Callable)}.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   *<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @since 20.0<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  @Beta<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @GwtIncompatible<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public static &lt;T&gt; AsyncCallable&lt;T&gt; asAsyncCallable(<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      final Callable&lt;T&gt; callable, final ListeningExecutorService listeningExecutorService) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    checkNotNull(callable);<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    checkNotNull(listeningExecutorService);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    return new AsyncCallable&lt;T&gt;() {<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      @Override<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      public ListenableFuture&lt;T&gt; call() throws Exception {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        return listeningExecutorService.submit(callable);<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      }<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    };<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * Wraps the given callable such that for the duration of {@link Callable#call} the thread that is<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * running will have the given name.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   *<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * @param callable The callable to wrap<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *     for each invocation of the wrapped callable.<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  @GwtIncompatible // threads<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  static &lt;T&gt; Callable&lt;T&gt; threadRenaming(<a name="line.78"></a>
+<span class="sourceLineNo">079</span>      final Callable&lt;T&gt; callable, final Supplier&lt;String&gt; nameSupplier) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    checkNotNull(nameSupplier);<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    checkNotNull(callable);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    return new Callable&lt;T&gt;() {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      @Override<a name="line.83"></a>
+<span class="sourceLineNo">084</span>      public T call() throws Exception {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        Thread currentThread = Thread.currentThread();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        String oldName = currentThread.getName();<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        boolean restoreName = trySetName(nameSupplier.get(), currentThread);<a name="line.87"></a>
+<span class="sourceLineNo">088</span>        try {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>          return callable.call();<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        } finally {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>          if (restoreName) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>            boolean unused = trySetName(oldName, currentThread);<a name="line.92"></a>
+<span class="sourceLineNo">093</span>          }<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        }<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      }<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    };<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>  /**<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * Wraps the given runnable such that for the duration of {@link Runnable#run} the thread that is<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * running with have the given name.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   *<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   *<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * @param task The Runnable to wrap<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @param nameSupplier The supplier of thread names, {@link Supplier#get get} will be called once<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   *     for each invocation of the wrapped callable.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  @GwtIncompatible // threads<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  static Runnable threadRenaming(final Runnable task, final Supplier&lt;String&gt; nameSupplier) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    checkNotNull(nameSupplier);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    checkNotNull(task);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    return new Runnable() {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      @Override<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      public void run() {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>        Thread currentThread = Thread.currentThread();<a name="line.115"></a>
+<span class="sourceLineNo">116</span>        String oldName = currentThread.getName();<a name="line.116"></a>
+<span class="sourceLineNo">117</span>        boolean restoreName = trySetName(nameSupplier.get(), currentThread);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>        try {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>          task.run();<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        } finally {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>          if (restoreName) {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>            boolean unused = trySetName(oldName, currentThread);<a name="line.122"></a>
+<span class="sourceLineNo">123</span>          }<a name="line.123"></a>
+<span class="sourceLineNo">124</span>        }<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    };<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  /** Tries to set name of the given {@link Thread}, returns true if successful. */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @GwtIncompatible // threads<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  private static boolean trySetName(final String threadName, Thread currentThread) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    /*<a name="line.132"></a>
+<span class="sourceLineNo">133</span>     * setName should usually succeed, but the security manager can prohibit it. Is there a way to<a name="line.133"></a>
+<span class="sourceLineNo">134</span>     * see if we have the modifyThread permission without catching an exception?<a name="line.134"></a>
+<span class="sourceLineNo">135</span>     */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    try {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      currentThread.setName(threadName);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      return true;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    } catch (SecurityException e) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      return false;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    }<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>}<a name="line.143"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

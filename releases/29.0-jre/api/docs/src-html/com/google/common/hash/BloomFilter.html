@@ -1,0 +1,690 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.hash;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.Beta;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.VisibleForTesting;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Objects;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Predicate;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.math.DoubleMath;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.primitives.SignedBytes;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.primitives.UnsignedBytes;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.io.DataInputStream;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.io.DataOutputStream;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.io.IOException;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.io.InputStream;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.io.OutputStream;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.io.Serializable;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.math.RoundingMode;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.stream.Collector;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>/**<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * with one-sided error: if it claims that an element is contained in it, this might be in error,<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * but if it claims that an element is &lt;i&gt;not&lt;/i&gt; contained in it, then this is definitely true.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * &lt;p&gt;If you are unfamiliar with Bloom filters, this nice &lt;a<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * href="http://llimllib.github.com/bloomfilter-tutorial/"&gt;tutorial&lt;/a&gt; may help you understand how<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * they work.<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * &lt;p&gt;The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * that {@linkplain #mightContain(Object)} will erroneously return {@code true} for an object that<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * has not actually been put in the {@code BloomFilter}.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * &lt;p&gt;Bloom filters are serializable. They also support a more compact serial representation via the<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * {@link #writeTo} and {@link #readFrom} methods. Both serialized forms will continue to be<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * supported by future versions of this library. However, serial forms generated by newer versions<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * of the code may not be readable by older versions of the code (e.g., a serialized Bloom filter<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * generated today may &lt;i&gt;not&lt;/i&gt; be readable by a binary that was compiled 6 months ago).<a name="line.56"></a>
+<span class="sourceLineNo">057</span> *<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * &lt;p&gt;As of Guava 23.0, this class is thread-safe and lock-free. It internally uses atomics and<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * compare-and-swap to ensure correctness when multiple threads are used to access it.<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * @param &lt;T&gt; the type of instances that the {@code BloomFilter} accepts<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * @author Dimitris Andreou<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * @author Kevin Bourrillion<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * @since 11.0 (thread-safe since 23.0)<a name="line.64"></a>
+<span class="sourceLineNo">065</span> */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>@Beta<a name="line.66"></a>
+<span class="sourceLineNo">067</span>public final class BloomFilter&lt;T&gt; implements Predicate&lt;T&gt;, Serializable {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   *<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * &lt;p&gt;Implementations should be collections of pure functions (i.e. stateless).<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  interface Strategy extends java.io.Serializable {<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>    /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>     * Sets {@code numHashFunctions} bits of the given bit array, by hashing a user element.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>     *<a name="line.77"></a>
+<span class="sourceLineNo">078</span>     * &lt;p&gt;Returns whether any bits changed as a result of this operation.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>     */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    &lt;T&gt; boolean put(<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        T object, Funnel&lt;? super T&gt; funnel, int numHashFunctions, LockFreeBitArray bits);<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>    /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>     * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>     * returns {@code true} if and only if all selected bits are set.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>     */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    &lt;T&gt; boolean mightContain(<a name="line.87"></a>
+<span class="sourceLineNo">088</span>        T object, Funnel&lt;? super T&gt; funnel, int numHashFunctions, LockFreeBitArray bits);<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>    /**<a name="line.90"></a>
+<span class="sourceLineNo">091</span>     * Identifier used to encode this strategy, when marshalled as part of a BloomFilter. Only<a name="line.91"></a>
+<span class="sourceLineNo">092</span>     * values in the [-128, 127] range are valid for the compact serial form. Non-negative values<a name="line.92"></a>
+<span class="sourceLineNo">093</span>     * are reserved for enums defined in BloomFilterStrategies; negative values are reserved for any<a name="line.93"></a>
+<span class="sourceLineNo">094</span>     * custom, stateful strategy we may define (e.g. any kind of strategy that would depend on user<a name="line.94"></a>
+<span class="sourceLineNo">095</span>     * input).<a name="line.95"></a>
+<span class="sourceLineNo">096</span>     */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    int ordinal();<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /** The bit set of the BloomFilter (not necessarily power of 2!) */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  private final LockFreeBitArray bits;<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  /** Number of hashes per element */<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  private final int numHashFunctions;<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  /** The funnel to translate Ts to bytes */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  private final Funnel&lt;? super T&gt; funnel;<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /** The strategy we employ to map an element T to {@code numHashFunctions} bit indexes. */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  private final Strategy strategy;<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  /** Creates a BloomFilter. */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  private BloomFilter(<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      LockFreeBitArray bits, int numHashFunctions, Funnel&lt;? super T&gt; funnel, Strategy strategy) {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    checkArgument(numHashFunctions &gt; 0, "numHashFunctions (%s) must be &gt; 0", numHashFunctions);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    checkArgument(<a name="line.116"></a>
+<span class="sourceLineNo">117</span>        numHashFunctions &lt;= 255, "numHashFunctions (%s) must be &lt;= 255", numHashFunctions);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    this.bits = checkNotNull(bits);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    this.numHashFunctions = numHashFunctions;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    this.funnel = checkNotNull(funnel);<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    this.strategy = checkNotNull(strategy);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Creates a new {@code BloomFilter} that's a copy of this instance. The new instance is equal to<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * this instance but shares no mutable state.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * @since 12.0<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  public BloomFilter&lt;T&gt; copy() {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    return new BloomFilter&lt;T&gt;(bits.copy(), numHashFunctions, funnel, strategy);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>  /**<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * Returns {@code true} if the element &lt;i&gt;might&lt;/i&gt; have been put in this Bloom filter, {@code<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * false} if this is &lt;i&gt;definitely&lt;/i&gt; not the case.<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public boolean mightContain(T object) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    return strategy.mightContain(object, funnel, numHashFunctions, bits);<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * @deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   *     instead.<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  @Deprecated<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  @Override<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public boolean apply(T input) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    return mightContain(input);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  /**<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * #mightContain(Object)} with the same element will always return {@code true}.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @return true if the Bloom filter's bits changed as a result of this operation. If the bits<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   *     changed, this is &lt;i&gt;definitely&lt;/i&gt; the first time {@code object} has been added to the<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   *     filter. If the bits haven't changed, this &lt;i&gt;might&lt;/i&gt; be the first time {@code object} has<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   *     been added to the filter. Note that {@code put(t)} always returns the &lt;i&gt;opposite&lt;/i&gt;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   *     result to what {@code mightContain(t)} would have returned at the time it is called.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * @since 12.0 (present in 11.0 with {@code void} return type})<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  @CanIgnoreReturnValue<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  public boolean put(T object) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    return strategy.put(object, funnel, numHashFunctions, bits);<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  }<a name="line.166"></a>
+<span class="sourceLineNo">167</span><a name="line.167"></a>
+<span class="sourceLineNo">168</span>  /**<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return {@code<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   * true} for an object that has not actually been put in the {@code BloomFilter}.<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   *<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * &lt;p&gt;Ideally, this number should be close to the {@code fpp} parameter passed in {@linkplain<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * #create(Funnel, int, double)}, or smaller. If it is significantly higher, it is usually the<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * case that too many elements (more than expected) have been put in the {@code BloomFilter},<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * degenerating it.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   *<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * @since 14.0 (since 11.0 as expectedFalsePositiveProbability())<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  public double expectedFpp() {<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    return Math.pow((double) bits.bitCount() / bitSize(), numHashFunctions);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  /**<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * Returns an estimate for the total number of distinct elements that have been added to this<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * Bloom filter. This approximation is reasonably accurate if it does not exceed the value of<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * {@code expectedInsertions} that was used when constructing the filter.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   *<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * @since 22.0<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  public long approximateElementCount() {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    long bitSize = bits.bitSize();<a name="line.192"></a>
+<span class="sourceLineNo">193</span>    long bitCount = bits.bitCount();<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span>    /**<a name="line.195"></a>
+<span class="sourceLineNo">196</span>     * Each insertion is expected to reduce the # of clear bits by a factor of<a name="line.196"></a>
+<span class="sourceLineNo">197</span>     * `numHashFunctions/bitSize`. So, after n insertions, expected bitCount is `bitSize * (1 - (1 -<a name="line.197"></a>
+<span class="sourceLineNo">198</span>     * numHashFunctions/bitSize)^n)`. Solving that for n, and approximating `ln x` as `x - 1` when x<a name="line.198"></a>
+<span class="sourceLineNo">199</span>     * is close to 1 (why?), gives the following formula.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>     */<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    double fractionOfBitsSet = (double) bitCount / bitSize;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    return DoubleMath.roundToLong(<a name="line.202"></a>
+<span class="sourceLineNo">203</span>        -Math.log1p(-fractionOfBitsSet) * bitSize / numHashFunctions, RoundingMode.HALF_UP);<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  }<a name="line.204"></a>
+<span class="sourceLineNo">205</span><a name="line.205"></a>
+<span class="sourceLineNo">206</span>  /** Returns the number of bits in the underlying bit array. */<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  @VisibleForTesting<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  long bitSize() {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    return bits.bitSize();<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * Determines whether a given Bloom filter is compatible with this Bloom filter. For two Bloom<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * filters to be compatible, they must:<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   *<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * &lt;ul&gt;<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   *   &lt;li&gt;not be the same instance<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   *   &lt;li&gt;have the same number of hash functions<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *   &lt;li&gt;have the same bit size<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   *   &lt;li&gt;have the same strategy<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   *   &lt;li&gt;have equal funnels<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * &lt;/ul&gt;<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   *<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * @param that The Bloom filter to check for compatibility.<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * @since 15.0<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   */<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  public boolean isCompatible(BloomFilter&lt;T&gt; that) {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    checkNotNull(that);<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    return this != that<a name="line.229"></a>
+<span class="sourceLineNo">230</span>        &amp;&amp; this.numHashFunctions == that.numHashFunctions<a name="line.230"></a>
+<span class="sourceLineNo">231</span>        &amp;&amp; this.bitSize() == that.bitSize()<a name="line.231"></a>
+<span class="sourceLineNo">232</span>        &amp;&amp; this.strategy.equals(that.strategy)<a name="line.232"></a>
+<span class="sourceLineNo">233</span>        &amp;&amp; this.funnel.equals(that.funnel);<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  }<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>  /**<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * Combines this Bloom filter with another Bloom filter by performing a bitwise OR of the<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * underlying data. The mutations happen to &lt;b&gt;this&lt;/b&gt; instance. Callers must ensure the Bloom<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * filters are appropriately sized to avoid saturating them.<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   *<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * @param that The Bloom filter to combine this Bloom filter with. It is not mutated.<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * @throws IllegalArgumentException if {@code isCompatible(that) == false}<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * @since 15.0<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   */<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  public void putAll(BloomFilter&lt;T&gt; that) {<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    checkNotNull(that);<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    checkArgument(this != that, "Cannot combine a BloomFilter with itself.");<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    checkArgument(<a name="line.248"></a>
+<span class="sourceLineNo">249</span>        this.numHashFunctions == that.numHashFunctions,<a name="line.249"></a>
+<span class="sourceLineNo">250</span>        "BloomFilters must have the same number of hash functions (%s != %s)",<a name="line.250"></a>
+<span class="sourceLineNo">251</span>        this.numHashFunctions,<a name="line.251"></a>
+<span class="sourceLineNo">252</span>        that.numHashFunctions);<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    checkArgument(<a name="line.253"></a>
+<span class="sourceLineNo">254</span>        this.bitSize() == that.bitSize(),<a name="line.254"></a>
+<span class="sourceLineNo">255</span>        "BloomFilters must have the same size underlying bit arrays (%s != %s)",<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        this.bitSize(),<a name="line.256"></a>
+<span class="sourceLineNo">257</span>        that.bitSize());<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    checkArgument(<a name="line.258"></a>
+<span class="sourceLineNo">259</span>        this.strategy.equals(that.strategy),<a name="line.259"></a>
+<span class="sourceLineNo">260</span>        "BloomFilters must have equal strategies (%s != %s)",<a name="line.260"></a>
+<span class="sourceLineNo">261</span>        this.strategy,<a name="line.261"></a>
+<span class="sourceLineNo">262</span>        that.strategy);<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    checkArgument(<a name="line.263"></a>
+<span class="sourceLineNo">264</span>        this.funnel.equals(that.funnel),<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        "BloomFilters must have equal funnels (%s != %s)",<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        this.funnel,<a name="line.266"></a>
+<span class="sourceLineNo">267</span>        that.funnel);<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    this.bits.putAll(that.bits);<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  }<a name="line.269"></a>
+<span class="sourceLineNo">270</span><a name="line.270"></a>
+<span class="sourceLineNo">271</span>  @Override<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  public boolean equals(@Nullable Object object) {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    if (object == this) {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>      return true;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    }<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    if (object instanceof BloomFilter) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      BloomFilter&lt;?&gt; that = (BloomFilter&lt;?&gt;) object;<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      return this.numHashFunctions == that.numHashFunctions<a name="line.278"></a>
+<span class="sourceLineNo">279</span>          &amp;&amp; this.funnel.equals(that.funnel)<a name="line.279"></a>
+<span class="sourceLineNo">280</span>          &amp;&amp; this.bits.equals(that.bits)<a name="line.280"></a>
+<span class="sourceLineNo">281</span>          &amp;&amp; this.strategy.equals(that.strategy);<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    }<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    return false;<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  }<a name="line.284"></a>
+<span class="sourceLineNo">285</span><a name="line.285"></a>
+<span class="sourceLineNo">286</span>  @Override<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  public int hashCode() {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    return Objects.hashCode(numHashFunctions, funnel, strategy, bits);<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  /**<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * BloomFilter} with false positive probability 3%.<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   *<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * &lt;p&gt;Note that if the {@code Collector} receives significantly more elements than specified, the<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * probability.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   *<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * is.<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   *<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * also relies on object identity of funnels.<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   *<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   *     BloomFilter}; must be positive<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * @since 23.0<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   */<a name="line.311"></a>
+<span class="sourceLineNo">312</span>  public static &lt;T&gt; Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt; toBloomFilter(<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      Funnel&lt;? super T&gt; funnel, long expectedInsertions) {<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    return toBloomFilter(funnel, expectedInsertions, 0.03);<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  }<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>  /**<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * Returns a {@code Collector} expecting the specified number of insertions, and yielding a {@link<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   * BloomFilter} with the specified expected false positive probability.<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   *<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * &lt;p&gt;Note that if the {@code Collector} receives significantly more elements than specified, the<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * resulting {@code BloomFilter} will suffer a sharp deterioration of its false positive<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * probability.<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   *<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * is.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   *<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * also relies on object identity of funnels.<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   *<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   *     BloomFilter}; must be positive<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   * @param fpp the desired false positive probability (must be positive and less than 1.0)<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * @return a {@code Collector} generating a {@code BloomFilter} of the received elements<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   * @since 23.0<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   */<a name="line.338"></a>
+<span class="sourceLineNo">339</span>  public static &lt;T&gt; Collector&lt;T, ?, BloomFilter&lt;T&gt;&gt; toBloomFilter(<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      Funnel&lt;? super T&gt; funnel, long expectedInsertions, double fpp) {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    checkNotNull(funnel);<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    checkArgument(<a name="line.342"></a>
+<span class="sourceLineNo">343</span>        expectedInsertions &gt;= 0, "Expected insertions (%s) must be &gt;= 0", expectedInsertions);<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    checkArgument(fpp &gt; 0.0, "False positive probability (%s) must be &gt; 0.0", fpp);<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    checkArgument(fpp &lt; 1.0, "False positive probability (%s) must be &lt; 1.0", fpp);<a name="line.345"></a>
+<span class="sourceLineNo">346</span>    return Collector.of(<a name="line.346"></a>
+<span class="sourceLineNo">347</span>        () -&gt; BloomFilter.create(funnel, expectedInsertions, fpp),<a name="line.347"></a>
+<span class="sourceLineNo">348</span>        BloomFilter::put,<a name="line.348"></a>
+<span class="sourceLineNo">349</span>        (bf1, bf2) -&gt; {<a name="line.349"></a>
+<span class="sourceLineNo">350</span>          bf1.putAll(bf2);<a name="line.350"></a>
+<span class="sourceLineNo">351</span>          return bf1;<a name="line.351"></a>
+<span class="sourceLineNo">352</span>        },<a name="line.352"></a>
+<span class="sourceLineNo">353</span>        Collector.Characteristics.UNORDERED,<a name="line.353"></a>
+<span class="sourceLineNo">354</span>        Collector.Characteristics.CONCURRENT);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  }<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>  /**<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   * Creates a {@link BloomFilter} with the expected number of insertions and expected false<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   * positive probability.<a name="line.359"></a>
+<span class="sourceLineNo">360</span>   *<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   *<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * is.<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   *<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * also relies on object identity of funnels.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   *<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   *     BloomFilter}; must be positive<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * @param fpp the desired false positive probability (must be positive and less than 1.0)<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   * @return a {@code BloomFilter}<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   */<a name="line.376"></a>
+<span class="sourceLineNo">377</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; create(<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      Funnel&lt;? super T&gt; funnel, int expectedInsertions, double fpp) {<a name="line.378"></a>
+<span class="sourceLineNo">379</span>    return create(funnel, (long) expectedInsertions, fpp);<a name="line.379"></a>
+<span class="sourceLineNo">380</span>  }<a name="line.380"></a>
+<span class="sourceLineNo">381</span><a name="line.381"></a>
+<span class="sourceLineNo">382</span>  /**<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * Creates a {@link BloomFilter} with the expected number of insertions and expected false<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * positive probability.<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   *<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   *<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   * is.<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   *<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * also relies on object identity of funnels.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   *<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   *     BloomFilter}; must be positive<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * @param fpp the desired false positive probability (must be positive and less than 1.0)<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * @return a {@code BloomFilter}<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * @since 19.0<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   */<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; create(<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      Funnel&lt;? super T&gt; funnel, long expectedInsertions, double fpp) {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    return create(funnel, expectedInsertions, fpp, BloomFilterStrategies.MURMUR128_MITZ_64);<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  @VisibleForTesting<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  static &lt;T&gt; BloomFilter&lt;T&gt; create(<a name="line.409"></a>
+<span class="sourceLineNo">410</span>      Funnel&lt;? super T&gt; funnel, long expectedInsertions, double fpp, Strategy strategy) {<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    checkNotNull(funnel);<a name="line.411"></a>
+<span class="sourceLineNo">412</span>    checkArgument(<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        expectedInsertions &gt;= 0, "Expected insertions (%s) must be &gt;= 0", expectedInsertions);<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    checkArgument(fpp &gt; 0.0, "False positive probability (%s) must be &gt; 0.0", fpp);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    checkArgument(fpp &lt; 1.0, "False positive probability (%s) must be &lt; 1.0", fpp);<a name="line.415"></a>
+<span class="sourceLineNo">416</span>    checkNotNull(strategy);<a name="line.416"></a>
+<span class="sourceLineNo">417</span><a name="line.417"></a>
+<span class="sourceLineNo">418</span>    if (expectedInsertions == 0) {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>      expectedInsertions = 1;<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    }<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    /*<a name="line.421"></a>
+<span class="sourceLineNo">422</span>     * TODO(user): Put a warning in the javadoc about tiny fpp values, since the resulting size<a name="line.422"></a>
+<span class="sourceLineNo">423</span>     * is proportional to -log(p), but there is not much of a point after all, e.g.<a name="line.423"></a>
+<span class="sourceLineNo">424</span>     * optimalM(1000, 0.0000000000000001) = 76680 which is less than 10kb. Who cares!<a name="line.424"></a>
+<span class="sourceLineNo">425</span>     */<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    long numBits = optimalNumOfBits(expectedInsertions, fpp);<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);<a name="line.427"></a>
+<span class="sourceLineNo">428</span>    try {<a name="line.428"></a>
+<span class="sourceLineNo">429</span>      return new BloomFilter&lt;T&gt;(new LockFreeBitArray(numBits), numHashFunctions, funnel, strategy);<a name="line.429"></a>
+<span class="sourceLineNo">430</span>    } catch (IllegalArgumentException e) {<a name="line.430"></a>
+<span class="sourceLineNo">431</span>      throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);<a name="line.431"></a>
+<span class="sourceLineNo">432</span>    }<a name="line.432"></a>
+<span class="sourceLineNo">433</span>  }<a name="line.433"></a>
+<span class="sourceLineNo">434</span><a name="line.434"></a>
+<span class="sourceLineNo">435</span>  /**<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * Creates a {@link BloomFilter} with the expected number of insertions and a default expected<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * false positive probability of 3%.<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   *<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   *<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   * is.<a name="line.443"></a>
+<span class="sourceLineNo">444</span>   *<a name="line.444"></a>
+<span class="sourceLineNo">445</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   * also relies on object identity of funnels.<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   *<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   *     BloomFilter}; must be positive<a name="line.451"></a>
+<span class="sourceLineNo">452</span>   * @return a {@code BloomFilter}<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   */<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; create(Funnel&lt;? super T&gt; funnel, int expectedInsertions) {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    return create(funnel, (long) expectedInsertions);<a name="line.455"></a>
+<span class="sourceLineNo">456</span>  }<a name="line.456"></a>
+<span class="sourceLineNo">457</span><a name="line.457"></a>
+<span class="sourceLineNo">458</span>  /**<a name="line.458"></a>
+<span class="sourceLineNo">459</span>   * Creates a {@link BloomFilter} with the expected number of insertions and a default expected<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   * false positive probability of 3%.<a name="line.460"></a>
+<span class="sourceLineNo">461</span>   *<a name="line.461"></a>
+<span class="sourceLineNo">462</span>   * &lt;p&gt;Note that overflowing a {@code BloomFilter} with significantly more elements than specified,<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   * will result in its saturation, and a sharp deterioration of its false positive probability.<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   *<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   * &lt;p&gt;The constructed {@code BloomFilter} will be serializable if the provided {@code Funnel&lt;T&gt;}<a name="line.465"></a>
+<span class="sourceLineNo">466</span>   * is.<a name="line.466"></a>
+<span class="sourceLineNo">467</span>   *<a name="line.467"></a>
+<span class="sourceLineNo">468</span>   * &lt;p&gt;It is recommended that the funnel be implemented as a Java enum. This has the benefit of<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   * ensuring proper serialization and deserialization, which is important since {@link #equals}<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * also relies on object identity of funnels.<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   *<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * @param expectedInsertions the number of expected insertions to the constructed {@code<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   *     BloomFilter}; must be positive<a name="line.474"></a>
+<span class="sourceLineNo">475</span>   * @return a {@code BloomFilter}<a name="line.475"></a>
+<span class="sourceLineNo">476</span>   * @since 19.0<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   */<a name="line.477"></a>
+<span class="sourceLineNo">478</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; create(Funnel&lt;? super T&gt; funnel, long expectedInsertions) {<a name="line.478"></a>
+<span class="sourceLineNo">479</span>    return create(funnel, expectedInsertions, 0.03); // FYI, for 3%, we always get 5 hash functions<a name="line.479"></a>
+<span class="sourceLineNo">480</span>  }<a name="line.480"></a>
+<span class="sourceLineNo">481</span><a name="line.481"></a>
+<span class="sourceLineNo">482</span>  // Cheat sheet:<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  //<a name="line.483"></a>
+<span class="sourceLineNo">484</span>  // m: total bits<a name="line.484"></a>
+<span class="sourceLineNo">485</span>  // n: expected insertions<a name="line.485"></a>
+<span class="sourceLineNo">486</span>  // b: m/n, bits per insertion<a name="line.486"></a>
+<span class="sourceLineNo">487</span>  // p: expected false positive probability<a name="line.487"></a>
+<span class="sourceLineNo">488</span>  //<a name="line.488"></a>
+<span class="sourceLineNo">489</span>  // 1) Optimal k = b * ln2<a name="line.489"></a>
+<span class="sourceLineNo">490</span>  // 2) p = (1 - e ^ (-kn/m))^k<a name="line.490"></a>
+<span class="sourceLineNo">491</span>  // 3) For optimal k: p = 2 ^ (-k) ~= 0.6185^b<a name="line.491"></a>
+<span class="sourceLineNo">492</span>  // 4) For optimal k: m = -nlnp / ((ln2) ^ 2)<a name="line.492"></a>
+<span class="sourceLineNo">493</span><a name="line.493"></a>
+<span class="sourceLineNo">494</span>  /**<a name="line.494"></a>
+<span class="sourceLineNo">495</span>   * Computes the optimal k (number of hashes per element inserted in Bloom filter), given the<a name="line.495"></a>
+<span class="sourceLineNo">496</span>   * expected insertions and total number of bits in the Bloom filter.<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   *<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * &lt;p&gt;See http://en.wikipedia.org/wiki/File:Bloom_filter_fp_probability.svg for the formula.<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   *<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   * @param n expected insertions (must be positive)<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * @param m total number of bits in Bloom filter (must be positive)<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   */<a name="line.502"></a>
+<span class="sourceLineNo">503</span>  @VisibleForTesting<a name="line.503"></a>
+<span class="sourceLineNo">504</span>  static int optimalNumOfHashFunctions(long n, long m) {<a name="line.504"></a>
+<span class="sourceLineNo">505</span>    // (m / n) * log(2), but avoid truncation due to division!<a name="line.505"></a>
+<span class="sourceLineNo">506</span>    return Math.max(1, (int) Math.round((double) m / n * Math.log(2)));<a name="line.506"></a>
+<span class="sourceLineNo">507</span>  }<a name="line.507"></a>
+<span class="sourceLineNo">508</span><a name="line.508"></a>
+<span class="sourceLineNo">509</span>  /**<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   * Computes m (total bits of Bloom filter) which is expected to achieve, for the specified<a name="line.510"></a>
+<span class="sourceLineNo">511</span>   * expected insertions, the required false positive probability.<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   *<a name="line.512"></a>
+<span class="sourceLineNo">513</span>   * &lt;p&gt;See http://en.wikipedia.org/wiki/Bloom_filter#Probability_of_false_positives for the<a name="line.513"></a>
+<span class="sourceLineNo">514</span>   * formula.<a name="line.514"></a>
+<span class="sourceLineNo">515</span>   *<a name="line.515"></a>
+<span class="sourceLineNo">516</span>   * @param n expected insertions (must be positive)<a name="line.516"></a>
+<span class="sourceLineNo">517</span>   * @param p false positive rate (must be 0 &lt; p &lt; 1)<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   */<a name="line.518"></a>
+<span class="sourceLineNo">519</span>  @VisibleForTesting<a name="line.519"></a>
+<span class="sourceLineNo">520</span>  static long optimalNumOfBits(long n, double p) {<a name="line.520"></a>
+<span class="sourceLineNo">521</span>    if (p == 0) {<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      p = Double.MIN_VALUE;<a name="line.522"></a>
+<span class="sourceLineNo">523</span>    }<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    return (long) (-n * Math.log(p) / (Math.log(2) * Math.log(2)));<a name="line.524"></a>
+<span class="sourceLineNo">525</span>  }<a name="line.525"></a>
+<span class="sourceLineNo">526</span><a name="line.526"></a>
+<span class="sourceLineNo">527</span>  private Object writeReplace() {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    return new SerialForm&lt;T&gt;(this);<a name="line.528"></a>
+<span class="sourceLineNo">529</span>  }<a name="line.529"></a>
+<span class="sourceLineNo">530</span><a name="line.530"></a>
+<span class="sourceLineNo">531</span>  private static class SerialForm&lt;T&gt; implements Serializable {<a name="line.531"></a>
+<span class="sourceLineNo">532</span>    final long[] data;<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    final int numHashFunctions;<a name="line.533"></a>
+<span class="sourceLineNo">534</span>    final Funnel&lt;? super T&gt; funnel;<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    final Strategy strategy;<a name="line.535"></a>
+<span class="sourceLineNo">536</span><a name="line.536"></a>
+<span class="sourceLineNo">537</span>    SerialForm(BloomFilter&lt;T&gt; bf) {<a name="line.537"></a>
+<span class="sourceLineNo">538</span>      this.data = LockFreeBitArray.toPlainArray(bf.bits.data);<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      this.numHashFunctions = bf.numHashFunctions;<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      this.funnel = bf.funnel;<a name="line.540"></a>
+<span class="sourceLineNo">541</span>      this.strategy = bf.strategy;<a name="line.541"></a>
+<span class="sourceLineNo">542</span>    }<a name="line.542"></a>
+<span class="sourceLineNo">543</span><a name="line.543"></a>
+<span class="sourceLineNo">544</span>    Object readResolve() {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>      return new BloomFilter&lt;T&gt;(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);<a name="line.545"></a>
+<span class="sourceLineNo">546</span>    }<a name="line.546"></a>
+<span class="sourceLineNo">547</span><a name="line.547"></a>
+<span class="sourceLineNo">548</span>    private static final long serialVersionUID = 1;<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>  /**<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   * Writes this {@code BloomFilter} to an output stream, with a custom format (not Java<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * serialization). This has been measured to save at least 400 bytes compared to regular<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * serialization.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   *<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * &lt;p&gt;Use {@linkplain #readFrom(InputStream, Funnel)} to reconstruct the written BloomFilter.<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   */<a name="line.557"></a>
+<span class="sourceLineNo">558</span>  public void writeTo(OutputStream out) throws IOException {<a name="line.558"></a>
+<span class="sourceLineNo">559</span>    // Serial form:<a name="line.559"></a>
+<span class="sourceLineNo">560</span>    // 1 signed byte for the strategy<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    // 1 unsigned byte for the number of hash functions<a name="line.561"></a>
+<span class="sourceLineNo">562</span>    // 1 big endian int, the number of longs in our bitset<a name="line.562"></a>
+<span class="sourceLineNo">563</span>    // N big endian longs of our bitset<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    DataOutputStream dout = new DataOutputStream(out);<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    dout.writeByte(SignedBytes.checkedCast(strategy.ordinal()));<a name="line.565"></a>
+<span class="sourceLineNo">566</span>    dout.writeByte(UnsignedBytes.checkedCast(numHashFunctions)); // note: checked at the c'tor<a name="line.566"></a>
+<span class="sourceLineNo">567</span>    dout.writeInt(bits.data.length());<a name="line.567"></a>
+<span class="sourceLineNo">568</span>    for (int i = 0; i &lt; bits.data.length(); i++) {<a name="line.568"></a>
+<span class="sourceLineNo">569</span>      dout.writeLong(bits.data.get(i));<a name="line.569"></a>
+<span class="sourceLineNo">570</span>    }<a name="line.570"></a>
+<span class="sourceLineNo">571</span>  }<a name="line.571"></a>
+<span class="sourceLineNo">572</span><a name="line.572"></a>
+<span class="sourceLineNo">573</span>  /**<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   * BloomFilter}.<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   *<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   * &lt;p&gt;The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.<a name="line.577"></a>
+<span class="sourceLineNo">578</span>   * &lt;b&gt;Warning:&lt;/b&gt; the funnel provided &lt;b&gt;must&lt;/b&gt; behave identically to the one used to populate<a name="line.578"></a>
+<span class="sourceLineNo">579</span>   * the original Bloom filter!<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   *<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   */<a name="line.583"></a>
+<span class="sourceLineNo">584</span>  public static &lt;T&gt; BloomFilter&lt;T&gt; readFrom(InputStream in, Funnel&lt;? super T&gt; funnel)<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      throws IOException {<a name="line.585"></a>
+<span class="sourceLineNo">586</span>    checkNotNull(in, "InputStream");<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    checkNotNull(funnel, "Funnel");<a name="line.587"></a>
+<span class="sourceLineNo">588</span>    int strategyOrdinal = -1;<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    int numHashFunctions = -1;<a name="line.589"></a>
+<span class="sourceLineNo">590</span>    int dataLength = -1;<a name="line.590"></a>
+<span class="sourceLineNo">591</span>    try {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      DataInputStream din = new DataInputStream(in);<a name="line.592"></a>
+<span class="sourceLineNo">593</span>      // currently this assumes there is no negative ordinal; will have to be updated if we<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      // add non-stateless strategies (for which we've reserved negative ordinals; see<a name="line.594"></a>
+<span class="sourceLineNo">595</span>      // Strategy.ordinal()).<a name="line.595"></a>
+<span class="sourceLineNo">596</span>      strategyOrdinal = din.readByte();<a name="line.596"></a>
+<span class="sourceLineNo">597</span>      numHashFunctions = UnsignedBytes.toInt(din.readByte());<a name="line.597"></a>
+<span class="sourceLineNo">598</span>      dataLength = din.readInt();<a name="line.598"></a>
+<span class="sourceLineNo">599</span><a name="line.599"></a>
+<span class="sourceLineNo">600</span>      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];<a name="line.600"></a>
+<span class="sourceLineNo">601</span>      long[] data = new long[dataLength];<a name="line.601"></a>
+<span class="sourceLineNo">602</span>      for (int i = 0; i &lt; data.length; i++) {<a name="line.602"></a>
+<span class="sourceLineNo">603</span>        data[i] = din.readLong();<a name="line.603"></a>
+<span class="sourceLineNo">604</span>      }<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      return new BloomFilter&lt;T&gt;(new LockFreeBitArray(data), numHashFunctions, funnel, strategy);<a name="line.605"></a>
+<span class="sourceLineNo">606</span>    } catch (RuntimeException e) {<a name="line.606"></a>
+<span class="sourceLineNo">607</span>      String message =<a name="line.607"></a>
+<span class="sourceLineNo">608</span>          "Unable to deserialize BloomFilter from InputStream."<a name="line.608"></a>
+<span class="sourceLineNo">609</span>              + " strategyOrdinal: "<a name="line.609"></a>
+<span class="sourceLineNo">610</span>              + strategyOrdinal<a name="line.610"></a>
+<span class="sourceLineNo">611</span>              + " numHashFunctions: "<a name="line.611"></a>
+<span class="sourceLineNo">612</span>              + numHashFunctions<a name="line.612"></a>
+<span class="sourceLineNo">613</span>              + " dataLength: "<a name="line.613"></a>
+<span class="sourceLineNo">614</span>              + dataLength;<a name="line.614"></a>
+<span class="sourceLineNo">615</span>      throw new IOException(message, e);<a name="line.615"></a>
+<span class="sourceLineNo">616</span>    }<a name="line.616"></a>
+<span class="sourceLineNo">617</span>  }<a name="line.617"></a>
+<span class="sourceLineNo">618</span>}<a name="line.618"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

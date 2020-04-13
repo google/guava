@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2016 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.graph;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static com.google.common.graph.GraphConstants.MULTIPLE_EDGES_CONNECTING;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import static java.util.Collections.unmodifiableSet;<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.annotations.Beta;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.base.Function;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.base.Predicate;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.collect.ImmutableSet;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.common.collect.Iterators;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.google.common.collect.Maps;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import com.google.common.collect.Sets;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import com.google.common.math.IntMath;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.AbstractSet;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.Iterator;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.Map;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.Optional;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.Set;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>/**<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * This class provides a skeletal implementation of {@link Network}. It is recommended to extend<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * this class rather than implement {@link Network} directly.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * &lt;p&gt;The methods implemented in this class should not be overridden unless the subclass admits a<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * more efficient implementation.<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * @author James Sexton<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * @param &lt;N&gt; Node parameter type<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * @param &lt;E&gt; Edge parameter type<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * @since 20.0<a name="line.50"></a>
+<span class="sourceLineNo">051</span> */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>@Beta<a name="line.52"></a>
+<span class="sourceLineNo">053</span>public abstract class AbstractNetwork&lt;N, E&gt; implements Network&lt;N, E&gt; {<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public Graph&lt;N&gt; asGraph() {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    return new AbstractGraph&lt;N&gt;() {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      @Override<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      public Set&lt;N&gt; nodes() {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        return AbstractNetwork.this.nodes();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>      @Override<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      public Set&lt;EndpointPair&lt;N&gt;&gt; edges() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        if (allowsParallelEdges()) {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>          return super.edges(); // Defer to AbstractGraph implementation.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        }<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>        // Optimized implementation assumes no parallel edges (1:1 edge to EndpointPair mapping).<a name="line.69"></a>
+<span class="sourceLineNo">070</span>        return new AbstractSet&lt;EndpointPair&lt;N&gt;&gt;() {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>          @Override<a name="line.71"></a>
+<span class="sourceLineNo">072</span>          public Iterator&lt;EndpointPair&lt;N&gt;&gt; iterator() {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>            return Iterators.transform(<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                AbstractNetwork.this.edges().iterator(),<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                new Function&lt;E, EndpointPair&lt;N&gt;&gt;() {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                  @Override<a name="line.76"></a>
+<span class="sourceLineNo">077</span>                  public EndpointPair&lt;N&gt; apply(E edge) {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>                    return incidentNodes(edge);<a name="line.78"></a>
+<span class="sourceLineNo">079</span>                  }<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                });<a name="line.80"></a>
+<span class="sourceLineNo">081</span>          }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>          @Override<a name="line.83"></a>
+<span class="sourceLineNo">084</span>          public int size() {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>            return AbstractNetwork.this.edges().size();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>          }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>          // Mostly safe: We check contains(u) before calling successors(u), so we perform unsafe<a name="line.88"></a>
+<span class="sourceLineNo">089</span>          // operations only in weird cases like checking for an EndpointPair&lt;ArrayList&gt; in a<a name="line.89"></a>
+<span class="sourceLineNo">090</span>          // Network&lt;LinkedList&gt;.<a name="line.90"></a>
+<span class="sourceLineNo">091</span>          @SuppressWarnings("unchecked")<a name="line.91"></a>
+<span class="sourceLineNo">092</span>          @Override<a name="line.92"></a>
+<span class="sourceLineNo">093</span>          public boolean contains(@Nullable Object obj) {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>            if (!(obj instanceof EndpointPair)) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>              return false;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>            }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>            EndpointPair&lt;?&gt; endpointPair = (EndpointPair&lt;?&gt;) obj;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>            return isOrderingCompatible(endpointPair)<a name="line.98"></a>
+<span class="sourceLineNo">099</span>                &amp;&amp; nodes().contains(endpointPair.nodeU())<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                &amp;&amp; successors((N) endpointPair.nodeU()).contains(endpointPair.nodeV());<a name="line.100"></a>
+<span class="sourceLineNo">101</span>          }<a name="line.101"></a>
+<span class="sourceLineNo">102</span>        };<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>      @Override<a name="line.105"></a>
+<span class="sourceLineNo">106</span>      public ElementOrder&lt;N&gt; nodeOrder() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        return AbstractNetwork.this.nodeOrder();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      }<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>      @Override<a name="line.110"></a>
+<span class="sourceLineNo">111</span>      public ElementOrder&lt;N&gt; incidentEdgeOrder() {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>        // TODO(b/142723300): Return AbstractNetwork.this.incidentEdgeOrder() once Network has that<a name="line.112"></a>
+<span class="sourceLineNo">113</span>        //   method.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>        return ElementOrder.unordered();<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>      @Override<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      public boolean isDirected() {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        return AbstractNetwork.this.isDirected();<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>      @Override<a name="line.122"></a>
+<span class="sourceLineNo">123</span>      public boolean allowsSelfLoops() {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>        return AbstractNetwork.this.allowsSelfLoops();<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>      @Override<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      public Set&lt;N&gt; adjacentNodes(N node) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        return AbstractNetwork.this.adjacentNodes(node);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>      @Override<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      public Set&lt;N&gt; predecessors(N node) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>        return AbstractNetwork.this.predecessors(node);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>      }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>      @Override<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      public Set&lt;N&gt; successors(N node) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        return AbstractNetwork.this.successors(node);<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>      // DO NOT override the AbstractGraph *degree() implementations.<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    };<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>  @Override<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  public int degree(N node) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    if (isDirected()) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>      return IntMath.saturatedAdd(inEdges(node).size(), outEdges(node).size());<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    } else {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      return IntMath.saturatedAdd(incidentEdges(node).size(), edgesConnecting(node, node).size());<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  @Override<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  public int inDegree(N node) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    return isDirected() ? inEdges(node).size() : degree(node);<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  @Override<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  public int outDegree(N node) {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return isDirected() ? outEdges(node).size() : degree(node);<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  @Override<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  public Set&lt;E&gt; adjacentEdges(E edge) {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    EndpointPair&lt;N&gt; endpointPair = incidentNodes(edge); // Verifies that edge is in this network.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    Set&lt;E&gt; endpointPairIncidentEdges =<a name="line.168"></a>
+<span class="sourceLineNo">169</span>        Sets.union(incidentEdges(endpointPair.nodeU()), incidentEdges(endpointPair.nodeV()));<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge));<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  @Override<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  public Set&lt;E&gt; edgesConnecting(N nodeU, N nodeV) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    Set&lt;E&gt; outEdgesU = outEdges(nodeU);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    Set&lt;E&gt; inEdgesV = inEdges(nodeV);<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    return outEdgesU.size() &lt;= inEdgesV.size()<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        ? unmodifiableSet(Sets.filter(outEdgesU, connectedPredicate(nodeU, nodeV)))<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        : unmodifiableSet(Sets.filter(inEdgesV, connectedPredicate(nodeV, nodeU)));<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  @Override<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  public Set&lt;E&gt; edgesConnecting(EndpointPair&lt;N&gt; endpoints) {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    validateEndpoints(endpoints);<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    return edgesConnecting(endpoints.nodeU(), endpoints.nodeV());<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  }<a name="line.186"></a>
+<span class="sourceLineNo">187</span><a name="line.187"></a>
+<span class="sourceLineNo">188</span>  private Predicate&lt;E&gt; connectedPredicate(final N nodePresent, final N nodeToCheck) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    return new Predicate&lt;E&gt;() {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>      @Override<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      public boolean apply(E edge) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        return incidentNodes(edge).adjacentNode(nodePresent).equals(nodeToCheck);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>    };<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  }<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>  @Override<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public Optional&lt;E&gt; edgeConnecting(N nodeU, N nodeV) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    return Optional.ofNullable(edgeConnectingOrNull(nodeU, nodeV));<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>  @Override<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  public Optional&lt;E&gt; edgeConnecting(EndpointPair&lt;N&gt; endpoints) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    validateEndpoints(endpoints);<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    return edgeConnecting(endpoints.nodeU(), endpoints.nodeV());<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  }<a name="line.206"></a>
+<span class="sourceLineNo">207</span><a name="line.207"></a>
+<span class="sourceLineNo">208</span>  @Override<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    Set&lt;E&gt; edgesConnecting = edgesConnecting(nodeU, nodeV);<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    switch (edgesConnecting.size()) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>      case 0:<a name="line.212"></a>
+<span class="sourceLineNo">213</span>        return null;<a name="line.213"></a>
+<span class="sourceLineNo">214</span>      case 1:<a name="line.214"></a>
+<span class="sourceLineNo">215</span>        return edgesConnecting.iterator().next();<a name="line.215"></a>
+<span class="sourceLineNo">216</span>      default:<a name="line.216"></a>
+<span class="sourceLineNo">217</span>        throw new IllegalArgumentException(String.format(MULTIPLE_EDGES_CONNECTING, nodeU, nodeV));<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    }<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  }<a name="line.219"></a>
+<span class="sourceLineNo">220</span><a name="line.220"></a>
+<span class="sourceLineNo">221</span>  @Override<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  public @Nullable E edgeConnectingOrNull(EndpointPair&lt;N&gt; endpoints) {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    validateEndpoints(endpoints);<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return edgeConnectingOrNull(endpoints.nodeU(), endpoints.nodeV());<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>  @Override<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  public boolean hasEdgeConnecting(N nodeU, N nodeV) {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    checkNotNull(nodeU);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>    checkNotNull(nodeV);<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    return nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV);<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
+<span class="sourceLineNo">233</span><a name="line.233"></a>
+<span class="sourceLineNo">234</span>  @Override<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  public boolean hasEdgeConnecting(EndpointPair&lt;N&gt; endpoints) {<a name="line.235"></a>
+<span class="sourceLineNo">236</span>    checkNotNull(endpoints);<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    if (!isOrderingCompatible(endpoints)) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      return false;<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    }<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    return hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV());<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
+<span class="sourceLineNo">242</span><a name="line.242"></a>
+<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * Throws an IllegalArgumentException if the ordering of {@code endpoints} is not compatible with<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * the directionality of this graph.<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  protected final void validateEndpoints(EndpointPair&lt;?&gt; endpoints) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    checkNotNull(endpoints);<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    checkArgument(isOrderingCompatible(endpoints), ENDPOINTS_MISMATCH);<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  }<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  protected final boolean isOrderingCompatible(EndpointPair&lt;?&gt; endpoints) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    return endpoints.isOrdered() || !this.isDirected();<a name="line.253"></a>
+<span class="sourceLineNo">254</span>  }<a name="line.254"></a>
+<span class="sourceLineNo">255</span><a name="line.255"></a>
+<span class="sourceLineNo">256</span>  @Override<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  public final boolean equals(@Nullable Object obj) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    if (obj == this) {<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      return true;<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    }<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    if (!(obj instanceof Network)) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      return false;<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    }<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    Network&lt;?, ?&gt; other = (Network&lt;?, ?&gt;) obj;<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>    return isDirected() == other.isDirected()<a name="line.266"></a>
+<span class="sourceLineNo">267</span>        &amp;&amp; nodes().equals(other.nodes())<a name="line.267"></a>
+<span class="sourceLineNo">268</span>        &amp;&amp; edgeIncidentNodesMap(this).equals(edgeIncidentNodesMap(other));<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  }<a name="line.269"></a>
+<span class="sourceLineNo">270</span><a name="line.270"></a>
+<span class="sourceLineNo">271</span>  @Override<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  public final int hashCode() {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    return edgeIncidentNodesMap(this).hashCode();<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  }<a name="line.274"></a>
+<span class="sourceLineNo">275</span><a name="line.275"></a>
+<span class="sourceLineNo">276</span>  /** Returns a string representation of this network. */<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  @Override<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  public String toString() {<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    return "isDirected: "<a name="line.279"></a>
+<span class="sourceLineNo">280</span>        + isDirected()<a name="line.280"></a>
+<span class="sourceLineNo">281</span>        + ", allowsParallelEdges: "<a name="line.281"></a>
+<span class="sourceLineNo">282</span>        + allowsParallelEdges()<a name="line.282"></a>
+<span class="sourceLineNo">283</span>        + ", allowsSelfLoops: "<a name="line.283"></a>
+<span class="sourceLineNo">284</span>        + allowsSelfLoops()<a name="line.284"></a>
+<span class="sourceLineNo">285</span>        + ", nodes: "<a name="line.285"></a>
+<span class="sourceLineNo">286</span>        + nodes()<a name="line.286"></a>
+<span class="sourceLineNo">287</span>        + ", edges: "<a name="line.287"></a>
+<span class="sourceLineNo">288</span>        + edgeIncidentNodesMap(this);<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>  private static &lt;N, E&gt; Map&lt;E, EndpointPair&lt;N&gt;&gt; edgeIncidentNodesMap(final Network&lt;N, E&gt; network) {<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    Function&lt;E, EndpointPair&lt;N&gt;&gt; edgeToIncidentNodesFn =<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        new Function&lt;E, EndpointPair&lt;N&gt;&gt;() {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>          @Override<a name="line.294"></a>
+<span class="sourceLineNo">295</span>          public EndpointPair&lt;N&gt; apply(E edge) {<a name="line.295"></a>
+<span class="sourceLineNo">296</span>            return network.incidentNodes(edge);<a name="line.296"></a>
+<span class="sourceLineNo">297</span>          }<a name="line.297"></a>
+<span class="sourceLineNo">298</span>        };<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    return Maps.asMap(network.edges(), edgeToIncidentNodesFn);<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
+<span class="sourceLineNo">301</span>}<a name="line.301"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2012 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.collect;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkElementIndex;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtIncompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.collect.SortedLists.KeyAbsentBehavior;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.collect.SortedLists.KeyPresentBehavior;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.errorprone.annotations.DoNotMock;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.io.Serializable;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Collections;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.List;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.Map;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Map.Entry;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.NoSuchElementException;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.function.BiFunction;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.function.Function;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.stream.Collector;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>/**<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * A {@link RangeMap} whose contents will never change, with many other important properties<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * detailed at {@link ImmutableCollection}.<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * @author Louis Wasserman<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * @since 14.0<a name="line.43"></a>
+<span class="sourceLineNo">044</span> */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>@Beta<a name="line.45"></a>
+<span class="sourceLineNo">046</span>@GwtIncompatible // NavigableMap<a name="line.46"></a>
+<span class="sourceLineNo">047</span>public class ImmutableRangeMap&lt;K extends Comparable&lt;?&gt;, V&gt; implements RangeMap&lt;K, V&gt;, Serializable {<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  private static final ImmutableRangeMap&lt;Comparable&lt;?&gt;, Object&gt; EMPTY =<a name="line.49"></a>
+<span class="sourceLineNo">050</span>      new ImmutableRangeMap&lt;&gt;(ImmutableList.&lt;Range&lt;Comparable&lt;?&gt;&gt;&gt;of(), ImmutableList.of());<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  /**<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * Returns a {@code Collector} that accumulates the input elements into a new {@code<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   *<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * @since 23.1<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public static &lt;T, K extends Comparable&lt;? super K&gt;, V&gt;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      Collector&lt;T, ?, ImmutableRangeMap&lt;K, V&gt;&gt; toImmutableRangeMap(<a name="line.59"></a>
+<span class="sourceLineNo">060</span>          Function&lt;? super T, Range&lt;K&gt;&gt; keyFunction,<a name="line.60"></a>
+<span class="sourceLineNo">061</span>          Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  }<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /** Returns an empty immutable range map. */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  @SuppressWarnings("unchecked")<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; ImmutableRangeMap&lt;K, V&gt; of() {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    return (ImmutableRangeMap&lt;K, V&gt;) EMPTY;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /** Returns an immutable range map mapping a single range to a single value. */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; ImmutableRangeMap&lt;K, V&gt; of(Range&lt;K&gt; range, V value) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    return new ImmutableRangeMap&lt;&gt;(ImmutableList.of(range), ImmutableList.of(value));<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  @SuppressWarnings("unchecked")<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; ImmutableRangeMap&lt;K, V&gt; copyOf(<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      RangeMap&lt;K, ? extends V&gt; rangeMap) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    if (rangeMap instanceof ImmutableRangeMap) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      return (ImmutableRangeMap&lt;K, V&gt;) rangeMap;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    }<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    Map&lt;Range&lt;K&gt;, ? extends V&gt; map = rangeMap.asMapOfRanges();<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    ImmutableList.Builder&lt;Range&lt;K&gt;&gt; rangesBuilder = new ImmutableList.Builder&lt;&gt;(map.size());<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;V&gt;(map.size());<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    for (Entry&lt;Range&lt;K&gt;, ? extends V&gt; entry : map.entrySet()) {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>      rangesBuilder.add(entry.getKey());<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      valuesBuilder.add(entry.getValue());<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    }<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    return new ImmutableRangeMap&lt;&gt;(rangesBuilder.build(), valuesBuilder.build());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /** Returns a new builder for an immutable range map. */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  public static &lt;K extends Comparable&lt;?&gt;, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    return new Builder&lt;&gt;();<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * A builder for immutable range maps. Overlapping ranges are prohibited.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * @since 14.0<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  @DoNotMock<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public static final class Builder&lt;K extends Comparable&lt;?&gt;, V&gt; {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    private final List&lt;Entry&lt;Range&lt;K&gt;, V&gt;&gt; entries;<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>    public Builder() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>      this.entries = Lists.newArrayList();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    }<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>    /**<a name="line.110"></a>
+<span class="sourceLineNo">111</span>     * Associates the specified range with the specified value.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>     *<a name="line.112"></a>
+<span class="sourceLineNo">113</span>     * @throws IllegalArgumentException if {@code range} is empty<a name="line.113"></a>
+<span class="sourceLineNo">114</span>     */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    @CanIgnoreReturnValue<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    public Builder&lt;K, V&gt; put(Range&lt;K&gt; range, V value) {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>      checkNotNull(range);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      checkNotNull(value);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>      checkArgument(!range.isEmpty(), "Range must not be empty, but was %s", range);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      entries.add(Maps.immutableEntry(range, value));<a name="line.120"></a>
+<span class="sourceLineNo">121</span>      return this;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>    /** Copies all associations from the specified range map into this builder. */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    @CanIgnoreReturnValue<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    public Builder&lt;K, V&gt; putAll(RangeMap&lt;K, ? extends V&gt; rangeMap) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      for (Entry&lt;Range&lt;K&gt;, ? extends V&gt; entry : rangeMap.asMapOfRanges().entrySet()) {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>        put(entry.getKey(), entry.getValue());<a name="line.128"></a>
+<span class="sourceLineNo">129</span>      }<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      return this;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    }<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>    @CanIgnoreReturnValue<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    Builder&lt;K, V&gt; combine(Builder&lt;K, V&gt; builder) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>      entries.addAll(builder.entries);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      return this;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    }<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>    /**<a name="line.139"></a>
+<span class="sourceLineNo">140</span>     * Returns an {@code ImmutableRangeMap} containing the associations previously added to this<a name="line.140"></a>
+<span class="sourceLineNo">141</span>     * builder.<a name="line.141"></a>
+<span class="sourceLineNo">142</span>     *<a name="line.142"></a>
+<span class="sourceLineNo">143</span>     * @throws IllegalArgumentException if any two ranges inserted into this builder overlap<a name="line.143"></a>
+<span class="sourceLineNo">144</span>     */<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    public ImmutableRangeMap&lt;K, V&gt; build() {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      Collections.sort(entries, Range.&lt;K&gt;rangeLexOrdering().onKeys());<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      ImmutableList.Builder&lt;Range&lt;K&gt;&gt; rangesBuilder = new ImmutableList.Builder&lt;&gt;(entries.size());<a name="line.147"></a>
+<span class="sourceLineNo">148</span>      ImmutableList.Builder&lt;V&gt; valuesBuilder = new ImmutableList.Builder&lt;V&gt;(entries.size());<a name="line.148"></a>
+<span class="sourceLineNo">149</span>      for (int i = 0; i &lt; entries.size(); i++) {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>        Range&lt;K&gt; range = entries.get(i).getKey();<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        if (i &gt; 0) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>          Range&lt;K&gt; prevRange = entries.get(i - 1).getKey();<a name="line.152"></a>
+<span class="sourceLineNo">153</span>          if (range.isConnected(prevRange) &amp;&amp; !range.intersection(prevRange).isEmpty()) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>            throw new IllegalArgumentException(<a name="line.154"></a>
+<span class="sourceLineNo">155</span>                "Overlapping ranges: range " + prevRange + " overlaps with entry " + range);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>          }<a name="line.156"></a>
+<span class="sourceLineNo">157</span>        }<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        rangesBuilder.add(range);<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        valuesBuilder.add(entries.get(i).getValue());<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      }<a name="line.160"></a>
+<span class="sourceLineNo">161</span>      return new ImmutableRangeMap&lt;&gt;(rangesBuilder.build(), valuesBuilder.build());<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    }<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  private final transient ImmutableList&lt;Range&lt;K&gt;&gt; ranges;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  private final transient ImmutableList&lt;V&gt; values;<a name="line.166"></a>
+<span class="sourceLineNo">167</span><a name="line.167"></a>
+<span class="sourceLineNo">168</span>  ImmutableRangeMap(ImmutableList&lt;Range&lt;K&gt;&gt; ranges, ImmutableList&lt;V&gt; values) {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    this.ranges = ranges;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    this.values = values;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  @Override<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  public @Nullable V get(K key) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    int index =<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        SortedLists.binarySearch(<a name="line.176"></a>
+<span class="sourceLineNo">177</span>            ranges,<a name="line.177"></a>
+<span class="sourceLineNo">178</span>            Range.&lt;K&gt;lowerBoundFn(),<a name="line.178"></a>
+<span class="sourceLineNo">179</span>            Cut.belowValue(key),<a name="line.179"></a>
+<span class="sourceLineNo">180</span>            KeyPresentBehavior.ANY_PRESENT,<a name="line.180"></a>
+<span class="sourceLineNo">181</span>            KeyAbsentBehavior.NEXT_LOWER);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    if (index == -1) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>      return null;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    } else {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      Range&lt;K&gt; range = ranges.get(index);<a name="line.185"></a>
+<span class="sourceLineNo">186</span>      return range.contains(key) ? values.get(index) : null;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    }<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>  @Override<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  public @Nullable Entry&lt;Range&lt;K&gt;, V&gt; getEntry(K key) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    int index =<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        SortedLists.binarySearch(<a name="line.193"></a>
+<span class="sourceLineNo">194</span>            ranges,<a name="line.194"></a>
+<span class="sourceLineNo">195</span>            Range.&lt;K&gt;lowerBoundFn(),<a name="line.195"></a>
+<span class="sourceLineNo">196</span>            Cut.belowValue(key),<a name="line.196"></a>
+<span class="sourceLineNo">197</span>            KeyPresentBehavior.ANY_PRESENT,<a name="line.197"></a>
+<span class="sourceLineNo">198</span>            KeyAbsentBehavior.NEXT_LOWER);<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    if (index == -1) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>      return null;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    } else {<a name="line.201"></a>
+<span class="sourceLineNo">202</span>      Range&lt;K&gt; range = ranges.get(index);<a name="line.202"></a>
+<span class="sourceLineNo">203</span>      return range.contains(key) ? Maps.immutableEntry(range, values.get(index)) : null;<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    }<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>  @Override<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  public Range&lt;K&gt; span() {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    if (ranges.isEmpty()) {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>      throw new NoSuchElementException();<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    }<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    Range&lt;K&gt; firstRange = ranges.get(0);<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    Range&lt;K&gt; lastRange = ranges.get(ranges.size() - 1);<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return Range.create(firstRange.lowerBound, lastRange.upperBound);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * @throws UnsupportedOperationException always<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * @deprecated Unsupported operation.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   */<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  @Deprecated<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  @Override<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  public void put(Range&lt;K&gt; range, V value) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    throw new UnsupportedOperationException();<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>  /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   *<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   * @throws UnsupportedOperationException always<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * @deprecated Unsupported operation.<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   */<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  @Deprecated<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  @Override<a name="line.236"></a>
+<span class="sourceLineNo">237</span>  public void putCoalescing(Range&lt;K&gt; range, V value) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    throw new UnsupportedOperationException();<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  }<a name="line.239"></a>
+<span class="sourceLineNo">240</span><a name="line.240"></a>
+<span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   *<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * @throws UnsupportedOperationException always<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @deprecated Unsupported operation.<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  @Deprecated<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  @Override<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  public void putAll(RangeMap&lt;K, V&gt; rangeMap) {<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    throw new UnsupportedOperationException();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  }<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   *<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * @throws UnsupportedOperationException always<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * @deprecated Unsupported operation.<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  @Deprecated<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  @Override<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  public void clear() {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>    throw new UnsupportedOperationException();<a name="line.262"></a>
+<span class="sourceLineNo">263</span>  }<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>  /**<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * @throws UnsupportedOperationException always<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * @deprecated Unsupported operation.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   */<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  @Deprecated<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  @Override<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  public void remove(Range&lt;K&gt; range) {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    throw new UnsupportedOperationException();<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  }<a name="line.275"></a>
+<span class="sourceLineNo">276</span><a name="line.276"></a>
+<span class="sourceLineNo">277</span>  /**<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   *<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * @throws UnsupportedOperationException always<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * @deprecated Unsupported operation.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   */<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  @Deprecated<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  @Override<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  public void merge(<a name="line.285"></a>
+<span class="sourceLineNo">286</span>      Range&lt;K&gt; range,<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      @Nullable V value,<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      BiFunction&lt;? super V, ? super V, ? extends V&gt; remappingFunction) {<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    throw new UnsupportedOperationException();<a name="line.289"></a>
+<span class="sourceLineNo">290</span>  }<a name="line.290"></a>
+<span class="sourceLineNo">291</span><a name="line.291"></a>
+<span class="sourceLineNo">292</span>  @Override<a name="line.292"></a>
+<span class="sourceLineNo">293</span>  public ImmutableMap&lt;Range&lt;K&gt;, V&gt; asMapOfRanges() {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    if (ranges.isEmpty()) {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      return ImmutableMap.of();<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.297"></a>
+<span class="sourceLineNo">298</span>        new RegularImmutableSortedSet&lt;&gt;(ranges, Range.&lt;K&gt;rangeLexOrdering());<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    return new ImmutableSortedMap&lt;&gt;(rangeSet, values);<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  @Override<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  public ImmutableMap&lt;Range&lt;K&gt;, V&gt; asDescendingMapOfRanges() {<a name="line.303"></a>
+<span class="sourceLineNo">304</span>    if (ranges.isEmpty()) {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      return ImmutableMap.of();<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    }<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    RegularImmutableSortedSet&lt;Range&lt;K&gt;&gt; rangeSet =<a name="line.307"></a>
+<span class="sourceLineNo">308</span>        new RegularImmutableSortedSet&lt;&gt;(ranges.reverse(), Range.&lt;K&gt;rangeLexOrdering().reverse());<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    return new ImmutableSortedMap&lt;&gt;(rangeSet, values.reverse());<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  @Override<a name="line.312"></a>
+<span class="sourceLineNo">313</span>  public ImmutableRangeMap&lt;K, V&gt; subRangeMap(final Range&lt;K&gt; range) {<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    if (checkNotNull(range).isEmpty()) {<a name="line.314"></a>
+<span class="sourceLineNo">315</span>      return ImmutableRangeMap.of();<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    } else if (ranges.isEmpty() || range.encloses(span())) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      return this;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    }<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    int lowerIndex =<a name="line.319"></a>
+<span class="sourceLineNo">320</span>        SortedLists.binarySearch(<a name="line.320"></a>
+<span class="sourceLineNo">321</span>            ranges,<a name="line.321"></a>
+<span class="sourceLineNo">322</span>            Range.&lt;K&gt;upperBoundFn(),<a name="line.322"></a>
+<span class="sourceLineNo">323</span>            range.lowerBound,<a name="line.323"></a>
+<span class="sourceLineNo">324</span>            KeyPresentBehavior.FIRST_AFTER,<a name="line.324"></a>
+<span class="sourceLineNo">325</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    int upperIndex =<a name="line.326"></a>
+<span class="sourceLineNo">327</span>        SortedLists.binarySearch(<a name="line.327"></a>
+<span class="sourceLineNo">328</span>            ranges,<a name="line.328"></a>
+<span class="sourceLineNo">329</span>            Range.&lt;K&gt;lowerBoundFn(),<a name="line.329"></a>
+<span class="sourceLineNo">330</span>            range.upperBound,<a name="line.330"></a>
+<span class="sourceLineNo">331</span>            KeyPresentBehavior.ANY_PRESENT,<a name="line.331"></a>
+<span class="sourceLineNo">332</span>            KeyAbsentBehavior.NEXT_HIGHER);<a name="line.332"></a>
+<span class="sourceLineNo">333</span>    if (lowerIndex &gt;= upperIndex) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      return ImmutableRangeMap.of();<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    }<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    final int off = lowerIndex;<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    final int len = upperIndex - lowerIndex;<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    ImmutableList&lt;Range&lt;K&gt;&gt; subRanges =<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        new ImmutableList&lt;Range&lt;K&gt;&gt;() {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>          @Override<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          public int size() {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>            return len;<a name="line.342"></a>
+<span class="sourceLineNo">343</span>          }<a name="line.343"></a>
+<span class="sourceLineNo">344</span><a name="line.344"></a>
+<span class="sourceLineNo">345</span>          @Override<a name="line.345"></a>
+<span class="sourceLineNo">346</span>          public Range&lt;K&gt; get(int index) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>            checkElementIndex(index, len);<a name="line.347"></a>
+<span class="sourceLineNo">348</span>            if (index == 0 || index == len - 1) {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>              return ranges.get(index + off).intersection(range);<a name="line.349"></a>
+<span class="sourceLineNo">350</span>            } else {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>              return ranges.get(index + off);<a name="line.351"></a>
+<span class="sourceLineNo">352</span>            }<a name="line.352"></a>
+<span class="sourceLineNo">353</span>          }<a name="line.353"></a>
+<span class="sourceLineNo">354</span><a name="line.354"></a>
+<span class="sourceLineNo">355</span>          @Override<a name="line.355"></a>
+<span class="sourceLineNo">356</span>          boolean isPartialView() {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>            return true;<a name="line.357"></a>
+<span class="sourceLineNo">358</span>          }<a name="line.358"></a>
+<span class="sourceLineNo">359</span>        };<a name="line.359"></a>
+<span class="sourceLineNo">360</span>    final ImmutableRangeMap&lt;K, V&gt; outer = this;<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      @Override<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        if (range.isConnected(subRange)) {<a name="line.364"></a>
+<span class="sourceLineNo">365</span>          return outer.subRangeMap(subRange.intersection(range));<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        } else {<a name="line.366"></a>
+<span class="sourceLineNo">367</span>          return ImmutableRangeMap.of();<a name="line.367"></a>
+<span class="sourceLineNo">368</span>        }<a name="line.368"></a>
+<span class="sourceLineNo">369</span>      }<a name="line.369"></a>
+<span class="sourceLineNo">370</span>    };<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  }<a name="line.371"></a>
+<span class="sourceLineNo">372</span><a name="line.372"></a>
+<span class="sourceLineNo">373</span>  @Override<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  public int hashCode() {<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    return asMapOfRanges().hashCode();<a name="line.375"></a>
+<span class="sourceLineNo">376</span>  }<a name="line.376"></a>
+<span class="sourceLineNo">377</span><a name="line.377"></a>
+<span class="sourceLineNo">378</span>  @Override<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  public boolean equals(@Nullable Object o) {<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    if (o instanceof RangeMap) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      RangeMap&lt;?, ?&gt; rangeMap = (RangeMap&lt;?, ?&gt;) o;<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      return asMapOfRanges().equals(rangeMap.asMapOfRanges());<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    }<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    return false;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>  @Override<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  public String toString() {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return asMapOfRanges().toString();<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  }<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>  /**<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * #asMapOfRanges()} form.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  private static class SerializedForm&lt;K extends Comparable&lt;?&gt;, V&gt; implements Serializable {<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>    private final ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges;<a name="line.398"></a>
+<span class="sourceLineNo">399</span><a name="line.399"></a>
+<span class="sourceLineNo">400</span>    SerializedForm(ImmutableMap&lt;Range&lt;K&gt;, V&gt; mapOfRanges) {<a name="line.400"></a>
+<span class="sourceLineNo">401</span>      this.mapOfRanges = mapOfRanges;<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    }<a name="line.402"></a>
+<span class="sourceLineNo">403</span><a name="line.403"></a>
+<span class="sourceLineNo">404</span>    Object readResolve() {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      if (mapOfRanges.isEmpty()) {<a name="line.405"></a>
+<span class="sourceLineNo">406</span>        return of();<a name="line.406"></a>
+<span class="sourceLineNo">407</span>      } else {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>        return createRangeMap();<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      }<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    }<a name="line.410"></a>
+<span class="sourceLineNo">411</span><a name="line.411"></a>
+<span class="sourceLineNo">412</span>    Object createRangeMap() {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      Builder&lt;K, V&gt; builder = new Builder&lt;&gt;();<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      for (Entry&lt;Range&lt;K&gt;, V&gt; entry : mapOfRanges.entrySet()) {<a name="line.414"></a>
+<span class="sourceLineNo">415</span>        builder.put(entry.getKey(), entry.getValue());<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      }<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      return builder.build();<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    }<a name="line.418"></a>
+<span class="sourceLineNo">419</span><a name="line.419"></a>
+<span class="sourceLineNo">420</span>    private static final long serialVersionUID = 0;<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  }<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>  Object writeReplace() {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    return new SerializedForm&lt;&gt;(asMapOfRanges());<a name="line.424"></a>
+<span class="sourceLineNo">425</span>  }<a name="line.425"></a>
+<span class="sourceLineNo">426</span><a name="line.426"></a>
+<span class="sourceLineNo">427</span>  private static final long serialVersionUID = 0;<a name="line.427"></a>
+<span class="sourceLineNo">428</span>}<a name="line.428"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.net;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.Beta;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.common.annotations.GwtCompatible;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Contains constant definitions for the HTTP header field names. See:<a name="line.21"></a>
+<span class="sourceLineNo">022</span> *<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * &lt;ul&gt;<a name="line.23"></a>
+<span class="sourceLineNo">024</span> *   &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2109.txt"&gt;RFC 2109&lt;/a&gt;<a name="line.24"></a>
+<span class="sourceLineNo">025</span> *   &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2183.txt"&gt;RFC 2183&lt;/a&gt;<a name="line.25"></a>
+<span class="sourceLineNo">026</span> *   &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2616.txt"&gt;RFC 2616&lt;/a&gt;<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *   &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc2965.txt"&gt;RFC 2965&lt;/a&gt;<a name="line.27"></a>
+<span class="sourceLineNo">028</span> *   &lt;li&gt;&lt;a href="http://www.ietf.org/rfc/rfc5988.txt"&gt;RFC 5988&lt;/a&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;/ul&gt;<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * @author Kurt Alfred Kluever<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * @since 11.0<a name="line.33"></a>
+<span class="sourceLineNo">034</span> */<a name="line.34"></a>
+<span class="sourceLineNo">035</span>@GwtCompatible<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public final class HttpHeaders {<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  private HttpHeaders() {}<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  // HTTP Request and Response header fields<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /** The HTTP {@code Cache-Control} header field name. */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  public static final String CACHE_CONTROL = "Cache-Control";<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /** The HTTP {@code Content-Length} header field name. */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  public static final String CONTENT_LENGTH = "Content-Length";<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /** The HTTP {@code Content-Type} header field name. */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  public static final String CONTENT_TYPE = "Content-Type";<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  /** The HTTP {@code Date} header field name. */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  public static final String DATE = "Date";<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  /** The HTTP {@code Pragma} header field name. */<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  public static final String PRAGMA = "Pragma";<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  /** The HTTP {@code Via} header field name. */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  public static final String VIA = "Via";<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  /** The HTTP {@code Warning} header field name. */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static final String WARNING = "Warning";<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  // HTTP Request header fields<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /** The HTTP {@code Accept} header field name. */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  public static final String ACCEPT = "Accept";<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /** The HTTP {@code Accept-Charset} header field name. */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  public static final String ACCEPT_CHARSET = "Accept-Charset";<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /** The HTTP {@code Accept-Encoding} header field name. */<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  public static final String ACCEPT_ENCODING = "Accept-Encoding";<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  /** The HTTP {@code Accept-Language} header field name. */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  public static final String ACCEPT_LANGUAGE = "Accept-Language";<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  /** The HTTP {@code Access-Control-Request-Headers} header field name. */<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /** The HTTP {@code Access-Control-Request-Method} header field name. */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  /** The HTTP {@code Authorization} header field name. */<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  public static final String AUTHORIZATION = "Authorization";<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /** The HTTP {@code Connection} header field name. */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  public static final String CONNECTION = "Connection";<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /** The HTTP {@code Cookie} header field name. */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public static final String COOKIE = "Cookie";<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * The HTTP &lt;a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header"&gt;{@code<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * Cross-Origin-Resource-Policy}&lt;/a&gt; header field name.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * @since 28.0<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8470"&gt;{@code Early-Data}&lt;/a&gt; header field<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * name.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * @since 27.0<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public static final String EARLY_DATA = "Early-Data";<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /** The HTTP {@code Expect} header field name. */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  public static final String EXPECT = "Expect";<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /** The HTTP {@code From} header field name. */<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  public static final String FROM = "From";<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc7239"&gt;{@code Forwarded}&lt;/a&gt; header field name.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @since 20.0<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  public static final String FORWARDED = "Forwarded";<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * The HTTP {@code Follow-Only-When-Prerender-Shown} header field name.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   *<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * @since 17.0<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @Beta<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  public static final String FOLLOW_ONLY_WHEN_PRERENDER_SHOWN = "Follow-Only-When-Prerender-Shown";<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /** The HTTP {@code Host} header field name. */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public static final String HOST = "Host";<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /**<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc7540#section-3.2.1"&gt;{@code HTTP2-Settings}<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * &lt;/a&gt; header field name.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   *<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * @since 24.0<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public static final String HTTP2_SETTINGS = "HTTP2-Settings";<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /** The HTTP {@code If-Match} header field name. */<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  public static final String IF_MATCH = "If-Match";<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  /** The HTTP {@code If-Modified-Since} header field name. */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public static final String IF_MODIFIED_SINCE = "If-Modified-Since";<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  /** The HTTP {@code If-None-Match} header field name. */<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public static final String IF_NONE_MATCH = "If-None-Match";<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  /** The HTTP {@code If-Range} header field name. */<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public static final String IF_RANGE = "If-Range";<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /** The HTTP {@code If-Unmodified-Since} header field name. */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public static final String IF_UNMODIFIED_SINCE = "If-Unmodified-Since";<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  /** The HTTP {@code Last-Event-ID} header field name. */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  public static final String LAST_EVENT_ID = "Last-Event-ID";<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  /** The HTTP {@code Max-Forwards} header field name. */<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  public static final String MAX_FORWARDS = "Max-Forwards";<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /** The HTTP {@code Origin} header field name. */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public static final String ORIGIN = "Origin";<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  /** The HTTP {@code Proxy-Authorization} header field name. */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public static final String PROXY_AUTHORIZATION = "Proxy-Authorization";<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  /** The HTTP {@code Range} header field name. */<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  public static final String RANGE = "Range";<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  /** The HTTP {@code Referer} header field name. */<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  public static final String REFERER = "Referer";<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * The HTTP &lt;a href="https://www.w3.org/TR/referrer-policy/"&gt;{@code Referrer-Policy}&lt;/a&gt; header<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * field name.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   *<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * @since 23.4<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   */<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  public static final String REFERRER_POLICY = "Referrer-Policy";<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * Values for the &lt;a href="https://www.w3.org/TR/referrer-policy/"&gt;{@code Referrer-Policy}&lt;/a&gt;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   * header.<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   *<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * @since 23.4<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   */<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  public static final class ReferrerPolicyValues {<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    private ReferrerPolicyValues() {}<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>    public static final String NO_REFERRER = "no-referrer";<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    public static final String NO_REFFERER_WHEN_DOWNGRADE = "no-referrer-when-downgrade";<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    public static final String SAME_ORIGIN = "same-origin";<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    public static final String ORIGIN = "origin";<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    public static final String STRICT_ORIGIN = "strict-origin";<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    public static final String ORIGIN_WHEN_CROSS_ORIGIN = "origin-when-cross-origin";<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    public static final String STRICT_ORIGIN_WHEN_CROSS_ORIGIN = "strict-origin-when-cross-origin";<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    public static final String UNSAFE_URL = "unsafe-url";<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  /**<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * The HTTP &lt;a href="https://www.w3.org/TR/service-workers/#update-algorithm"&gt;{@code<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * Service-Worker}&lt;/a&gt; header field name.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   *<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * @since 20.0<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  public static final String SERVICE_WORKER = "Service-Worker";<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  /** The HTTP {@code TE} header field name. */<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  public static final String TE = "TE";<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  /** The HTTP {@code Upgrade} header field name. */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public static final String UPGRADE = "Upgrade";<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  /**<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference"&gt;{@code<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * Upgrade-Insecure-Requests}&lt;/a&gt; header field name.<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   *<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * @since 28.1<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  /** The HTTP {@code User-Agent} header field name. */<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  public static final String USER_AGENT = "User-Agent";<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>  // HTTP Response header fields<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  /** The HTTP {@code Accept-Ranges} header field name. */<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  public static final String ACCEPT_RANGES = "Accept-Ranges";<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  /** The HTTP {@code Access-Control-Allow-Headers} header field name. */<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /** The HTTP {@code Access-Control-Allow-Methods} header field name. */<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  /** The HTTP {@code Access-Control-Allow-Origin} header field name. */<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  /** The HTTP {@code Access-Control-Allow-Credentials} header field name. */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  /** The HTTP {@code Access-Control-Expose-Headers} header field name. */<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  /** The HTTP {@code Access-Control-Max-Age} header field name. */<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  public static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /** The HTTP {@code Age} header field name. */<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  public static final String AGE = "Age";<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  /** The HTTP {@code Allow} header field name. */<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  public static final String ALLOW = "Allow";<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  /** The HTTP {@code Content-Disposition} header field name. */<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  public static final String CONTENT_DISPOSITION = "Content-Disposition";<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  /** The HTTP {@code Content-Encoding} header field name. */<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  public static final String CONTENT_ENCODING = "Content-Encoding";<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  /** The HTTP {@code Content-Language} header field name. */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  public static final String CONTENT_LANGUAGE = "Content-Language";<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  /** The HTTP {@code Content-Location} header field name. */<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  public static final String CONTENT_LOCATION = "Content-Location";<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  /** The HTTP {@code Content-MD5} header field name. */<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  public static final String CONTENT_MD5 = "Content-MD5";<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /** The HTTP {@code Content-Range} header field name. */<a name="line.217"></a>
+<span class="sourceLineNo">218</span>  public static final String CONTENT_RANGE = "Content-Range";<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  /**<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * The HTTP &lt;a href="http://w3.org/TR/CSP/#content-security-policy-header-field"&gt;{@code<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * Content-Security-Policy}&lt;/a&gt; header field name.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   *<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * @since 15.0<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  public static final String CONTENT_SECURITY_POLICY = "Content-Security-Policy";<a name="line.225"></a>
+<span class="sourceLineNo">226</span>  /**<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * The HTTP &lt;a href="http://w3.org/TR/CSP/#content-security-policy-report-only-header-field"&gt;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * {@code Content-Security-Policy-Report-Only}&lt;/a&gt; header field name.<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   *<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * @since 15.0<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   */<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  public static final String CONTENT_SECURITY_POLICY_REPORT_ONLY =<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      "Content-Security-Policy-Report-Only";<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  /**<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * The HTTP nonstandard {@code X-Content-Security-Policy} header field name. It was introduced in<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * &lt;a href="https://www.w3.org/TR/2011/WD-CSP-20111129/"&gt;CSP v.1&lt;/a&gt; and used by the Firefox until<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * version 23 and the Internet Explorer version 10. Please, use {@link #CONTENT_SECURITY_POLICY}<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * to pass the CSP.<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   *<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * @since 20.0<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   */<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  public static final String X_CONTENT_SECURITY_POLICY = "X-Content-Security-Policy";<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * The HTTP nonstandard {@code X-Content-Security-Policy-Report-Only} header field name. It was<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * introduced in &lt;a href="https://www.w3.org/TR/2011/WD-CSP-20111129/"&gt;CSP v.1&lt;/a&gt; and used by the<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * Firefox until version 23 and the Internet Explorer version 10. Please, use {@link<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   *<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * @since 20.0<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  public static final String X_CONTENT_SECURITY_POLICY_REPORT_ONLY =<a name="line.251"></a>
+<span class="sourceLineNo">252</span>      "X-Content-Security-Policy-Report-Only";<a name="line.252"></a>
+<span class="sourceLineNo">253</span>  /**<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * The HTTP nonstandard {@code X-WebKit-CSP} header field name. It was introduced in &lt;a<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * href="https://www.w3.org/TR/2011/WD-CSP-20111129/"&gt;CSP v.1&lt;/a&gt; and used by the Chrome until<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * version 25. Please, use {@link #CONTENT_SECURITY_POLICY} to pass the CSP.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   *<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   * @since 20.0<a name="line.258"></a>
+<span class="sourceLineNo">259</span>   */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public static final String X_WEBKIT_CSP = "X-WebKit-CSP";<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  /**<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * The HTTP nonstandard {@code X-WebKit-CSP-Report-Only} header field name. It was introduced in<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * &lt;a href="https://www.w3.org/TR/2011/WD-CSP-20111129/"&gt;CSP v.1&lt;/a&gt; and used by the Chrome until<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * version 25. Please, use {@link #CONTENT_SECURITY_POLICY_REPORT_ONLY} to pass the CSP.<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   *<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * @since 20.0<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   */<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";<a name="line.268"></a>
+<span class="sourceLineNo">269</span>  /**<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * The HTTP Cross-Origin-Opener-Policy header field name.<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   *<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * @since 28.2<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  /** The HTTP {@code ETag} header field name. */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  public static final String ETAG = "ETag";<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  /** The HTTP {@code Expires} header field name. */<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  public static final String EXPIRES = "Expires";<a name="line.278"></a>
+<span class="sourceLineNo">279</span>  /** The HTTP {@code Last-Modified} header field name. */<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  public static final String LAST_MODIFIED = "Last-Modified";<a name="line.280"></a>
+<span class="sourceLineNo">281</span>  /** The HTTP {@code Link} header field name. */<a name="line.281"></a>
+<span class="sourceLineNo">282</span>  public static final String LINK = "Link";<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  /** The HTTP {@code Location} header field name. */<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  public static final String LOCATION = "Location";<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  /**<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * The HTTP &lt;a href="https://googlechrome.github.io/OriginTrials/#header"&gt;{@code Origin-Trial}&lt;/a&gt;<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * header field name.<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   *<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * @since 27.1<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   */<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  public static final String ORIGIN_TRIAL = "Origin-Trial";<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  /** The HTTP {@code P3P} header field name. Limited browser support. */<a name="line.292"></a>
+<span class="sourceLineNo">293</span>  public static final String P3P = "P3P";<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  /** The HTTP {@code Proxy-Authenticate} header field name. */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  public static final String PROXY_AUTHENTICATE = "Proxy-Authenticate";<a name="line.295"></a>
+<span class="sourceLineNo">296</span>  /** The HTTP {@code Refresh} header field name. Non-standard header supported by most browsers. */<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  public static final String REFRESH = "Refresh";<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  /**<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * The HTTP &lt;a href="https://www.w3.org/TR/reporting/"&gt;{@code Report-To}&lt;/a&gt; header field name.<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   *<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * @since 27.1<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   */<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  public static final String REPORT_TO = "Report-To";<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  /** The HTTP {@code Retry-After} header field name. */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  public static final String RETRY_AFTER = "Retry-After";<a name="line.305"></a>
+<span class="sourceLineNo">306</span>  /** The HTTP {@code Server} header field name. */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  public static final String SERVER = "Server";<a name="line.307"></a>
+<span class="sourceLineNo">308</span>  /**<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * The HTTP &lt;a href="https://www.w3.org/TR/server-timing/"&gt;{@code Server-Timing}&lt;/a&gt; header field<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * name.<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   *<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * @since 23.6<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   */<a name="line.313"></a>
+<span class="sourceLineNo">314</span>  public static final String SERVER_TIMING = "Server-Timing";<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  /**<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * The HTTP &lt;a href="https://www.w3.org/TR/service-workers/#update-algorithm"&gt;{@code<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   * Service-Worker-Allowed}&lt;/a&gt; header field name.<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   *<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   * @since 20.0<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   */<a name="line.320"></a>
+<span class="sourceLineNo">321</span>  public static final String SERVICE_WORKER_ALLOWED = "Service-Worker-Allowed";<a name="line.321"></a>
+<span class="sourceLineNo">322</span>  /** The HTTP {@code Set-Cookie} header field name. */<a name="line.322"></a>
+<span class="sourceLineNo">323</span>  public static final String SET_COOKIE = "Set-Cookie";<a name="line.323"></a>
+<span class="sourceLineNo">324</span>  /** The HTTP {@code Set-Cookie2} header field name. */<a name="line.324"></a>
+<span class="sourceLineNo">325</span>  public static final String SET_COOKIE2 = "Set-Cookie2";<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * The HTTP &lt;a href="http://goo.gl/Dxx19N"&gt;{@code SourceMap}&lt;/a&gt; header field name.<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   *<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * @since 27.1<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   */<a name="line.331"></a>
+<span class="sourceLineNo">332</span>  @Beta public static final String SOURCE_MAP = "SourceMap";<a name="line.332"></a>
+<span class="sourceLineNo">333</span><a name="line.333"></a>
+<span class="sourceLineNo">334</span>  /**<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   * The HTTP &lt;a href="http://tools.ietf.org/html/rfc6797#section-6.1"&gt;{@code<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   * Strict-Transport-Security}&lt;/a&gt; header field name.<a name="line.336"></a>
+<span class="sourceLineNo">337</span>   *<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * @since 15.0<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   */<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  public static final String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";<a name="line.340"></a>
+<span class="sourceLineNo">341</span>  /**<a name="line.341"></a>
+<span class="sourceLineNo">342</span>   * The HTTP &lt;a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources"&gt;{@code<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * Timing-Allow-Origin}&lt;/a&gt; header field name.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   *<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   * @since 15.0<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   */<a name="line.346"></a>
+<span class="sourceLineNo">347</span>  public static final String TIMING_ALLOW_ORIGIN = "Timing-Allow-Origin";<a name="line.347"></a>
+<span class="sourceLineNo">348</span>  /** The HTTP {@code Trailer} header field name. */<a name="line.348"></a>
+<span class="sourceLineNo">349</span>  public static final String TRAILER = "Trailer";<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  /** The HTTP {@code Transfer-Encoding} header field name. */<a name="line.350"></a>
+<span class="sourceLineNo">351</span>  public static final String TRANSFER_ENCODING = "Transfer-Encoding";<a name="line.351"></a>
+<span class="sourceLineNo">352</span>  /** The HTTP {@code Vary} header field name. */<a name="line.352"></a>
+<span class="sourceLineNo">353</span>  public static final String VARY = "Vary";<a name="line.353"></a>
+<span class="sourceLineNo">354</span>  /** The HTTP {@code WWW-Authenticate} header field name. */<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  public static final String WWW_AUTHENTICATE = "WWW-Authenticate";<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>  // Common, non-standard HTTP header fields<a name="line.357"></a>
+<span class="sourceLineNo">358</span><a name="line.358"></a>
+<span class="sourceLineNo">359</span>  /** The HTTP {@code DNT} header field name. */<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  public static final String DNT = "DNT";<a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /** The HTTP {@code X-Content-Type-Options} header field name. */<a name="line.361"></a>
+<span class="sourceLineNo">362</span>  public static final String X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  /** The HTTP {@code X-Do-Not-Track} header field name. */<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  public static final String X_DO_NOT_TRACK = "X-Do-Not-Track";<a name="line.364"></a>
+<span class="sourceLineNo">365</span>  /** The HTTP {@code X-Forwarded-For} header field name (superseded by {@code Forwarded}). */<a name="line.365"></a>
+<span class="sourceLineNo">366</span>  public static final String X_FORWARDED_FOR = "X-Forwarded-For";<a name="line.366"></a>
+<span class="sourceLineNo">367</span>  /** The HTTP {@code X-Forwarded-Proto} header field name. */<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  public static final String X_FORWARDED_PROTO = "X-Forwarded-Proto";<a name="line.368"></a>
+<span class="sourceLineNo">369</span>  /**<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * The HTTP &lt;a href="http://goo.gl/lQirAH"&gt;{@code X-Forwarded-Host}&lt;/a&gt; header field name.<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * @since 20.0<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  public static final String X_FORWARDED_HOST = "X-Forwarded-Host";<a name="line.374"></a>
+<span class="sourceLineNo">375</span>  /**<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * The HTTP &lt;a href="http://goo.gl/YtV2at"&gt;{@code X-Forwarded-Port}&lt;/a&gt; header field name.<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   *<a name="line.377"></a>
+<span class="sourceLineNo">378</span>   * @since 20.0<a name="line.378"></a>
+<span class="sourceLineNo">379</span>   */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>  public static final String X_FORWARDED_PORT = "X-Forwarded-Port";<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  /** The HTTP {@code X-Frame-Options} header field name. */<a name="line.381"></a>
+<span class="sourceLineNo">382</span>  public static final String X_FRAME_OPTIONS = "X-Frame-Options";<a name="line.382"></a>
+<span class="sourceLineNo">383</span>  /** The HTTP {@code X-Powered-By} header field name. */<a name="line.383"></a>
+<span class="sourceLineNo">384</span>  public static final String X_POWERED_BY = "X-Powered-By";<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  /**<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   * The HTTP &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;{@code<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * Public-Key-Pins}&lt;/a&gt; header field name.<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   *<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   * @since 15.0<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   */<a name="line.390"></a>
+<span class="sourceLineNo">391</span>  @Beta public static final String PUBLIC_KEY_PINS = "Public-Key-Pins";<a name="line.391"></a>
+<span class="sourceLineNo">392</span>  /**<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * The HTTP &lt;a href="http://tools.ietf.org/html/draft-evans-palmer-key-pinning"&gt;{@code<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * Public-Key-Pins-Report-Only}&lt;/a&gt; header field name.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   *<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * @since 15.0<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   */<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  @Beta public static final String PUBLIC_KEY_PINS_REPORT_ONLY = "Public-Key-Pins-Report-Only";<a name="line.398"></a>
+<span class="sourceLineNo">399</span>  /** The HTTP {@code X-Requested-With} header field name. */<a name="line.399"></a>
+<span class="sourceLineNo">400</span>  public static final String X_REQUESTED_WITH = "X-Requested-With";<a name="line.400"></a>
+<span class="sourceLineNo">401</span>  /** The HTTP {@code X-User-IP} header field name. */<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  public static final String X_USER_IP = "X-User-IP";<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  /**<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * The HTTP &lt;a href="https://goo.gl/VKpXxa"&gt;{@code X-Download-Options}&lt;/a&gt; header field name.<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   *<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   * &lt;p&gt;When the new X-Download-Options header is present with the value {@code noopen}, the user is<a name="line.406"></a>
+<span class="sourceLineNo">407</span>   * prevented from opening a file download directly; instead, they must first save the file<a name="line.407"></a>
+<span class="sourceLineNo">408</span>   * locally.<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   *<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * @since 24.1<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   */<a name="line.411"></a>
+<span class="sourceLineNo">412</span>  @Beta public static final String X_DOWNLOAD_OPTIONS = "X-Download-Options";<a name="line.412"></a>
+<span class="sourceLineNo">413</span>  /** The HTTP {@code X-XSS-Protection} header field name. */<a name="line.413"></a>
+<span class="sourceLineNo">414</span>  public static final String X_XSS_PROTECTION = "X-XSS-Protection";<a name="line.414"></a>
+<span class="sourceLineNo">415</span>  /**<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   * The HTTP &lt;a<a name="line.416"></a>
+<span class="sourceLineNo">417</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control"&gt;{@code<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   * X-DNS-Prefetch-Control}&lt;/a&gt; header controls DNS prefetch behavior. Value can be "on" or "off".<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * By default, DNS prefetching is "on" for HTTP pages and "off" for HTTPS pages.<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   */<a name="line.420"></a>
+<span class="sourceLineNo">421</span>  public static final String X_DNS_PREFETCH_CONTROL = "X-DNS-Prefetch-Control";<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  /**<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * {@code Ping-From}&lt;/a&gt; header field name.<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   *<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * @since 19.0<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   */<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  public static final String PING_FROM = "Ping-From";<a name="line.428"></a>
+<span class="sourceLineNo">429</span>  /**<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   * The HTTP &lt;a href="http://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing"&gt;<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * {@code Ping-To}&lt;/a&gt; header field name.<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   *<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * @since 19.0<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   */<a name="line.434"></a>
+<span class="sourceLineNo">435</span>  public static final String PING_TO = "Ping-To";<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>  /**<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * The HTTP &lt;a<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"&gt;{@code<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   * Purpose}&lt;/a&gt; header field name.<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   *<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   * @since 28.0<a name="line.442"></a>
+<span class="sourceLineNo">443</span>   */<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  public static final String PURPOSE = "Purpose";<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  /**<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   * The HTTP &lt;a<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"&gt;{@code<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * X-Purpose}&lt;/a&gt; header field name.<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   *<a name="line.449"></a>
+<span class="sourceLineNo">450</span>   * @since 28.0<a name="line.450"></a>
+<span class="sourceLineNo">451</span>   */<a name="line.451"></a>
+<span class="sourceLineNo">452</span>  public static final String X_PURPOSE = "X-Purpose";<a name="line.452"></a>
+<span class="sourceLineNo">453</span>  /**<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   * The HTTP &lt;a<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F"&gt;{@code<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   * X-Moz}&lt;/a&gt; header field name.<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   *<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   * @since 28.0<a name="line.458"></a>
+<span class="sourceLineNo">459</span>   */<a name="line.459"></a>
+<span class="sourceLineNo">460</span>  public static final String X_MOZ = "X-Moz";<a name="line.460"></a>
+<span class="sourceLineNo">461</span><a name="line.461"></a>
+<span class="sourceLineNo">462</span>  /**<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Dest}&lt;/a&gt;<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   * header field name.<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   *<a name="line.465"></a>
+<span class="sourceLineNo">466</span>   * @since 27.1<a name="line.466"></a>
+<span class="sourceLineNo">467</span>   */<a name="line.467"></a>
+<span class="sourceLineNo">468</span>  public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";<a name="line.468"></a>
+<span class="sourceLineNo">469</span>  /**<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Mode}&lt;/a&gt;<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * header field name.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   *<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * @since 27.1<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   */<a name="line.474"></a>
+<span class="sourceLineNo">475</span>  public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";<a name="line.475"></a>
+<span class="sourceLineNo">476</span>  /**<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-Site}&lt;/a&gt;<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   * header field name.<a name="line.478"></a>
+<span class="sourceLineNo">479</span>   *<a name="line.479"></a>
+<span class="sourceLineNo">480</span>   * @since 27.1<a name="line.480"></a>
+<span class="sourceLineNo">481</span>   */<a name="line.481"></a>
+<span class="sourceLineNo">482</span>  public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  /**<a name="line.483"></a>
+<span class="sourceLineNo">484</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Fetch-User}&lt;/a&gt;<a name="line.484"></a>
+<span class="sourceLineNo">485</span>   * header field name.<a name="line.485"></a>
+<span class="sourceLineNo">486</span>   *<a name="line.486"></a>
+<span class="sourceLineNo">487</span>   * @since 27.1<a name="line.487"></a>
+<span class="sourceLineNo">488</span>   */<a name="line.488"></a>
+<span class="sourceLineNo">489</span>  public static final String SEC_FETCH_USER = "Sec-Fetch-User";<a name="line.489"></a>
+<span class="sourceLineNo">490</span>  /**<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   * The HTTP &lt;a href="https://w3c.github.io/webappsec-fetch-metadata/"&gt;{@code Sec-Metadata}&lt;/a&gt;<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   * header field name.<a name="line.492"></a>
+<span class="sourceLineNo">493</span>   *<a name="line.493"></a>
+<span class="sourceLineNo">494</span>   * @since 26.0<a name="line.494"></a>
+<span class="sourceLineNo">495</span>   */<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  public static final String SEC_METADATA = "Sec-Metadata";<a name="line.496"></a>
+<span class="sourceLineNo">497</span>  /**<a name="line.497"></a>
+<span class="sourceLineNo">498</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-https"&gt;{@code<a name="line.498"></a>
+<span class="sourceLineNo">499</span>   * Sec-Token-Binding}&lt;/a&gt; header field name.<a name="line.499"></a>
+<span class="sourceLineNo">500</span>   *<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * @since 25.1<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   */<a name="line.502"></a>
+<span class="sourceLineNo">503</span>  public static final String SEC_TOKEN_BINDING = "Sec-Token-Binding";<a name="line.503"></a>
+<span class="sourceLineNo">504</span>  /**<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * Sec-Provided-Token-Binding-ID}&lt;/a&gt; header field name.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   *<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   * @since 25.1<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   */<a name="line.509"></a>
+<span class="sourceLineNo">510</span>  public static final String SEC_PROVIDED_TOKEN_BINDING_ID = "Sec-Provided-Token-Binding-ID";<a name="line.510"></a>
+<span class="sourceLineNo">511</span>  /**<a name="line.511"></a>
+<span class="sourceLineNo">512</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/draft-ietf-tokbind-ttrp"&gt;{@code<a name="line.512"></a>
+<span class="sourceLineNo">513</span>   * Sec-Referred-Token-Binding-ID}&lt;/a&gt; header field name.<a name="line.513"></a>
+<span class="sourceLineNo">514</span>   *<a name="line.514"></a>
+<span class="sourceLineNo">515</span>   * @since 25.1<a name="line.515"></a>
+<span class="sourceLineNo">516</span>   */<a name="line.516"></a>
+<span class="sourceLineNo">517</span>  public static final String SEC_REFERRED_TOKEN_BINDING_ID = "Sec-Referred-Token-Binding-ID";<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  /**<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Accept}&lt;/a&gt; header<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   * field name.<a name="line.520"></a>
+<span class="sourceLineNo">521</span>   *<a name="line.521"></a>
+<span class="sourceLineNo">522</span>   * @since 28.0<a name="line.522"></a>
+<span class="sourceLineNo">523</span>   */<a name="line.523"></a>
+<span class="sourceLineNo">524</span>  public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";<a name="line.524"></a>
+<span class="sourceLineNo">525</span>  /**<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Extensions}&lt;/a&gt;<a name="line.526"></a>
+<span class="sourceLineNo">527</span>   * header field name.<a name="line.527"></a>
+<span class="sourceLineNo">528</span>   *<a name="line.528"></a>
+<span class="sourceLineNo">529</span>   * @since 28.0<a name="line.529"></a>
+<span class="sourceLineNo">530</span>   */<a name="line.530"></a>
+<span class="sourceLineNo">531</span>  public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";<a name="line.531"></a>
+<span class="sourceLineNo">532</span>  /**<a name="line.532"></a>
+<span class="sourceLineNo">533</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Key}&lt;/a&gt; header<a name="line.533"></a>
+<span class="sourceLineNo">534</span>   * field name.<a name="line.534"></a>
+<span class="sourceLineNo">535</span>   *<a name="line.535"></a>
+<span class="sourceLineNo">536</span>   * @since 28.0<a name="line.536"></a>
+<span class="sourceLineNo">537</span>   */<a name="line.537"></a>
+<span class="sourceLineNo">538</span>  public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";<a name="line.538"></a>
+<span class="sourceLineNo">539</span>  /**<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Protocol}&lt;/a&gt;<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * header field name.<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   *<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * @since 28.0<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   */<a name="line.544"></a>
+<span class="sourceLineNo">545</span>  public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";<a name="line.545"></a>
+<span class="sourceLineNo">546</span>  /**<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc6455"&gt;{@code Sec-WebSocket-Version}&lt;/a&gt; header<a name="line.547"></a>
+<span class="sourceLineNo">548</span>   * field name.<a name="line.548"></a>
+<span class="sourceLineNo">549</span>   *<a name="line.549"></a>
+<span class="sourceLineNo">550</span>   * @since 28.0<a name="line.550"></a>
+<span class="sourceLineNo">551</span>   */<a name="line.551"></a>
+<span class="sourceLineNo">552</span>  public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";<a name="line.552"></a>
+<span class="sourceLineNo">553</span>  /**<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * The HTTP &lt;a href="https://tools.ietf.org/html/rfc8586"&gt;{@code CDN-Loop}&lt;/a&gt; header field name.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   *<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * @since 28.0<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   */<a name="line.557"></a>
+<span class="sourceLineNo">558</span>  public static final String CDN_LOOP = "CDN-Loop";<a name="line.558"></a>
+<span class="sourceLineNo">559</span>}<a name="line.559"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

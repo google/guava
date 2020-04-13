@@ -1,0 +1,952 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2007 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static com.google.common.collect.CollectPreconditions.checkNonnegative;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.annotations.Beta;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.annotations.GwtCompatible;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.annotations.VisibleForTesting;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.math.IntMath;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.primitives.Ints;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.errorprone.annotations.concurrent.LazyInit;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.google.j2objc.annotations.RetainedWith;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.io.Serializable;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.math.RoundingMode;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.Arrays;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.Collection;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.Collections;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.EnumSet;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.Iterator;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.util.Set;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.util.SortedSet;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.Spliterator;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.function.Consumer;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>import java.util.stream.Collector;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>/**<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * A {@link Set} whose contents will never change, with many other important properties detailed at<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * {@link ImmutableCollection}.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * @since 2.0<a name="line.49"></a>
+<span class="sourceLineNo">050</span> */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>@GwtCompatible(serializable = true, emulated = true)<a name="line.51"></a>
+<span class="sourceLineNo">052</span>@SuppressWarnings("serial") // we're overriding default serialization<a name="line.52"></a>
+<span class="sourceLineNo">053</span>public abstract class ImmutableSet&lt;E&gt; extends ImmutableCollection&lt;E&gt; implements Set&lt;E&gt; {<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  static final int SPLITERATOR_CHARACTERISTICS =<a name="line.54"></a>
+<span class="sourceLineNo">055</span>      ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   * Returns a {@code Collector} that accumulates the input elements into a new {@code<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * ImmutableSet}. Elements appear in the resulting set in the encounter order of the stream; if<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   * the stream contains duplicates (according to {@link Object#equals(Object)}), only the first<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * duplicate in encounter order will appear in the result.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   *<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * @since 21.0<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  public static &lt;E&gt; Collector&lt;E, ?, ImmutableSet&lt;E&gt;&gt; toImmutableSet() {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    return CollectCollectors.toImmutableSet();<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  }<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * Returns the empty immutable set. Preferred over {@link Collections#emptySet} for code<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * consistency, and because the return type conveys the immutability guarantee.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @SuppressWarnings({"unchecked"}) // fully variant implementation (never actually produces any Es)<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of() {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    return (ImmutableSet&lt;E&gt;) RegularImmutableSet.EMPTY;<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Returns an immutable set containing {@code element}. Preferred over {@link<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * Collections#singleton} for code consistency, {@code null} rejection, and because the return<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * type conveys the immutability guarantee.<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   */<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E element) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    return new SingletonImmutableSet&lt;E&gt;(element);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  /**<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * Returns an immutable set containing the given elements, minus duplicates, in the order each was<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * the first are ignored.<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    return construct(2, 2, e1, e2);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * Returns an immutable set containing the given elements, minus duplicates, in the order each was<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * the first are ignored.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3) {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    return construct(3, 3, e1, e2, e3);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * Returns an immutable set containing the given elements, minus duplicates, in the order each was<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * the first are ignored.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4) {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    return construct(4, 4, e1, e2, e3, e4);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>  /**<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * Returns an immutable set containing the given elements, minus duplicates, in the order each was<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * the first are ignored.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return construct(5, 5, e1, e2, e3, e4, e5);<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Returns an immutable set containing the given elements, minus duplicates, in the order each was<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * the first are ignored.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * &lt;p&gt;The array {@code others} must not be longer than {@code Integer.MAX_VALUE - 6}.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * @since 3.0 (source-compatible since 2.0)<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   */<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    checkArgument(<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        others.length &lt;= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    final int paramCount = 6;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    Object[] elements = new Object[paramCount + others.length];<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    elements[0] = e1;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    elements[1] = e2;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    elements[2] = e3;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    elements[3] = e4;<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    elements[4] = e5;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    elements[5] = e6;<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    System.arraycopy(others, 0, elements, paramCount, others.length);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    return construct(elements.length, elements.length, elements);<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  }<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array,<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * which we have no particular reason to believe does or does not contain duplicates. If {@code k}<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * is the size of the returned {@code ImmutableSet}, then the unique elements of {@code elements}<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * will be in the first {@code k} positions, and {@code elements[i] == null} for {@code k &lt;= i &lt;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * n}.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   *<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * &lt;p&gt;This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * elements} contains no duplicates, {@code elements} may be used without copying in the returned<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * {@code ImmutableSet}, in which case the caller must not modify it.<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   *<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * &lt;p&gt;{@code elements} may contain only values of type {@code E}.<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   *<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  private static &lt;E&gt; ImmutableSet&lt;E&gt; constructUnknownDuplication(int n, Object... elements) {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    return construct(<a name="line.165"></a>
+<span class="sourceLineNo">166</span>        n,<a name="line.166"></a>
+<span class="sourceLineNo">167</span>        Math.max(<a name="line.167"></a>
+<span class="sourceLineNo">168</span>            ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY,<a name="line.168"></a>
+<span class="sourceLineNo">169</span>            IntMath.sqrt(n, RoundingMode.CEILING)),<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        elements);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array. If<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of {@code<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * elements} will be in the first {@code k} positions, and {@code elements[i] == null} for {@code<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * k &lt;= i &lt; n}.<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   *<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * &lt;p&gt;This may modify {@code elements}. Additionally, if {@code n == elements.length} and {@code<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * elements} contains no duplicates, {@code elements} may be used without copying in the returned<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * {@code ImmutableSet}, in which case it may no longer be modified.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   *<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * &lt;p&gt;{@code elements} may contain only values of type {@code E}.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  private static &lt;E&gt; ImmutableSet&lt;E&gt; construct(int n, int expectedSize, Object... elements) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    switch (n) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>      case 0:<a name="line.189"></a>
+<span class="sourceLineNo">190</span>        return of();<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      case 1:<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        @SuppressWarnings("unchecked") // safe; elements contains only E's<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        E elem = (E) elements[0];<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        return of(elem);<a name="line.194"></a>
+<span class="sourceLineNo">195</span>      default:<a name="line.195"></a>
+<span class="sourceLineNo">196</span>        SetBuilderImpl&lt;E&gt; builder = new RegularSetBuilderImpl&lt;E&gt;(expectedSize);<a name="line.196"></a>
+<span class="sourceLineNo">197</span>        for (int i = 0; i &lt; n; i++) {<a name="line.197"></a>
+<span class="sourceLineNo">198</span>          @SuppressWarnings("unchecked")<a name="line.198"></a>
+<span class="sourceLineNo">199</span>          E e = (E) checkNotNull(elements[i]);<a name="line.199"></a>
+<span class="sourceLineNo">200</span>          builder = builder.add(e);<a name="line.200"></a>
+<span class="sourceLineNo">201</span>        }<a name="line.201"></a>
+<span class="sourceLineNo">202</span>        return builder.review().build();<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    }<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  }<a name="line.204"></a>
+<span class="sourceLineNo">205</span><a name="line.205"></a>
+<span class="sourceLineNo">206</span>  /**<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * each appears first in the source collection.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   *<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; This method will sometimes recognize that the actual copy operation<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * is unnecessary; for example, {@code copyOf(copyOf(anArrayList))} will copy the data only once.<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * This reduces the expense of habitually making defensive copies at API boundaries. However, the<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * precise conditions for skipping the copy operation are undefined.<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   *<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * @since 7.0 (source-compatible since 2.0)<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   */<a name="line.217"></a>
+<span class="sourceLineNo">218</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Collection&lt;? extends E&gt; elements) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    /*<a name="line.219"></a>
+<span class="sourceLineNo">220</span>     * TODO(lowasser): consider checking for ImmutableAsList here<a name="line.220"></a>
+<span class="sourceLineNo">221</span>     * TODO(lowasser): consider checking for Multiset here<a name="line.221"></a>
+<span class="sourceLineNo">222</span>     */<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    // Don't refer to ImmutableSortedSet by name so it won't pull in all that code<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    if (elements instanceof ImmutableSet &amp;&amp; !(elements instanceof SortedSet)) {<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      @SuppressWarnings("unchecked") // all supported methods are covariant<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      ImmutableSet&lt;E&gt; set = (ImmutableSet&lt;E&gt;) elements;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      if (!set.isPartialView()) {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>        return set;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      }<a name="line.229"></a>
+<span class="sourceLineNo">230</span>    } else if (elements instanceof EnumSet) {<a name="line.230"></a>
+<span class="sourceLineNo">231</span>      return copyOfEnumSet((EnumSet) elements);<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    }<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    Object[] array = elements.toArray();<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    if (elements instanceof Set) {<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      // assume probably no duplicates (though it might be using different equality semantics)<a name="line.235"></a>
+<span class="sourceLineNo">236</span>      return construct(array.length, array.length, array);<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    } else {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      return constructUnknownDuplication(array.length, array);<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    }<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  }<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  /**<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * each appears first in the source iterable. This method iterates over {@code elements} only<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * once.<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   *<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; This method will sometimes recognize that the actual copy operation<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * is unnecessary; for example, {@code copyOf(copyOf(anArrayList))} should copy the data only<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * once. This reduces the expense of habitually making defensive copies at API boundaries.<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * However, the precise conditions for skipping the copy operation are undefined.<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   *<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   */<a name="line.253"></a>
+<span class="sourceLineNo">254</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Iterable&lt;? extends E&gt; elements) {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    return (elements instanceof Collection)<a name="line.255"></a>
+<span class="sourceLineNo">256</span>        ? copyOf((Collection&lt;? extends E&gt;) elements)<a name="line.256"></a>
+<span class="sourceLineNo">257</span>        : copyOf(elements.iterator());<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  /**<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * each appears first in the source iterator.<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   *<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(Iterator&lt;? extends E&gt; elements) {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    // We special-case for 0 or 1 elements, but anything further is madness.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    if (!elements.hasNext()) {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>      return of();<a name="line.269"></a>
+<span class="sourceLineNo">270</span>    }<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    E first = elements.next();<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    if (!elements.hasNext()) {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>      return of(first);<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    } else {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      return new ImmutableSet.Builder&lt;E&gt;().add(first).addAll(elements).build();<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * Returns an immutable set containing each of {@code elements}, minus duplicates, in the order<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * each appears first in the source array.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   *<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * @throws NullPointerException if any of {@code elements} is null<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * @since 3.0<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  public static &lt;E&gt; ImmutableSet&lt;E&gt; copyOf(E[] elements) {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    switch (elements.length) {<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      case 0:<a name="line.288"></a>
+<span class="sourceLineNo">289</span>        return of();<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      case 1:<a name="line.290"></a>
+<span class="sourceLineNo">291</span>        return of(elements[0]);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      default:<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        return constructUnknownDuplication(elements.length, elements.clone());<a name="line.293"></a>
+<span class="sourceLineNo">294</span>    }<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  }<a name="line.295"></a>
+<span class="sourceLineNo">296</span><a name="line.296"></a>
+<span class="sourceLineNo">297</span>  @SuppressWarnings("rawtypes") // necessary to compile against Java 8<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  private static ImmutableSet copyOfEnumSet(EnumSet enumSet) {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    return ImmutableEnumSet.asImmutable(EnumSet.copyOf(enumSet));<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  }<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  ImmutableSet() {}<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>  /** Returns {@code true} if the {@code hashCode()} method runs quickly. */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  boolean isHashCodeFast() {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    return false;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>  @Override<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  public boolean equals(@Nullable Object object) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    if (object == this) {<a name="line.311"></a>
+<span class="sourceLineNo">312</span>      return true;<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    } else if (object instanceof ImmutableSet<a name="line.313"></a>
+<span class="sourceLineNo">314</span>        &amp;&amp; isHashCodeFast()<a name="line.314"></a>
+<span class="sourceLineNo">315</span>        &amp;&amp; ((ImmutableSet&lt;?&gt;) object).isHashCodeFast()<a name="line.315"></a>
+<span class="sourceLineNo">316</span>        &amp;&amp; hashCode() != object.hashCode()) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      return false;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    }<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    return Sets.equalsImpl(this, object);<a name="line.319"></a>
+<span class="sourceLineNo">320</span>  }<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>  @Override<a name="line.322"></a>
+<span class="sourceLineNo">323</span>  public int hashCode() {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    return Sets.hashCodeImpl(this);<a name="line.324"></a>
+<span class="sourceLineNo">325</span>  }<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>  // This declaration is needed to make Set.iterator() and<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  // ImmutableCollection.iterator() consistent.<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  @Override<a name="line.329"></a>
+<span class="sourceLineNo">330</span>  public abstract UnmodifiableIterator&lt;E&gt; iterator();<a name="line.330"></a>
+<span class="sourceLineNo">331</span><a name="line.331"></a>
+<span class="sourceLineNo">332</span>  @LazyInit @RetainedWith private transient @Nullable ImmutableList&lt;E&gt; asList;<a name="line.332"></a>
+<span class="sourceLineNo">333</span><a name="line.333"></a>
+<span class="sourceLineNo">334</span>  @Override<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  public ImmutableList&lt;E&gt; asList() {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    ImmutableList&lt;E&gt; result = asList;<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    return (result == null) ? asList = createAsList() : result;<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  }<a name="line.338"></a>
+<span class="sourceLineNo">339</span><a name="line.339"></a>
+<span class="sourceLineNo">340</span>  ImmutableList&lt;E&gt; createAsList() {<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    return new RegularImmutableAsList&lt;E&gt;(this, toArray());<a name="line.341"></a>
+<span class="sourceLineNo">342</span>  }<a name="line.342"></a>
+<span class="sourceLineNo">343</span><a name="line.343"></a>
+<span class="sourceLineNo">344</span>  abstract static class Indexed&lt;E&gt; extends ImmutableSet&lt;E&gt; {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    abstract E get(int index);<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>    @Override<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    public UnmodifiableIterator&lt;E&gt; iterator() {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>      return asList().iterator();<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    }<a name="line.350"></a>
+<span class="sourceLineNo">351</span><a name="line.351"></a>
+<span class="sourceLineNo">352</span>    @Override<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    public Spliterator&lt;E&gt; spliterator() {<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    }<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>    @Override<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    public void forEach(Consumer&lt;? super E&gt; consumer) {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      checkNotNull(consumer);<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      int n = size();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      for (int i = 0; i &lt; n; i++) {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>        consumer.accept(get(i));<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      }<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    }<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>    @Override<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    int copyIntoArray(Object[] dst, int offset) {<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      return asList().copyIntoArray(dst, offset);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>    @Override<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    ImmutableList&lt;E&gt; createAsList() {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      return new ImmutableAsList&lt;E&gt;() {<a name="line.373"></a>
+<span class="sourceLineNo">374</span>        @Override<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        public E get(int index) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>          return Indexed.this.get(index);<a name="line.376"></a>
+<span class="sourceLineNo">377</span>        }<a name="line.377"></a>
+<span class="sourceLineNo">378</span><a name="line.378"></a>
+<span class="sourceLineNo">379</span>        @Override<a name="line.379"></a>
+<span class="sourceLineNo">380</span>        Indexed&lt;E&gt; delegateCollection() {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>          return Indexed.this;<a name="line.381"></a>
+<span class="sourceLineNo">382</span>        }<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      };<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    }<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>  /*<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   * This class is used to serialize all ImmutableSet instances, except for<a name="line.388"></a>
+<span class="sourceLineNo">389</span>   * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   * captures their "logical contents" and they are reconstructed using public<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   * static factories. This is necessary to ensure that the existence of a<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * particular implementation type is an implementation detail.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   */<a name="line.393"></a>
+<span class="sourceLineNo">394</span>  private static class SerializedForm implements Serializable {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>    final Object[] elements;<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>    SerializedForm(Object[] elements) {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      this.elements = elements;<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    }<a name="line.399"></a>
+<span class="sourceLineNo">400</span><a name="line.400"></a>
+<span class="sourceLineNo">401</span>    Object readResolve() {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      return copyOf(elements);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>    }<a name="line.403"></a>
+<span class="sourceLineNo">404</span><a name="line.404"></a>
+<span class="sourceLineNo">405</span>    private static final long serialVersionUID = 0;<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  @Override<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  Object writeReplace() {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    return new SerializedForm(toArray());<a name="line.410"></a>
+<span class="sourceLineNo">411</span>  }<a name="line.411"></a>
+<span class="sourceLineNo">412</span><a name="line.412"></a>
+<span class="sourceLineNo">413</span>  /**<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * Builder} constructor.<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   */<a name="line.416"></a>
+<span class="sourceLineNo">417</span>  public static &lt;E&gt; Builder&lt;E&gt; builder() {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    return new Builder&lt;E&gt;();<a name="line.418"></a>
+<span class="sourceLineNo">419</span>  }<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>  /**<a name="line.421"></a>
+<span class="sourceLineNo">422</span>   * Returns a new builder, expecting the specified number of distinct elements to be added.<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   *<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * &lt;p&gt;If {@code expectedSize} is exactly the number of distinct elements added to the builder<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * before {@link Builder#build} is called, the builder is likely to perform better than an unsized<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   * {@link #builder()} would have.<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   *<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   * &lt;p&gt;It is not specified if any performance benefits apply if {@code expectedSize} is close to,<a name="line.428"></a>
+<span class="sourceLineNo">429</span>   * but not exactly, the number of distinct elements added to the builder.<a name="line.429"></a>
+<span class="sourceLineNo">430</span>   *<a name="line.430"></a>
+<span class="sourceLineNo">431</span>   * @since 23.1<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   */<a name="line.432"></a>
+<span class="sourceLineNo">433</span>  @Beta<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  public static &lt;E&gt; Builder&lt;E&gt; builderWithExpectedSize(int expectedSize) {<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    checkNonnegative(expectedSize, "expectedSize");<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    return new Builder&lt;E&gt;(expectedSize);<a name="line.436"></a>
+<span class="sourceLineNo">437</span>  }<a name="line.437"></a>
+<span class="sourceLineNo">438</span><a name="line.438"></a>
+<span class="sourceLineNo">439</span>  /** Builds a new open-addressed hash table from the first n objects in elements. */<a name="line.439"></a>
+<span class="sourceLineNo">440</span>  static Object[] rebuildHashTable(int newTableSize, Object[] elements, int n) {<a name="line.440"></a>
+<span class="sourceLineNo">441</span>    Object[] hashTable = new Object[newTableSize];<a name="line.441"></a>
+<span class="sourceLineNo">442</span>    int mask = hashTable.length - 1;<a name="line.442"></a>
+<span class="sourceLineNo">443</span>    for (int i = 0; i &lt; n; i++) {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      Object e = elements[i];<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      int j0 = Hashing.smear(e.hashCode());<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      for (int j = j0; ; j++) {<a name="line.446"></a>
+<span class="sourceLineNo">447</span>        int index = j &amp; mask;<a name="line.447"></a>
+<span class="sourceLineNo">448</span>        if (hashTable[index] == null) {<a name="line.448"></a>
+<span class="sourceLineNo">449</span>          hashTable[index] = e;<a name="line.449"></a>
+<span class="sourceLineNo">450</span>          break;<a name="line.450"></a>
+<span class="sourceLineNo">451</span>        }<a name="line.451"></a>
+<span class="sourceLineNo">452</span>      }<a name="line.452"></a>
+<span class="sourceLineNo">453</span>    }<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    return hashTable;<a name="line.454"></a>
+<span class="sourceLineNo">455</span>  }<a name="line.455"></a>
+<span class="sourceLineNo">456</span><a name="line.456"></a>
+<span class="sourceLineNo">457</span>  /**<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   * A builder for creating {@code ImmutableSet} instances. Example:<a name="line.458"></a>
+<span class="sourceLineNo">459</span>   *<a name="line.459"></a>
+<span class="sourceLineNo">460</span>   * &lt;pre&gt;{@code<a name="line.460"></a>
+<span class="sourceLineNo">461</span>   * static final ImmutableSet&lt;Color&gt; GOOGLE_COLORS =<a name="line.461"></a>
+<span class="sourceLineNo">462</span>   *     ImmutableSet.&lt;Color&gt;builder()<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   *         .addAll(WEBSAFE_COLORS)<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   *         .add(new Color(0, 191, 255))<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   *         .build();<a name="line.465"></a>
+<span class="sourceLineNo">466</span>   * }&lt;/pre&gt;<a name="line.466"></a>
+<span class="sourceLineNo">467</span>   *<a name="line.467"></a>
+<span class="sourceLineNo">468</span>   * &lt;p&gt;Elements appear in the resulting set in the same order they were first added to the builder.<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   *<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * &lt;p&gt;Building does not change the state of the builder, so it is still possible to add more<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * elements and to build again.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   *<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * @since 2.0<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   */<a name="line.474"></a>
+<span class="sourceLineNo">475</span>  public static class Builder&lt;E&gt; extends ImmutableCollection.Builder&lt;E&gt; {<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    private SetBuilderImpl&lt;E&gt; impl;<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    boolean forceCopy;<a name="line.477"></a>
+<span class="sourceLineNo">478</span><a name="line.478"></a>
+<span class="sourceLineNo">479</span>    public Builder() {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>      this(DEFAULT_INITIAL_CAPACITY);<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    }<a name="line.481"></a>
+<span class="sourceLineNo">482</span><a name="line.482"></a>
+<span class="sourceLineNo">483</span>    Builder(int capacity) {<a name="line.483"></a>
+<span class="sourceLineNo">484</span>      impl = new RegularSetBuilderImpl&lt;E&gt;(capacity);<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    }<a name="line.485"></a>
+<span class="sourceLineNo">486</span><a name="line.486"></a>
+<span class="sourceLineNo">487</span>    Builder(@SuppressWarnings("unused") boolean subclass) {<a name="line.487"></a>
+<span class="sourceLineNo">488</span>      this.impl = null; // unused<a name="line.488"></a>
+<span class="sourceLineNo">489</span>    }<a name="line.489"></a>
+<span class="sourceLineNo">490</span><a name="line.490"></a>
+<span class="sourceLineNo">491</span>    @VisibleForTesting<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    void forceJdk() {<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      this.impl = new JdkBackedSetBuilderImpl&lt;E&gt;(impl);<a name="line.493"></a>
+<span class="sourceLineNo">494</span>    }<a name="line.494"></a>
+<span class="sourceLineNo">495</span><a name="line.495"></a>
+<span class="sourceLineNo">496</span>    final void copyIfNecessary() {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>      if (forceCopy) {<a name="line.497"></a>
+<span class="sourceLineNo">498</span>        copy();<a name="line.498"></a>
+<span class="sourceLineNo">499</span>        forceCopy = false;<a name="line.499"></a>
+<span class="sourceLineNo">500</span>      }<a name="line.500"></a>
+<span class="sourceLineNo">501</span>    }<a name="line.501"></a>
+<span class="sourceLineNo">502</span><a name="line.502"></a>
+<span class="sourceLineNo">503</span>    void copy() {<a name="line.503"></a>
+<span class="sourceLineNo">504</span>      impl = impl.copy();<a name="line.504"></a>
+<span class="sourceLineNo">505</span>    }<a name="line.505"></a>
+<span class="sourceLineNo">506</span><a name="line.506"></a>
+<span class="sourceLineNo">507</span>    @Override<a name="line.507"></a>
+<span class="sourceLineNo">508</span>    @CanIgnoreReturnValue<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    public Builder&lt;E&gt; add(E element) {<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      checkNotNull(element);<a name="line.510"></a>
+<span class="sourceLineNo">511</span>      copyIfNecessary();<a name="line.511"></a>
+<span class="sourceLineNo">512</span>      impl = impl.add(element);<a name="line.512"></a>
+<span class="sourceLineNo">513</span>      return this;<a name="line.513"></a>
+<span class="sourceLineNo">514</span>    }<a name="line.514"></a>
+<span class="sourceLineNo">515</span><a name="line.515"></a>
+<span class="sourceLineNo">516</span>    @Override<a name="line.516"></a>
+<span class="sourceLineNo">517</span>    @CanIgnoreReturnValue<a name="line.517"></a>
+<span class="sourceLineNo">518</span>    public Builder&lt;E&gt; add(E... elements) {<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      super.add(elements);<a name="line.519"></a>
+<span class="sourceLineNo">520</span>      return this;<a name="line.520"></a>
+<span class="sourceLineNo">521</span>    }<a name="line.521"></a>
+<span class="sourceLineNo">522</span><a name="line.522"></a>
+<span class="sourceLineNo">523</span>    @Override<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    /**<a name="line.524"></a>
+<span class="sourceLineNo">525</span>     * Adds each element of {@code elements} to the {@code ImmutableSet}, ignoring duplicate<a name="line.525"></a>
+<span class="sourceLineNo">526</span>     * elements (only the first duplicate element is added).<a name="line.526"></a>
+<span class="sourceLineNo">527</span>     *<a name="line.527"></a>
+<span class="sourceLineNo">528</span>     * @param elements the elements to add<a name="line.528"></a>
+<span class="sourceLineNo">529</span>     * @return this {@code Builder} object<a name="line.529"></a>
+<span class="sourceLineNo">530</span>     * @throws NullPointerException if {@code elements} is null or contains a null element<a name="line.530"></a>
+<span class="sourceLineNo">531</span>     */<a name="line.531"></a>
+<span class="sourceLineNo">532</span>    @CanIgnoreReturnValue<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    public Builder&lt;E&gt; addAll(Iterable&lt;? extends E&gt; elements) {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      super.addAll(elements);<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      return this;<a name="line.535"></a>
+<span class="sourceLineNo">536</span>    }<a name="line.536"></a>
+<span class="sourceLineNo">537</span><a name="line.537"></a>
+<span class="sourceLineNo">538</span>    @Override<a name="line.538"></a>
+<span class="sourceLineNo">539</span>    @CanIgnoreReturnValue<a name="line.539"></a>
+<span class="sourceLineNo">540</span>    public Builder&lt;E&gt; addAll(Iterator&lt;? extends E&gt; elements) {<a name="line.540"></a>
+<span class="sourceLineNo">541</span>      super.addAll(elements);<a name="line.541"></a>
+<span class="sourceLineNo">542</span>      return this;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>    }<a name="line.543"></a>
+<span class="sourceLineNo">544</span><a name="line.544"></a>
+<span class="sourceLineNo">545</span>    Builder&lt;E&gt; combine(Builder&lt;E&gt; other) {<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      copyIfNecessary();<a name="line.546"></a>
+<span class="sourceLineNo">547</span>      this.impl = this.impl.combine(other.impl);<a name="line.547"></a>
+<span class="sourceLineNo">548</span>      return this;<a name="line.548"></a>
+<span class="sourceLineNo">549</span>    }<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>    @Override<a name="line.551"></a>
+<span class="sourceLineNo">552</span>    public ImmutableSet&lt;E&gt; build() {<a name="line.552"></a>
+<span class="sourceLineNo">553</span>      forceCopy = true;<a name="line.553"></a>
+<span class="sourceLineNo">554</span>      impl = impl.review();<a name="line.554"></a>
+<span class="sourceLineNo">555</span>      return impl.build();<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    }<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  }<a name="line.557"></a>
+<span class="sourceLineNo">558</span><a name="line.558"></a>
+<span class="sourceLineNo">559</span>  /** Swappable internal implementation of an ImmutableSet.Builder. */<a name="line.559"></a>
+<span class="sourceLineNo">560</span>  private abstract static class SetBuilderImpl&lt;E&gt; {<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    E[] dedupedElements;<a name="line.561"></a>
+<span class="sourceLineNo">562</span>    int distinct;<a name="line.562"></a>
+<span class="sourceLineNo">563</span><a name="line.563"></a>
+<span class="sourceLineNo">564</span>    @SuppressWarnings("unchecked")<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    SetBuilderImpl(int expectedCapacity) {<a name="line.565"></a>
+<span class="sourceLineNo">566</span>      this.dedupedElements = (E[]) new Object[expectedCapacity];<a name="line.566"></a>
+<span class="sourceLineNo">567</span>      this.distinct = 0;<a name="line.567"></a>
+<span class="sourceLineNo">568</span>    }<a name="line.568"></a>
+<span class="sourceLineNo">569</span><a name="line.569"></a>
+<span class="sourceLineNo">570</span>    /** Initializes this SetBuilderImpl with a copy of the deduped elements array from toCopy. */<a name="line.570"></a>
+<span class="sourceLineNo">571</span>    SetBuilderImpl(SetBuilderImpl&lt;E&gt; toCopy) {<a name="line.571"></a>
+<span class="sourceLineNo">572</span>      this.dedupedElements = Arrays.copyOf(toCopy.dedupedElements, toCopy.dedupedElements.length);<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      this.distinct = toCopy.distinct;<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    }<a name="line.574"></a>
+<span class="sourceLineNo">575</span><a name="line.575"></a>
+<span class="sourceLineNo">576</span>    /**<a name="line.576"></a>
+<span class="sourceLineNo">577</span>     * Resizes internal data structures if necessary to store the specified number of distinct<a name="line.577"></a>
+<span class="sourceLineNo">578</span>     * elements.<a name="line.578"></a>
+<span class="sourceLineNo">579</span>     */<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    private void ensureCapacity(int minCapacity) {<a name="line.580"></a>
+<span class="sourceLineNo">581</span>      if (minCapacity &gt; dedupedElements.length) {<a name="line.581"></a>
+<span class="sourceLineNo">582</span>        int newCapacity =<a name="line.582"></a>
+<span class="sourceLineNo">583</span>            ImmutableCollection.Builder.expandedCapacity(dedupedElements.length, minCapacity);<a name="line.583"></a>
+<span class="sourceLineNo">584</span>        dedupedElements = Arrays.copyOf(dedupedElements, newCapacity);<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      }<a name="line.585"></a>
+<span class="sourceLineNo">586</span>    }<a name="line.586"></a>
+<span class="sourceLineNo">587</span><a name="line.587"></a>
+<span class="sourceLineNo">588</span>    /** Adds e to the insertion-order array of deduplicated elements. Calls ensureCapacity. */<a name="line.588"></a>
+<span class="sourceLineNo">589</span>    final void addDedupedElement(E e) {<a name="line.589"></a>
+<span class="sourceLineNo">590</span>      ensureCapacity(distinct + 1);<a name="line.590"></a>
+<span class="sourceLineNo">591</span>      dedupedElements[distinct++] = e;<a name="line.591"></a>
+<span class="sourceLineNo">592</span>    }<a name="line.592"></a>
+<span class="sourceLineNo">593</span><a name="line.593"></a>
+<span class="sourceLineNo">594</span>    /**<a name="line.594"></a>
+<span class="sourceLineNo">595</span>     * Adds e to this SetBuilderImpl, returning the updated result. Only use the returned<a name="line.595"></a>
+<span class="sourceLineNo">596</span>     * SetBuilderImpl, since we may switch implementations if e.g. hash flooding is detected.<a name="line.596"></a>
+<span class="sourceLineNo">597</span>     */<a name="line.597"></a>
+<span class="sourceLineNo">598</span>    abstract SetBuilderImpl&lt;E&gt; add(E e);<a name="line.598"></a>
+<span class="sourceLineNo">599</span><a name="line.599"></a>
+<span class="sourceLineNo">600</span>    /** Adds all the elements from the specified SetBuilderImpl to this SetBuilderImpl. */<a name="line.600"></a>
+<span class="sourceLineNo">601</span>    final SetBuilderImpl&lt;E&gt; combine(SetBuilderImpl&lt;E&gt; other) {<a name="line.601"></a>
+<span class="sourceLineNo">602</span>      SetBuilderImpl&lt;E&gt; result = this;<a name="line.602"></a>
+<span class="sourceLineNo">603</span>      for (int i = 0; i &lt; other.distinct; i++) {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>        result = result.add(other.dedupedElements[i]);<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      }<a name="line.605"></a>
+<span class="sourceLineNo">606</span>      return result;<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    }<a name="line.607"></a>
+<span class="sourceLineNo">608</span><a name="line.608"></a>
+<span class="sourceLineNo">609</span>    /**<a name="line.609"></a>
+<span class="sourceLineNo">610</span>     * Creates a new copy of this SetBuilderImpl. Modifications to that SetBuilderImpl will not<a name="line.610"></a>
+<span class="sourceLineNo">611</span>     * affect this SetBuilderImpl or sets constructed from this SetBuilderImpl via build().<a name="line.611"></a>
+<span class="sourceLineNo">612</span>     */<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    abstract SetBuilderImpl&lt;E&gt; copy();<a name="line.613"></a>
+<span class="sourceLineNo">614</span><a name="line.614"></a>
+<span class="sourceLineNo">615</span>    /**<a name="line.615"></a>
+<span class="sourceLineNo">616</span>     * Call this before build(). Does a final check on the internal data structures, e.g. shrinking<a name="line.616"></a>
+<span class="sourceLineNo">617</span>     * unnecessarily large structures or detecting previously unnoticed hash flooding.<a name="line.617"></a>
+<span class="sourceLineNo">618</span>     */<a name="line.618"></a>
+<span class="sourceLineNo">619</span>    SetBuilderImpl&lt;E&gt; review() {<a name="line.619"></a>
+<span class="sourceLineNo">620</span>      return this;<a name="line.620"></a>
+<span class="sourceLineNo">621</span>    }<a name="line.621"></a>
+<span class="sourceLineNo">622</span><a name="line.622"></a>
+<span class="sourceLineNo">623</span>    abstract ImmutableSet&lt;E&gt; build();<a name="line.623"></a>
+<span class="sourceLineNo">624</span>  }<a name="line.624"></a>
+<span class="sourceLineNo">625</span><a name="line.625"></a>
+<span class="sourceLineNo">626</span>  // We use power-of-2 tables, and this is the highest int that's a power of 2<a name="line.626"></a>
+<span class="sourceLineNo">627</span>  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;<a name="line.627"></a>
+<span class="sourceLineNo">628</span><a name="line.628"></a>
+<span class="sourceLineNo">629</span>  // Represents how tightly we can pack things, as a maximum.<a name="line.629"></a>
+<span class="sourceLineNo">630</span>  private static final double DESIRED_LOAD_FACTOR = 0.7;<a name="line.630"></a>
+<span class="sourceLineNo">631</span><a name="line.631"></a>
+<span class="sourceLineNo">632</span>  // If the set has this many elements, it will "max out" the table size<a name="line.632"></a>
+<span class="sourceLineNo">633</span>  private static final int CUTOFF = (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);<a name="line.633"></a>
+<span class="sourceLineNo">634</span><a name="line.634"></a>
+<span class="sourceLineNo">635</span>  /**<a name="line.635"></a>
+<span class="sourceLineNo">636</span>   * Returns an array size suitable for the backing array of a hash table that uses open addressing<a name="line.636"></a>
+<span class="sourceLineNo">637</span>   * with linear probing in its implementation. The returned size is the smallest power of two that<a name="line.637"></a>
+<span class="sourceLineNo">638</span>   * can hold setSize elements with the desired load factor. Always returns at least setSize + 2.<a name="line.638"></a>
+<span class="sourceLineNo">639</span>   */<a name="line.639"></a>
+<span class="sourceLineNo">640</span>  @VisibleForTesting<a name="line.640"></a>
+<span class="sourceLineNo">641</span>  static int chooseTableSize(int setSize) {<a name="line.641"></a>
+<span class="sourceLineNo">642</span>    setSize = Math.max(setSize, 2);<a name="line.642"></a>
+<span class="sourceLineNo">643</span>    // Correct the size for open addressing to match desired load factor.<a name="line.643"></a>
+<span class="sourceLineNo">644</span>    if (setSize &lt; CUTOFF) {<a name="line.644"></a>
+<span class="sourceLineNo">645</span>      // Round up to the next highest power of 2.<a name="line.645"></a>
+<span class="sourceLineNo">646</span>      int tableSize = Integer.highestOneBit(setSize - 1) &lt;&lt; 1;<a name="line.646"></a>
+<span class="sourceLineNo">647</span>      while (tableSize * DESIRED_LOAD_FACTOR &lt; setSize) {<a name="line.647"></a>
+<span class="sourceLineNo">648</span>        tableSize &lt;&lt;= 1;<a name="line.648"></a>
+<span class="sourceLineNo">649</span>      }<a name="line.649"></a>
+<span class="sourceLineNo">650</span>      return tableSize;<a name="line.650"></a>
+<span class="sourceLineNo">651</span>    }<a name="line.651"></a>
+<span class="sourceLineNo">652</span><a name="line.652"></a>
+<span class="sourceLineNo">653</span>    // The table can't be completely full or we'll get infinite reprobes<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    checkArgument(setSize &lt; MAX_TABLE_SIZE, "collection too large");<a name="line.654"></a>
+<span class="sourceLineNo">655</span>    return MAX_TABLE_SIZE;<a name="line.655"></a>
+<span class="sourceLineNo">656</span>  }<a name="line.656"></a>
+<span class="sourceLineNo">657</span><a name="line.657"></a>
+<span class="sourceLineNo">658</span>  /**<a name="line.658"></a>
+<span class="sourceLineNo">659</span>   * We attempt to detect deliberate hash flooding attempts, and if one is detected, fall back to a<a name="line.659"></a>
+<span class="sourceLineNo">660</span>   * wrapper around j.u.HashSet, which has built in flooding protection. HASH_FLOODING_FPP is the<a name="line.660"></a>
+<span class="sourceLineNo">661</span>   * maximum allowed probability of falsely detecting a hash flooding attack if the input is<a name="line.661"></a>
+<span class="sourceLineNo">662</span>   * randomly generated.<a name="line.662"></a>
+<span class="sourceLineNo">663</span>   *<a name="line.663"></a>
+<span class="sourceLineNo">664</span>   * &lt;p&gt;MAX_RUN_MULTIPLIER was determined experimentally to match this FPP.<a name="line.664"></a>
+<span class="sourceLineNo">665</span>   */<a name="line.665"></a>
+<span class="sourceLineNo">666</span>  static final double HASH_FLOODING_FPP = 0.001;<a name="line.666"></a>
+<span class="sourceLineNo">667</span><a name="line.667"></a>
+<span class="sourceLineNo">668</span>  // NB: yes, this is surprisingly high, but that's what the experiments said was necessary<a name="line.668"></a>
+<span class="sourceLineNo">669</span>  // The higher it is, the worse constant factors we are willing to accept.<a name="line.669"></a>
+<span class="sourceLineNo">670</span>  static final int MAX_RUN_MULTIPLIER = 13;<a name="line.670"></a>
+<span class="sourceLineNo">671</span><a name="line.671"></a>
+<span class="sourceLineNo">672</span>  /**<a name="line.672"></a>
+<span class="sourceLineNo">673</span>   * Checks the whole hash table for poor hash distribution. Takes O(n) in the worst case, O(n / log<a name="line.673"></a>
+<span class="sourceLineNo">674</span>   * n) on average.<a name="line.674"></a>
+<span class="sourceLineNo">675</span>   *<a name="line.675"></a>
+<span class="sourceLineNo">676</span>   * &lt;p&gt;The online hash flooding detecting in RegularSetBuilderImpl.add can detect e.g. many exactly<a name="line.676"></a>
+<span class="sourceLineNo">677</span>   * matching hash codes, which would cause construction to take O(n^2), but can't detect e.g. hash<a name="line.677"></a>
+<span class="sourceLineNo">678</span>   * codes adversarially designed to go into ascending table locations, which keeps construction<a name="line.678"></a>
+<span class="sourceLineNo">679</span>   * O(n) (as desired) but then can have O(n) queries later.<a name="line.679"></a>
+<span class="sourceLineNo">680</span>   *<a name="line.680"></a>
+<span class="sourceLineNo">681</span>   * &lt;p&gt;If this returns false, then no query can take more than O(log n).<a name="line.681"></a>
+<span class="sourceLineNo">682</span>   *<a name="line.682"></a>
+<span class="sourceLineNo">683</span>   * &lt;p&gt;Note that for a RegularImmutableSet with elements with truly random hash codes, contains<a name="line.683"></a>
+<span class="sourceLineNo">684</span>   * operations take expected O(1) time but with high probability take O(log n) for at least some<a name="line.684"></a>
+<span class="sourceLineNo">685</span>   * element. (https://en.wikipedia.org/wiki/Linear_probing#Analysis)<a name="line.685"></a>
+<span class="sourceLineNo">686</span>   *<a name="line.686"></a>
+<span class="sourceLineNo">687</span>   * &lt;p&gt;This method may return {@code true} up to {@link #HASH_FLOODING_FPP} of the time even on<a name="line.687"></a>
+<span class="sourceLineNo">688</span>   * truly random input.<a name="line.688"></a>
+<span class="sourceLineNo">689</span>   *<a name="line.689"></a>
+<span class="sourceLineNo">690</span>   * &lt;p&gt;If this method returns false, there are definitely no runs of length at least {@code<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   * maxRunBeforeFallback(hashTable.length)} nonnull elements. If there are no runs of length at<a name="line.691"></a>
+<span class="sourceLineNo">692</span>   * least {@code maxRunBeforeFallback(hashTable.length) / 2} nonnull elements, this method<a name="line.692"></a>
+<span class="sourceLineNo">693</span>   * definitely returns false. In between those constraints, the result of this method is undefined,<a name="line.693"></a>
+<span class="sourceLineNo">694</span>   * subject to the above {@link #HASH_FLOODING_FPP} constraint.<a name="line.694"></a>
+<span class="sourceLineNo">695</span>   */<a name="line.695"></a>
+<span class="sourceLineNo">696</span>  static boolean hashFloodingDetected(Object[] hashTable) {<a name="line.696"></a>
+<span class="sourceLineNo">697</span>    int maxRunBeforeFallback = maxRunBeforeFallback(hashTable.length);<a name="line.697"></a>
+<span class="sourceLineNo">698</span><a name="line.698"></a>
+<span class="sourceLineNo">699</span>    // Test for a run wrapping around the end of the table of length at least maxRunBeforeFallback.<a name="line.699"></a>
+<span class="sourceLineNo">700</span>    int endOfStartRun;<a name="line.700"></a>
+<span class="sourceLineNo">701</span>    for (endOfStartRun = 0; endOfStartRun &lt; hashTable.length; ) {<a name="line.701"></a>
+<span class="sourceLineNo">702</span>      if (hashTable[endOfStartRun] == null) {<a name="line.702"></a>
+<span class="sourceLineNo">703</span>        break;<a name="line.703"></a>
+<span class="sourceLineNo">704</span>      }<a name="line.704"></a>
+<span class="sourceLineNo">705</span>      endOfStartRun++;<a name="line.705"></a>
+<span class="sourceLineNo">706</span>      if (endOfStartRun &gt; maxRunBeforeFallback) {<a name="line.706"></a>
+<span class="sourceLineNo">707</span>        return true;<a name="line.707"></a>
+<span class="sourceLineNo">708</span>      }<a name="line.708"></a>
+<span class="sourceLineNo">709</span>    }<a name="line.709"></a>
+<span class="sourceLineNo">710</span>    int startOfEndRun;<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    for (startOfEndRun = hashTable.length - 1; startOfEndRun &gt; endOfStartRun; startOfEndRun--) {<a name="line.711"></a>
+<span class="sourceLineNo">712</span>      if (hashTable[startOfEndRun] == null) {<a name="line.712"></a>
+<span class="sourceLineNo">713</span>        break;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>      }<a name="line.714"></a>
+<span class="sourceLineNo">715</span>      if (endOfStartRun + (hashTable.length - 1 - startOfEndRun) &gt; maxRunBeforeFallback) {<a name="line.715"></a>
+<span class="sourceLineNo">716</span>        return true;<a name="line.716"></a>
+<span class="sourceLineNo">717</span>      }<a name="line.717"></a>
+<span class="sourceLineNo">718</span>    }<a name="line.718"></a>
+<span class="sourceLineNo">719</span><a name="line.719"></a>
+<span class="sourceLineNo">720</span>    // Now, break the remainder of the table into blocks of maxRunBeforeFallback/2 elements and<a name="line.720"></a>
+<span class="sourceLineNo">721</span>    // check that each has at least one null.<a name="line.721"></a>
+<span class="sourceLineNo">722</span>    int testBlockSize = maxRunBeforeFallback / 2;<a name="line.722"></a>
+<span class="sourceLineNo">723</span>    blockLoop:<a name="line.723"></a>
+<span class="sourceLineNo">724</span>    for (int i = endOfStartRun + 1; i + testBlockSize &lt;= startOfEndRun; i += testBlockSize) {<a name="line.724"></a>
+<span class="sourceLineNo">725</span>      for (int j = 0; j &lt; testBlockSize; j++) {<a name="line.725"></a>
+<span class="sourceLineNo">726</span>        if (hashTable[i + j] == null) {<a name="line.726"></a>
+<span class="sourceLineNo">727</span>          continue blockLoop;<a name="line.727"></a>
+<span class="sourceLineNo">728</span>        }<a name="line.728"></a>
+<span class="sourceLineNo">729</span>      }<a name="line.729"></a>
+<span class="sourceLineNo">730</span>      return true;<a name="line.730"></a>
+<span class="sourceLineNo">731</span>    }<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    return false;<a name="line.732"></a>
+<span class="sourceLineNo">733</span>  }<a name="line.733"></a>
+<span class="sourceLineNo">734</span><a name="line.734"></a>
+<span class="sourceLineNo">735</span>  /**<a name="line.735"></a>
+<span class="sourceLineNo">736</span>   * If more than this many consecutive positions are filled in a table of the specified size,<a name="line.736"></a>
+<span class="sourceLineNo">737</span>   * report probable hash flooding. ({@link #hashFloodingDetected} may also report hash flooding if<a name="line.737"></a>
+<span class="sourceLineNo">738</span>   * fewer consecutive positions are filled; see that method for details.)<a name="line.738"></a>
+<span class="sourceLineNo">739</span>   */<a name="line.739"></a>
+<span class="sourceLineNo">740</span>  private static int maxRunBeforeFallback(int tableSize) {<a name="line.740"></a>
+<span class="sourceLineNo">741</span>    return MAX_RUN_MULTIPLIER * IntMath.log2(tableSize, RoundingMode.UNNECESSARY);<a name="line.741"></a>
+<span class="sourceLineNo">742</span>  }<a name="line.742"></a>
+<span class="sourceLineNo">743</span><a name="line.743"></a>
+<span class="sourceLineNo">744</span>  /**<a name="line.744"></a>
+<span class="sourceLineNo">745</span>   * Default implementation of the guts of ImmutableSet.Builder, creating an open-addressed hash<a name="line.745"></a>
+<span class="sourceLineNo">746</span>   * table and deduplicating elements as they come, so it only allocates O(max(distinct,<a name="line.746"></a>
+<span class="sourceLineNo">747</span>   * expectedCapacity)) rather than O(calls to add).<a name="line.747"></a>
+<span class="sourceLineNo">748</span>   *<a name="line.748"></a>
+<span class="sourceLineNo">749</span>   * &lt;p&gt;This implementation attempts to detect hash flooding, and if it's identified, falls back to<a name="line.749"></a>
+<span class="sourceLineNo">750</span>   * JdkBackedSetBuilderImpl.<a name="line.750"></a>
+<span class="sourceLineNo">751</span>   */<a name="line.751"></a>
+<span class="sourceLineNo">752</span>  private static final class RegularSetBuilderImpl&lt;E&gt; extends SetBuilderImpl&lt;E&gt; {<a name="line.752"></a>
+<span class="sourceLineNo">753</span>    private Object[] hashTable;<a name="line.753"></a>
+<span class="sourceLineNo">754</span>    private int maxRunBeforeFallback;<a name="line.754"></a>
+<span class="sourceLineNo">755</span>    private int expandTableThreshold;<a name="line.755"></a>
+<span class="sourceLineNo">756</span>    private int hashCode;<a name="line.756"></a>
+<span class="sourceLineNo">757</span><a name="line.757"></a>
+<span class="sourceLineNo">758</span>    RegularSetBuilderImpl(int expectedCapacity) {<a name="line.758"></a>
+<span class="sourceLineNo">759</span>      super(expectedCapacity);<a name="line.759"></a>
+<span class="sourceLineNo">760</span>      int tableSize = chooseTableSize(expectedCapacity);<a name="line.760"></a>
+<span class="sourceLineNo">761</span>      this.hashTable = new Object[tableSize];<a name="line.761"></a>
+<span class="sourceLineNo">762</span>      this.maxRunBeforeFallback = maxRunBeforeFallback(tableSize);<a name="line.762"></a>
+<span class="sourceLineNo">763</span>      this.expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * tableSize);<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    }<a name="line.764"></a>
+<span class="sourceLineNo">765</span><a name="line.765"></a>
+<span class="sourceLineNo">766</span>    RegularSetBuilderImpl(RegularSetBuilderImpl&lt;E&gt; toCopy) {<a name="line.766"></a>
+<span class="sourceLineNo">767</span>      super(toCopy);<a name="line.767"></a>
+<span class="sourceLineNo">768</span>      this.hashTable = Arrays.copyOf(toCopy.hashTable, toCopy.hashTable.length);<a name="line.768"></a>
+<span class="sourceLineNo">769</span>      this.maxRunBeforeFallback = toCopy.maxRunBeforeFallback;<a name="line.769"></a>
+<span class="sourceLineNo">770</span>      this.expandTableThreshold = toCopy.expandTableThreshold;<a name="line.770"></a>
+<span class="sourceLineNo">771</span>      this.hashCode = toCopy.hashCode;<a name="line.771"></a>
+<span class="sourceLineNo">772</span>    }<a name="line.772"></a>
+<span class="sourceLineNo">773</span><a name="line.773"></a>
+<span class="sourceLineNo">774</span>    void ensureTableCapacity(int minCapacity) {<a name="line.774"></a>
+<span class="sourceLineNo">775</span>      if (minCapacity &gt; expandTableThreshold &amp;&amp; hashTable.length &lt; MAX_TABLE_SIZE) {<a name="line.775"></a>
+<span class="sourceLineNo">776</span>        int newTableSize = hashTable.length * 2;<a name="line.776"></a>
+<span class="sourceLineNo">777</span>        hashTable = rebuildHashTable(newTableSize, dedupedElements, distinct);<a name="line.777"></a>
+<span class="sourceLineNo">778</span>        maxRunBeforeFallback = maxRunBeforeFallback(newTableSize);<a name="line.778"></a>
+<span class="sourceLineNo">779</span>        expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * newTableSize);<a name="line.779"></a>
+<span class="sourceLineNo">780</span>      }<a name="line.780"></a>
+<span class="sourceLineNo">781</span>    }<a name="line.781"></a>
+<span class="sourceLineNo">782</span><a name="line.782"></a>
+<span class="sourceLineNo">783</span>    @Override<a name="line.783"></a>
+<span class="sourceLineNo">784</span>    SetBuilderImpl&lt;E&gt; add(E e) {<a name="line.784"></a>
+<span class="sourceLineNo">785</span>      checkNotNull(e);<a name="line.785"></a>
+<span class="sourceLineNo">786</span>      int eHash = e.hashCode();<a name="line.786"></a>
+<span class="sourceLineNo">787</span>      int i0 = Hashing.smear(eHash);<a name="line.787"></a>
+<span class="sourceLineNo">788</span>      int mask = hashTable.length - 1;<a name="line.788"></a>
+<span class="sourceLineNo">789</span>      for (int i = i0; i - i0 &lt; maxRunBeforeFallback; i++) {<a name="line.789"></a>
+<span class="sourceLineNo">790</span>        int index = i &amp; mask;<a name="line.790"></a>
+<span class="sourceLineNo">791</span>        Object tableEntry = hashTable[index];<a name="line.791"></a>
+<span class="sourceLineNo">792</span>        if (tableEntry == null) {<a name="line.792"></a>
+<span class="sourceLineNo">793</span>          addDedupedElement(e);<a name="line.793"></a>
+<span class="sourceLineNo">794</span>          hashTable[index] = e;<a name="line.794"></a>
+<span class="sourceLineNo">795</span>          hashCode += eHash;<a name="line.795"></a>
+<span class="sourceLineNo">796</span>          ensureTableCapacity(distinct); // rebuilds table if necessary<a name="line.796"></a>
+<span class="sourceLineNo">797</span>          return this;<a name="line.797"></a>
+<span class="sourceLineNo">798</span>        } else if (tableEntry.equals(e)) { // not a new element, ignore<a name="line.798"></a>
+<span class="sourceLineNo">799</span>          return this;<a name="line.799"></a>
+<span class="sourceLineNo">800</span>        }<a name="line.800"></a>
+<span class="sourceLineNo">801</span>      }<a name="line.801"></a>
+<span class="sourceLineNo">802</span>      // we fell out of the loop due to a long run; fall back to JDK impl<a name="line.802"></a>
+<span class="sourceLineNo">803</span>      return new JdkBackedSetBuilderImpl&lt;E&gt;(this).add(e);<a name="line.803"></a>
+<span class="sourceLineNo">804</span>    }<a name="line.804"></a>
+<span class="sourceLineNo">805</span><a name="line.805"></a>
+<span class="sourceLineNo">806</span>    @Override<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    SetBuilderImpl&lt;E&gt; copy() {<a name="line.807"></a>
+<span class="sourceLineNo">808</span>      return new RegularSetBuilderImpl&lt;E&gt;(this);<a name="line.808"></a>
+<span class="sourceLineNo">809</span>    }<a name="line.809"></a>
+<span class="sourceLineNo">810</span><a name="line.810"></a>
+<span class="sourceLineNo">811</span>    @Override<a name="line.811"></a>
+<span class="sourceLineNo">812</span>    SetBuilderImpl&lt;E&gt; review() {<a name="line.812"></a>
+<span class="sourceLineNo">813</span>      int targetTableSize = chooseTableSize(distinct);<a name="line.813"></a>
+<span class="sourceLineNo">814</span>      if (targetTableSize * 2 &lt; hashTable.length) {<a name="line.814"></a>
+<span class="sourceLineNo">815</span>        hashTable = rebuildHashTable(targetTableSize, dedupedElements, distinct);<a name="line.815"></a>
+<span class="sourceLineNo">816</span>        maxRunBeforeFallback = maxRunBeforeFallback(targetTableSize);<a name="line.816"></a>
+<span class="sourceLineNo">817</span>        expandTableThreshold = (int) (DESIRED_LOAD_FACTOR * targetTableSize);<a name="line.817"></a>
+<span class="sourceLineNo">818</span>      }<a name="line.818"></a>
+<span class="sourceLineNo">819</span>      return hashFloodingDetected(hashTable) ? new JdkBackedSetBuilderImpl&lt;E&gt;(this) : this;<a name="line.819"></a>
+<span class="sourceLineNo">820</span>    }<a name="line.820"></a>
+<span class="sourceLineNo">821</span><a name="line.821"></a>
+<span class="sourceLineNo">822</span>    @Override<a name="line.822"></a>
+<span class="sourceLineNo">823</span>    ImmutableSet&lt;E&gt; build() {<a name="line.823"></a>
+<span class="sourceLineNo">824</span>      switch (distinct) {<a name="line.824"></a>
+<span class="sourceLineNo">825</span>        case 0:<a name="line.825"></a>
+<span class="sourceLineNo">826</span>          return of();<a name="line.826"></a>
+<span class="sourceLineNo">827</span>        case 1:<a name="line.827"></a>
+<span class="sourceLineNo">828</span>          return of(dedupedElements[0]);<a name="line.828"></a>
+<span class="sourceLineNo">829</span>        default:<a name="line.829"></a>
+<span class="sourceLineNo">830</span>          Object[] elements =<a name="line.830"></a>
+<span class="sourceLineNo">831</span>              (distinct == dedupedElements.length)<a name="line.831"></a>
+<span class="sourceLineNo">832</span>                  ? dedupedElements<a name="line.832"></a>
+<span class="sourceLineNo">833</span>                  : Arrays.copyOf(dedupedElements, distinct);<a name="line.833"></a>
+<span class="sourceLineNo">834</span>          return new RegularImmutableSet&lt;E&gt;(elements, hashCode, hashTable, hashTable.length - 1);<a name="line.834"></a>
+<span class="sourceLineNo">835</span>      }<a name="line.835"></a>
+<span class="sourceLineNo">836</span>    }<a name="line.836"></a>
+<span class="sourceLineNo">837</span>  }<a name="line.837"></a>
+<span class="sourceLineNo">838</span><a name="line.838"></a>
+<span class="sourceLineNo">839</span>  /**<a name="line.839"></a>
+<span class="sourceLineNo">840</span>   * SetBuilderImpl version that uses a JDK HashSet, which has built in hash flooding protection.<a name="line.840"></a>
+<span class="sourceLineNo">841</span>   */<a name="line.841"></a>
+<span class="sourceLineNo">842</span>  private static final class JdkBackedSetBuilderImpl&lt;E&gt; extends SetBuilderImpl&lt;E&gt; {<a name="line.842"></a>
+<span class="sourceLineNo">843</span>    private final Set&lt;Object&gt; delegate;<a name="line.843"></a>
+<span class="sourceLineNo">844</span><a name="line.844"></a>
+<span class="sourceLineNo">845</span>    JdkBackedSetBuilderImpl(SetBuilderImpl&lt;E&gt; toCopy) {<a name="line.845"></a>
+<span class="sourceLineNo">846</span>      super(toCopy); // initializes dedupedElements and distinct<a name="line.846"></a>
+<span class="sourceLineNo">847</span>      delegate = Sets.newHashSetWithExpectedSize(distinct);<a name="line.847"></a>
+<span class="sourceLineNo">848</span>      for (int i = 0; i &lt; distinct; i++) {<a name="line.848"></a>
+<span class="sourceLineNo">849</span>        delegate.add(dedupedElements[i]);<a name="line.849"></a>
+<span class="sourceLineNo">850</span>      }<a name="line.850"></a>
+<span class="sourceLineNo">851</span>    }<a name="line.851"></a>
+<span class="sourceLineNo">852</span><a name="line.852"></a>
+<span class="sourceLineNo">853</span>    @Override<a name="line.853"></a>
+<span class="sourceLineNo">854</span>    SetBuilderImpl&lt;E&gt; add(E e) {<a name="line.854"></a>
+<span class="sourceLineNo">855</span>      checkNotNull(e);<a name="line.855"></a>
+<span class="sourceLineNo">856</span>      if (delegate.add(e)) {<a name="line.856"></a>
+<span class="sourceLineNo">857</span>        addDedupedElement(e);<a name="line.857"></a>
+<span class="sourceLineNo">858</span>      }<a name="line.858"></a>
+<span class="sourceLineNo">859</span>      return this;<a name="line.859"></a>
+<span class="sourceLineNo">860</span>    }<a name="line.860"></a>
+<span class="sourceLineNo">861</span><a name="line.861"></a>
+<span class="sourceLineNo">862</span>    @Override<a name="line.862"></a>
+<span class="sourceLineNo">863</span>    SetBuilderImpl&lt;E&gt; copy() {<a name="line.863"></a>
+<span class="sourceLineNo">864</span>      return new JdkBackedSetBuilderImpl&lt;&gt;(this);<a name="line.864"></a>
+<span class="sourceLineNo">865</span>    }<a name="line.865"></a>
+<span class="sourceLineNo">866</span><a name="line.866"></a>
+<span class="sourceLineNo">867</span>    @Override<a name="line.867"></a>
+<span class="sourceLineNo">868</span>    ImmutableSet&lt;E&gt; build() {<a name="line.868"></a>
+<span class="sourceLineNo">869</span>      switch (distinct) {<a name="line.869"></a>
+<span class="sourceLineNo">870</span>        case 0:<a name="line.870"></a>
+<span class="sourceLineNo">871</span>          return of();<a name="line.871"></a>
+<span class="sourceLineNo">872</span>        case 1:<a name="line.872"></a>
+<span class="sourceLineNo">873</span>          return of(dedupedElements[0]);<a name="line.873"></a>
+<span class="sourceLineNo">874</span>        default:<a name="line.874"></a>
+<span class="sourceLineNo">875</span>          return new JdkBackedImmutableSet&lt;E&gt;(<a name="line.875"></a>
+<span class="sourceLineNo">876</span>              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));<a name="line.876"></a>
+<span class="sourceLineNo">877</span>      }<a name="line.877"></a>
+<span class="sourceLineNo">878</span>    }<a name="line.878"></a>
+<span class="sourceLineNo">879</span>  }<a name="line.879"></a>
+<span class="sourceLineNo">880</span>}<a name="line.880"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.annotations.Beta;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.GwtCompatible;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.annotations.GwtIncompatible;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.base.MoreObjects;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.base.Preconditions;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.errorprone.annotations.concurrent.LazyInit;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.j2objc.annotations.RetainedWith;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.j2objc.annotations.Weak;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.io.IOException;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.io.InvalidObjectException;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.io.ObjectInputStream;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.io.ObjectOutputStream;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.Arrays;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.Collection;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.Comparator;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.Map;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.util.Map.Entry;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.util.function.Function;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.stream.Collector;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.stream.Collectors;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>import java.util.stream.Stream;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>/**<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * A {@link SetMultimap} whose contents will never change, with many other important properties<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * detailed at {@link ImmutableCollection}.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;p&gt;See the Guava User Guide article on &lt;a href=<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained"&gt; immutable collections&lt;/a&gt;.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * @author Mike Ward<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * @since 2.0<a name="line.53"></a>
+<span class="sourceLineNo">054</span> */<a name="line.54"></a>
+<span class="sourceLineNo">055</span>@GwtCompatible(serializable = true, emulated = true)<a name="line.55"></a>
+<span class="sourceLineNo">056</span>public class ImmutableSetMultimap&lt;K, V&gt; extends ImmutableMultimap&lt;K, V&gt;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    implements SetMultimap&lt;K, V&gt; {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSetMultimap}<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   * whose keys and values are the result of applying the provided mapping functions to the input<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * elements.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   *<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * &lt;p&gt;For streams with defined encounter order (as defined in the Ordering section of the {@link<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * java.util.stream} Javadoc), that order is preserved, but entries are &lt;a<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * href="ImmutableMultimap.html#iteration"&gt;grouped by key&lt;/a&gt;.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   *<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * &lt;p&gt;Example:<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   *<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * &lt;pre&gt;{@code<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *         .collect(toImmutableSetMultimap(str -&gt; str.charAt(0), str -&gt; str.substring(1)));<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   *<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * // is equivalent to<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   *     new ImmutableSetMultimap.Builder&lt;Character, String&gt;()<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   *         .put('b', "anana")<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   *         .putAll('a', "pple", "sparagus")<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   *         .putAll('c', "arrot", "herry")<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   *         .build();<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * }&lt;/pre&gt;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   *<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * @since 21.0<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   */<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public static &lt;T, K, V&gt; Collector&lt;T, ?, ImmutableSetMultimap&lt;K, V&gt;&gt; toImmutableSetMultimap(<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.87"></a>
+<span class="sourceLineNo">088</span>      Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    checkNotNull(keyFunction, "keyFunction");<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    checkNotNull(valueFunction, "valueFunction");<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return Collector.of(<a name="line.91"></a>
+<span class="sourceLineNo">092</span>        ImmutableSetMultimap::&lt;K, V&gt;builder,<a name="line.92"></a>
+<span class="sourceLineNo">093</span>        (builder, t) -&gt; builder.put(keyFunction.apply(t), valueFunction.apply(t)),<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        ImmutableSetMultimap.Builder::combine,<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        ImmutableSetMultimap.Builder::build);<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Returns a {@code Collector} accumulating entries into an {@code ImmutableSetMultimap}. Each<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * input element is mapped to a key and a stream of values, each of which are put into the<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * resulting {@code Multimap}, in the encounter order of the stream and the encounter order of the<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * streams of values.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   *<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * &lt;p&gt;Example:<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * &lt;pre&gt;{@code<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   *         .collect(<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   *             flatteningToImmutableSetMultimap(<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *                  str -&gt; str.charAt(0),<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   *                  str -&gt; str.substring(1).chars().mapToObj(c -&gt; (char) c));<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   *<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * // is equivalent to<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   *<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   *     ImmutableSetMultimap.&lt;Character, Character&gt;builder()<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   *         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   *         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   *         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   *         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *         .build();<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   *<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * // after deduplication, the resulting multimap is equivalent to<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   *<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *     ImmutableSetMultimap.&lt;Character, Character&gt;builder()<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *         .putAll('b', Arrays.asList('a', 'n'))<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *         .putAll('a', Arrays.asList('p', 'l', 'e', 's', 'a', 'r', 'g', 'u'))<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   *         .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *         .build();<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * }<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * }&lt;/pre&gt;<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   *<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * @since 21.0<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public static &lt;T, K, V&gt;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>      Collector&lt;T, ?, ImmutableSetMultimap&lt;K, V&gt;&gt; flatteningToImmutableSetMultimap(<a name="line.139"></a>
+<span class="sourceLineNo">140</span>          Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.140"></a>
+<span class="sourceLineNo">141</span>          Function&lt;? super T, ? extends Stream&lt;? extends V&gt;&gt; valuesFunction) {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    checkNotNull(keyFunction);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    checkNotNull(valuesFunction);<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    return Collectors.collectingAndThen(<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        Multimaps.flatteningToMultimap(<a name="line.145"></a>
+<span class="sourceLineNo">146</span>            input -&gt; checkNotNull(keyFunction.apply(input)),<a name="line.146"></a>
+<span class="sourceLineNo">147</span>            input -&gt; valuesFunction.apply(input).peek(Preconditions::checkNotNull),<a name="line.147"></a>
+<span class="sourceLineNo">148</span>            MultimapBuilder.linkedHashKeys().linkedHashSetValues()::&lt;K, V&gt;build),<a name="line.148"></a>
+<span class="sourceLineNo">149</span>        ImmutableSetMultimap::copyOf);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  /** Returns the empty multimap. */<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  // Casting is safe because the multimap will never hold any elements.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>  @SuppressWarnings("unchecked")<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return (ImmutableSetMultimap&lt;K, V&gt;) EmptyImmutableSetMultimap.INSTANCE;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /** Returns an immutable multimap containing a single entry. */<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of(K k1, V v1) {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    ImmutableSetMultimap.Builder&lt;K, V&gt; builder = ImmutableSetMultimap.builder();<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    builder.put(k1, v1);<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    return builder.build();<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span>  /**<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * an entry (according to {@link Object#equals}) after the first are ignored.<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   */<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of(K k1, V v1, K k2, V v2) {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    ImmutableSetMultimap.Builder&lt;K, V&gt; builder = ImmutableSetMultimap.builder();<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    builder.put(k1, v1);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    builder.put(k2, v2);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    return builder.build();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * an entry (according to {@link Object#equals}) after the first are ignored.<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   */<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of(K k1, V v1, K k2, V v2, K k3, V v3) {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    ImmutableSetMultimap.Builder&lt;K, V&gt; builder = ImmutableSetMultimap.builder();<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    builder.put(k1, v1);<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    builder.put(k2, v2);<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    builder.put(k3, v3);<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    return builder.build();<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * an entry (according to {@link Object#equals}) after the first are ignored.<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   */<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of(<a name="line.193"></a>
+<span class="sourceLineNo">194</span>      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    ImmutableSetMultimap.Builder&lt;K, V&gt; builder = ImmutableSetMultimap.builder();<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    builder.put(k1, v1);<a name="line.196"></a>
+<span class="sourceLineNo">197</span>    builder.put(k2, v2);<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    builder.put(k3, v3);<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    builder.put(k4, v4);<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    return builder.build();<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Returns an immutable multimap containing the given entries, in order. Repeated occurrences of<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * an entry (according to {@link Object#equals}) after the first are ignored.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   */<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; of(<a name="line.207"></a>
+<span class="sourceLineNo">208</span>      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    ImmutableSetMultimap.Builder&lt;K, V&gt; builder = ImmutableSetMultimap.builder();<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    builder.put(k1, v1);<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    builder.put(k2, v2);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    builder.put(k3, v3);<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    builder.put(k4, v4);<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    builder.put(k5, v5);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    return builder.build();<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  }<a name="line.216"></a>
+<span class="sourceLineNo">217</span><a name="line.217"></a>
+<span class="sourceLineNo">218</span>  // looking for of() with &gt; 5 entries? Use the builder instead.<a name="line.218"></a>
+<span class="sourceLineNo">219</span><a name="line.219"></a>
+<span class="sourceLineNo">220</span>  /** Returns a new {@link Builder}. */<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    return new Builder&lt;&gt;();<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  }<a name="line.223"></a>
+<span class="sourceLineNo">224</span><a name="line.224"></a>
+<span class="sourceLineNo">225</span>  /**<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * A builder for creating immutable {@code SetMultimap} instances, especially {@code public static<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * final} multimaps ("constant multimaps"). Example:<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   *<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   * &lt;pre&gt;{@code<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * static final Multimap&lt;String, Integer&gt; STRING_TO_INTEGER_MULTIMAP =<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   *     new ImmutableSetMultimap.Builder&lt;String, Integer&gt;()<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   *         .put("one", 1)<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   *         .putAll("several", 1, 2, 3)<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   *         .putAll("many", 1, 2, 3, 4, 5)<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   *         .build();<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * }&lt;/pre&gt;<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   *<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * multiple multimaps in series. Each multimap contains the key-value mappings in the previously<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * created multimaps.<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   *<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * @since 2.0<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   */<a name="line.243"></a>
+<span class="sourceLineNo">244</span>  public static final class Builder&lt;K, V&gt; extends ImmutableMultimap.Builder&lt;K, V&gt; {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    /**<a name="line.245"></a>
+<span class="sourceLineNo">246</span>     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link<a name="line.246"></a>
+<span class="sourceLineNo">247</span>     * ImmutableSetMultimap#builder}.<a name="line.247"></a>
+<span class="sourceLineNo">248</span>     */<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    public Builder() {<a name="line.249"></a>
+<span class="sourceLineNo">250</span>      super();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>    }<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>    @Override<a name="line.253"></a>
+<span class="sourceLineNo">254</span>    Collection&lt;V&gt; newMutableValueCollection() {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      return Platform.preservesInsertionOrderOnAddsSet();<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    }<a name="line.256"></a>
+<span class="sourceLineNo">257</span><a name="line.257"></a>
+<span class="sourceLineNo">258</span>    /** Adds a key-value mapping to the built multimap if it is not already present. */<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    @CanIgnoreReturnValue<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    @Override<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    public Builder&lt;K, V&gt; put(K key, V value) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      super.put(key, value);<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      return this;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    }<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>    /**<a name="line.266"></a>
+<span class="sourceLineNo">267</span>     * Adds an entry to the built multimap if it is not already present.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>     *<a name="line.268"></a>
+<span class="sourceLineNo">269</span>     * @since 11.0<a name="line.269"></a>
+<span class="sourceLineNo">270</span>     */<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    @CanIgnoreReturnValue<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    @Override<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    public Builder&lt;K, V&gt; put(Entry&lt;? extends K, ? extends V&gt; entry) {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>      super.put(entry);<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      return this;<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>    /**<a name="line.278"></a>
+<span class="sourceLineNo">279</span>     * {@inheritDoc}<a name="line.279"></a>
+<span class="sourceLineNo">280</span>     *<a name="line.280"></a>
+<span class="sourceLineNo">281</span>     * @since 19.0<a name="line.281"></a>
+<span class="sourceLineNo">282</span>     */<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    @CanIgnoreReturnValue<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    @Beta<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    @Override<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    public Builder&lt;K, V&gt; putAll(Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>      super.putAll(entries);<a name="line.287"></a>
+<span class="sourceLineNo">288</span>      return this;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    }<a name="line.289"></a>
+<span class="sourceLineNo">290</span><a name="line.290"></a>
+<span class="sourceLineNo">291</span>    @CanIgnoreReturnValue<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    @Override<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    public Builder&lt;K, V&gt; putAll(K key, Iterable&lt;? extends V&gt; values) {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      super.putAll(key, values);<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      return this;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>    @CanIgnoreReturnValue<a name="line.298"></a>
+<span class="sourceLineNo">299</span>    @Override<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    public Builder&lt;K, V&gt; putAll(K key, V... values) {<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      return putAll(key, Arrays.asList(values));<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    }<a name="line.302"></a>
+<span class="sourceLineNo">303</span><a name="line.303"></a>
+<span class="sourceLineNo">304</span>    @CanIgnoreReturnValue<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    @Override<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    public Builder&lt;K, V&gt; putAll(Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry :<a name="line.307"></a>
+<span class="sourceLineNo">308</span>          multimap.asMap().entrySet()) {<a name="line.308"></a>
+<span class="sourceLineNo">309</span>        putAll(entry.getKey(), entry.getValue());<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      }<a name="line.310"></a>
+<span class="sourceLineNo">311</span>      return this;<a name="line.311"></a>
+<span class="sourceLineNo">312</span>    }<a name="line.312"></a>
+<span class="sourceLineNo">313</span><a name="line.313"></a>
+<span class="sourceLineNo">314</span>    @CanIgnoreReturnValue<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    @Override<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    Builder&lt;K, V&gt; combine(ImmutableMultimap.Builder&lt;K, V&gt; other) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>      super.combine(other);<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      return this;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    }<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>    /**<a name="line.321"></a>
+<span class="sourceLineNo">322</span>     * {@inheritDoc}<a name="line.322"></a>
+<span class="sourceLineNo">323</span>     *<a name="line.323"></a>
+<span class="sourceLineNo">324</span>     * @since 8.0<a name="line.324"></a>
+<span class="sourceLineNo">325</span>     */<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    @CanIgnoreReturnValue<a name="line.326"></a>
+<span class="sourceLineNo">327</span>    @Override<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    public Builder&lt;K, V&gt; orderKeysBy(Comparator&lt;? super K&gt; keyComparator) {<a name="line.328"></a>
+<span class="sourceLineNo">329</span>      super.orderKeysBy(keyComparator);<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      return this;<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    }<a name="line.331"></a>
+<span class="sourceLineNo">332</span><a name="line.332"></a>
+<span class="sourceLineNo">333</span>    /**<a name="line.333"></a>
+<span class="sourceLineNo">334</span>     * Specifies the ordering of the generated multimap's values for each key.<a name="line.334"></a>
+<span class="sourceLineNo">335</span>     *<a name="line.335"></a>
+<span class="sourceLineNo">336</span>     * &lt;p&gt;If this method is called, the sets returned by the {@code get()} method of the generated<a name="line.336"></a>
+<span class="sourceLineNo">337</span>     * multimap and its {@link Multimap#asMap()} view are {@link ImmutableSortedSet} instances.<a name="line.337"></a>
+<span class="sourceLineNo">338</span>     * However, serialization does not preserve that property, though it does maintain the key and<a name="line.338"></a>
+<span class="sourceLineNo">339</span>     * value ordering.<a name="line.339"></a>
+<span class="sourceLineNo">340</span>     *<a name="line.340"></a>
+<span class="sourceLineNo">341</span>     * @since 8.0<a name="line.341"></a>
+<span class="sourceLineNo">342</span>     */<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    // TODO: Make serialization behavior consistent.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    @CanIgnoreReturnValue<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    @Override<a name="line.345"></a>
+<span class="sourceLineNo">346</span>    public Builder&lt;K, V&gt; orderValuesBy(Comparator&lt;? super V&gt; valueComparator) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>      super.orderValuesBy(valueComparator);<a name="line.347"></a>
+<span class="sourceLineNo">348</span>      return this;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>    /** Returns a newly-created immutable set multimap. */<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    @Override<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    public ImmutableSetMultimap&lt;K, V&gt; build() {<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      Collection&lt;Map.Entry&lt;K, Collection&lt;V&gt;&gt;&gt; mapEntries = builderMap.entrySet();<a name="line.354"></a>
+<span class="sourceLineNo">355</span>      if (keyComparator != null) {<a name="line.355"></a>
+<span class="sourceLineNo">356</span>        mapEntries = Ordering.from(keyComparator).&lt;K&gt;onKeys().immutableSortedCopy(mapEntries);<a name="line.356"></a>
+<span class="sourceLineNo">357</span>      }<a name="line.357"></a>
+<span class="sourceLineNo">358</span>      return fromMapEntries(mapEntries, valueComparator);<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    }<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * Returns an immutable set multimap containing the same mappings as {@code multimap}. The<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * generated multimap's key and value orderings correspond to the iteration ordering of the {@code<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * multimap.asMap()} view. Repeated occurrences of an entry in the multimap after the first are<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * ignored.<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   *<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * safe to do so. The exact circumstances under which a copy will or will not be performed are<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   * undocumented and subject to change.<a name="line.370"></a>
+<span class="sourceLineNo">371</span>   *<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * @throws NullPointerException if any key or value in {@code multimap} is null<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; copyOf(<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      Multimap&lt;? extends K, ? extends V&gt; multimap) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>    return copyOf(multimap, null);<a name="line.376"></a>
+<span class="sourceLineNo">377</span>  }<a name="line.377"></a>
+<span class="sourceLineNo">378</span><a name="line.378"></a>
+<span class="sourceLineNo">379</span>  private static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; copyOf(<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      Multimap&lt;? extends K, ? extends V&gt; multimap, Comparator&lt;? super V&gt; valueComparator) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    checkNotNull(multimap); // eager for GWT<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    if (multimap.isEmpty() &amp;&amp; valueComparator == null) {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      return of();<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    }<a name="line.384"></a>
+<span class="sourceLineNo">385</span><a name="line.385"></a>
+<span class="sourceLineNo">386</span>    if (multimap instanceof ImmutableSetMultimap) {<a name="line.386"></a>
+<span class="sourceLineNo">387</span>      @SuppressWarnings("unchecked") // safe since multimap is not writable<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      ImmutableSetMultimap&lt;K, V&gt; kvMultimap = (ImmutableSetMultimap&lt;K, V&gt;) multimap;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>      if (!kvMultimap.isPartialView()) {<a name="line.389"></a>
+<span class="sourceLineNo">390</span>        return kvMultimap;<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      }<a name="line.391"></a>
+<span class="sourceLineNo">392</span>    }<a name="line.392"></a>
+<span class="sourceLineNo">393</span><a name="line.393"></a>
+<span class="sourceLineNo">394</span>    return fromMapEntries(multimap.asMap().entrySet(), valueComparator);<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>  /**<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * Returns an immutable multimap containing the specified entries. The returned multimap iterates<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * over keys in the order they were first encountered in the input, and the values for each key<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * are iterated in the order they were encountered. If two values for the same key are {@linkplain<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * Object#equals equal}, the first value encountered is used.<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   *<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * @since 19.0<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   */<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  @Beta<a name="line.406"></a>
+<span class="sourceLineNo">407</span>  public static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; copyOf(<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    return new Builder&lt;K, V&gt;().putAll(entries).build();<a name="line.409"></a>
+<span class="sourceLineNo">410</span>  }<a name="line.410"></a>
+<span class="sourceLineNo">411</span><a name="line.411"></a>
+<span class="sourceLineNo">412</span>  /** Creates an ImmutableSetMultimap from an asMap.entrySet. */<a name="line.412"></a>
+<span class="sourceLineNo">413</span>  static &lt;K, V&gt; ImmutableSetMultimap&lt;K, V&gt; fromMapEntries(<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      Collection&lt;? extends Map.Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt;&gt; mapEntries,<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>    if (mapEntries.isEmpty()) {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      return of();<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    }<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    ImmutableMap.Builder&lt;K, ImmutableSet&lt;V&gt;&gt; builder =<a name="line.419"></a>
+<span class="sourceLineNo">420</span>        new ImmutableMap.Builder&lt;&gt;(mapEntries.size());<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    int size = 0;<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>    for (Entry&lt;? extends K, ? extends Collection&lt;? extends V&gt;&gt; entry : mapEntries) {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      K key = entry.getKey();<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      Collection&lt;? extends V&gt; values = entry.getValue();<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      ImmutableSet&lt;V&gt; set = valueSet(valueComparator, values);<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      if (!set.isEmpty()) {<a name="line.427"></a>
+<span class="sourceLineNo">428</span>        builder.put(key, set);<a name="line.428"></a>
+<span class="sourceLineNo">429</span>        size += set.size();<a name="line.429"></a>
+<span class="sourceLineNo">430</span>      }<a name="line.430"></a>
+<span class="sourceLineNo">431</span>    }<a name="line.431"></a>
+<span class="sourceLineNo">432</span><a name="line.432"></a>
+<span class="sourceLineNo">433</span>    return new ImmutableSetMultimap&lt;&gt;(builder.build(), size, valueComparator);<a name="line.433"></a>
+<span class="sourceLineNo">434</span>  }<a name="line.434"></a>
+<span class="sourceLineNo">435</span><a name="line.435"></a>
+<span class="sourceLineNo">436</span>  /**<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * Returned by get() when a missing key is provided. Also holds the comparator, if any, used for<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   * values.<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   */<a name="line.439"></a>
+<span class="sourceLineNo">440</span>  private final transient ImmutableSet&lt;V&gt; emptySet;<a name="line.440"></a>
+<span class="sourceLineNo">441</span><a name="line.441"></a>
+<span class="sourceLineNo">442</span>  ImmutableSetMultimap(<a name="line.442"></a>
+<span class="sourceLineNo">443</span>      ImmutableMap&lt;K, ImmutableSet&lt;V&gt;&gt; map,<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      int size,<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.445"></a>
+<span class="sourceLineNo">446</span>    super(map, size);<a name="line.446"></a>
+<span class="sourceLineNo">447</span>    this.emptySet = emptySet(valueComparator);<a name="line.447"></a>
+<span class="sourceLineNo">448</span>  }<a name="line.448"></a>
+<span class="sourceLineNo">449</span><a name="line.449"></a>
+<span class="sourceLineNo">450</span>  // views<a name="line.450"></a>
+<span class="sourceLineNo">451</span><a name="line.451"></a>
+<span class="sourceLineNo">452</span>  /**<a name="line.452"></a>
+<span class="sourceLineNo">453</span>   * Returns an immutable set of the values for the given key. If no mappings in the multimap have<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   * the provided key, an empty immutable set is returned. The values are in the same order as the<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * parameters used to build this multimap.<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   */<a name="line.456"></a>
+<span class="sourceLineNo">457</span>  @Override<a name="line.457"></a>
+<span class="sourceLineNo">458</span>  public ImmutableSet&lt;V&gt; get(@Nullable K key) {<a name="line.458"></a>
+<span class="sourceLineNo">459</span>    // This cast is safe as its type is known in constructor.<a name="line.459"></a>
+<span class="sourceLineNo">460</span>    ImmutableSet&lt;V&gt; set = (ImmutableSet&lt;V&gt;) map.get(key);<a name="line.460"></a>
+<span class="sourceLineNo">461</span>    return MoreObjects.firstNonNull(set, emptySet);<a name="line.461"></a>
+<span class="sourceLineNo">462</span>  }<a name="line.462"></a>
+<span class="sourceLineNo">463</span><a name="line.463"></a>
+<span class="sourceLineNo">464</span>  @LazyInit @RetainedWith private transient @Nullable ImmutableSetMultimap&lt;V, K&gt; inverse;<a name="line.464"></a>
+<span class="sourceLineNo">465</span><a name="line.465"></a>
+<span class="sourceLineNo">466</span>  /**<a name="line.466"></a>
+<span class="sourceLineNo">467</span>   * {@inheritDoc}<a name="line.467"></a>
+<span class="sourceLineNo">468</span>   *<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   * &lt;p&gt;Because an inverse of a set multimap cannot contain multiple pairs with the same key and<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * value, this method returns an {@code ImmutableSetMultimap} rather than the {@code<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * ImmutableMultimap} specified in the {@code ImmutableMultimap} class.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   */<a name="line.472"></a>
+<span class="sourceLineNo">473</span>  @Override<a name="line.473"></a>
+<span class="sourceLineNo">474</span>  public ImmutableSetMultimap&lt;V, K&gt; inverse() {<a name="line.474"></a>
+<span class="sourceLineNo">475</span>    ImmutableSetMultimap&lt;V, K&gt; result = inverse;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>    return (result == null) ? (inverse = invert()) : result;<a name="line.476"></a>
+<span class="sourceLineNo">477</span>  }<a name="line.477"></a>
+<span class="sourceLineNo">478</span><a name="line.478"></a>
+<span class="sourceLineNo">479</span>  private ImmutableSetMultimap&lt;V, K&gt; invert() {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    Builder&lt;V, K&gt; builder = builder();<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    for (Entry&lt;K, V&gt; entry : entries()) {<a name="line.481"></a>
+<span class="sourceLineNo">482</span>      builder.put(entry.getValue(), entry.getKey());<a name="line.482"></a>
+<span class="sourceLineNo">483</span>    }<a name="line.483"></a>
+<span class="sourceLineNo">484</span>    ImmutableSetMultimap&lt;V, K&gt; invertedMultimap = builder.build();<a name="line.484"></a>
+<span class="sourceLineNo">485</span>    invertedMultimap.inverse = this;<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    return invertedMultimap;<a name="line.486"></a>
+<span class="sourceLineNo">487</span>  }<a name="line.487"></a>
+<span class="sourceLineNo">488</span><a name="line.488"></a>
+<span class="sourceLineNo">489</span>  /**<a name="line.489"></a>
+<span class="sourceLineNo">490</span>   * Guaranteed to throw an exception and leave the multimap unmodified.<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   *<a name="line.491"></a>
+<span class="sourceLineNo">492</span>   * @throws UnsupportedOperationException always<a name="line.492"></a>
+<span class="sourceLineNo">493</span>   * @deprecated Unsupported operation.<a name="line.493"></a>
+<span class="sourceLineNo">494</span>   */<a name="line.494"></a>
+<span class="sourceLineNo">495</span>  @CanIgnoreReturnValue<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  @Deprecated<a name="line.496"></a>
+<span class="sourceLineNo">497</span>  @Override<a name="line.497"></a>
+<span class="sourceLineNo">498</span>  public ImmutableSet&lt;V&gt; removeAll(Object key) {<a name="line.498"></a>
+<span class="sourceLineNo">499</span>    throw new UnsupportedOperationException();<a name="line.499"></a>
+<span class="sourceLineNo">500</span>  }<a name="line.500"></a>
+<span class="sourceLineNo">501</span><a name="line.501"></a>
+<span class="sourceLineNo">502</span>  /**<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   * Guaranteed to throw an exception and leave the multimap unmodified.<a name="line.503"></a>
+<span class="sourceLineNo">504</span>   *<a name="line.504"></a>
+<span class="sourceLineNo">505</span>   * @throws UnsupportedOperationException always<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * @deprecated Unsupported operation.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   */<a name="line.507"></a>
+<span class="sourceLineNo">508</span>  @CanIgnoreReturnValue<a name="line.508"></a>
+<span class="sourceLineNo">509</span>  @Deprecated<a name="line.509"></a>
+<span class="sourceLineNo">510</span>  @Override<a name="line.510"></a>
+<span class="sourceLineNo">511</span>  public ImmutableSet&lt;V&gt; replaceValues(K key, Iterable&lt;? extends V&gt; values) {<a name="line.511"></a>
+<span class="sourceLineNo">512</span>    throw new UnsupportedOperationException();<a name="line.512"></a>
+<span class="sourceLineNo">513</span>  }<a name="line.513"></a>
+<span class="sourceLineNo">514</span><a name="line.514"></a>
+<span class="sourceLineNo">515</span>  @LazyInit @RetainedWith private transient @Nullable ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entries;<a name="line.515"></a>
+<span class="sourceLineNo">516</span><a name="line.516"></a>
+<span class="sourceLineNo">517</span>  /**<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses<a name="line.518"></a>
+<span class="sourceLineNo">519</span>   * the values for the first key, the values for the second key, and so on.<a name="line.519"></a>
+<span class="sourceLineNo">520</span>   */<a name="line.520"></a>
+<span class="sourceLineNo">521</span>  @Override<a name="line.521"></a>
+<span class="sourceLineNo">522</span>  public ImmutableSet&lt;Entry&lt;K, V&gt;&gt; entries() {<a name="line.522"></a>
+<span class="sourceLineNo">523</span>    ImmutableSet&lt;Entry&lt;K, V&gt;&gt; result = entries;<a name="line.523"></a>
+<span class="sourceLineNo">524</span>    return result == null ? (entries = new EntrySet&lt;&gt;(this)) : result;<a name="line.524"></a>
+<span class="sourceLineNo">525</span>  }<a name="line.525"></a>
+<span class="sourceLineNo">526</span><a name="line.526"></a>
+<span class="sourceLineNo">527</span>  private static final class EntrySet&lt;K, V&gt; extends ImmutableSet&lt;Entry&lt;K, V&gt;&gt; {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>    @Weak private final transient ImmutableSetMultimap&lt;K, V&gt; multimap;<a name="line.528"></a>
+<span class="sourceLineNo">529</span><a name="line.529"></a>
+<span class="sourceLineNo">530</span>    EntrySet(ImmutableSetMultimap&lt;K, V&gt; multimap) {<a name="line.530"></a>
+<span class="sourceLineNo">531</span>      this.multimap = multimap;<a name="line.531"></a>
+<span class="sourceLineNo">532</span>    }<a name="line.532"></a>
+<span class="sourceLineNo">533</span><a name="line.533"></a>
+<span class="sourceLineNo">534</span>    @Override<a name="line.534"></a>
+<span class="sourceLineNo">535</span>    public boolean contains(@Nullable Object object) {<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      if (object instanceof Entry) {<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        Entry&lt;?, ?&gt; entry = (Entry&lt;?, ?&gt;) object;<a name="line.537"></a>
+<span class="sourceLineNo">538</span>        return multimap.containsEntry(entry.getKey(), entry.getValue());<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      }<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      return false;<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    }<a name="line.541"></a>
+<span class="sourceLineNo">542</span><a name="line.542"></a>
+<span class="sourceLineNo">543</span>    @Override<a name="line.543"></a>
+<span class="sourceLineNo">544</span>    public int size() {<a name="line.544"></a>
+<span class="sourceLineNo">545</span>      return multimap.size();<a name="line.545"></a>
+<span class="sourceLineNo">546</span>    }<a name="line.546"></a>
+<span class="sourceLineNo">547</span><a name="line.547"></a>
+<span class="sourceLineNo">548</span>    @Override<a name="line.548"></a>
+<span class="sourceLineNo">549</span>    public UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; iterator() {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>      return multimap.entryIterator();<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    }<a name="line.551"></a>
+<span class="sourceLineNo">552</span><a name="line.552"></a>
+<span class="sourceLineNo">553</span>    @Override<a name="line.553"></a>
+<span class="sourceLineNo">554</span>    boolean isPartialView() {<a name="line.554"></a>
+<span class="sourceLineNo">555</span>      return false;<a name="line.555"></a>
+<span class="sourceLineNo">556</span>    }<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  }<a name="line.557"></a>
+<span class="sourceLineNo">558</span><a name="line.558"></a>
+<span class="sourceLineNo">559</span>  private static &lt;V&gt; ImmutableSet&lt;V&gt; valueSet(<a name="line.559"></a>
+<span class="sourceLineNo">560</span>      @Nullable Comparator&lt;? super V&gt; valueComparator, Collection&lt;? extends V&gt; values) {<a name="line.560"></a>
+<span class="sourceLineNo">561</span>    return (valueComparator == null)<a name="line.561"></a>
+<span class="sourceLineNo">562</span>        ? ImmutableSet.copyOf(values)<a name="line.562"></a>
+<span class="sourceLineNo">563</span>        : ImmutableSortedSet.copyOf(valueComparator, values);<a name="line.563"></a>
+<span class="sourceLineNo">564</span>  }<a name="line.564"></a>
+<span class="sourceLineNo">565</span><a name="line.565"></a>
+<span class="sourceLineNo">566</span>  private static &lt;V&gt; ImmutableSet&lt;V&gt; emptySet(@Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.566"></a>
+<span class="sourceLineNo">567</span>    return (valueComparator == null)<a name="line.567"></a>
+<span class="sourceLineNo">568</span>        ? ImmutableSet.&lt;V&gt;of()<a name="line.568"></a>
+<span class="sourceLineNo">569</span>        : ImmutableSortedSet.&lt;V&gt;emptySet(valueComparator);<a name="line.569"></a>
+<span class="sourceLineNo">570</span>  }<a name="line.570"></a>
+<span class="sourceLineNo">571</span><a name="line.571"></a>
+<span class="sourceLineNo">572</span>  private static &lt;V&gt; ImmutableSet.Builder&lt;V&gt; valuesBuilder(<a name="line.572"></a>
+<span class="sourceLineNo">573</span>      @Nullable Comparator&lt;? super V&gt; valueComparator) {<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    return (valueComparator == null)<a name="line.574"></a>
+<span class="sourceLineNo">575</span>        ? new ImmutableSet.Builder&lt;V&gt;()<a name="line.575"></a>
+<span class="sourceLineNo">576</span>        : new ImmutableSortedSet.Builder&lt;V&gt;(valueComparator);<a name="line.576"></a>
+<span class="sourceLineNo">577</span>  }<a name="line.577"></a>
+<span class="sourceLineNo">578</span><a name="line.578"></a>
+<span class="sourceLineNo">579</span>  /**<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * @serialData number of distinct keys, and then for each distinct key: the key, the number of<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   *     values for that key, and the key's values<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   */<a name="line.582"></a>
+<span class="sourceLineNo">583</span>  @GwtIncompatible // java.io.ObjectOutputStream<a name="line.583"></a>
+<span class="sourceLineNo">584</span>  private void writeObject(ObjectOutputStream stream) throws IOException {<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    stream.defaultWriteObject();<a name="line.585"></a>
+<span class="sourceLineNo">586</span>    stream.writeObject(valueComparator());<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    Serialization.writeMultimap(this, stream);<a name="line.587"></a>
+<span class="sourceLineNo">588</span>  }<a name="line.588"></a>
+<span class="sourceLineNo">589</span><a name="line.589"></a>
+<span class="sourceLineNo">590</span>  @Nullable<a name="line.590"></a>
+<span class="sourceLineNo">591</span>  Comparator&lt;? super V&gt; valueComparator() {<a name="line.591"></a>
+<span class="sourceLineNo">592</span>    return emptySet instanceof ImmutableSortedSet<a name="line.592"></a>
+<span class="sourceLineNo">593</span>        ? ((ImmutableSortedSet&lt;V&gt;) emptySet).comparator()<a name="line.593"></a>
+<span class="sourceLineNo">594</span>        : null;<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  }<a name="line.595"></a>
+<span class="sourceLineNo">596</span><a name="line.596"></a>
+<span class="sourceLineNo">597</span>  @GwtIncompatible // java serialization<a name="line.597"></a>
+<span class="sourceLineNo">598</span>  private static final class SetFieldSettersHolder {<a name="line.598"></a>
+<span class="sourceLineNo">599</span>    static final Serialization.FieldSetter&lt;ImmutableSetMultimap&gt; EMPTY_SET_FIELD_SETTER =<a name="line.599"></a>
+<span class="sourceLineNo">600</span>        Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");<a name="line.600"></a>
+<span class="sourceLineNo">601</span>  }<a name="line.601"></a>
+<span class="sourceLineNo">602</span><a name="line.602"></a>
+<span class="sourceLineNo">603</span>  @GwtIncompatible // java.io.ObjectInputStream<a name="line.603"></a>
+<span class="sourceLineNo">604</span>  // Serialization type safety is at the caller's mercy.<a name="line.604"></a>
+<span class="sourceLineNo">605</span>  @SuppressWarnings("unchecked")<a name="line.605"></a>
+<span class="sourceLineNo">606</span>  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    stream.defaultReadObject();<a name="line.607"></a>
+<span class="sourceLineNo">608</span>    Comparator&lt;Object&gt; valueComparator = (Comparator&lt;Object&gt;) stream.readObject();<a name="line.608"></a>
+<span class="sourceLineNo">609</span>    int keyCount = stream.readInt();<a name="line.609"></a>
+<span class="sourceLineNo">610</span>    if (keyCount &lt; 0) {<a name="line.610"></a>
+<span class="sourceLineNo">611</span>      throw new InvalidObjectException("Invalid key count " + keyCount);<a name="line.611"></a>
+<span class="sourceLineNo">612</span>    }<a name="line.612"></a>
+<span class="sourceLineNo">613</span>    ImmutableMap.Builder&lt;Object, ImmutableSet&lt;Object&gt;&gt; builder = ImmutableMap.builder();<a name="line.613"></a>
+<span class="sourceLineNo">614</span>    int tmpSize = 0;<a name="line.614"></a>
+<span class="sourceLineNo">615</span><a name="line.615"></a>
+<span class="sourceLineNo">616</span>    for (int i = 0; i &lt; keyCount; i++) {<a name="line.616"></a>
+<span class="sourceLineNo">617</span>      Object key = stream.readObject();<a name="line.617"></a>
+<span class="sourceLineNo">618</span>      int valueCount = stream.readInt();<a name="line.618"></a>
+<span class="sourceLineNo">619</span>      if (valueCount &lt;= 0) {<a name="line.619"></a>
+<span class="sourceLineNo">620</span>        throw new InvalidObjectException("Invalid value count " + valueCount);<a name="line.620"></a>
+<span class="sourceLineNo">621</span>      }<a name="line.621"></a>
+<span class="sourceLineNo">622</span><a name="line.622"></a>
+<span class="sourceLineNo">623</span>      ImmutableSet.Builder&lt;Object&gt; valuesBuilder = valuesBuilder(valueComparator);<a name="line.623"></a>
+<span class="sourceLineNo">624</span>      for (int j = 0; j &lt; valueCount; j++) {<a name="line.624"></a>
+<span class="sourceLineNo">625</span>        valuesBuilder.add(stream.readObject());<a name="line.625"></a>
+<span class="sourceLineNo">626</span>      }<a name="line.626"></a>
+<span class="sourceLineNo">627</span>      ImmutableSet&lt;Object&gt; valueSet = valuesBuilder.build();<a name="line.627"></a>
+<span class="sourceLineNo">628</span>      if (valueSet.size() != valueCount) {<a name="line.628"></a>
+<span class="sourceLineNo">629</span>        throw new InvalidObjectException("Duplicate key-value pairs exist for key " + key);<a name="line.629"></a>
+<span class="sourceLineNo">630</span>      }<a name="line.630"></a>
+<span class="sourceLineNo">631</span>      builder.put(key, valueSet);<a name="line.631"></a>
+<span class="sourceLineNo">632</span>      tmpSize += valueCount;<a name="line.632"></a>
+<span class="sourceLineNo">633</span>    }<a name="line.633"></a>
+<span class="sourceLineNo">634</span><a name="line.634"></a>
+<span class="sourceLineNo">635</span>    ImmutableMap&lt;Object, ImmutableSet&lt;Object&gt;&gt; tmpMap;<a name="line.635"></a>
+<span class="sourceLineNo">636</span>    try {<a name="line.636"></a>
+<span class="sourceLineNo">637</span>      tmpMap = builder.build();<a name="line.637"></a>
+<span class="sourceLineNo">638</span>    } catch (IllegalArgumentException e) {<a name="line.638"></a>
+<span class="sourceLineNo">639</span>      throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);<a name="line.639"></a>
+<span class="sourceLineNo">640</span>    }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>    FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);<a name="line.642"></a>
+<span class="sourceLineNo">643</span>    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);<a name="line.643"></a>
+<span class="sourceLineNo">644</span>    SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));<a name="line.644"></a>
+<span class="sourceLineNo">645</span>  }<a name="line.645"></a>
+<span class="sourceLineNo">646</span><a name="line.646"></a>
+<span class="sourceLineNo">647</span>  @GwtIncompatible // not needed in emulated source.<a name="line.647"></a>
+<span class="sourceLineNo">648</span>  private static final long serialVersionUID = 0;<a name="line.648"></a>
+<span class="sourceLineNo">649</span>}<a name="line.649"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

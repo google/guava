@@ -1,0 +1,1210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.net;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.CharMatcher.ascii;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.CharMatcher.javaIsoControl;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Charsets.UTF_8;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static com.google.common.base.Preconditions.checkState;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.annotations.Beta;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.annotations.GwtCompatible;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.base.Ascii;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import com.google.common.base.CharMatcher;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import com.google.common.base.Function;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import com.google.common.base.Joiner;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.google.common.base.Joiner.MapJoiner;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import com.google.common.base.MoreObjects;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import com.google.common.base.Objects;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import com.google.common.base.Optional;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import com.google.common.collect.ImmutableListMultimap;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import com.google.common.collect.ImmutableMultiset;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import com.google.common.collect.ImmutableSet;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import com.google.common.collect.Maps;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import com.google.common.collect.Multimap;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import com.google.common.collect.Multimaps;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import com.google.errorprone.annotations.Immutable;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import com.google.errorprone.annotations.concurrent.LazyInit;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>import java.nio.charset.Charset;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>import java.nio.charset.IllegalCharsetNameException;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>import java.nio.charset.UnsupportedCharsetException;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>import java.util.Collection;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>import java.util.Map;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>import java.util.Map.Entry;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>/**<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * Represents an &lt;a href="http://en.wikipedia.org/wiki/Internet_media_type"&gt;Internet Media Type&lt;/a&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * (also known as a MIME Type or Content Type). This class also supports the concept of media ranges<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1"&gt;defined by HTTP/1.1&lt;/a&gt;.<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * As such, the {@code *} character is treated as a wildcard and is used to represent any acceptable<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * type or subtype value. A media type may not have wildcard type with a declared subtype. The<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * parameter attributes or parameter values must be valid according to RFCs &lt;a<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * href="https://tools.ietf.org/html/rfc2045"&gt;2045&lt;/a&gt; and &lt;a<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * href="https://tools.ietf.org/html/rfc2046"&gt;2046&lt;/a&gt;.<a name="line.59"></a>
+<span class="sourceLineNo">060</span> *<a name="line.60"></a>
+<span class="sourceLineNo">061</span> * &lt;p&gt;All portions of the media type that are case-insensitive (type, subtype, parameter attributes)<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * are normalized to lowercase. The value of the {@code charset} parameter is normalized to<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * lowercase, but all others are left as-is.<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * &lt;p&gt;Note that this specifically does &lt;strong&gt;not&lt;/strong&gt; represent the value of the MIME {@code<a name="line.65"></a>
+<span class="sourceLineNo">066</span> * Content-Type} header and as such has no support for header-specific considerations such as line<a name="line.66"></a>
+<span class="sourceLineNo">067</span> * folding and comments.<a name="line.67"></a>
+<span class="sourceLineNo">068</span> *<a name="line.68"></a>
+<span class="sourceLineNo">069</span> * &lt;p&gt;For media types that take a charset the predefined constants default to UTF-8 and have a<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * "_UTF_8" suffix. To get a version without a character set, use {@link #withoutParameters}.<a name="line.70"></a>
+<span class="sourceLineNo">071</span> *<a name="line.71"></a>
+<span class="sourceLineNo">072</span> * @since 12.0<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * @author Gregory Kick<a name="line.73"></a>
+<span class="sourceLineNo">074</span> */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>@Beta<a name="line.75"></a>
+<span class="sourceLineNo">076</span>@GwtCompatible<a name="line.76"></a>
+<span class="sourceLineNo">077</span>@Immutable<a name="line.77"></a>
+<span class="sourceLineNo">078</span>public final class MediaType {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  private static final String CHARSET_ATTRIBUTE = "charset";<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private static final ImmutableListMultimap&lt;String, String&gt; UTF_8_CONSTANT_PARAMETERS =<a name="line.80"></a>
+<span class="sourceLineNo">081</span>      ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /** Matcher for type, subtype and attributes. */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  private static final CharMatcher TOKEN_MATCHER =<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      ascii()<a name="line.85"></a>
+<span class="sourceLineNo">086</span>          .and(javaIsoControl().negate())<a name="line.86"></a>
+<span class="sourceLineNo">087</span>          .and(CharMatcher.isNot(' '))<a name="line.87"></a>
+<span class="sourceLineNo">088</span>          .and(CharMatcher.noneOf("()&lt;&gt;@,;:\\\"/[]?="));<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /*<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * This matches the same characters as linear-white-space from RFC 822, but we make no effort to<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * enforce any particular rules with regards to line folding as stated in the class docs.<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  private static final CharMatcher LINEAR_WHITE_SPACE = CharMatcher.anyOf(" \t\r\n");<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  // TODO(gak): make these public?<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  private static final String APPLICATION_TYPE = "application";<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  private static final String AUDIO_TYPE = "audio";<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  private static final String IMAGE_TYPE = "image";<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  private static final String TEXT_TYPE = "text";<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  private static final String VIDEO_TYPE = "video";<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  private static final String WILDCARD = "*";<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  private static final Map&lt;MediaType, MediaType&gt; KNOWN_TYPES = Maps.newHashMap();<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  private static MediaType createConstant(String type, String subtype) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    MediaType mediaType =<a name="line.110"></a>
+<span class="sourceLineNo">111</span>        addKnownType(new MediaType(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of()));<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    mediaType.parsedCharset = Optional.absent();<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return mediaType;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  private static MediaType createConstantUtf8(String type, String subtype) {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    MediaType mediaType = addKnownType(new MediaType(type, subtype, UTF_8_CONSTANT_PARAMETERS));<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    mediaType.parsedCharset = Optional.of(UTF_8);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    return mediaType;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  private static MediaType addKnownType(MediaType mediaType) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    KNOWN_TYPES.put(mediaType, mediaType);<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    return mediaType;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  /*<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * The following constants are grouped by their type and ordered alphabetically by the constant<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * name within that type. The constant name should be a sensible identifier that is closest to the<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * "common name" of the media. This is often, but not necessarily the same as the subtype.<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   *<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Be sure to declare all constants with the type and subtype in all lowercase. For types that<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * take a charset (e.g. all text/* types), default to UTF-8 and suffix the constant name with<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * "_UTF_8".<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  public static final MediaType ANY_TYPE = createConstant(WILDCARD, WILDCARD);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public static final MediaType ANY_TEXT_TYPE = createConstant(TEXT_TYPE, WILDCARD);<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  public static final MediaType ANY_IMAGE_TYPE = createConstant(IMAGE_TYPE, WILDCARD);<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  public static final MediaType ANY_AUDIO_TYPE = createConstant(AUDIO_TYPE, WILDCARD);<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  public static final MediaType ANY_VIDEO_TYPE = createConstant(VIDEO_TYPE, WILDCARD);<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  public static final MediaType ANY_APPLICATION_TYPE = createConstant(APPLICATION_TYPE, WILDCARD);<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>  /* text types */<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  public static final MediaType CACHE_MANIFEST_UTF_8 =<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      createConstantUtf8(TEXT_TYPE, "cache-manifest");<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  public static final MediaType CSS_UTF_8 = createConstantUtf8(TEXT_TYPE, "css");<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * &lt;a href="http://www.rfc-editor.org/rfc/rfc4329.txt"&gt;RFC 4329&lt;/a&gt; declares {@link<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * #JAVASCRIPT_UTF_8 application/javascript} to be the correct media type for JavaScript, but this<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * may be necessary in certain situations for compatibility.<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * &lt;a href="http://www.iana.org/assignments/media-types/text/tab-separated-values"&gt;Tab separated<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * values&lt;/a&gt;.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * @since 15.0<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  public static final MediaType TSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "tab-separated-values");<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");<a name="line.167"></a>
+<span class="sourceLineNo">168</span><a name="line.168"></a>
+<span class="sourceLineNo">169</span>  /**<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   * UTF-8 encoded &lt;a href="https://en.wikipedia.org/wiki/Wireless_Markup_Language"&gt;Wireless Markup<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * Language&lt;/a&gt;.<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   *<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * @since 13.0<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * As described in &lt;a href="http://www.ietf.org/rfc/rfc3023.txt"&gt;RFC 3023&lt;/a&gt;, this constant<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * ({@code text/xml}) is used for XML documents that are "readable by casual users." {@link<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * #APPLICATION_XML_UTF_8} is provided for documents that are intended for applications.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");<a name="line.182"></a>
+<span class="sourceLineNo">183</span><a name="line.183"></a>
+<span class="sourceLineNo">184</span>  /**<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * As described in &lt;a href="https://w3c.github.io/webvtt/#iana-text-vtt"&gt;the VTT spec&lt;/a&gt;, this is<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * used for Web Video Text Tracks (WebVTT) files, used with the HTML5 track element.<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   *<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * @since 20.0<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   */<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  public static final MediaType VTT_UTF_8 = createConstantUtf8(TEXT_TYPE, "vtt");<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>  /**<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * &lt;a href="https://en.wikipedia.org/wiki/BMP_file_format"&gt;Bitmap file format&lt;/a&gt; ({@code bmp}<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * files).<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @since 13.0<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");<a name="line.198"></a>
+<span class="sourceLineNo">199</span><a name="line.199"></a>
+<span class="sourceLineNo">200</span>  /**<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * The &lt;a href="https://en.wikipedia.org/wiki/Camera_Image_File_Format"&gt;Canon Image File<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * Format&lt;/a&gt; ({@code crw} files), a widely-used "raw image" format for cameras. It is found in<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * {@code /etc/mime.types}, e.g. in &lt;a href=<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * "http://anonscm.debian.org/gitweb/?p=collab-maint/mime-support.git;a=blob;f=mime.types;hb=HEAD"<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * &gt;Debian 3.48-1&lt;/a&gt;.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @since 15.0<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  public static final MediaType CRW = createConstant(IMAGE_TYPE, "x-canon-crw");<a name="line.209"></a>
+<span class="sourceLineNo">210</span><a name="line.210"></a>
+<span class="sourceLineNo">211</span>  public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>  /**<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * The Photoshop File Format ({@code psd} files) as defined by &lt;a<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * href="http://www.iana.org/assignments/media-types/image/vnd.adobe.photoshop"&gt;IANA&lt;/a&gt;, and<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   * found in {@code /etc/mime.types}, e.g. &lt;a<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * href="http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types"&gt;&lt;/a&gt; of the<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * Apache &lt;a href="http://httpd.apache.org/"&gt;HTTPD project&lt;/a&gt;; for the specification, see &lt;a<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * href="http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm"&gt;<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Adobe Photoshop Document Format&lt;/a&gt; and &lt;a<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * href="http://en.wikipedia.org/wiki/Adobe_Photoshop#File_format"&gt;Wikipedia&lt;/a&gt;; this is the<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * regular output/input of Photoshop (which can also export to various image formats; note that<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * files with extension "PSB" are in a distinct but related format).<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   *<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * &lt;p&gt;This is a more recent replacement for the older, experimental type {@code x-photoshop}: &lt;a<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   * href="http://tools.ietf.org/html/rfc2046#section-6"&gt;RFC-2046.6&lt;/a&gt;.<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   *<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * @since 15.0<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   */<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  public static final MediaType PSD = createConstant(IMAGE_TYPE, "vnd.adobe.photoshop");<a name="line.233"></a>
+<span class="sourceLineNo">234</span><a name="line.234"></a>
+<span class="sourceLineNo">235</span>  public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");<a name="line.236"></a>
+<span class="sourceLineNo">237</span><a name="line.237"></a>
+<span class="sourceLineNo">238</span>  /**<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * &lt;a href="https://en.wikipedia.org/wiki/WebP"&gt;WebP image format&lt;/a&gt;.<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   *<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * @since 13.0<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  /**<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   * &lt;a href="https://www.iana.org/assignments/media-types/image/heif"&gt;HEIF image format&lt;/a&gt;.<a name="line.246"></a>
+<span class="sourceLineNo">247</span>   *<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * @since 28.1<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   */<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  public static final MediaType HEIF = createConstant(IMAGE_TYPE, "heif");<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * &lt;a href="https://tools.ietf.org/html/rfc3745"&gt;JP2K image format&lt;/a&gt;.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   *<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * @since 28.1<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  public static final MediaType JP2K = createConstant(IMAGE_TYPE, "jp2");<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  /* audio types */<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");<a name="line.262"></a>
+<span class="sourceLineNo">263</span>  public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>  /**<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * L16 audio, as defined by &lt;a href="https://tools.ietf.org/html/rfc2586"&gt;RFC 2586&lt;/a&gt;.<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * @since 24.1<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   */<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  public static final MediaType L16_AUDIO = createConstant(AUDIO_TYPE, "l16");<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  /**<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * L24 audio, as defined by &lt;a href="https://tools.ietf.org/html/rfc3190"&gt;RFC 3190&lt;/a&gt;.<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   *<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * @since 20.0<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   */<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  public static final MediaType L24_AUDIO = createConstant(AUDIO_TYPE, "l24");<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>  /**<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * Basic Audio, as defined by &lt;a href="http://tools.ietf.org/html/rfc2046#section-4.3"&gt;RFC<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * 2046&lt;/a&gt;.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   *<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * @since 20.0<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  public static final MediaType BASIC_AUDIO = createConstant(AUDIO_TYPE, "basic");<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>  /**<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * Advanced Audio Coding. For more information, see &lt;a<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * href="https://en.wikipedia.org/wiki/Advanced_Audio_Coding"&gt;Advanced Audio Coding&lt;/a&gt;.<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   *<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   * @since 20.0<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   */<a name="line.292"></a>
+<span class="sourceLineNo">293</span>  public static final MediaType AAC_AUDIO = createConstant(AUDIO_TYPE, "aac");<a name="line.293"></a>
+<span class="sourceLineNo">294</span><a name="line.294"></a>
+<span class="sourceLineNo">295</span>  /**<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   * Vorbis Audio, as defined by &lt;a href="http://tools.ietf.org/html/rfc5215"&gt;RFC 5215&lt;/a&gt;.<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   *<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * @since 20.0<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   */<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  public static final MediaType VORBIS_AUDIO = createConstant(AUDIO_TYPE, "vorbis");<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * Windows Media Audio. For more information, see &lt;a<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx"&gt;file<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   * name extensions for Windows Media metafiles&lt;/a&gt;.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   *<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * @since 20.0<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   */<a name="line.308"></a>
+<span class="sourceLineNo">309</span>  public static final MediaType WMA_AUDIO = createConstant(AUDIO_TYPE, "x-ms-wma");<a name="line.309"></a>
+<span class="sourceLineNo">310</span><a name="line.310"></a>
+<span class="sourceLineNo">311</span>  /**<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   * Windows Media metafiles. For more information, see &lt;a<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd562994(v=vs.85).aspx"&gt;file<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * name extensions for Windows Media metafiles&lt;/a&gt;.<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   *<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * @since 20.0<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   */<a name="line.317"></a>
+<span class="sourceLineNo">318</span>  public static final MediaType WAX_AUDIO = createConstant(AUDIO_TYPE, "x-ms-wax");<a name="line.318"></a>
+<span class="sourceLineNo">319</span><a name="line.319"></a>
+<span class="sourceLineNo">320</span>  /**<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * Real Audio. For more information, see &lt;a<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * href="http://service.real.com/help/faq/rp8/configrp8win.html"&gt;this link&lt;/a&gt;.<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   *<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   * @since 20.0<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   */<a name="line.325"></a>
+<span class="sourceLineNo">326</span>  public static final MediaType VND_REAL_AUDIO = createConstant(AUDIO_TYPE, "vnd.rn-realaudio");<a name="line.326"></a>
+<span class="sourceLineNo">327</span><a name="line.327"></a>
+<span class="sourceLineNo">328</span>  /**<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   * WAVE format, as defined by &lt;a href="https://tools.ietf.org/html/rfc2361"&gt;RFC 2361&lt;/a&gt;.<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   *<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   * @since 20.0<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   */<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  public static final MediaType VND_WAVE_AUDIO = createConstant(AUDIO_TYPE, "vnd.wave");<a name="line.333"></a>
+<span class="sourceLineNo">334</span><a name="line.334"></a>
+<span class="sourceLineNo">335</span>  /* video types */<a name="line.335"></a>
+<span class="sourceLineNo">336</span>  public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");<a name="line.336"></a>
+<span class="sourceLineNo">337</span>  public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  public static final MediaType OGG_VIDEO = createConstant(VIDEO_TYPE, "ogg");<a name="line.338"></a>
+<span class="sourceLineNo">339</span>  public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");<a name="line.340"></a>
+<span class="sourceLineNo">341</span>  public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");<a name="line.341"></a>
+<span class="sourceLineNo">342</span><a name="line.342"></a>
+<span class="sourceLineNo">343</span>  /**<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   * Flash video. For more information, see &lt;a href=<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   * "http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7d48.html"<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   * &gt;this link&lt;/a&gt;.<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   *<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   * @since 20.0<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   */<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  public static final MediaType FLV_VIDEO = createConstant(VIDEO_TYPE, "x-flv");<a name="line.350"></a>
+<span class="sourceLineNo">351</span><a name="line.351"></a>
+<span class="sourceLineNo">352</span>  /**<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * The 3GP multimedia container format. For more information, see &lt;a<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * href="ftp://www.3gpp.org/tsg_sa/TSG_SA/TSGS_23/Docs/PDF/SP-040065.pdf#page=10"&gt;3GPP TS<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * 26.244&lt;/a&gt;.<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   *<a name="line.356"></a>
+<span class="sourceLineNo">357</span>   * @since 20.0<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   */<a name="line.358"></a>
+<span class="sourceLineNo">359</span>  public static final MediaType THREE_GPP_VIDEO = createConstant(VIDEO_TYPE, "3gpp");<a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /**<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * The 3G2 multimedia container format. For more information, see &lt;a<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * href="http://www.3gpp2.org/Public_html/specs/C.S0050-B_v1.0_070521.pdf#page=16"&gt;3GPP2<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * C.S0050-B&lt;/a&gt;.<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   *<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   * @since 20.0<a name="line.366"></a>
+<span class="sourceLineNo">367</span>   */<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  public static final MediaType THREE_GPP2_VIDEO = createConstant(VIDEO_TYPE, "3gpp2");<a name="line.368"></a>
+<span class="sourceLineNo">369</span><a name="line.369"></a>
+<span class="sourceLineNo">370</span>  /* application types */<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  /**<a name="line.371"></a>
+<span class="sourceLineNo">372</span>   * As described in &lt;a href="http://www.ietf.org/rfc/rfc3023.txt"&gt;RFC 3023&lt;/a&gt;, this constant<a name="line.372"></a>
+<span class="sourceLineNo">373</span>   * ({@code application/xml}) is used for XML documents that are "unreadable by casual users."<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * {@link #XML_UTF_8} is provided for documents that may be read by users.<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * @since 14.0<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   */<a name="line.377"></a>
+<span class="sourceLineNo">378</span>  public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");<a name="line.378"></a>
+<span class="sourceLineNo">379</span><a name="line.379"></a>
+<span class="sourceLineNo">380</span>  public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>  /**<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * Files in the &lt;a href="https://www.dartlang.org/articles/embedding-in-html/"&gt;dart&lt;/a&gt;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * programming language.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * @since 19.0<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   */<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  public static final MediaType DART_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "dart");<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>  /**<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * &lt;a href="https://goo.gl/2QoMvg"&gt;Apple Passbook&lt;/a&gt;.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   *<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * @since 19.0<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  public static final MediaType APPLE_PASSBOOK =<a name="line.396"></a>
+<span class="sourceLineNo">397</span>      createConstant(APPLICATION_TYPE, "vnd.apple.pkpass");<a name="line.397"></a>
+<span class="sourceLineNo">398</span><a name="line.398"></a>
+<span class="sourceLineNo">399</span>  /**<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * &lt;a href="http://en.wikipedia.org/wiki/Embedded_OpenType"&gt;Embedded OpenType&lt;/a&gt; fonts. This is<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * &lt;a href="http://www.iana.org/assignments/media-types/application/vnd.ms-fontobject"&gt;registered<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * &lt;/a&gt; with the IANA.<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   *<a name="line.403"></a>
+<span class="sourceLineNo">404</span>   * @since 17.0<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   */<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  public static final MediaType EOT = createConstant(APPLICATION_TYPE, "vnd.ms-fontobject");<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  /**<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   * As described in the &lt;a href="http://idpf.org/epub"&gt;International Digital Publishing Forum&lt;/a&gt;<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * EPUB is the distribution and interchange format standard for digital publications and<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   * documents. This media type is defined in the &lt;a<a name="line.411"></a>
+<span class="sourceLineNo">412</span>   * href="http://www.idpf.org/epub/30/spec/epub30-ocf.html"&gt;EPUB Open Container Format&lt;/a&gt;<a name="line.412"></a>
+<span class="sourceLineNo">413</span>   * specification.<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   *<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   * @since 15.0<a name="line.415"></a>
+<span class="sourceLineNo">416</span>   */<a name="line.416"></a>
+<span class="sourceLineNo">417</span>  public static final MediaType EPUB = createConstant(APPLICATION_TYPE, "epub+zip");<a name="line.417"></a>
+<span class="sourceLineNo">418</span><a name="line.418"></a>
+<span class="sourceLineNo">419</span>  public static final MediaType FORM_DATA =<a name="line.419"></a>
+<span class="sourceLineNo">420</span>      createConstant(APPLICATION_TYPE, "x-www-form-urlencoded");<a name="line.420"></a>
+<span class="sourceLineNo">421</span><a name="line.421"></a>
+<span class="sourceLineNo">422</span>  /**<a name="line.422"></a>
+<span class="sourceLineNo">423</span>   * As described in &lt;a href="https://www.rsa.com/rsalabs/node.asp?id=2138"&gt;PKCS #12: Personal<a name="line.423"></a>
+<span class="sourceLineNo">424</span>   * Information Exchange Syntax Standard&lt;/a&gt;, PKCS #12 defines an archive file format for storing<a name="line.424"></a>
+<span class="sourceLineNo">425</span>   * many cryptography objects as a single file.<a name="line.425"></a>
+<span class="sourceLineNo">426</span>   *<a name="line.426"></a>
+<span class="sourceLineNo">427</span>   * @since 15.0<a name="line.427"></a>
+<span class="sourceLineNo">428</span>   */<a name="line.428"></a>
+<span class="sourceLineNo">429</span>  public static final MediaType KEY_ARCHIVE = createConstant(APPLICATION_TYPE, "pkcs12");<a name="line.429"></a>
+<span class="sourceLineNo">430</span><a name="line.430"></a>
+<span class="sourceLineNo">431</span>  /**<a name="line.431"></a>
+<span class="sourceLineNo">432</span>   * This is a non-standard media type, but is commonly used in serving hosted binary files as it is<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * &lt;a href="http://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors"&gt;<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * known not to trigger content sniffing in current browsers&lt;/a&gt;. It &lt;i&gt;should not&lt;/i&gt; be used in<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   * other situations as it is not specified by any RFC and does not appear in the &lt;a<a name="line.435"></a>
+<span class="sourceLineNo">436</span>   * href="http://www.iana.org/assignments/media-types"&gt;/IANA MIME Media Types&lt;/a&gt; list. Consider<a name="line.436"></a>
+<span class="sourceLineNo">437</span>   * {@link #OCTET_STREAM} for binary data that is not being served to a browser.<a name="line.437"></a>
+<span class="sourceLineNo">438</span>   *<a name="line.438"></a>
+<span class="sourceLineNo">439</span>   * @since 14.0<a name="line.439"></a>
+<span class="sourceLineNo">440</span>   */<a name="line.440"></a>
+<span class="sourceLineNo">441</span>  public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");<a name="line.441"></a>
+<span class="sourceLineNo">442</span><a name="line.442"></a>
+<span class="sourceLineNo">443</span>  /**<a name="line.443"></a>
+<span class="sourceLineNo">444</span>   * Media type for the &lt;a href="https://tools.ietf.org/html/rfc7946"&gt;GeoJSON Format&lt;/a&gt;, a<a name="line.444"></a>
+<span class="sourceLineNo">445</span>   * geospatial data interchange format based on JSON.<a name="line.445"></a>
+<span class="sourceLineNo">446</span>   *<a name="line.446"></a>
+<span class="sourceLineNo">447</span>   * @since 28.0<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   */<a name="line.448"></a>
+<span class="sourceLineNo">449</span>  public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");<a name="line.449"></a>
+<span class="sourceLineNo">450</span><a name="line.450"></a>
+<span class="sourceLineNo">451</span>  public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");<a name="line.451"></a>
+<span class="sourceLineNo">452</span><a name="line.452"></a>
+<span class="sourceLineNo">453</span>  /**<a name="line.453"></a>
+<span class="sourceLineNo">454</span>   * &lt;a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3"&gt;JSON Hypertext<a name="line.454"></a>
+<span class="sourceLineNo">455</span>   * Application Language (HAL) documents&lt;/a&gt;.<a name="line.455"></a>
+<span class="sourceLineNo">456</span>   *<a name="line.456"></a>
+<span class="sourceLineNo">457</span>   * @since 26.0<a name="line.457"></a>
+<span class="sourceLineNo">458</span>   */<a name="line.458"></a>
+<span class="sourceLineNo">459</span>  public static final MediaType HAL_JSON = createConstant(APPLICATION_TYPE, "hal+json");<a name="line.459"></a>
+<span class="sourceLineNo">460</span><a name="line.460"></a>
+<span class="sourceLineNo">461</span>  /**<a name="line.461"></a>
+<span class="sourceLineNo">462</span>   * &lt;a href="http://www.rfc-editor.org/rfc/rfc4329.txt"&gt;RFC 4329&lt;/a&gt; declares this to be the<a name="line.462"></a>
+<span class="sourceLineNo">463</span>   * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be<a name="line.463"></a>
+<span class="sourceLineNo">464</span>   * necessary in certain situations for compatibility.<a name="line.464"></a>
+<span class="sourceLineNo">465</span>   */<a name="line.465"></a>
+<span class="sourceLineNo">466</span>  public static final MediaType JAVASCRIPT_UTF_8 =<a name="line.466"></a>
+<span class="sourceLineNo">467</span>      createConstantUtf8(APPLICATION_TYPE, "javascript");<a name="line.467"></a>
+<span class="sourceLineNo">468</span><a name="line.468"></a>
+<span class="sourceLineNo">469</span>  /**<a name="line.469"></a>
+<span class="sourceLineNo">470</span>   * For &lt;a href="https://tools.ietf.org/html/rfc7515"&gt;JWS or JWE objects using the Compact<a name="line.470"></a>
+<span class="sourceLineNo">471</span>   * Serialization&lt;/a&gt;.<a name="line.471"></a>
+<span class="sourceLineNo">472</span>   *<a name="line.472"></a>
+<span class="sourceLineNo">473</span>   * @since 27.1<a name="line.473"></a>
+<span class="sourceLineNo">474</span>   */<a name="line.474"></a>
+<span class="sourceLineNo">475</span>  public static final MediaType JOSE = createConstant(APPLICATION_TYPE, "jose");<a name="line.475"></a>
+<span class="sourceLineNo">476</span><a name="line.476"></a>
+<span class="sourceLineNo">477</span>  /**<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   * For &lt;a href="https://tools.ietf.org/html/rfc7515"&gt;JWS or JWE objects using the JSON<a name="line.478"></a>
+<span class="sourceLineNo">479</span>   * Serialization&lt;/a&gt;.<a name="line.479"></a>
+<span class="sourceLineNo">480</span>   *<a name="line.480"></a>
+<span class="sourceLineNo">481</span>   * @since 27.1<a name="line.481"></a>
+<span class="sourceLineNo">482</span>   */<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  public static final MediaType JOSE_JSON = createConstant(APPLICATION_TYPE, "jose+json");<a name="line.483"></a>
+<span class="sourceLineNo">484</span><a name="line.484"></a>
+<span class="sourceLineNo">485</span>  public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");<a name="line.485"></a>
+<span class="sourceLineNo">486</span><a name="line.486"></a>
+<span class="sourceLineNo">487</span>  /**<a name="line.487"></a>
+<span class="sourceLineNo">488</span>   * The &lt;a href="http://www.w3.org/TR/appmanifest/"&gt;Manifest for a web application&lt;/a&gt;.<a name="line.488"></a>
+<span class="sourceLineNo">489</span>   *<a name="line.489"></a>
+<span class="sourceLineNo">490</span>   * @since 19.0<a name="line.490"></a>
+<span class="sourceLineNo">491</span>   */<a name="line.491"></a>
+<span class="sourceLineNo">492</span>  public static final MediaType MANIFEST_JSON_UTF_8 =<a name="line.492"></a>
+<span class="sourceLineNo">493</span>      createConstantUtf8(APPLICATION_TYPE, "manifest+json");<a name="line.493"></a>
+<span class="sourceLineNo">494</span><a name="line.494"></a>
+<span class="sourceLineNo">495</span>  /**<a name="line.495"></a>
+<span class="sourceLineNo">496</span>   * &lt;a href="http://www.opengeospatial.org/standards/kml/"&gt;OGC KML (Keyhole Markup Language)&lt;/a&gt;.<a name="line.496"></a>
+<span class="sourceLineNo">497</span>   */<a name="line.497"></a>
+<span class="sourceLineNo">498</span>  public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>  /**<a name="line.500"></a>
+<span class="sourceLineNo">501</span>   * &lt;a href="http://www.opengeospatial.org/standards/kml/"&gt;OGC KML (Keyhole Markup Language)&lt;/a&gt;,<a name="line.501"></a>
+<span class="sourceLineNo">502</span>   * compressed using the ZIP format into KMZ archives.<a name="line.502"></a>
+<span class="sourceLineNo">503</span>   */<a name="line.503"></a>
+<span class="sourceLineNo">504</span>  public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");<a name="line.504"></a>
+<span class="sourceLineNo">505</span><a name="line.505"></a>
+<span class="sourceLineNo">506</span>  /**<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   * The &lt;a href="https://tools.ietf.org/html/rfc4155"&gt;mbox database format&lt;/a&gt;.<a name="line.507"></a>
+<span class="sourceLineNo">508</span>   *<a name="line.508"></a>
+<span class="sourceLineNo">509</span>   * @since 13.0<a name="line.509"></a>
+<span class="sourceLineNo">510</span>   */<a name="line.510"></a>
+<span class="sourceLineNo">511</span>  public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");<a name="line.511"></a>
+<span class="sourceLineNo">512</span><a name="line.512"></a>
+<span class="sourceLineNo">513</span>  /**<a name="line.513"></a>
+<span class="sourceLineNo">514</span>   * &lt;a href="http://goo.gl/1pGBFm"&gt;Apple over-the-air mobile configuration profiles&lt;/a&gt;.<a name="line.514"></a>
+<span class="sourceLineNo">515</span>   *<a name="line.515"></a>
+<span class="sourceLineNo">516</span>   * @since 18.0<a name="line.516"></a>
+<span class="sourceLineNo">517</span>   */<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  public static final MediaType APPLE_MOBILE_CONFIG =<a name="line.518"></a>
+<span class="sourceLineNo">519</span>      createConstant(APPLICATION_TYPE, "x-apple-aspen-config");<a name="line.519"></a>
+<span class="sourceLineNo">520</span><a name="line.520"></a>
+<span class="sourceLineNo">521</span>  /** &lt;a href="http://goo.gl/XDQ1h2"&gt;Microsoft Excel&lt;/a&gt; spreadsheets. */<a name="line.521"></a>
+<span class="sourceLineNo">522</span>  public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");<a name="line.522"></a>
+<span class="sourceLineNo">523</span><a name="line.523"></a>
+<span class="sourceLineNo">524</span>  /**<a name="line.524"></a>
+<span class="sourceLineNo">525</span>   * &lt;a href="http://goo.gl/XrTEqG"&gt;Microsoft Outlook&lt;/a&gt; items.<a name="line.525"></a>
+<span class="sourceLineNo">526</span>   *<a name="line.526"></a>
+<span class="sourceLineNo">527</span>   * @since 27.1<a name="line.527"></a>
+<span class="sourceLineNo">528</span>   */<a name="line.528"></a>
+<span class="sourceLineNo">529</span>  public static final MediaType MICROSOFT_OUTLOOK =<a name="line.529"></a>
+<span class="sourceLineNo">530</span>      createConstant(APPLICATION_TYPE, "vnd.ms-outlook");<a name="line.530"></a>
+<span class="sourceLineNo">531</span><a name="line.531"></a>
+<span class="sourceLineNo">532</span>  /** &lt;a href="http://goo.gl/XDQ1h2"&gt;Microsoft Powerpoint&lt;/a&gt; presentations. */<a name="line.532"></a>
+<span class="sourceLineNo">533</span>  public static final MediaType MICROSOFT_POWERPOINT =<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");<a name="line.534"></a>
+<span class="sourceLineNo">535</span><a name="line.535"></a>
+<span class="sourceLineNo">536</span>  /** &lt;a href="http://goo.gl/XDQ1h2"&gt;Microsoft Word&lt;/a&gt; documents. */<a name="line.536"></a>
+<span class="sourceLineNo">537</span>  public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");<a name="line.537"></a>
+<span class="sourceLineNo">538</span><a name="line.538"></a>
+<span class="sourceLineNo">539</span>  /**<a name="line.539"></a>
+<span class="sourceLineNo">540</span>   * Media type for &lt;a<a name="line.540"></a>
+<span class="sourceLineNo">541</span>   * href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP"&gt;Dynamic Adaptive<a name="line.541"></a>
+<span class="sourceLineNo">542</span>   * Streaming over HTTP (DASH)&lt;/a&gt;. This is &lt;a<a name="line.542"></a>
+<span class="sourceLineNo">543</span>   * href="https://www.iana.org/assignments/media-types/application/dash+xml"&gt;registered&lt;/a&gt; with<a name="line.543"></a>
+<span class="sourceLineNo">544</span>   * the IANA.<a name="line.544"></a>
+<span class="sourceLineNo">545</span>   *<a name="line.545"></a>
+<span class="sourceLineNo">546</span>   * @since 28.2<a name="line.546"></a>
+<span class="sourceLineNo">547</span>   */<a name="line.547"></a>
+<span class="sourceLineNo">548</span>  public static final MediaType MEDIA_PRESENTATION_DESCRIPTION =<a name="line.548"></a>
+<span class="sourceLineNo">549</span>      createConstant(APPLICATION_TYPE, "dash+xml");<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>  /**<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   * WASM applications. For more information see &lt;a href="https://webassembly.org/"&gt;the Web Assembly<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * overview&lt;/a&gt;.<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   *<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   * @since 27.0<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   */<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  public static final MediaType WASM_APPLICATION = createConstant(APPLICATION_TYPE, "wasm");<a name="line.557"></a>
+<span class="sourceLineNo">558</span><a name="line.558"></a>
+<span class="sourceLineNo">559</span>  /**<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * NaCl applications. For more information see &lt;a<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * href="https://developer.chrome.com/native-client/devguide/coding/application-structure"&gt;the<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   * Developer Guide for Native Client Application Structure&lt;/a&gt;.<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   *<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   * @since 20.0<a name="line.564"></a>
+<span class="sourceLineNo">565</span>   */<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  public static final MediaType NACL_APPLICATION = createConstant(APPLICATION_TYPE, "x-nacl");<a name="line.566"></a>
+<span class="sourceLineNo">567</span><a name="line.567"></a>
+<span class="sourceLineNo">568</span>  /**<a name="line.568"></a>
+<span class="sourceLineNo">569</span>   * NaCl portable applications. For more information see &lt;a<a name="line.569"></a>
+<span class="sourceLineNo">570</span>   * href="https://developer.chrome.com/native-client/devguide/coding/application-structure"&gt;the<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   * Developer Guide for Native Client Application Structure&lt;/a&gt;.<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   *<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   * @since 20.0<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   */<a name="line.574"></a>
+<span class="sourceLineNo">575</span>  public static final MediaType NACL_PORTABLE_APPLICATION =<a name="line.575"></a>
+<span class="sourceLineNo">576</span>      createConstant(APPLICATION_TYPE, "x-pnacl");<a name="line.576"></a>
+<span class="sourceLineNo">577</span><a name="line.577"></a>
+<span class="sourceLineNo">578</span>  public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");<a name="line.578"></a>
+<span class="sourceLineNo">579</span><a name="line.579"></a>
+<span class="sourceLineNo">580</span>  public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  public static final MediaType OOXML_DOCUMENT =<a name="line.581"></a>
+<span class="sourceLineNo">582</span>      createConstant(<a name="line.582"></a>
+<span class="sourceLineNo">583</span>          APPLICATION_TYPE, "vnd.openxmlformats-officedocument.wordprocessingml.document");<a name="line.583"></a>
+<span class="sourceLineNo">584</span>  public static final MediaType OOXML_PRESENTATION =<a name="line.584"></a>
+<span class="sourceLineNo">585</span>      createConstant(<a name="line.585"></a>
+<span class="sourceLineNo">586</span>          APPLICATION_TYPE, "vnd.openxmlformats-officedocument.presentationml.presentation");<a name="line.586"></a>
+<span class="sourceLineNo">587</span>  public static final MediaType OOXML_SHEET =<a name="line.587"></a>
+<span class="sourceLineNo">588</span>      createConstant(APPLICATION_TYPE, "vnd.openxmlformats-officedocument.spreadsheetml.sheet");<a name="line.588"></a>
+<span class="sourceLineNo">589</span>  public static final MediaType OPENDOCUMENT_GRAPHICS =<a name="line.589"></a>
+<span class="sourceLineNo">590</span>      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.graphics");<a name="line.590"></a>
+<span class="sourceLineNo">591</span>  public static final MediaType OPENDOCUMENT_PRESENTATION =<a name="line.591"></a>
+<span class="sourceLineNo">592</span>      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.presentation");<a name="line.592"></a>
+<span class="sourceLineNo">593</span>  public static final MediaType OPENDOCUMENT_SPREADSHEET =<a name="line.593"></a>
+<span class="sourceLineNo">594</span>      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  public static final MediaType OPENDOCUMENT_TEXT =<a name="line.595"></a>
+<span class="sourceLineNo">596</span>      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");<a name="line.596"></a>
+<span class="sourceLineNo">597</span><a name="line.597"></a>
+<span class="sourceLineNo">598</span>  /**<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   * &lt;a href="https://tools.ietf.org/id/draft-ellermann-opensearch-01.html"&gt;OpenSearch&lt;/a&gt;<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   * Description files are XML files that describe how a website can be used as a search engine by<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * consumers (e.g. web browsers).<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   *<a name="line.602"></a>
+<span class="sourceLineNo">603</span>   * @since 28.2<a name="line.603"></a>
+<span class="sourceLineNo">604</span>   */<a name="line.604"></a>
+<span class="sourceLineNo">605</span>  public static final MediaType OPENSEARCH_DESCRIPTION_UTF_8 =<a name="line.605"></a>
+<span class="sourceLineNo">606</span>      createConstantUtf8(APPLICATION_TYPE, "opensearchdescription+xml");<a name="line.606"></a>
+<span class="sourceLineNo">607</span><a name="line.607"></a>
+<span class="sourceLineNo">608</span>  public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");<a name="line.608"></a>
+<span class="sourceLineNo">609</span>  public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");<a name="line.609"></a>
+<span class="sourceLineNo">610</span><a name="line.610"></a>
+<span class="sourceLineNo">611</span>  /**<a name="line.611"></a>
+<span class="sourceLineNo">612</span>   * &lt;a href="http://tools.ietf.org/html/draft-rfernando-protocol-buffers-00"&gt;Protocol buffers&lt;/a&gt;<a name="line.612"></a>
+<span class="sourceLineNo">613</span>   *<a name="line.613"></a>
+<span class="sourceLineNo">614</span>   * @since 15.0<a name="line.614"></a>
+<span class="sourceLineNo">615</span>   */<a name="line.615"></a>
+<span class="sourceLineNo">616</span>  public static final MediaType PROTOBUF = createConstant(APPLICATION_TYPE, "protobuf");<a name="line.616"></a>
+<span class="sourceLineNo">617</span><a name="line.617"></a>
+<span class="sourceLineNo">618</span>  /**<a name="line.618"></a>
+<span class="sourceLineNo">619</span>   * &lt;a href="https://en.wikipedia.org/wiki/RDF/XML"&gt;RDF/XML&lt;/a&gt; documents, which are XML<a name="line.619"></a>
+<span class="sourceLineNo">620</span>   * serializations of &lt;a<a name="line.620"></a>
+<span class="sourceLineNo">621</span>   * href="https://en.wikipedia.org/wiki/Resource_Description_Framework"&gt;Resource Description<a name="line.621"></a>
+<span class="sourceLineNo">622</span>   * Framework&lt;/a&gt; graphs.<a name="line.622"></a>
+<span class="sourceLineNo">623</span>   *<a name="line.623"></a>
+<span class="sourceLineNo">624</span>   * @since 14.0<a name="line.624"></a>
+<span class="sourceLineNo">625</span>   */<a name="line.625"></a>
+<span class="sourceLineNo">626</span>  public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");<a name="line.626"></a>
+<span class="sourceLineNo">627</span><a name="line.627"></a>
+<span class="sourceLineNo">628</span>  public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");<a name="line.628"></a>
+<span class="sourceLineNo">629</span><a name="line.629"></a>
+<span class="sourceLineNo">630</span>  /**<a name="line.630"></a>
+<span class="sourceLineNo">631</span>   * SFNT fonts (which includes &lt;a href="http://en.wikipedia.org/wiki/TrueType/"&gt;TrueType&lt;/a&gt; and &lt;a<a name="line.631"></a>
+<span class="sourceLineNo">632</span>   * href="http://en.wikipedia.org/wiki/OpenType/"&gt;OpenType&lt;/a&gt; fonts). This is &lt;a<a name="line.632"></a>
+<span class="sourceLineNo">633</span>   * href="http://www.iana.org/assignments/media-types/application/font-sfnt"&gt;registered&lt;/a&gt; with<a name="line.633"></a>
+<span class="sourceLineNo">634</span>   * the IANA.<a name="line.634"></a>
+<span class="sourceLineNo">635</span>   *<a name="line.635"></a>
+<span class="sourceLineNo">636</span>   * @since 17.0<a name="line.636"></a>
+<span class="sourceLineNo">637</span>   */<a name="line.637"></a>
+<span class="sourceLineNo">638</span>  public static final MediaType SFNT = createConstant(APPLICATION_TYPE, "font-sfnt");<a name="line.638"></a>
+<span class="sourceLineNo">639</span><a name="line.639"></a>
+<span class="sourceLineNo">640</span>  public static final MediaType SHOCKWAVE_FLASH =<a name="line.640"></a>
+<span class="sourceLineNo">641</span>      createConstant(APPLICATION_TYPE, "x-shockwave-flash");<a name="line.641"></a>
+<span class="sourceLineNo">642</span><a name="line.642"></a>
+<span class="sourceLineNo">643</span>  /**<a name="line.643"></a>
+<span class="sourceLineNo">644</span>   * {@code skp} files produced by the 3D Modeling software &lt;a<a name="line.644"></a>
+<span class="sourceLineNo">645</span>   * href="https://www.sketchup.com/"&gt;SketchUp&lt;/a&gt;<a name="line.645"></a>
+<span class="sourceLineNo">646</span>   *<a name="line.646"></a>
+<span class="sourceLineNo">647</span>   * @since 13.0<a name="line.647"></a>
+<span class="sourceLineNo">648</span>   */<a name="line.648"></a>
+<span class="sourceLineNo">649</span>  public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");<a name="line.649"></a>
+<span class="sourceLineNo">650</span><a name="line.650"></a>
+<span class="sourceLineNo">651</span>  /**<a name="line.651"></a>
+<span class="sourceLineNo">652</span>   * As described in &lt;a href="http://www.ietf.org/rfc/rfc3902.txt"&gt;RFC 3902&lt;/a&gt;, this constant<a name="line.652"></a>
+<span class="sourceLineNo">653</span>   * ({@code application/soap+xml}) is used to identify SOAP 1.2 message envelopes that have been<a name="line.653"></a>
+<span class="sourceLineNo">654</span>   * serialized with XML 1.0.<a name="line.654"></a>
+<span class="sourceLineNo">655</span>   *<a name="line.655"></a>
+<span class="sourceLineNo">656</span>   * &lt;p&gt;For SOAP 1.1 messages, see {@code XML_UTF_8} per &lt;a<a name="line.656"></a>
+<span class="sourceLineNo">657</span>   * href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/"&gt;W3C Note on Simple Object Access Protocol<a name="line.657"></a>
+<span class="sourceLineNo">658</span>   * (SOAP) 1.1&lt;/a&gt;<a name="line.658"></a>
+<span class="sourceLineNo">659</span>   *<a name="line.659"></a>
+<span class="sourceLineNo">660</span>   * @since 20.0<a name="line.660"></a>
+<span class="sourceLineNo">661</span>   */<a name="line.661"></a>
+<span class="sourceLineNo">662</span>  public static final MediaType SOAP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "soap+xml");<a name="line.662"></a>
+<span class="sourceLineNo">663</span><a name="line.663"></a>
+<span class="sourceLineNo">664</span>  public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");<a name="line.664"></a>
+<span class="sourceLineNo">665</span><a name="line.665"></a>
+<span class="sourceLineNo">666</span>  /**<a name="line.666"></a>
+<span class="sourceLineNo">667</span>   * &lt;a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format"&gt;Web Open Font Format&lt;/a&gt; (WOFF) &lt;a<a name="line.667"></a>
+<span class="sourceLineNo">668</span>   * href="http://www.w3.org/TR/WOFF/"&gt;defined&lt;/a&gt; by the W3C. This is &lt;a<a name="line.668"></a>
+<span class="sourceLineNo">669</span>   * href="http://www.iana.org/assignments/media-types/application/font-woff"&gt;registered&lt;/a&gt; with<a name="line.669"></a>
+<span class="sourceLineNo">670</span>   * the IANA.<a name="line.670"></a>
+<span class="sourceLineNo">671</span>   *<a name="line.671"></a>
+<span class="sourceLineNo">672</span>   * @since 17.0<a name="line.672"></a>
+<span class="sourceLineNo">673</span>   */<a name="line.673"></a>
+<span class="sourceLineNo">674</span>  public static final MediaType WOFF = createConstant(APPLICATION_TYPE, "font-woff");<a name="line.674"></a>
+<span class="sourceLineNo">675</span><a name="line.675"></a>
+<span class="sourceLineNo">676</span>  /**<a name="line.676"></a>
+<span class="sourceLineNo">677</span>   * &lt;a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format"&gt;Web Open Font Format&lt;/a&gt; (WOFF)<a name="line.677"></a>
+<span class="sourceLineNo">678</span>   * version 2 &lt;a href="https://www.w3.org/TR/WOFF2/"&gt;defined&lt;/a&gt; by the W3C.<a name="line.678"></a>
+<span class="sourceLineNo">679</span>   *<a name="line.679"></a>
+<span class="sourceLineNo">680</span>   * @since 20.0<a name="line.680"></a>
+<span class="sourceLineNo">681</span>   */<a name="line.681"></a>
+<span class="sourceLineNo">682</span>  public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");<a name="line.682"></a>
+<span class="sourceLineNo">683</span><a name="line.683"></a>
+<span class="sourceLineNo">684</span>  public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");<a name="line.684"></a>
+<span class="sourceLineNo">685</span><a name="line.685"></a>
+<span class="sourceLineNo">686</span>  /**<a name="line.686"></a>
+<span class="sourceLineNo">687</span>   * Extensible Resource Descriptors. This is not yet registered with the IANA, but it is specified<a name="line.687"></a>
+<span class="sourceLineNo">688</span>   * by OASIS in the &lt;a href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html"&gt;XRD<a name="line.688"></a>
+<span class="sourceLineNo">689</span>   * definition&lt;/a&gt; and implemented in projects such as &lt;a<a name="line.689"></a>
+<span class="sourceLineNo">690</span>   * href="http://code.google.com/p/webfinger/"&gt;WebFinger&lt;/a&gt;.<a name="line.690"></a>
+<span class="sourceLineNo">691</span>   *<a name="line.691"></a>
+<span class="sourceLineNo">692</span>   * @since 14.0<a name="line.692"></a>
+<span class="sourceLineNo">693</span>   */<a name="line.693"></a>
+<span class="sourceLineNo">694</span>  public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");<a name="line.694"></a>
+<span class="sourceLineNo">695</span><a name="line.695"></a>
+<span class="sourceLineNo">696</span>  public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");<a name="line.696"></a>
+<span class="sourceLineNo">697</span><a name="line.697"></a>
+<span class="sourceLineNo">698</span>  private final String type;<a name="line.698"></a>
+<span class="sourceLineNo">699</span>  private final String subtype;<a name="line.699"></a>
+<span class="sourceLineNo">700</span>  private final ImmutableListMultimap&lt;String, String&gt; parameters;<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>  @LazyInit private String toString;<a name="line.702"></a>
+<span class="sourceLineNo">703</span><a name="line.703"></a>
+<span class="sourceLineNo">704</span>  @LazyInit private int hashCode;<a name="line.704"></a>
+<span class="sourceLineNo">705</span><a name="line.705"></a>
+<span class="sourceLineNo">706</span>  @LazyInit private Optional&lt;Charset&gt; parsedCharset;<a name="line.706"></a>
+<span class="sourceLineNo">707</span><a name="line.707"></a>
+<span class="sourceLineNo">708</span>  private MediaType(String type, String subtype, ImmutableListMultimap&lt;String, String&gt; parameters) {<a name="line.708"></a>
+<span class="sourceLineNo">709</span>    this.type = type;<a name="line.709"></a>
+<span class="sourceLineNo">710</span>    this.subtype = subtype;<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    this.parameters = parameters;<a name="line.711"></a>
+<span class="sourceLineNo">712</span>  }<a name="line.712"></a>
+<span class="sourceLineNo">713</span><a name="line.713"></a>
+<span class="sourceLineNo">714</span>  /** Returns the top-level media type. For example, {@code "text"} in {@code "text/plain"}. */<a name="line.714"></a>
+<span class="sourceLineNo">715</span>  public String type() {<a name="line.715"></a>
+<span class="sourceLineNo">716</span>    return type;<a name="line.716"></a>
+<span class="sourceLineNo">717</span>  }<a name="line.717"></a>
+<span class="sourceLineNo">718</span><a name="line.718"></a>
+<span class="sourceLineNo">719</span>  /** Returns the media subtype. For example, {@code "plain"} in {@code "text/plain"}. */<a name="line.719"></a>
+<span class="sourceLineNo">720</span>  public String subtype() {<a name="line.720"></a>
+<span class="sourceLineNo">721</span>    return subtype;<a name="line.721"></a>
+<span class="sourceLineNo">722</span>  }<a name="line.722"></a>
+<span class="sourceLineNo">723</span><a name="line.723"></a>
+<span class="sourceLineNo">724</span>  /** Returns a multimap containing the parameters of this media type. */<a name="line.724"></a>
+<span class="sourceLineNo">725</span>  public ImmutableListMultimap&lt;String, String&gt; parameters() {<a name="line.725"></a>
+<span class="sourceLineNo">726</span>    return parameters;<a name="line.726"></a>
+<span class="sourceLineNo">727</span>  }<a name="line.727"></a>
+<span class="sourceLineNo">728</span><a name="line.728"></a>
+<span class="sourceLineNo">729</span>  private Map&lt;String, ImmutableMultiset&lt;String&gt;&gt; parametersAsMap() {<a name="line.729"></a>
+<span class="sourceLineNo">730</span>    return Maps.transformValues(<a name="line.730"></a>
+<span class="sourceLineNo">731</span>        parameters.asMap(),<a name="line.731"></a>
+<span class="sourceLineNo">732</span>        new Function&lt;Collection&lt;String&gt;, ImmutableMultiset&lt;String&gt;&gt;() {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>          @Override<a name="line.733"></a>
+<span class="sourceLineNo">734</span>          public ImmutableMultiset&lt;String&gt; apply(Collection&lt;String&gt; input) {<a name="line.734"></a>
+<span class="sourceLineNo">735</span>            return ImmutableMultiset.copyOf(input);<a name="line.735"></a>
+<span class="sourceLineNo">736</span>          }<a name="line.736"></a>
+<span class="sourceLineNo">737</span>        });<a name="line.737"></a>
+<span class="sourceLineNo">738</span>  }<a name="line.738"></a>
+<span class="sourceLineNo">739</span><a name="line.739"></a>
+<span class="sourceLineNo">740</span>  /**<a name="line.740"></a>
+<span class="sourceLineNo">741</span>   * Returns an optional charset for the value of the charset parameter if it is specified.<a name="line.741"></a>
+<span class="sourceLineNo">742</span>   *<a name="line.742"></a>
+<span class="sourceLineNo">743</span>   * @throws IllegalStateException if multiple charset values have been set for this media type<a name="line.743"></a>
+<span class="sourceLineNo">744</span>   * @throws IllegalCharsetNameException if a charset value is present, but illegal<a name="line.744"></a>
+<span class="sourceLineNo">745</span>   * @throws UnsupportedCharsetException if a charset value is present, but no support is available<a name="line.745"></a>
+<span class="sourceLineNo">746</span>   *     in this instance of the Java virtual machine<a name="line.746"></a>
+<span class="sourceLineNo">747</span>   */<a name="line.747"></a>
+<span class="sourceLineNo">748</span>  public Optional&lt;Charset&gt; charset() {<a name="line.748"></a>
+<span class="sourceLineNo">749</span>    // racy single-check idiom, this is safe because Optional is immutable.<a name="line.749"></a>
+<span class="sourceLineNo">750</span>    Optional&lt;Charset&gt; local = parsedCharset;<a name="line.750"></a>
+<span class="sourceLineNo">751</span>    if (local == null) {<a name="line.751"></a>
+<span class="sourceLineNo">752</span>      String value = null;<a name="line.752"></a>
+<span class="sourceLineNo">753</span>      local = Optional.absent();<a name="line.753"></a>
+<span class="sourceLineNo">754</span>      for (String currentValue : parameters.get(CHARSET_ATTRIBUTE)) {<a name="line.754"></a>
+<span class="sourceLineNo">755</span>        if (value == null) {<a name="line.755"></a>
+<span class="sourceLineNo">756</span>          value = currentValue;<a name="line.756"></a>
+<span class="sourceLineNo">757</span>          local = Optional.of(Charset.forName(value));<a name="line.757"></a>
+<span class="sourceLineNo">758</span>        } else if (!value.equals(currentValue)) {<a name="line.758"></a>
+<span class="sourceLineNo">759</span>          throw new IllegalStateException(<a name="line.759"></a>
+<span class="sourceLineNo">760</span>              "Multiple charset values defined: " + value + ", " + currentValue);<a name="line.760"></a>
+<span class="sourceLineNo">761</span>        }<a name="line.761"></a>
+<span class="sourceLineNo">762</span>      }<a name="line.762"></a>
+<span class="sourceLineNo">763</span>      parsedCharset = local;<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    }<a name="line.764"></a>
+<span class="sourceLineNo">765</span>    return local;<a name="line.765"></a>
+<span class="sourceLineNo">766</span>  }<a name="line.766"></a>
+<span class="sourceLineNo">767</span><a name="line.767"></a>
+<span class="sourceLineNo">768</span>  /**<a name="line.768"></a>
+<span class="sourceLineNo">769</span>   * Returns a new instance with the same type and subtype as this instance, but without any<a name="line.769"></a>
+<span class="sourceLineNo">770</span>   * parameters.<a name="line.770"></a>
+<span class="sourceLineNo">771</span>   */<a name="line.771"></a>
+<span class="sourceLineNo">772</span>  public MediaType withoutParameters() {<a name="line.772"></a>
+<span class="sourceLineNo">773</span>    return parameters.isEmpty() ? this : create(type, subtype);<a name="line.773"></a>
+<span class="sourceLineNo">774</span>  }<a name="line.774"></a>
+<span class="sourceLineNo">775</span><a name="line.775"></a>
+<span class="sourceLineNo">776</span>  /**<a name="line.776"></a>
+<span class="sourceLineNo">777</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given parameters.<a name="line.777"></a>
+<span class="sourceLineNo">778</span>   *<a name="line.778"></a>
+<span class="sourceLineNo">779</span>   * @throws IllegalArgumentException if any parameter or value is invalid<a name="line.779"></a>
+<span class="sourceLineNo">780</span>   */<a name="line.780"></a>
+<span class="sourceLineNo">781</span>  public MediaType withParameters(Multimap&lt;String, String&gt; parameters) {<a name="line.781"></a>
+<span class="sourceLineNo">782</span>    return create(type, subtype, parameters);<a name="line.782"></a>
+<span class="sourceLineNo">783</span>  }<a name="line.783"></a>
+<span class="sourceLineNo">784</span><a name="line.784"></a>
+<span class="sourceLineNo">785</span>  /**<a name="line.785"></a>
+<span class="sourceLineNo">786</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given attribute with parameters using the given<a name="line.786"></a>
+<span class="sourceLineNo">787</span>   * values. If there are no values, any existing parameters with the given attribute are removed.<a name="line.787"></a>
+<span class="sourceLineNo">788</span>   *<a name="line.788"></a>
+<span class="sourceLineNo">789</span>   * @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid<a name="line.789"></a>
+<span class="sourceLineNo">790</span>   * @since 24.0<a name="line.790"></a>
+<span class="sourceLineNo">791</span>   */<a name="line.791"></a>
+<span class="sourceLineNo">792</span>  public MediaType withParameters(String attribute, Iterable&lt;String&gt; values) {<a name="line.792"></a>
+<span class="sourceLineNo">793</span>    checkNotNull(attribute);<a name="line.793"></a>
+<span class="sourceLineNo">794</span>    checkNotNull(values);<a name="line.794"></a>
+<span class="sourceLineNo">795</span>    String normalizedAttribute = normalizeToken(attribute);<a name="line.795"></a>
+<span class="sourceLineNo">796</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.796"></a>
+<span class="sourceLineNo">797</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.797"></a>
+<span class="sourceLineNo">798</span>      String key = entry.getKey();<a name="line.798"></a>
+<span class="sourceLineNo">799</span>      if (!normalizedAttribute.equals(key)) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>        builder.put(key, entry.getValue());<a name="line.800"></a>
+<span class="sourceLineNo">801</span>      }<a name="line.801"></a>
+<span class="sourceLineNo">802</span>    }<a name="line.802"></a>
+<span class="sourceLineNo">803</span>    for (String value : values) {<a name="line.803"></a>
+<span class="sourceLineNo">804</span>      builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));<a name="line.804"></a>
+<span class="sourceLineNo">805</span>    }<a name="line.805"></a>
+<span class="sourceLineNo">806</span>    MediaType mediaType = new MediaType(type, subtype, builder.build());<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    // if the attribute isn't charset, we can just inherit the current parsedCharset<a name="line.807"></a>
+<span class="sourceLineNo">808</span>    if (!normalizedAttribute.equals(CHARSET_ATTRIBUTE)) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>      mediaType.parsedCharset = this.parsedCharset;<a name="line.809"></a>
+<span class="sourceLineNo">810</span>    }<a name="line.810"></a>
+<span class="sourceLineNo">811</span>    // Return one of the constants if the media type is a known type.<a name="line.811"></a>
+<span class="sourceLineNo">812</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>  }<a name="line.813"></a>
+<span class="sourceLineNo">814</span><a name="line.814"></a>
+<span class="sourceLineNo">815</span>  /**<a name="line.815"></a>
+<span class="sourceLineNo">816</span>   * &lt;em&gt;Replaces&lt;/em&gt; all parameters with the given attribute with a single parameter with the<a name="line.816"></a>
+<span class="sourceLineNo">817</span>   * given value. If multiple parameters with the same attributes are necessary use {@link<a name="line.817"></a>
+<span class="sourceLineNo">818</span>   * #withParameters(String, Iterable)}. Prefer {@link #withCharset} for setting the {@code charset}<a name="line.818"></a>
+<span class="sourceLineNo">819</span>   * parameter when using a {@link Charset} object.<a name="line.819"></a>
+<span class="sourceLineNo">820</span>   *<a name="line.820"></a>
+<span class="sourceLineNo">821</span>   * @throws IllegalArgumentException if either {@code attribute} or {@code value} is invalid<a name="line.821"></a>
+<span class="sourceLineNo">822</span>   */<a name="line.822"></a>
+<span class="sourceLineNo">823</span>  public MediaType withParameter(String attribute, String value) {<a name="line.823"></a>
+<span class="sourceLineNo">824</span>    return withParameters(attribute, ImmutableSet.of(value));<a name="line.824"></a>
+<span class="sourceLineNo">825</span>  }<a name="line.825"></a>
+<span class="sourceLineNo">826</span><a name="line.826"></a>
+<span class="sourceLineNo">827</span>  /**<a name="line.827"></a>
+<span class="sourceLineNo">828</span>   * Returns a new instance with the same type and subtype as this instance, with the {@code<a name="line.828"></a>
+<span class="sourceLineNo">829</span>   * charset} parameter set to the {@link Charset#name name} of the given charset. Only one {@code<a name="line.829"></a>
+<span class="sourceLineNo">830</span>   * charset} parameter will be present on the new instance regardless of the number set on this<a name="line.830"></a>
+<span class="sourceLineNo">831</span>   * one.<a name="line.831"></a>
+<span class="sourceLineNo">832</span>   *<a name="line.832"></a>
+<span class="sourceLineNo">833</span>   * &lt;p&gt;If a charset must be specified that is not supported on this JVM (and thus is not<a name="line.833"></a>
+<span class="sourceLineNo">834</span>   * representable as a {@link Charset} instance, use {@link #withParameter}.<a name="line.834"></a>
+<span class="sourceLineNo">835</span>   */<a name="line.835"></a>
+<span class="sourceLineNo">836</span>  public MediaType withCharset(Charset charset) {<a name="line.836"></a>
+<span class="sourceLineNo">837</span>    checkNotNull(charset);<a name="line.837"></a>
+<span class="sourceLineNo">838</span>    MediaType withCharset = withParameter(CHARSET_ATTRIBUTE, charset.name());<a name="line.838"></a>
+<span class="sourceLineNo">839</span>    // precache the charset so we don't need to parse it<a name="line.839"></a>
+<span class="sourceLineNo">840</span>    withCharset.parsedCharset = Optional.of(charset);<a name="line.840"></a>
+<span class="sourceLineNo">841</span>    return withCharset;<a name="line.841"></a>
+<span class="sourceLineNo">842</span>  }<a name="line.842"></a>
+<span class="sourceLineNo">843</span><a name="line.843"></a>
+<span class="sourceLineNo">844</span>  /** Returns true if either the type or subtype is the wildcard. */<a name="line.844"></a>
+<span class="sourceLineNo">845</span>  public boolean hasWildcard() {<a name="line.845"></a>
+<span class="sourceLineNo">846</span>    return WILDCARD.equals(type) || WILDCARD.equals(subtype);<a name="line.846"></a>
+<span class="sourceLineNo">847</span>  }<a name="line.847"></a>
+<span class="sourceLineNo">848</span><a name="line.848"></a>
+<span class="sourceLineNo">849</span>  /**<a name="line.849"></a>
+<span class="sourceLineNo">850</span>   * Returns {@code true} if this instance falls within the range (as defined by &lt;a<a name="line.850"></a>
+<span class="sourceLineNo">851</span>   * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html"&gt;the HTTP Accept header&lt;/a&gt;) given<a name="line.851"></a>
+<span class="sourceLineNo">852</span>   * by the argument according to three criteria:<a name="line.852"></a>
+<span class="sourceLineNo">853</span>   *<a name="line.853"></a>
+<span class="sourceLineNo">854</span>   * &lt;ol&gt;<a name="line.854"></a>
+<span class="sourceLineNo">855</span>   *   &lt;li&gt;The type of the argument is the wildcard or equal to the type of this instance.<a name="line.855"></a>
+<span class="sourceLineNo">856</span>   *   &lt;li&gt;The subtype of the argument is the wildcard or equal to the subtype of this instance.<a name="line.856"></a>
+<span class="sourceLineNo">857</span>   *   &lt;li&gt;All of the parameters present in the argument are present in this instance.<a name="line.857"></a>
+<span class="sourceLineNo">858</span>   * &lt;/ol&gt;<a name="line.858"></a>
+<span class="sourceLineNo">859</span>   *<a name="line.859"></a>
+<span class="sourceLineNo">860</span>   * &lt;p&gt;For example:<a name="line.860"></a>
+<span class="sourceLineNo">861</span>   *<a name="line.861"></a>
+<span class="sourceLineNo">862</span>   * &lt;pre&gt;{@code<a name="line.862"></a>
+<span class="sourceLineNo">863</span>   * PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true<a name="line.863"></a>
+<span class="sourceLineNo">864</span>   * PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false<a name="line.864"></a>
+<span class="sourceLineNo">865</span>   * PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true<a name="line.865"></a>
+<span class="sourceLineNo">866</span>   * PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true<a name="line.866"></a>
+<span class="sourceLineNo">867</span>   * PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false<a name="line.867"></a>
+<span class="sourceLineNo">868</span>   * PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true<a name="line.868"></a>
+<span class="sourceLineNo">869</span>   * PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false<a name="line.869"></a>
+<span class="sourceLineNo">870</span>   * PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false<a name="line.870"></a>
+<span class="sourceLineNo">871</span>   * }&lt;/pre&gt;<a name="line.871"></a>
+<span class="sourceLineNo">872</span>   *<a name="line.872"></a>
+<span class="sourceLineNo">873</span>   * &lt;p&gt;Note that while it is possible to have the same parameter declared multiple times within a<a name="line.873"></a>
+<span class="sourceLineNo">874</span>   * media type this method does not consider the number of occurrences of a parameter. For example,<a name="line.874"></a>
+<span class="sourceLineNo">875</span>   * {@code "text/plain; charset=UTF-8"} satisfies {@code "text/plain; charset=UTF-8;<a name="line.875"></a>
+<span class="sourceLineNo">876</span>   * charset=UTF-8"}.<a name="line.876"></a>
+<span class="sourceLineNo">877</span>   */<a name="line.877"></a>
+<span class="sourceLineNo">878</span>  public boolean is(MediaType mediaTypeRange) {<a name="line.878"></a>
+<span class="sourceLineNo">879</span>    return (mediaTypeRange.type.equals(WILDCARD) || mediaTypeRange.type.equals(this.type))<a name="line.879"></a>
+<span class="sourceLineNo">880</span>        &amp;&amp; (mediaTypeRange.subtype.equals(WILDCARD) || mediaTypeRange.subtype.equals(this.subtype))<a name="line.880"></a>
+<span class="sourceLineNo">881</span>        &amp;&amp; this.parameters.entries().containsAll(mediaTypeRange.parameters.entries());<a name="line.881"></a>
+<span class="sourceLineNo">882</span>  }<a name="line.882"></a>
+<span class="sourceLineNo">883</span><a name="line.883"></a>
+<span class="sourceLineNo">884</span>  /**<a name="line.884"></a>
+<span class="sourceLineNo">885</span>   * Creates a new media type with the given type and subtype.<a name="line.885"></a>
+<span class="sourceLineNo">886</span>   *<a name="line.886"></a>
+<span class="sourceLineNo">887</span>   * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the<a name="line.887"></a>
+<span class="sourceLineNo">888</span>   *     type, but not the subtype.<a name="line.888"></a>
+<span class="sourceLineNo">889</span>   */<a name="line.889"></a>
+<span class="sourceLineNo">890</span>  public static MediaType create(String type, String subtype) {<a name="line.890"></a>
+<span class="sourceLineNo">891</span>    MediaType mediaType = create(type, subtype, ImmutableListMultimap.&lt;String, String&gt;of());<a name="line.891"></a>
+<span class="sourceLineNo">892</span>    mediaType.parsedCharset = Optional.absent();<a name="line.892"></a>
+<span class="sourceLineNo">893</span>    return mediaType;<a name="line.893"></a>
+<span class="sourceLineNo">894</span>  }<a name="line.894"></a>
+<span class="sourceLineNo">895</span><a name="line.895"></a>
+<span class="sourceLineNo">896</span>  private static MediaType create(<a name="line.896"></a>
+<span class="sourceLineNo">897</span>      String type, String subtype, Multimap&lt;String, String&gt; parameters) {<a name="line.897"></a>
+<span class="sourceLineNo">898</span>    checkNotNull(type);<a name="line.898"></a>
+<span class="sourceLineNo">899</span>    checkNotNull(subtype);<a name="line.899"></a>
+<span class="sourceLineNo">900</span>    checkNotNull(parameters);<a name="line.900"></a>
+<span class="sourceLineNo">901</span>    String normalizedType = normalizeToken(type);<a name="line.901"></a>
+<span class="sourceLineNo">902</span>    String normalizedSubtype = normalizeToken(subtype);<a name="line.902"></a>
+<span class="sourceLineNo">903</span>    checkArgument(<a name="line.903"></a>
+<span class="sourceLineNo">904</span>        !WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),<a name="line.904"></a>
+<span class="sourceLineNo">905</span>        "A wildcard type cannot be used with a non-wildcard subtype");<a name="line.905"></a>
+<span class="sourceLineNo">906</span>    ImmutableListMultimap.Builder&lt;String, String&gt; builder = ImmutableListMultimap.builder();<a name="line.906"></a>
+<span class="sourceLineNo">907</span>    for (Entry&lt;String, String&gt; entry : parameters.entries()) {<a name="line.907"></a>
+<span class="sourceLineNo">908</span>      String attribute = normalizeToken(entry.getKey());<a name="line.908"></a>
+<span class="sourceLineNo">909</span>      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));<a name="line.909"></a>
+<span class="sourceLineNo">910</span>    }<a name="line.910"></a>
+<span class="sourceLineNo">911</span>    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());<a name="line.911"></a>
+<span class="sourceLineNo">912</span>    // Return one of the constants if the media type is a known type.<a name="line.912"></a>
+<span class="sourceLineNo">913</span>    return MoreObjects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);<a name="line.913"></a>
+<span class="sourceLineNo">914</span>  }<a name="line.914"></a>
+<span class="sourceLineNo">915</span><a name="line.915"></a>
+<span class="sourceLineNo">916</span>  /**<a name="line.916"></a>
+<span class="sourceLineNo">917</span>   * Creates a media type with the "application" type and the given subtype.<a name="line.917"></a>
+<span class="sourceLineNo">918</span>   *<a name="line.918"></a>
+<span class="sourceLineNo">919</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.919"></a>
+<span class="sourceLineNo">920</span>   */<a name="line.920"></a>
+<span class="sourceLineNo">921</span>  static MediaType createApplicationType(String subtype) {<a name="line.921"></a>
+<span class="sourceLineNo">922</span>    return create(APPLICATION_TYPE, subtype);<a name="line.922"></a>
+<span class="sourceLineNo">923</span>  }<a name="line.923"></a>
+<span class="sourceLineNo">924</span><a name="line.924"></a>
+<span class="sourceLineNo">925</span>  /**<a name="line.925"></a>
+<span class="sourceLineNo">926</span>   * Creates a media type with the "audio" type and the given subtype.<a name="line.926"></a>
+<span class="sourceLineNo">927</span>   *<a name="line.927"></a>
+<span class="sourceLineNo">928</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.928"></a>
+<span class="sourceLineNo">929</span>   */<a name="line.929"></a>
+<span class="sourceLineNo">930</span>  static MediaType createAudioType(String subtype) {<a name="line.930"></a>
+<span class="sourceLineNo">931</span>    return create(AUDIO_TYPE, subtype);<a name="line.931"></a>
+<span class="sourceLineNo">932</span>  }<a name="line.932"></a>
+<span class="sourceLineNo">933</span><a name="line.933"></a>
+<span class="sourceLineNo">934</span>  /**<a name="line.934"></a>
+<span class="sourceLineNo">935</span>   * Creates a media type with the "image" type and the given subtype.<a name="line.935"></a>
+<span class="sourceLineNo">936</span>   *<a name="line.936"></a>
+<span class="sourceLineNo">937</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.937"></a>
+<span class="sourceLineNo">938</span>   */<a name="line.938"></a>
+<span class="sourceLineNo">939</span>  static MediaType createImageType(String subtype) {<a name="line.939"></a>
+<span class="sourceLineNo">940</span>    return create(IMAGE_TYPE, subtype);<a name="line.940"></a>
+<span class="sourceLineNo">941</span>  }<a name="line.941"></a>
+<span class="sourceLineNo">942</span><a name="line.942"></a>
+<span class="sourceLineNo">943</span>  /**<a name="line.943"></a>
+<span class="sourceLineNo">944</span>   * Creates a media type with the "text" type and the given subtype.<a name="line.944"></a>
+<span class="sourceLineNo">945</span>   *<a name="line.945"></a>
+<span class="sourceLineNo">946</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.946"></a>
+<span class="sourceLineNo">947</span>   */<a name="line.947"></a>
+<span class="sourceLineNo">948</span>  static MediaType createTextType(String subtype) {<a name="line.948"></a>
+<span class="sourceLineNo">949</span>    return create(TEXT_TYPE, subtype);<a name="line.949"></a>
+<span class="sourceLineNo">950</span>  }<a name="line.950"></a>
+<span class="sourceLineNo">951</span><a name="line.951"></a>
+<span class="sourceLineNo">952</span>  /**<a name="line.952"></a>
+<span class="sourceLineNo">953</span>   * Creates a media type with the "video" type and the given subtype.<a name="line.953"></a>
+<span class="sourceLineNo">954</span>   *<a name="line.954"></a>
+<span class="sourceLineNo">955</span>   * @throws IllegalArgumentException if subtype is invalid<a name="line.955"></a>
+<span class="sourceLineNo">956</span>   */<a name="line.956"></a>
+<span class="sourceLineNo">957</span>  static MediaType createVideoType(String subtype) {<a name="line.957"></a>
+<span class="sourceLineNo">958</span>    return create(VIDEO_TYPE, subtype);<a name="line.958"></a>
+<span class="sourceLineNo">959</span>  }<a name="line.959"></a>
+<span class="sourceLineNo">960</span><a name="line.960"></a>
+<span class="sourceLineNo">961</span>  private static String normalizeToken(String token) {<a name="line.961"></a>
+<span class="sourceLineNo">962</span>    checkArgument(TOKEN_MATCHER.matchesAllOf(token));<a name="line.962"></a>
+<span class="sourceLineNo">963</span>    checkArgument(!token.isEmpty());<a name="line.963"></a>
+<span class="sourceLineNo">964</span>    return Ascii.toLowerCase(token);<a name="line.964"></a>
+<span class="sourceLineNo">965</span>  }<a name="line.965"></a>
+<span class="sourceLineNo">966</span><a name="line.966"></a>
+<span class="sourceLineNo">967</span>  private static String normalizeParameterValue(String attribute, String value) {<a name="line.967"></a>
+<span class="sourceLineNo">968</span>    checkNotNull(value); // for GWT<a name="line.968"></a>
+<span class="sourceLineNo">969</span>    checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);<a name="line.969"></a>
+<span class="sourceLineNo">970</span>    return CHARSET_ATTRIBUTE.equals(attribute) ? Ascii.toLowerCase(value) : value;<a name="line.970"></a>
+<span class="sourceLineNo">971</span>  }<a name="line.971"></a>
+<span class="sourceLineNo">972</span><a name="line.972"></a>
+<span class="sourceLineNo">973</span>  /**<a name="line.973"></a>
+<span class="sourceLineNo">974</span>   * Parses a media type from its string representation.<a name="line.974"></a>
+<span class="sourceLineNo">975</span>   *<a name="line.975"></a>
+<span class="sourceLineNo">976</span>   * @throws IllegalArgumentException if the input is not parsable<a name="line.976"></a>
+<span class="sourceLineNo">977</span>   */<a name="line.977"></a>
+<span class="sourceLineNo">978</span>  public static MediaType parse(String input) {<a name="line.978"></a>
+<span class="sourceLineNo">979</span>    checkNotNull(input);<a name="line.979"></a>
+<span class="sourceLineNo">980</span>    Tokenizer tokenizer = new Tokenizer(input);<a name="line.980"></a>
+<span class="sourceLineNo">981</span>    try {<a name="line.981"></a>
+<span class="sourceLineNo">982</span>      String type = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.982"></a>
+<span class="sourceLineNo">983</span>      tokenizer.consumeCharacter('/');<a name="line.983"></a>
+<span class="sourceLineNo">984</span>      String subtype = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.984"></a>
+<span class="sourceLineNo">985</span>      ImmutableListMultimap.Builder&lt;String, String&gt; parameters = ImmutableListMultimap.builder();<a name="line.985"></a>
+<span class="sourceLineNo">986</span>      while (tokenizer.hasMore()) {<a name="line.986"></a>
+<span class="sourceLineNo">987</span>        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);<a name="line.987"></a>
+<span class="sourceLineNo">988</span>        tokenizer.consumeCharacter(';');<a name="line.988"></a>
+<span class="sourceLineNo">989</span>        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);<a name="line.989"></a>
+<span class="sourceLineNo">990</span>        String attribute = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.990"></a>
+<span class="sourceLineNo">991</span>        tokenizer.consumeCharacter('=');<a name="line.991"></a>
+<span class="sourceLineNo">992</span>        final String value;<a name="line.992"></a>
+<span class="sourceLineNo">993</span>        if ('"' == tokenizer.previewChar()) {<a name="line.993"></a>
+<span class="sourceLineNo">994</span>          tokenizer.consumeCharacter('"');<a name="line.994"></a>
+<span class="sourceLineNo">995</span>          StringBuilder valueBuilder = new StringBuilder();<a name="line.995"></a>
+<span class="sourceLineNo">996</span>          while ('"' != tokenizer.previewChar()) {<a name="line.996"></a>
+<span class="sourceLineNo">997</span>            if ('\\' == tokenizer.previewChar()) {<a name="line.997"></a>
+<span class="sourceLineNo">998</span>              tokenizer.consumeCharacter('\\');<a name="line.998"></a>
+<span class="sourceLineNo">999</span>              valueBuilder.append(tokenizer.consumeCharacter(ascii()));<a name="line.999"></a>
+<span class="sourceLineNo">1000</span>            } else {<a name="line.1000"></a>
+<span class="sourceLineNo">1001</span>              valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));<a name="line.1001"></a>
+<span class="sourceLineNo">1002</span>            }<a name="line.1002"></a>
+<span class="sourceLineNo">1003</span>          }<a name="line.1003"></a>
+<span class="sourceLineNo">1004</span>          value = valueBuilder.toString();<a name="line.1004"></a>
+<span class="sourceLineNo">1005</span>          tokenizer.consumeCharacter('"');<a name="line.1005"></a>
+<span class="sourceLineNo">1006</span>        } else {<a name="line.1006"></a>
+<span class="sourceLineNo">1007</span>          value = tokenizer.consumeToken(TOKEN_MATCHER);<a name="line.1007"></a>
+<span class="sourceLineNo">1008</span>        }<a name="line.1008"></a>
+<span class="sourceLineNo">1009</span>        parameters.put(attribute, value);<a name="line.1009"></a>
+<span class="sourceLineNo">1010</span>      }<a name="line.1010"></a>
+<span class="sourceLineNo">1011</span>      return create(type, subtype, parameters.build());<a name="line.1011"></a>
+<span class="sourceLineNo">1012</span>    } catch (IllegalStateException e) {<a name="line.1012"></a>
+<span class="sourceLineNo">1013</span>      throw new IllegalArgumentException("Could not parse '" + input + "'", e);<a name="line.1013"></a>
+<span class="sourceLineNo">1014</span>    }<a name="line.1014"></a>
+<span class="sourceLineNo">1015</span>  }<a name="line.1015"></a>
+<span class="sourceLineNo">1016</span><a name="line.1016"></a>
+<span class="sourceLineNo">1017</span>  private static final class Tokenizer {<a name="line.1017"></a>
+<span class="sourceLineNo">1018</span>    final String input;<a name="line.1018"></a>
+<span class="sourceLineNo">1019</span>    int position = 0;<a name="line.1019"></a>
+<span class="sourceLineNo">1020</span><a name="line.1020"></a>
+<span class="sourceLineNo">1021</span>    Tokenizer(String input) {<a name="line.1021"></a>
+<span class="sourceLineNo">1022</span>      this.input = input;<a name="line.1022"></a>
+<span class="sourceLineNo">1023</span>    }<a name="line.1023"></a>
+<span class="sourceLineNo">1024</span><a name="line.1024"></a>
+<span class="sourceLineNo">1025</span>    String consumeTokenIfPresent(CharMatcher matcher) {<a name="line.1025"></a>
+<span class="sourceLineNo">1026</span>      checkState(hasMore());<a name="line.1026"></a>
+<span class="sourceLineNo">1027</span>      int startPosition = position;<a name="line.1027"></a>
+<span class="sourceLineNo">1028</span>      position = matcher.negate().indexIn(input, startPosition);<a name="line.1028"></a>
+<span class="sourceLineNo">1029</span>      return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);<a name="line.1029"></a>
+<span class="sourceLineNo">1030</span>    }<a name="line.1030"></a>
+<span class="sourceLineNo">1031</span><a name="line.1031"></a>
+<span class="sourceLineNo">1032</span>    String consumeToken(CharMatcher matcher) {<a name="line.1032"></a>
+<span class="sourceLineNo">1033</span>      int startPosition = position;<a name="line.1033"></a>
+<span class="sourceLineNo">1034</span>      String token = consumeTokenIfPresent(matcher);<a name="line.1034"></a>
+<span class="sourceLineNo">1035</span>      checkState(position != startPosition);<a name="line.1035"></a>
+<span class="sourceLineNo">1036</span>      return token;<a name="line.1036"></a>
+<span class="sourceLineNo">1037</span>    }<a name="line.1037"></a>
+<span class="sourceLineNo">1038</span><a name="line.1038"></a>
+<span class="sourceLineNo">1039</span>    char consumeCharacter(CharMatcher matcher) {<a name="line.1039"></a>
+<span class="sourceLineNo">1040</span>      checkState(hasMore());<a name="line.1040"></a>
+<span class="sourceLineNo">1041</span>      char c = previewChar();<a name="line.1041"></a>
+<span class="sourceLineNo">1042</span>      checkState(matcher.matches(c));<a name="line.1042"></a>
+<span class="sourceLineNo">1043</span>      position++;<a name="line.1043"></a>
+<span class="sourceLineNo">1044</span>      return c;<a name="line.1044"></a>
+<span class="sourceLineNo">1045</span>    }<a name="line.1045"></a>
+<span class="sourceLineNo">1046</span><a name="line.1046"></a>
+<span class="sourceLineNo">1047</span>    char consumeCharacter(char c) {<a name="line.1047"></a>
+<span class="sourceLineNo">1048</span>      checkState(hasMore());<a name="line.1048"></a>
+<span class="sourceLineNo">1049</span>      checkState(previewChar() == c);<a name="line.1049"></a>
+<span class="sourceLineNo">1050</span>      position++;<a name="line.1050"></a>
+<span class="sourceLineNo">1051</span>      return c;<a name="line.1051"></a>
+<span class="sourceLineNo">1052</span>    }<a name="line.1052"></a>
+<span class="sourceLineNo">1053</span><a name="line.1053"></a>
+<span class="sourceLineNo">1054</span>    char previewChar() {<a name="line.1054"></a>
+<span class="sourceLineNo">1055</span>      checkState(hasMore());<a name="line.1055"></a>
+<span class="sourceLineNo">1056</span>      return input.charAt(position);<a name="line.1056"></a>
+<span class="sourceLineNo">1057</span>    }<a name="line.1057"></a>
+<span class="sourceLineNo">1058</span><a name="line.1058"></a>
+<span class="sourceLineNo">1059</span>    boolean hasMore() {<a name="line.1059"></a>
+<span class="sourceLineNo">1060</span>      return (position &gt;= 0) &amp;&amp; (position &lt; input.length());<a name="line.1060"></a>
+<span class="sourceLineNo">1061</span>    }<a name="line.1061"></a>
+<span class="sourceLineNo">1062</span>  }<a name="line.1062"></a>
+<span class="sourceLineNo">1063</span><a name="line.1063"></a>
+<span class="sourceLineNo">1064</span>  @Override<a name="line.1064"></a>
+<span class="sourceLineNo">1065</span>  public boolean equals(@Nullable Object obj) {<a name="line.1065"></a>
+<span class="sourceLineNo">1066</span>    if (obj == this) {<a name="line.1066"></a>
+<span class="sourceLineNo">1067</span>      return true;<a name="line.1067"></a>
+<span class="sourceLineNo">1068</span>    } else if (obj instanceof MediaType) {<a name="line.1068"></a>
+<span class="sourceLineNo">1069</span>      MediaType that = (MediaType) obj;<a name="line.1069"></a>
+<span class="sourceLineNo">1070</span>      return this.type.equals(that.type)<a name="line.1070"></a>
+<span class="sourceLineNo">1071</span>          &amp;&amp; this.subtype.equals(that.subtype)<a name="line.1071"></a>
+<span class="sourceLineNo">1072</span>          // compare parameters regardless of order<a name="line.1072"></a>
+<span class="sourceLineNo">1073</span>          &amp;&amp; this.parametersAsMap().equals(that.parametersAsMap());<a name="line.1073"></a>
+<span class="sourceLineNo">1074</span>    } else {<a name="line.1074"></a>
+<span class="sourceLineNo">1075</span>      return false;<a name="line.1075"></a>
+<span class="sourceLineNo">1076</span>    }<a name="line.1076"></a>
+<span class="sourceLineNo">1077</span>  }<a name="line.1077"></a>
+<span class="sourceLineNo">1078</span><a name="line.1078"></a>
+<span class="sourceLineNo">1079</span>  @Override<a name="line.1079"></a>
+<span class="sourceLineNo">1080</span>  public int hashCode() {<a name="line.1080"></a>
+<span class="sourceLineNo">1081</span>    // racy single-check idiom<a name="line.1081"></a>
+<span class="sourceLineNo">1082</span>    int h = hashCode;<a name="line.1082"></a>
+<span class="sourceLineNo">1083</span>    if (h == 0) {<a name="line.1083"></a>
+<span class="sourceLineNo">1084</span>      h = Objects.hashCode(type, subtype, parametersAsMap());<a name="line.1084"></a>
+<span class="sourceLineNo">1085</span>      hashCode = h;<a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>    }<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>    return h;<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span>  }<a name="line.1088"></a>
+<span class="sourceLineNo">1089</span><a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>  private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span><a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>  /**<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>   * Returns the string representation of this media type in the format described in &lt;a<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>   * href="http://www.ietf.org/rfc/rfc2045.txt"&gt;RFC 2045&lt;/a&gt;.<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>   */<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>  @Override<a name="line.1096"></a>
+<span class="sourceLineNo">1097</span>  public String toString() {<a name="line.1097"></a>
+<span class="sourceLineNo">1098</span>    // racy single-check idiom, safe because String is immutable<a name="line.1098"></a>
+<span class="sourceLineNo">1099</span>    String result = toString;<a name="line.1099"></a>
+<span class="sourceLineNo">1100</span>    if (result == null) {<a name="line.1100"></a>
+<span class="sourceLineNo">1101</span>      result = computeToString();<a name="line.1101"></a>
+<span class="sourceLineNo">1102</span>      toString = result;<a name="line.1102"></a>
+<span class="sourceLineNo">1103</span>    }<a name="line.1103"></a>
+<span class="sourceLineNo">1104</span>    return result;<a name="line.1104"></a>
+<span class="sourceLineNo">1105</span>  }<a name="line.1105"></a>
+<span class="sourceLineNo">1106</span><a name="line.1106"></a>
+<span class="sourceLineNo">1107</span>  private String computeToString() {<a name="line.1107"></a>
+<span class="sourceLineNo">1108</span>    StringBuilder builder = new StringBuilder().append(type).append('/').append(subtype);<a name="line.1108"></a>
+<span class="sourceLineNo">1109</span>    if (!parameters.isEmpty()) {<a name="line.1109"></a>
+<span class="sourceLineNo">1110</span>      builder.append("; ");<a name="line.1110"></a>
+<span class="sourceLineNo">1111</span>      Multimap&lt;String, String&gt; quotedParameters =<a name="line.1111"></a>
+<span class="sourceLineNo">1112</span>          Multimaps.transformValues(<a name="line.1112"></a>
+<span class="sourceLineNo">1113</span>              parameters,<a name="line.1113"></a>
+<span class="sourceLineNo">1114</span>              new Function&lt;String, String&gt;() {<a name="line.1114"></a>
+<span class="sourceLineNo">1115</span>                @Override<a name="line.1115"></a>
+<span class="sourceLineNo">1116</span>                public String apply(String value) {<a name="line.1116"></a>
+<span class="sourceLineNo">1117</span>                  return (TOKEN_MATCHER.matchesAllOf(value) &amp;&amp; !value.isEmpty())<a name="line.1117"></a>
+<span class="sourceLineNo">1118</span>                      ? value<a name="line.1118"></a>
+<span class="sourceLineNo">1119</span>                      : escapeAndQuote(value);<a name="line.1119"></a>
+<span class="sourceLineNo">1120</span>                }<a name="line.1120"></a>
+<span class="sourceLineNo">1121</span>              });<a name="line.1121"></a>
+<span class="sourceLineNo">1122</span>      PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());<a name="line.1122"></a>
+<span class="sourceLineNo">1123</span>    }<a name="line.1123"></a>
+<span class="sourceLineNo">1124</span>    return builder.toString();<a name="line.1124"></a>
+<span class="sourceLineNo">1125</span>  }<a name="line.1125"></a>
+<span class="sourceLineNo">1126</span><a name="line.1126"></a>
+<span class="sourceLineNo">1127</span>  private static String escapeAndQuote(String value) {<a name="line.1127"></a>
+<span class="sourceLineNo">1128</span>    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');<a name="line.1128"></a>
+<span class="sourceLineNo">1129</span>    for (int i = 0; i &lt; value.length(); i++) {<a name="line.1129"></a>
+<span class="sourceLineNo">1130</span>      char ch = value.charAt(i);<a name="line.1130"></a>
+<span class="sourceLineNo">1131</span>      if (ch == '\r' || ch == '\\' || ch == '"') {<a name="line.1131"></a>
+<span class="sourceLineNo">1132</span>        escaped.append('\\');<a name="line.1132"></a>
+<span class="sourceLineNo">1133</span>      }<a name="line.1133"></a>
+<span class="sourceLineNo">1134</span>      escaped.append(ch);<a name="line.1134"></a>
+<span class="sourceLineNo">1135</span>    }<a name="line.1135"></a>
+<span class="sourceLineNo">1136</span>    return escaped.append('"').toString();<a name="line.1136"></a>
+<span class="sourceLineNo">1137</span>  }<a name="line.1137"></a>
+<span class="sourceLineNo">1138</span>}<a name="line.1138"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

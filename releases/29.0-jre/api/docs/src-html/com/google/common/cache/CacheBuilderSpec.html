@@ -1,0 +1,551 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2011 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.cache;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtIncompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.annotations.VisibleForTesting;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.base.MoreObjects;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.base.Objects;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.base.Splitter;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.cache.LocalCache.Strength;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.common.collect.ImmutableList;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import com.google.common.collect.ImmutableMap;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Locale;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.concurrent.TimeUnit;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.checkerframework.checker.nullness.qual.Nullable;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>/**<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * A specification of a {@link CacheBuilder} configuration.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> *<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;p&gt;{@code CacheBuilderSpec} supports parsing configuration off of a string, which makes it<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * especially useful for command-line configuration of a {@code CacheBuilder}.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * &lt;p&gt;The string syntax is a series of comma-separated keys or key-value pairs, each corresponding<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * to a {@code CacheBuilder} method.<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;ul&gt;<a name="line.41"></a>
+<span class="sourceLineNo">042</span> *   &lt;li&gt;{@code concurrencyLevel=[integer]}: sets {@link CacheBuilder#concurrencyLevel}.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> *   &lt;li&gt;{@code initialCapacity=[integer]}: sets {@link CacheBuilder#initialCapacity}.<a name="line.43"></a>
+<span class="sourceLineNo">044</span> *   &lt;li&gt;{@code maximumSize=[long]}: sets {@link CacheBuilder#maximumSize}.<a name="line.44"></a>
+<span class="sourceLineNo">045</span> *   &lt;li&gt;{@code maximumWeight=[long]}: sets {@link CacheBuilder#maximumWeight}.<a name="line.45"></a>
+<span class="sourceLineNo">046</span> *   &lt;li&gt;{@code expireAfterAccess=[duration]}: sets {@link CacheBuilder#expireAfterAccess}.<a name="line.46"></a>
+<span class="sourceLineNo">047</span> *   &lt;li&gt;{@code expireAfterWrite=[duration]}: sets {@link CacheBuilder#expireAfterWrite}.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *   &lt;li&gt;{@code refreshAfterWrite=[duration]}: sets {@link CacheBuilder#refreshAfterWrite}.<a name="line.48"></a>
+<span class="sourceLineNo">049</span> *   &lt;li&gt;{@code weakKeys}: sets {@link CacheBuilder#weakKeys}.<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;{@code softValues}: sets {@link CacheBuilder#softValues}.<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *   &lt;li&gt;{@code weakValues}: sets {@link CacheBuilder#weakValues}.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *   &lt;li&gt;{@code recordStats}: sets {@link CacheBuilder#recordStats}.<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * &lt;/ul&gt;<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * &lt;p&gt;The set of supported keys will grow as {@code CacheBuilder} evolves, but existing keys will<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * never be removed.<a name="line.56"></a>
+<span class="sourceLineNo">057</span> *<a name="line.57"></a>
+<span class="sourceLineNo">058</span> * &lt;p&gt;Durations are represented by an integer, followed by one of "d", "h", "m", or "s",<a name="line.58"></a>
+<span class="sourceLineNo">059</span> * representing days, hours, minutes, or seconds respectively. (There is currently no syntax to<a name="line.59"></a>
+<span class="sourceLineNo">060</span> * request expiration in milliseconds, microseconds, or nanoseconds.)<a name="line.60"></a>
+<span class="sourceLineNo">061</span> *<a name="line.61"></a>
+<span class="sourceLineNo">062</span> * &lt;p&gt;Whitespace before and after commas and equal signs is ignored. Keys may not be repeated; it is<a name="line.62"></a>
+<span class="sourceLineNo">063</span> * also illegal to use the following pairs of keys in a single value:<a name="line.63"></a>
+<span class="sourceLineNo">064</span> *<a name="line.64"></a>
+<span class="sourceLineNo">065</span> * &lt;ul&gt;<a name="line.65"></a>
+<span class="sourceLineNo">066</span> *   &lt;li&gt;{@code maximumSize} and {@code maximumWeight}<a name="line.66"></a>
+<span class="sourceLineNo">067</span> *   &lt;li&gt;{@code softValues} and {@code weakValues}<a name="line.67"></a>
+<span class="sourceLineNo">068</span> * &lt;/ul&gt;<a name="line.68"></a>
+<span class="sourceLineNo">069</span> *<a name="line.69"></a>
+<span class="sourceLineNo">070</span> * &lt;p&gt;{@code CacheBuilderSpec} does not support configuring {@code CacheBuilder} methods with<a name="line.70"></a>
+<span class="sourceLineNo">071</span> * non-value parameters. These must be configured in code.<a name="line.71"></a>
+<span class="sourceLineNo">072</span> *<a name="line.72"></a>
+<span class="sourceLineNo">073</span> * &lt;p&gt;A new {@code CacheBuilder} can be instantiated from a {@code CacheBuilderSpec} using {@link<a name="line.73"></a>
+<span class="sourceLineNo">074</span> * CacheBuilder#from(CacheBuilderSpec)} or {@link CacheBuilder#from(String)}.<a name="line.74"></a>
+<span class="sourceLineNo">075</span> *<a name="line.75"></a>
+<span class="sourceLineNo">076</span> * @author Adam Winer<a name="line.76"></a>
+<span class="sourceLineNo">077</span> * @since 12.0<a name="line.77"></a>
+<span class="sourceLineNo">078</span> */<a name="line.78"></a>
+<span class="sourceLineNo">079</span>@SuppressWarnings("GoodTime") // lots of violations (nanosecond math)<a name="line.79"></a>
+<span class="sourceLineNo">080</span>@GwtIncompatible<a name="line.80"></a>
+<span class="sourceLineNo">081</span>public final class CacheBuilderSpec {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  /** Parses a single value. */<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  private interface ValueParser {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    void parse(CacheBuilderSpec spec, String key, @Nullable String value);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  /** Splits each key-value pair. */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  private static final Splitter KEYS_SPLITTER = Splitter.on(',').trimResults();<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /** Splits the key from the value. */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  private static final Splitter KEY_VALUE_SPLITTER = Splitter.on('=').trimResults();<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  /** Map of names to ValueParser. */<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  private static final ImmutableMap&lt;String, ValueParser&gt; VALUE_PARSERS =<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      ImmutableMap.&lt;String, ValueParser&gt;builder()<a name="line.95"></a>
+<span class="sourceLineNo">096</span>          .put("initialCapacity", new InitialCapacityParser())<a name="line.96"></a>
+<span class="sourceLineNo">097</span>          .put("maximumSize", new MaximumSizeParser())<a name="line.97"></a>
+<span class="sourceLineNo">098</span>          .put("maximumWeight", new MaximumWeightParser())<a name="line.98"></a>
+<span class="sourceLineNo">099</span>          .put("concurrencyLevel", new ConcurrencyLevelParser())<a name="line.99"></a>
+<span class="sourceLineNo">100</span>          .put("weakKeys", new KeyStrengthParser(Strength.WEAK))<a name="line.100"></a>
+<span class="sourceLineNo">101</span>          .put("softValues", new ValueStrengthParser(Strength.SOFT))<a name="line.101"></a>
+<span class="sourceLineNo">102</span>          .put("weakValues", new ValueStrengthParser(Strength.WEAK))<a name="line.102"></a>
+<span class="sourceLineNo">103</span>          .put("recordStats", new RecordStatsParser())<a name="line.103"></a>
+<span class="sourceLineNo">104</span>          .put("expireAfterAccess", new AccessDurationParser())<a name="line.104"></a>
+<span class="sourceLineNo">105</span>          .put("expireAfterWrite", new WriteDurationParser())<a name="line.105"></a>
+<span class="sourceLineNo">106</span>          .put("refreshAfterWrite", new RefreshDurationParser())<a name="line.106"></a>
+<span class="sourceLineNo">107</span>          .put("refreshInterval", new RefreshDurationParser())<a name="line.107"></a>
+<span class="sourceLineNo">108</span>          .build();<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>  @VisibleForTesting @Nullable Integer initialCapacity;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  @VisibleForTesting @Nullable Long maximumSize;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  @VisibleForTesting @Nullable Long maximumWeight;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  @VisibleForTesting @Nullable Integer concurrencyLevel;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  @VisibleForTesting @Nullable Strength keyStrength;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  @VisibleForTesting @Nullable Strength valueStrength;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @VisibleForTesting @Nullable Boolean recordStats;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  @VisibleForTesting long writeExpirationDuration;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  @VisibleForTesting @Nullable TimeUnit writeExpirationTimeUnit;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  @VisibleForTesting long accessExpirationDuration;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  @VisibleForTesting @Nullable TimeUnit accessExpirationTimeUnit;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  @VisibleForTesting long refreshDuration;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  @VisibleForTesting @Nullable TimeUnit refreshTimeUnit;<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /** Specification; used for toParseableString(). */<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  private final String specification;<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>  private CacheBuilderSpec(String specification) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    this.specification = specification;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * Creates a CacheBuilderSpec from a string.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @param cacheBuilderSpecification the string form<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  public static CacheBuilderSpec parse(String cacheBuilderSpecification) {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    CacheBuilderSpec spec = new CacheBuilderSpec(cacheBuilderSpecification);<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    if (!cacheBuilderSpecification.isEmpty()) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      for (String keyValuePair : KEYS_SPLITTER.split(cacheBuilderSpecification)) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        List&lt;String&gt; keyAndValue = ImmutableList.copyOf(KEY_VALUE_SPLITTER.split(keyValuePair));<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        checkArgument(!keyAndValue.isEmpty(), "blank key-value pair");<a name="line.140"></a>
+<span class="sourceLineNo">141</span>        checkArgument(<a name="line.141"></a>
+<span class="sourceLineNo">142</span>            keyAndValue.size() &lt;= 2,<a name="line.142"></a>
+<span class="sourceLineNo">143</span>            "key-value pair %s with more than one equals sign",<a name="line.143"></a>
+<span class="sourceLineNo">144</span>            keyValuePair);<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>        // Find the ValueParser for the current key.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>        String key = keyAndValue.get(0);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>        ValueParser valueParser = VALUE_PARSERS.get(key);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>        checkArgument(valueParser != null, "unknown key %s", key);<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>        String value = keyAndValue.size() == 1 ? null : keyAndValue.get(1);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>        valueParser.parse(spec, key, value);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>      }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    }<a name="line.154"></a>
+<span class="sourceLineNo">155</span><a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return spec;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /** Returns a CacheBuilderSpec that will prevent caching. */<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  public static CacheBuilderSpec disableCaching() {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    // Maximum size of zero is one way to block caching<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return CacheBuilderSpec.parse("maximumSize=0");<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  /** Returns a CacheBuilder configured according to this instance's specification. */<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  CacheBuilder&lt;Object, Object&gt; toCacheBuilder() {<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    CacheBuilder&lt;Object, Object&gt; builder = CacheBuilder.newBuilder();<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    if (initialCapacity != null) {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>      builder.initialCapacity(initialCapacity);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    }<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    if (maximumSize != null) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      builder.maximumSize(maximumSize);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    }<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    if (maximumWeight != null) {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>      builder.maximumWeight(maximumWeight);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    }<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    if (concurrencyLevel != null) {<a name="line.177"></a>
+<span class="sourceLineNo">178</span>      builder.concurrencyLevel(concurrencyLevel);<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    }<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    if (keyStrength != null) {<a name="line.180"></a>
+<span class="sourceLineNo">181</span>      switch (keyStrength) {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>        case WEAK:<a name="line.182"></a>
+<span class="sourceLineNo">183</span>          builder.weakKeys();<a name="line.183"></a>
+<span class="sourceLineNo">184</span>          break;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>        default:<a name="line.185"></a>
+<span class="sourceLineNo">186</span>          throw new AssertionError();<a name="line.186"></a>
+<span class="sourceLineNo">187</span>      }<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    }<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    if (valueStrength != null) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>      switch (valueStrength) {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        case SOFT:<a name="line.191"></a>
+<span class="sourceLineNo">192</span>          builder.softValues();<a name="line.192"></a>
+<span class="sourceLineNo">193</span>          break;<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        case WEAK:<a name="line.194"></a>
+<span class="sourceLineNo">195</span>          builder.weakValues();<a name="line.195"></a>
+<span class="sourceLineNo">196</span>          break;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>        default:<a name="line.197"></a>
+<span class="sourceLineNo">198</span>          throw new AssertionError();<a name="line.198"></a>
+<span class="sourceLineNo">199</span>      }<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    }<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    if (recordStats != null &amp;&amp; recordStats) {<a name="line.201"></a>
+<span class="sourceLineNo">202</span>      builder.recordStats();<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    }<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    if (writeExpirationTimeUnit != null) {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      builder.expireAfterWrite(writeExpirationDuration, writeExpirationTimeUnit);<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    }<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    if (accessExpirationTimeUnit != null) {<a name="line.207"></a>
+<span class="sourceLineNo">208</span>      builder.expireAfterAccess(accessExpirationDuration, accessExpirationTimeUnit);<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    }<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    if (refreshTimeUnit != null) {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>      builder.refreshAfterWrite(refreshDuration, refreshTimeUnit);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return builder;<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * Returns a string that can be used to parse an equivalent {@code CacheBuilderSpec}. The order<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   * and form of this representation is not guaranteed, except that reparsing its output will<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * produce a {@code CacheBuilderSpec} equal to this instance.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   */<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  public String toParsableString() {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    return specification;<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  }<a name="line.224"></a>
+<span class="sourceLineNo">225</span><a name="line.225"></a>
+<span class="sourceLineNo">226</span>  /**<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * Returns a string representation for this CacheBuilderSpec instance. The form of this<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * representation is not guaranteed.<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  @Override<a name="line.230"></a>
+<span class="sourceLineNo">231</span>  public String toString() {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>    return MoreObjects.toStringHelper(this).addValue(toParsableString()).toString();<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  }<a name="line.233"></a>
+<span class="sourceLineNo">234</span><a name="line.234"></a>
+<span class="sourceLineNo">235</span>  @Override<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public int hashCode() {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    return Objects.hashCode(<a name="line.237"></a>
+<span class="sourceLineNo">238</span>        initialCapacity,<a name="line.238"></a>
+<span class="sourceLineNo">239</span>        maximumSize,<a name="line.239"></a>
+<span class="sourceLineNo">240</span>        maximumWeight,<a name="line.240"></a>
+<span class="sourceLineNo">241</span>        concurrencyLevel,<a name="line.241"></a>
+<span class="sourceLineNo">242</span>        keyStrength,<a name="line.242"></a>
+<span class="sourceLineNo">243</span>        valueStrength,<a name="line.243"></a>
+<span class="sourceLineNo">244</span>        recordStats,<a name="line.244"></a>
+<span class="sourceLineNo">245</span>        durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),<a name="line.245"></a>
+<span class="sourceLineNo">246</span>        durationInNanos(accessExpirationDuration, accessExpirationTimeUnit),<a name="line.246"></a>
+<span class="sourceLineNo">247</span>        durationInNanos(refreshDuration, refreshTimeUnit));<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  }<a name="line.248"></a>
+<span class="sourceLineNo">249</span><a name="line.249"></a>
+<span class="sourceLineNo">250</span>  @Override<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  public boolean equals(@Nullable Object obj) {<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    if (this == obj) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>      return true;<a name="line.253"></a>
+<span class="sourceLineNo">254</span>    }<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    if (!(obj instanceof CacheBuilderSpec)) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      return false;<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    }<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    CacheBuilderSpec that = (CacheBuilderSpec) obj;<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    return Objects.equal(initialCapacity, that.initialCapacity)<a name="line.259"></a>
+<span class="sourceLineNo">260</span>        &amp;&amp; Objects.equal(maximumSize, that.maximumSize)<a name="line.260"></a>
+<span class="sourceLineNo">261</span>        &amp;&amp; Objects.equal(maximumWeight, that.maximumWeight)<a name="line.261"></a>
+<span class="sourceLineNo">262</span>        &amp;&amp; Objects.equal(concurrencyLevel, that.concurrencyLevel)<a name="line.262"></a>
+<span class="sourceLineNo">263</span>        &amp;&amp; Objects.equal(keyStrength, that.keyStrength)<a name="line.263"></a>
+<span class="sourceLineNo">264</span>        &amp;&amp; Objects.equal(valueStrength, that.valueStrength)<a name="line.264"></a>
+<span class="sourceLineNo">265</span>        &amp;&amp; Objects.equal(recordStats, that.recordStats)<a name="line.265"></a>
+<span class="sourceLineNo">266</span>        &amp;&amp; Objects.equal(<a name="line.266"></a>
+<span class="sourceLineNo">267</span>            durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),<a name="line.267"></a>
+<span class="sourceLineNo">268</span>            durationInNanos(that.writeExpirationDuration, that.writeExpirationTimeUnit))<a name="line.268"></a>
+<span class="sourceLineNo">269</span>        &amp;&amp; Objects.equal(<a name="line.269"></a>
+<span class="sourceLineNo">270</span>            durationInNanos(accessExpirationDuration, accessExpirationTimeUnit),<a name="line.270"></a>
+<span class="sourceLineNo">271</span>            durationInNanos(that.accessExpirationDuration, that.accessExpirationTimeUnit))<a name="line.271"></a>
+<span class="sourceLineNo">272</span>        &amp;&amp; Objects.equal(<a name="line.272"></a>
+<span class="sourceLineNo">273</span>            durationInNanos(refreshDuration, refreshTimeUnit),<a name="line.273"></a>
+<span class="sourceLineNo">274</span>            durationInNanos(that.refreshDuration, that.refreshTimeUnit));<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  }<a name="line.275"></a>
+<span class="sourceLineNo">276</span><a name="line.276"></a>
+<span class="sourceLineNo">277</span>  /**<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * Converts an expiration duration/unit pair into a single Long for hashing and equality. Uses<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * nanos to match CacheBuilder implementation.<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   */<a name="line.280"></a>
+<span class="sourceLineNo">281</span>  private static @Nullable Long durationInNanos(long duration, @Nullable TimeUnit unit) {<a name="line.281"></a>
+<span class="sourceLineNo">282</span>    return (unit == null) ? null : unit.toNanos(duration);<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  }<a name="line.283"></a>
+<span class="sourceLineNo">284</span><a name="line.284"></a>
+<span class="sourceLineNo">285</span>  /** Base class for parsing integers. */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  abstract static class IntegerParser implements ValueParser {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    protected abstract void parseInteger(CacheBuilderSpec spec, int value);<a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>    @Override<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      try {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        parseInteger(spec, Integer.parseInt(value));<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      } catch (NumberFormatException e) {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>        throw new IllegalArgumentException(<a name="line.295"></a>
+<span class="sourceLineNo">296</span>            format("key %s value set to %s, must be integer", key, value), e);<a name="line.296"></a>
+<span class="sourceLineNo">297</span>      }<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    }<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  }<a name="line.299"></a>
+<span class="sourceLineNo">300</span><a name="line.300"></a>
+<span class="sourceLineNo">301</span>  /** Base class for parsing integers. */<a name="line.301"></a>
+<span class="sourceLineNo">302</span>  abstract static class LongParser implements ValueParser {<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    protected abstract void parseLong(CacheBuilderSpec spec, long value);<a name="line.303"></a>
+<span class="sourceLineNo">304</span><a name="line.304"></a>
+<span class="sourceLineNo">305</span>    @Override<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.306"></a>
+<span class="sourceLineNo">307</span>      checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.307"></a>
+<span class="sourceLineNo">308</span>      try {<a name="line.308"></a>
+<span class="sourceLineNo">309</span>        parseLong(spec, Long.parseLong(value));<a name="line.309"></a>
+<span class="sourceLineNo">310</span>      } catch (NumberFormatException e) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>        throw new IllegalArgumentException(<a name="line.311"></a>
+<span class="sourceLineNo">312</span>            format("key %s value set to %s, must be integer", key, value), e);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>      }<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    }<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  }<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>  /** Parse initialCapacity */<a name="line.317"></a>
+<span class="sourceLineNo">318</span>  static class InitialCapacityParser extends IntegerParser {<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    @Override<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    protected void parseInteger(CacheBuilderSpec spec, int value) {<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      checkArgument(<a name="line.321"></a>
+<span class="sourceLineNo">322</span>          spec.initialCapacity == null,<a name="line.322"></a>
+<span class="sourceLineNo">323</span>          "initial capacity was already set to ",<a name="line.323"></a>
+<span class="sourceLineNo">324</span>          spec.initialCapacity);<a name="line.324"></a>
+<span class="sourceLineNo">325</span>      spec.initialCapacity = value;<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    }<a name="line.326"></a>
+<span class="sourceLineNo">327</span>  }<a name="line.327"></a>
+<span class="sourceLineNo">328</span><a name="line.328"></a>
+<span class="sourceLineNo">329</span>  /** Parse maximumSize */<a name="line.329"></a>
+<span class="sourceLineNo">330</span>  static class MaximumSizeParser extends LongParser {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    @Override<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    protected void parseLong(CacheBuilderSpec spec, long value) {<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      checkArgument(spec.maximumSize == null, "maximum size was already set to ", spec.maximumSize);<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      checkArgument(<a name="line.334"></a>
+<span class="sourceLineNo">335</span>          spec.maximumWeight == null, "maximum weight was already set to ", spec.maximumWeight);<a name="line.335"></a>
+<span class="sourceLineNo">336</span>      spec.maximumSize = value;<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    }<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  }<a name="line.338"></a>
+<span class="sourceLineNo">339</span><a name="line.339"></a>
+<span class="sourceLineNo">340</span>  /** Parse maximumWeight */<a name="line.340"></a>
+<span class="sourceLineNo">341</span>  static class MaximumWeightParser extends LongParser {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    @Override<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    protected void parseLong(CacheBuilderSpec spec, long value) {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>      checkArgument(<a name="line.344"></a>
+<span class="sourceLineNo">345</span>          spec.maximumWeight == null, "maximum weight was already set to ", spec.maximumWeight);<a name="line.345"></a>
+<span class="sourceLineNo">346</span>      checkArgument(spec.maximumSize == null, "maximum size was already set to ", spec.maximumSize);<a name="line.346"></a>
+<span class="sourceLineNo">347</span>      spec.maximumWeight = value;<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    }<a name="line.348"></a>
+<span class="sourceLineNo">349</span>  }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>  /** Parse concurrencyLevel */<a name="line.351"></a>
+<span class="sourceLineNo">352</span>  static class ConcurrencyLevelParser extends IntegerParser {<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    @Override<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    protected void parseInteger(CacheBuilderSpec spec, int value) {<a name="line.354"></a>
+<span class="sourceLineNo">355</span>      checkArgument(<a name="line.355"></a>
+<span class="sourceLineNo">356</span>          spec.concurrencyLevel == null,<a name="line.356"></a>
+<span class="sourceLineNo">357</span>          "concurrency level was already set to ",<a name="line.357"></a>
+<span class="sourceLineNo">358</span>          spec.concurrencyLevel);<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      spec.concurrencyLevel = value;<a name="line.359"></a>
+<span class="sourceLineNo">360</span>    }<a name="line.360"></a>
+<span class="sourceLineNo">361</span>  }<a name="line.361"></a>
+<span class="sourceLineNo">362</span><a name="line.362"></a>
+<span class="sourceLineNo">363</span>  /** Parse weakKeys */<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  static class KeyStrengthParser implements ValueParser {<a name="line.364"></a>
+<span class="sourceLineNo">365</span>    private final Strength strength;<a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>    public KeyStrengthParser(Strength strength) {<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      this.strength = strength;<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>    @Override<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      checkArgument(value == null, "key %s does not take values", key);<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      checkArgument(spec.keyStrength == null, "%s was already set to %s", key, spec.keyStrength);<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      spec.keyStrength = strength;<a name="line.375"></a>
+<span class="sourceLineNo">376</span>    }<a name="line.376"></a>
+<span class="sourceLineNo">377</span>  }<a name="line.377"></a>
+<span class="sourceLineNo">378</span><a name="line.378"></a>
+<span class="sourceLineNo">379</span>  /** Parse weakValues and softValues */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>  static class ValueStrengthParser implements ValueParser {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    private final Strength strength;<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>    public ValueStrengthParser(Strength strength) {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      this.strength = strength;<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>    @Override<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>      checkArgument(value == null, "key %s does not take values", key);<a name="line.389"></a>
+<span class="sourceLineNo">390</span>      checkArgument(<a name="line.390"></a>
+<span class="sourceLineNo">391</span>          spec.valueStrength == null, "%s was already set to %s", key, spec.valueStrength);<a name="line.391"></a>
+<span class="sourceLineNo">392</span><a name="line.392"></a>
+<span class="sourceLineNo">393</span>      spec.valueStrength = strength;<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    }<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>  /** Parse recordStats */<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  static class RecordStatsParser implements ValueParser {<a name="line.398"></a>
+<span class="sourceLineNo">399</span><a name="line.399"></a>
+<span class="sourceLineNo">400</span>    @Override<a name="line.400"></a>
+<span class="sourceLineNo">401</span>    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {<a name="line.401"></a>
+<span class="sourceLineNo">402</span>      checkArgument(value == null, "recordStats does not take values");<a name="line.402"></a>
+<span class="sourceLineNo">403</span>      checkArgument(spec.recordStats == null, "recordStats already set");<a name="line.403"></a>
+<span class="sourceLineNo">404</span>      spec.recordStats = true;<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    }<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  /** Base class for parsing times with durations */<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  abstract static class DurationParser implements ValueParser {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    protected abstract void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit);<a name="line.410"></a>
+<span class="sourceLineNo">411</span><a name="line.411"></a>
+<span class="sourceLineNo">412</span>    @Override<a name="line.412"></a>
+<span class="sourceLineNo">413</span>    public void parse(CacheBuilderSpec spec, String key, String value) {<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      checkArgument(value != null &amp;&amp; !value.isEmpty(), "value of key %s omitted", key);<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      try {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        char lastChar = value.charAt(value.length() - 1);<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        TimeUnit timeUnit;<a name="line.417"></a>
+<span class="sourceLineNo">418</span>        switch (lastChar) {<a name="line.418"></a>
+<span class="sourceLineNo">419</span>          case 'd':<a name="line.419"></a>
+<span class="sourceLineNo">420</span>            timeUnit = TimeUnit.DAYS;<a name="line.420"></a>
+<span class="sourceLineNo">421</span>            break;<a name="line.421"></a>
+<span class="sourceLineNo">422</span>          case 'h':<a name="line.422"></a>
+<span class="sourceLineNo">423</span>            timeUnit = TimeUnit.HOURS;<a name="line.423"></a>
+<span class="sourceLineNo">424</span>            break;<a name="line.424"></a>
+<span class="sourceLineNo">425</span>          case 'm':<a name="line.425"></a>
+<span class="sourceLineNo">426</span>            timeUnit = TimeUnit.MINUTES;<a name="line.426"></a>
+<span class="sourceLineNo">427</span>            break;<a name="line.427"></a>
+<span class="sourceLineNo">428</span>          case 's':<a name="line.428"></a>
+<span class="sourceLineNo">429</span>            timeUnit = TimeUnit.SECONDS;<a name="line.429"></a>
+<span class="sourceLineNo">430</span>            break;<a name="line.430"></a>
+<span class="sourceLineNo">431</span>          default:<a name="line.431"></a>
+<span class="sourceLineNo">432</span>            throw new IllegalArgumentException(<a name="line.432"></a>
+<span class="sourceLineNo">433</span>                format(<a name="line.433"></a>
+<span class="sourceLineNo">434</span>                    "key %s invalid format.  was %s, must end with one of [dDhHmMsS]", key, value));<a name="line.434"></a>
+<span class="sourceLineNo">435</span>        }<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>        long duration = Long.parseLong(value.substring(0, value.length() - 1));<a name="line.437"></a>
+<span class="sourceLineNo">438</span>        parseDuration(spec, duration, timeUnit);<a name="line.438"></a>
+<span class="sourceLineNo">439</span>      } catch (NumberFormatException e) {<a name="line.439"></a>
+<span class="sourceLineNo">440</span>        throw new IllegalArgumentException(<a name="line.440"></a>
+<span class="sourceLineNo">441</span>            format("key %s value set to %s, must be integer", key, value));<a name="line.441"></a>
+<span class="sourceLineNo">442</span>      }<a name="line.442"></a>
+<span class="sourceLineNo">443</span>    }<a name="line.443"></a>
+<span class="sourceLineNo">444</span>  }<a name="line.444"></a>
+<span class="sourceLineNo">445</span><a name="line.445"></a>
+<span class="sourceLineNo">446</span>  /** Parse expireAfterAccess */<a name="line.446"></a>
+<span class="sourceLineNo">447</span>  static class AccessDurationParser extends DurationParser {<a name="line.447"></a>
+<span class="sourceLineNo">448</span>    @Override<a name="line.448"></a>
+<span class="sourceLineNo">449</span>    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.449"></a>
+<span class="sourceLineNo">450</span>      checkArgument(spec.accessExpirationTimeUnit == null, "expireAfterAccess already set");<a name="line.450"></a>
+<span class="sourceLineNo">451</span>      spec.accessExpirationDuration = duration;<a name="line.451"></a>
+<span class="sourceLineNo">452</span>      spec.accessExpirationTimeUnit = unit;<a name="line.452"></a>
+<span class="sourceLineNo">453</span>    }<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  }<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>  /** Parse expireAfterWrite */<a name="line.456"></a>
+<span class="sourceLineNo">457</span>  static class WriteDurationParser extends DurationParser {<a name="line.457"></a>
+<span class="sourceLineNo">458</span>    @Override<a name="line.458"></a>
+<span class="sourceLineNo">459</span>    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.459"></a>
+<span class="sourceLineNo">460</span>      checkArgument(spec.writeExpirationTimeUnit == null, "expireAfterWrite already set");<a name="line.460"></a>
+<span class="sourceLineNo">461</span>      spec.writeExpirationDuration = duration;<a name="line.461"></a>
+<span class="sourceLineNo">462</span>      spec.writeExpirationTimeUnit = unit;<a name="line.462"></a>
+<span class="sourceLineNo">463</span>    }<a name="line.463"></a>
+<span class="sourceLineNo">464</span>  }<a name="line.464"></a>
+<span class="sourceLineNo">465</span><a name="line.465"></a>
+<span class="sourceLineNo">466</span>  /** Parse refreshAfterWrite */<a name="line.466"></a>
+<span class="sourceLineNo">467</span>  static class RefreshDurationParser extends DurationParser {<a name="line.467"></a>
+<span class="sourceLineNo">468</span>    @Override<a name="line.468"></a>
+<span class="sourceLineNo">469</span>    protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {<a name="line.469"></a>
+<span class="sourceLineNo">470</span>      checkArgument(spec.refreshTimeUnit == null, "refreshAfterWrite already set");<a name="line.470"></a>
+<span class="sourceLineNo">471</span>      spec.refreshDuration = duration;<a name="line.471"></a>
+<span class="sourceLineNo">472</span>      spec.refreshTimeUnit = unit;<a name="line.472"></a>
+<span class="sourceLineNo">473</span>    }<a name="line.473"></a>
+<span class="sourceLineNo">474</span>  }<a name="line.474"></a>
+<span class="sourceLineNo">475</span><a name="line.475"></a>
+<span class="sourceLineNo">476</span>  private static String format(String format, Object... args) {<a name="line.476"></a>
+<span class="sourceLineNo">477</span>    return String.format(Locale.ROOT, format, args);<a name="line.477"></a>
+<span class="sourceLineNo">478</span>  }<a name="line.478"></a>
+<span class="sourceLineNo">479</span>}<a name="line.479"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

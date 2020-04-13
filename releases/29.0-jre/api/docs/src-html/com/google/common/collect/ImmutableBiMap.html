@@ -1,0 +1,506 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2008 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>package com.google.common.collect;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkState;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static com.google.common.collect.CollectPreconditions.checkNonnegative;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.google.common.annotations.Beta;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.google.common.annotations.GwtCompatible;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import com.google.common.annotations.VisibleForTesting;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Arrays;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.Comparator;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.Map;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.function.Function;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.stream.Collector;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.stream.Collectors;<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>/**<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * A {@link BiMap} whose contents will never change, with many other important properties detailed<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * at {@link ImmutableCollection}.<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @author Jared Levy<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * @since 2.0<a name="line.38"></a>
+<span class="sourceLineNo">039</span> */<a name="line.39"></a>
+<span class="sourceLineNo">040</span>@GwtCompatible(serializable = true, emulated = true)<a name="line.40"></a>
+<span class="sourceLineNo">041</span>public abstract class ImmutableBiMap&lt;K, V&gt; extends ImmutableBiMapFauxverideShim&lt;K, V&gt;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    implements BiMap&lt;K, V&gt; {<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  /**<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableBiMap} whose keys<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * and values are the result of applying the provided mapping functions to the input elements.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * Entries appear in the result {@code ImmutableBiMap} in encounter order.<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   *<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * &lt;p&gt;If the mapped keys or values contain duplicates (according to {@link Object#equals(Object)},<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * an {@code IllegalArgumentException} is thrown when the collection operation is performed. (This<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * differs from the {@code Collector} returned by {@link Collectors#toMap(Function, Function)},<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * which throws an {@code IllegalStateException}.)<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   *<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * @since 21.0<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public static &lt;T, K, V&gt; Collector&lt;T, ?, ImmutableBiMap&lt;K, V&gt;&gt; toImmutableBiMap(<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      Function&lt;? super T, ? extends K&gt; keyFunction,<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      Function&lt;? super T, ? extends V&gt; valueFunction) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /** Returns the empty bimap. */<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  // Casting to any type is safe because the set will never hold any elements.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  @SuppressWarnings("unchecked")<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of() {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    return (ImmutableBiMap&lt;K, V&gt;) RegularImmutableBiMap.EMPTY;<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  }<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /** Returns an immutable bimap containing a single entry. */<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(K k1, V v1) {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return new SingletonImmutableBiMap&lt;&gt;(k1, v1);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * Returns an immutable map containing the given entries, in order.<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   *<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * @throws IllegalArgumentException if duplicate keys or values are added<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(K k1, V v1, K k2, V v2) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    return RegularImmutableBiMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2));<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * Returns an immutable map containing the given entries, in order.<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * @throws IllegalArgumentException if duplicate keys or values are added<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(K k1, V v1, K k2, V v2, K k3, V v3) {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    return RegularImmutableBiMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * Returns an immutable map containing the given entries, in order.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @throws IllegalArgumentException if duplicate keys or values are added<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    return RegularImmutableBiMap.fromEntries(<a name="line.98"></a>
+<span class="sourceLineNo">099</span>        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * Returns an immutable map containing the given entries, in order.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @throws IllegalArgumentException if duplicate keys or values are added<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; of(<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    return RegularImmutableBiMap.fromEntries(<a name="line.109"></a>
+<span class="sourceLineNo">110</span>        entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  // looking for of() with &gt; 5 entries? Use the builder instead.<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * Returns a new builder. The generated builder is equivalent to the builder created by the {@link<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Builder} constructor.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builder() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return new Builder&lt;&gt;();<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Returns a new builder, expecting the specified number of entries to be added.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   *<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * &lt;p&gt;If {@code expectedSize} is exactly the number of entries added to the builder before {@link<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * Builder#build} is called, the builder is likely to perform better than an unsized {@link<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * #builder()} would have.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   *<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * &lt;p&gt;It is not specified if any performance benefits apply if {@code expectedSize} is close to,<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * but not exactly, the number of entries added to the builder.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @since 23.1<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  @Beta<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  public static &lt;K, V&gt; Builder&lt;K, V&gt; builderWithExpectedSize(int expectedSize) {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    checkNonnegative(expectedSize, "expectedSize");<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    return new Builder&lt;&gt;(expectedSize);<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  }<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>  /**<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * A builder for creating immutable bimap instances, especially {@code public static final} bimaps<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * ("constant bimaps"). Example:<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   *<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * &lt;pre&gt;{@code<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * static final ImmutableBiMap&lt;String, Integer&gt; WORD_TO_INT =<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   *     new ImmutableBiMap.Builder&lt;String, Integer&gt;()<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   *         .put("one", 1)<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   *         .put("two", 2)<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   *         .put("three", 3)<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   *         .build();<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * }&lt;/pre&gt;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   *<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * &lt;p&gt;For &lt;i&gt;small&lt;/i&gt; immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * convenient.<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   *<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * &lt;p&gt;By default, a {@code Builder} will generate bimaps that iterate over entries in the order<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * they were inserted into the builder. For example, in the above example, {@code<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * WORD_TO_INT.entrySet()} is guaranteed to iterate over the entries in the order {@code "one"=1,<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * "two"=2, "three"=3}, and {@code keySet()} and {@code values()} respect the same order. If you<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * want a different order, consider using {@link #orderEntriesByValue(Comparator)}, which changes<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * this builder to sort entries by value.<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   *<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   * &lt;p&gt;Builder instances can be reused - it is safe to call {@link #build} multiple times to build<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * multiple bimaps in series. Each bimap is a superset of the bimaps created before it.<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   *<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * @since 2.0<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   */<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public static final class Builder&lt;K, V&gt; extends ImmutableMap.Builder&lt;K, V&gt; {<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>    /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>     * Creates a new builder. The returned builder is equivalent to the builder generated by {@link<a name="line.172"></a>
+<span class="sourceLineNo">173</span>     * ImmutableBiMap#builder}.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>     */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    public Builder() {}<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>    Builder(int size) {<a name="line.177"></a>
+<span class="sourceLineNo">178</span>      super(size);<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    }<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>    /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>     * Associates {@code key} with {@code value} in the built bimap. Duplicate keys or values are<a name="line.182"></a>
+<span class="sourceLineNo">183</span>     * not allowed, and will cause {@link #build} to fail.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>     */<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    @CanIgnoreReturnValue<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    @Override<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    public Builder&lt;K, V&gt; put(K key, V value) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>      super.put(key, value);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>      return this;<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    }<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>    /**<a name="line.192"></a>
+<span class="sourceLineNo">193</span>     * Adds the given {@code entry} to the bimap. Duplicate keys or values are not allowed, and will<a name="line.193"></a>
+<span class="sourceLineNo">194</span>     * cause {@link #build} to fail.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>     *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>     * @since 19.0<a name="line.196"></a>
+<span class="sourceLineNo">197</span>     */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    @CanIgnoreReturnValue<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    @Override<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    public Builder&lt;K, V&gt; put(Entry&lt;? extends K, ? extends V&gt; entry) {<a name="line.200"></a>
+<span class="sourceLineNo">201</span>      super.put(entry);<a name="line.201"></a>
+<span class="sourceLineNo">202</span>      return this;<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    }<a name="line.203"></a>
+<span class="sourceLineNo">204</span><a name="line.204"></a>
+<span class="sourceLineNo">205</span>    /**<a name="line.205"></a>
+<span class="sourceLineNo">206</span>     * Associates all of the given map's keys and values in the built bimap. Duplicate keys or<a name="line.206"></a>
+<span class="sourceLineNo">207</span>     * values are not allowed, and will cause {@link #build} to fail.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>     *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>     * @throws NullPointerException if any key or value in {@code map} is null<a name="line.209"></a>
+<span class="sourceLineNo">210</span>     */<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    @CanIgnoreReturnValue<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    @Override<a name="line.212"></a>
+<span class="sourceLineNo">213</span>    public Builder&lt;K, V&gt; putAll(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>      super.putAll(map);<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      return this;<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    }<a name="line.216"></a>
+<span class="sourceLineNo">217</span><a name="line.217"></a>
+<span class="sourceLineNo">218</span>    /**<a name="line.218"></a>
+<span class="sourceLineNo">219</span>     * Adds all of the given entries to the built bimap. Duplicate keys or values are not allowed,<a name="line.219"></a>
+<span class="sourceLineNo">220</span>     * and will cause {@link #build} to fail.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>     *<a name="line.221"></a>
+<span class="sourceLineNo">222</span>     * @throws NullPointerException if any key, value, or entry is null<a name="line.222"></a>
+<span class="sourceLineNo">223</span>     * @since 19.0<a name="line.223"></a>
+<span class="sourceLineNo">224</span>     */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    @CanIgnoreReturnValue<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    @Beta<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    @Override<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    public Builder&lt;K, V&gt; putAll(Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      super.putAll(entries);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>      return this;<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    }<a name="line.231"></a>
+<span class="sourceLineNo">232</span><a name="line.232"></a>
+<span class="sourceLineNo">233</span>    /**<a name="line.233"></a>
+<span class="sourceLineNo">234</span>     * Configures this {@code Builder} to order entries by value according to the specified<a name="line.234"></a>
+<span class="sourceLineNo">235</span>     * comparator.<a name="line.235"></a>
+<span class="sourceLineNo">236</span>     *<a name="line.236"></a>
+<span class="sourceLineNo">237</span>     * &lt;p&gt;The sort order is stable, that is, if two entries have values that compare as equivalent,<a name="line.237"></a>
+<span class="sourceLineNo">238</span>     * the entry that was inserted first will be first in the built map's iteration order.<a name="line.238"></a>
+<span class="sourceLineNo">239</span>     *<a name="line.239"></a>
+<span class="sourceLineNo">240</span>     * @throws IllegalStateException if this method was already called<a name="line.240"></a>
+<span class="sourceLineNo">241</span>     * @since 19.0<a name="line.241"></a>
+<span class="sourceLineNo">242</span>     */<a name="line.242"></a>
+<span class="sourceLineNo">243</span>    @CanIgnoreReturnValue<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    @Beta<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    @Override<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    public Builder&lt;K, V&gt; orderEntriesByValue(Comparator&lt;? super V&gt; valueComparator) {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>      super.orderEntriesByValue(valueComparator);<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      return this;<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    }<a name="line.249"></a>
+<span class="sourceLineNo">250</span><a name="line.250"></a>
+<span class="sourceLineNo">251</span>    @Override<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    @CanIgnoreReturnValue<a name="line.252"></a>
+<span class="sourceLineNo">253</span>    Builder&lt;K, V&gt; combine(ImmutableMap.Builder&lt;K, V&gt; builder) {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>      super.combine(builder);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      return this;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    }<a name="line.256"></a>
+<span class="sourceLineNo">257</span><a name="line.257"></a>
+<span class="sourceLineNo">258</span>    /**<a name="line.258"></a>
+<span class="sourceLineNo">259</span>     * Returns a newly-created immutable bimap. The iteration order of the returned bimap is the<a name="line.259"></a>
+<span class="sourceLineNo">260</span>     * order in which entries were inserted into the builder, unless {@link #orderEntriesByValue}<a name="line.260"></a>
+<span class="sourceLineNo">261</span>     * was called, in which case entries are sorted by value.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>     *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>     * @throws IllegalArgumentException if duplicate keys or values were added<a name="line.263"></a>
+<span class="sourceLineNo">264</span>     */<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    @Override<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    public ImmutableBiMap&lt;K, V&gt; build() {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>      switch (size) {<a name="line.267"></a>
+<span class="sourceLineNo">268</span>        case 0:<a name="line.268"></a>
+<span class="sourceLineNo">269</span>          return of();<a name="line.269"></a>
+<span class="sourceLineNo">270</span>        case 1:<a name="line.270"></a>
+<span class="sourceLineNo">271</span>          return of(entries[0].getKey(), entries[0].getValue());<a name="line.271"></a>
+<span class="sourceLineNo">272</span>        default:<a name="line.272"></a>
+<span class="sourceLineNo">273</span>          /*<a name="line.273"></a>
+<span class="sourceLineNo">274</span>           * If entries is full, or if hash flooding is detected, then this implementation may end<a name="line.274"></a>
+<span class="sourceLineNo">275</span>           * up using the entries array directly and writing over the entry objects with<a name="line.275"></a>
+<span class="sourceLineNo">276</span>           * non-terminal entries, but this is safe; if this Builder is used further, it will grow<a name="line.276"></a>
+<span class="sourceLineNo">277</span>           * the entries array (so it can't affect the original array), and future build() calls<a name="line.277"></a>
+<span class="sourceLineNo">278</span>           * will always copy any entry objects that cannot be safely reused.<a name="line.278"></a>
+<span class="sourceLineNo">279</span>           */<a name="line.279"></a>
+<span class="sourceLineNo">280</span>          if (valueComparator != null) {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>            if (entriesUsed) {<a name="line.281"></a>
+<span class="sourceLineNo">282</span>              entries = Arrays.copyOf(entries, size);<a name="line.282"></a>
+<span class="sourceLineNo">283</span>            }<a name="line.283"></a>
+<span class="sourceLineNo">284</span>            Arrays.sort(<a name="line.284"></a>
+<span class="sourceLineNo">285</span>                entries,<a name="line.285"></a>
+<span class="sourceLineNo">286</span>                0,<a name="line.286"></a>
+<span class="sourceLineNo">287</span>                size,<a name="line.287"></a>
+<span class="sourceLineNo">288</span>                Ordering.from(valueComparator).onResultOf(Maps.&lt;V&gt;valueFunction()));<a name="line.288"></a>
+<span class="sourceLineNo">289</span>          }<a name="line.289"></a>
+<span class="sourceLineNo">290</span>          entriesUsed = true;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>          return RegularImmutableBiMap.fromEntryArray(size, entries);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      }<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    }<a name="line.293"></a>
+<span class="sourceLineNo">294</span><a name="line.294"></a>
+<span class="sourceLineNo">295</span>    @Override<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    @VisibleForTesting<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    ImmutableBiMap&lt;K, V&gt; buildJdkBacked() {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      checkState(<a name="line.298"></a>
+<span class="sourceLineNo">299</span>          valueComparator == null,<a name="line.299"></a>
+<span class="sourceLineNo">300</span>          "buildJdkBacked is for tests only, doesn't support orderEntriesByValue");<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      switch (size) {<a name="line.301"></a>
+<span class="sourceLineNo">302</span>        case 0:<a name="line.302"></a>
+<span class="sourceLineNo">303</span>          return of();<a name="line.303"></a>
+<span class="sourceLineNo">304</span>        case 1:<a name="line.304"></a>
+<span class="sourceLineNo">305</span>          return of(entries[0].getKey(), entries[0].getValue());<a name="line.305"></a>
+<span class="sourceLineNo">306</span>        default:<a name="line.306"></a>
+<span class="sourceLineNo">307</span>          entriesUsed = true;<a name="line.307"></a>
+<span class="sourceLineNo">308</span>          return RegularImmutableBiMap.fromEntryArray(size, entries);<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      }<a name="line.309"></a>
+<span class="sourceLineNo">310</span>    }<a name="line.310"></a>
+<span class="sourceLineNo">311</span>  }<a name="line.311"></a>
+<span class="sourceLineNo">312</span><a name="line.312"></a>
+<span class="sourceLineNo">313</span>  /**<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   * Returns an immutable bimap containing the same entries as {@code map}. If {@code map} somehow<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   * contains entries with duplicate keys (for example, if it is a {@code SortedMap} whose<a name="line.315"></a>
+<span class="sourceLineNo">316</span>   * comparator is not &lt;i&gt;consistent with equals&lt;/i&gt;), the results of this method are undefined.<a name="line.316"></a>
+<span class="sourceLineNo">317</span>   *<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * &lt;p&gt;The returned {@code BiMap} iterates over entries in the same order as the {@code entrySet}<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   * of the original map.<a name="line.319"></a>
+<span class="sourceLineNo">320</span>   *<a name="line.320"></a>
+<span class="sourceLineNo">321</span>   * &lt;p&gt;Despite the method name, this method attempts to avoid actually copying the data when it is<a name="line.321"></a>
+<span class="sourceLineNo">322</span>   * safe to do so. The exact circumstances under which a copy will or will not be performed are<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * undocumented and subject to change.<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   *<a name="line.324"></a>
+<span class="sourceLineNo">325</span>   * @throws IllegalArgumentException if two keys have the same value or two values have the same<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   *     key<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   * @throws NullPointerException if any key or value in {@code map} is null<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   */<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; copyOf(Map&lt;? extends K, ? extends V&gt; map) {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    if (map instanceof ImmutableBiMap) {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>      @SuppressWarnings("unchecked") // safe since map is not writable<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      ImmutableBiMap&lt;K, V&gt; bimap = (ImmutableBiMap&lt;K, V&gt;) map;<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      // TODO(lowasser): if we need to make a copy of a BiMap because the<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      // forward map is a view, don't make a copy of the non-view delegate map<a name="line.334"></a>
+<span class="sourceLineNo">335</span>      if (!bimap.isPartialView()) {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>        return bimap;<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      }<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    }<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    return copyOf(map.entrySet());<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>  /**<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * Returns an immutable bimap containing the given entries. The returned bimap iterates over<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   * entries in the same order as the original iterable.<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   *<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   * @throws IllegalArgumentException if two keys have the same value or two values have the same<a name="line.346"></a>
+<span class="sourceLineNo">347</span>   *     key<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   * @throws NullPointerException if any key, value, or entry is null<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   * @since 19.0<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   */<a name="line.350"></a>
+<span class="sourceLineNo">351</span>  @Beta<a name="line.351"></a>
+<span class="sourceLineNo">352</span>  public static &lt;K, V&gt; ImmutableBiMap&lt;K, V&gt; copyOf(<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      Iterable&lt;? extends Entry&lt;? extends K, ? extends V&gt;&gt; entries) {<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    Entry&lt;K, V&gt;[] entryArray = (Entry&lt;K, V&gt;[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);<a name="line.355"></a>
+<span class="sourceLineNo">356</span>    switch (entryArray.length) {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>      case 0:<a name="line.357"></a>
+<span class="sourceLineNo">358</span>        return of();<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      case 1:<a name="line.359"></a>
+<span class="sourceLineNo">360</span>        Entry&lt;K, V&gt; entry = entryArray[0];<a name="line.360"></a>
+<span class="sourceLineNo">361</span>        return of(entry.getKey(), entry.getValue());<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      default:<a name="line.362"></a>
+<span class="sourceLineNo">363</span>        /*<a name="line.363"></a>
+<span class="sourceLineNo">364</span>         * The current implementation will end up using entryArray directly, though it will write<a name="line.364"></a>
+<span class="sourceLineNo">365</span>         * over the (arbitrary, potentially mutable) Entry objects actually stored in entryArray.<a name="line.365"></a>
+<span class="sourceLineNo">366</span>         */<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        return RegularImmutableBiMap.fromEntries(entryArray);<a name="line.367"></a>
+<span class="sourceLineNo">368</span>    }<a name="line.368"></a>
+<span class="sourceLineNo">369</span>  }<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>  ImmutableBiMap() {}<a name="line.371"></a>
+<span class="sourceLineNo">372</span><a name="line.372"></a>
+<span class="sourceLineNo">373</span>  /**<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * {@inheritDoc}<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   *<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   * &lt;p&gt;The inverse of an {@code ImmutableBiMap} is another {@code ImmutableBiMap}.<a name="line.376"></a>
+<span class="sourceLineNo">377</span>   */<a name="line.377"></a>
+<span class="sourceLineNo">378</span>  @Override<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  public abstract ImmutableBiMap&lt;V, K&gt; inverse();<a name="line.379"></a>
+<span class="sourceLineNo">380</span><a name="line.380"></a>
+<span class="sourceLineNo">381</span>  /**<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   * Returns an immutable set of the values in this map, in the same order they appear in {@link<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * #entrySet}.<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   */<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  @Override<a name="line.385"></a>
+<span class="sourceLineNo">386</span>  public ImmutableSet&lt;V&gt; values() {<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    return inverse().keySet();<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  }<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span>  @Override<a name="line.390"></a>
+<span class="sourceLineNo">391</span>  final ImmutableSet&lt;V&gt; createValues() {<a name="line.391"></a>
+<span class="sourceLineNo">392</span>    throw new AssertionError("should never be called");<a name="line.392"></a>
+<span class="sourceLineNo">393</span>  }<a name="line.393"></a>
+<span class="sourceLineNo">394</span><a name="line.394"></a>
+<span class="sourceLineNo">395</span>  /**<a name="line.395"></a>
+<span class="sourceLineNo">396</span>   * Guaranteed to throw an exception and leave the bimap unmodified.<a name="line.396"></a>
+<span class="sourceLineNo">397</span>   *<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   * @throws UnsupportedOperationException always<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * @deprecated Unsupported operation.<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   */<a name="line.400"></a>
+<span class="sourceLineNo">401</span>  @CanIgnoreReturnValue<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  @Deprecated<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  @Override<a name="line.403"></a>
+<span class="sourceLineNo">404</span>  public V forcePut(K key, V value) {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    throw new UnsupportedOperationException();<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  /**<a name="line.408"></a>
+<span class="sourceLineNo">409</span>   * Serialized type for all ImmutableBiMap instances. It captures the logical contents and they are<a name="line.409"></a>
+<span class="sourceLineNo">410</span>   * reconstructed using public factory methods. This ensures that the implementation types remain<a name="line.410"></a>
+<span class="sourceLineNo">411</span>   * as implementation details.<a name="line.411"></a>
+<span class="sourceLineNo">412</span>   *<a name="line.412"></a>
+<span class="sourceLineNo">413</span>   * &lt;p&gt;Since the bimap is immutable, ImmutableBiMap doesn't require special logic for keeping the<a name="line.413"></a>
+<span class="sourceLineNo">414</span>   * bimap and its inverse in sync during serialization, the way AbstractBiMap does.<a name="line.414"></a>
+<span class="sourceLineNo">415</span>   */<a name="line.415"></a>
+<span class="sourceLineNo">416</span>  private static class SerializedForm extends ImmutableMap.SerializedForm {<a name="line.416"></a>
+<span class="sourceLineNo">417</span>    SerializedForm(ImmutableBiMap&lt;?, ?&gt; bimap) {<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      super(bimap);<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    }<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>    @Override<a name="line.421"></a>
+<span class="sourceLineNo">422</span>    Object readResolve() {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>      Builder&lt;Object, Object&gt; builder = new Builder&lt;&gt;();<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      return createMap(builder);<a name="line.424"></a>
+<span class="sourceLineNo">425</span>    }<a name="line.425"></a>
+<span class="sourceLineNo">426</span><a name="line.426"></a>
+<span class="sourceLineNo">427</span>    private static final long serialVersionUID = 0;<a name="line.427"></a>
+<span class="sourceLineNo">428</span>  }<a name="line.428"></a>
+<span class="sourceLineNo">429</span><a name="line.429"></a>
+<span class="sourceLineNo">430</span>  @Override<a name="line.430"></a>
+<span class="sourceLineNo">431</span>  Object writeReplace() {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>    return new SerializedForm(this);<a name="line.432"></a>
+<span class="sourceLineNo">433</span>  }<a name="line.433"></a>
+<span class="sourceLineNo">434</span>}<a name="line.434"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

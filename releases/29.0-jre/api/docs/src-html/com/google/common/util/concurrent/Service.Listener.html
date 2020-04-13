@@ -1,0 +1,393 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2009 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.util.concurrent;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static com.google.common.util.concurrent.Internal.toNanosSaturated;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.annotations.GwtIncompatible;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.errorprone.annotations.CanIgnoreReturnValue;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.errorprone.annotations.DoNotMock;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.time.Duration;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.concurrent.Executor;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.concurrent.TimeUnit;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.concurrent.TimeoutException;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>/**<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * An object with an operational state, plus asynchronous {@link #startAsync()} and {@link<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * #stopAsync()} lifecycle methods to transition between states. Example services include<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * webservers, RPC servers and timers.<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;p&gt;The normal lifecycle of a service is:<a name="line.32"></a>
+<span class="sourceLineNo">033</span> *<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * &lt;ul&gt;<a name="line.34"></a>
+<span class="sourceLineNo">035</span> *   &lt;li&gt;{@linkplain State#NEW NEW} -&amp;gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> *   &lt;li&gt;{@linkplain State#STARTING STARTING} -&amp;gt;<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *   &lt;li&gt;{@linkplain State#RUNNING RUNNING} -&amp;gt;<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *   &lt;li&gt;{@linkplain State#STOPPING STOPPING} -&amp;gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *   &lt;li&gt;{@linkplain State#TERMINATED TERMINATED}<a name="line.39"></a>
+<span class="sourceLineNo">040</span> * &lt;/ul&gt;<a name="line.40"></a>
+<span class="sourceLineNo">041</span> *<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * &lt;p&gt;There are deviations from this if there are failures or if {@link Service#stopAsync} is called<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * before the {@link Service} reaches the {@linkplain State#RUNNING RUNNING} state. The set of legal<a name="line.43"></a>
+<span class="sourceLineNo">044</span> * transitions form a &lt;a href="http://en.wikipedia.org/wiki/Directed_acyclic_graph"&gt;DAG&lt;/a&gt;,<a name="line.44"></a>
+<span class="sourceLineNo">045</span> * therefore every method of the listener will be called at most once. N.B. The {@link State#FAILED}<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * and {@link State#TERMINATED} states are terminal states, once a service enters either of these<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * states it cannot ever leave them.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> *<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;p&gt;Implementors of this interface are strongly encouraged to extend one of the abstract classes<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * in this package which implement this interface and make the threading and state management<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * easier.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *<a name="line.52"></a>
+<span class="sourceLineNo">053</span> * @author Jesse Wilson<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * @author Luke Sandberg<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})<a name="line.55"></a>
+<span class="sourceLineNo">056</span> */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>@DoNotMock("Create an AbstractIdleService")<a name="line.57"></a>
+<span class="sourceLineNo">058</span>@GwtIncompatible<a name="line.58"></a>
+<span class="sourceLineNo">059</span>public interface Service {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * If the service state is {@link State#NEW}, this initiates service startup and returns<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * immediately. A stopped service may not be restarted.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   *<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * @return this<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * @throws IllegalStateException if the service is not {@link State#NEW}<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * @since 15.0<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @CanIgnoreReturnValue<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  Service startAsync();<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /** Returns {@code true} if this service is {@linkplain State#RUNNING running}. */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  boolean isRunning();<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /** Returns the lifecycle state of the service. */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  State state();<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * If the service is {@linkplain State#STARTING starting} or {@linkplain State#RUNNING running},<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * this initiates service shutdown and returns immediately. If the service is {@linkplain<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * State#NEW new}, it is {@linkplain State#TERMINATED terminated} without having been started nor<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * stopped. If the service has already been stopped, this method returns immediately without<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * taking action.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   *<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * @return this<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * @since 15.0<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  @CanIgnoreReturnValue<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  Service stopAsync();<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state}.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * @throws IllegalStateException if the service reaches a state from which it is not possible to<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *     enter the {@link State#RUNNING} state. e.g. if the {@code state} is {@code<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * @since 15.0<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  void awaitRunning();<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no more<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * than the given time.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   *<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * @param timeout the maximum time to wait<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @throws TimeoutException if the service has not reached the given state within the deadline<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @throws IllegalStateException if the service reaches a state from which it is not possible to<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * @since 28.0<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  default void awaitRunning(Duration timeout) throws TimeoutException {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    awaitRunning(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no more<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * than the given time.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   *<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * @param timeout the maximum time to wait<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   * @param unit the time unit of the timeout argument<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * @throws TimeoutException if the service has not reached the given state within the deadline<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * @throws IllegalStateException if the service reaches a state from which it is not possible to<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * @since 15.0<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  @SuppressWarnings("GoodTime") // should accept a java.time.Duration<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException;<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * Waits for the {@link Service} to reach the {@linkplain State#TERMINATED terminated state}.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * @since 15.0<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  void awaitTerminated();<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * terminated} or {@link Service.State#FAILED failed}) for no more than the given time.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   *<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * @param timeout the maximum time to wait<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * @throws TimeoutException if the service has not reached the given state within the deadline<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * @since 28.0<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  default void awaitTerminated(Duration timeout) throws TimeoutException {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    awaitTerminated(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * terminated} or {@link Service.State#FAILED failed}) for no more than the given time.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   *<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * @param timeout the maximum time to wait<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @param unit the time unit of the timeout argument<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * @throws TimeoutException if the service has not reached the given state within the deadline<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * @since 15.0<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   */<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  @SuppressWarnings("GoodTime") // should accept a java.time.Duration<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException;<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * Returns the {@link Throwable} that caused this service to fail.<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   *<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * @throws IllegalStateException if this service's state isn't {@linkplain State#FAILED FAILED}.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * @since 14.0<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   */<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  Throwable failureCause();<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>  /**<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * Registers a {@link Listener} to be {@linkplain Executor#execute executed} on the given<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * executor. The listener will have the corresponding transition method called whenever the<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * service changes state. The listener will not have previous state changes replayed, so it is<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * suggested that listeners are added before the service starts.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   *<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * &lt;p&gt;{@code addListener} guarantees execution ordering across calls to a given listener but not<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * across calls to multiple listeners. Specifically, a given listener will have its callbacks<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * invoked in the same order as the underlying service enters those states. Additionally, at most<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * one of the listener's callbacks will execute at once. However, multiple listeners' callbacks<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * may execute concurrently, and listeners may execute in an order different from the one in which<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * they were registered.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * &lt;p&gt;RuntimeExceptions thrown by a listener will be caught and logged. Any exception thrown<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * logged.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   *<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * @param listener the listener to run when the service changes state is complete<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * @param executor the executor in which the listeners callback methods will be run. For fast,<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   *     lightweight listeners that would be safe to execute in any thread, consider {@link<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   *     MoreExecutors#directExecutor}.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * @since 13.0<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   */<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  void addListener(Listener listener, Executor executor);<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>  /**<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * The lifecycle states of a service.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   *<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * &lt;p&gt;The ordering of the {@link State} enum is defined such that if there is a state transition<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * from {@code A -&gt; B} then {@code A.compareTo(B) &lt; 0}. N.B. The converse is not true, i.e. if<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * {@code A.compareTo(B) &lt; 0} then there is &lt;b&gt;not&lt;/b&gt; guaranteed to be a valid state transition<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * {@code A -&gt; B}.<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   *<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   */<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  enum State {<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    /** A service in this state is inactive. It does minimal work and consumes minimal resources. */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    NEW {<a name="line.209"></a>
+<span class="sourceLineNo">210</span>      @Override<a name="line.210"></a>
+<span class="sourceLineNo">211</span>      boolean isTerminal() {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>        return false;<a name="line.212"></a>
+<span class="sourceLineNo">213</span>      }<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    },<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>    /** A service in this state is transitioning to {@link #RUNNING}. */<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    STARTING {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>      @Override<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      boolean isTerminal() {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>        return false;<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      }<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    },<a name="line.222"></a>
+<span class="sourceLineNo">223</span><a name="line.223"></a>
+<span class="sourceLineNo">224</span>    /** A service in this state is operational. */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>    RUNNING {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      @Override<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      boolean isTerminal() {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>        return false;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      }<a name="line.229"></a>
+<span class="sourceLineNo">230</span>    },<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>    /** A service in this state is transitioning to {@link #TERMINATED}. */<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    STOPPING {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      @Override<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      boolean isTerminal() {<a name="line.235"></a>
+<span class="sourceLineNo">236</span>        return false;<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      }<a name="line.237"></a>
+<span class="sourceLineNo">238</span>    },<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>    /**<a name="line.240"></a>
+<span class="sourceLineNo">241</span>     * A service in this state has completed execution normally. It does minimal work and consumes<a name="line.241"></a>
+<span class="sourceLineNo">242</span>     * minimal resources.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>     */<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    TERMINATED {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      @Override<a name="line.245"></a>
+<span class="sourceLineNo">246</span>      boolean isTerminal() {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>        return true;<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      }<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    },<a name="line.249"></a>
+<span class="sourceLineNo">250</span><a name="line.250"></a>
+<span class="sourceLineNo">251</span>    /**<a name="line.251"></a>
+<span class="sourceLineNo">252</span>     * A service in this state has encountered a problem and may not be operational. It cannot be<a name="line.252"></a>
+<span class="sourceLineNo">253</span>     * started nor stopped.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>     */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    FAILED {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      @Override<a name="line.256"></a>
+<span class="sourceLineNo">257</span>      boolean isTerminal() {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>        return true;<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      }<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    };<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>    /** Returns true if this state is terminal. */<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    abstract boolean isTerminal();<a name="line.263"></a>
+<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>  /**<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * A listener for the various state changes that a {@link Service} goes through in its lifecycle.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   *<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * &lt;p&gt;All methods are no-ops by default, implementors should override the ones they care about.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * @author Luke Sandberg<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * @since 15.0 (present as an interface in 13.0)<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   */<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  abstract class Listener {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    /**<a name="line.275"></a>
+<span class="sourceLineNo">276</span>     * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain<a name="line.276"></a>
+<span class="sourceLineNo">277</span>     * State#STARTING STARTING}. This occurs when {@link Service#startAsync} is called the first<a name="line.277"></a>
+<span class="sourceLineNo">278</span>     * time.<a name="line.278"></a>
+<span class="sourceLineNo">279</span>     */<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    public void starting() {}<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>    /**<a name="line.282"></a>
+<span class="sourceLineNo">283</span>     * Called when the service transitions from {@linkplain State#STARTING STARTING} to {@linkplain<a name="line.283"></a>
+<span class="sourceLineNo">284</span>     * State#RUNNING RUNNING}. This occurs when a service has successfully started.<a name="line.284"></a>
+<span class="sourceLineNo">285</span>     */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>    public void running() {}<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>    /**<a name="line.288"></a>
+<span class="sourceLineNo">289</span>     * Called when the service transitions to the {@linkplain State#STOPPING STOPPING} state. The<a name="line.289"></a>
+<span class="sourceLineNo">290</span>     * only valid values for {@code from} are {@linkplain State#STARTING STARTING} or {@linkplain<a name="line.290"></a>
+<span class="sourceLineNo">291</span>     * State#RUNNING RUNNING}. This occurs when {@link Service#stopAsync} is called.<a name="line.291"></a>
+<span class="sourceLineNo">292</span>     *<a name="line.292"></a>
+<span class="sourceLineNo">293</span>     * @param from The previous state that is being transitioned from.<a name="line.293"></a>
+<span class="sourceLineNo">294</span>     */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    public void stopping(State from) {}<a name="line.295"></a>
+<span class="sourceLineNo">296</span><a name="line.296"></a>
+<span class="sourceLineNo">297</span>    /**<a name="line.297"></a>
+<span class="sourceLineNo">298</span>     * Called when the service transitions to the {@linkplain State#TERMINATED TERMINATED} state.<a name="line.298"></a>
+<span class="sourceLineNo">299</span>     * The {@linkplain State#TERMINATED TERMINATED} state is a terminal state in the transition<a name="line.299"></a>
+<span class="sourceLineNo">300</span>     * diagram. Therefore, if this method is called, no other methods will be called on the {@link<a name="line.300"></a>
+<span class="sourceLineNo">301</span>     * Listener}.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>     *<a name="line.302"></a>
+<span class="sourceLineNo">303</span>     * @param from The previous state that is being transitioned from. Failure can occur in any<a name="line.303"></a>
+<span class="sourceLineNo">304</span>     *     state with the exception of {@linkplain State#FAILED FAILED} and {@linkplain<a name="line.304"></a>
+<span class="sourceLineNo">305</span>     *     State#TERMINATED TERMINATED}.<a name="line.305"></a>
+<span class="sourceLineNo">306</span>     */<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    public void terminated(State from) {}<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>    /**<a name="line.309"></a>
+<span class="sourceLineNo">310</span>     * Called when the service transitions to the {@linkplain State#FAILED FAILED} state. The<a name="line.310"></a>
+<span class="sourceLineNo">311</span>     * {@linkplain State#FAILED FAILED} state is a terminal state in the transition diagram.<a name="line.311"></a>
+<span class="sourceLineNo">312</span>     * Therefore, if this method is called, no other methods will be called on the {@link Listener}.<a name="line.312"></a>
+<span class="sourceLineNo">313</span>     *<a name="line.313"></a>
+<span class="sourceLineNo">314</span>     * @param from The previous state that is being transitioned from. Failure can occur in any<a name="line.314"></a>
+<span class="sourceLineNo">315</span>     *     state with the exception of {@linkplain State#NEW NEW} or {@linkplain State#TERMINATED<a name="line.315"></a>
+<span class="sourceLineNo">316</span>     *     TERMINATED}.<a name="line.316"></a>
+<span class="sourceLineNo">317</span>     * @param failure The exception that caused the failure.<a name="line.317"></a>
+<span class="sourceLineNo">318</span>     */<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    public void failed(State from, Throwable failure) {}<a name="line.319"></a>
+<span class="sourceLineNo">320</span>  }<a name="line.320"></a>
+<span class="sourceLineNo">321</span>}<a name="line.321"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
