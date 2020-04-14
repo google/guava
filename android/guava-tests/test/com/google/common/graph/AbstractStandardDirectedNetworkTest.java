@@ -140,8 +140,6 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
   public void edgesConnecting_checkReturnedSetMutability() {
     assume().that(graphIsMutable()).isTrue();
 
-    assume().that(graphIsMutable()).isTrue();
-
     addNode(N1);
     addNode(N2);
     Set<String> edgesConnecting = network.edgesConnecting(N1, N2);
