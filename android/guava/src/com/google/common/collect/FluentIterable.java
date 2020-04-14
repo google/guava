@@ -174,7 +174,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     FluentIterable}
    */
   @Deprecated
-  @DoNotCall("instances of FluentIterable don't need to be converetd to a FluentIterable")
+  @DoNotCall("instances of FluentIterable don't need to be converted to a FluentIterable")
   public static <E> FluentIterable<E> from(FluentIterable<E> iterable) {
     return checkNotNull(iterable);
   }
