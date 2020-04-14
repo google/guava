@@ -71,6 +71,7 @@
         <directory>src</directory>
         <excludes>
           <exclude>**/*.java</exclude>
+          <exclude>**/*.sw*</exclude>
         </excludes>
       </resource>
     </resources>
