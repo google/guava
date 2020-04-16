@@ -69,9 +69,6 @@ function cleanup {
     if [[ "$currentref" != "$INITIAL_REF" ]]; then
       git checkout -q "$INITIAL_REF"
     fi
-  else
-    echo "Update successful. Output of mvn/jdiff commands follows:" >&2
-    cat "$LOGFILE" >&2
   fi
   rm "$LOGFILE"
   exit "$exitcode"
@@ -122,12 +119,11 @@ generate_javadoc() {
   echo -n "Compiling and generating Javadoc for Guava $version..."
   mvn \
     clean \
-    help:active-profiles \
     compile \
     javadoc:javadoc \
     dependency:build-classpath \
     -Dmdep.outputFile="$TEMPDIR/$flavor/classpath" \
-    -X -pl guava >> "$LOGFILE" 2>&1
+    -pl guava >> "$LOGFILE" 2>&1
   echo " Done."
 
   # Move generated .class and Javadoc files to the temp dir.
