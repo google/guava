@@ -51,13 +51,16 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
     this.axes = axes;
     int[] axesSizeProduct = new int[axes.size() + 1];
     axesSizeProduct[axes.size()] = 1;
+    int i = axes.size() - 1;
     try {
-      for (int i = axes.size() - 1; i >= 0; i--) {
+      for (; i >= 0; i--) {
         axesSizeProduct[i] = IntMath.checkedMultiply(axesSizeProduct[i + 1], axes.get(i).size());
       }
     } catch (ArithmeticException e) {
-      throw new IllegalArgumentException(
-          "Cartesian product too large; must have size at most Integer.MAX_VALUE");
+        // size which returns axesSizeProduct[0] will now return Integer.MAX_VALUE
+        for (; i >= 0; i--) {
+          axesSizeProduct[i] = Integer.MAX_VALUE;
+        }
     }
     this.axesSizeProduct = axesSizeProduct;
   }
