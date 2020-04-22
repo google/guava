@@ -57,10 +57,10 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
         axesSizeProduct[i] = IntMath.checkedMultiply(axesSizeProduct[i + 1], axes.get(i).size());
       }
     } catch (ArithmeticException e) {
-        // size which returns axesSizeProduct[0] will now return Integer.MAX_VALUE
-        for (; i >= 0; i--) {
-          axesSizeProduct[i] = Integer.MAX_VALUE;
-        }
+      // size which returns axesSizeProduct[0] will now return Integer.MAX_VALUE
+      for (; i >= 0; i--) {
+        axesSizeProduct[i] = Integer.MAX_VALUE;
+      }
     }
     this.axesSizeProduct = axesSizeProduct;
   }
