@@ -60,7 +60,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
       // size which returns axesSizeProduct[0] will now return Integer.MAX_VALUE
       for (; i >= 0; i--) {
         axesSizeProduct[i] = Integer.MAX_VALUE;
-      }
+      } // test
     }
     this.axesSizeProduct = axesSizeProduct;
   }
