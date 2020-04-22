@@ -72,7 +72,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 5.0
  */
 @Beta
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @Immutable
 public final class InternetDomainName {
 
