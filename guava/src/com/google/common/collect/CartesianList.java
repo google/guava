@@ -118,7 +118,21 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(@Nullable Object o) {
-    return indexOf(o) != -1;
+  public boolean contains(@Nullable Object object) {
+    if (!(object instanceof List)) {
+      return false;
+    }
+    List<?> list = (List<?>) object;
+    if (list.size() != axes.size()) {
+      return false;
+    }
+    int i = 0;
+    for (Object o : list) {
+      if (!axes.get(i).contains(o)) {
+        return false;
+      }
+      i++;
+    }
+    return true;
   }
 }
