@@ -1338,6 +1338,25 @@ public final class Sets {
     }
 
     @Override
+    public boolean contains(@NullableDecl Object object) {
+      if (!(object instanceof List)) {
+        return false;
+      }
+      List<?> list = (List<?>) object;
+      if (list.size() != axes.size()) {
+        return false;
+      }
+      int i = 0;
+      for (Object o : list) {
+        if (!axes.get(i).contains(o)) {
+          return false;
+        }
+        i++;
+      }
+      return true;
+    }
+
+    @Override
     public boolean equals(@NullableDecl Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
