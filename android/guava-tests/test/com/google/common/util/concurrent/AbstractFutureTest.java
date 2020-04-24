@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
@@ -232,6 +233,19 @@ public class AbstractFutureTest extends TestCase {
     }
   }
 
+  public void testToString_completesDuringToString() throws Exception {
+    AbstractFuture<Object> testFuture =
+        new AbstractFuture<Object>() {
+          @Override
+          public String pendingToString() {
+            // Complete ourselves during the toString calculation
+            this.set(true);
+            return "cause=[Because this test isn't done]";
+          }
+        };
+    assertThat(testFuture.toString()).matches("[^\\[]+\\[status=SUCCESS, result=\\[true\\]\\]");
+  }
+
   /**
    * This test attempts to cause a future to wait for longer than it was requested to from a timed
    * get() call. As measurements of time are prone to flakiness, it tries to assert based on ranges
@@ -290,8 +304,8 @@ public class AbstractFutureTest extends TestCase {
     testFuture3.setFuture(testFuture2);
     assertThat(testFuture3.toString())
         .matches(
-            "[^\\[]+\\[status=PENDING, info=\\[setFuture="
-                + "\\[[^\\[]+\\[status=PENDING, info=\\[cause=\\[Someday...\\]\\]\\]\\]\\]\\]");
+            "[^\\[]+\\[status=PENDING, setFuture=\\[[^\\[]+\\[status=PENDING,"
+                + " info=\\[cause=\\[Someday...]]]]]");
     testFuture2.set("result string");
     assertThat(testFuture3.toString())
         .matches("[^\\[]+\\[status=SUCCESS, result=\\[result string\\]\\]");
@@ -783,6 +797,23 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(orig.isDone());
   }
 
+  // Verify that StackOverflowError in a long chain of SetFuture doesn't cause the entire toString
+  // call to fail
+  @GwtIncompatible
+  @AndroidIncompatible
+  public void testSetFutureToString_stackOverflow() {
+    SettableFuture<String> orig = SettableFuture.create();
+    SettableFuture<String> prev = orig;
+    for (int i = 0; i < 100000; i++) {
+      SettableFuture<String> curr = SettableFuture.create();
+      prev.setFuture(curr);
+      prev = curr;
+    }
+    // orig represents the 'outermost' future
+    assertThat(orig.toString())
+        .contains("Exception thrown from implementation: class java.lang.StackOverflowError");
+  }
+
   public void testSetFuture_misbehavingFutureThrows() throws Exception {
     SettableFuture<String> future = SettableFuture.create();
     ListenableFuture<String> badFuture =
@@ -886,13 +917,28 @@ public class AbstractFutureTest extends TestCase {
   public void testSetFutureSelf_toString() {
     SettableFuture<String> orig = SettableFuture.create();
     orig.setFuture(orig);
-    assertThat(orig.toString()).contains("[status=PENDING, info=[setFuture=[this future]]]");
+    assertThat(orig.toString()).contains("[status=PENDING, setFuture=[this future]]");
   }
 
   public void testSetSelf_toString() {
     SettableFuture<Object> orig = SettableFuture.create();
     orig.set(orig);
     assertThat(orig.toString()).contains("[status=SUCCESS, result=[this future]]");
+  }
+
+  public void testSetFutureSelf_toStringException() {
+    SettableFuture<String> orig = SettableFuture.create();
+    orig.setFuture(
+        new AbstractFuture<String>() {
+          @Override
+          public String toString() {
+            throw new NullPointerException();
+          }
+        });
+    assertThat(orig.toString())
+        .contains(
+            "[status=PENDING, setFuture=[Exception thrown from implementation: class"
+                + " java.lang.NullPointerException]]");
   }
 
   public void testSetIndirectSelf_toString() {
@@ -905,11 +951,8 @@ public class AbstractFutureTest extends TestCase {
             return orig.toString();
           }
         });
-    try {
-      orig.toString();
-      fail();
-    } catch (StackOverflowError expected) {
-    }
+    assertThat(orig.toString())
+        .contains("Exception thrown from implementation: class java.lang.StackOverflowError");
   }
 
   // Regression test for a case where we would fail to execute listeners immediately on done futures

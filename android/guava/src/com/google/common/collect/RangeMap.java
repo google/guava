@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,6 +36,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 14.0
  */
 @Beta
+@DoNotMock("Use ImmutableRangeMap or TreeRangeMap")
 @GwtIncompatible
 public interface RangeMap<K extends Comparable, V> {
   /**

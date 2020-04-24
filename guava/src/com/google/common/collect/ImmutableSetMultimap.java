@@ -40,7 +40,6 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -61,8 +60,9 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * whose keys and values are the result of applying the provided mapping functions to the input
    * elements.
    *
-   * <p>For streams with {@linkplain java.util.stream#Ordering defined encounter order}, that order
-   * is preserved, but entries are <a href="ImmutableMultimap.html#iteration">grouped by key</a>.
+   * <p>For streams with defined encounter order (as defined in the Ordering section of the {@link
+   * java.util.stream} Javadoc), that order is preserved, but entries are <a
+   * href="ImmutableMultimap.html#iteration">grouped by key</a>.
    *
    * <p>Example:
    *
@@ -461,7 +461,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     return MoreObjects.firstNonNull(set, emptySet);
   }
 
-  @LazyInit @MonotonicNonNull @RetainedWith private transient ImmutableSetMultimap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableSetMultimap<V, K> inverse;
 
   /**
    * {@inheritDoc}
@@ -512,7 +512,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  private transient @MonotonicNonNull ImmutableSet<Entry<K, V>> entries;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses

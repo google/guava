@@ -15,13 +15,14 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -71,6 +72,7 @@ import java.util.concurrent.TimeoutException;
  * @since 23.0
  */
 @Beta
+@DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
 public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
 
@@ -261,7 +263,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
   @GwtIncompatible // ScheduledExecutorService
   public final FluentFuture<V> withTimeout(
       Duration timeout, ScheduledExecutorService scheduledExecutor) {
-    return withTimeout(saturatedToNanos(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
+    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**

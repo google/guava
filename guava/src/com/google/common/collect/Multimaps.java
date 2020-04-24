@@ -52,7 +52,6 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -647,11 +646,11 @@ public final class Multimaps {
   private static class UnmodifiableMultimap<K, V> extends ForwardingMultimap<K, V>
       implements Serializable {
     final Multimap<K, V> delegate;
-    @MonotonicNonNull transient Collection<Entry<K, V>> entries;
-    @MonotonicNonNull transient Multiset<K> keys;
-    @MonotonicNonNull transient Set<K> keySet;
-    @MonotonicNonNull transient Collection<V> values;
-    @MonotonicNonNull transient Map<K, Collection<V>> map;
+    transient @Nullable Collection<Entry<K, V>> entries;
+    transient @Nullable Multiset<K> keys;
+    transient @Nullable Set<K> keySet;
+    transient @Nullable Collection<V> values;
+    transient @Nullable Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(final Multimap<K, V> delegate) {
       this.delegate = checkNotNull(delegate);

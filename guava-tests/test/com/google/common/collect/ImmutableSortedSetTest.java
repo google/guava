@@ -1081,6 +1081,44 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     }
   }
 
+  public void testFloor_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.floor("f")).isNull();
+  }
+
+  public void testFloor_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.floor("f")).isEqualTo("f");
+    assertThat(set.floor("j")).isEqualTo("i");
+    assertThat(set.floor("q")).isEqualTo("k");
+  }
+
+  public void testFloor_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "b", "i", "d", "c", "k"});
+    assertThat(set.floor("a")).isNull();
+  }
+
+  public void testCeiling_emptySet() {
+    ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(new String[] {});
+    assertThat(set.ceiling("f")).isNull();
+  }
+
+  public void testCeiling_elementPresent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "e", "f", "f", "i", "d", "c", "k", "p", "c"});
+    assertThat(set.ceiling("f")).isEqualTo("f");
+    assertThat(set.ceiling("h")).isEqualTo("i");
+    assertThat(set.ceiling("a")).isEqualTo("c");
+  }
+
+  public void testCeiling_elementAbsent() {
+    ImmutableSortedSet<String> set =
+        ImmutableSortedSet.copyOf(new String[] {"e", "a", "e", "f", "b", "i", "d", "a", "c", "k"});
+    assertThat(set.ceiling("l")).isNull();
+  }
+
   public void testSubSetExclusiveExclusive() {
     String[] strings = NUMBER_NAMES.toArray(new String[0]);
     ImmutableSortedSet<String> set = ImmutableSortedSet.copyOf(strings);

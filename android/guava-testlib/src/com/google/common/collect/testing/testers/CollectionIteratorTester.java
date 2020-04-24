@@ -19,9 +19,11 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -64,6 +66,17 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
     }
     List<E> expected = Helpers.copyToList(getOrderedElements());
     assertEquals("Different ordered iteration", expected, iteratorElements);
+  }
+
+  @CollectionFeature.Require(ALLOWS_NULL_VALUES)
+  @CollectionSize.Require(absent = ZERO)
+  public void testIterator_nullElement() {
+    initCollectionWithNullElement();
+    List<E> iteratorElements = new ArrayList<E>();
+    for (E element : collection) { // uses iterator()
+      iteratorElements.add(element);
+    }
+    Helpers.assertEqualIgnoringOrder(asList(createArrayWithNullElement()), iteratorElements);
   }
 
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)

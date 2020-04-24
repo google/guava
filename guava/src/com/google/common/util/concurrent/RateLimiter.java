@@ -16,7 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.lang.Math.max;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -31,7 +31,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
@@ -161,7 +161,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {
-    return create(permitsPerSecond, saturatedToNanos(warmupPeriod), TimeUnit.NANOSECONDS);
+    return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -214,7 +214,7 @@ public abstract class RateLimiter {
   private final SleepingStopwatch stopwatch;
 
   // Can't be initialized in the constructor because mocks don't call the constructor.
-  @MonotonicNonNull private volatile Object mutexDoNotUseDirectly;
+  private volatile @Nullable Object mutexDoNotUseDirectly;
 
   private Object mutex() {
     Object mutex = mutexDoNotUseDirectly;
@@ -331,7 +331,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public boolean tryAcquire(Duration timeout) {
-    return tryAcquire(1, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -390,7 +390,7 @@ public abstract class RateLimiter {
    * @since 28.0
    */
   public boolean tryAcquire(int permits, Duration timeout) {
-    return tryAcquire(permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

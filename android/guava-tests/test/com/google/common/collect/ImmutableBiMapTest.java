@@ -575,4 +575,7 @@ public class ImmutableBiMapTest extends TestCase {
       assertEquals(alternatingKeysAndValues[i++], entry.getValue());
     }
   }
+
+  /** No-op test so that the class has at least one method, making Maven's test runner happy. */
+  public void testNoop() {}
 }

@@ -88,8 +88,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeEntrySetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<>();
-    derivedFeatures.addAll(features);
+    Set<Feature<?>> derivedFeatures = new HashSet<>(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(CollectionFeature.SUPPORTS_ADD);
     derivedFeatures.remove(CollectionFeature.ALLOWS_NULL_VALUES);
@@ -101,8 +100,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   static Set<Feature<?>> computeElementSetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<>();
-    derivedFeatures.addAll(features);
+    Set<Feature<?>> derivedFeatures = new HashSet<>(features);
     derivedFeatures.remove(CollectionFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(CollectionFeature.SUPPORTS_ADD);
     if (!derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
@@ -112,8 +110,7 @@ public class MultisetTestSuiteBuilder<E>
   }
 
   private static Set<Feature<?>> computeReserializedMultisetFeatures(Set<Feature<?>> features) {
-    Set<Feature<?>> derivedFeatures = new HashSet<>();
-    derivedFeatures.addAll(features);
+    Set<Feature<?>> derivedFeatures = new HashSet<>(features);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
     derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
     return derivedFeatures;

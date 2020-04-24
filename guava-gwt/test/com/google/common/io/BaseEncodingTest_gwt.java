@@ -133,6 +133,16 @@ public void testBase64OmitPadding() throws Exception {
   testCase.testBase64OmitPadding();
 }
 
+public void testBase64Url() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase64Url();
+}
+
+public void testBase64UrlInvalidDecodings() throws Exception {
+  com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
+  testCase.testBase64UrlInvalidDecodings();
+}
+
 public void testSeparatorSameAsPadChar() throws Exception {
   com.google.common.io.BaseEncodingTest testCase = new com.google.common.io.BaseEncodingTest();
   testCase.testSeparatorSameAsPadChar();

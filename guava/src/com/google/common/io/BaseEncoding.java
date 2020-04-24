@@ -28,13 +28,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -831,8 +831,8 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    private transient @MonotonicNonNull BaseEncoding upperCase;
-    private transient @MonotonicNonNull BaseEncoding lowerCase;
+    @LazyInit private transient @Nullable BaseEncoding upperCase;
+    @LazyInit private transient @Nullable BaseEncoding lowerCase;
 
     @Override
     public BaseEncoding upperCase() {

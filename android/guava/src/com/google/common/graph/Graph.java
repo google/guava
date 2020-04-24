@@ -17,6 +17,8 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.DoNotMock;
+import java.util.Collection;
 import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -100,6 +102,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 20.0
  */
 @Beta
+@DoNotMock("Use GraphBuilder to create a real instance")
 public interface Graph<N> extends BaseGraph<N> {
   //
   // Graph-level accessors
@@ -136,6 +139,16 @@ public interface Graph<N> extends BaseGraph<N> {
   /** Returns the order of iteration for the elements of {@link #nodes()}. */
   @Override
   ElementOrder<N> nodeOrder();
+
+  /**
+   * Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
+   * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
+   * #successors(Object)} and {@link #incidentEdges(Object)}.
+   *
+   * @since 29.0
+   */
+  @Override
+  ElementOrder<N> incidentEdgeOrder();
 
   //
   // Element-level accessors
