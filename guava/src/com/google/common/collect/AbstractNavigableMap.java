@@ -24,6 +24,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Skeletal implementation of {@link NavigableMap}.
@@ -31,29 +32,29 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
-    implements NavigableMap<K, V> {
+abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends IteratorBasedAbstractMap<K, V> implements NavigableMap<K, V> {
 
   @Override
-  public abstract V get(Object key);
+  public abstract @Nullable V get(@Nullable Object key);
 
   @Override
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return Iterators.getNext(entryIterator(), null);
   }
 
   @Override
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return Iterators.getNext(descendingEntryIterator(), null);
   }
 
   @Override
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return Iterators.pollNext(entryIterator());
   }
 
   @Override
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return Iterators.pollNext(descendingEntryIterator());
   }
 
@@ -78,42 +79,42 @@ abstract class AbstractNavigableMap<K, V> extends IteratorBasedAbstractMap<K, V>
   }
 
   @Override
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  public K lowerKey(K key) {
+  public @Nullable K lowerKey(K key) {
     return Maps.keyOrNull(lowerEntry(key));
   }
 
   @Override
-  public K floorKey(K key) {
+  public @Nullable K floorKey(K key) {
     return Maps.keyOrNull(floorEntry(key));
   }
 
   @Override
-  public K ceilingKey(K key) {
+  public @Nullable K ceilingKey(K key) {
     return Maps.keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  public K higherKey(K key) {
+  public @Nullable K higherKey(K key) {
     return Maps.keyOrNull(higherEntry(key));
   }
 

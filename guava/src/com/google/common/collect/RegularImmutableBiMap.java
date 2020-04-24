@@ -31,6 +31,8 @@ import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Bimap with zero or more mappings.
@@ -39,29 +41,33 @@ import java.util.function.Consumer;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+class RegularImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableBiMap<K, V> {
+  @SuppressWarnings({"unchecked", "nullness"})
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<>(
           null, null, (Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, 0, 0);
 
   static final double MAX_LOAD_FACTOR = 1.2;
 
-  private final transient ImmutableMapEntry<K, V>[] keyTable;
-  private final transient ImmutableMapEntry<K, V>[] valueTable;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] keyTable;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] valueTable;
   @VisibleForTesting final transient Entry<K, V>[] entries;
   private final transient int mask;
   private final transient int hashCode;
 
-  static <K, V> ImmutableBiMap<K, V> fromEntries(Entry<K, V>... entries) {
+  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> fromEntries(
+      Entry<K, V>... entries) {
     return fromEntryArray(entries.length, entries);
   }
 
-  static <K, V> ImmutableBiMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
+  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> fromEntryArray(
+      int n, Entry<K, V>[] entryArray) {
     checkPositionIndex(n, entryArray.length);
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
-    ImmutableMapEntry<K, V>[] keyTable = createEntryArray(tableSize);
-    ImmutableMapEntry<K, V>[] valueTable = createEntryArray(tableSize);
+    @Nullable ImmutableMapEntry<K, V>[] keyTable = createEntryArray(tableSize);
+    @Nullable ImmutableMapEntry<K, V>[] valueTable = createEntryArray(tableSize);
     Entry<K, V>[] entries;
     if (n == entryArray.length) {
       entries = entryArray;
@@ -103,8 +109,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   private RegularImmutableBiMap(
-      ImmutableMapEntry<K, V>[] keyTable,
-      ImmutableMapEntry<K, V>[] valueTable,
+      @Nullable ImmutableMapEntry<K, V> @Nullable [] keyTable,
+      @Nullable ImmutableMapEntry<K, V> @Nullable [] valueTable,
       Entry<K, V>[] entries,
       int mask,
       int hashCode) {
@@ -123,7 +129,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
    */
   @CanIgnoreReturnValue
   private static int checkNoConflictInValueBucket(
-      Object value, Entry<?, ?> entry, ImmutableMapEntry<?, ?> valueBucketHead) {
+      Object value, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> valueBucketHead) {
     int bucketSize = 0;
     for (; valueBucketHead != null; valueBucketHead = valueBucketHead.getNextInValueBucket()) {
       checkNoConflict(!value.equals(valueBucketHead.getValue()), "value", entry, valueBucketHead);
@@ -133,8 +139,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(Object key) {
-    return (keyTable == null) ? null : RegularImmutableMap.get(key, keyTable, mask);
+  public @Nullable V get(@Nullable Object key) {
+    return RegularImmutableMap.get(key, keyTable, mask);
   }
 
   @Override
@@ -177,7 +183,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.length;
   }
 
-  @LazyInit @RetainedWith private transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
@@ -207,7 +213,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    public K get(Object value) {
+    public @Nullable K get(@Nullable Object value) {
       if (value == null || valueTable == null) {
         return null;
       }
@@ -286,7 +292,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
   }
 
-  private static class InverseSerializedForm<K, V> implements Serializable {
+  private static class InverseSerializedForm<K extends @NonNull Object, V extends @NonNull Object>
+      implements Serializable {
     private final ImmutableBiMap<K, V> forward;
 
     InverseSerializedForm(ImmutableBiMap<K, V> forward) {

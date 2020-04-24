@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link ImmutableTable} holding an arbitrary number of cells.
@@ -31,7 +33,9 @@ import java.util.Set;
  * @author Gregory Kick
  */
 @GwtCompatible
-abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
+abstract class RegularImmutableTable<
+        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableTable<R, C, V> {
   RegularImmutableTable() {}
 
   abstract Cell<R, C, V> getCell(int iterationIndex);
@@ -54,9 +58,15 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
 
     @Override
-    public boolean contains(Object object) {
+    public boolean contains(@Nullable Object object) {
       if (object instanceof Cell) {
-        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) object;
+        Cell<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+            cell =
+                (Cell<
+                        ? extends @Nullable Object,
+                        ? extends @Nullable Object,
+                        ? extends @Nullable Object>)
+                    object;
         Object value = RegularImmutableTable.this.get(cell.getRowKey(), cell.getColumnKey());
         return value != null && value.equals(cell.getValue());
       }
@@ -94,10 +104,11 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
   }
 
-  static <R, C, V> RegularImmutableTable<R, C, V> forCells(
-      List<Cell<R, C, V>> cells,
-      final Comparator<? super R> rowComparator,
-      final Comparator<? super C> columnComparator) {
+  static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      RegularImmutableTable<R, C, V> forCells(
+          List<Cell<R, C, V>> cells,
+          final @Nullable Comparator<? super R> rowComparator,
+          final @Nullable Comparator<? super C> columnComparator) {
     checkNotNull(cells);
     if (rowComparator != null || columnComparator != null) {
       /*
@@ -128,14 +139,16 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     return forCellsInternal(cells, rowComparator, columnComparator);
   }
 
-  static <R, C, V> RegularImmutableTable<R, C, V> forCells(Iterable<Cell<R, C, V>> cells) {
+  static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      RegularImmutableTable<R, C, V> forCells(Iterable<Cell<R, C, V>> cells) {
     return forCellsInternal(cells, null, null);
   }
 
-  private static <R, C, V> RegularImmutableTable<R, C, V> forCellsInternal(
-      Iterable<Cell<R, C, V>> cells,
-      Comparator<? super R> rowComparator,
-      Comparator<? super C> columnComparator) {
+  private static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      RegularImmutableTable<R, C, V> forCellsInternal(
+          Iterable<Cell<R, C, V>> cells,
+          @Nullable Comparator<? super R> rowComparator,
+          @Nullable Comparator<? super C> columnComparator) {
     Set<R> rowSpaceBuilder = new LinkedHashSet<>();
     Set<C> columnSpaceBuilder = new LinkedHashSet<>();
     ImmutableList<Cell<R, C, V>> cellList = ImmutableList.copyOf(cells);
@@ -157,10 +170,11 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   }
 
   /** A factory that chooses the most space-efficient representation of the table. */
-  static <R, C, V> RegularImmutableTable<R, C, V> forOrderedComponents(
-      ImmutableList<Cell<R, C, V>> cellList,
-      ImmutableSet<R> rowSpace,
-      ImmutableSet<C> columnSpace) {
+  static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      RegularImmutableTable<R, C, V> forOrderedComponents(
+          ImmutableList<Cell<R, C, V>> cellList,
+          ImmutableSet<R> rowSpace,
+          ImmutableSet<C> columnSpace) {
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
     return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2))
@@ -173,7 +187,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
    * We could have declared this method 'static' but the additional compile-time checks achieved by
    * referencing the type variables seem worthwhile.
    */
-  final void checkNoDuplicate(R rowKey, C columnKey, V existingValue, V newValue) {
+  final void checkNoDuplicate(R rowKey, C columnKey, @Nullable V existingValue, V newValue) {
     checkArgument(
         existingValue == null,
         "Duplicate key: (row=%s, column=%s), values: [%s, %s].",

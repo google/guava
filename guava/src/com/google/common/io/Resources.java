@@ -14,7 +14,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -29,6 +28,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with resources in the classpath. Note that even though these
@@ -121,8 +121,8 @@ public final class Resources {
    * @throws IOException if an I/O error occurs
    */
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readLines(URL url, Charset charset, LineProcessor<T> callback)
-      throws IOException {
+  public static <T extends @Nullable Object> T readLines(
+      URL url, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(url, charset).readLines(callback);
   }
 
@@ -192,7 +192,9 @@ public final class Resources {
         MoreObjects.firstNonNull(
             Thread.currentThread().getContextClassLoader(), Resources.class.getClassLoader());
     URL url = loader.getResource(resourceName);
-    checkArgument(url != null, "resource %s not found.", resourceName);
+    if (url == null) {
+      throw new IllegalArgumentException("resource " + resourceName + " not found.");
+    }
     return url;
   }
 
@@ -204,8 +206,10 @@ public final class Resources {
    */
   public static URL getResource(Class<?> contextClass, String resourceName) {
     URL url = contextClass.getResource(resourceName);
-    checkArgument(
-        url != null, "resource %s relative to %s not found.", resourceName, contextClass.getName());
+    if (url == null) {
+      throw new IllegalArgumentException(
+          "resource " + resourceName + " relative to " + contextClass.getName() + " not found.");
+    }
     return url;
   }
 }

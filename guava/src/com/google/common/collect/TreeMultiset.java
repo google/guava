@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.CollectPreconditions.noCallsToNextSinceLastRemove;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -36,6 +36,8 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.ObjIntConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A multiset which maintains the ordering of its elements, according to either their natural order
@@ -56,7 +58,8 @@ import java.util.function.ObjIntConsumer;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements Serializable {
+public final class TreeMultiset<E extends @Nullable Object> extends AbstractSortedMultiset<E>
+    implements Serializable {
 
   /**
    * Creates a new, empty multiset, sorted according to the elements' natural order. All elements
@@ -86,7 +89,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    *     indicates that the elements' <i>natural ordering</i> should be used.
    */
   @SuppressWarnings("unchecked")
-  public static <E> TreeMultiset<E> create(Comparator<? super E> comparator) {
+  public static <E extends @Nullable Object> TreeMultiset<E> create(
+      @Nullable Comparator<? super E> comparator) {
     return (comparator == null)
         ? new TreeMultiset<E>((Comparator) Ordering.natural())
         : new TreeMultiset<E>(comparator);
@@ -121,7 +125,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   TreeMultiset(Comparator<? super E> comparator) {
     super(comparator);
     this.range = GeneralRange.all(comparator);
-    this.header = new AvlNode<E>(null, 1);
+    // This is safe as long as we're careful not to access `elem` on the header node.
+    this.header = new AvlNode<E>(unsafeNull(), 1);
     successor(header, header);
     this.rootReference = new Reference<>();
   }
@@ -130,30 +135,30 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   private enum Aggregate {
     SIZE {
       @Override
-      int nodeAggregate(AvlNode<?> node) {
+      int nodeAggregate(AvlNode<? extends @Nullable Object> node) {
         return node.elemCount;
       }
 
       @Override
-      long treeAggregate(AvlNode<?> root) {
+      long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root) {
         return (root == null) ? 0 : root.totalCount;
       }
     },
     DISTINCT {
       @Override
-      int nodeAggregate(AvlNode<?> node) {
+      int nodeAggregate(AvlNode<? extends @Nullable Object> node) {
         return 1;
       }
 
       @Override
-      long treeAggregate(AvlNode<?> root) {
+      long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root) {
         return (root == null) ? 0 : root.distinctElements;
       }
     };
 
-    abstract int nodeAggregate(AvlNode<?> node);
+    abstract int nodeAggregate(AvlNode<? extends @Nullable Object> node);
 
-    abstract long treeAggregate(AvlNode<?> root);
+    abstract long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root);
   }
 
   private long aggregateForEntries(Aggregate aggr) {
@@ -168,11 +173,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return total;
   }
 
-  private long aggregateBelowRange(Aggregate aggr, AvlNode<E> node) {
+  private long aggregateBelowRange(Aggregate aggr, @Nullable AvlNode<E> node) {
     if (node == null) {
       return 0;
     }
-    int cmp = comparator().compare(range.getLowerEndpoint(), node.elem);
+    // requireNonNull is safe because we call this method only if hasLowerBound().
+    int cmp = comparator().compare(requireNonNull(range.getLowerEndpoint()), node.elem);
     if (cmp < 0) {
       return aggregateBelowRange(aggr, node.left);
     } else if (cmp == 0) {
@@ -191,11 +197,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
   }
 
-  private long aggregateAboveRange(Aggregate aggr, AvlNode<E> node) {
+  private long aggregateAboveRange(Aggregate aggr, @Nullable AvlNode<E> node) {
     if (node == null) {
       return 0;
     }
-    int cmp = comparator().compare(range.getUpperEndpoint(), node.elem);
+    // requireNonNull is safe because we call this method only if hasUpperBound().
+    int cmp = comparator().compare(requireNonNull(range.getUpperEndpoint()), node.elem);
     if (cmp > 0) {
       return aggregateAboveRange(aggr, node.right);
     } else if (cmp == 0) {
@@ -224,15 +231,15 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return Ints.saturatedCast(aggregateForEntries(Aggregate.DISTINCT));
   }
 
-  static int distinctElements(AvlNode<?> node) {
+  static int distinctElements(@Nullable AvlNode<? extends @Nullable Object> node) {
     return (node == null) ? 0 : node.distinctElements;
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     try {
-      @SuppressWarnings("unchecked")
-      E e = (E) element;
+      // Safe because we catch exceptions, and we're not writing, only reading.
+      E e = uncheckedCastNullableObjectToE(element);
       AvlNode<E> root = rootReference.get();
       if (!range.contains(e) || root == null) {
         return 0;
@@ -241,6 +248,18 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     } catch (ClassCastException | NullPointerException e) {
       return 0;
     }
+  }
+
+  @SuppressWarnings({"unchecked", "nullness"})
+  private static <E extends @Nullable Object> E uncheckedCastNullableObjectToE(
+      @Nullable Object value) {
+    /*
+     * We can't use requireNonNull because `value` might be null. Specifically, it can be null
+     * because the multiset might contain a null element to be returned to the user. This is in
+     * contrast to the other way for `value` to be null, which is for the user to pass a null value
+     * that the multiset does *not* contain.
+     */
+    return (E) value;
   }
 
   @CanIgnoreReturnValue
@@ -267,7 +286,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     checkNonnegative(occurrences, "occurrences");
     if (occurrences == 0) {
       return count(element);
@@ -276,8 +295,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     int[] result = new int[1]; // used as a mutable int reference to hold result
     AvlNode<E> newRoot;
     try {
+      // Safe because we catch exceptions, and we're not adding, only removing.
       @SuppressWarnings("unchecked")
-      E e = (E) element;
+      E e = uncheckedCastNullableObjectToE(element);
       if (!range.contains(e) || root == null) {
         return 0;
       }
@@ -346,8 +366,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         // Also clear these fields so that one deleted Entry doesn't retain all elements.
         current.left = null;
         current.right = null;
-        current.pred = null;
-        current.succ = null;
+        // See the comments on the pred and succ fields.
+        current.pred = unsafeNull();
+        current.succ = unsafeNull();
 
         current = next;
       }
@@ -379,15 +400,16 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   /** Returns the first node in the tree that is in range. */
-  private AvlNode<E> firstNode() {
+  private @Nullable AvlNode<E> firstNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
     }
     AvlNode<E> node;
     if (range.hasLowerBound()) {
-      E endpoint = range.getLowerEndpoint();
-      node = rootReference.get().ceiling(comparator(), endpoint);
+      // requireNonNull is safe because of the hasLowerBound check.
+      E endpoint = requireNonNull(range.getLowerEndpoint());
+      node = root.ceiling(comparator(), endpoint);
       if (node == null) {
         return null;
       }
@@ -401,15 +423,16 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return (node == header || !range.contains(node.getElement())) ? null : node;
   }
 
-  private AvlNode<E> lastNode() {
+  private @Nullable AvlNode<E> lastNode() {
     AvlNode<E> root = rootReference.get();
     if (root == null) {
       return null;
     }
     AvlNode<E> node;
     if (range.hasUpperBound()) {
-      E endpoint = range.getUpperEndpoint();
-      node = rootReference.get().floor(comparator(), endpoint);
+      // requireNonNull is safe because of the hasUpperBound check.
+      E endpoint = requireNonNull(range.getUpperEndpoint());
+      node = root.floor(comparator(), endpoint);
       if (node == null) {
         return null;
       }
@@ -431,8 +454,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   @Override
   Iterator<Entry<E>> entryIterator() {
     return new Iterator<Entry<E>>() {
-      AvlNode<E> current = firstNode();
-      Entry<E> prevEntry;
+      @Nullable AvlNode<E> current = firstNode();
+      @Nullable Entry<E> prevEntry;
 
       @Override
       public boolean hasNext() {
@@ -451,7 +474,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
-        Entry<E> result = wrapEntry(current);
+        // requireNonNull is safe because current is only nulled out after iteration is complete.
+        Entry<E> result = wrapEntry(requireNonNull(current));
         prevEntry = result;
         if (current.succ == header) {
           current = null;
@@ -463,7 +487,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
       @Override
       public void remove() {
-        checkRemove(prevEntry != null);
+        if (prevEntry == null) {
+          throw noCallsToNextSinceLastRemove();
+        }
         setCount(prevEntry.getElement(), 0);
         prevEntry = null;
       }
@@ -473,8 +499,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   @Override
   Iterator<Entry<E>> descendingEntryIterator() {
     return new Iterator<Entry<E>>() {
-      AvlNode<E> current = lastNode();
-      Entry<E> prevEntry = null;
+      @Nullable AvlNode<E> current = lastNode();
+      @Nullable Entry<E> prevEntry = null;
 
       @Override
       public boolean hasNext() {
@@ -493,6 +519,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         if (!hasNext()) {
           throw new NoSuchElementException();
         }
+        // requireNonNull is safe because of the hasNext check.
+        requireNonNull(current);
         Entry<E> result = wrapEntry(current);
         prevEntry = result;
         if (current.pred == header) {
@@ -505,7 +533,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
       @Override
       public void remove() {
-        checkRemove(prevEntry != null);
+        if (prevEntry == null) {
+          throw noCallsToNextSinceLastRemove();
+        }
         setCount(prevEntry.getElement(), 0);
         prevEntry = null;
       }
@@ -543,14 +573,14 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         header);
   }
 
-  private static final class Reference<T> {
-    private T value;
+  private static final class Reference<T extends @NonNull Object> {
+    private @Nullable T value;
 
-    public T get() {
+    public @Nullable T get() {
       return value;
     }
 
-    public void checkAndSet(T expected, T newValue) {
+    public void checkAndSet(@Nullable T expected, @Nullable T newValue) {
       if (value != expected) {
         throw new ConcurrentModificationException();
       }
@@ -562,7 +592,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
   }
 
-  private static final class AvlNode<E> {
+  private static final class AvlNode<E extends @Nullable Object> {
     private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
@@ -571,11 +601,21 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private int distinctElements;
     private long totalCount;
     private int height;
-    private AvlNode<E> left;
-    private AvlNode<E> right;
+    private @Nullable AvlNode<E> left;
+    private @Nullable AvlNode<E> right;
+    /*
+     * pred and succ are nullable after construction, but we always call successor() to initialize
+     * them immediately thereafter.
+     *
+     * They may be subsequently nulled out by TreeMultiset.clear(). However, I think that the place
+     * that we reference a node whose fields have been cleared is inside the iterator. And while it
+     * would be nice for us to get nullness checking there, I'm not sure it's worth all the warnings
+     * checking would create in other methods.
+     */
     private AvlNode<E> pred;
     private AvlNode<E> succ;
 
+    @SuppressWarnings("nullness") // see comment about pred and succ above
     AvlNode(E elem, int elemCount) {
       checkArgument(elemCount > 0);
       this.elem = elem;
@@ -661,6 +701,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
+    @Nullable
     AvlNode<E> remove(Comparator<? super E> comparator, E e, int count, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
@@ -712,6 +753,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
+    @Nullable
     AvlNode<E> setCount(Comparator<? super E> comparator, E e, int count, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
@@ -760,6 +802,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
+    @Nullable
     AvlNode<E> setCount(
         Comparator<? super E> comparator, E e, int expectedCount, int newCount, int[] result) {
       int cmp = comparator.compare(e, elem);
@@ -819,7 +862,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
-    private AvlNode<E> deleteMe() {
+    private @Nullable AvlNode<E> deleteMe() {
       int oldElemCount = this.elemCount;
       this.elemCount = 0;
       successor(pred, succ);
@@ -846,7 +889,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
 
     // Removes the minimum node from this subtree to be reused elsewhere
-    private AvlNode<E> removeMin(AvlNode<E> node) {
+    private @Nullable AvlNode<E> removeMin(AvlNode<E> node) {
       if (left == null) {
         return right;
       } else {
@@ -858,7 +901,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
 
     // Removes the maximum node from this subtree to be reused elsewhere
-    private AvlNode<E> removeMax(AvlNode<E> node) {
+    private @Nullable AvlNode<E> removeMax(AvlNode<E> node) {
       if (right == null) {
         return left;
       } else {
@@ -887,11 +930,15 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private AvlNode<E> rebalance() {
       switch (balanceFactor()) {
         case -2:
+          // requireNonNull is safe because right must exist in order to get a negative factor.
+          requireNonNull(right);
           if (right.balanceFactor() > 0) {
             right = right.rotateRight();
           }
           return rotateLeft();
         case 2:
+          // requireNonNull is safe because left must exist in order to get a positive factor.
+          requireNonNull(left);
           if (left.balanceFactor() < 0) {
             left = left.rotateLeft();
           }
@@ -907,7 +954,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
 
     private AvlNode<E> rotateLeft() {
-      checkState(right != null);
+      if (right == null) {
+        throw new IllegalStateException();
+      }
       AvlNode<E> newTop = right;
       this.right = newTop.left;
       newTop.left = this;
@@ -919,7 +968,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
 
     private AvlNode<E> rotateRight() {
-      checkState(left != null);
+      if (left == null) {
+        throw new IllegalStateException();
+      }
       AvlNode<E> newTop = left;
       this.left = newTop.right;
       newTop.right = this;
@@ -930,15 +981,15 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return newTop;
     }
 
-    private static long totalCount(AvlNode<?> node) {
+    private static long totalCount(@Nullable AvlNode<?> node) {
       return (node == null) ? 0 : node.totalCount;
     }
 
-    private static int height(AvlNode<?> node) {
+    private static int height(@Nullable AvlNode<?> node) {
       return (node == null) ? 0 : node.height;
     }
 
-    private AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
+    private @Nullable AvlNode<E> ceiling(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
@@ -949,7 +1000,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
-    private AvlNode<E> floor(Comparator<? super E> comparator, E e) {
+    private @Nullable AvlNode<E> floor(Comparator<? super E> comparator, E e) {
       int cmp = comparator.compare(e, elem);
       if (cmp > 0) {
         return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
@@ -974,12 +1025,13 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     }
   }
 
-  private static <T> void successor(AvlNode<T> a, AvlNode<T> b) {
+  private static <T extends @Nullable Object> void successor(AvlNode<T> a, AvlNode<T> b) {
     a.succ = b;
     b.pred = a;
   }
 
-  private static <T> void successor(AvlNode<T> a, AvlNode<T> b, AvlNode<T> c) {
+  private static <T extends @Nullable Object> void successor(
+      AvlNode<T> a, AvlNode<T> b, AvlNode<T> c) {
     successor(a, b);
     successor(b, c);
   }
@@ -989,6 +1041,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
    * calls the comparator to compare the two keys. If that change is made,
    * AbstractMultiset.equals() can simply check whether two multisets have equal entry sets.
    */
+
+  @SuppressWarnings("nullness")
+  private static <E> E unsafeNull() {
+    return null;
+  }
 
   /**
    * @serialData the comparator, the number of distinct elements, the first element, its count, the
@@ -1012,7 +1069,8 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         .set(this, GeneralRange.all(comparator));
     Serialization.getFieldSetter(TreeMultiset.class, "rootReference")
         .set(this, new Reference<AvlNode<E>>());
-    AvlNode<E> header = new AvlNode<E>(null, 1);
+    // This is safe as long as we're careful not to access `elem` on the header node.
+    AvlNode<E> header = new AvlNode<E>(unsafeNull(), 1);
     Serialization.getFieldSetter(TreeMultiset.class, "header").set(this, header);
     successor(header, header);
     Serialization.populateMultiset(this, stream);

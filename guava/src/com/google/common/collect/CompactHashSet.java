@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactHashSet is an implementation of a Set. All optional operations (adding and removing) are
@@ -69,11 +69,12 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @author Dimitris Andreou
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
+@SuppressWarnings("nullness") // too much effort for the payoff
+class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implements Serializable {
   // TODO(user): cache all field accesses in local vars
 
   /** Creates an empty {@code CompactHashSet} instance. */
-  public static <E> CompactHashSet<E> create() {
+  public static <E extends @Nullable Object> CompactHashSet<E> create() {
     return new CompactHashSet<>();
   }
 
@@ -84,7 +85,8 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    * @param collection the elements that the set should contain
    * @return a new {@code CompactHashSet} containing those elements (minus duplicates)
    */
-  public static <E> CompactHashSet<E> create(Collection<? extends E> collection) {
+  public static <E extends @Nullable Object> CompactHashSet<E> create(
+      Collection<? extends E> collection) {
     CompactHashSet<E> set = createWithExpectedSize(collection.size());
     set.addAll(collection);
     return set;
@@ -97,7 +99,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    * @param elements the elements that the set should contain
    * @return a new {@code CompactHashSet} containing those elements (minus duplicates)
    */
-  public static <E> CompactHashSet<E> create(E... elements) {
+  public static <E extends @Nullable Object> CompactHashSet<E> create(E... elements) {
     CompactHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
@@ -112,7 +114,8 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    *     elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <E> CompactHashSet<E> createWithExpectedSize(int expectedSize) {
+  public static <E extends @Nullable Object> CompactHashSet<E> createWithExpectedSize(
+      int expectedSize) {
     return new CompactHashSet<>(expectedSize);
   }
 
@@ -138,7 +141,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    *
    * <p>Its size must be a power of two.
    */
-  private transient int @MonotonicNonNull [] table;
+  private transient int @Nullable [] table;
 
   /**
    * Contains the logical entries, in the range of [0, size()). The high 32 bits of each long is the
@@ -146,13 +149,13 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
    * next entry in the bucket chain). The pointers in [size(), entries.length) are all "null"
    * (UNSET).
    */
-  private transient long @MonotonicNonNull [] entries;
+  private transient long @Nullable [] entries;
 
   /**
    * The elements contained in the set, in the range of [0, size()). The elements in [size(),
    * elements.length) are all {@code null}.
    */
-  transient Object @MonotonicNonNull [] elements;
+  transient @Nullable Object @Nullable [] elements;
 
   /**
    * Keeps track of modifications of this set, to make it possible to throw
@@ -198,7 +201,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
     this.table = newTable(buckets);
 
     this.entries = newEntries(expectedSize);
-    this.elements = new Object[expectedSize];
+    this.elements = new @Nullable Object[expectedSize];
   }
 
   private static int[] newTable(int size) {
@@ -329,7 +332,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -347,7 +350,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(Object object) {
+  public boolean remove(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -355,7 +358,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   }
 
   @CanIgnoreReturnValue
-  private boolean remove(Object object, int hash) {
+  private boolean remove(@Nullable Object object, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) {

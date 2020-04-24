@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Calculates the weights of cache entries.
@@ -24,7 +25,7 @@ import com.google.common.annotations.GwtCompatible;
  */
 @GwtCompatible
 @FunctionalInterface
-public interface Weigher<K, V> {
+public interface Weigher<K extends @NonNull Object, V extends @NonNull Object> {
 
   /**
    * Returns the weight of a cache entry. There is no unit for entry weights; rather they are simply

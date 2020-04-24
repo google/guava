@@ -23,13 +23,16 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectCollectors {
-  static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+      Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     return Collector.of(
@@ -40,20 +43,22 @@ final class CollectCollectors {
         new Collector.Characteristics[0]);
   }
 
-  private static final Collector<Object, ?, ImmutableList<Object>> TO_IMMUTABLE_LIST =
+  private static final Collector<?, ?, ?> TO_IMMUTABLE_LIST =
       Collector.of(
           ImmutableList::<Object>builder,
           ImmutableList.Builder::add,
           ImmutableList.Builder::combine,
           ImmutableList.Builder::build);
 
-  static <E> Collector<E, ?, ImmutableList<E>> toImmutableList() {
-    return (Collector) TO_IMMUTABLE_LIST;
+  @SuppressWarnings({"unchecked", "nullness"})
+  static <E extends @NonNull Object> Collector<E, ?, ImmutableList<E>> toImmutableList() {
+    return (Collector<E, ?, ImmutableList<E>>) TO_IMMUTABLE_LIST;
   }
 
-  static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     return Collector.of(
@@ -63,21 +68,23 @@ final class CollectCollectors {
         ImmutableMap.Builder::build);
   }
 
-  private static final Collector<Object, ?, ImmutableSet<Object>> TO_IMMUTABLE_SET =
+  private static final Collector<?, ?, ?> TO_IMMUTABLE_SET =
       Collector.of(
           ImmutableSet::<Object>builder,
           ImmutableSet.Builder::add,
           ImmutableSet.Builder::combine,
           ImmutableSet.Builder::build);
 
-  static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
-    return (Collector) TO_IMMUTABLE_SET;
+  @SuppressWarnings({"unchecked", "nullness"})
+  static <E extends @NonNull Object> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+    return (Collector<E, ?, ImmutableSet<E>>) TO_IMMUTABLE_SET;
   }
 
-  static <T, K, V> Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
-      Comparator<? super K> comparator,
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Comparator<? super K> comparator,
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     checkNotNull(comparator);
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
@@ -93,7 +100,7 @@ final class CollectCollectors {
         Collector.Characteristics.UNORDERED);
   }
 
-  static <E> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
+  static <E extends @NonNull Object> Collector<E, ?, ImmutableSortedSet<E>> toImmutableSortedSet(
       Comparator<? super E> comparator) {
     checkNotNull(comparator);
     return Collector.of(
@@ -119,7 +126,7 @@ final class CollectCollectors {
   }
 
   @GwtIncompatible
-  static <T, K extends Comparable<? super K>, V>
+  static <T extends @Nullable Object, K extends Comparable<? super K>, V extends @NonNull Object>
       Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
           Function<? super T, Range<K>> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

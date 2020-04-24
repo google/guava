@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Future} that accepts completion listeners. Each listener has an associated executor, and
@@ -98,7 +99,13 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
-public interface ListenableFuture<V> extends Future<V> {
+/*
+ * TODO(cpovirk): DO NOT SUBMIT REVERT: We've promised not to change ListenableFuture, at least
+ * externally. But maybe we could get away with such a small change, or maybe we could make the
+ * change internally only? Alternatively, maybe we should just create a stub file? That might be
+ * harder for external users, though.
+ */
+public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
    * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()

@@ -33,6 +33,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for directed graphs.
@@ -41,7 +43,8 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
+final class DirectedGraphConnections<N extends @NonNull Object, V extends @NonNull Object>
+    implements GraphConnections<N, V> {
   /**
    * A wrapper class to indicate a node is both a predecessor and successor while still providing
    * the successor value.
@@ -73,15 +76,16 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
             && successorCount <= adjacentNodeValues.size());
   }
 
-  static <N, V> DirectedGraphConnections<N, V> of() {
+  static <N extends @NonNull Object, V extends @NonNull Object>
+      DirectedGraphConnections<N, V> of() {
     // We store predecessors and successors in the same map, so double the initial capacity.
     int initialCapacity = INNER_CAPACITY * 2;
     return new DirectedGraphConnections<>(
         new HashMap<N, Object>(initialCapacity, INNER_LOAD_FACTOR), 0, 0);
   }
 
-  static <N, V> DirectedGraphConnections<N, V> ofImmutable(
-      Set<N> predecessors, Map<N, V> successorValues) {
+  static <N extends @NonNull Object, V extends @NonNull Object>
+      DirectedGraphConnections<N, V> ofImmutable(Set<N> predecessors, Map<N, V> successorValues) {
     Map<N, Object> adjacentNodeValues = new HashMap<>();
     adjacentNodeValues.putAll(successorValues);
     for (N predecessor : predecessors) {
@@ -125,7 +129,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         return isPredecessor(adjacentNodeValues.get(obj));
       }
     };
@@ -157,7 +161,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         return isSuccessor(adjacentNodeValues.get(obj));
       }
     };
@@ -165,7 +169,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V value(N node) {
+  public @Nullable V value(N node) {
     Object value = adjacentNodeValues.get(node);
     if (value == PRED) {
       return null;
@@ -173,7 +177,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     if (value instanceof PredAndSucc) {
       return (V) ((PredAndSucc) value).successorValue;
     }
-    return (V) value;
+    return (@Nullable V) value;
   }
 
   @SuppressWarnings("unchecked")
@@ -191,7 +195,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V removeSuccessor(Object node) {
+  public @Nullable V removeSuccessor(Object node) {
     Object previousValue = adjacentNodeValues.get(node);
     if (previousValue == null || previousValue == PRED) {
       return null;
@@ -223,7 +227,7 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public V addSuccessor(N node, V value) {
+  public @Nullable V addSuccessor(N node, V value) {
     Object previousValue = adjacentNodeValues.put(node, value);
     if (previousValue == null) {
       checkPositive(++successorCount);
@@ -240,11 +244,11 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
     }
   }
 
-  private static boolean isPredecessor(Object value) {
+  private static boolean isPredecessor(@Nullable Object value) {
     return (value == PRED) || (value instanceof PredAndSucc);
   }
 
-  private static boolean isSuccessor(Object value) {
+  private static boolean isSuccessor(@Nullable Object value) {
     return (value != PRED) && (value != null);
   }
 }

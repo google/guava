@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An empty contiguous set.
@@ -78,13 +79,13 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return false;
   }
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(Object target) {
+  int indexOf(@Nullable Object target) {
     return -1;
   }
 
@@ -120,9 +121,9 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
-      Set<?> that = (Set<?>) object;
+      Set<? extends @Nullable Object> that = (Set<? extends @Nullable Object>) object;
       return that.isEmpty();
     }
     return false;

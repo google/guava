@@ -13,6 +13,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Random;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A package-local class holding common representation and mechanics for classes supporting dynamic
@@ -133,7 +134,7 @@ abstract class Striped64 extends Number {
   static final int NCPU = Runtime.getRuntime().availableProcessors();
 
   /** Table of cells. When non-null, size is a power of 2. */
-  transient volatile Cell[] cells;
+  transient volatile Cell @Nullable [] cells;
 
   /**
    * Base value, used mainly when there is no contention, but also as a fallback during table
@@ -176,7 +177,7 @@ abstract class Striped64 extends Number {
    * @param hc the hash code holder
    * @param wasUncontended false if CAS failed before call
    */
-  final void retryUpdate(long x, int[] hc, boolean wasUncontended) {
+  final void retryUpdate(long x, int @Nullable [] hc, boolean wasUncontended) {
     int h;
     if (hc == null) {
       threadHashCode.set(hc = new int[1]); // Initialize randomly
@@ -297,7 +298,8 @@ abstract class Striped64 extends Number {
               Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
               for (java.lang.reflect.Field f : k.getDeclaredFields()) {
                 f.setAccessible(true);
-                Object x = f.get(null);
+                // unsafeNull is safe because we're reading a static field.
+                Object x = f.get(unsafeNull());
                 if (k.isInstance(x)) return k.cast(x);
               }
               throw new NoSuchFieldError("the Unsafe");
@@ -306,5 +308,10 @@ abstract class Striped64 extends Number {
     } catch (java.security.PrivilegedActionException e) {
       throw new RuntimeException("Could not initialize intrinsics", e.getCause());
     }
+  }
+
+  @SuppressWarnings("nullness")
+  private static Object unsafeNull() {
+    return null;
   }
 }

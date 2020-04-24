@@ -17,6 +17,8 @@ package com.google.common.reflect;
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map, each entry of which maps a {@link TypeToken} to an instance of that type. In addition to
@@ -38,7 +40,8 @@ import java.util.Map;
  * @since 13.0
  */
 @Beta
-public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
+public interface TypeToInstanceMap<B extends @NonNull Object>
+    extends Map<TypeToken<? extends B>, @Nullable B> {
 
   /**
    * Returns the value the specified class is mapped to, or {@code null} if no entry for this class
@@ -48,14 +51,14 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
    * <p>{@code getInstance(Foo.class)} is equivalent to {@code
    * getInstance(TypeToken.of(Foo.class))}.
    */
-  <T extends B> T getInstance(Class<T> type);
+  <T extends B> @Nullable T getInstance(Class<T> type);
 
   /**
    * Returns the value the specified type is mapped to, or {@code null} if no entry for this type is
    * present. This will only return a value that was bound to this specific type, not a value that
    * may have been bound to a subtype.
    */
-  <T extends B> T getInstance(TypeToken<T> type);
+  <T extends B> @Nullable T getInstance(TypeToken<T> type);
 
   /**
    * Maps the specified class to the specified value. Does <i>not</i> associate this value with any
@@ -68,7 +71,7 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
    *     null} if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  <T extends B> T putInstance(Class<T> type, T value);
+  <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value);
 
   /**
    * Maps the specified type to the specified value. Does <i>not</i> associate this value with any
@@ -78,5 +81,5 @@ public interface TypeToInstanceMap<B> extends Map<TypeToken<? extends B>, B> {
    *     if there was no previous entry.
    */
   @CanIgnoreReturnValue
-  <T extends B> T putInstance(TypeToken<T> type, T value);
+  <T extends B> @Nullable T putInstance(TypeToken<T> type, @Nullable T value);
 }

@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A skeleton implementation of a descending multiset. Only needs {@code forwardMultiset()} and
@@ -31,10 +31,11 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements SortedMultiset<E> {
+abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
+    implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
-  private transient @MonotonicNonNull Comparator<? super E> comparator;
+  private transient @Nullable Comparator<? super E> comparator;
 
   @Override
   public Comparator<? super E> comparator() {
@@ -45,7 +46,7 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
     return result;
   }
 
-  private transient @MonotonicNonNull NavigableSet<E> elementSet;
+  private transient @Nullable NavigableSet<E> elementSet;
 
   @Override
   public NavigableSet<E> elementSet() {
@@ -57,12 +58,12 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   @Override
-  public Entry<E> pollFirstEntry() {
+  public @Nullable Entry<E> pollFirstEntry() {
     return forwardMultiset().pollLastEntry();
   }
 
   @Override
-  public Entry<E> pollLastEntry() {
+  public @Nullable Entry<E> pollLastEntry() {
     return forwardMultiset().pollFirstEntry();
   }
 
@@ -95,18 +96,18 @@ abstract class DescendingMultiset<E> extends ForwardingMultiset<E> implements So
   }
 
   @Override
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     return forwardMultiset().lastEntry();
   }
 
   @Override
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     return forwardMultiset().firstEntry();
   }
 
   abstract Iterator<Entry<E>> entryIterator();
 
-  private transient @MonotonicNonNull Set<Entry<E>> entrySet;
+  private transient @Nullable Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {

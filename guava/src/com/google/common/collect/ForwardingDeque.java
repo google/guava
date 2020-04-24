@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Deque;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A deque which forwards all its method calls to another deque. Subclasses should override one or
@@ -39,7 +40,8 @@ import java.util.Iterator;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements Deque<E> {
+public abstract class ForwardingDeque<E extends @Nullable Object> extends ForwardingQueue<E>
+    implements Deque<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingDeque() {}
@@ -85,24 +87,24 @@ public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements D
   }
 
   @Override
-  public E peekFirst() {
+  public @Nullable E peekFirst() {
     return delegate().peekFirst();
   }
 
   @Override
-  public E peekLast() {
+  public @Nullable E peekLast() {
     return delegate().peekLast();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return delegate().pollFirst();
   }
 
   @CanIgnoreReturnValue // TODO(cpovirk): Consider removing this?
   @Override
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return delegate().pollLast();
   }
 
@@ -131,13 +133,13 @@ public abstract class ForwardingDeque<E> extends ForwardingQueue<E> implements D
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeFirstOccurrence(Object o) {
+  public boolean removeFirstOccurrence(@Nullable Object o) {
     return delegate().removeFirstOccurrence(o);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeLastOccurrence(Object o) {
+  public boolean removeLastOccurrence(@Nullable Object o) {
     return delegate().removeLastOccurrence(o);
   }
 }

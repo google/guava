@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A set which forwards all its method calls to another set. Subclasses should override one or more
@@ -45,7 +46,8 @@ import java.util.Set;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSet<E> extends ForwardingCollection<E> implements Set<E> {
+public abstract class ForwardingSet<E extends @Nullable Object> extends ForwardingCollection<E>
+    implements Set<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -55,7 +57,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E> implement
   protected abstract Set<E> delegate();
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -72,7 +74,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E> implement
    * @since 7.0 (this version overrides the {@code ForwardingCollection} version as of 12.0)
    */
   @Override
-  protected boolean standardRemoveAll(Collection<?> collection) {
+  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> collection) {
     return Sets.removeAllImpl(this, checkNotNull(collection)); // for GWT
   }
 
@@ -83,7 +85,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E> implement
    *
    * @since 7.0
    */
-  protected boolean standardEquals(Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Sets.equalsImpl(this, object);
   }
 

@@ -24,6 +24,8 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Arrays;
 import java.util.Collection;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMultiset} with zero or more elements.
@@ -33,10 +35,11 @@ import java.util.Collection;
  */
 @GwtCompatible(emulated = true, serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
+class RegularImmutableMultiset<E extends @NonNull Object> extends ImmutableMultiset<E> {
   static final ImmutableMultiset<Object> EMPTY = create(ImmutableList.<Entry<Object>>of());
 
-  static <E> ImmutableMultiset<E> create(Collection<? extends Entry<? extends E>> entries) {
+  static <E extends @NonNull Object> ImmutableMultiset<E> create(
+      Collection<? extends Entry<? extends E>> entries) {
     int distinct = entries.size();
     @SuppressWarnings("unchecked")
     Multisets.ImmutableEntry<E>[] entryArray = new Multisets.ImmutableEntry[distinct];
@@ -115,18 +118,18 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @VisibleForTesting static final int MAX_HASH_BUCKET_LENGTH = 9;
 
   private final transient Multisets.ImmutableEntry<E>[] entries;
-  private final transient Multisets.ImmutableEntry<E>[] hashTable;
+  private final transient Multisets.ImmutableEntry<E> @Nullable [] hashTable;
   private final transient int size;
   private final transient int hashCode;
 
-  @LazyInit private transient ImmutableSet<E> elementSet;
+  @LazyInit private transient @Nullable ImmutableSet<E> elementSet;
 
   private RegularImmutableMultiset(
       ImmutableEntry<E>[] entries,
-      ImmutableEntry<E>[] hashTable,
+      ImmutableEntry<E> @Nullable [] hashTable,
       int size,
       int hashCode,
-      ImmutableSet<E> elementSet) {
+      @Nullable ImmutableSet<E> elementSet) {
     this.entries = entries;
     this.hashTable = hashTable;
     this.size = size;
@@ -134,7 +137,8 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     this.elementSet = elementSet;
   }
 
-  private static final class NonTerminalEntry<E> extends Multisets.ImmutableEntry<E> {
+  private static final class NonTerminalEntry<E extends @NonNull Object>
+      extends Multisets.ImmutableEntry<E> {
     private final Multisets.ImmutableEntry<E> nextInBucket;
 
     NonTerminalEntry(E element, int count, ImmutableEntry<E> nextInBucket) {
@@ -154,7 +158,7 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     Multisets.ImmutableEntry<E>[] hashTable = this.hashTable;
     if (element == null || hashTable == null) {
       return 0;

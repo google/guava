@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility class for converting between various ASCII case formats. Behavior is undefined for
@@ -126,6 +127,7 @@ public enum CaseFormat {
   }
 
   /** Enum values can override for performance reasons. */
+  @SuppressWarnings("nullness") // Lazy init of `out` is too clever for CF to understand.
   String convert(CaseFormat format, String s) {
     // deal with camel conversion
     StringBuilder out = null;
@@ -178,7 +180,7 @@ public enum CaseFormat {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof StringConverter) {
         StringConverter that = (StringConverter) object;
         return sourceFormat.equals(that.sourceFormat) && targetFormat.equals(that.targetFormat);

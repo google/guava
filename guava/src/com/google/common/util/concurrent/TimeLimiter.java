@@ -24,6 +24,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Imposes a time limit on method calls.
@@ -78,7 +80,8 @@ public interface TimeLimiter {
    *     annotation type, rather than an interface
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit);
+  <T extends @NonNull Object> T newProxy(
+      T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit);
 
   /**
    * Returns an instance of {@code interfaceType} that delegates all method calls to the {@code
@@ -119,7 +122,8 @@ public interface TimeLimiter {
    *     annotation type, rather than an interface
    * @since 28.0
    */
-  default <T> T newProxy(T target, Class<T> interfaceType, Duration timeout) {
+  default <T extends @NonNull Object> T newProxy(
+      T target, Class<T> interfaceType, Duration timeout) {
     return newProxy(target, interfaceType, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }
 
@@ -142,7 +146,8 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
 
   /**
@@ -162,7 +167,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
+  default <T extends @Nullable Object> T callWithTimeout(Callable<T> callable, Duration timeout)
       throws TimeoutException, InterruptedException, ExecutionException {
     return callWithTimeout(callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }
@@ -188,7 +193,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T> T callUninterruptiblyWithTimeout(
+  <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
 
@@ -211,8 +216,8 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T> T callUninterruptiblyWithTimeout(Callable<T> callable, Duration timeout)
-      throws TimeoutException, ExecutionException {
+  default <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+      Callable<T> callable, Duration timeout) throws TimeoutException, ExecutionException {
     return callUninterruptiblyWithTimeout(
         callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }

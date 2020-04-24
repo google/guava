@@ -28,6 +28,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable sorted set with one or more elements. TODO(jlevy): Consider separate class for a
@@ -38,7 +40,7 @@ import java.util.function.Consumer;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings({"serial", "rawtypes"})
-final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
+final class RegularImmutableSortedSet<E extends @NonNull Object> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
 
@@ -50,7 +52,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  Object[] internalArray() {
+  Object @Nullable [] internalArray() {
     return elements.internalArray();
   }
 
@@ -91,7 +93,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     try {
       return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
@@ -100,13 +102,13 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean containsAll(Collection<?> targets) {
+  public boolean containsAll(Collection<? extends @Nullable Object> targets) {
     // TODO(jlevy): For optimal performance, use a binary search when
     // targets.size() < size() / log(size())
     // TODO(kevinb): see if we can share code with OrderedIterator after it
     // graduates from labs.
     if (targets instanceof Multiset) {
-      targets = ((Multiset<?>) targets).elementSet();
+      targets = ((Multiset<? extends @Nullable Object>) targets).elementSet();
     }
     if (!SortedIterables.hasSameComparator(comparator(), targets) || (targets.size() <= 1)) {
       return super.containsAll(targets);
@@ -118,7 +120,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
      */
     Iterator<E> thisIterator = iterator();
 
-    Iterator<?> thatIterator = targets.iterator();
+    Iterator<? extends @Nullable Object> thatIterator = targets.iterator();
     // known nonempty since we checked targets.size() > 1
 
     if (!thisIterator.hasNext()) {
@@ -166,7 +168,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -174,7 +176,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
       return false;
     }
 
-    Set<?> that = (Set<?>) object;
+    Set<? extends @Nullable Object> that = (Set<? extends @Nullable Object>) object;
     if (size() != that.size()) {
       return false;
     } else if (isEmpty()) {
@@ -182,7 +184,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
 
     if (SortedIterables.hasSameComparator(comparator, that)) {
-      Iterator<?> otherIterator = that.iterator();
+      Iterator<? extends @Nullable Object> otherIterator = that.iterator();
       try {
         Iterator<E> iterator = iterator();
         while (iterator.hasNext()) {
@@ -219,25 +221,25 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public E lower(E element) {
+  public @Nullable E lower(E element) {
     int index = headIndex(element, false) - 1;
     return (index == -1) ? null : elements.get(index);
   }
 
   @Override
-  public E floor(E element) {
+  public @Nullable E floor(E element) {
     int index = headIndex(element, true) - 1;
     return (index == -1) ? null : elements.get(index);
   }
 
   @Override
-  public E ceiling(E element) {
+  public @Nullable E ceiling(E element) {
     int index = tailIndex(element, true);
     return (index == size()) ? null : elements.get(index);
   }
 
   @Override
-  public E higher(E element) {
+  public @Nullable E higher(E element) {
     int index = tailIndex(element, false);
     return (index == size()) ? null : elements.get(index);
   }
@@ -296,7 +298,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  int indexOf(Object target) {
+  int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }

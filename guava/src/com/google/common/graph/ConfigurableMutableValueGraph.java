@@ -22,8 +22,11 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
 import static com.google.common.graph.Graphs.checkNonNegative;
 import static com.google.common.graph.Graphs.checkPositive;
+import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Configurable implementation of {@link MutableValueGraph} that supports both directed and
@@ -38,8 +41,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N, V>
-    implements MutableValueGraph<N, V> {
+final class ConfigurableMutableValueGraph<N extends @NonNull Object, V extends @NonNull Object>
+    extends ConfigurableValueGraph<N, V> implements MutableValueGraph<N, V> {
 
   /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableValueGraph(AbstractGraphBuilder<? super N> builder) {
@@ -73,7 +76,7 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   @Override
   @CanIgnoreReturnValue
-  public V putEdgeValue(N nodeU, N nodeV, V value) {
+  public @Nullable V putEdgeValue(N nodeU, N nodeV, V value) {
     checkNotNull(nodeU, "nodeU");
     checkNotNull(nodeV, "nodeV");
     checkNotNull(value, "value");
@@ -100,7 +103,7 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   @Override
   @CanIgnoreReturnValue
-  public V putEdgeValue(EndpointPair<N> endpoints, V value) {
+  public @Nullable V putEdgeValue(EndpointPair<N> endpoints, V value) {
     validateEndpoints(endpoints);
     return putEdgeValue(endpoints.nodeU(), endpoints.nodeV(), value);
   }
@@ -124,12 +127,16 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
     }
 
     for (N successor : connections.successors()) {
-      nodeConnections.getWithoutCaching(successor).removePredecessor(node);
+      // requireNonNull is safe because the edge exists in the graph.
+      requireNonNull(nodeConnections.getWithoutCaching(successor)).removePredecessor(node);
       --edgeCount;
     }
     if (isDirected()) { // In undirected graphs, the successor and predecessor sets are equal.
       for (N predecessor : connections.predecessors()) {
-        checkState(nodeConnections.getWithoutCaching(predecessor).removeSuccessor(node) != null);
+        // requireNonNull is safe because the edge exists in the graph.
+        checkState(
+            requireNonNull(nodeConnections.getWithoutCaching(predecessor)).removeSuccessor(node)
+                != null);
         --edgeCount;
       }
     }
@@ -140,7 +147,7 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   @Override
   @CanIgnoreReturnValue
-  public V removeEdge(N nodeU, N nodeV) {
+  public @Nullable V removeEdge(N nodeU, N nodeV) {
     checkNotNull(nodeU, "nodeU");
     checkNotNull(nodeV, "nodeV");
 
@@ -160,7 +167,7 @@ final class ConfigurableMutableValueGraph<N, V> extends ConfigurableValueGraph<N
 
   @Override
   @CanIgnoreReturnValue
-  public V removeEdge(EndpointPair<N> endpoints) {
+  public @Nullable V removeEdge(EndpointPair<N> endpoints) {
     validateEndpoints(endpoints);
     return removeEdge(endpoints.nodeU(), endpoints.nodeV());
   }

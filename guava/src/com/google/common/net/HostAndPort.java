@@ -21,9 +21,9 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable representation of a host and port.
@@ -185,7 +185,7 @@ public final class HostAndPort implements Serializable {
     }
 
     int port = NO_PORT;
-    if (!Strings.isNullOrEmpty(portString)) {
+    if (portString != null && !portString.isEmpty()) {
       // Try to parse the whole port string as a number.
       // JDK7 accepts leading plus signs. We don't want to.
       checkArgument(!portString.startsWith("+"), "Unparseable port number: %s", hostPortString);
@@ -276,7 +276,7 @@ public final class HostAndPort implements Serializable {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(@Nullable Object other) {
     if (this == other) {
       return true;
     }

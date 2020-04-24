@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Static utilities relating to Java reflection.
@@ -78,7 +79,8 @@ public final class Reflection {
    * @throws IllegalArgumentException if {@code interfaceType} does not specify the type of a Java
    *     interface
    */
-  public static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
+  public static <T extends @NonNull Object> T newProxy(
+      Class<T> interfaceType, InvocationHandler handler) {
     checkNotNull(handler);
     checkArgument(interfaceType.isInterface(), "%s is not an interface", interfaceType);
     Object object =

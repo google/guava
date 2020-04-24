@@ -40,6 +40,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A striped {@code Lock/Semaphore/ReadWriteLock}. This offers the underlying lock striping similar
@@ -82,7 +83,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 @Beta
 @GwtIncompatible
-public abstract class Striped<L> {
+public abstract class Striped<L extends @NonNull Object> {
   /**
    * If there are at least this many stripes, we assume the memory usage of a ConcurrentMap will be
    * smaller than a large array. (This assumes that in the lazy case, most stripes are unused. As
@@ -136,7 +137,7 @@ public abstract class Striped<L> {
    * @return the stripes corresponding to the objects (one per each object, derived by delegating to
    *     {@link #get(Object)}; may contain duplicates), in an increasing index order.
    */
-  public Iterable<L> bulkGet(Iterable<?> keys) {
+  public Iterable<L> bulkGet(Iterable<? extends @NonNull Object> keys) {
     // Initially using the array to store the keys, then reusing it to store the respective L's
     final Object[] array = Iterables.toArray(keys, Object.class);
     if (array.length == 0) {
@@ -191,7 +192,7 @@ public abstract class Striped<L> {
    * @param supplier a {@code Supplier<L>} object to obtain locks from
    * @return a new {@code Striped<L>}
    */
-  static <L> Striped<L> custom(int stripes, Supplier<L> supplier) {
+  static <L extends @NonNull Object> Striped<L> custom(int stripes, Supplier<L> supplier) {
     return new CompactStriped<>(stripes, supplier);
   }
 
@@ -231,7 +232,7 @@ public abstract class Striped<L> {
         });
   }
 
-  private static <L> Striped<L> lazy(int stripes, Supplier<L> supplier) {
+  private static <L extends @NonNull Object> Striped<L> lazy(int stripes, Supplier<L> supplier) {
     return stripes < LARGE_LAZY_CUTOFF
         ? new SmallLazyStriped<L>(stripes, supplier)
         : new LargeLazyStriped<L>(stripes, supplier);
@@ -377,7 +378,7 @@ public abstract class Striped<L> {
     }
   }
 
-  private abstract static class PowerOfTwoStriped<L> extends Striped<L> {
+  private abstract static class PowerOfTwoStriped<L extends @NonNull Object> extends Striped<L> {
     /** Capacity (power of two) minus one, for fast mod evaluation */
     final int mask;
 
@@ -402,7 +403,7 @@ public abstract class Striped<L> {
    * Implementation of Striped where 2^k stripes are represented as an array of the same length,
    * eagerly initialized.
    */
-  private static class CompactStriped<L> extends PowerOfTwoStriped<L> {
+  private static class CompactStriped<L extends @NonNull Object> extends PowerOfTwoStriped<L> {
     /** Size is a power of two. */
     private final Object[] array;
 
@@ -434,7 +435,7 @@ public abstract class Striped<L> {
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
   @VisibleForTesting
-  static class SmallLazyStriped<L> extends PowerOfTwoStriped<L> {
+  static class SmallLazyStriped<L extends @NonNull Object> extends PowerOfTwoStriped<L> {
     final AtomicReferenceArray<ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
@@ -490,7 +491,7 @@ public abstract class Striped<L> {
       return size;
     }
 
-    private static final class ArrayReference<L> extends WeakReference<L> {
+    private static final class ArrayReference<L extends @NonNull Object> extends WeakReference<L> {
       final int index;
 
       ArrayReference(L referent, int index, ReferenceQueue<L> queue) {
@@ -506,7 +507,7 @@ public abstract class Striped<L> {
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
   @VisibleForTesting
-  static class LargeLazyStriped<L> extends PowerOfTwoStriped<L> {
+  static class LargeLazyStriped<L extends @NonNull Object> extends PowerOfTwoStriped<L> {
     final ConcurrentMap<Integer, L> locks;
     final Supplier<L> supplier;
     final int size;

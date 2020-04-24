@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -37,6 +38,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -82,7 +85,8 @@ public final class Collections2 {
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
-  public static <E> Collection<E> filter(Collection<E> unfiltered, Predicate<? super E> predicate) {
+  public static <E extends @Nullable Object> Collection<E> filter(
+      Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -96,7 +100,8 @@ public final class Collections2 {
    * Delegates to {@link Collection#contains}. Returns {@code false} if the {@code contains} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeContains(Collection<?> collection, Object object) {
+  static boolean safeContains(
+      Collection<? extends @Nullable Object> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -109,7 +114,8 @@ public final class Collections2 {
    * Delegates to {@link Collection#remove}. Returns {@code false} if the {@code remove} method
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
-  static boolean safeRemove(Collection<?> collection, Object object) {
+  static boolean safeRemove(
+      Collection<? extends @Nullable Object> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -118,7 +124,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E> extends AbstractCollection<E> {
+  static class FilteredCollection<E extends @Nullable Object> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -152,7 +158,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(Object element) {
+    public boolean contains(@Nullable Object element) {
       if (safeContains(unfiltered, element)) {
         @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
@@ -162,7 +168,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean containsAll(Collection<?> collection) {
+    public boolean containsAll(Collection<? extends @Nullable Object> collection) {
       return containsAllImpl(this, collection);
     }
 
@@ -193,17 +199,17 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean remove(Object element) {
+    public boolean remove(@Nullable Object element) {
       return contains(element) && unfiltered.remove(element);
     }
 
     @Override
-    public boolean removeAll(final Collection<?> collection) {
+    public boolean removeAll(final Collection<? extends @Nullable Object> collection) {
       return removeIf(collection::contains);
     }
 
     @Override
-    public boolean retainAll(final Collection<?> collection) {
+    public boolean retainAll(final Collection<? extends @Nullable Object> collection) {
       return removeIf(element -> !collection.contains(element));
     }
 
@@ -255,12 +261,13 @@ public final class Collections2 {
    *
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.
    */
-  public static <F, T> Collection<T> transform(
+  public static <F extends @Nullable Object, T extends @Nullable Object> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {
     return new TransformedCollection<>(fromCollection, function);
   }
 
-  static class TransformedCollection<F, T> extends AbstractCollection<T> {
+  static class TransformedCollection<F extends @Nullable Object, T extends @Nullable Object>
+      extends AbstractCollection<T> {
     final Collection<F> fromCollection;
     final Function<? super F, ? extends T> function;
 
@@ -318,7 +325,8 @@ public final class Collections2 {
    * @param self a collection which might contain all elements in {@code c}
    * @param c a collection whose elements might be contained by {@code self}
    */
-  static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
+  static boolean containsAllImpl(
+      Collection<? extends @Nullable Object> self, Collection<? extends @Nullable Object> c) {
     for (Object o : c) {
       if (!self.contains(o)) {
         return false;
@@ -328,7 +336,7 @@ public final class Collections2 {
   }
 
   /** An implementation of {@link Collection#toString()}. */
-  static String toStringImpl(final Collection<?> collection) {
+  static String toStringImpl(final Collection<? extends @Nullable Object> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
     boolean first = true;
     for (Object o : collection) {
@@ -352,7 +360,7 @@ public final class Collections2 {
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T> Collection<T> cast(Iterable<T> iterable) {
+  static <T extends @Nullable Object> Collection<T> cast(Iterable<T> iterable) {
     return (Collection<T>) iterable;
   }
 
@@ -431,12 +439,13 @@ public final class Collections2 {
    * @since 12.0
    */
   @Beta
-  public static <E> Collection<List<E>> orderedPermutations(
+  public static <E extends @NonNull Object> Collection<List<E>> orderedPermutations(
       Iterable<E> elements, Comparator<? super E> comparator) {
     return new OrderedPermutationCollection<E>(elements, comparator);
   }
 
-  private static final class OrderedPermutationCollection<E> extends AbstractCollection<List<E>> {
+  private static final class OrderedPermutationCollection<E extends @NonNull Object>
+      extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
     final Comparator<? super E> comparator;
     final int size;
@@ -456,7 +465,7 @@ public final class Collections2 {
      *       increased by a factor of (n choose r).
      * </ul>
      */
-    private static <E> int calculateSize(
+    private static <E extends @NonNull Object> int calculateSize(
         List<E> sortedInputList, Comparator<? super E> comparator) {
       int permutations = 1;
       int n = 1;
@@ -493,9 +502,9 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
-        List<?> list = (List<?>) obj;
+        List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) obj;
         return isPermutation(inputList, list);
       }
       return false;
@@ -507,8 +516,9 @@ public final class Collections2 {
     }
   }
 
-  private static final class OrderedPermutationIterator<E> extends AbstractIterator<List<E>> {
-    List<E> nextPermutation;
+  private static final class OrderedPermutationIterator<E extends @NonNull Object>
+      extends AbstractIterator<List<E>> {
+    @Nullable List<E> nextPermutation;
     final Comparator<? super E> comparator;
 
     OrderedPermutationIterator(List<E> list, Comparator<? super E> comparator) {
@@ -532,6 +542,11 @@ public final class Collections2 {
         nextPermutation = null;
         return;
       }
+      /*
+       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this
+       * method.
+       */
+      requireNonNull(nextPermutation);
 
       int l = findNextL(j);
       Collections.swap(nextPermutation, j, l);
@@ -540,6 +555,11 @@ public final class Collections2 {
     }
 
     int findNextJ() {
+      /*
+       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this
+       * method.
+       */
+      requireNonNull(nextPermutation);
       for (int k = nextPermutation.size() - 2; k >= 0; k--) {
         if (comparator.compare(nextPermutation.get(k), nextPermutation.get(k + 1)) < 0) {
           return k;
@@ -549,6 +569,11 @@ public final class Collections2 {
     }
 
     int findNextL(int j) {
+      /*
+       * requireNonNull is safe because we don't clear nextPermutation until we're done calling this
+       * method.
+       */
+      requireNonNull(nextPermutation);
       E ak = nextPermutation.get(j);
       for (int l = nextPermutation.size() - 1; l > j; l--) {
         if (comparator.compare(ak, nextPermutation.get(l)) < 0) {
@@ -577,11 +602,13 @@ public final class Collections2 {
    * @since 12.0
    */
   @Beta
-  public static <E> Collection<List<E>> permutations(Collection<E> elements) {
+  public static <E extends @NonNull Object> Collection<List<E>> permutations(
+      Collection<E> elements) {
     return new PermutationCollection<E>(ImmutableList.copyOf(elements));
   }
 
-  private static final class PermutationCollection<E> extends AbstractCollection<List<E>> {
+  private static final class PermutationCollection<E extends @NonNull Object>
+      extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
 
     PermutationCollection(ImmutableList<E> input) {
@@ -604,9 +631,9 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean contains(Object obj) {
+    public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
-        List<?> list = (List<?>) obj;
+        List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) obj;
         return isPermutation(inputList, list);
       }
       return false;
@@ -618,7 +645,8 @@ public final class Collections2 {
     }
   }
 
-  private static class PermutationIterator<E> extends AbstractIterator<List<E>> {
+  private static class PermutationIterator<E extends @NonNull Object>
+      extends AbstractIterator<List<E>> {
     final List<E> list;
     final int[] c;
     final int[] o;
@@ -682,12 +710,13 @@ public final class Collections2 {
   }
 
   /** Returns {@code true} if the second list is a permutation of the first. */
-  private static boolean isPermutation(List<?> first, List<?> second) {
+  private static boolean isPermutation(
+      List<? extends @Nullable Object> first, List<? extends @Nullable Object> second) {
     if (first.size() != second.size()) {
       return false;
     }
-    Multiset<?> firstMultiset = HashMultiset.create(first);
-    Multiset<?> secondMultiset = HashMultiset.create(second);
+    Multiset<? extends @Nullable Object> firstMultiset = HashMultiset.create(first);
+    Multiset<? extends @Nullable Object> secondMultiset = HashMultiset.create(second);
     return firstMultiset.equals(secondMultiset);
   }
 }

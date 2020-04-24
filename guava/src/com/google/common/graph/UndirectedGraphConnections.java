@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link GraphConnections} for undirected graphs.
@@ -33,18 +35,21 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
+final class UndirectedGraphConnections<N extends @NonNull Object, V extends @NonNull Object>
+    implements GraphConnections<N, V> {
   private final Map<N, V> adjacentNodeValues;
 
   private UndirectedGraphConnections(Map<N, V> adjacentNodeValues) {
     this.adjacentNodeValues = checkNotNull(adjacentNodeValues);
   }
 
-  static <N, V> UndirectedGraphConnections<N, V> of() {
+  static <N extends @NonNull Object, V extends @NonNull Object>
+      UndirectedGraphConnections<N, V> of() {
     return new UndirectedGraphConnections<>(new HashMap<N, V>(INNER_CAPACITY, INNER_LOAD_FACTOR));
   }
 
-  static <N, V> UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
+  static <N extends @NonNull Object, V extends @NonNull Object>
+      UndirectedGraphConnections<N, V> ofImmutable(Map<N, V> adjacentNodeValues) {
     return new UndirectedGraphConnections<>(ImmutableMap.copyOf(adjacentNodeValues));
   }
 
@@ -64,7 +69,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  public V value(N node) {
+  public @Nullable V value(N node) {
     return adjacentNodeValues.get(node);
   }
 
@@ -75,7 +80,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  public V removeSuccessor(N node) {
+  public @Nullable V removeSuccessor(N node) {
     return adjacentNodeValues.remove(node);
   }
 
@@ -86,7 +91,7 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   }
 
   @Override
-  public V addSuccessor(N node, V value) {
+  public @Nullable V addSuccessor(N node, V value) {
     return adjacentNodeValues.put(node, value);
   }
 }

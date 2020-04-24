@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 @GwtCompatible(emulated = true)
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
@@ -26,7 +27,8 @@ import java.util.concurrent.locks.LockSupport;
 // Since this class only needs CAS on one field, we can avoid this bug by extending AtomicReference
 // instead of using an AtomicReferenceFieldUpdater. This reference stores Thread instances
 // and DONE/INTERRUPTED - they have a common ancestor of Runnable.
-abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements Runnable {
+abstract class InterruptibleTask<T extends @Nullable Object> extends AtomicReference<Runnable>
+    implements Runnable {
   static {
     // Prevent rare disastrous classloading in first call to LockSupport.park.
     // See: https://bugs.openjdk.java.net/browse/JDK-8074773
@@ -129,7 +131,12 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
          */
       }
       if (run) {
-        afterRanInterruptibly(result, error);
+        if (error == null) {
+          // The cast is safe because of the `run` and `error` checks.
+          afterRanInterruptiblySuccess(uncheckedCastNullableTToT(result));
+        } else {
+          afterRanInterruptiblyFailure(error);
+        }
       }
     }
   }
@@ -150,7 +157,13 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
    * Any interruption that happens as a result of calling interruptTask will arrive before this
    * method is called. Complete Futures here.
    */
-  abstract void afterRanInterruptibly(T result, Throwable error);
+  abstract void afterRanInterruptiblySuccess(T result);
+
+  /**
+   * Any interruption that happens as a result of calling interruptTask will arrive before this
+   * method is called. Complete Futures here.
+   */
+  abstract void afterRanInterruptiblyFailure(Throwable error);
 
   /**
    * Interrupts the running task. Because this internally calls {@link Thread#interrupt()} which can
@@ -195,4 +208,15 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   }
 
   abstract String toPendingString();
+
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T result) {
+    /*
+     * We can't use requireNonNull because `result` might be null. Specifically, it can be null
+     * because the future might have generated the value `null` to be returned to the user. This
+     * is in contrast to the other way for `result` to be null, which is for the future to have
+     * failed, leaving the variable with its initial null value.
+     */
+    return result;
+  }
 }

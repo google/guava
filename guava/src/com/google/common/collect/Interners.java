@@ -23,6 +23,8 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.collect.MapMakerInternalMap.InternalEntry;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Contains static methods pertaining to instances of {@link Interner}.
@@ -77,7 +79,7 @@ public final class Interners {
       return this;
     }
 
-    public <E> Interner<E> build() {
+    public <E extends @NonNull Object> Interner<E> build() {
       if (!strong) {
         mapMaker.weakKeys();
       }
@@ -95,7 +97,7 @@ public final class Interners {
    * interned, thus preventing these instances from being garbage-collected. If this retention is
    * acceptable, this implementation may perform better than {@link #newWeakInterner}.
    */
-  public static <E> Interner<E> newStrongInterner() {
+  public static <E extends @NonNull Object> Interner<E> newStrongInterner() {
     return newBuilder().strong().build();
   }
 
@@ -106,12 +108,12 @@ public final class Interners {
    * the memory usage of that implementation is unacceptable.
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
-  public static <E> Interner<E> newWeakInterner() {
+  public static <E extends @NonNull Object> Interner<E> newWeakInterner() {
     return newBuilder().weak().build();
   }
 
   @VisibleForTesting
-  static final class InternerImpl<E> implements Interner<E> {
+  static final class InternerImpl<E extends @NonNull Object> implements Interner<E> {
     // MapMaker is our friend, we know about this type
     @VisibleForTesting final MapMakerInternalMap<E, Dummy, ?, ?> map;
 
@@ -153,11 +155,11 @@ public final class Interners {
    *
    * @since 8.0
    */
-  public static <E> Function<E, E> asFunction(Interner<E> interner) {
+  public static <E extends @NonNull Object> Function<E, E> asFunction(Interner<E> interner) {
     return new InternerFunction<E>(checkNotNull(interner));
   }
 
-  private static class InternerFunction<E> implements Function<E, E> {
+  private static class InternerFunction<E extends @NonNull Object> implements Function<E, E> {
 
     private final Interner<E> interner;
 
@@ -176,7 +178,7 @@ public final class Interners {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       if (other instanceof InternerFunction) {
         InternerFunction<?> that = (InternerFunction<?>) other;
         return interner.equals(that.interner);

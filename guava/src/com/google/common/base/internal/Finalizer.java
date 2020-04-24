@@ -23,6 +23,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+// TODO(cpovirk): Does using @Nullable pose problems for class unloading?
 
 /**
  * Thread that finalizes referents. All references should implement {@code
@@ -82,7 +85,7 @@ public class Finalizer implements Runnable {
         boolean inheritThreadLocals = false;
         long defaultStackSize = 0;
         thread =
-            bigThreadConstructor.newInstance(
+            newThread(
                 (ThreadGroup) null, finalizer, threadName, defaultStackSize, inheritThreadLocals);
       } catch (Throwable t) {
         logger.log(
@@ -96,7 +99,8 @@ public class Finalizer implements Runnable {
 
     try {
       if (inheritableThreadLocals != null) {
-        inheritableThreadLocals.set(thread, null);
+        // unsafeNull is safe because java.lang.Thread handles a null inheritableThreadLocals field.
+        inheritableThreadLocals.set(thread, unsafeNull());
       }
     } catch (Throwable t) {
       logger.log(
@@ -108,6 +112,25 @@ public class Finalizer implements Runnable {
     thread.start();
   }
 
+  // CF can't know that it's safe to pass a null arg to an arbitrary constructor.
+  @SuppressWarnings("nullness")
+  private static Thread newThread(
+      @Nullable ThreadGroup threadGroup,
+      Runnable runnable,
+      String threadName,
+      long defaultStackSize,
+      boolean inheritThreadLocals)
+      throws InstantiationException, IllegalAccessException,
+          java.lang.reflect.InvocationTargetException {
+    return bigThreadConstructor.newInstance(
+        threadGroup, runnable, threadName, defaultStackSize, inheritThreadLocals);
+  }
+
+  @SuppressWarnings("nullness")
+  private static Object unsafeNull() {
+    return null;
+  }
+
   private final WeakReference<Class<?>> finalizableReferenceClassReference;
   private final PhantomReference<Object> frqReference;
   private final ReferenceQueue<Object> queue;
@@ -115,9 +138,10 @@ public class Finalizer implements Runnable {
   // By preference, we will use the Thread constructor that has an `inheritThreadLocals` parameter.
   // But before Java 9, our only way not to inherit ThreadLocals is to zap them after the thread
   // is created, by accessing a private field.
-  private static final Constructor<Thread> bigThreadConstructor = getBigThreadConstructor();
+  private static final @Nullable Constructor<Thread> bigThreadConstructor =
+      getBigThreadConstructor();
 
-  private static final Field inheritableThreadLocals =
+  private static final @Nullable Field inheritableThreadLocals =
       (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
 
   /** Constructs a new finalizer thread. */
@@ -189,7 +213,7 @@ public class Finalizer implements Runnable {
   }
 
   /** Looks up FinalizableReference.finalizeReferent() method. */
-  private Method getFinalizeReferentMethod() {
+  private @Nullable Method getFinalizeReferentMethod() {
     Class<?> finalizableReferenceClass = finalizableReferenceClassReference.get();
     if (finalizableReferenceClass == null) {
       /*
@@ -207,7 +231,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  private static Field getInheritableThreadLocalsField() {
+  private static @Nullable Field getInheritableThreadLocalsField() {
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);
@@ -221,7 +245,7 @@ public class Finalizer implements Runnable {
     }
   }
 
-  private static Constructor<Thread> getBigThreadConstructor() {
+  private static @Nullable Constructor<Thread> getBigThreadConstructor() {
     try {
       return Thread.class.getConstructor(
           ThreadGroup.class, Runnable.class, String.class, long.class, boolean.class);

@@ -31,21 +31,23 @@ import java.util.function.IntFunction;
 import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectSpliterators {
   private CollectSpliterators() {}
 
-  static <T> Spliterator<T> indexed(int size, int extraCharacteristics, IntFunction<T> function) {
+  static <T extends @Nullable Object> Spliterator<T> indexed(
+      int size, int extraCharacteristics, IntFunction<T> function) {
     return indexed(size, extraCharacteristics, function, null);
   }
 
-  static <T> Spliterator<T> indexed(
+  static <T extends @Nullable Object> Spliterator<T> indexed(
       int size,
       int extraCharacteristics,
       IntFunction<T> function,
-      Comparator<? super T> comparator) {
+      @Nullable Comparator<? super T> comparator) {
     if (comparator != null) {
       checkArgument((extraCharacteristics & Spliterator.SORTED) != 0);
     }
@@ -67,7 +69,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Spliterator<T> trySplit() {
+      public @Nullable Spliterator<T> trySplit() {
         Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
       }
@@ -86,7 +88,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Comparator<? super T> getComparator() {
+      public @Nullable Comparator<? super T> getComparator() {
         if (hasCharacteristics(Spliterator.SORTED)) {
           return comparator;
         } else {
@@ -101,9 +103,10 @@ final class CollectSpliterators {
    * Returns a {@code Spliterator} over the elements of {@code fromSpliterator} mapped by {@code
    * function}.
    */
-  static <InElementT, OutElementT> Spliterator<OutElementT> map(
-      Spliterator<InElementT> fromSpliterator,
-      Function<? super InElementT, ? extends OutElementT> function) {
+  static <InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
+      Spliterator<OutElementT> map(
+          Spliterator<InElementT> fromSpliterator,
+          Function<? super InElementT, ? extends OutElementT> function) {
     checkNotNull(fromSpliterator);
     checkNotNull(function);
     return new Spliterator<OutElementT>() {
@@ -120,7 +123,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Spliterator<OutElementT> trySplit() {
+      public @Nullable Spliterator<OutElementT> trySplit() {
         Spliterator<InElementT> fromSplit = fromSpliterator.trySplit();
         return (fromSplit != null) ? map(fromSplit, function) : null;
       }
@@ -139,11 +142,12 @@ final class CollectSpliterators {
   }
 
   /** Returns a {@code Spliterator} filtered by the specified predicate. */
-  static <T> Spliterator<T> filter(Spliterator<T> fromSpliterator, Predicate<? super T> predicate) {
+  static <T extends @Nullable Object> Spliterator<T> filter(
+      Spliterator<T> fromSpliterator, Predicate<? super T> predicate) {
     checkNotNull(fromSpliterator);
     checkNotNull(predicate);
     class Splitr implements Spliterator<T>, Consumer<T> {
-      T holder = null;
+      @Nullable T holder = null;
 
       @Override
       public void accept(T t) {
@@ -154,8 +158,10 @@ final class CollectSpliterators {
       public boolean tryAdvance(Consumer<? super T> action) {
         while (fromSpliterator.tryAdvance(this)) {
           try {
-            if (predicate.test(holder)) {
-              action.accept(holder);
+            // The cast is safe because tryAdvance puts a T into `holder`.
+            T next = uncheckedCastNullableTToT(holder);
+            if (predicate.test(next)) {
+              action.accept(uncheckedCastNullableTToT(next));
               return true;
             }
           } finally {
@@ -166,7 +172,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Spliterator<T> trySplit() {
+      public @Nullable Spliterator<T> trySplit() {
         Spliterator<T> fromSplit = fromSpliterator.trySplit();
         return (fromSplit == null) ? null : filter(fromSplit, predicate);
       }
@@ -177,7 +183,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Comparator<? super T> getComparator() {
+      public @Nullable Comparator<? super T> getComparator() {
         return fromSpliterator.getComparator();
       }
 
@@ -193,15 +199,27 @@ final class CollectSpliterators {
     return new Splitr();
   }
 
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T element) {
+    /*
+     * We can't use requireNonNull because `element` might be null. Specifically, it can be null
+     * because the spliterator might contain a null element to be returned to the user. This is in
+     * contrast to the other way for `element` to be null, which is for the spliterator not to have
+     * a next value computed yet.
+     */
+    return element;
+  }
+
   /**
    * Returns a {@code Spliterator} that iterates over the elements of the spliterators generated by
    * applying {@code function} to the elements of {@code fromSpliterator}.
    */
-  static <InElementT, OutElementT> Spliterator<OutElementT> flatMap(
-      Spliterator<InElementT> fromSpliterator,
-      Function<? super InElementT, Spliterator<OutElementT>> function,
-      int topCharacteristics,
-      long topSize) {
+  static <InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
+      Spliterator<OutElementT> flatMap(
+          Spliterator<InElementT> fromSpliterator,
+          Function<? super InElementT, Spliterator<OutElementT>> function,
+          int topCharacteristics,
+          long topSize) {
     checkArgument(
         (topCharacteristics & Spliterator.SUBSIZED) == 0,
         "flatMap does not support SUBSIZED characteristic");
@@ -219,7 +237,7 @@ final class CollectSpliterators {
    * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
    * function} returns {@code null} for an input, it is replaced with an empty stream.)
    */
-  static <InElementT> Spliterator.OfInt flatMapToInt(
+  static <InElementT extends @Nullable Object> Spliterator.OfInt flatMapToInt(
       Spliterator<InElementT> fromSpliterator,
       Function<? super InElementT, Spliterator.OfInt> function,
       int topCharacteristics,
@@ -241,7 +259,7 @@ final class CollectSpliterators {
    * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
    * function} returns {@code null} for an input, it is replaced with an empty stream.)
    */
-  static <InElementT> Spliterator.OfLong flatMapToLong(
+  static <InElementT extends @Nullable Object> Spliterator.OfLong flatMapToLong(
       Spliterator<InElementT> fromSpliterator,
       Function<? super InElementT, Spliterator.OfLong> function,
       int topCharacteristics,
@@ -263,7 +281,7 @@ final class CollectSpliterators {
    * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
    * function} returns {@code null} for an input, it is replaced with an empty stream.)
    */
-  static <InElementT> Spliterator.OfDouble flatMapToDouble(
+  static <InElementT extends @Nullable Object> Spliterator.OfDouble flatMapToDouble(
       Spliterator<InElementT> fromSpliterator,
       Function<? super InElementT, Spliterator.OfDouble> function,
       int topCharacteristics,
@@ -288,20 +306,24 @@ final class CollectSpliterators {
    * @param <OutSpliteratorT> the type of the output spliterators
    */
   abstract static class FlatMapSpliterator<
-          InElementT, OutElementT, OutSpliteratorT extends Spliterator<OutElementT>>
+          InElementT extends @Nullable Object,
+          OutElementT extends @Nullable Object,
+          OutSpliteratorT extends Spliterator<OutElementT>>
       implements Spliterator<OutElementT> {
     /** Factory for constructing {@link FlatMapSpliterator} instances. */
     @FunctionalInterface
-    interface Factory<InElementT, OutSpliteratorT extends Spliterator<?>> {
+    interface Factory<
+        InElementT extends @Nullable Object,
+        OutSpliteratorT extends Spliterator<? extends @Nullable Object>> {
       OutSpliteratorT newFlatMapSpliterator(
-          OutSpliteratorT prefix,
+          @Nullable OutSpliteratorT prefix,
           Spliterator<InElementT> fromSplit,
           Function<? super InElementT, OutSpliteratorT> function,
           int splitCharacteristics,
           long estSplitSize);
     }
 
-    @Weak OutSpliteratorT prefix;
+    @Nullable @Weak OutSpliteratorT prefix;
     final Spliterator<InElementT> from;
     final Function<? super InElementT, OutSpliteratorT> function;
     final Factory<InElementT, OutSpliteratorT> factory;
@@ -309,7 +331,7 @@ final class CollectSpliterators {
     long estimatedSize;
 
     FlatMapSpliterator(
-        OutSpliteratorT prefix,
+        @Nullable OutSpliteratorT prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, OutSpliteratorT> function,
         Factory<InElementT, OutSpliteratorT> factory,
@@ -364,7 +386,7 @@ final class CollectSpliterators {
     }
 
     @Override
-    public final OutSpliteratorT trySplit() {
+    public final @Nullable OutSpliteratorT trySplit() {
       Spliterator<InElementT> fromSplit = from.trySplit();
       if (fromSplit != null) {
         int splitCharacteristics = characteristics & ~Spliterator.SIZED;
@@ -413,10 +435,11 @@ final class CollectSpliterators {
    * @param <InElementT> the element type of the input spliterator
    * @param <OutElementT> the element type of the output spliterators
    */
-  static final class FlatMapSpliteratorOfObject<InElementT, OutElementT>
+  static final class FlatMapSpliteratorOfObject<
+          InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
       extends FlatMapSpliterator<InElementT, OutElementT, Spliterator<OutElementT>> {
     FlatMapSpliteratorOfObject(
-        Spliterator<OutElementT> prefix,
+        @Nullable Spliterator<OutElementT> prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, Spliterator<OutElementT>> function,
         int characteristics,
@@ -435,8 +458,8 @@ final class CollectSpliterators {
    * @param <OutSpliteratorT> the primitive spliterator type associated with {@code OutElementT}
    */
   abstract static class FlatMapSpliteratorOfPrimitive<
-          InElementT,
-          OutElementT,
+          InElementT extends @Nullable Object,
+          OutElementT extends @Nullable Object,
           OutConsumerT,
           OutSpliteratorT extends
               Spliterator.OfPrimitive<OutElementT, OutConsumerT, OutSpliteratorT>>
@@ -444,7 +467,7 @@ final class CollectSpliterators {
       implements Spliterator.OfPrimitive<OutElementT, OutConsumerT, OutSpliteratorT> {
 
     FlatMapSpliteratorOfPrimitive(
-        OutSpliteratorT prefix,
+        @Nullable OutSpliteratorT prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, OutSpliteratorT> function,
         Factory<InElementT, OutSpliteratorT> factory,
@@ -488,11 +511,11 @@ final class CollectSpliterators {
   }
 
   /** Implementation of {@link #flatMapToInt}. */
-  static final class FlatMapSpliteratorOfInt<InElementT>
+  static final class FlatMapSpliteratorOfInt<InElementT extends @Nullable Object>
       extends FlatMapSpliteratorOfPrimitive<InElementT, Integer, IntConsumer, Spliterator.OfInt>
       implements Spliterator.OfInt {
     FlatMapSpliteratorOfInt(
-        Spliterator.OfInt prefix,
+        Spliterator.@Nullable OfInt prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, Spliterator.OfInt> function,
         int characteristics,
@@ -502,11 +525,11 @@ final class CollectSpliterators {
   }
 
   /** Implementation of {@link #flatMapToLong}. */
-  static final class FlatMapSpliteratorOfLong<InElementT>
+  static final class FlatMapSpliteratorOfLong<InElementT extends @Nullable Object>
       extends FlatMapSpliteratorOfPrimitive<InElementT, Long, LongConsumer, Spliterator.OfLong>
       implements Spliterator.OfLong {
     FlatMapSpliteratorOfLong(
-        Spliterator.OfLong prefix,
+        Spliterator.@Nullable OfLong prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, Spliterator.OfLong> function,
         int characteristics,
@@ -516,12 +539,12 @@ final class CollectSpliterators {
   }
 
   /** Implementation of {@link #flatMapToDouble}. */
-  static final class FlatMapSpliteratorOfDouble<InElementT>
+  static final class FlatMapSpliteratorOfDouble<InElementT extends @Nullable Object>
       extends FlatMapSpliteratorOfPrimitive<
           InElementT, Double, DoubleConsumer, Spliterator.OfDouble>
       implements Spliterator.OfDouble {
     FlatMapSpliteratorOfDouble(
-        Spliterator.OfDouble prefix,
+        Spliterator.@Nullable OfDouble prefix,
         Spliterator<InElementT> from,
         Function<? super InElementT, Spliterator.OfDouble> function,
         int characteristics,

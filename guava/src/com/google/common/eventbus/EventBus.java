@@ -101,7 +101,10 @@ public class EventBus {
   private final Executor executor;
   private final SubscriberExceptionHandler exceptionHandler;
 
+  // Suppressions for initialization checker
+  @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"})
   private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
+
   private final Dispatcher dispatcher;
 
   /** Creates a new EventBus named "default". */

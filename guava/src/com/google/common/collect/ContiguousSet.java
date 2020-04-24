@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -23,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
@@ -77,8 +79,12 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     boolean empty =
         effectiveRange.isEmpty()
             || Range.compareOrThrow(
-                    range.lowerBound.leastValueAbove(domain),
-                    range.upperBound.greatestValueBelow(domain))
+                    /*
+                     * requireNonNull is safe because the effectiveRange operations above would have
+                     * thrown or effectiveRange.isEmpty() would have returned true.
+                     */
+                    requireNonNull(range.lowerBound.leastValueAbove(domain)),
+                    requireNonNull(range.upperBound.greatestValueBelow(domain)))
                 > 0;
 
     return empty
@@ -252,7 +258,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    * @deprecated Use {@link #create}.
    */
   @Deprecated
-  public static <E> ImmutableSortedSet.Builder<E> builder() {
+  public static <E extends @NonNull Object> ImmutableSortedSet.Builder<E> builder() {
     throw new UnsupportedOperationException();
   }
 }

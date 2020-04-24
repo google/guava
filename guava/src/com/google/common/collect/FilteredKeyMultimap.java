@@ -16,6 +16,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(Multimap, Predicate)}.
@@ -35,7 +38,8 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
+class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
   final Predicate<? super K> keyPredicate;
 
@@ -64,25 +68,37 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     if (unfiltered.containsKey(key)) {
-      @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
-      K k = (K) key;
+      // Fairly safe because k is equal to a K, if not one itself.
+      K k = uncheckedCastNullableObjectToK(key);
       return keyPredicate.apply(k);
     }
     return false;
   }
 
+  @SuppressWarnings({"unchecked", "nullness"})
+  private static <K extends @Nullable Object> K uncheckedCastNullableObjectToK(
+      @Nullable Object key) {
+    /*
+     * We can't use requireNonNull because `key` might be null. Specifically, it can be null because
+     * the multimap might contain a null key to be returned to the user. This is in contrast to the
+     * other way for `key` to be null, which is for the iterator not to have a next value computed
+     * yet.
+     */
+    return (K) key;
+  }
+
   @Override
-  public Collection<V> removeAll(Object key) {
+  public Collection<V> removeAll(@Nullable Object key) {
     return containsKey(key) ? unfiltered.removeAll(key) : unmodifiableEmptyCollection();
   }
 
   Collection<V> unmodifiableEmptyCollection() {
     if (unfiltered instanceof SetMultimap) {
-      return ImmutableSet.of();
+      return emptySet();
     } else {
-      return ImmutableList.of();
+      return emptyList();
     }
   }
 
@@ -107,7 +123,8 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     }
   }
 
-  static class AddRejectingSet<K, V> extends ForwardingSet<V> {
+  static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingSet<V> {
     final K key;
 
     AddRejectingSet(K key) {
@@ -131,7 +148,8 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     }
   }
 
-  static class AddRejectingList<K, V> extends ForwardingList<V> {
+  static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingList<V> {
     final K key;
 
     AddRejectingList(K key) {
@@ -189,9 +207,10 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
+        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
+            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
         if (unfiltered.containsKey(entry.getKey())
             // if this holds, then we know entry.getKey() is a K
             && keyPredicate.apply((K) entry.getKey())) {

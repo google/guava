@@ -22,6 +22,7 @@ import com.google.common.primitives.Longs;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLongArray;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collections of strategies of generating the k * log(M) bits required for an element to be mapped
@@ -43,7 +44,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    */
   MURMUR128_MITZ_32() {
     @Override
-    public <T> boolean put(
+    public <T extends @Nullable Object> boolean put(
         T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
@@ -63,7 +64,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public <T> boolean mightContain(
+    public <T extends @Nullable Object> boolean mightContain(
         T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
@@ -91,7 +92,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    */
   MURMUR128_MITZ_64() {
     @Override
-    public <T> boolean put(
+    public <T extends @Nullable Object> boolean put(
         T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
@@ -109,7 +110,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public <T> boolean mightContain(
+    public <T extends @Nullable Object> boolean mightContain(
         T object, Funnel<? super T> funnel, int numHashFunctions, LockFreeBitArray bits) {
       long bitSize = bits.bitSize();
       byte[] bytes = Hashing.murmur3_128().hashObject(object, funnel).getBytesInternal();
@@ -270,7 +271,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof LockFreeBitArray) {
         LockFreeBitArray lockFreeBitArray = (LockFreeBitArray) o;
         // TODO(lowasser): avoid allocation here

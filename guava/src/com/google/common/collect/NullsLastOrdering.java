@@ -18,10 +18,12 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that treats {@code null} as greater than all other values. */
 @GwtCompatible(serializable = true)
-final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
+final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
+    implements Serializable {
   final Ordering<? super T> ordering;
 
   NullsLastOrdering(Ordering<? super T> ordering) {
@@ -29,7 +31,7 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public int compare(T left, T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }
@@ -43,29 +45,31 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public <S extends T> Ordering<S> reverse() {
+  @SuppressWarnings("nullness") // should be safe, but not sure if we can avoid the warning
+  public <S extends @Nullable T> Ordering<S> reverse() {
     // ordering.reverse() might be optimized, so let it do its thing
     return ordering.reverse().nullsFirst();
   }
 
   @Override
-  public <S extends T> Ordering<S> nullsFirst() {
-    return ordering.nullsFirst();
+  public <S extends T> Ordering<@Nullable S> nullsFirst() {
+    return ordering.<S>nullsFirst();
   }
 
   @SuppressWarnings("unchecked") // still need the right way to explain this
   @Override
-  public <S extends T> Ordering<S> nullsLast() {
-    return (Ordering<S>) this;
+  public <S extends T> Ordering<@Nullable S> nullsLast() {
+    return (Ordering<@Nullable S>) this;
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
     if (object instanceof NullsLastOrdering) {
-      NullsLastOrdering<?> that = (NullsLastOrdering<?>) object;
+      NullsLastOrdering<? extends @Nullable Object> that =
+          (NullsLastOrdering<? extends @Nullable Object>) object;
       return this.ordering.equals(that.ordering);
     }
     return false;

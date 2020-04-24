@@ -16,6 +16,7 @@ package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
@@ -44,6 +45,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Registry of subscribers to a single event bus.
@@ -221,7 +223,11 @@ final class SubscriberRegistry {
     try {
       return flattenHierarchyCache.getUnchecked(concreteClass);
     } catch (UncheckedExecutionException e) {
-      throw Throwables.propagate(e.getCause());
+      /*
+       * requireNonNull is safe: An UncheckedExecutionException from a CacheBuilder Cache
+       * implementation will have a cause.
+       */
+      throw Throwables.propagate(requireNonNull(e.getCause()));
     }
   }
 
@@ -241,7 +247,7 @@ final class SubscriberRegistry {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof MethodIdentifier) {
         MethodIdentifier ident = (MethodIdentifier) o;
         return name.equals(ident.name) && parameterTypes.equals(ident.parameterTypes);

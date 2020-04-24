@@ -22,7 +22,8 @@ import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A function from {@code A} to {@code B} with an associated <i>reverse</i> function from {@code B}
@@ -112,11 +113,12 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @since 16.0
  */
 @GwtCompatible
-public abstract class Converter<A, B> implements Function<A, B> {
+public abstract class Converter<A extends @NonNull Object, B extends @NonNull Object>
+    implements Function<@Nullable A, @Nullable B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
-  @LazyInit private transient @MonotonicNonNull Converter<B, A> reverse;
+  @LazyInit private transient @Nullable Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
   protected Converter() {
@@ -163,26 +165,44 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
   @CanIgnoreReturnValue
-  public final B convert(A a) {
+  public final @Nullable B convert(@Nullable A a) {
     return correctedDoForward(a);
   }
 
-  B correctedDoForward(A a) {
+  @Nullable
+  B correctedDoForward(@Nullable A a) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return a == null ? null : checkNotNull(doForward(a));
     } else {
-      return doForward(a);
+      return unsafeDoForward(a);
     }
   }
 
-  A correctedDoBackward(B b) {
+  @Nullable
+  A correctedDoBackward(@Nullable B b) {
     if (handleNullAutomatically) {
       // TODO(kevinb): we shouldn't be checking for a null result at runtime. Assert?
       return b == null ? null : checkNotNull(doBackward(b));
     } else {
-      return doBackward(b);
+      return unsafeDoBackward(b);
     }
+  }
+
+  /*
+   * LegacyConverter violates the contract of Converter by allowing its doForward and doBackward
+   * methods to accept null. We could avoid having suppressions in Converter itself if we could cast
+   * to LegacyConverter, but we can't because it's an internal-only class.
+   */
+
+  @SuppressWarnings("nullness")
+  private @Nullable B unsafeDoForward(@Nullable A a) {
+    return doForward(a);
+  }
+
+  @SuppressWarnings("nullness")
+  private @Nullable A unsafeDoBackward(@Nullable B b) {
+    return doBackward(b);
   }
 
   /**
@@ -194,13 +214,13 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * element.
    */
   @CanIgnoreReturnValue
-  public Iterable<B> convertAll(final Iterable<? extends A> fromIterable) {
+  public Iterable<@Nullable B> convertAll(final Iterable<? extends @Nullable A> fromIterable) {
     checkNotNull(fromIterable, "fromIterable");
-    return new Iterable<B>() {
+    return new Iterable<@Nullable B>() {
       @Override
-      public Iterator<B> iterator() {
-        return new Iterator<B>() {
-          private final Iterator<? extends A> fromIterator = fromIterable.iterator();
+      public Iterator<@Nullable B> iterator() {
+        return new Iterator<@Nullable B>() {
+          private final Iterator<? extends @Nullable A> fromIterator = fromIterable.iterator();
 
           @Override
           public boolean hasNext() {
@@ -208,7 +228,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
           }
 
           @Override
-          public B next() {
+          public @Nullable B next() {
             return convert(fromIterator.next());
           }
 
@@ -235,8 +255,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     return (result == null) ? reverse = new ReverseConverter<>(this) : result;
   }
 
-  private static final class ReverseConverter<A, B> extends Converter<B, A>
-      implements Serializable {
+  private static final class ReverseConverter<A extends @NonNull Object, B extends @NonNull Object>
+      extends Converter<B, A> implements Serializable {
     final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
@@ -261,12 +281,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    A correctedDoForward(B b) {
+    @Nullable
+    A correctedDoForward(@Nullable B b) {
       return original.correctedDoBackward(b);
     }
 
     @Override
-    B correctedDoBackward(A a) {
+    @Nullable
+    B correctedDoBackward(@Nullable A a) {
       return original.correctedDoForward(a);
     }
 
@@ -276,7 +298,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof ReverseConverter) {
         ReverseConverter<?, ?> that = (ReverseConverter<?, ?>) object;
         return this.original.equals(that.original);
@@ -304,17 +326,19 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * <p>The returned converter is serializable if {@code this} converter and {@code secondConverter}
    * are.
    */
-  public final <C> Converter<A, C> andThen(Converter<B, C> secondConverter) {
+  public final <C extends @NonNull Object> Converter<A, C> andThen(
+      Converter<B, C> secondConverter) {
     return doAndThen(secondConverter);
   }
 
   /** Package-private non-final implementation of andThen() so only we can override it. */
-  <C> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
+  <C extends @NonNull Object> Converter<A, C> doAndThen(Converter<B, C> secondConverter) {
     return new ConverterComposition<>(this, checkNotNull(secondConverter));
   }
 
-  private static final class ConverterComposition<A, B, C> extends Converter<A, C>
-      implements Serializable {
+  private static final class ConverterComposition<
+          A extends @NonNull Object, B extends @NonNull Object, C extends @NonNull Object>
+      extends Converter<A, C> implements Serializable {
     final Converter<A, B> first;
     final Converter<B, C> second;
 
@@ -341,17 +365,19 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    C correctedDoForward(A a) {
+    @Nullable
+    C correctedDoForward(@Nullable A a) {
       return second.correctedDoForward(first.correctedDoForward(a));
     }
 
     @Override
-    A correctedDoBackward(C c) {
+    @Nullable
+    A correctedDoBackward(@Nullable C c) {
       return first.correctedDoBackward(second.correctedDoBackward(c));
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof ConverterComposition) {
         ConverterComposition<?, ?, ?> that = (ConverterComposition<?, ?, ?>) object;
         return this.first.equals(that.first) && this.second.equals(that.second);
@@ -378,7 +404,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @Deprecated
   @Override
   @CanIgnoreReturnValue
-  public final B apply(A a) {
+  public final @Nullable B apply(@Nullable A a) {
     return convert(a);
   }
 
@@ -394,7 +420,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * interchangeable.
    */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 
@@ -414,14 +440,15 @@ public abstract class Converter<A, B> implements Function<A, B> {
    *
    * @since 17.0
    */
-  public static <A, B> Converter<A, B> from(
+  public static <A extends @NonNull Object, B extends @NonNull Object> Converter<A, B> from(
       Function<? super A, ? extends B> forwardFunction,
       Function<? super B, ? extends A> backwardFunction) {
     return new FunctionBasedConverter<>(forwardFunction, backwardFunction);
   }
 
-  private static final class FunctionBasedConverter<A, B> extends Converter<A, B>
-      implements Serializable {
+  private static final class FunctionBasedConverter<
+          A extends @NonNull Object, B extends @NonNull Object>
+      extends Converter<A, B> implements Serializable {
     private final Function<? super A, ? extends B> forwardFunction;
     private final Function<? super B, ? extends A> backwardFunction;
 
@@ -443,7 +470,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof FunctionBasedConverter) {
         FunctionBasedConverter<?, ?> that = (FunctionBasedConverter<?, ?>) object;
         return this.forwardFunction.equals(that.forwardFunction)
@@ -465,7 +492,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   /** Returns a serializable converter that always converts or reverses an object to itself. */
   @SuppressWarnings("unchecked") // implementation is "fully variant"
-  public static <T> Converter<T, T> identity() {
+  public static <T extends @NonNull Object> Converter<T, T> identity() {
     return (IdentityConverter<T>) IdentityConverter.INSTANCE;
   }
 
@@ -473,8 +500,9 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * A converter that always converts or reverses an object to itself. Note that T is now a
    * "pass-through type".
    */
-  private static final class IdentityConverter<T> extends Converter<T, T> implements Serializable {
-    static final IdentityConverter INSTANCE = new IdentityConverter();
+  private static final class IdentityConverter<T extends @NonNull Object> extends Converter<T, T>
+      implements Serializable {
+    static final IdentityConverter<?> INSTANCE = new IdentityConverter<Object>();
 
     @Override
     protected T doForward(T t) {
@@ -492,7 +520,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     }
 
     @Override
-    <S> Converter<T, S> doAndThen(Converter<T, S> otherConverter) {
+    <S extends @NonNull Object> Converter<T, S> doAndThen(Converter<T, S> otherConverter) {
       return checkNotNull(otherConverter, "otherConverter");
     }
 

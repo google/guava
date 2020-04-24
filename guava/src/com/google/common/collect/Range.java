@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
@@ -136,12 +137,12 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     }
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "nullness"})
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> lowerBoundFn() {
     return (Function) LowerBoundFn.INSTANCE;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "nullness"})
   static <C extends Comparable<?>> Function<Range<C>, Cut<C>> upperBoundFn() {
     return (Function) UpperBoundFn.INSTANCE;
   }
@@ -455,7 +456,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     // this optimizes testing equality of two range-backed sets
     if (values instanceof SortedSet) {
       SortedSet<? extends C> set = cast(values);
-      Comparator<?> comparator = set.comparator();
+      Comparator<? extends @Nullable Object> comparator = set.comparator();
       if (Ordering.natural().equals(comparator) || comparator == null) {
         return contains(set.first()) && contains(set.last());
       }
@@ -645,7 +646,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
    * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.
    */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object instanceof Range) {
       Range<?> other = (Range<?>) object;
       return lowerBound.equals(other.lowerBound) && upperBound.equals(other.upperBound);
@@ -690,8 +691,8 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
   }
 
   @SuppressWarnings("unchecked") // this method may throw CCE
-  static int compareOrThrow(Comparable left, Comparable right) {
-    return left.compareTo(right);
+  static int compareOrThrow(Comparable<?> left, Comparable<?> right) {
+    return ((Comparable<Object>) left).compareTo(right);
   }
 
   /** Needed to serialize sorted collections of Ranges. */

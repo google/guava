@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -68,7 +69,8 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Map} instances (including instances of {@link
@@ -88,32 +90,35 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 public final class Maps {
   private Maps() {}
 
-  private enum EntryFunction implements Function<Entry<?, ?>, Object> {
+  private enum EntryFunction implements Function<Entry<?, ?>, @Nullable Object> {
     KEY {
       @Override
-      public Object apply(Entry<?, ?> entry) {
+      public @Nullable Object apply(Entry<?, ?> entry) {
         return entry.getKey();
       }
     },
     VALUE {
       @Override
-      public Object apply(Entry<?, ?> entry) {
+      public @Nullable Object apply(Entry<?, ?> entry) {
         return entry.getValue();
       }
     };
   }
 
-  @SuppressWarnings("unchecked")
-  static <K> Function<Entry<K, ?>, K> keyFunction() {
+  @SuppressWarnings({"unchecked", "nullness"})
+  static <K extends @Nullable Object>
+      Function<Entry<K, ? extends @Nullable Object>, K> keyFunction() {
     return (Function) EntryFunction.KEY;
   }
 
-  @SuppressWarnings("unchecked")
-  static <V> Function<Entry<?, V>, V> valueFunction() {
+  @SuppressWarnings({"unchecked", "nullness"})
+  static <V extends @Nullable Object>
+      Function<Entry<? extends @Nullable Object, V>, V> valueFunction() {
     return (Function) EntryFunction.VALUE;
   }
 
-  static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
+  static <K extends @Nullable Object, V extends @Nullable Object> Iterator<K> keyIterator(
+      Iterator<Entry<K, V>> entryIterator) {
     return new TransformedIterator<Entry<K, V>, K>(entryIterator) {
       @Override
       K transform(Entry<K, V> entry) {
@@ -122,7 +127,8 @@ public final class Maps {
     };
   }
 
-  static <K, V> Iterator<V> valueIterator(Iterator<Entry<K, V>> entryIterator) {
+  static <K extends @Nullable Object, V extends @Nullable Object> Iterator<V> valueIterator(
+      Iterator<Entry<K, V>> entryIterator) {
     return new TransformedIterator<Entry<K, V>, V>(entryIterator) {
       @Override
       V transform(Entry<K, V> entry) {
@@ -143,7 +149,7 @@ public final class Maps {
    * @since 14.0
    */
   @GwtCompatible(serializable = true)
-  public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
+  public static <K extends Enum<K>, V extends @NonNull Object> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
       @SuppressWarnings("unchecked") // safe covariant cast
@@ -171,9 +177,9 @@ public final class Maps {
     return ImmutableEnumMap.asImmutable(enumMap);
   }
 
-  private static class Accumulator<K extends Enum<K>, V> {
+  private static class Accumulator<K extends Enum<K>, V extends @NonNull Object> {
     private final BinaryOperator<V> mergeFunction;
-    private EnumMap<K, V> map = null;
+    private @Nullable EnumMap<K, V> map = null;
 
     Accumulator(BinaryOperator<V> mergeFunction) {
       this.mergeFunction = mergeFunction;
@@ -216,9 +222,10 @@ public final class Maps {
    *
    * @since 21.0
    */
-  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
-      java.util.function.Function<? super T, ? extends K> keyFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K extends Enum<K>, V extends @NonNull Object>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     return Collector.of(
@@ -248,10 +255,11 @@ public final class Maps {
    *
    * @since 21.0
    */
-  public static <T, K extends Enum<K>, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
-      java.util.function.Function<? super T, ? extends K> keyFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K extends Enum<K>, V extends @NonNull Object>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableEnumMap(
+          java.util.function.Function<? super T, ? extends K> keyFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
@@ -280,7 +288,8 @@ public final class Maps {
    *
    * @return a new, empty {@code HashMap}
    */
-  public static <K, V> HashMap<K, V> newHashMap() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      HashMap<K, V> newHashMap() {
     return new HashMap<>();
   }
 
@@ -298,7 +307,8 @@ public final class Maps {
    * @param map the mappings to be placed in the new map
    * @return a new {@code HashMap} initialized with the mappings from {@code map}
    */
-  public static <K, V> HashMap<K, V> newHashMap(Map<? extends K, ? extends V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> HashMap<K, V> newHashMap(
+      Map<? extends K, ? extends V> map) {
     return new HashMap<>(map);
   }
 
@@ -313,7 +323,8 @@ public final class Maps {
    *     without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      HashMap<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return new HashMap<>(capacity(expectedSize));
   }
 
@@ -346,7 +357,8 @@ public final class Maps {
    *
    * @return a new, empty {@code LinkedHashMap}
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      LinkedHashMap<K, V> newLinkedHashMap() {
     return new LinkedHashMap<>();
   }
 
@@ -363,7 +375,8 @@ public final class Maps {
    * @param map the mappings to be placed in the new map
    * @return a new, {@code LinkedHashMap} initialized with the mappings from {@code map}
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<>(map);
   }
 
@@ -379,7 +392,8 @@ public final class Maps {
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    * @since 19.0
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      LinkedHashMap<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return new LinkedHashMap<>(capacity(expectedSize));
   }
 
@@ -388,7 +402,8 @@ public final class Maps {
    *
    * @since 3.0
    */
-  public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
+  public static <K extends @NonNull Object, V extends @NonNull Object>
+      ConcurrentMap<K, V> newConcurrentMap() {
     return new ConcurrentHashMap<>();
   }
 
@@ -404,7 +419,7 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
-  public static <K extends Comparable, V> TreeMap<K, V> newTreeMap() {
+  public static <K extends Comparable, V extends @Nullable Object> TreeMap<K, V> newTreeMap() {
     return new TreeMap<>();
   }
 
@@ -424,7 +439,8 @@ public final class Maps {
    * @return a new {@code TreeMap} initialized with the mappings from {@code map} and using the
    *     comparator of {@code map}
    */
-  public static <K, V> TreeMap<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> TreeMap<K, V> newTreeMap(
+      SortedMap<K, ? extends V> map) {
     return new TreeMap<>(map);
   }
 
@@ -441,13 +457,14 @@ public final class Maps {
    * @param comparator the comparator to sort the keys with
    * @return a new, empty {@code TreeMap}
    */
-  public static <C, K extends C, V> TreeMap<K, V> newTreeMap(Comparator<C> comparator) {
+  public static <C extends @Nullable Object, K extends C, V extends @Nullable Object>
+      TreeMap<K, V> newTreeMap(@Nullable Comparator<C> comparator) {
     // Ideally, the extra type parameter "C" shouldn't be necessary. It is a
     // work-around of a compiler type inference quirk that prevents the
     // following code from being compiled:
     // Comparator<Class<?>> comparator = null;
     // Map<Class<? extends Throwable>, String> map = newTreeMap(comparator);
-    return new TreeMap<>(comparator);
+    return new TreeMap<K, V>(comparator);
   }
 
   /**
@@ -456,7 +473,8 @@ public final class Maps {
    * @param type the key type for this map
    * @return a new, empty {@code EnumMap}
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Class<K> type) {
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumMap<K, V> newEnumMap(
+      Class<K> type) {
     return new EnumMap<>(checkNotNull(type));
   }
 
@@ -472,7 +490,8 @@ public final class Maps {
    * @throws IllegalArgumentException if {@code m} is not an {@code EnumMap} instance and contains
    *     no mappings
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Map<K, ? extends V> map) {
+  public static <K extends Enum<K>, V extends @Nullable Object> EnumMap<K, V> newEnumMap(
+      Map<K, ? extends V> map) {
     return new EnumMap<>(map);
   }
 
@@ -485,7 +504,8 @@ public final class Maps {
    *
    * @return a new, empty {@code IdentityHashMap}
    */
-  public static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      IdentityHashMap<K, V> newIdentityHashMap() {
     return new IdentityHashMap<>();
   }
 
@@ -505,13 +525,27 @@ public final class Maps {
    * @return the difference between the two maps
    */
   @SuppressWarnings("unchecked")
-  public static <K, V> MapDifference<K, V> difference(
-      Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      MapDifference<K, V> difference(
+          Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
     if (left instanceof SortedMap) {
       SortedMap<K, ? extends V> sortedLeft = (SortedMap<K, ? extends V>) left;
       return difference(sortedLeft, right);
     }
-    return difference(left, right, Equivalence.equals());
+    /*
+     * This cast is safe: The Equivalence-accepting overload of difference() (which we call below)
+     * has a weird signature because Equivalence is itself a little weird. Still, we know that
+     * Equivalence.equals() can handle all inputs, and we know that the resulting MapDifference will
+     * contain only Ks and Vs (as opposed to possibly containing @Nullable objects even when K and V
+     * are *not* @Nullable).
+     *
+     * An alternative to suppressing the warning would be to inline the body of the other
+     * difference() method into this one.
+     */
+    @SuppressWarnings("nullness")
+    MapDifference<K, V> result =
+        (MapDifference<K, V>) difference(left, right, Equivalence.equals());
+    return result;
   }
 
   /**
@@ -528,17 +562,28 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 10.0
    */
-  public static <K, V> MapDifference<K, V> difference(
-      Map<? extends K, ? extends V> left,
-      Map<? extends K, ? extends V> right,
-      Equivalence<? super V> valueEquivalence) {
+  /*
+   * This should really accept maps with @Nullable value types. To make that work with Equivalence,
+   * though, we'd need to introduce a new type parameter, like <E> on doDifference (or support
+   * something like Equivalence<? super T-but-projected-to-not-be-nullable>). Without that, we have
+   * to either requires non-null inputs and outputs or require nullable inputs and outputs. Non-null
+   * seems more likely to be useful.
+   */
+  public static <K extends @Nullable Object, V extends @NonNull Object>
+      MapDifference<K, V> difference(
+          Map<? extends K, ? extends V> left,
+          Map<? extends K, ? extends V> right,
+          Equivalence<? super V> valueEquivalence) {
     Preconditions.checkNotNull(valueEquivalence);
 
     Map<K, V> onlyOnLeft = newLinkedHashMap();
     Map<K, V> onlyOnRight = new LinkedHashMap<>(right); // will whittle it down
     Map<K, V> onBoth = newLinkedHashMap();
     Map<K, MapDifference.ValueDifference<V>> differences = newLinkedHashMap();
-    doDifference(left, right, valueEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
+    // This cast works around https://github.com/typetools/checker-framework/issues/3025
+    @SuppressWarnings("unchecked") // safe because Equivalence is contravariant
+    Equivalence<V> castEquivalence = (Equivalence<V>) valueEquivalence;
+    doDifference(left, right, castEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
     return new MapDifferenceImpl<>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
@@ -559,8 +604,9 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 11.0
    */
-  public static <K, V> SortedMapDifference<K, V> difference(
-      SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      SortedMapDifference<K, V> difference(
+          SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
     checkNotNull(left);
     checkNotNull(right);
     Comparator<? super K> comparator = orNaturalOrder(left.comparator());
@@ -573,23 +619,27 @@ public final class Maps {
     return new SortedMapDifferenceImpl<>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
-  private static <K, V> void doDifference(
-      Map<? extends K, ? extends V> left,
-      Map<? extends K, ? extends V> right,
-      Equivalence<? super V> valueEquivalence,
-      Map<K, V> onlyOnLeft,
-      Map<K, V> onlyOnRight,
-      Map<K, V> onBoth,
-      Map<K, MapDifference.ValueDifference<V>> differences) {
-    for (Entry<? extends K, ? extends V> entry : left.entrySet()) {
+  // The L parameter works around https://github.com/typetools/checker-framework/issues/3027
+  private static <
+          K extends @Nullable Object, E extends @NonNull Object, V extends @Nullable E, L extends V>
+      void doDifference(
+          Map<? extends K, L> left,
+          Map<? extends K, ? extends V> right,
+          Equivalence<E> valueEquivalence,
+          Map<K, V> onlyOnLeft,
+          Map<K, V> onlyOnRight,
+          Map<K, V> onBoth,
+          Map<K, MapDifference.ValueDifference<V>> differences) {
+    for (Entry<? extends K, L> entry : left.entrySet()) {
       K leftKey = entry.getKey();
-      V leftValue = entry.getValue();
+      L leftValue = entry.getValue();
       if (right.containsKey(leftKey)) {
-        V rightValue = onlyOnRight.remove(leftKey);
+        // The cast is safe because of the containsKey check.
+        V rightValue = uncheckedCastNullableVToV(onlyOnRight.remove(leftKey));
         if (valueEquivalence.equivalent(leftValue, rightValue)) {
           onBoth.put(leftKey, leftValue);
         } else {
-          differences.put(leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
+          differences.put(leftKey, ValueDifferenceImpl.<V>create(leftValue, rightValue));
         }
       } else {
         onlyOnLeft.put(leftKey, leftValue);
@@ -597,7 +647,8 @@ public final class Maps {
     }
   }
 
-  private static <K, V> Map<K, V> unmodifiableMap(Map<K, ? extends V> map) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> unmodifiableMap(
+      Map<K, ? extends V> map) {
     if (map instanceof SortedMap) {
       return Collections.unmodifiableSortedMap((SortedMap<K, ? extends V>) map);
     } else {
@@ -605,7 +656,8 @@ public final class Maps {
     }
   }
 
-  static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
+  static class MapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+      implements MapDifference<K, V> {
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
     final Map<K, V> onBoth;
@@ -648,12 +700,13 @@ public final class Maps {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
       if (object instanceof MapDifference) {
-        MapDifference<?, ?> other = (MapDifference<?, ?>) object;
+        MapDifference<? extends @Nullable Object, ? extends @Nullable Object> other =
+            (MapDifference<? extends @Nullable Object, ? extends @Nullable Object>) object;
         return entriesOnlyOnLeft().equals(other.entriesOnlyOnLeft())
             && entriesOnlyOnRight().equals(other.entriesOnlyOnRight())
             && entriesInCommon().equals(other.entriesInCommon())
@@ -688,11 +741,12 @@ public final class Maps {
     }
   }
 
-  static class ValueDifferenceImpl<V> implements MapDifference.ValueDifference<V> {
+  static class ValueDifferenceImpl<V extends @Nullable Object>
+      implements MapDifference.ValueDifference<V> {
     private final V left;
     private final V right;
 
-    static <V> ValueDifference<V> create(V left, V right) {
+    static <V extends @Nullable Object> ValueDifference<V> create(V left, V right) {
       return new ValueDifferenceImpl<V>(left, right);
     }
 
@@ -712,9 +766,10 @@ public final class Maps {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof MapDifference.ValueDifference) {
-        MapDifference.ValueDifference<?> that = (MapDifference.ValueDifference<?>) object;
+        MapDifference.ValueDifference<? extends @Nullable Object> that =
+            (MapDifference.ValueDifference<? extends @Nullable Object>) object;
         return Objects.equal(this.left, that.leftValue())
             && Objects.equal(this.right, that.rightValue());
       }
@@ -732,8 +787,8 @@ public final class Maps {
     }
   }
 
-  static class SortedMapDifferenceImpl<K, V> extends MapDifferenceImpl<K, V>
-      implements SortedMapDifference<K, V> {
+  static class SortedMapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+      extends MapDifferenceImpl<K, V> implements SortedMapDifference<K, V> {
     SortedMapDifferenceImpl(
         SortedMap<K, V> onlyOnLeft,
         SortedMap<K, V> onlyOnRight,
@@ -769,7 +824,8 @@ public final class Maps {
    * ugly type-casting in one place.
    */
   @SuppressWarnings("unchecked")
-  static <E> Comparator<? super E> orNaturalOrder(Comparator<? super E> comparator) {
+  static <E extends @Nullable Object> Comparator<? super E> orNaturalOrder(
+      @Nullable Comparator<? super E> comparator) {
     if (comparator != null) { // can't use ? : because of javac bug 5080917
       return comparator;
     }
@@ -800,7 +856,8 @@ public final class Maps {
    *
    * @since 14.0
    */
-  public static <K, V> Map<K, V> asMap(Set<K> set, Function<? super K, V> function) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> asMap(
+      Set<K> set, Function<? super K, V> function) {
     return new AsMapView<>(set, function);
   }
 
@@ -827,7 +884,8 @@ public final class Maps {
    *
    * @since 14.0
    */
-  public static <K, V> SortedMap<K, V> asMap(SortedSet<K> set, Function<? super K, V> function) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> SortedMap<K, V> asMap(
+      SortedSet<K> set, Function<? super K, V> function) {
     return new SortedAsMapView<>(set, function);
   }
 
@@ -855,12 +913,13 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> asMap(
+  public static <K extends @Nullable Object, V extends @Nullable Object> NavigableMap<K, V> asMap(
       NavigableSet<K> set, Function<? super K, V> function) {
     return new NavigableAsMapView<>(set, function);
   }
 
-  private static class AsMapView<K, V> extends ViewCachingAbstractMap<K, V> {
+  private static class AsMapView<K extends @Nullable Object, V extends @Nullable Object>
+      extends ViewCachingAbstractMap<K, V> {
 
     private final Set<K> set;
     final Function<? super K, V> function;
@@ -890,17 +949,21 @@ public final class Maps {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return backingSet().contains(key);
     }
 
     @Override
-    public V get(Object key) {
-      return getOrDefault(key, null);
+    public @Nullable V get(@Nullable Object key) {
+      /*
+       * unsafeNull is safe because all getOrDefault does with a null defaultValue is return null,
+       * and all get() does with that is return it.
+       */
+      return getOrDefault(key, unsafeNull());
     }
 
     @Override
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefault(@Nullable Object key, V defaultValue) {
       if (Collections2.safeContains(backingSet(), key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -911,7 +974,7 @@ public final class Maps {
     }
 
     @Override
-    public V remove(Object key) {
+    public @Nullable V remove(@Nullable Object key) {
       if (backingSet().remove(key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -951,8 +1014,8 @@ public final class Maps {
     }
   }
 
-  static <K, V> Iterator<Entry<K, V>> asMapEntryIterator(
-      Set<K> set, final Function<? super K, V> function) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Iterator<Entry<K, V>> asMapEntryIterator(Set<K> set, final Function<? super K, V> function) {
     return new TransformedIterator<K, Entry<K, V>>(set.iterator()) {
       @Override
       Entry<K, V> transform(final K key) {
@@ -961,7 +1024,8 @@ public final class Maps {
     };
   }
 
-  private static class SortedAsMapView<K, V> extends AsMapView<K, V> implements SortedMap<K, V> {
+  private static class SortedAsMapView<K extends @Nullable Object, V extends @Nullable Object>
+      extends AsMapView<K, V> implements SortedMap<K, V> {
 
     SortedAsMapView(SortedSet<K> set, Function<? super K, V> function) {
       super(set, function);
@@ -973,7 +1037,7 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return backingSet().comparator();
     }
 
@@ -1009,7 +1073,9 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static final class NavigableAsMapView<K, V> extends AbstractNavigableMap<K, V> {
+  private static final class NavigableAsMapView<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractNavigableMap<K, V> {
     /*
      * Using AbstractNavigableMap is simpler than extending SortedAsMapView and rewriting all the
      * NavigableMap methods.
@@ -1040,17 +1106,21 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return set.comparator();
     }
 
     @Override
-    public V get(Object key) {
-      return getOrDefault(key, null);
+    public @Nullable V get(@Nullable Object key) {
+      /*
+       * unsafeNull is safe because all getOrDefault does with a null defaultValue is return null,
+       * and all get() does with that is return it.
+       */
+      return getOrDefault(key, unsafeNull());
     }
 
     @Override
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefault(@Nullable Object key, V defaultValue) {
       if (Collections2.safeContains(set, key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -1101,7 +1171,7 @@ public final class Maps {
     }
   }
 
-  private static <E> Set<E> removeOnlySet(final Set<E> set) {
+  private static <E extends @Nullable Object> Set<E> removeOnlySet(final Set<E> set) {
     return new ForwardingSet<E>() {
       @Override
       protected Set<E> delegate() {
@@ -1120,7 +1190,8 @@ public final class Maps {
     };
   }
 
-  private static <E> SortedSet<E> removeOnlySortedSet(final SortedSet<E> set) {
+  private static <E extends @Nullable Object> SortedSet<E> removeOnlySortedSet(
+      final SortedSet<E> set) {
     return new ForwardingSortedSet<E>() {
       @Override
       protected SortedSet<E> delegate() {
@@ -1155,7 +1226,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableSet
-  private static <E> NavigableSet<E> removeOnlyNavigableSet(final NavigableSet<E> set) {
+  private static <E extends @Nullable Object> NavigableSet<E> removeOnlyNavigableSet(
+      final NavigableSet<E> set) {
     return new ForwardingNavigableSet<E>() {
       @Override
       protected NavigableSet<E> delegate() {
@@ -1227,7 +1299,7 @@ public final class Maps {
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
    */
-  public static <K, V> ImmutableMap<K, V> toMap(
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> toMap(
       Iterable<K> keys, Function<? super K, V> valueFunction) {
     return toMap(keys.iterator(), valueFunction);
   }
@@ -1245,7 +1317,7 @@ public final class Maps {
    *     valueFunction} produces {@code null} for any key
    * @since 14.0
    */
-  public static <K, V> ImmutableMap<K, V> toMap(
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> toMap(
       Iterator<K> keys, Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);
     // Using LHM instead of a builder so as not to fail on duplicate keys
@@ -1286,8 +1358,8 @@ public final class Maps {
    *     keyFunction} produces {@code null} for any value
    */
   @CanIgnoreReturnValue
-  public static <K, V> ImmutableMap<K, V> uniqueIndex(
-      Iterable<V> values, Function<? super V, K> keyFunction) {
+  public static <K extends @NonNull Object, V extends @NonNull Object>
+      ImmutableMap<K, V> uniqueIndex(Iterable<V> values, Function<? super V, K> keyFunction) {
     // TODO(lowasser): consider presizing the builder if values is a Collection
     return uniqueIndex(values.iterator(), keyFunction);
   }
@@ -1322,8 +1394,8 @@ public final class Maps {
    * @since 10.0
    */
   @CanIgnoreReturnValue
-  public static <K, V> ImmutableMap<K, V> uniqueIndex(
-      Iterator<V> values, Function<? super V, K> keyFunction) {
+  public static <K extends @NonNull Object, V extends @NonNull Object>
+      ImmutableMap<K, V> uniqueIndex(Iterator<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);
     ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
     while (values.hasNext()) {
@@ -1353,9 +1425,14 @@ public final class Maps {
   public static ImmutableMap<String, String> fromProperties(Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
-    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements(); ) {
-      String key = (String) e.nextElement();
-      builder.put(key, properties.getProperty(key));
+    for (Enumeration<? extends @Nullable Object> e = properties.propertyNames();
+        e.hasMoreElements(); ) {
+      /*
+       * requireNonNull is safe with a typical Properties instance, but it's possible for users to
+       * put null keys and values in if they want. If they do, this method will throw.
+       */
+      String key = (String) requireNonNull(e.nextElement());
+      builder.put(key, requireNonNull(properties.getProperty(key)));
     }
 
     return builder.build();
@@ -1374,7 +1451,8 @@ public final class Maps {
    * @param value the value to be associated with the returned entry
    */
   @GwtCompatible(serializable = true)
-  public static <K, V> Entry<K, V> immutableEntry(K key, V value) {
+  public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> immutableEntry(
+      K key, V value) {
     return new ImmutableEntry<>(key, value);
   }
 
@@ -1386,7 +1464,8 @@ public final class Maps {
    * @param entrySet the entries for which to return an unmodifiable view
    * @return an unmodifiable view of the entries
    */
-  static <K, V> Set<Entry<K, V>> unmodifiableEntrySet(Set<Entry<K, V>> entrySet) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Set<Entry<K, V>> unmodifiableEntrySet(Set<Entry<K, V>> entrySet) {
     return new UnmodifiableEntrySet<>(Collections.unmodifiableSet(entrySet));
   }
 
@@ -1399,7 +1478,8 @@ public final class Maps {
    * @param entry the entry for which to return an unmodifiable view
    * @return an unmodifiable view of the entry
    */
-  static <K, V> Entry<K, V> unmodifiableEntry(final Entry<? extends K, ? extends V> entry) {
+  static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> unmodifiableEntry(
+      final Entry<? extends K, ? extends V> entry) {
     checkNotNull(entry);
     return new AbstractMapEntry<K, V>() {
       @Override
@@ -1414,8 +1494,9 @@ public final class Maps {
     };
   }
 
-  static <K, V> UnmodifiableIterator<Entry<K, V>> unmodifiableEntryIterator(
-      final Iterator<Entry<K, V>> entryIterator) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      UnmodifiableIterator<Entry<K, V>> unmodifiableEntryIterator(
+          final Iterator<Entry<K, V>> entryIterator) {
     return new UnmodifiableIterator<Entry<K, V>>() {
       @Override
       public boolean hasNext() {
@@ -1430,7 +1511,8 @@ public final class Maps {
   }
 
   /** @see Multimaps#unmodifiableEntries */
-  static class UnmodifiableEntries<K, V> extends ForwardingCollection<Entry<K, V>> {
+  static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
 
     UnmodifiableEntries(Collection<Entry<K, V>> entries) {
@@ -1461,8 +1543,8 @@ public final class Maps {
   }
 
   /** @see Maps#unmodifiableEntrySet(Set) */
-  static class UnmodifiableEntrySet<K, V> extends UnmodifiableEntries<K, V>
-      implements Set<Entry<K, V>> {
+  static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
     }
@@ -1470,7 +1552,7 @@ public final class Maps {
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       return Sets.equalsImpl(this, object);
     }
 
@@ -1490,11 +1572,13 @@ public final class Maps {
    *
    * @since 16.0
    */
-  public static <A, B> Converter<A, B> asConverter(final BiMap<A, B> bimap) {
+  public static <A extends @NonNull Object, B extends @NonNull Object> Converter<A, B> asConverter(
+      final BiMap<A, B> bimap) {
     return new BiMapConverter<>(bimap);
   }
 
-  private static final class BiMapConverter<A, B> extends Converter<A, B> implements Serializable {
+  private static final class BiMapConverter<A extends @NonNull Object, B extends @NonNull Object>
+      extends Converter<A, B> implements Serializable {
     private final BiMap<A, B> bimap;
 
     BiMapConverter(BiMap<A, B> bimap) {
@@ -1511,14 +1595,17 @@ public final class Maps {
       return convert(bimap.inverse(), b);
     }
 
-    private static <X, Y> Y convert(BiMap<X, Y> bimap, X input) {
+    private static <X extends @NonNull Object, Y extends @NonNull Object> Y convert(
+        BiMap<X, Y> bimap, X input) {
       Y output = bimap.get(input);
-      checkArgument(output != null, "No non-null mapping present for input: %s", input);
+      if (output == null) {
+        throw new IllegalArgumentException("No non-null mapping present for input: " + input);
+      }
       return output;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof BiMapConverter) {
         BiMapConverter<?, ?> that = (BiMapConverter<?, ?>) object;
         return this.bimap.equals(that.bimap);
@@ -1569,7 +1656,8 @@ public final class Maps {
    * @param bimap the bimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified bimap
    */
-  public static <K, V> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
     return Synchronized.biMap(bimap, null);
   }
 
@@ -1584,19 +1672,20 @@ public final class Maps {
    * @param bimap the bimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified bimap
    */
-  public static <K, V> BiMap<K, V> unmodifiableBiMap(BiMap<? extends K, ? extends V> bimap) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      BiMap<K, V> unmodifiableBiMap(BiMap<? extends K, ? extends V> bimap) {
     return new UnmodifiableBiMap<>(bimap, null);
   }
 
   /** @see Maps#unmodifiableBiMap(BiMap) */
-  private static class UnmodifiableBiMap<K, V> extends ForwardingMap<K, V>
-      implements BiMap<K, V>, Serializable {
+  private static class UnmodifiableBiMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    @MonotonicNonNull @RetainedWith BiMap<V, K> inverse;
-    @MonotonicNonNull transient Set<V> values;
+    @Nullable @RetainedWith BiMap<V, K> inverse;
+    @Nullable transient Set<V> values;
 
-    UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, BiMap<V, K> inverse) {
+    UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
       this.delegate = delegate;
       this.inverse = inverse;
@@ -1608,7 +1697,7 @@ public final class Maps {
     }
 
     @Override
-    public V forcePut(K key, V value) {
+    public @Nullable V forcePut(K key, V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -1662,8 +1751,9 @@ public final class Maps {
    * function} should be fast. To avoid lazy evaluation when the returned map doesn't need to be a
    * view, copy the returned map into a new map of your choosing.
    */
-  public static <K, V1, V2> Map<K, V2> transformValues(
-      Map<K, V1> fromMap, Function<? super V1, V2> function) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      Map<K, V2> transformValues(Map<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
   }
 
@@ -1703,8 +1793,10 @@ public final class Maps {
    *
    * @since 11.0
    */
-  public static <K, V1, V2> SortedMap<K, V2> transformValues(
-      SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      SortedMap<K, V2> transformValues(
+          SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
   }
 
@@ -1747,8 +1839,10 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V1, V2> NavigableMap<K, V2> transformValues(
-      NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      NavigableMap<K, V2> transformValues(
+          NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
   }
 
@@ -1799,8 +1893,10 @@ public final class Maps {
    *
    * @since 7.0
    */
-  public static <K, V1, V2> Map<K, V2> transformEntries(
-      Map<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      Map<K, V2> transformEntries(
+          Map<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMap<>(fromMap, transformer);
   }
 
@@ -1851,8 +1947,10 @@ public final class Maps {
    *
    * @since 11.0
    */
-  public static <K, V1, V2> SortedMap<K, V2> transformEntries(
-      SortedMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      SortedMap<K, V2> transformEntries(
+          SortedMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesSortedMap<>(fromMap, transformer);
   }
 
@@ -1905,8 +2003,11 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
-      final NavigableMap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
+  public static <
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      NavigableMap<K, V2> transformEntries(
+          final NavigableMap<K, V1> fromMap,
+          EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesNavigableMap<>(fromMap, transformer);
   }
 
@@ -1920,7 +2021,8 @@ public final class Maps {
    * @since 7.0
    */
   @FunctionalInterface
-  public interface EntryTransformer<K, V1, V2> {
+  public interface EntryTransformer<
+      K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object> {
     /**
      * Determines an output value based on a key-value pair. This method is <i>generally
      * expected</i>, but not absolutely required, to have the following properties:
@@ -1939,8 +2041,8 @@ public final class Maps {
   }
 
   /** Views a function as an entry transformer that ignores the entry key. */
-  static <K, V1, V2> EntryTransformer<K, V1, V2> asEntryTransformer(
-      final Function<? super V1, V2> function) {
+  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      EntryTransformer<K, V1, V2> asEntryTransformer(final Function<? super V1, V2> function) {
     checkNotNull(function);
     return new EntryTransformer<K, V1, V2>() {
       @Override
@@ -1950,8 +2052,9 @@ public final class Maps {
     };
   }
 
-  static <K, V1, V2> Function<V1, V2> asValueToValueFunction(
-      final EntryTransformer<? super K, V1, V2> transformer, final K key) {
+  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      Function<V1, V2> asValueToValueFunction(
+          final EntryTransformer<? super K, V1, V2> transformer, final K key) {
     checkNotNull(transformer);
     return new Function<V1, V2>() {
       @Override
@@ -1962,8 +2065,9 @@ public final class Maps {
   }
 
   /** Views an entry transformer as a function from {@code Entry} to values. */
-  static <K, V1, V2> Function<Entry<K, V1>, V2> asEntryToValueFunction(
-      final EntryTransformer<? super K, ? super V1, V2> transformer) {
+  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      Function<Entry<K, V1>, V2> asEntryToValueFunction(
+          final EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
     return new Function<Entry<K, V1>, V2>() {
       @Override
@@ -1974,8 +2078,9 @@ public final class Maps {
   }
 
   /** Returns a view of an entry transformed by the specified transformer. */
-  static <V2, K, V1> Entry<K, V2> transformEntry(
-      final EntryTransformer<? super K, ? super V1, V2> transformer, final Entry<K, V1> entry) {
+  static <V2 extends @Nullable Object, K extends @Nullable Object, V1 extends @Nullable Object>
+      Entry<K, V2> transformEntry(
+          final EntryTransformer<? super K, ? super V1, V2> transformer, final Entry<K, V1> entry) {
     checkNotNull(transformer);
     checkNotNull(entry);
     return new AbstractMapEntry<K, V2>() {
@@ -1992,8 +2097,9 @@ public final class Maps {
   }
 
   /** Views an entry transformer as a function from entries to entries. */
-  static <K, V1, V2> Function<Entry<K, V1>, Entry<K, V2>> asEntryToEntryFunction(
-      final EntryTransformer<? super K, ? super V1, V2> transformer) {
+  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      Function<Entry<K, V1>, Entry<K, V2>> asEntryToEntryFunction(
+          final EntryTransformer<? super K, ? super V1, V2> transformer) {
     checkNotNull(transformer);
     return new Function<Entry<K, V1>, Entry<K, V2>>() {
       @Override
@@ -2003,7 +2109,9 @@ public final class Maps {
     };
   }
 
-  static class TransformedEntriesMap<K, V1, V2> extends IteratorBasedAbstractMap<K, V2> {
+  static class TransformedEntriesMap<
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      extends IteratorBasedAbstractMap<K, V2> {
     final Map<K, V1> fromMap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
 
@@ -2019,31 +2127,37 @@ public final class Maps {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return fromMap.containsKey(key);
     }
 
     @Override
-    public V2 get(Object key) {
-      return getOrDefault(key, null);
+    public @Nullable V2 get(@Nullable Object key) {
+      /*
+       * unsafeNull is safe because all getOrDefault does with a null defaultValue is return null,
+       * and all get() does with that is return it.
+       */
+      return getOrDefault(key, unsafeNull());
     }
 
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    public V2 getOrDefault(Object key, V2 defaultValue) {
+    public V2 getOrDefault(@Nullable Object key, V2 defaultValue) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
-          ? transformer.transformEntry((K) key, value)
+          // The cast is safe because of the containsKey check.
+          ? transformer.transformEntry((K) key, uncheckedCastNullableVToV(value))
           : defaultValue;
     }
 
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    public V2 remove(Object key) {
+    public @Nullable V2 remove(@Nullable Object key) {
       return fromMap.containsKey(key)
-          ? transformer.transformEntry((K) key, fromMap.remove(key))
+          // The cast is safe because of the containsKey check.
+          ? transformer.transformEntry((K) key, uncheckedCastNullableVToV(fromMap.remove(key)))
           : null;
     }
 
@@ -2082,8 +2196,9 @@ public final class Maps {
     }
   }
 
-  static class TransformedEntriesSortedMap<K, V1, V2> extends TransformedEntriesMap<K, V1, V2>
-      implements SortedMap<K, V2> {
+  static class TransformedEntriesSortedMap<
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+      extends TransformedEntriesMap<K, V1, V2> implements SortedMap<K, V2> {
 
     protected SortedMap<K, V1> fromMap() {
       return (SortedMap<K, V1>) fromMap;
@@ -2095,7 +2210,7 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return fromMap().comparator();
     }
 
@@ -2126,7 +2241,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static class TransformedEntriesNavigableMap<K, V1, V2>
+  private static class TransformedEntriesNavigableMap<
+          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends TransformedEntriesSortedMap<K, V1, V2> implements NavigableMap<K, V2> {
 
     TransformedEntriesNavigableMap(
@@ -2135,12 +2251,12 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V2> ceilingEntry(K key) {
+    public @Nullable Entry<K, V2> ceilingEntry(K key) {
       return transformEntry(fromMap().ceilingEntry(key));
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       return fromMap().ceilingKey(key);
     }
 
@@ -2155,17 +2271,17 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V2> firstEntry() {
+    public @Nullable Entry<K, V2> firstEntry() {
       return transformEntry(fromMap().firstEntry());
     }
 
     @Override
-    public Entry<K, V2> floorEntry(K key) {
+    public @Nullable Entry<K, V2> floorEntry(K key) {
       return transformEntry(fromMap().floorEntry(key));
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       return fromMap().floorKey(key);
     }
 
@@ -2180,27 +2296,27 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V2> higherEntry(K key) {
+    public @Nullable Entry<K, V2> higherEntry(K key) {
       return transformEntry(fromMap().higherEntry(key));
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       return fromMap().higherKey(key);
     }
 
     @Override
-    public Entry<K, V2> lastEntry() {
+    public @Nullable Entry<K, V2> lastEntry() {
       return transformEntry(fromMap().lastEntry());
     }
 
     @Override
-    public Entry<K, V2> lowerEntry(K key) {
+    public @Nullable Entry<K, V2> lowerEntry(K key) {
       return transformEntry(fromMap().lowerEntry(key));
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       return fromMap().lowerKey(key);
     }
 
@@ -2210,12 +2326,12 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V2> pollFirstEntry() {
+    public @Nullable Entry<K, V2> pollFirstEntry() {
       return transformEntry(fromMap().pollFirstEntry());
     }
 
     @Override
-    public Entry<K, V2> pollLastEntry() {
+    public @Nullable Entry<K, V2> pollLastEntry() {
       return transformEntry(fromMap().pollLastEntry());
     }
 
@@ -2241,7 +2357,7 @@ public final class Maps {
       return transformEntries(fromMap().tailMap(fromKey, inclusive), transformer);
     }
 
-    private Entry<K, V2> transformEntry(Entry<K, V1> entry) {
+    private @Nullable Entry<K, V2> transformEntry(@Nullable Entry<K, V1> entry) {
       return (entry == null) ? null : Maps.transformEntry(transformer, entry);
     }
 
@@ -2251,11 +2367,15 @@ public final class Maps {
     }
   }
 
-  static <K> Predicate<Entry<K, ?>> keyPredicateOnEntries(Predicate<? super K> keyPredicate) {
+  static <K extends @Nullable Object>
+      Predicate<Entry<K, ? extends @Nullable Object>> keyPredicateOnEntries(
+          Predicate<? super K> keyPredicate) {
     return compose(keyPredicate, Maps.<K>keyFunction());
   }
 
-  static <V> Predicate<Entry<?, V>> valuePredicateOnEntries(Predicate<? super V> valuePredicate) {
+  static <V extends @Nullable Object>
+      Predicate<Entry<? extends @Nullable Object, V>> valuePredicateOnEntries(
+          Predicate<? super V> valuePredicate) {
     return compose(valuePredicate, Maps.<V>valueFunction());
   }
 
@@ -2282,7 +2402,7 @@ public final class Maps {
    * {@link Predicate#apply}. Do not provide a predicate such as {@code
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.
    */
-  public static <K, V> Map<K, V> filterKeys(
+  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
     Predicate<Entry<K, ?>> entryPredicate = keyPredicateOnEntries(keyPredicate);
@@ -2317,7 +2437,7 @@ public final class Maps {
    *
    * @since 11.0
    */
-  public static <K, V> SortedMap<K, V> filterKeys(
+  public static <K extends @Nullable Object, V extends @Nullable Object> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
@@ -2351,8 +2471,9 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> filterKeys(
-      NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> filterKeys(
+          NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO(lowasser): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
     return filterEntries(unfiltered, Maps.<K>keyPredicateOnEntries(keyPredicate));
@@ -2382,7 +2503,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  public static <K, V> BiMap<K, V> filterKeys(
+  public static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> filterKeys(
       BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
     return filterEntries(unfiltered, Maps.<K>keyPredicateOnEntries(keyPredicate));
@@ -2411,7 +2532,7 @@ public final class Maps {
    * at {@link Predicate#apply}. Do not provide a predicate such as {@code
    * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.
    */
-  public static <K, V> Map<K, V> filterValues(
+  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
@@ -2442,8 +2563,9 @@ public final class Maps {
    *
    * @since 11.0
    */
-  public static <K, V> SortedMap<K, V> filterValues(
-      SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      SortedMap<K, V> filterValues(
+          SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2474,8 +2596,9 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> filterValues(
-      NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> filterValues(
+          NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
 
@@ -2506,7 +2629,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  public static <K, V> BiMap<K, V> filterValues(
+  public static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> filterValues(
       BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
   }
@@ -2535,7 +2658,7 @@ public final class Maps {
    * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with equals</i>, as documented
    * at {@link Predicate#apply}.
    */
-  public static <K, V> Map<K, V> filterEntries(
+  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
@@ -2569,8 +2692,9 @@ public final class Maps {
    *
    * @since 11.0
    */
-  public static <K, V> SortedMap<K, V> filterEntries(
-      SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      SortedMap<K, V> filterEntries(
+          SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredEntrySortedMap)
         ? filterFiltered((FilteredEntrySortedMap<K, V>) unfiltered, entryPredicate)
@@ -2604,8 +2728,9 @@ public final class Maps {
    * @since 14.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> filterEntries(
-      NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> filterEntries(
+          NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredEntryNavigableMap)
         ? filterFiltered((FilteredEntryNavigableMap<K, V>) unfiltered, entryPredicate)
@@ -2639,7 +2764,7 @@ public final class Maps {
    *
    * @since 14.0
    */
-  public static <K, V> BiMap<K, V> filterEntries(
+  public static <K extends @Nullable Object, V extends @Nullable Object> BiMap<K, V> filterEntries(
       BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(unfiltered);
     checkNotNull(entryPredicate);
@@ -2652,7 +2777,7 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered
    * map.
    */
-  private static <K, V> Map<K, V> filterFiltered(
+  private static <K extends @Nullable Object, V extends @Nullable Object> Map<K, V> filterFiltered(
       AbstractFilteredMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     return new FilteredEntryMap<>(
         map.unfiltered, Predicates.<Entry<K, V>>and(map.predicate, entryPredicate));
@@ -2662,8 +2787,9 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered
    * sorted map.
    */
-  private static <K, V> SortedMap<K, V> filterFiltered(
-      FilteredEntrySortedMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      SortedMap<K, V> filterFiltered(
+          FilteredEntrySortedMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntrySortedMap<>(map.sortedMap(), predicate);
   }
@@ -2673,8 +2799,9 @@ public final class Maps {
    * navigable map.
    */
   @GwtIncompatible // NavigableMap
-  private static <K, V> NavigableMap<K, V> filterFiltered(
-      FilteredEntryNavigableMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> filterFiltered(
+          FilteredEntryNavigableMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate =
         Predicates.<Entry<K, V>>and(map.entryPredicate, entryPredicate);
     return new FilteredEntryNavigableMap<>(map.unfiltered, predicate);
@@ -2684,13 +2811,16 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when filtering a filtered
    * map.
    */
-  private static <K, V> BiMap<K, V> filterFiltered(
-      FilteredEntryBiMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      BiMap<K, V> filterFiltered(
+          FilteredEntryBiMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate = Predicates.<Entry<K, V>>and(map.predicate, entryPredicate);
     return new FilteredEntryBiMap<>(map.unfiltered(), predicate);
   }
 
-  private abstract static class AbstractFilteredMap<K, V> extends ViewCachingAbstractMap<K, V> {
+  private abstract static class AbstractFilteredMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends ViewCachingAbstractMap<K, V> {
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
@@ -2699,16 +2829,16 @@ public final class Maps {
       this.predicate = predicate;
     }
 
-    boolean apply(Object key, V value) {
-      // This method is called only when the key is in the map, implying that
-      // key is a K.
-      @SuppressWarnings("unchecked")
+    boolean apply(@Nullable Object key, V value) {
+      // This method is called only when the key is in the map (or about to be added to the map),
+      // implying that key is a K.
+      @SuppressWarnings({"unchecked", "nullness"})
       K k = (K) key;
       return predicate.apply(Maps.immutableEntry(k, value));
     }
 
     @Override
-    public V put(K key, V value) {
+    public @Nullable V put(K key, V value) {
       checkArgument(apply(key, value));
       return unfiltered.put(key, value);
     }
@@ -2722,12 +2852,12 @@ public final class Maps {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return unfiltered.containsKey(key) && apply(key, unfiltered.get(key));
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(@Nullable Object key) {
       V value = unfiltered.get(key);
       return ((value != null) && apply(key, value)) ? value : null;
     }
@@ -2738,7 +2868,7 @@ public final class Maps {
     }
 
     @Override
-    public V remove(Object key) {
+    public @Nullable V remove(@Nullable Object key) {
       return containsKey(key) ? unfiltered.remove(key) : null;
     }
 
@@ -2748,7 +2878,9 @@ public final class Maps {
     }
   }
 
-  private static final class FilteredMapValues<K, V> extends Maps.Values<K, V> {
+  private static final class FilteredMapValues<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends Maps.Values<K, V> {
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
@@ -2760,7 +2892,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
       while (entryItr.hasNext()) {
         Entry<K, V> entry = entryItr.next();
@@ -2773,7 +2905,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean removeAll(Collection<?> collection) {
+    public boolean removeAll(Collection<? extends @Nullable Object> collection) {
       Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
       boolean result = false;
       while (entryItr.hasNext()) {
@@ -2787,7 +2919,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean retainAll(Collection<?> collection) {
+    public boolean retainAll(Collection<? extends @Nullable Object> collection) {
       Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
       boolean result = false;
       while (entryItr.hasNext()) {
@@ -2812,7 +2944,8 @@ public final class Maps {
     }
   }
 
-  private static class FilteredKeyMap<K, V> extends AbstractFilteredMap<K, V> {
+  private static class FilteredKeyMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractFilteredMap<K, V> {
     final Predicate<? super K> keyPredicate;
 
     FilteredKeyMap(
@@ -2837,12 +2970,13 @@ public final class Maps {
     // that key is a K.
     @Override
     @SuppressWarnings("unchecked")
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return unfiltered.containsKey(key) && keyPredicate.apply((K) key);
     }
   }
 
-  static class FilteredEntryMap<K, V> extends AbstractFilteredMap<K, V> {
+  static class FilteredEntryMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractFilteredMap<K, V> {
     /**
      * Entries in this set satisfy the predicate, but they don't validate the input to {@code
      * Entry.setValue()}.
@@ -2893,8 +3027,10 @@ public final class Maps {
       return new KeySet();
     }
 
-    static <K, V> boolean removeAllKeys(
-        Map<K, V> map, Predicate<? super Entry<K, V>> entryPredicate, Collection<?> keyCollection) {
+    static <K extends @Nullable Object, V extends @Nullable Object> boolean removeAllKeys(
+        Map<K, V> map,
+        Predicate<? super Entry<K, V>> entryPredicate,
+        Collection<? extends @Nullable Object> keyCollection) {
       Iterator<Entry<K, V>> entryItr = map.entrySet().iterator();
       boolean result = false;
       while (entryItr.hasNext()) {
@@ -2907,8 +3043,10 @@ public final class Maps {
       return result;
     }
 
-    static <K, V> boolean retainAllKeys(
-        Map<K, V> map, Predicate<? super Entry<K, V>> entryPredicate, Collection<?> keyCollection) {
+    static <K extends @Nullable Object, V extends @Nullable Object> boolean retainAllKeys(
+        Map<K, V> map,
+        Predicate<? super Entry<K, V>> entryPredicate,
+        Collection<? extends @Nullable Object> keyCollection) {
       Iterator<Entry<K, V>> entryItr = map.entrySet().iterator();
       boolean result = false;
       while (entryItr.hasNext()) {
@@ -2928,7 +3066,7 @@ public final class Maps {
       }
 
       @Override
-      public boolean remove(Object o) {
+      public boolean remove(@Nullable Object o) {
         if (containsKey(o)) {
           unfiltered.remove(o);
           return true;
@@ -2937,12 +3075,12 @@ public final class Maps {
       }
 
       @Override
-      public boolean removeAll(Collection<?> collection) {
+      public boolean removeAll(Collection<? extends @Nullable Object> collection) {
         return removeAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
-      public boolean retainAll(Collection<?> collection) {
+      public boolean retainAll(Collection<? extends @Nullable Object> collection) {
         return retainAllKeys(unfiltered, predicate, collection);
       }
 
@@ -2959,8 +3097,9 @@ public final class Maps {
     }
   }
 
-  private static class FilteredEntrySortedMap<K, V> extends FilteredEntryMap<K, V>
-      implements SortedMap<K, V> {
+  private static class FilteredEntrySortedMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends FilteredEntryMap<K, V> implements SortedMap<K, V> {
 
     FilteredEntrySortedMap(
         SortedMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
@@ -2984,7 +3123,7 @@ public final class Maps {
     @WeakOuter
     class SortedKeySet extends KeySet implements SortedSet<K> {
       @Override
-      public Comparator<? super K> comparator() {
+      public @Nullable Comparator<? super K> comparator() {
         return sortedMap().comparator();
       }
 
@@ -3015,7 +3154,7 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return sortedMap().comparator();
     }
 
@@ -3031,7 +3170,8 @@ public final class Maps {
       while (true) {
         // correctly throws NoSuchElementException when filtered map is empty.
         K key = headMap.lastKey();
-        if (apply(key, unfiltered.get(key))) {
+        // The cast is safe because the key is taken from the map.
+        if (apply(key, uncheckedCastNullableVToV(unfiltered.get(key)))) {
           return key;
         }
         headMap = sortedMap().headMap(key);
@@ -3055,7 +3195,9 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static class FilteredEntryNavigableMap<K, V> extends AbstractNavigableMap<K, V> {
+  private static class FilteredEntryNavigableMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractNavigableMap<K, V> {
     /*
      * It's less code to extend AbstractNavigableMap and forward the filtering logic to
      * FilteredEntryMap than to extend FilteredEntrySortedMap and reimplement all the NavigableMap
@@ -3074,7 +3216,7 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return unfiltered.comparator();
     }
 
@@ -3082,12 +3224,12 @@ public final class Maps {
     public NavigableSet<K> navigableKeySet() {
       return new Maps.NavigableKeySet<K, V>(this) {
         @Override
-        public boolean removeAll(Collection<?> collection) {
+        public boolean removeAll(Collection<? extends @Nullable Object> collection) {
           return FilteredEntryMap.removeAllKeys(unfiltered, entryPredicate, collection);
         }
 
         @Override
-        public boolean retainAll(Collection<?> collection) {
+        public boolean retainAll(Collection<? extends @Nullable Object> collection) {
           return FilteredEntryMap.retainAllKeys(unfiltered, entryPredicate, collection);
         }
       };
@@ -3119,22 +3261,22 @@ public final class Maps {
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(@Nullable Object key) {
       return filteredDelegate.get(key);
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return filteredDelegate.containsKey(key);
     }
 
     @Override
-    public V put(K key, V value) {
+    public @Nullable V put(K key, V value) {
       return filteredDelegate.put(key, value);
     }
 
     @Override
-    public V remove(Object key) {
+    public @Nullable V remove(@Nullable Object key) {
       return filteredDelegate.remove(key);
     }
 
@@ -3154,12 +3296,12 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       return Iterables.removeFirstMatching(unfiltered.entrySet(), entryPredicate);
     }
 
     @Override
-    public Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       return Iterables.removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);
     }
 
@@ -3186,12 +3328,13 @@ public final class Maps {
     }
   }
 
-  static final class FilteredEntryBiMap<K, V> extends FilteredEntryMap<K, V>
-      implements BiMap<K, V> {
+  static final class FilteredEntryBiMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends FilteredEntryMap<K, V> implements BiMap<K, V> {
     @RetainedWith private final BiMap<V, K> inverse;
 
-    private static <K, V> Predicate<Entry<V, K>> inversePredicate(
-        final Predicate<? super Entry<K, V>> forwardPredicate) {
+    private static <K extends @Nullable Object, V extends @Nullable Object>
+        Predicate<Entry<V, K>> inversePredicate(
+            final Predicate<? super Entry<K, V>> forwardPredicate) {
       return new Predicate<Entry<V, K>>() {
         @Override
         public boolean apply(Entry<V, K> input) {
@@ -3200,6 +3343,8 @@ public final class Maps {
       };
     }
 
+    // Suppressions for initialization checker
+    @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"})
     FilteredEntryBiMap(BiMap<K, V> delegate, Predicate<? super Entry<K, V>> predicate) {
       super(delegate, predicate);
       this.inverse =
@@ -3217,7 +3362,7 @@ public final class Maps {
     }
 
     @Override
-    public V forcePut(K key, V value) {
+    public @Nullable V forcePut(K key, V value) {
       checkArgument(apply(key, value));
       return unfiltered().forcePut(key, value);
     }
@@ -3262,8 +3407,8 @@ public final class Maps {
    * @since 12.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(
-      NavigableMap<K, ? extends V> map) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, ? extends V> map) {
     checkNotNull(map);
     if (map instanceof UnmodifiableNavigableMap) {
       @SuppressWarnings("unchecked") // covariant
@@ -3274,13 +3419,14 @@ public final class Maps {
     }
   }
 
-  private static <K, V> Entry<K, V> unmodifiableOrNull(Entry<K, ? extends V> entry) {
+  private static <K extends @Nullable Object, V extends @Nullable Object> @Nullable
+      Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, ? extends V> entry) {
     return (entry == null) ? null : Maps.unmodifiableEntry(entry);
   }
 
   @GwtIncompatible // NavigableMap
-  static class UnmodifiableNavigableMap<K, V> extends ForwardingSortedMap<K, V>
-      implements NavigableMap<K, V>, Serializable {
+  static class UnmodifiableNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingSortedMap<K, V> implements NavigableMap<K, V>, Serializable {
     private final NavigableMap<K, ? extends V> delegate;
 
     UnmodifiableNavigableMap(NavigableMap<K, ? extends V> delegate) {
@@ -3299,66 +3445,66 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       return unmodifiableOrNull(delegate.lowerEntry(key));
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       return delegate.lowerKey(key);
     }
 
     @Override
-    public Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       return unmodifiableOrNull(delegate.floorEntry(key));
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       return delegate.floorKey(key);
     }
 
     @Override
-    public Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       return unmodifiableOrNull(delegate.ceilingEntry(key));
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       return delegate.ceilingKey(key);
     }
 
     @Override
-    public Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       return unmodifiableOrNull(delegate.higherEntry(key));
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       return delegate.higherKey(key);
     }
 
     @Override
-    public Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       return unmodifiableOrNull(delegate.firstEntry());
     }
 
     @Override
-    public Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       return unmodifiableOrNull(delegate.lastEntry());
     }
 
     @Override
-    public final Entry<K, V> pollFirstEntry() {
+    public final @Nullable Entry<K, V> pollFirstEntry() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public final Entry<K, V> pollLastEntry() {
+    public final @Nullable Entry<K, V> pollLastEntry() {
       throw new UnsupportedOperationException();
     }
 
-    private transient @MonotonicNonNull UnmodifiableNavigableMap<K, V> descendingMap;
+    private transient @Nullable UnmodifiableNavigableMap<K, V> descendingMap;
 
     @Override
     public NavigableMap<K, V> descendingMap() {
@@ -3466,8 +3612,8 @@ public final class Maps {
    * @since 13.0
    */
   @GwtIncompatible // NavigableMap
-  public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
-      NavigableMap<K, V> navigableMap) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      NavigableMap<K, V> synchronizedNavigableMap(NavigableMap<K, V> navigableMap) {
     return Synchronized.navigableMap(navigableMap);
   }
 
@@ -3476,14 +3622,16 @@ public final class Maps {
    * entrySet views.
    */
   @GwtCompatible
-  abstract static class ViewCachingAbstractMap<K, V> extends AbstractMap<K, V> {
+  abstract static class ViewCachingAbstractMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<K, V> {
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method is invoked at most
      * once on a given map, at the time when {@code entrySet} is first called.
      */
     abstract Set<Entry<K, V>> createEntrySet();
 
-    private transient @MonotonicNonNull Set<Entry<K, V>> entrySet;
+    private transient @Nullable Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -3491,7 +3639,7 @@ public final class Maps {
       return (result == null) ? entrySet = createEntrySet() : result;
     }
 
-    private transient @MonotonicNonNull Set<K> keySet;
+    private transient @Nullable Set<K> keySet;
 
     @Override
     public Set<K> keySet() {
@@ -3503,7 +3651,7 @@ public final class Maps {
       return new KeySet<>(this);
     }
 
-    private transient @MonotonicNonNull Collection<V> values;
+    private transient @Nullable Collection<V> values;
 
     @Override
     public Collection<V> values() {
@@ -3516,7 +3664,9 @@ public final class Maps {
     }
   }
 
-  abstract static class IteratorBasedAbstractMap<K, V> extends AbstractMap<K, V> {
+  abstract static class IteratorBasedAbstractMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractMap<K, V> {
     @Override
     public abstract int size();
 
@@ -3566,7 +3716,8 @@ public final class Maps {
    * Delegates to {@link Map#get}. Returns {@code null} on {@code ClassCastException} and {@code
    * NullPointerException}.
    */
-  static <V> V safeGet(Map<?, V> map, Object key) {
+  static <V extends @Nullable Object> @Nullable V safeGet(
+      Map<? extends @Nullable Object, V> map, @Nullable Object key) {
     checkNotNull(map);
     try {
       return map.get(key);
@@ -3579,7 +3730,8 @@ public final class Maps {
    * Delegates to {@link Map#containsKey}. Returns {@code false} on {@code ClassCastException} and
    * {@code NullPointerException}.
    */
-  static boolean safeContainsKey(Map<?, ?> map, Object key) {
+  static boolean safeContainsKey(
+      Map<? extends @Nullable Object, ? extends @Nullable Object> map, @Nullable Object key) {
     checkNotNull(map);
     try {
       return map.containsKey(key);
@@ -3592,7 +3744,8 @@ public final class Maps {
    * Delegates to {@link Map#remove}. Returns {@code null} on {@code ClassCastException} and {@code
    * NullPointerException}.
    */
-  static <V> V safeRemove(Map<?, V> map, Object key) {
+  static <V extends @Nullable Object> @Nullable V safeRemove(
+      Map<? extends @Nullable Object, V> map, @Nullable Object key) {
     checkNotNull(map);
     try {
       return map.remove(key);
@@ -3602,12 +3755,14 @@ public final class Maps {
   }
 
   /** An admittedly inefficient implementation of {@link Map#containsKey}. */
-  static boolean containsKeyImpl(Map<?, ?> map, Object key) {
+  static boolean containsKeyImpl(
+      Map<? extends @Nullable Object, ? extends @Nullable Object> map, @Nullable Object key) {
     return Iterators.contains(keyIterator(map.entrySet().iterator()), key);
   }
 
   /** An implementation of {@link Map#containsValue}. */
-  static boolean containsValueImpl(Map<?, ?> map, Object value) {
+  static boolean containsValueImpl(
+      Map<? extends @Nullable Object, ? extends @Nullable Object> map, @Nullable Object value) {
     return Iterators.contains(valueIterator(map.entrySet().iterator()), value);
   }
 
@@ -3623,11 +3778,13 @@ public final class Maps {
    * @param o the object that might be contained in {@code c}
    * @return {@code true} if {@code c} contains {@code o}
    */
-  static <K, V> boolean containsEntryImpl(Collection<Entry<K, V>> c, Object o) {
+  static <K extends @Nullable Object, V extends @Nullable Object> boolean containsEntryImpl(
+      Collection<Entry<K, V>> c, @Nullable Object o) {
     if (!(o instanceof Entry)) {
       return false;
     }
-    return c.contains(unmodifiableEntry((Entry<?, ?>) o));
+    return c.contains(
+        unmodifiableEntry((Entry<? extends @Nullable Object, ? extends @Nullable Object>) o));
   }
 
   /**
@@ -3641,29 +3798,33 @@ public final class Maps {
    * @param o the object to remove from {@code c}
    * @return {@code true} if {@code c} was changed
    */
-  static <K, V> boolean removeEntryImpl(Collection<Entry<K, V>> c, Object o) {
+  static <K extends @Nullable Object, V extends @Nullable Object> boolean removeEntryImpl(
+      Collection<Entry<K, V>> c, @Nullable Object o) {
     if (!(o instanceof Entry)) {
       return false;
     }
-    return c.remove(unmodifiableEntry((Entry<?, ?>) o));
+    return c.remove(
+        unmodifiableEntry((Entry<? extends @Nullable Object, ? extends @Nullable Object>) o));
   }
 
   /** An implementation of {@link Map#equals}. */
-  static boolean equalsImpl(Map<?, ?> map, Object object) {
+  static boolean equalsImpl(
+      Map<? extends @Nullable Object, ? extends @Nullable Object> map, @Nullable Object object) {
     if (map == object) {
       return true;
     } else if (object instanceof Map) {
-      Map<?, ?> o = (Map<?, ?>) object;
+      Map<? extends @Nullable Object, ? extends @Nullable Object> o =
+          (Map<? extends @Nullable Object, ? extends @Nullable Object>) object;
       return map.entrySet().equals(o.entrySet());
     }
     return false;
   }
 
   /** An implementation of {@link Map#toString}. */
-  static String toStringImpl(Map<?, ?> map) {
+  static String toStringImpl(Map<? extends @Nullable Object, ? extends @Nullable Object> map) {
     StringBuilder sb = Collections2.newStringBuilderForCollection(map.size()).append('{');
     boolean first = true;
-    for (Entry<?, ?> entry : map.entrySet()) {
+    for (Entry<? extends @Nullable Object, ? extends @Nullable Object> entry : map.entrySet()) {
       if (!first) {
         sb.append(", ");
       }
@@ -3674,13 +3835,15 @@ public final class Maps {
   }
 
   /** An implementation of {@link Map#putAll}. */
-  static <K, V> void putAllImpl(Map<K, V> self, Map<? extends K, ? extends V> map) {
+  static <K extends @Nullable Object, V extends @Nullable Object> void putAllImpl(
+      Map<K, V> self, Map<? extends K, ? extends V> map) {
     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       self.put(entry.getKey(), entry.getValue());
     }
   }
 
-  static class KeySet<K, V> extends Sets.ImprovedAbstractSet<K> {
+  static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends Sets.ImprovedAbstractSet<K> {
     @Weak final Map<K, V> map;
 
     KeySet(Map<K, V> map) {
@@ -3714,12 +3877,12 @@ public final class Maps {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return map().containsKey(o);
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       if (contains(o)) {
         map().remove(o);
         return true;
@@ -3733,15 +3896,18 @@ public final class Maps {
     }
   }
 
-  static <K> K keyOrNull(Entry<K, ?> entry) {
+  static <K extends @Nullable Object> @Nullable K keyOrNull(
+      @Nullable Entry<K, ? extends @Nullable Object> entry) {
     return (entry == null) ? null : entry.getKey();
   }
 
-  static <V> V valueOrNull(Entry<?, V> entry) {
+  static <V extends @Nullable Object> @Nullable V valueOrNull(
+      @Nullable Entry<? extends @Nullable Object, V> entry) {
     return (entry == null) ? null : entry.getValue();
   }
 
-  static class SortedKeySet<K, V> extends KeySet<K, V> implements SortedSet<K> {
+  static class SortedKeySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends KeySet<K, V> implements SortedSet<K> {
     SortedKeySet(SortedMap<K, V> map) {
       super(map);
     }
@@ -3752,7 +3918,7 @@ public final class Maps {
     }
 
     @Override
-    public Comparator<? super K> comparator() {
+    public @Nullable Comparator<? super K> comparator() {
       return map().comparator();
     }
 
@@ -3783,7 +3949,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  static class NavigableKeySet<K, V> extends SortedKeySet<K, V> implements NavigableSet<K> {
+  static class NavigableKeySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends SortedKeySet<K, V> implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, V> map) {
       super(map);
     }
@@ -3794,32 +3961,32 @@ public final class Maps {
     }
 
     @Override
-    public K lower(K e) {
+    public @Nullable K lower(K e) {
       return map().lowerKey(e);
     }
 
     @Override
-    public K floor(K e) {
+    public @Nullable K floor(K e) {
       return map().floorKey(e);
     }
 
     @Override
-    public K ceiling(K e) {
+    public @Nullable K ceiling(K e) {
       return map().ceilingKey(e);
     }
 
     @Override
-    public K higher(K e) {
+    public @Nullable K higher(K e) {
       return map().higherKey(e);
     }
 
     @Override
-    public K pollFirst() {
+    public @Nullable K pollFirst() {
       return keyOrNull(map().pollFirstEntry());
     }
 
     @Override
-    public K pollLast() {
+    public @Nullable K pollLast() {
       return keyOrNull(map().pollLastEntry());
     }
 
@@ -3865,7 +4032,8 @@ public final class Maps {
     }
   }
 
-  static class Values<K, V> extends AbstractCollection<V> {
+  static class Values<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractCollection<V> {
     @Weak final Map<K, V> map;
 
     Values(Map<K, V> map) {
@@ -3889,7 +4057,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       try {
         return super.remove(o);
       } catch (UnsupportedOperationException e) {
@@ -3904,7 +4072,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(Collection<? extends @Nullable Object> c) {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
@@ -3919,7 +4087,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<? extends @Nullable Object> c) {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
@@ -3944,7 +4112,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return map().containsValue(o);
     }
 
@@ -3954,7 +4122,8 @@ public final class Maps {
     }
   }
 
-  abstract static class EntrySet<K, V> extends Sets.ImprovedAbstractSet<Entry<K, V>> {
+  abstract static class EntrySet<K extends @Nullable Object, V extends @Nullable Object>
+      extends Sets.ImprovedAbstractSet<Entry<K, V>> {
     abstract Map<K, V> map();
 
     @Override
@@ -3968,9 +4137,10 @@ public final class Maps {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
+        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
+            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
         Object key = entry.getKey();
         V value = Maps.safeGet(map(), key);
         return Objects.equal(value, entry.getValue()) && (value != null || map().containsKey(key));
@@ -3984,16 +4154,18 @@ public final class Maps {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       if (contains(o)) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
+        // requireNonNull is safe because of the contains check.
+        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
+            requireNonNull((Entry<? extends @Nullable Object, ? extends @Nullable Object>) o);
         return map().keySet().remove(entry.getKey());
       }
       return false;
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(Collection<? extends @Nullable Object> c) {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
@@ -4003,15 +4175,17 @@ public final class Maps {
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<? extends @Nullable Object> c) {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         // if the iterators don't support remove
-        Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
+        Set<@Nullable Object> keys = Sets.newHashSetWithExpectedSize(c.size());
         for (Object o : c) {
           if (contains(o)) {
-            Entry<?, ?> entry = (Entry<?, ?>) o;
+            // requireNonNull is safe because of the contains check.
+            Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
+                requireNonNull((Entry<? extends @Nullable Object, ? extends @Nullable Object>) o);
             keys.add(entry.getKey());
           }
         }
@@ -4021,8 +4195,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  abstract static class DescendingMap<K, V> extends ForwardingMap<K, V>
-      implements NavigableMap<K, V> {
+  abstract static class DescendingMap<K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingMap<K, V> implements NavigableMap<K, V> {
 
     abstract NavigableMap<K, V> forward();
 
@@ -4031,7 +4205,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient @MonotonicNonNull Comparator<? super K> comparator;
+    private transient @Nullable Comparator<? super K> comparator;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -4048,7 +4222,7 @@ public final class Maps {
     }
 
     // If we inline this, we get a javac error.
-    private static <T> Ordering<T> reverse(Comparator<T> forward) {
+    private static <T extends @Nullable Object> Ordering<T> reverse(Comparator<T> forward) {
       return Ordering.from(forward).reverse();
     }
 
@@ -4063,62 +4237,62 @@ public final class Maps {
     }
 
     @Override
-    public Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       return forward().higherEntry(key);
     }
 
     @Override
-    public K lowerKey(K key) {
+    public @Nullable K lowerKey(K key) {
       return forward().higherKey(key);
     }
 
     @Override
-    public Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       return forward().ceilingEntry(key);
     }
 
     @Override
-    public K floorKey(K key) {
+    public @Nullable K floorKey(K key) {
       return forward().ceilingKey(key);
     }
 
     @Override
-    public Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       return forward().floorEntry(key);
     }
 
     @Override
-    public K ceilingKey(K key) {
+    public @Nullable K ceilingKey(K key) {
       return forward().floorKey(key);
     }
 
     @Override
-    public Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       return forward().lowerEntry(key);
     }
 
     @Override
-    public K higherKey(K key) {
+    public @Nullable K higherKey(K key) {
       return forward().lowerKey(key);
     }
 
     @Override
-    public Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       return forward().lastEntry();
     }
 
     @Override
-    public Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       return forward().firstEntry();
     }
 
     @Override
-    public Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       return forward().pollLastEntry();
     }
 
     @Override
-    public Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       return forward().pollFirstEntry();
     }
 
@@ -4127,7 +4301,7 @@ public final class Maps {
       return forward();
     }
 
-    private transient @MonotonicNonNull Set<Entry<K, V>> entrySet;
+    private transient @Nullable Set<Entry<K, V>> entrySet;
 
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -4158,7 +4332,7 @@ public final class Maps {
       return navigableKeySet();
     }
 
-    private transient @MonotonicNonNull NavigableSet<K> navigableKeySet;
+    private transient @Nullable NavigableSet<K> navigableKeySet;
 
     @Override
     public NavigableSet<K> navigableKeySet() {
@@ -4214,7 +4388,7 @@ public final class Maps {
   }
 
   /** Returns a map from the ith element of list to i. */
-  static <E> ImmutableMap<E, Integer> indexMap(Collection<E> list) {
+  static <E extends @NonNull Object> ImmutableMap<E, Integer> indexMap(Collection<E> list) {
     ImmutableMap.Builder<E, Integer> builder = new ImmutableMap.Builder<>(list.size());
     int i = 0;
     for (E e : list) {
@@ -4241,8 +4415,8 @@ public final class Maps {
    */
   @Beta
   @GwtIncompatible // NavigableMap
-  public static <K extends Comparable<? super K>, V> NavigableMap<K, V> subMap(
-      NavigableMap<K, V> map, Range<K> range) {
+  public static <K extends Comparable<? super K>, V extends @Nullable Object>
+      NavigableMap<K, V> subMap(NavigableMap<K, V> map, Range<K> range) {
     if (map.comparator() != null
         && map.comparator() != Ordering.natural()
         && range.hasLowerBound()
@@ -4263,5 +4437,21 @@ public final class Maps {
       return map.headMap(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(map);
+  }
+
+  @SuppressWarnings("nullness")
+  private static <V> V unsafeNull() {
+    return null;
+  }
+
+  @SuppressWarnings("nullness")
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V value) {
+    /*
+     * We can't use requireNonNull because `value` might be null. Specifically, it can be null
+     * because the map might contain a null value to be returned to the user. This is in contrast to
+     * the other way for the result of map.get to be null, which is for the map not to have a value
+     * associated with the given key.
+     */
+    return value;
   }
 }

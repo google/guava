@@ -18,7 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.CollectPreconditions.noCallsToNextSinceLastRemove;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -35,7 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -47,13 +48,14 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
-    implements BiMap<K, V>, Serializable {
+abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
-  private transient @MonotonicNonNull Map<K, V> delegate;
-  @MonotonicNonNull @RetainedWith transient AbstractBiMap<V, K> inverse;
+  private transient Map<K, V> delegate;
+  @RetainedWith transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
+  @SuppressWarnings("nullness") // Fields are set by setDelegates.
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {
     setDelegates(forward, backward);
   }
@@ -106,7 +108,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   // Query Operations (optimizations)
 
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return inverse.containsKey(value);
   }
 
@@ -114,17 +116,17 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V put(K key, V value) {
+  public @Nullable V put(K key, V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(K key, V value) {
+  public @Nullable V forcePut(K key, V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private V putInBothMaps(K key, V value, boolean force) {
+  private @Nullable V putInBothMaps(K key, V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -141,22 +143,36 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return oldValue;
   }
 
-  private void updateInverseMap(K key, boolean containedKey, V oldValue, V newValue) {
+  private void updateInverseMap(K key, boolean containedKey, @Nullable V oldValue, V newValue) {
     if (containedKey) {
-      removeFromInverseMap(oldValue);
+      // The cast is safe because of the containedKey check.
+      removeFromInverseMap(uncheckedCastNullableVToV(oldValue));
     }
     inverse.delegate.put(newValue, key);
   }
 
+  @SuppressWarnings("nullness")
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V oldValue) {
+    /*
+     * We can't use requireNonNull because `oldValue` might be null. Specifically, it can be null
+     * because the map might contain a null value to be returned to the user. This is in contrast to
+     * the other way for the result of map.get to be null, which is for the map not to have a value
+     * associated with the given key.
+     */
+    return oldValue;
+  }
+
   @CanIgnoreReturnValue
   @Override
-  public V remove(Object key) {
-    return containsKey(key) ? removeFromBothMaps(key) : null;
+  public @Nullable V remove(@Nullable Object key) {
+    // The cast is safe because of the containsKey check.
+    return containsKey(key) ? removeFromBothMaps(uncheckedCastNullableVToV(key)) : null;
   }
 
   @CanIgnoreReturnValue
   private V removeFromBothMaps(Object key) {
-    V oldValue = delegate.remove(key);
+    // The cast is safe because the callers of this method first check that the key is present.
+    V oldValue = uncheckedCastNullableVToV(delegate.remove(key));
     removeFromInverseMap(oldValue);
     return oldValue;
   }
@@ -210,7 +226,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return inverse;
   }
 
-  private transient @MonotonicNonNull Set<K> keySet;
+  private transient @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -231,21 +247,22 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override
-    public boolean remove(Object key) {
+    public boolean remove(@Nullable Object key) {
       if (!contains(key)) {
         return false;
       }
-      removeFromBothMaps(key);
+      // The cast is safe because of the contains check.
+      removeFromBothMaps(uncheckedCastNullableVToV(key));
       return true;
     }
 
     @Override
-    public boolean removeAll(Collection<?> keysToRemove) {
+    public boolean removeAll(Collection<? extends @Nullable Object> keysToRemove) {
       return standardRemoveAll(keysToRemove);
     }
 
     @Override
-    public boolean retainAll(Collection<?> keysToRetain) {
+    public boolean retainAll(Collection<? extends @Nullable Object> keysToRetain) {
       return standardRetainAll(keysToRetain);
     }
 
@@ -255,7 +272,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  private transient @MonotonicNonNull Set<V> valueSet;
+  private transient @Nullable Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -297,7 +314,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  private transient @MonotonicNonNull Set<Entry<K, V>> entrySet;
+  private transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -337,7 +354,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   Iterator<Entry<K, V>> entrySetIterator() {
     final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
-      Entry<K, V> entry;
+      @Nullable Entry<K, V> entry;
 
       @Override
       public boolean hasNext() {
@@ -352,7 +369,9 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
       @Override
       public void remove() {
-        checkRemove(entry != null);
+        if (entry == null) {
+          throw noCallsToNextSinceLastRemove();
+        }
         V value = entry.getValue();
         iterator.remove();
         removeFromInverseMap(value);
@@ -376,13 +395,15 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override
-    public boolean remove(Object object) {
+    public boolean remove(@Nullable Object object) {
       if (!esDelegate.contains(object)) {
         return false;
       }
 
       // safe because esDelegate.contains(object).
-      Entry<?, ?> entry = (Entry<?, ?>) object;
+      requireNonNull(object);
+      Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
+          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
       inverse.delegate.remove(entry.getValue());
       /*
        * Remove the mapping in inverse before removing from esDelegate because
@@ -411,28 +432,29 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
+    public boolean containsAll(Collection<? extends @Nullable Object> c) {
       return standardContainsAll(c);
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(Collection<? extends @Nullable Object> c) {
       return standardRemoveAll(c);
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<? extends @Nullable Object> c) {
       return standardRetainAll(c);
     }
   }
 
   /** The inverse of any other {@code AbstractBiMap} subclass. */
-  static class Inverse<K, V> extends AbstractBiMap<K, V> {
+  static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractBiMap<K, V> {
     Inverse(Map<K, V> backward, AbstractBiMap<V, K> forward) {
       super(backward, forward);
     }

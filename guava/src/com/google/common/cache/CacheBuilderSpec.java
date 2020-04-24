@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -81,7 +81,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 public final class CacheBuilderSpec {
   /** Parses a single value. */
   private interface ValueParser {
-    void parse(CacheBuilderSpec spec, String key, String value);
+    void parse(CacheBuilderSpec spec, String key, @Nullable String value);
   }
 
   /** Splits each key-value pair. */
@@ -107,19 +107,19 @@ public final class CacheBuilderSpec {
           .put("refreshInterval", new RefreshDurationParser())
           .build();
 
-  @MonotonicNonNull @VisibleForTesting Integer initialCapacity;
-  @MonotonicNonNull @VisibleForTesting Long maximumSize;
-  @MonotonicNonNull @VisibleForTesting Long maximumWeight;
-  @MonotonicNonNull @VisibleForTesting Integer concurrencyLevel;
-  @MonotonicNonNull @VisibleForTesting Strength keyStrength;
-  @MonotonicNonNull @VisibleForTesting Strength valueStrength;
-  @MonotonicNonNull @VisibleForTesting Boolean recordStats;
+  @Nullable @VisibleForTesting Integer initialCapacity;
+  @Nullable @VisibleForTesting Long maximumSize;
+  @Nullable @VisibleForTesting Long maximumWeight;
+  @Nullable @VisibleForTesting Integer concurrencyLevel;
+  @Nullable @VisibleForTesting Strength keyStrength;
+  @Nullable @VisibleForTesting Strength valueStrength;
+  @Nullable @VisibleForTesting Boolean recordStats;
   @VisibleForTesting long writeExpirationDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit writeExpirationTimeUnit;
+  @Nullable @VisibleForTesting TimeUnit writeExpirationTimeUnit;
   @VisibleForTesting long accessExpirationDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit accessExpirationTimeUnit;
+  @Nullable @VisibleForTesting TimeUnit accessExpirationTimeUnit;
   @VisibleForTesting long refreshDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit refreshTimeUnit;
+  @Nullable @VisibleForTesting TimeUnit refreshTimeUnit;
   /** Specification; used for toParseableString(). */
   private final String specification;
 
@@ -146,7 +146,9 @@ public final class CacheBuilderSpec {
         // Find the ValueParser for the current key.
         String key = keyAndValue.get(0);
         ValueParser valueParser = VALUE_PARSERS.get(key);
-        checkArgument(valueParser != null, "unknown key %s", key);
+        if (valueParser == null) {
+          throw new IllegalArgumentException("unknown key " + key);
+        }
 
         String value = keyAndValue.size() == 1 ? null : keyAndValue.get(1);
         valueParser.parse(spec, key, value);
@@ -248,7 +250,7 @@ public final class CacheBuilderSpec {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (this == obj) {
       return true;
     }
@@ -278,7 +280,7 @@ public final class CacheBuilderSpec {
    * Converts an expiration duration/unit pair into a single Long for hashing and equality. Uses
    * nanos to match CacheBuilder implementation.
    */
-  private static Long durationInNanos(long duration, TimeUnit unit) {
+  private static @Nullable Long durationInNanos(long duration, @Nullable TimeUnit unit) {
     return (unit == null) ? null : unit.toNanos(duration);
   }
 
@@ -287,8 +289,10 @@ public final class CacheBuilderSpec {
     protected abstract void parseInteger(CacheBuilderSpec spec, int value);
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
+      if (value == null || value.isEmpty()) {
+        throw new IllegalArgumentException("value of key " + key + " omitted");
+      }
       try {
         parseInteger(spec, Integer.parseInt(value));
       } catch (NumberFormatException e) {
@@ -303,8 +307,10 @@ public final class CacheBuilderSpec {
     protected abstract void parseLong(CacheBuilderSpec spec, long value);
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
+      if (value == null || value.isEmpty()) {
+        throw new IllegalArgumentException("value of key " + key + " omitted");
+      }
       try {
         parseLong(spec, Long.parseLong(value));
       } catch (NumberFormatException e) {
@@ -369,7 +375,7 @@ public final class CacheBuilderSpec {
     }
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
       checkArgument(value == null, "key %s does not take values", key);
       checkArgument(spec.keyStrength == null, "%s was already set to %s", key, spec.keyStrength);
       spec.keyStrength = strength;
@@ -385,7 +391,7 @@ public final class CacheBuilderSpec {
     }
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
       checkArgument(value == null, "key %s does not take values", key);
       checkArgument(
           spec.valueStrength == null, "%s was already set to %s", key, spec.valueStrength);
@@ -398,7 +404,7 @@ public final class CacheBuilderSpec {
   static class RecordStatsParser implements ValueParser {
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
       checkArgument(value == null, "recordStats does not take values");
       checkArgument(spec.recordStats == null, "recordStats already set");
       spec.recordStats = true;
@@ -410,8 +416,10 @@ public final class CacheBuilderSpec {
     protected abstract void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit);
 
     @Override
-    public void parse(CacheBuilderSpec spec, String key, String value) {
-      checkArgument(value != null && !value.isEmpty(), "value of key %s omitted", key);
+    public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
+      if (value == null || value.isEmpty()) {
+        throw new IllegalArgumentException("value of key " + key + " omitted");
+      }
       try {
         char lastChar = value.charAt(value.length() - 1);
         TimeUnit timeUnit;

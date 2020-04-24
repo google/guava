@@ -15,6 +15,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
@@ -23,7 +25,8 @@ import com.google.common.annotations.GwtIncompatible;
  */
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @GwtIncompatible
-final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
+final class DescendingImmutableSortedMultiset<E extends @NonNull Object>
+    extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;
 
   DescendingImmutableSortedMultiset(ImmutableSortedMultiset<E> forward) {
@@ -31,17 +34,17 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     return forward.count(element);
   }
 
   @Override
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     return forward.lastEntry();
   }
 
   @Override
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     return forward.firstEntry();
   }
 

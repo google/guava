@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.saturatedToNanos;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -37,7 +38,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in
@@ -144,7 +145,7 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
         @Override
-        public Future<?> schedule(
+        public Future<? extends @Nullable Object> schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
           return executor.scheduleWithFixedDelay(task, initialDelay, delay, unit);
         }
@@ -179,7 +180,7 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
         @Override
-        public Future<?> schedule(
+        public Future<? extends @Nullable Object> schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
           return executor.scheduleAtFixedRate(task, initialDelay, period, unit);
         }
@@ -187,7 +188,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     /** Schedules the task to run on the provided executor on behalf of the service. */
-    abstract Future<?> schedule(
+    abstract Future<? extends @Nullable Object> schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable);
 
     private Scheduler() {}
@@ -201,8 +202,8 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    @MonotonicNonNull private volatile Future<?> runningTask;
-    @MonotonicNonNull private volatile ScheduledExecutorService executorService;
+    @Nullable private volatile Future<? extends @Nullable Object> runningTask;
+    @Nullable private volatile ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
     // shutDown or runOneIteration) run concurrently with one another.
@@ -215,6 +216,11 @@ public abstract class AbstractScheduledService implements Service {
       @Override
       public void run() {
         lock.lock();
+        /*
+         * requireNonNull is safe because Task isn't run (or at least it doesn't succeed in taking
+         * the lock) until after it's scheduled and the runningTask field is set.
+         */
+        requireNonNull(runningTask);
         try {
           if (runningTask.isCancelled()) {
             // task may have been cancelled while blocked on the lock.
@@ -275,6 +281,9 @@ public abstract class AbstractScheduledService implements Service {
 
     @Override
     protected final void doStop() {
+      // Both requireNonNull calls are safe because doStop can run only after a successful doStart.
+      requireNonNull(runningTask);
+      requireNonNull(executorService);
       runningTask.cancel(false);
       executorService.execute(
           new Runnable() {
@@ -473,7 +482,8 @@ public abstract class AbstractScheduledService implements Service {
   public abstract static class CustomScheduler extends Scheduler {
 
     /** A callable class that can reschedule itself using a {@link CustomScheduler}. */
-    private class ReschedulableCallable extends ForwardingFuture<Void> implements Callable<Void> {
+    private class ReschedulableCallable extends ForwardingFuture<@Nullable Void>
+        implements Callable<@Nullable Void> {
 
       /** The underlying task. */
       private final Runnable wrappedRunnable;
@@ -496,7 +506,7 @@ public abstract class AbstractScheduledService implements Service {
 
       /** The future that represents the next execution of this task. */
       @GuardedBy("lock")
-      private Future<Void> currentFuture;
+      private @Nullable Future<@Nullable Void> currentFuture;
 
       ReschedulableCallable(
           AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
@@ -506,7 +516,7 @@ public abstract class AbstractScheduledService implements Service {
       }
 
       @Override
-      public Void call() throws Exception {
+      public @Nullable Void call() throws Exception {
         wrappedRunnable.run();
         reschedule();
         return null;
@@ -558,6 +568,40 @@ public abstract class AbstractScheduledService implements Service {
         // Ensure that a task cannot be rescheduled while a cancel is ongoing.
         lock.lock();
         try {
+          /*
+           * requireNonNull is mostly safe because:
+           *
+           * As soon as we create a ReschedulableCallable, we call reschedule() before returning it
+           * to any code that might call other methods on it. In the normal case, reschedule()
+           * assigns a non-null value to currentFuture and returns.
+           *
+           * - Less common case #1: If reschedule() encounters an error when calling
+           * getNextSchedule(), then we will still won't run any code that would dereference
+           * runningTask:
+           *
+           * 1. schedule() will never be called, so Task.run() will never run, so it will never
+           * dereference runningTask.
+           *
+           * 2. doStart checks runningTask for null before dereferencing it.
+           *
+           * 3. doStop will never be called because its contract requires it to wait for the service
+           * to start successfully. Thus, it will never dereference runningTask.
+           *
+           * - Less common case #2: The executor itself receives a reference to this object. In
+           * particular, it's passed as the Callable argument to
+           * ScheduledThreadPoolExecutor.decorateTask. An implementation of that method could in
+           * theory cast to Future and call this method, producing NullPointerException.
+           *
+           * TODO(cpovirk): Fix that less common case, probably by returning false to indicate that
+           * the task is already done.
+           *
+           * TODO(cpovirk): That said, if we care about that, we probably should care about the fact
+           * that this isn't a full Future implementation at all. After all, decorateTask could just
+           * as well call isDone or another Future method. Maybe we should really implement them
+           * all? But that's a lot of work for a case that's almost certainly never going to come
+           * up.
+           */
+          requireNonNull(currentFuture);
           return currentFuture.cancel(mayInterruptIfRunning);
         } finally {
           lock.unlock();
@@ -568,6 +612,8 @@ public abstract class AbstractScheduledService implements Service {
       public boolean isCancelled() {
         lock.lock();
         try {
+          // requireNonNull is mostly safe. See the comment in cancel() above.
+          requireNonNull(currentFuture);
           return currentFuture.isCancelled();
         } finally {
           lock.unlock();
@@ -575,14 +621,14 @@ public abstract class AbstractScheduledService implements Service {
       }
 
       @Override
-      protected Future<Void> delegate() {
+      protected Future<@Nullable Void> delegate() {
         throw new UnsupportedOperationException(
             "Only cancel and isCancelled is supported by this future");
       }
     }
 
     @Override
-    final Future<?> schedule(
+    final Future<? extends @Nullable Object> schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
       ReschedulableCallable task = new ReschedulableCallable(service, executor, runnable);
       task.reschedule();

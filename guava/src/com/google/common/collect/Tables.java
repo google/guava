@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -36,6 +37,8 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static methods that involve a {@code Table}.
@@ -62,11 +65,17 @@ public final class Tables {
    * @since 21.0
    */
   @Beta
-  public static <T, R, C, V, I extends Table<R, C, V>> Collector<T, ?, I> toTable(
-      java.util.function.Function<? super T, ? extends R> rowFunction,
-      java.util.function.Function<? super T, ? extends C> columnFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction,
-      java.util.function.Supplier<I> tableSupplier) {
+  public static <
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
+          I extends Table<R, C, V>>
+      Collector<T, ?, I> toTable(
+          java.util.function.Function<? super T, ? extends R> rowFunction,
+          java.util.function.Function<? super T, ? extends C> columnFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          java.util.function.Supplier<I> tableSupplier) {
     return toTable(
         rowFunction,
         columnFunction,
@@ -91,12 +100,18 @@ public final class Tables {
    *
    * @since 21.0
    */
-  public static <T, R, C, V, I extends Table<R, C, V>> Collector<T, ?, I> toTable(
-      java.util.function.Function<? super T, ? extends R> rowFunction,
-      java.util.function.Function<? super T, ? extends C> columnFunction,
-      java.util.function.Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction,
-      java.util.function.Supplier<I> tableSupplier) {
+  public static <
+          T extends @Nullable Object,
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V extends @Nullable Object,
+          I extends Table<R, C, V>>
+      Collector<T, ?, I> toTable(
+          java.util.function.Function<? super T, ? extends R> rowFunction,
+          java.util.function.Function<? super T, ? extends C> columnFunction,
+          java.util.function.Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction,
+          java.util.function.Supplier<I> tableSupplier) {
     checkNotNull(rowFunction);
     checkNotNull(columnFunction);
     checkNotNull(valueFunction);
@@ -119,9 +134,23 @@ public final class Tables {
         });
   }
 
-  private static <R, C, V> void merge(
-      Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
-    checkNotNull(value);
+  private static <
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      void merge(Table<R, C, V> table, R row, C column, V value, BinaryOperator<V> mergeFunction) {
+    /*
+     * This check can fail: As the docs of the 5-arg toTable method say, the method will throw if
+     * valueFunction returns null.
+     *
+     * We can't just change <V> to extend @NonNull Object because that would forbid mergeFunction
+     * from returning null. And if we tried to compensate by changing mergeFunction to return a
+     * @Nullable V output, then it would have to accept @Nullable V inputs, too, even though it
+     * would never be called with them. The right way to compensate would be to change it to
+     * BiFunction<? super V, ? super V, ? extends @Nullable V>, like Map.merge has. But it's too
+     * late, as we have removed @Beta.
+     *
+     * Fortunately, it's unlikely that users will need null values at all.
+     */
+    requireNonNull(value);
     V oldValue = table.get(row, column);
     if (oldValue == null) {
       table.put(row, column, value);
@@ -144,11 +173,14 @@ public final class Tables {
    * @param columnKey the column key to be associated with the returned cell
    * @param value the value to be associated with the returned cell
    */
-  public static <R, C, V> Cell<R, C, V> immutableCell(R rowKey, C columnKey, V value) {
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Cell<R, C, V> immutableCell(R rowKey, C columnKey, V value) {
     return new ImmutableCell<>(rowKey, columnKey, value);
   }
 
-  static final class ImmutableCell<R, C, V> extends AbstractCell<R, C, V> implements Serializable {
+  static final class ImmutableCell<
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractCell<R, C, V> implements Serializable {
     private final R rowKey;
     private final C columnKey;
     private final V value;
@@ -177,17 +209,25 @@ public final class Tables {
     private static final long serialVersionUID = 0;
   }
 
-  abstract static class AbstractCell<R, C, V> implements Cell<R, C, V> {
+  abstract static class AbstractCell<
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      implements Cell<R, C, V> {
     // needed for serialization
     AbstractCell() {}
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
       if (obj instanceof Cell) {
-        Cell<?, ?, ?> other = (Cell<?, ?, ?>) obj;
+        Cell<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+            other =
+                (Cell<
+                        ? extends @Nullable Object,
+                        ? extends @Nullable Object,
+                        ? extends @Nullable Object>)
+                    obj;
         return Objects.equal(getRowKey(), other.getRowKey())
             && Objects.equal(getColumnKey(), other.getColumnKey())
             && Objects.equal(getValue(), other.getValue());
@@ -218,13 +258,16 @@ public final class Tables {
    * columnKeySet().iterator()} doesn't. With a transposed {@link HashBasedTable}, it's the other
    * way around.
    */
-  public static <R, C, V> Table<C, R, V> transpose(Table<R, C, V> table) {
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Table<C, R, V> transpose(Table<R, C, V> table) {
     return (table instanceof TransposeTable)
         ? ((TransposeTable<R, C, V>) table).original
         : new TransposeTable<C, R, V>(table);
   }
 
-  private static class TransposeTable<C, R, V> extends AbstractTable<C, R, V> {
+  private static class TransposeTable<
+          C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object>
+      extends AbstractTable<C, R, V> {
     final Table<R, C, V> original;
 
     TransposeTable(Table<R, C, V> original) {
@@ -252,32 +295,32 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(Object rowKey, Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
     @Override
-    public boolean containsColumn(Object columnKey) {
+    public boolean containsColumn(@Nullable Object columnKey) {
       return original.containsRow(columnKey);
     }
 
     @Override
-    public boolean containsRow(Object rowKey) {
+    public boolean containsRow(@Nullable Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return original.containsValue(value);
     }
 
     @Override
-    public V get(Object rowKey, Object columnKey) {
+    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
     @Override
-    public V put(C rowKey, R columnKey, V value) {
+    public @Nullable V put(C rowKey, R columnKey, V value) {
       return original.put(columnKey, rowKey, value);
     }
 
@@ -287,7 +330,7 @@ public final class Tables {
     }
 
     @Override
-    public V remove(Object rowKey, Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
@@ -377,8 +420,9 @@ public final class Tables {
    * @since 10.0
    */
   @Beta
-  public static <R, C, V> Table<R, C, V> newCustomTable(
-      Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
+  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      Table<R, C, V> newCustomTable(
+          Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
     checkArgument(backingMap.isEmpty());
     checkNotNull(factory);
     // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?
@@ -407,12 +451,22 @@ public final class Tables {
    * @since 10.0
    */
   @Beta
-  public static <R, C, V1, V2> Table<R, C, V2> transformValues(
-      Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
+  public static <
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V1 extends @Nullable Object,
+          V2 extends @Nullable Object>
+      Table<R, C, V2> transformValues(
+          Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
     return new TransformedTable<>(fromTable, function);
   }
 
-  private static class TransformedTable<R, C, V1, V2> extends AbstractTable<R, C, V2> {
+  private static class TransformedTable<
+          R extends @Nullable Object,
+          C extends @Nullable Object,
+          V1 extends @Nullable Object,
+          V2 extends @Nullable Object>
+      extends AbstractTable<R, C, V2> {
     final Table<R, C, V1> fromTable;
     final Function<? super V1, V2> function;
 
@@ -422,15 +476,29 @@ public final class Tables {
     }
 
     @Override
-    public boolean contains(Object rowKey, Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       return fromTable.contains(rowKey, columnKey);
     }
 
     @Override
-    public V2 get(Object rowKey, Object columnKey) {
+    public @Nullable V2 get(@Nullable Object rowKey, @Nullable Object columnKey) {
       // The function is passed a null input only when the table contains a null
       // value.
-      return contains(rowKey, columnKey) ? function.apply(fromTable.get(rowKey, columnKey)) : null;
+      // The cast is safe because of the contains check.
+      return contains(rowKey, columnKey)
+          ? function.apply(uncheckedCastNullableVToV(fromTable.get(rowKey, columnKey)))
+          : null;
+    }
+
+    @SuppressWarnings("nullness")
+    private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V value) {
+      /*
+       * We can't use requireNonNull because `value` might be null. Specifically, it can be null
+       * because the table might contain a null value to be returned to the user. This is in
+       * contrast to the other way for the result of table.get to be null, which is for the map not
+       * to have a value associated with the given keys.
+       */
+      return value;
     }
 
     @Override
@@ -444,7 +512,7 @@ public final class Tables {
     }
 
     @Override
-    public V2 put(R rowKey, C columnKey, V2 value) {
+    public @Nullable V2 put(R rowKey, C columnKey, V2 value) {
       throw new UnsupportedOperationException();
     }
 
@@ -454,9 +522,9 @@ public final class Tables {
     }
 
     @Override
-    public V2 remove(Object rowKey, Object columnKey) {
+    public @Nullable V2 remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return contains(rowKey, columnKey)
-          ? function.apply(fromTable.remove(rowKey, columnKey))
+          ? function.apply(requireNonNull(fromTable.remove(rowKey, columnKey)))
           : null;
     }
 
@@ -542,13 +610,14 @@ public final class Tables {
    *
    * @since 11.0
    */
-  public static <R, C, V> Table<R, C, V> unmodifiableTable(
-      Table<? extends R, ? extends C, ? extends V> table) {
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Table<R, C, V> unmodifiableTable(Table<? extends R, ? extends C, ? extends V> table) {
     return new UnmodifiableTable<>(table);
   }
 
-  private static class UnmodifiableTable<R, C, V> extends ForwardingTable<R, C, V>
-      implements Serializable {
+  private static class UnmodifiableTable<
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingTable<R, C, V> implements Serializable {
     final Table<? extends R, ? extends C, ? extends V> delegate;
 
     UnmodifiableTable(Table<? extends R, ? extends C, ? extends V> delegate) {
@@ -588,7 +657,7 @@ public final class Tables {
     }
 
     @Override
-    public V put(R rowKey, C columnKey, V value) {
+    public @Nullable V put(R rowKey, C columnKey, V value) {
       throw new UnsupportedOperationException();
     }
 
@@ -598,7 +667,7 @@ public final class Tables {
     }
 
     @Override
-    public V remove(Object rowKey, Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       throw new UnsupportedOperationException();
     }
 
@@ -639,8 +708,9 @@ public final class Tables {
    * @since 11.0
    */
   @Beta
-  public static <R, C, V> RowSortedTable<R, C, V> unmodifiableRowSortedTable(
-      RowSortedTable<R, ? extends C, ? extends V> table) {
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      RowSortedTable<R, C, V> unmodifiableRowSortedTable(
+          RowSortedTable<R, ? extends C, ? extends V> table) {
     /*
      * It's not ? extends R, because it's technically not covariant in R. Specifically,
      * table.rowMap().comparator() could return a comparator that only works for the ? extends R.
@@ -649,8 +719,9 @@ public final class Tables {
     return new UnmodifiableRowSortedMap<>(table);
   }
 
-  static final class UnmodifiableRowSortedMap<R, C, V> extends UnmodifiableTable<R, C, V>
-      implements RowSortedTable<R, C, V> {
+  static final class UnmodifiableRowSortedMap<
+          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      extends UnmodifiableTable<R, C, V> implements RowSortedTable<R, C, V> {
 
     public UnmodifiableRowSortedMap(RowSortedTable<R, ? extends C, ? extends V> delegate) {
       super(delegate);
@@ -676,7 +747,8 @@ public final class Tables {
   }
 
   @SuppressWarnings("unchecked")
-  private static <K, V> Function<Map<K, V>, Map<K, V>> unmodifiableWrapper() {
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      Function<Map<K, V>, Map<K, V>> unmodifiableWrapper() {
     return (Function) UNMODIFIABLE_WRAPPER;
   }
 
@@ -717,15 +789,25 @@ public final class Tables {
    * @return a synchronized view of the specified table
    * @since 22.0
    */
-  public static <R, C, V> Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
+  public static <R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+      Table<R, C, V> synchronizedTable(Table<R, C, V> table) {
     return Synchronized.table(table, null);
   }
 
-  static boolean equalsImpl(Table<?, ?, ?> table, Object obj) {
+  static boolean equalsImpl(
+      Table<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+          table,
+      @Nullable Object obj) {
     if (obj == table) {
       return true;
     } else if (obj instanceof Table) {
-      Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
+      Table<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+          that =
+              (Table<
+                      ? extends @Nullable Object,
+                      ? extends @Nullable Object,
+                      ? extends @Nullable Object>)
+                  obj;
       return table.cellSet().equals(that.cellSet());
     } else {
       return false;

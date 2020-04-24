@@ -18,11 +18,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.Collection;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link ContiguousSet} that contains one or more elements.
@@ -70,8 +72,9 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   @GwtIncompatible // not used by GWT emulation
   @Override
-  int indexOf(Object target) {
-    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
+  int indexOf(@Nullable Object target) {
+    // requireNonNull is safe because of the contains check.
+    return contains(target) ? (int) domain.distance(first(), (C) requireNonNull(target)) : -1;
   }
 
   @Override
@@ -80,7 +83,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       final C last = last();
 
       @Override
-      protected C computeNext(C previous) {
+      protected @Nullable C computeNext(C previous) {
         return equalsOrThrow(previous, last) ? null : domain.next(previous);
       }
     };
@@ -93,13 +96,13 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       final C first = first();
 
       @Override
-      protected C computeNext(C previous) {
+      protected @Nullable C computeNext(C previous) {
         return equalsOrThrow(previous, first) ? null : domain.previous(previous);
       }
     };
   }
 
-  private static boolean equalsOrThrow(Comparable<?> left, Comparable<?> right) {
+  private static boolean equalsOrThrow(Comparable<?> left, @Nullable Comparable<?> right) {
     return right != null && Range.compareOrThrow(left, right) == 0;
   }
 
@@ -110,12 +113,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   @Override
   public C first() {
-    return range.lowerBound.leastValueAbove(domain);
+    // requireNonNull is safe because we checked this in ContiguousSet.create.
+    return requireNonNull(range.lowerBound.leastValueAbove(domain));
   }
 
   @Override
   public C last() {
-    return range.upperBound.greatestValueBelow(domain);
+    // requireNonNull is safe because we checked this in ContiguousSet.create.
+    return requireNonNull(range.upperBound.greatestValueBelow(domain));
   }
 
   @Override
@@ -145,7 +150,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     if (object == null) {
       return false;
     }
@@ -157,7 +162,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean containsAll(Collection<?> targets) {
+  public boolean containsAll(Collection<? extends @Nullable Object> targets) {
     return Collections2.containsAllImpl(this, targets);
   }
 
@@ -194,7 +199,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof RegularContiguousSet) {

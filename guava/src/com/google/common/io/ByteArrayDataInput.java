@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.DataInput;
 import java.io.IOException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An extension of {@code DataInput} for reading from in-memory byte arrays; its methods offer
@@ -86,6 +87,7 @@ public interface ByteArrayDataInput extends DataInput {
 
   @CanIgnoreReturnValue // to skip a line
   @Override
+  @Nullable
   String readLine();
 
   @CanIgnoreReturnValue // to skip a field

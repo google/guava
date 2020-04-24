@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic implementation of the {@link ListMultimap} interface. It's a wrapper around {@link
@@ -32,8 +33,8 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible
-abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
-    implements ListMultimap<K, V> {
+abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -52,7 +53,8 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   }
 
   @Override
-  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+      Collection<E> collection) {
     return Collections.unmodifiableList((List<E>) collection);
   }
 
@@ -84,7 +86,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(Object key) {
+  public List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
   }
 
@@ -132,7 +134,7 @@ abstract class AbstractListMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * in the same order. If the value orderings disagree, the multimaps will not be considered equal.
    */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 

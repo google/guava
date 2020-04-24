@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactLinkedHashMap is an implementation of a Map with insertion or LRU iteration order,
@@ -47,11 +47,14 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
+@SuppressWarnings("nullness") // too much effort for the payoff
+class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
   /** Creates an empty {@code CompactLinkedHashMap} instance. */
-  public static <K, V> CompactLinkedHashMap<K, V> create() {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
 
@@ -64,7 +67,8 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K, V> CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
+  public static <K extends @Nullable Object, V extends @Nullable Object>
+      CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactLinkedHashMap<>(expectedSize);
   }
 
@@ -79,7 +83,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting transient long @MonotonicNonNull [] links;
+  @VisibleForTesting transient long @Nullable [] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;

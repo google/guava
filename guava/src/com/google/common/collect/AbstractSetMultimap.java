@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic implementation of the {@link SetMultimap} interface. It's a wrapper around {@link
@@ -32,8 +33,8 @@ import java.util.Set;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
-    implements SetMultimap<K, V> {
+abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractMapBasedMultimap<K, V> implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -52,11 +53,14 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
   }
 
   @Override
-  <E> Collection<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+      Collection<E> collection) {
     return Collections.unmodifiableSet((Set<E>) collection);
   }
 
   @Override
+  // https://github.com/typetools/checker-framework/issues/3022
+  @SuppressWarnings("argument.type.incompatible")
   Collection<V> wrapCollection(K key, Collection<V> collection) {
     return new WrappedSet(key, (Set<V>) collection);
   }
@@ -93,7 +97,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public Set<V> removeAll(Object key) {
+  public Set<V> removeAll(@Nullable Object key) {
     return (Set<V>) super.removeAll(key);
   }
 
@@ -143,7 +147,7 @@ abstract class AbstractSetMultimap<K, V> extends AbstractMapBasedMultimap<K, V>
    * Equality does not depend on the ordering of keys or values.
    */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 

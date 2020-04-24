@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -31,6 +32,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -65,7 +68,9 @@ import java.util.TreeMap;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
+public class TreeBasedTable<
+        R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+    extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
   private static class Factory<C, V> implements Supplier<TreeMap<C, V>>, Serializable {
@@ -91,7 +96,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * instead of {@code R extends Comparable<? super R>}, and the same for {@code C}. That's
    * necessary to support classes defined without generics.
    */
-  public static <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V> create() {
+  public static <R extends Comparable, C extends Comparable, V extends @NonNull Object>
+      TreeBasedTable<R, C, V> create() {
     return new TreeBasedTable<>(Ordering.natural(), Ordering.natural());
   }
 
@@ -101,8 +107,9 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * @param rowComparator the comparator that orders the row keys
    * @param columnComparator the comparator that orders the column keys
    */
-  public static <R, C, V> TreeBasedTable<R, C, V> create(
-      Comparator<? super R> rowComparator, Comparator<? super C> columnComparator) {
+  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      TreeBasedTable<R, C, V> create(
+          Comparator<? super R> rowComparator, Comparator<? super C> columnComparator) {
     checkNotNull(rowComparator);
     checkNotNull(columnComparator);
     return new TreeBasedTable<>(rowComparator, columnComparator);
@@ -112,7 +119,8 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * Creates a {@code TreeBasedTable} with the same mappings and sort order as the specified {@code
    * TreeBasedTable}.
    */
-  public static <R, C, V> TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
+  public static <R extends @NonNull Object, C extends @NonNull Object, V extends @NonNull Object>
+      TreeBasedTable<R, C, V> create(TreeBasedTable<R, C, ? extends V> table) {
     TreeBasedTable<R, C, V> result =
         new TreeBasedTable<>(table.rowComparator(), table.columnComparator());
     result.putAll(table);
@@ -134,7 +142,11 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    */
   @Deprecated
   public Comparator<? super R> rowComparator() {
-    return rowKeySet().comparator();
+    /*
+     * requireNonNull is safe because the factories require non-null Comparators, which they pass on
+     * to the backing collections.
+     */
+    return requireNonNull(rowKeySet().comparator());
   }
 
   /**
@@ -168,14 +180,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   }
 
   private class TreeRow extends Row implements SortedMap<C, V> {
-    final C lowerBound;
-    final C upperBound;
+    final @Nullable C lowerBound;
+    final @Nullable C upperBound;
 
     TreeRow(R rowKey) {
       this(rowKey, null, null);
     }
 
-    TreeRow(R rowKey, C lowerBound, C upperBound) {
+    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
       super(rowKey);
       this.lowerBound = lowerBound;
       this.upperBound = upperBound;
@@ -200,7 +212,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       return cmp.compare(a, b);
     }
 
-    boolean rangeContains(Object o) {
+    boolean rangeContains(@Nullable Object o) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
           && (upperBound == null || compare(upperBound, o) > 0);
@@ -230,7 +242,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       if (backing == null) {
         throw new NoSuchElementException();
       }
-      return backingRowMap().firstKey();
+      return backing.firstKey();
     }
 
     @Override
@@ -239,15 +251,16 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       if (backing == null) {
         throw new NoSuchElementException();
       }
-      return backingRowMap().lastKey();
+      return backing.lastKey();
     }
 
-    transient SortedMap<C, V> wholeRow;
+    transient @Nullable SortedMap<C, V> wholeRow;
 
     /*
      * If the row was previously empty, we check if there's a new row here every
      * time we're queried.
      */
+    @Nullable
     SortedMap<C, V> wholeRow() {
       if (wholeRow == null || (wholeRow.isEmpty() && backingMap.containsKey(rowKey))) {
         wholeRow = (SortedMap<C, V>) backingMap.get(rowKey);
@@ -256,11 +269,13 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
+    @Nullable
     SortedMap<C, V> backingRowMap() {
       return (SortedMap<C, V>) super.backingRowMap();
     }
 
     @Override
+    @Nullable
     SortedMap<C, V> computeBackingRowMap() {
       SortedMap<C, V> map = wholeRow();
       if (map != null) {
@@ -277,7 +292,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     @Override
     void maintainEmptyInvariant() {
-      if (wholeRow() != null && wholeRow.isEmpty()) {
+      if (nonNullButEmpty(wholeRow())) {
         backingMap.remove(rowKey);
         wholeRow = null;
         backingRowMap = null;
@@ -285,12 +300,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return rangeContains(key) && super.containsKey(key);
     }
 
     @Override
-    public V put(C key, V value) {
+    public @Nullable V put(C key, V value) {
       checkArgument(rangeContains(checkNotNull(key)));
       return super.put(key, value);
     }
@@ -326,7 +341,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
             comparator);
 
     return new AbstractIterator<C>() {
-      C lastValue;
+      @Nullable C lastValue;
 
       @Override
       protected C computeNext() {

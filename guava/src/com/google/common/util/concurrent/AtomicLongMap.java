@@ -29,7 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongUnaryOperator;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A map containing {@code long} values that can be atomically updated. While writes to a
@@ -55,7 +56,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @since 11.0
  */
 @GwtCompatible
-public final class AtomicLongMap<K> implements Serializable {
+public final class AtomicLongMap<K extends @NonNull Object> implements Serializable {
   private final ConcurrentHashMap<K, Long> map;
 
   private AtomicLongMap(ConcurrentHashMap<K, Long> map) {
@@ -63,12 +64,13 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /** Creates an {@code AtomicLongMap}. */
-  public static <K> AtomicLongMap<K> create() {
+  public static <K extends @NonNull Object> AtomicLongMap<K> create() {
     return new AtomicLongMap<K>(new ConcurrentHashMap<>());
   }
 
   /** Creates an {@code AtomicLongMap} with the same mappings as the specified {@code Map}. */
-  public static <K> AtomicLongMap<K> create(Map<? extends K, ? extends Long> m) {
+  public static <K extends @NonNull Object> AtomicLongMap<K> create(
+      Map<? extends K, ? extends Long> m) {
     AtomicLongMap<K> result = create();
     result.putAll(m);
     return result;
@@ -262,7 +264,7 @@ public final class AtomicLongMap<K> implements Serializable {
     return map.values().stream().mapToLong(Long::longValue).sum();
   }
 
-  private transient @MonotonicNonNull Map<K, Long> asMap;
+  private transient @Nullable Map<K, Long> asMap;
 
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {

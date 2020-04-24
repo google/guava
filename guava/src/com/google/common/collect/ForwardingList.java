@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A list which forwards all its method calls to another list. Subclasses should override one or
@@ -50,7 +51,8 @@ import java.util.ListIterator;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingList<E> extends ForwardingCollection<E> implements List<E> {
+public abstract class ForwardingList<E extends @Nullable Object> extends ForwardingCollection<E>
+    implements List<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -76,12 +78,12 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
   }
 
   @Override
-  public int indexOf(Object element) {
+  public int indexOf(@Nullable Object element) {
     return delegate().indexOf(element);
   }
 
   @Override
-  public int lastIndexOf(Object element) {
+  public int lastIndexOf(@Nullable Object element) {
     return delegate().lastIndexOf(element);
   }
 
@@ -113,7 +115,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -152,7 +154,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
    *
    * @since 7.0
    */
-  protected int standardIndexOf(Object element) {
+  protected int standardIndexOf(@Nullable Object element) {
     return Lists.indexOfImpl(this, element);
   }
 
@@ -163,7 +165,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
    *
    * @since 7.0
    */
-  protected int standardLastIndexOf(Object element) {
+  protected int standardLastIndexOf(@Nullable Object element) {
     return Lists.lastIndexOfImpl(this, element);
   }
 
@@ -221,7 +223,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E> implemen
    * @since 7.0
    */
   @Beta
-  protected boolean standardEquals(Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Lists.equalsImpl(this, object);
   }
 

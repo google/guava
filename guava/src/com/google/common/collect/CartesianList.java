@@ -22,6 +22,8 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Lists#cartesianProduct(List)}.
@@ -29,12 +31,13 @@ import java.util.RandomAccess;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class CartesianList<E> extends AbstractList<List<E>> implements RandomAccess {
+final class CartesianList<E extends @NonNull Object> extends AbstractList<List<E>>
+    implements RandomAccess {
 
   private final transient ImmutableList<List<E>> axes;
   private final transient int[] axesSizeProduct;
 
-  static <E> List<List<E>> create(List<? extends List<? extends E>> lists) {
+  static <E extends @NonNull Object> List<List<E>> create(List<? extends List<? extends E>> lists) {
     ImmutableList.Builder<List<E>> axesBuilder = new ImmutableList.Builder<>(lists.size());
     for (List<? extends E> list : lists) {
       List<E> copy = ImmutableList.copyOf(list);
@@ -66,15 +69,15 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public int indexOf(Object o) {
+  public int indexOf(@Nullable Object o) {
     if (!(o instanceof List)) {
       return -1;
     }
-    List<?> list = (List<?>) o;
+    List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) o;
     if (list.size() != axes.size()) {
       return -1;
     }
-    ListIterator<?> itr = list.listIterator();
+    ListIterator<? extends @Nullable Object> itr = list.listIterator();
     int computedIndex = 0;
     while (itr.hasNext()) {
       int axisIndex = itr.nextIndex();
@@ -117,7 +120,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return indexOf(o) != -1;
   }
 }

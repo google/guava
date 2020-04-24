@@ -27,6 +27,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A mutable type-to-instance map. See also {@link ImmutableTypeToInstanceMap}.
@@ -35,30 +37,30 @@ import java.util.Set;
  * @since 13.0
  */
 @Beta
-public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<? extends B>, B>
-    implements TypeToInstanceMap<B> {
+public final class MutableTypeToInstanceMap<B extends @NonNull Object>
+    extends ForwardingMap<TypeToken<? extends B>, @Nullable B> implements TypeToInstanceMap<B> {
 
-  private final Map<TypeToken<? extends B>, B> backingMap = Maps.newHashMap();
+  private final Map<TypeToken<? extends B>, @Nullable B> backingMap = Maps.newHashMap();
 
   @Override
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
   @Override
-  public <T extends B> T getInstance(TypeToken<T> type) {
+  public <T extends B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value) {
     return trustedPut(TypeToken.of(type), value);
   }
 
   @Override
   @CanIgnoreReturnValue
-  public <T extends B> T putInstance(TypeToken<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(TypeToken<T> type, @Nullable T value) {
     return trustedPut(type.rejectTypeVariables(), value);
   }
 
@@ -71,7 +73,7 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public B put(TypeToken<? extends B> key, B value) {
+  public @Nullable B put(TypeToken<? extends B> key, @Nullable B value) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
@@ -83,31 +85,32 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
    */
   @Deprecated
   @Override
-  public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
+  public void putAll(Map<? extends TypeToken<? extends B>, ? extends @Nullable B> map) {
     throw new UnsupportedOperationException("Please use putInstance() instead.");
   }
 
   @Override
-  public Set<Entry<TypeToken<? extends B>, B>> entrySet() {
+  public Set<Entry<TypeToken<? extends B>, @Nullable B>> entrySet() {
     return UnmodifiableEntry.transformEntries(super.entrySet());
   }
 
   @Override
-  protected Map<TypeToken<? extends B>, B> delegate() {
+  protected Map<TypeToken<? extends B>, @Nullable B> delegate() {
     return backingMap;
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  private <T extends B> T trustedPut(TypeToken<T> type, T value) {
+  private <T extends B> @Nullable T trustedPut(TypeToken<T> type, @Nullable T value) {
     return (T) backingMap.put(type, value);
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  private <T extends B> T trustedGet(TypeToken<T> type) {
+  private <T extends B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) backingMap.get(type);
   }
 
-  private static final class UnmodifiableEntry<K, V> extends ForwardingMapEntry<K, V> {
+  private static final class UnmodifiableEntry<K, V extends @Nullable Object>
+      extends ForwardingMapEntry<K, V> {
 
     private final Entry<K, V> delegate;
 
@@ -135,7 +138,8 @@ public final class MutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<?
       };
     }
 
-    private static <K, V> Iterator<Entry<K, V>> transformEntries(Iterator<Entry<K, V>> entries) {
+    private static <K, V extends @Nullable Object> Iterator<Entry<K, V>> transformEntries(
+        Iterator<Entry<K, V>> entries) {
       return Iterators.transform(
           entries,
           new Function<Entry<K, V>, Entry<K, V>>() {

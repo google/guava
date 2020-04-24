@@ -124,6 +124,7 @@ final class CharSequenceReader extends Reader {
   }
 
   @Override
+  @SuppressWarnings("nullness") // Other methods call checkOpen before reading seq.
   public synchronized void close() throws IOException {
     seq = null;
   }

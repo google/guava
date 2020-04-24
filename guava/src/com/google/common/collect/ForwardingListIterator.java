@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ListIterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A list iterator which forwards all its method calls to another list iterator. Subclasses should
@@ -36,8 +37,8 @@ import java.util.ListIterator;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
-    implements ListIterator<E> {
+public abstract class ForwardingListIterator<E extends @Nullable Object>
+    extends ForwardingIterator<E> implements ListIterator<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingListIterator() {}

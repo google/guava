@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
 import java.util.function.BiPredicate;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A strategy for determining whether two instances are considered equivalent, and for computing
@@ -33,7 +35,8 @@ import java.util.function.BiPredicate;
  *     source-compatible</a> since 4.0)
  */
 @GwtCompatible
-public abstract class Equivalence<T> implements BiPredicate<T, T> {
+public abstract class Equivalence<T extends @NonNull Object>
+    implements BiPredicate<@Nullable T, @Nullable T> {
   /** Constructor for use by subclasses. */
   protected Equivalence() {}
 
@@ -54,7 +57,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    * <p>Note that all calls to {@code equivalent(x, y)} are expected to return the same result as
    * long as neither {@code x} nor {@code y} is modified.
    */
-  public final boolean equivalent(T a, T b) {
+  public final boolean equivalent(@Nullable T a, @Nullable T b) {
     if (a == b) {
       return true;
     }
@@ -71,7 +74,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    */
   @Deprecated
   @Override
-  public final boolean test(T t, T u) {
+  public final boolean test(@Nullable T t, @Nullable T u) {
     return equivalent(t, u);
   }
 
@@ -104,7 +107,7 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *   <li>{@code hash(null)} is {@code 0}.
    * </ul>
    */
-  public final int hash(T t) {
+  public final int hash(@Nullable T t) {
     if (t == null) {
       return 0;
     }
@@ -146,7 +149,9 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0
    */
-  public final <F> Equivalence<F> onResultOf(Function<F, ? extends T> function) {
+  // TODO(cpovirk): Function<? super F, ...> to accept a Function<@Nullable F, ...>?
+  public final <F extends @NonNull Object> Equivalence<F> onResultOf(
+      Function<F, ? extends @Nullable T> function) {
     return new FunctionalEquivalence<>(function, this);
   }
 
@@ -157,8 +162,11 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0
    */
-  public final <S extends T> Wrapper<S> wrap(S reference) {
-    return new Wrapper<S>(this, reference);
+  public final <S extends @Nullable T> Wrapper<S> wrap(S reference) {
+    // For an explanation of this suppression, see the comments inside Wrapper.
+    @SuppressWarnings("unchecked")
+    Equivalence<Object> self = (Equivalence<Object>) this;
+    return new Wrapper<S>(self, reference);
   }
 
   /**
@@ -181,11 +189,22 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0
    */
-  public static final class Wrapper<T> implements Serializable {
-    private final Equivalence<? super T> equivalence;
+  public static final class Wrapper<T extends @Nullable Object> implements Serializable {
+    /*
+     * The right type for this is something like Equivalence<? super
+     * T-but-projected-to-not-be-nullable>. But it's not clear that we'll support that. The simplest
+     * thing is for us to store an Equivalence<Object> but be sure to apply it only to T instances
+     * (aside from bending the rules in equals(), as described there).
+     *
+     * (Alternatively, we could add a type parameter to Wrapper, giving it a signature like the
+     * Equivalence.wrap method that's used to create it. Or, if we don't want to change the type
+     * parameters of Wrapper itself, we could make Wrapper abstract, and we create a private
+     * implementation with the 2 type parameters.)
+     */
+    private final Equivalence<Object> equivalence;
     private final T reference;
 
-    private Wrapper(Equivalence<? super T> equivalence, T reference) {
+    private Wrapper(Equivalence<Object> equivalence, T reference) {
       this.equivalence = checkNotNull(equivalence);
       this.reference = reference;
     }
@@ -201,20 +220,19 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
      * equivalence.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
       if (obj instanceof Wrapper) {
-        Wrapper<?> that = (Wrapper<?>) obj; // note: not necessarily a Wrapper<T>
+        Wrapper<? extends @Nullable Object> that =
+            (Wrapper<? extends @Nullable Object>) obj; // note: not necessarily a Wrapper<T>
 
         if (this.equivalence.equals(that.equivalence)) {
           /*
            * We'll accept that as sufficient "proof" that either equivalence should be able to
-           * handle either reference, so it's safe to circumvent compile-time type checking.
+           * handle either reference, so it's safe to apply it to that.reference, too.
            */
-          @SuppressWarnings("unchecked")
-          Equivalence<Object> equivalence = (Equivalence<Object>) this.equivalence;
           return equivalence.equivalent(this.reference, that.reference);
         }
       }
@@ -251,10 +269,10 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    * @since 10.0
    */
   @GwtCompatible(serializable = true)
-  public final <S extends T> Equivalence<Iterable<S>> pairwise() {
+  public final <S extends @Nullable T> Equivalence<Iterable<S>> pairwise() {
     // Ideally, the returned equivalence would support Iterable<? extends T>. However,
     // the need for this is so rare that it's not worth making callers deal with the ugly wildcard.
-    return new PairwiseEquivalence<S>(this);
+    return new PairwiseEquivalence<T, S>(this);
   }
 
   /**
@@ -263,27 +281,28 @@ public abstract class Equivalence<T> implements BiPredicate<T, T> {
    *
    * @since 10.0
    */
-  public final Predicate<T> equivalentTo(T target) {
+  public final Predicate<@Nullable T> equivalentTo(@Nullable T target) {
     return new EquivalentToPredicate<T>(this, target);
   }
 
-  private static final class EquivalentToPredicate<T> implements Predicate<T>, Serializable {
+  private static final class EquivalentToPredicate<T extends @NonNull Object>
+      implements Predicate<@Nullable T>, Serializable {
 
     private final Equivalence<T> equivalence;
-    private final T target;
+    private final @Nullable T target;
 
-    EquivalentToPredicate(Equivalence<T> equivalence, T target) {
+    EquivalentToPredicate(Equivalence<T> equivalence, @Nullable T target) {
       this.equivalence = checkNotNull(equivalence);
       this.target = target;
     }
 
     @Override
-    public boolean apply(T input) {
+    public boolean apply(@Nullable T input) {
       return equivalence.equivalent(input, target);
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (this == obj) {
         return true;
       }

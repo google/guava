@@ -24,6 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Futures#withTimeout}.
@@ -33,8 +34,8 @@ import java.util.concurrent.TimeoutException;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
-final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
-  static <V> ListenableFuture<V> create(
+final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
+  static <V extends @Nullable Object> ListenableFuture<V> create(
       ListenableFuture<V> delegate,
       long time,
       TimeUnit unit,
@@ -70,16 +71,16 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
    * write-barriers).
    */
 
-  private ListenableFuture<V> delegateRef;
-  private ScheduledFuture<?> timer;
+  private @Nullable ListenableFuture<V> delegateRef;
+  private @Nullable ScheduledFuture<? extends @Nullable Object> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
   }
 
   /** A runnable that is called when the delegate or the timer completes. */
-  private static final class Fire<V> implements Runnable {
-    TimeoutFuture<V> timeoutFutureRef;
+  private static final class Fire<V extends @Nullable Object> implements Runnable {
+    @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
       this.timeoutFutureRef = timeoutFuture;
@@ -115,7 +116,7 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
         timeoutFuture.setFuture(delegate);
       } else {
         try {
-          ScheduledFuture<?> timer = timeoutFuture.timer;
+          ScheduledFuture<? extends @Nullable Object> timer = timeoutFuture.timer;
           timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
           String message = "Timed out";
           // This try-finally block ensures that we complete the timeout future, even if attempting
@@ -151,9 +152,9 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   }
 
   @Override
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     ListenableFuture<? extends V> localInputFuture = delegateRef;
-    ScheduledFuture<?> localTimer = timer;
+    ScheduledFuture<? extends @Nullable Object> localTimer = timer;
     if (localInputFuture != null) {
       String message = "inputFuture=[" + localInputFuture + "]";
       if (localTimer != null) {
@@ -172,7 +173,7 @@ final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
   protected void afterDone() {
     maybePropagateCancellationTo(delegateRef);
 
-    Future<?> localTimer = timer;
+    Future<? extends @Nullable Object> localTimer = timer;
     // Try to cancel the timer as an optimization.
     // timer may be null if this call to run was by the timer task since there is no happens-before
     // edge between the assignment to timer and an execution of the timer task.

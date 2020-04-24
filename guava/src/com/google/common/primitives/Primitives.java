@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Contains static utility methods pertaining to primitive types and their corresponding wrapper
@@ -59,11 +60,15 @@ public final class Primitives {
     WRAPPER_TO_PRIMITIVE_TYPE = Collections.unmodifiableMap(wrapToPrim);
   }
 
+  /*
+   * Someday, when our nullness-checking project has evolved further, we will revert the instances
+   * of raw Class below. They are here to work around the Checker Framework's unusual handling of
+   * Void/void.class. (Specifically, it treats those objects as always having type Class<@Nullable
+   * Void>. That's a problem because we expect to treat Class as always having its parameter be
+   * @NonNull.)
+   */
   private static void add(
-      Map<Class<?>, Class<?>> forward,
-      Map<Class<?>, Class<?>> backward,
-      Class<?> key,
-      Class<?> value) {
+      Map<Class<?>, Class<?>> forward, Map<Class<?>, Class<?>> backward, Class key, Class value) {
     forward.put(key, value);
     backward.put(value, key);
   }
@@ -108,7 +113,7 @@ public final class Primitives {
    *     wrap(String.class) == String.class
    * </pre>
    */
-  public static <T> Class<T> wrap(Class<T> type) {
+  public static <T extends @NonNull Object> Class<T> wrap(Class<T> type) {
     checkNotNull(type);
 
     // cast is safe: long.class and Long.class are both of type Class<Long>
@@ -127,7 +132,7 @@ public final class Primitives {
    *     unwrap(String.class) == String.class
    * </pre>
    */
-  public static <T> Class<T> unwrap(Class<T> type) {
+  public static <T extends @NonNull Object> Class<T> unwrap(Class<T> type) {
     checkNotNull(type);
 
     // cast is safe: long.class and Long.class are both of type Class<Long>

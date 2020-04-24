@@ -30,6 +30,8 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -40,7 +42,7 @@ import java.util.Set;
  * @author James Sexton
  * @param <N> Node parameter type
  */
-abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
+abstract class AbstractBaseGraph<N extends @NonNull Object> implements BaseGraph<N> {
 
   /**
    * Returns the number of edges in this graph; used to calculate the size of {@link #edges()}. This
@@ -75,7 +77,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean remove(Object o) {
+      public boolean remove(@Nullable Object o) {
         throw new UnsupportedOperationException();
       }
 
@@ -84,7 +86,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       // Graph<LinkedList>.
       @SuppressWarnings("unchecked")
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -155,11 +157,12 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     return endpoints.isOrdered() || !this.isDirected();
   }
 
-  private abstract static class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
+  private abstract static class IncidentEdgeSet<N extends @NonNull Object>
+      extends AbstractSet<EndpointPair<N>> {
     protected final N node;
     protected final BaseGraph<N> graph;
 
-    public static <N> IncidentEdgeSet<N> of(BaseGraph<N> graph, N node) {
+    public static <N extends @NonNull Object> IncidentEdgeSet<N> of(BaseGraph<N> graph, N node) {
       return graph.isDirected() ? new Directed<>(graph, node) : new Undirected<>(graph, node);
     }
 
@@ -169,11 +172,11 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       throw new UnsupportedOperationException();
     }
 
-    private static final class Directed<N> extends IncidentEdgeSet<N> {
+    private static final class Directed<N extends @NonNull Object> extends IncidentEdgeSet<N> {
 
       private Directed(BaseGraph<N> graph, N node) {
         super(graph, node);
@@ -210,7 +213,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -227,7 +230,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
     }
 
-    private static final class Undirected<N> extends IncidentEdgeSet<N> {
+    private static final class Undirected<N extends @NonNull Object> extends IncidentEdgeSet<N> {
       private Undirected(BaseGraph<N> graph, N node) {
         super(graph, node);
       }
@@ -251,7 +254,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean contains(Object obj) {
+      public boolean contains(@Nullable Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }

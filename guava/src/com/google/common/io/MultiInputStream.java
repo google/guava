@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link InputStream} that concatenates multiple substreams. At most one stream will be open at
@@ -32,7 +33,7 @@ import java.util.Iterator;
 final class MultiInputStream extends InputStream {
 
   private Iterator<? extends ByteSource> it;
-  private InputStream in;
+  private @Nullable InputStream in;
 
   /**
    * Creates a new instance.

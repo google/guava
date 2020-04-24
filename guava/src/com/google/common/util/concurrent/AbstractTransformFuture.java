@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -24,12 +25,18 @@ import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.transform*}. */
 @GwtCompatible
-abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedFuture<O>
-    implements Runnable {
-  static <I, O> ListenableFuture<O> create(
+abstract class AbstractTransformFuture<
+        I extends @Nullable Object,
+        O extends @Nullable Object,
+        F extends @NonNull Object,
+        T extends @Nullable Object>
+    extends FluentFuture.TrustedFuture<O> implements Runnable {
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input,
       AsyncFunction<? super I, ? extends O> function,
       Executor executor) {
@@ -39,7 +46,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
     return output;
   }
 
-  static <I, O> ListenableFuture<O> create(
+  static <I extends @Nullable Object, O extends @Nullable Object> ListenableFuture<O> create(
       ListenableFuture<I> input, Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
     TransformFuture<I, O> output = new TransformFuture<>(input, function);
@@ -51,8 +58,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  ListenableFuture<? extends I> inputFuture;
-  F function;
+  @Nullable ListenableFuture<? extends I> inputFuture;
+  @Nullable F function;
 
   AbstractTransformFuture(ListenableFuture<? extends I> inputFuture, F function) {
     this.inputFuture = checkNotNull(inputFuture);
@@ -96,8 +103,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
       cancel(false);
       return;
     } catch (ExecutionException e) {
-      // Set the cause of the exception as this future's exception.
-      setException(e.getCause());
+      // requireNonNull should be safe: See AbstractFuture.getFutureValue.
+      setException(requireNonNull(e.getCause()));
       return;
     } catch (RuntimeException e) {
       // Bug in inputFuture.get(). Propagate to the output Future so that its consumers don't hang.
@@ -179,7 +186,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
   }
 
   @Override
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
     String superString = super.pendingToString();
@@ -199,7 +206,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
    * An {@link AbstractTransformFuture} that delegates to an {@link AsyncFunction} and {@link
    * #setFuture(ListenableFuture)}.
    */
-  private static final class AsyncTransformFuture<I, O>
+  private static final class AsyncTransformFuture<
+          I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<
           I, O, AsyncFunction<? super I, ? extends O>, ListenableFuture<? extends O>> {
     AsyncTransformFuture(
@@ -229,7 +237,7 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
    * An {@link AbstractTransformFuture} that delegates to a {@link Function} and {@link
    * #set(Object)}.
    */
-  private static final class TransformFuture<I, O>
+  private static final class TransformFuture<I extends @Nullable Object, O extends @Nullable Object>
       extends AbstractTransformFuture<I, O, Function<? super I, ? extends O>, O> {
     TransformFuture(
         ListenableFuture<? extends I> inputFuture, Function<? super I, ? extends O> function) {

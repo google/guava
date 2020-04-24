@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,6 +39,8 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiFunction;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
@@ -50,7 +53,8 @@ import java.util.function.BiFunction;
  */
 @Beta
 @GwtIncompatible // NavigableMap
-public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, V> {
+public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
+    implements RangeMap<K, V> {
 
   private final NavigableMap<Cut<K>, RangeMapEntry<K, V>> entriesByLowerBound;
 
@@ -62,7 +66,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     this.entriesByLowerBound = Maps.newTreeMap();
   }
 
-  private static final class RangeMapEntry<K extends Comparable, V>
+  private static final class RangeMapEntry<K extends Comparable, V extends @NonNull Object>
       extends AbstractMapEntry<Range<K>, V> {
     private final Range<K> range;
     private final V value;
@@ -100,13 +104,13 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  public V get(K key) {
+  public @Nullable V get(K key) {
     Entry<Range<K>, V> entry = getEntry(key);
     return (entry == null) ? null : entry.getValue();
   }
 
   @Override
-  public Entry<Range<K>, V> getEntry(K key) {
+  public @Nullable Entry<Range<K>, V> getEntry(K key) {
     Entry<Cut<K>, RangeMapEntry<K, V>> mapEntry =
         entriesByLowerBound.floorEntry(Cut.belowValue(key));
     if (mapEntry != null && mapEntry.getValue().contains(key)) {
@@ -152,8 +156,8 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   /** Returns the range that spans the given range and entry, if the entry can be coalesced. */
-  private static <K extends Comparable, V> Range<K> coalesce(
-      Range<K> range, V value, Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
+  private static <K extends Comparable, V extends @NonNull Object> Range<K> coalesce(
+      Range<K> range, V value, @Nullable Entry<Cut<K>, RangeMapEntry<K, V>> entry) {
     if (entry != null
         && entry.getValue().getKey().isConnected(range)
         && entry.getValue().getValue().equals(value)) {
@@ -177,10 +181,11 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   @Override
   public Range<K> span() {
     Entry<Cut<K>, RangeMapEntry<K, V>> firstEntry = entriesByLowerBound.firstEntry();
-    Entry<Cut<K>, RangeMapEntry<K, V>> lastEntry = entriesByLowerBound.lastEntry();
     if (firstEntry == null) {
       throw new NoSuchElementException();
     }
+    // requireNonNull is safe because, if there's a firstEntry, there must be a lastEntry.
+    Entry<Cut<K>, RangeMapEntry<K, V>> lastEntry = requireNonNull(entriesByLowerBound.lastEntry());
     return Range.create(
         firstEntry.getValue().getKey().lowerBound, lastEntry.getValue().getKey().upperBound);
   }
@@ -260,7 +265,9 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @Override
   public void merge(
-      Range<K> range, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      Range<K> range,
+      @Nullable V value,
+      BiFunction<? super V, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
     checkNotNull(range);
     checkNotNull(remappingFunction);
 
@@ -331,12 +338,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
     }
 
     @Override
-    public V get(Object key) {
+    public @Nullable V get(@Nullable Object key) {
       if (key instanceof Range) {
         Range<?> range = (Range<?>) key;
         RangeMapEntry<K, V> rangeMapEntry = entriesByLowerBound.get(range.lowerBound);
@@ -375,12 +382,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   private static final RangeMap EMPTY_SUB_RANGE_MAP =
       new RangeMap() {
         @Override
-        public Object get(Comparable key) {
+        public @Nullable Object get(Comparable key) {
           return null;
         }
 
         @Override
-        public Entry<Range, Object> getEntry(Comparable key) {
+        public @Nullable Entry<Range, Object> getEntry(Comparable key) {
           return null;
         }
 
@@ -390,14 +397,14 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         }
 
         @Override
-        public void put(Range range, Object value) {
+        public void put(Range range, @SuppressWarnings("nullness") Object value) {
           checkNotNull(range);
           throw new IllegalArgumentException(
               "Cannot insert range " + range + " into an empty subRangeMap");
         }
 
         @Override
-        public void putCoalescing(Range range, Object value) {
+        public void putCoalescing(Range range, @SuppressWarnings("nullness") Object value) {
           checkNotNull(range);
           throw new IllegalArgumentException(
               "Cannot insert range " + range + " into an empty subRangeMap");
@@ -421,7 +428,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
         @Override
         @SuppressWarnings("rawtypes") // necessary for static EMPTY_SUB_RANGE_MAP instance
-        public void merge(Range range, Object value, BiFunction remappingFunction) {
+        public void merge(Range range, @Nullable Object value, BiFunction remappingFunction) {
           checkNotNull(range);
           throw new IllegalArgumentException(
               "Cannot merge range " + range + " into an empty subRangeMap");
@@ -453,12 +460,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public V get(K key) {
+    public @Nullable V get(K key) {
       return subRange.contains(key) ? TreeRangeMap.this.get(key) : null;
     }
 
     @Override
-    public Entry<Range<K>, V> getEntry(K key) {
+    public @Nullable Entry<Range<K>, V> getEntry(K key) {
       if (subRange.contains(key)) {
         Entry<Range<K>, V> entry = TreeRangeMap.this.getEntry(key);
         if (entry != null) {
@@ -543,7 +550,9 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
     @Override
     public void merge(
-        Range<K> range, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+        Range<K> range,
+        @Nullable V value,
+        BiFunction<? super V, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
       checkArgument(
           subRange.encloses(range),
           "Cannot merge range %s into a subRangeMap(%s)",
@@ -600,7 +609,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
       if (o instanceof RangeMap) {
         RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
         return asMapOfRanges().equals(rangeMap.asMapOfRanges());
@@ -621,12 +630,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     class SubRangeMapAsMap extends AbstractMap<Range<K>, V> {
 
       @Override
-      public boolean containsKey(Object key) {
+      public boolean containsKey(@Nullable Object key) {
         return get(key) != null;
       }
 
       @Override
-      public V get(Object key) {
+      public @Nullable V get(@Nullable Object key) {
         try {
           if (key instanceof Range) {
             @SuppressWarnings("unchecked") // we catch ClassCastExceptions
@@ -659,11 +668,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       }
 
       @Override
-      public V remove(Object key) {
+      public @Nullable V remove(@Nullable Object key) {
         V value = get(key);
         if (value != null) {
-          @SuppressWarnings("unchecked") // it's definitely in the map, so safe
-          Range<K> range = (Range<K>) key;
+          // it's definitely in the map, so the cast and requireNonNull are safe
+          @SuppressWarnings("unchecked")
+          Range<K> range = (Range<K>) requireNonNull(key);
           TreeRangeMap.this.remove(range);
           return value;
         }
@@ -692,12 +702,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public Set<Range<K>> keySet() {
         return new Maps.KeySet<Range<K>, V>(SubRangeMapAsMap.this) {
           @Override
-          public boolean remove(Object o) {
+          public boolean remove(@Nullable Object o) {
             return SubRangeMapAsMap.this.remove(o) != null;
           }
 
           @Override
-          public boolean retainAll(Collection<?> c) {
+          public boolean retainAll(Collection<? extends @Nullable Object> c) {
             return removeEntryIf(compose(not(in(c)), Maps.<Range<K>>keyFunction()));
           }
         };
@@ -717,7 +727,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           }
 
           @Override
-          public boolean retainAll(Collection<?> c) {
+          public boolean retainAll(Collection<? extends @Nullable Object> c) {
             return removeEntryIf(not(in(c)));
           }
 
@@ -764,12 +774,12 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       public Collection<V> values() {
         return new Maps.Values<Range<K>, V>(this) {
           @Override
-          public boolean removeAll(Collection<?> c) {
+          public boolean removeAll(Collection<? extends @Nullable Object> c) {
             return removeEntryIf(compose(in(c), Maps.<V>valueFunction()));
           }
 
           @Override
-          public boolean retainAll(Collection<?> c) {
+          public boolean retainAll(Collection<? extends @Nullable Object> c) {
             return removeEntryIf(compose(not(in(c)), Maps.<V>valueFunction()));
           }
         };
@@ -778,7 +788,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());

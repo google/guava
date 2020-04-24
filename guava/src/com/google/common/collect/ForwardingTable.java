@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A table which forwards all its method calls to another table. Subclasses should override one or
@@ -31,7 +32,9 @@ import java.util.Set;
  * @since 7.0
  */
 @GwtCompatible
-public abstract class ForwardingTable<R, C, V> extends ForwardingObject implements Table<R, C, V> {
+public abstract class ForwardingTable<
+        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingObject implements Table<R, C, V> {
   /** Constructor for use by subclasses. */
   protected ForwardingTable() {}
 
@@ -64,27 +67,27 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean contains(Object rowKey, Object columnKey) {
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     return delegate().contains(rowKey, columnKey);
   }
 
   @Override
-  public boolean containsColumn(Object columnKey) {
+  public boolean containsColumn(@Nullable Object columnKey) {
     return delegate().containsColumn(columnKey);
   }
 
   @Override
-  public boolean containsRow(Object rowKey) {
+  public boolean containsRow(@Nullable Object rowKey) {
     return delegate().containsRow(rowKey);
   }
 
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
-  public V get(Object rowKey, Object columnKey) {
+  public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     return delegate().get(rowKey, columnKey);
   }
 
@@ -95,7 +98,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
-  public V put(R rowKey, C columnKey, V value) {
+  public @Nullable V put(R rowKey, C columnKey, V value) {
     return delegate().put(rowKey, columnKey, value);
   }
 
@@ -106,7 +109,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(Object rowKey, Object columnKey) {
+  public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     return delegate().remove(rowKey, columnKey);
   }
 
@@ -136,7 +139,7 @@ public abstract class ForwardingTable<R, C, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return (obj == this) || delegate().equals(obj);
   }
 

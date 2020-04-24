@@ -15,12 +15,14 @@
 package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A subscriber method on a specific object, plus the executor that should be used for dispatching
@@ -70,7 +72,11 @@ class Subscriber {
             try {
               invokeSubscriberMethod(event);
             } catch (InvocationTargetException e) {
-              bus.handleSubscriberException(e.getCause(), context(event));
+              /*
+               * requireNonNull should be safe because an InvocationTargetException from reflection
+               * should have a cause.
+               */
+              bus.handleSubscriberException(requireNonNull(e.getCause()), context(event));
             }
           }
         });
@@ -107,7 +113,7 @@ class Subscriber {
   }
 
   @Override
-  public final boolean equals(Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj instanceof Subscriber) {
       Subscriber that = (Subscriber) obj;
       // Use == so that different equal instances will still receive events.

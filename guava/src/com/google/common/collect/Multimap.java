@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that maps keys to values, similar to {@link Map}, but in which each key may be
@@ -158,7 +159,7 @@ import java.util.function.BiConsumer;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multimap<K, V> {
+public interface Multimap<K extends @Nullable Object, V extends @Nullable Object> {
   // Query Operations
 
   /**
@@ -180,19 +181,20 @@ public interface Multimap<K, V> {
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key}.
    */
-  boolean containsKey(@CompatibleWith("K") Object key);
+  boolean containsKey(@CompatibleWith("K") @Nullable Object key);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the value
    * {@code value}.
    */
-  boolean containsValue(@CompatibleWith("V") Object value);
+  boolean containsValue(@CompatibleWith("V") @Nullable Object value);
 
   /**
    * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code
    * key} and the value {@code value}.
    */
-  boolean containsEntry(@CompatibleWith("K") Object key, @CompatibleWith("V") Object value);
+  boolean containsEntry(
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Modification Operations
 
@@ -217,7 +219,8 @@ public interface Multimap<K, V> {
    * @return {@code true} if the multimap changed
    */
   @CanIgnoreReturnValue
-  boolean remove(@CompatibleWith("K") Object key, @CompatibleWith("V") Object value);
+  boolean remove(
+      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);
 
   // Bulk Operations
 
@@ -269,7 +272,7 @@ public interface Multimap<K, V> {
    *     modifiable, but updating it will have no effect on the multimap.
    */
   @CanIgnoreReturnValue
-  Collection<V> removeAll(@CompatibleWith("K") Object key);
+  Collection<V> removeAll(@CompatibleWith("K") @Nullable Object key);
 
   /** Removes all key-value pairs from the multimap, leaving it {@linkplain #isEmpty empty}. */
   void clear();
@@ -365,7 +368,7 @@ public interface Multimap<K, V> {
    * multimaps are equal, because they both have empty {@link #asMap} views.
    */
   @Override
-  boolean equals(Object obj);
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this multimap.

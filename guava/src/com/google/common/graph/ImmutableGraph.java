@@ -26,6 +26,8 @@ import com.google.common.collect.Maps;
 import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -45,7 +47,7 @@ import com.google.errorprone.annotations.Immutable;
  */
 @Beta
 @Immutable(containerOf = {"N"})
-public class ImmutableGraph<N> extends ForwardingGraph<N> {
+public class ImmutableGraph<N extends @NonNull Object> extends ForwardingGraph<N> {
   @SuppressWarnings("Immutable") // The backing graph must be immutable.
   private final BaseGraph<N> backingGraph;
 
@@ -54,7 +56,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
   }
 
   /** Returns an immutable copy of {@code graph}. */
-  public static <N> ImmutableGraph<N> copyOf(Graph<N> graph) {
+  public static <N extends @NonNull Object> ImmutableGraph<N> copyOf(Graph<N> graph) {
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(
@@ -68,12 +70,12 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    * @deprecated no need to use this
    */
   @Deprecated
-  public static <N> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
+  public static <N extends @NonNull Object> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
     return checkNotNull(graph);
   }
 
-  private static <N> ImmutableMap<N, GraphConnections<N, Presence>> getNodeConnections(
-      Graph<N> graph) {
+  private static <N extends @NonNull Object>
+      ImmutableMap<N, GraphConnections<N, Presence>> getNodeConnections(Graph<N> graph) {
     // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have
     // whatever ordering the graph's nodes do, so ImmutableSortedMap is unnecessary even if the
     // input nodes are sorted.
@@ -84,8 +86,9 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     return nodeConnections.build();
   }
 
-  private static <N> GraphConnections<N, Presence> connectionsOf(Graph<N> graph, N node) {
-    Function<Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
+  private static <N extends @NonNull Object> GraphConnections<N, Presence> connectionsOf(
+      Graph<N> graph, N node) {
+    Function<@Nullable Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
             graph.predecessors(node), Maps.asMap(graph.successors(node), edgeValueFn))
@@ -119,7 +122,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    *
    * @since 28.0
    */
-  public static class Builder<N> {
+  public static class Builder<N extends @NonNull Object> {
 
     private final MutableGraph<N> mutableGraph;
 

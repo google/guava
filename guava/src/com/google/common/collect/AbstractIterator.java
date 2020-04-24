@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.NoSuchElementException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of the {@code Iterator} interface, to make this
@@ -60,7 +61,7 @@ import java.util.NoSuchElementException;
 // When making changes to this class, please also update the copy at
 // com.google.common.base.AbstractIterator
 @GwtCompatible
-public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
+public abstract class AbstractIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
   private State state = State.NOT_READY;
 
   /** Constructor for use by subclasses. */
@@ -80,7 +81,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     FAILED,
   }
 
-  private T next;
+  private @Nullable T next;
 
   /**
    * Returns the next element. <b>Note:</b> the implementation must call {@link #endOfData()} when
@@ -118,6 +119,20 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
   @CanIgnoreReturnValue
   protected final T endOfData() {
     state = State.DONE;
+    /*
+     * endOfData's return type is a lie. It should be safe in normal usage, though: We assume that
+     * it will only ever be called from `computeNext()` in a statement like `return endOfData()`. In
+     * that case, the value returned by computeNext() is ignored because state is set to DONE.
+     *
+     * The alternative would be to declare not only endOfData() but also computeNext() as returning
+     * `@Nullable T`. That alternative feels more dangerous, since it lets the AbstractIterator
+     * output a null element when that should not be possible.
+     */
+    return unsafeNull();
+  }
+
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }
 
@@ -152,7 +167,8 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    T result = next;
+    // Guaranteed to be safe by the hasNext() check:
+    T result = uncheckedCastNullableTToT(next);
     next = null;
     return result;
   }
@@ -168,6 +184,18 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
     if (!hasNext()) {
       throw new NoSuchElementException();
     }
+    // Guaranteed to be safe by the hasNext() check:
+    return uncheckedCastNullableTToT(next);
+  }
+
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T next) {
+    /*
+     * We can't use requireNonNull because `next` might be null. Specifically, it can be null
+     * because the iterator might contain a null element to be returned to the user. This is in
+     * contrast to the other way for `next` to be null, which is for the iterator not to have a next
+     * value computed yet.
+     */
     return next;
   }
 }

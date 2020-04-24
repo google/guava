@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@code keySet()} implementation for {@link ImmutableMap}.
@@ -31,7 +33,8 @@ import java.util.function.Consumer;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
+final class ImmutableMapKeySet<K extends @NonNull Object, V extends @NonNull Object>
+    extends IndexedImmutableSet<K> {
   private final ImmutableMap<K, V> map;
 
   ImmutableMapKeySet(ImmutableMap<K, V> map) {
@@ -54,7 +57,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return map.containsKey(object);
   }
 
@@ -81,7 +84,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   @GwtIncompatible // serialization
-  private static class KeySetSerializedForm<K> implements Serializable {
+  private static class KeySetSerializedForm<K extends @NonNull Object> implements Serializable {
     final ImmutableMap<K, ?> map;
 
     KeySetSerializedForm(ImmutableMap<K, ?> map) {

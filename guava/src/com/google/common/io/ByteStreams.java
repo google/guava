@@ -40,6 +40,7 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
@@ -437,7 +438,7 @@ public final class ByteStreams {
     }
 
     @Override
-    public String readLine() {
+    public @Nullable String readLine() {
       try {
         return input.readLine();
       } catch (IOException e) {
@@ -861,7 +862,8 @@ public final class ByteStreams {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T> T readBytes(InputStream input, ByteProcessor<T> processor) throws IOException {
+  public static <T extends @Nullable Object> T readBytes(
+      InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
     checkNotNull(processor);
 

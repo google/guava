@@ -178,7 +178,8 @@ final class LittleEndianByteArray {
                 Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
                 for (java.lang.reflect.Field f : k.getDeclaredFields()) {
                   f.setAccessible(true);
-                  Object x = f.get(null);
+                  // unsafeNull is safe because we're reading a static field.
+                  Object x = f.get(unsafeNull());
                   if (k.isInstance(x)) {
                     return k.cast(x);
                   }
@@ -200,6 +201,11 @@ final class LittleEndianByteArray {
         throw new AssertionError();
       }
     }
+  }
+
+  @SuppressWarnings("nullness")
+  private static Object unsafeNull() {
+    return null;
   }
 
   /** Fallback implementation for when Unsafe is not available in our current environment. */

@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -35,20 +36,23 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 
 /** Static methods used to implement {@link Futures#getChecked(Future, Class)}. */
 @GwtIncompatible
 final class FuturesGetChecked {
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(Future<V> future, Class<X> exceptionClass) throws X {
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
+      Future<V> future, Class<X> exceptionClass) throws X {
     return getChecked(bestGetCheckedTypeValidator(), future, exceptionClass);
   }
 
   /** Implementation of {@link Futures#getChecked(Future, Class)}. */
   @CanIgnoreReturnValue
   @VisibleForTesting
-  static <V, X extends Exception> V getChecked(
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       GetCheckedTypeValidator validator, Future<V> future, Class<X> exceptionClass) throws X {
     validator.validateClass(exceptionClass);
     try {
@@ -57,14 +61,15 @@ final class FuturesGetChecked {
       currentThread().interrupt();
       throw newWithCause(exceptionClass, e);
     } catch (ExecutionException e) {
-      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      // requireNonNull should be safe: See AbstractFuture.getFutureValue.
+      wrapAndThrowExceptionOrError(requireNonNull(e.getCause()), exceptionClass);
       throw new AssertionError();
     }
   }
 
   /** Implementation of {@link Futures#getChecked(Future, Class, long, TimeUnit)}. */
   @CanIgnoreReturnValue
-  static <V, X extends Exception> V getChecked(
+  static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, long timeout, TimeUnit unit) throws X {
     // TODO(cpovirk): benchmark a version of this method that accepts a GetCheckedTypeValidator
     bestGetCheckedTypeValidator().validateClass(exceptionClass);
@@ -76,7 +81,8 @@ final class FuturesGetChecked {
     } catch (TimeoutException e) {
       throw newWithCause(exceptionClass, e);
     } catch (ExecutionException e) {
-      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      // requireNonNull should be safe: See AbstractFuture.getFutureValue.
+      wrapAndThrowExceptionOrError(requireNonNull(e.getCause()), exceptionClass);
       throw new AssertionError();
     }
   }
@@ -186,7 +192,10 @@ final class FuturesGetChecked {
     static GetCheckedTypeValidator getBestValidator() {
       try {
         Class<?> theClass = Class.forName(CLASS_VALUE_VALIDATOR_NAME);
-        return (GetCheckedTypeValidator) theClass.getEnumConstants()[0];
+        // requireNonNull is safe because the class is an enum.
+        // Inlining this causes a crash: https://github.com/typetools/checker-framework/issues/3020
+        Object[] constants = requireNonNull(theClass.getEnumConstants());
+        return (GetCheckedTypeValidator) constants[0];
       } catch (Throwable t) { // ensure we really catch *everything*
         return weakSetValidator();
       }
@@ -225,7 +234,7 @@ final class FuturesGetChecked {
     @SuppressWarnings({"unchecked", "rawtypes"})
     List<Constructor<X>> constructors = (List) Arrays.asList(exceptionClass.getConstructors());
     for (Constructor<X> constructor : preferringStrings(constructors)) {
-      X instance = newFromConstructor(constructor, cause);
+      @Nullable X instance = newFromConstructor(constructor, cause);
       if (instance != null) {
         if (instance.getCause() == null) {
           instance.initCause(cause);
@@ -256,7 +265,8 @@ final class FuturesGetChecked {
               })
           .reverse();
 
-  private static <X> X newFromConstructor(Constructor<X> constructor, Throwable cause) {
+  private static <X extends @NonNull Object> @Nullable X newFromConstructor(
+      Constructor<X> constructor, Throwable cause) {
     Class<?>[] paramTypes = constructor.getParameterTypes();
     Object[] params = new Object[paramTypes.length];
     for (int i = 0; i < paramTypes.length; i++) {

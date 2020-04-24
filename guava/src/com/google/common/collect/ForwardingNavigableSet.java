@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
@@ -49,8 +50,8 @@ import java.util.SortedSet;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
-    implements NavigableSet<E> {
+public abstract class ForwardingNavigableSet<E extends @Nullable Object>
+    extends ForwardingSortedSet<E> implements NavigableSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableSet() {}
@@ -59,7 +60,7 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
   protected abstract NavigableSet<E> delegate();
 
   @Override
-  public E lower(E e) {
+  public @Nullable E lower(E e) {
     return delegate().lower(e);
   }
 
@@ -68,12 +69,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #lower} to forward to this implementation.
    */
-  protected E standardLower(E e) {
+  protected @Nullable E standardLower(E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
   @Override
-  public E floor(E e) {
+  public @Nullable E floor(E e) {
     return delegate().floor(e);
   }
 
@@ -82,12 +83,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #floor} to forward to this implementation.
    */
-  protected E standardFloor(E e) {
+  protected @Nullable E standardFloor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   @Override
-  public E ceiling(E e) {
+  public @Nullable E ceiling(E e) {
     return delegate().ceiling(e);
   }
 
@@ -96,12 +97,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #ceiling} to forward to this implementation.
    */
-  protected E standardCeiling(E e) {
+  protected @Nullable E standardCeiling(E e) {
     return Iterators.getNext(tailSet(e, true).iterator(), null);
   }
 
   @Override
-  public E higher(E e) {
+  public @Nullable E higher(E e) {
     return delegate().higher(e);
   }
 
@@ -110,12 +111,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may wish to
    * override {@link #higher} to forward to this implementation.
    */
-  protected E standardHigher(E e) {
+  protected @Nullable E standardHigher(E e) {
     return Iterators.getNext(tailSet(e, false).iterator(), null);
   }
 
   @Override
-  public E pollFirst() {
+  public @Nullable E pollFirst() {
     return delegate().pollFirst();
   }
 
@@ -124,12 +125,12 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * override {@link #iterator} you may wish to override {@link #pollFirst} to forward to this
    * implementation.
    */
-  protected E standardPollFirst() {
+  protected @Nullable E standardPollFirst() {
     return Iterators.pollNext(iterator());
   }
 
   @Override
-  public E pollLast() {
+  public @Nullable E pollLast() {
     return delegate().pollLast();
   }
 
@@ -138,7 +139,7 @@ public abstract class ForwardingNavigableSet<E> extends ForwardingSortedSet<E>
    * If you override {@link #descendingIterator} you may wish to override {@link #pollLast} to
    * forward to this implementation.
    */
-  protected E standardPollLast() {
+  protected @Nullable E standardPollLast() {
     return Iterators.pollNext(descendingIterator());
   }
 

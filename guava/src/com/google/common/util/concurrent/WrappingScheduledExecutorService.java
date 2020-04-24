@@ -20,6 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An abstract {@code ScheduledExecutorService} that allows subclasses to {@linkplain
@@ -41,23 +42,25 @@ abstract class WrappingScheduledExecutorService extends WrappingExecutorService
   }
 
   @Override
-  public final ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+  public final ScheduledFuture<? extends @Nullable Object> schedule(
+      Runnable command, long delay, TimeUnit unit) {
     return delegate.schedule(wrapTask(command), delay, unit);
   }
 
   @Override
-  public final <V> ScheduledFuture<V> schedule(Callable<V> task, long delay, TimeUnit unit) {
+  public final <V extends @Nullable Object> ScheduledFuture<V> schedule(
+      Callable<V> task, long delay, TimeUnit unit) {
     return delegate.schedule(wrapTask(task), delay, unit);
   }
 
   @Override
-  public final ScheduledFuture<?> scheduleAtFixedRate(
+  public final ScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit) {
     return delegate.scheduleAtFixedRate(wrapTask(command), initialDelay, period, unit);
   }
 
   @Override
-  public final ScheduledFuture<?> scheduleWithFixedDelay(
+  public final ScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit) {
     return delegate.scheduleWithFixedDelay(wrapTask(command), initialDelay, delay, unit);
   }

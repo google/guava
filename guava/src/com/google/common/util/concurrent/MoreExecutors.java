@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -52,6 +53,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Factory and utility methods for {@link java.util.concurrent.Executor}, {@link ExecutorService},
@@ -598,44 +600,48 @@ public final class MoreExecutors {
     }
 
     @Override
-    public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-      TrustedListenableFutureTask<Void> task = TrustedListenableFutureTask.create(command, null);
-      ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
+    public ListenableScheduledFuture<? extends @Nullable Object> schedule(
+        Runnable command, long delay, TimeUnit unit) {
+      TrustedListenableFutureTask<@Nullable Void> task =
+          TrustedListenableFutureTask.create(command, null);
+      ScheduledFuture<? extends @Nullable Object> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
-    public <V> ListenableScheduledFuture<V> schedule(
+    public <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
         Callable<V> callable, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
-      ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
+      ScheduledFuture<? extends @Nullable Object> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<V>(task, scheduled);
     }
 
     @Override
-    public ListenableScheduledFuture<?> scheduleAtFixedRate(
+    public ListenableScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
-      ScheduledFuture<?> scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
+      ScheduledFuture<? extends @Nullable Object> scheduled =
+          delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
-    public ListenableScheduledFuture<?> scheduleWithFixedDelay(
+    public ListenableScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
-      ScheduledFuture<?> scheduled =
+      ScheduledFuture<? extends @Nullable Object> scheduled =
           delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
-    private static final class ListenableScheduledTask<V>
+    private static final class ListenableScheduledTask<V extends @Nullable Object>
         extends SimpleForwardingListenableFuture<V> implements ListenableScheduledFuture<V> {
 
-      private final ScheduledFuture<?> scheduledDelegate;
+      private final ScheduledFuture<? extends @Nullable Object> scheduledDelegate;
 
       public ListenableScheduledTask(
-          ListenableFuture<V> listenableDelegate, ScheduledFuture<?> scheduledDelegate) {
+          ListenableFuture<V> listenableDelegate,
+          ScheduledFuture<? extends @Nullable Object> scheduledDelegate) {
         super(listenableDelegate);
         this.scheduledDelegate = scheduledDelegate;
       }
@@ -665,7 +671,7 @@ public final class MoreExecutors {
 
     @GwtIncompatible // TODO
     private static final class NeverSuccessfulListenableFutureTask
-        extends AbstractFuture.TrustedFuture<Void> implements Runnable {
+        extends AbstractFuture.TrustedFuture<@Nullable Void> implements Runnable {
       private final Runnable delegate;
 
       public NeverSuccessfulListenableFutureTask(Runnable delegate) {
@@ -700,7 +706,7 @@ public final class MoreExecutors {
    * implementations.
    */
   @GwtIncompatible
-  static <T> T invokeAnyImpl(
+  static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
@@ -716,7 +722,7 @@ public final class MoreExecutors {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @GwtIncompatible
-  static <T> T invokeAnyImpl(
+  static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
@@ -796,7 +802,7 @@ public final class MoreExecutors {
    * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
    */
   @GwtIncompatible // TODO
-  private static <T> ListenableFuture<T> submitAndAddQueueListener(
+  private static <T extends @Nullable Object> ListenableFuture<T> submitAndAddQueueListener(
       ListeningExecutorService executorService,
       Callable<T> task,
       final BlockingQueue<Future<T>> queue) {
@@ -827,10 +833,19 @@ public final class MoreExecutors {
       return Executors.defaultThreadFactory();
     }
     try {
+      /*
+       * requireNonNull is safe as long as App Engine is using the default implementation
+       * ApiProxy.Environment implementation (ApiProxyImpl.EnvironmentImpl). While App Engine
+       * technically provides way to swap in a different implementation, that shouldn't happen in
+       * practice in "real" code.
+       *
+       * unsafeNull is safe because we are invoking a static method.
+       */
       return (ThreadFactory)
-          Class.forName("com.google.appengine.api.ThreadManager")
-              .getMethod("currentRequestThreadFactory")
-              .invoke(null);
+          requireNonNull(
+              Class.forName("com.google.appengine.api.ThreadManager")
+                  .getMethod("currentRequestThreadFactory")
+                  .invoke(unsafeNull()));
       /*
        * Do not merge the 3 catch blocks below. javac would infer a type of
        * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of Android
@@ -843,8 +858,17 @@ public final class MoreExecutors {
     } catch (NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
-      throw Throwables.propagate(e.getCause());
+      /*
+       * requireNonNull should be safe because an InvocationTargetException from reflection should
+       * always have a cause.
+       */
+      throw Throwables.propagate(requireNonNull(e.getCause()));
     }
+  }
+
+  @SuppressWarnings("nullness")
+  private static Object unsafeNull() {
+    return null;
   }
 
   @GwtIncompatible // TODO
@@ -854,9 +878,10 @@ public final class MoreExecutors {
     }
     try {
       // If the current environment is null, we're not inside AppEngine.
+      // (unsafeNull is safe because we are invoking a static method.)
       return Class.forName("com.google.apphosting.api.ApiProxy")
               .getMethod("getCurrentEnvironment")
-              .invoke(null)
+              .invoke(unsafeNull())
           != null;
     } catch (ClassNotFoundException e) {
       // If ApiProxy doesn't exist, we're not on AppEngine at all.
@@ -942,7 +967,7 @@ public final class MoreExecutors {
     }
     return new WrappingExecutorService(service) {
       @Override
-      protected <T> Callable<T> wrapTask(Callable<T> callable) {
+      protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
         return Callables.threadRenaming(callable, nameSupplier);
       }
 
@@ -975,7 +1000,7 @@ public final class MoreExecutors {
     }
     return new WrappingScheduledExecutorService(service) {
       @Override
-      protected <T> Callable<T> wrapTask(Callable<T> callable) {
+      protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
         return Callables.threadRenaming(callable, nameSupplier);
       }
 
@@ -1073,7 +1098,7 @@ public final class MoreExecutors {
    * <p>Note, the returned executor can only be used once.
    */
   static Executor rejectionPropagatingExecutor(
-      final Executor delegate, final AbstractFuture<?> future) {
+      final Executor delegate, final AbstractFuture<? extends @Nullable Object> future) {
     checkNotNull(delegate);
     checkNotNull(future);
     if (delegate == directExecutor()) {

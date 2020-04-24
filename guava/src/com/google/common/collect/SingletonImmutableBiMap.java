@@ -23,6 +23,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
@@ -32,7 +34,8 @@ import java.util.function.BiConsumer;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+final class SingletonImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableBiMap<K, V> {
 
   final transient K singleKey;
   final transient V singleValue;
@@ -50,7 +53,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return singleKey.equals(key) ? singleValue : null;
   }
 
@@ -65,12 +68,12 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return singleKey.equals(key);
   }
 
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return singleValue.equals(value);
   }
 
@@ -89,7 +92,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return ImmutableSet.of(singleKey);
   }
 
-  @LazyInit @RetainedWith transient ImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith transient @Nullable ImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {

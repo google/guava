@@ -21,6 +21,7 @@ import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection which forwards all its method calls to another collection. Subclasses should
@@ -45,7 +46,8 @@ import java.util.Iterator;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingCollection<E> extends ForwardingObject implements Collection<E> {
+public abstract class ForwardingCollection<E extends @Nullable Object> extends ForwardingObject
+    implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -66,7 +68,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeAll(Collection<?> collection) {
+  public boolean removeAll(Collection<? extends @Nullable Object> collection) {
     return delegate().removeAll(collection);
   }
 
@@ -76,7 +78,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return delegate().contains(object);
   }
 
@@ -88,12 +90,12 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(Object object) {
+  public boolean remove(@Nullable Object object) {
     return delegate().remove(object);
   }
 
   @Override
-  public boolean containsAll(Collection<?> collection) {
+  public boolean containsAll(Collection<? extends @Nullable Object> collection) {
     return delegate().containsAll(collection);
   }
 
@@ -105,7 +107,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
 
   @CanIgnoreReturnValue
   @Override
-  public boolean retainAll(Collection<?> collection) {
+  public boolean retainAll(Collection<? extends @Nullable Object> collection) {
     return delegate().retainAll(collection);
   }
 
@@ -132,7 +134,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardContains(Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     return Iterators.contains(iterator(), object);
   }
 
@@ -143,7 +145,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardContainsAll(Collection<?> collection) {
+  protected boolean standardContainsAll(Collection<? extends @Nullable Object> collection) {
     return Collections2.containsAllImpl(this, collection);
   }
 
@@ -164,7 +166,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardRemove(Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     Iterator<E> iterator = iterator();
     while (iterator.hasNext()) {
       if (Objects.equal(iterator.next(), object)) {
@@ -182,7 +184,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardRemoveAll(Collection<?> collection) {
+  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> collection) {
     return Iterators.removeAll(iterator(), collection);
   }
 
@@ -193,7 +195,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardRetainAll(Collection<?> collection) {
+  protected boolean standardRetainAll(Collection<? extends @Nullable Object> collection) {
     return Iterators.retainAll(iterator(), collection);
   }
 
@@ -237,6 +239,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
+  @SuppressWarnings("return.type.incompatible") // arrays
   protected Object[] standardToArray() {
     Object[] newArray = new Object[size()];
     return toArray(newArray);

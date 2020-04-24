@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
@@ -54,14 +57,14 @@ public final class MoreCollectors {
    * which is null.
    */
   @SuppressWarnings("unchecked")
-  public static <T> Collector<T, ?, Optional<T>> toOptional() {
+  public static <T extends @NonNull Object> Collector<T, ?, Optional<T>> toOptional() {
     return (Collector) TO_OPTIONAL;
   }
 
   private static final Object NULL_PLACEHOLDER = new Object();
 
-  private static final Collector<Object, ?, Object> ONLY_ELEMENT =
-      Collector.of(
+  private static final Collector<@Nullable Object, ?, @Nullable Object> ONLY_ELEMENT =
+      Collector.<@Nullable Object, ToOptionalState, @Nullable Object>of(
           ToOptionalState::new,
           (state, o) -> state.add((o == null) ? NULL_PLACEHOLDER : o),
           ToOptionalState::combine,
@@ -77,7 +80,7 @@ public final class MoreCollectors {
    * more elements, and a {@code NoSuchElementException} if the stream is empty.
    */
   @SuppressWarnings("unchecked")
-  public static <T> Collector<T, ?, T> onlyElement() {
+  public static <T extends @Nullable Object> Collector<T, ?, T> onlyElement() {
     return (Collector) ONLY_ELEMENT;
   }
 
@@ -88,8 +91,8 @@ public final class MoreCollectors {
   private static final class ToOptionalState {
     static final int MAX_EXTRAS = 4;
 
-    Object element;
-    List<Object> extras;
+    @Nullable Object element;
+    @Nullable List<Object> extras;
 
     ToOptionalState() {
       element = null;
@@ -99,7 +102,8 @@ public final class MoreCollectors {
     IllegalArgumentException multiples(boolean overflow) {
       StringBuilder sb =
           new StringBuilder().append("expected one element but was: <").append(element);
-      for (Object o : extras) {
+      // requireNonNull is safe because we call this method only when extras exist.
+      for (Object o : requireNonNull(extras)) {
         sb.append(", ").append(o);
       }
       if (overflow) {

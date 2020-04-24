@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BooleanSupplier;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A synchronization abstraction supporting waiting on arbitrary boolean conditions.
@@ -312,6 +314,7 @@ public final class Monitor {
 
     /** The next active guard */
     @GuardedBy("monitor.lock")
+    @Nullable
     Guard next;
 
     protected Guard(Monitor monitor) {
@@ -338,7 +341,7 @@ public final class Monitor {
    * A linked list threaded through the Guard.next field.
    */
   @GuardedBy("lock")
-  private Guard activeGuards = null;
+  private @Nullable Guard activeGuards = null;
 
   /**
    * Creates a monitor with a non-fair (but fast) ordering policy. Equivalent to {@code
@@ -510,7 +513,10 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @throws InterruptedException if interrupted while waiting
    */
-  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  @SuppressWarnings({
+    "GoodTime", // should accept a java.time.Duration
+    "nullness", // https://github.com/typetools/checker-framework/issues/3015
+  })
   public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     final long timeoutNanos = toSafeNanos(time, unit);
     if (guard.monitor != this) {
@@ -1152,7 +1158,17 @@ public final class Monitor {
     int waiters = --guard.waiterCount;
     if (waiters == 0) {
       // unlink guard from activeGuards
-      for (Guard p = activeGuards, pred = null; ; pred = p, p = p.next) {
+      /*
+       * Both requireNonNull calls are safe:
+       *
+       * - the first because there is at least one active guard (namely, the parameter)
+       *
+       * - the second because we won't reach the end without finding the given guard (because we're
+       * careful not to call this method unless except with an active guard)
+       */
+      for (Guard p = requireNonNull(activeGuards), pred = null;
+          ;
+          pred = p, p = requireNonNull(p).next) {
         if (p == guard) {
           if (pred == null) {
             activeGuards = p.next;

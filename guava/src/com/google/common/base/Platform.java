@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Strings.lenientFormat;
 import static java.lang.Boolean.parseBoolean;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
@@ -24,6 +25,7 @@ import java.util.ServiceConfigurationError;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -49,22 +51,32 @@ final class Platform {
 
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
-    return ref == null ? Optional.<T>absent() : Optional.of(enumClass.cast(ref.get()));
+    /*
+     * requireNonNull is probably safe: We have a strong reference to enumClass, so the class can't
+     * be garbage collected yet, and thus neither can its constants. But maybe it's possible for
+     * something weird to happen: Maybe a finalizer can resurrect the class and its constants after
+     * the weak references to them are cleared? Maybe the VM can avoid keeping enumClass alive
+     * because it can guarantee that the cast will succeed? But even if these things can happen in
+     * theory (and I'm not sure they can), I don't think we need to worry in practice.
+     */
+    return ref == null
+        ? Optional.<T>absent()
+        : Optional.of(enumClass.cast(requireNonNull(ref.get())));
   }
 
   static String formatCompact4Digits(double value) {
     return String.format(Locale.ROOT, "%.4g", value);
   }
 
-  static boolean stringIsNullOrEmpty(String string) {
+  static boolean stringIsNullOrEmpty(@Nullable String string) {
     return string == null || string.isEmpty();
   }
 
-  static String nullToEmpty(String string) {
+  static String nullToEmpty(@Nullable String string) {
     return (string == null) ? "" : string;
   }
 
-  static String emptyToNull(String string) {
+  static @Nullable String emptyToNull(@Nullable String string) {
     return stringIsNullOrEmpty(string) ? null : string;
   }
 

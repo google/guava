@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
@@ -38,7 +39,8 @@ import java.util.concurrent.ExecutionException;
  * @since 10.0
  */
 @GwtCompatible
-public abstract class AbstractCache<K, V> implements Cache<K, V> {
+public abstract class AbstractCache<K extends @NonNull Object, V extends @NonNull Object>
+    implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected AbstractCache() {}
@@ -59,7 +61,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    * @since 11.0
    */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends @NonNull Object> keys) {
     Map<K, V> result = Maps.newLinkedHashMap();
     for (Object key : keys) {
       if (!result.containsKey(key)) {
@@ -103,7 +105,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** @since 11.0 */
   @Override
-  public void invalidateAll(Iterable<?> keys) {
+  public void invalidateAll(Iterable<? extends @NonNull Object> keys) {
     for (Object key : keys) {
       invalidate(key);
     }

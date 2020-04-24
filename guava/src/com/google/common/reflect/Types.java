@@ -17,6 +17,7 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.transform;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -44,6 +45,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicReference;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utilities for working with {@link Type}.
@@ -85,7 +87,7 @@ final class Types {
    * {@code ownerType}.
    */
   static ParameterizedType newParameterizedTypeWithOwner(
-      Type ownerType, Class<?> rawType, Type... arguments) {
+      @Nullable Type ownerType, Class<?> rawType, Type... arguments) {
     if (ownerType == null) {
       return newParameterizedType(rawType, arguments);
     }
@@ -105,12 +107,14 @@ final class Types {
   private enum ClassOwnership {
     OWNED_BY_ENCLOSING_CLASS {
       @Override
+      @Nullable
       Class<?> getOwnerType(Class<?> rawType) {
         return rawType.getEnclosingClass();
       }
     },
     LOCAL_CLASS_HAS_NO_OWNER {
       @Override
+      @Nullable
       Class<?> getOwnerType(Class<?> rawType) {
         if (rawType.isLocalClass()) {
           return null;
@@ -120,14 +124,16 @@ final class Types {
       }
     };
 
-    abstract Class<?> getOwnerType(Class<?> rawType);
+    abstract @Nullable Class<?> getOwnerType(Class<?> rawType);
 
     static final ClassOwnership JVM_BEHAVIOR = detectJvmBehavior();
 
     private static ClassOwnership detectJvmBehavior() {
       class LocalClass<T> {}
       Class<?> subclass = new LocalClass<String>() {}.getClass();
-      ParameterizedType parameterizedType = (ParameterizedType) subclass.getGenericSuperclass();
+      // requireNonNull is safe because we're examining a type that's known to have a superclass.
+      ParameterizedType parameterizedType =
+          requireNonNull((ParameterizedType) subclass.getGenericSuperclass());
       for (ClassOwnership behavior : ClassOwnership.values()) {
         if (behavior.getOwnerType(LocalClass.class) == parameterizedType.getOwnerType()) {
           return behavior;
@@ -168,7 +174,7 @@ final class Types {
     return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();
   }
 
-  static Type getComponentType(Type type) {
+  static @Nullable Type getComponentType(Type type) {
     checkNotNull(type);
     final AtomicReference<Type> result = new AtomicReference<>();
     new TypeVisitor() {
@@ -199,7 +205,7 @@ final class Types {
    * Returns {@code ? extends X} if any of {@code bounds} is a subtype of {@code X[]}; or null
    * otherwise.
    */
-  private static Type subtypeOfComponentType(Type[] bounds) {
+  private static @Nullable Type subtypeOfComponentType(Type[] bounds) {
     for (Type bound : bounds) {
       Type componentType = getComponentType(bound);
       if (componentType != null) {
@@ -241,7 +247,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof GenericArrayType) {
         GenericArrayType that = (GenericArrayType) obj;
         return Objects.equal(getGenericComponentType(), that.getGenericComponentType());
@@ -254,11 +260,11 @@ final class Types {
 
   private static final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
 
-    private final Type ownerType;
+    private final @Nullable Type ownerType;
     private final ImmutableList<Type> argumentsList;
     private final Class<?> rawType;
 
-    ParameterizedTypeImpl(Type ownerType, Class<?> rawType, Type[] typeArguments) {
+    ParameterizedTypeImpl(@Nullable Type ownerType, Class<?> rawType, Type[] typeArguments) {
       checkNotNull(rawType);
       checkArgument(typeArguments.length == rawType.getTypeParameters().length);
       disallowPrimitiveType(typeArguments, "type parameter");
@@ -278,7 +284,7 @@ final class Types {
     }
 
     @Override
-    public Type getOwnerType() {
+    public @Nullable Type getOwnerType() {
       return ownerType;
     }
 
@@ -304,7 +310,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(@Nullable Object other) {
       if (!(other instanceof ParameterizedType)) {
         return false;
       }
@@ -381,11 +387,25 @@ final class Types {
         throw new UnsupportedOperationException(methodName);
       } else {
         try {
-          return typeVariableMethod.invoke(typeVariableImpl, args);
+          /*
+           * Checkers can't know whether it's safe for a reflective method to return null, and the
+           * current Checker Framework stubs forbid it. However, it's safe as long as we're careful to
+           * match the signatures of our TypeVariableImpl to those of java.util.reflect.TypeVariable.
+           */
+          return uncheckedCastToNonNull(typeVariableMethod.invoke(typeVariableImpl, args));
         } catch (InvocationTargetException e) {
-          throw e.getCause();
+          /*
+           * requireNonNull should be safe because an InvocationTargetException from reflection
+           * should have a cause.
+           */
+          throw requireNonNull(e.getCause());
         }
       }
+    }
+
+    @SuppressWarnings("nullness")
+    private static Object uncheckedCastToNonNull(@Nullable Object o) {
+      return o;
     }
   }
 
@@ -429,7 +449,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY) {
         // equal only to our TypeVariable implementation with identical bounds
         if (obj != null
@@ -478,7 +498,7 @@ final class Types {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof WildcardType) {
         WildcardType that = (WildcardType) obj;
         return lowerBounds.equals(Arrays.asList(that.getLowerBounds()))
@@ -582,7 +602,8 @@ final class Types {
       String typeName(Type type) {
         try {
           Method getTypeName = Type.class.getMethod("getTypeName");
-          return (String) getTypeName.invoke(type);
+          // requireNonNull should be safe, given the definition of Type.getTypeName.
+          return requireNonNull((String) getTypeName.invoke(type));
         } catch (NoSuchMethodException e) {
           throw new AssertionError("Type.getTypeName should be available in Java 8");
           /*

@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -32,7 +34,8 @@ import java.util.concurrent.ExecutionException;
  * @since 10.0
  */
 @GwtIncompatible
-public abstract class ForwardingCache<K, V> extends ForwardingObject implements Cache<K, V> {
+public abstract class ForwardingCache<K extends @NonNull Object, V extends @NonNull Object>
+    extends ForwardingObject implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingCache() {}
@@ -42,7 +45,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /** @since 11.0 */
   @Override
-  public V getIfPresent(Object key) {
+  public @Nullable V getIfPresent(Object key) {
     return delegate().getIfPresent(key);
   }
 
@@ -54,7 +57,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /** @since 11.0 */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends @NonNull Object> keys) {
     return delegate().getAllPresent(keys);
   }
 
@@ -77,7 +80,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
 
   /** @since 11.0 */
   @Override
-  public void invalidateAll(Iterable<?> keys) {
+  public void invalidateAll(Iterable<? extends @NonNull Object> keys) {
     delegate().invalidateAll(keys);
   }
 
@@ -112,7 +115,9 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
    *
    * @since 10.0
    */
-  public abstract static class SimpleForwardingCache<K, V> extends ForwardingCache<K, V> {
+  public abstract static class SimpleForwardingCache<
+          K extends @NonNull Object, V extends @NonNull Object>
+      extends ForwardingCache<K, V> {
     private final Cache<K, V> delegate;
 
     protected SimpleForwardingCache(Cache<K, V> delegate) {

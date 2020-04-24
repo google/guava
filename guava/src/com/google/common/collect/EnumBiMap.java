@@ -26,6 +26,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code BiMap} backed by two {@code EnumMap} instances. Null keys and values are not permitted.
@@ -74,7 +76,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     this.valueType = valueType;
   }
 
-  static <K extends Enum<K>> Class<K> inferKeyType(Map<K, ?> map) {
+  static <K extends Enum<K>> Class<K> inferKeyType(Map<K, ? extends @Nullable Object> map) {
     if (map instanceof EnumBiMap) {
       return ((EnumBiMap<K, ?>) map).keyType();
     }
@@ -85,7 +87,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     return map.keySet().iterator().next().getDeclaringClass();
   }
 
-  private static <V extends Enum<V>> Class<V> inferValueType(Map<?, V> map) {
+  private static <V extends Enum<V>> Class<V> inferValueType(
+      Map<? extends @NonNull Object, V> map) {
     if (map instanceof EnumBiMap) {
       return ((EnumBiMap<?, V>) map).valueType;
     }

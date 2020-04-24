@@ -46,7 +46,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Map} whose contents will never change, with many other important properties detailed at
@@ -61,7 +62,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
+public abstract class ImmutableMap<K extends @NonNull Object, V extends @NonNull Object>
+    implements Map<K, V>, Serializable {
 
   /**
    * Returns a {@link Collector} that accumulates elements into an {@code ImmutableMap} whose keys
@@ -75,9 +77,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 21.0
    */
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableMap(keyFunction, valueFunction);
   }
 
@@ -91,10 +94,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 21.0
    */
-  public static <T, K, V> Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction,
-      BinaryOperator<V> mergeFunction) {
+  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+      Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
     checkNotNull(keyFunction);
     checkNotNull(valueFunction);
     checkNotNull(mergeFunction);
@@ -109,7 +113,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * code.
    */
   @SuppressWarnings("unchecked")
-  public static <K, V> ImmutableMap<K, V> of() {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of() {
     return (ImmutableMap<K, V>) RegularImmutableMap.EMPTY;
   }
 
@@ -118,7 +122,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * {@link Collections#singletonMap} but will not accept a null key or value. It is preferable
    * mainly for consistency and maintainability of your code.
    */
-  public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of(
+      K k1, V v1) {
     return ImmutableBiMap.of(k1, v1);
   }
 
@@ -127,7 +132,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @throws IllegalArgumentException if duplicate keys are provided
    */
-  public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2) {
     return RegularImmutableMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2));
   }
 
@@ -136,7 +142,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @throws IllegalArgumentException if duplicate keys are provided
    */
-  public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3) {
     return RegularImmutableMap.fromEntries(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
   }
 
@@ -145,7 +152,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @throws IllegalArgumentException if duplicate keys are provided
    */
-  public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
     return RegularImmutableMap.fromEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4));
   }
@@ -155,7 +163,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @throws IllegalArgumentException if duplicate keys are provided
    */
-  public static <K, V> ImmutableMap<K, V> of(
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
     return RegularImmutableMap.fromEntries(
         entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3), entryOf(k4, v4), entryOf(k5, v5));
@@ -170,7 +178,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>A call to {@link Entry#setValue} on the returned entry will always throw {@link
    * UnsupportedOperationException}.
    */
-  static <K, V> Entry<K, V> entryOf(K key, V value) {
+  static <K extends @NonNull Object, V extends @NonNull Object> Entry<K, V> entryOf(
+      K key, V value) {
     checkEntryNotNull(key, value);
     return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
@@ -243,8 +252,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 2.0
    */
-  public static class Builder<K, V> {
-    @MonotonicNonNull Comparator<? super V> valueComparator;
+  public static class Builder<K extends @NonNull Object, V extends @NonNull Object> {
+    @Nullable Comparator<? super V> valueComparator;
     Entry<K, V>[] entries;
     int size;
     boolean entriesUsed;
@@ -264,6 +273,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this.entriesUsed = false;
     }
 
+    @SuppressWarnings("assignment.type.incompatible") // arrays
     private void ensureCapacity(int minCapacity) {
       if (minCapacity > entries.length) {
         entries =
@@ -366,6 +376,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      *
      * @throws IllegalArgumentException if duplicate keys were added
      */
+    @SuppressWarnings("assignment.type.incompatible") // arrays
     public ImmutableMap<K, V> build() {
       /*
        * If entries is full, or if hash flooding is detected, then this implementation may end up
@@ -420,7 +431,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @throws NullPointerException if any key or value in {@code map} is null
    */
-  public static <K, V> ImmutableMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> copyOf(
+      Map<? extends K, ? extends V> map) {
     if ((map instanceof ImmutableMap) && !(map instanceof SortedMap)) {
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
@@ -444,7 +456,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 19.0
    */
   @Beta
-  public static <K, V> ImmutableMap<K, V> copyOf(
+  public static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> copyOf(
       Iterable<? extends Entry<? extends K, ? extends V>> entries) {
     @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
     Entry<K, V>[] entryArray = (Entry<K, V>[]) Iterables.toArray(entries, EMPTY_ENTRY_ARRAY);
@@ -463,10 +475,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  private static <K extends Enum<K>, V> ImmutableMap<K, V> copyOfEnumMap(
+  private static <K extends Enum<K>, V extends @NonNull Object> ImmutableMap<K, V> copyOfEnumMap(
       EnumMap<K, ? extends V> original) {
     EnumMap<K, V> copy = new EnumMap<>(original);
-    for (Entry<?, ?> entry : copy.entrySet()) {
+    for (Entry<? extends @NonNull Object, ? extends @NonNull Object> entry : copy.entrySet()) {
       checkEntryNotNull(entry.getKey(), entry.getValue());
     }
     return ImmutableEnumMap.asImmutable(copy);
@@ -474,7 +486,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
 
-  abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
+  abstract static class IteratorBasedImmutableMap<
+          K extends @NonNull Object, V extends @NonNull Object>
+      extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
 
     Spliterator<Entry<K, V>> entrySpliterator() {
@@ -522,7 +536,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final V put(K k, V v) {
+  public final @Nullable V put(K k, V v) {
     throw new UnsupportedOperationException();
   }
 
@@ -559,7 +573,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V replace(K key, V value) {
+  public final @Nullable V replace(K key, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -571,7 +585,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
+  public final V computeIfAbsent(
+      K key, Function<? super K, ? extends @Nullable V> mappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -584,7 +599,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   public final V computeIfPresent(
-      K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+      K key, BiFunction<? super K, ? super V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -596,7 +611,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+  public final V compute(
+      K key, BiFunction<? super K, ? super V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -609,7 +625,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   @Deprecated
   @Override
   public final V merge(
-      K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -645,7 +661,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final V remove(Object o) {
+  public final @Nullable V remove(@Nullable Object o) {
     throw new UnsupportedOperationException();
   }
 
@@ -657,7 +673,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   @Deprecated
   @Override
-  public final boolean remove(Object key, Object value) {
+  public final boolean remove(@Nullable Object key, @Nullable Object value) {
     throw new UnsupportedOperationException();
   }
 
@@ -679,18 +695,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return get(key) != null;
   }
 
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 
   // Overriding to mark it Nullable
   @Override
-  public abstract V get(Object key);
+  public abstract @Nullable V get(@Nullable Object key);
 
   /**
    * @since 21.0 (but only since 23.5 in the Android <a
@@ -698,12 +714,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *     Note, however, that Java 8 users can call this method with any version and flavor of Guava.
    */
   @Override
-  public final V getOrDefault(Object key, V defaultValue) {
+  public final V getOrDefault(@Nullable Object key, V defaultValue) {
     V result = get(key);
     return (result != null) ? result : defaultValue;
   }
 
-  @LazyInit @RetainedWith private transient ImmutableSet<Entry<K, V>> entrySet;
+  @LazyInit @Nullable @RetainedWith private transient ImmutableSet<Entry<K, V>> entrySet;
 
   /**
    * Returns an immutable set of the mappings in this map. The iteration order is specified by the
@@ -717,7 +733,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  @LazyInit @RetainedWith private transient ImmutableSet<K> keySet;
+  @LazyInit @Nullable @RetainedWith private transient ImmutableSet<K> keySet;
 
   /**
    * Returns an immutable set of the keys in this map, in the same order that they appear in {@link
@@ -755,7 +771,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
-  @LazyInit @RetainedWith private transient ImmutableCollection<V> values;
+  @LazyInit @Nullable @RetainedWith private transient ImmutableCollection<V> values;
 
   /**
    * Returns an immutable collection of the values in this map, in the same order that they appear
@@ -775,7 +791,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract ImmutableCollection<V> createValues();
 
   // cached so that this.multimapView().inverse() only computes inverse once
-  @LazyInit private transient ImmutableSetMultimap<K, V> multimapView;
+  @LazyInit @Nullable private transient ImmutableSetMultimap<K, V> multimapView;
 
   /**
    * Returns a multimap view of the map.
@@ -808,12 +824,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return ImmutableMap.this.containsKey(key);
     }
 
     @Override
-    public ImmutableSet<V> get(Object key) {
+    public @Nullable ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
       return (outerValue == null) ? null : ImmutableSet.of(outerValue);
     }
@@ -863,7 +879,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 
@@ -892,11 +908,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     private final Object[] keys;
     private final Object[] values;
 
-    SerializedForm(ImmutableMap<?, ?> map) {
+    /*
+     * "extends @NonNull Object" works around
+     * https://github.com/typetools/checker-framework/issues/3013
+     */
+    SerializedForm(ImmutableMap<? extends @NonNull Object, ? extends @NonNull Object> map) {
       keys = new Object[map.size()];
       values = new Object[map.size()];
       int i = 0;
-      for (Entry<?, ?> entry : map.entrySet()) {
+      for (Entry<? extends @NonNull Object, ? extends @NonNull Object> entry : map.entrySet()) {
         keys[i] = entry.getKey();
         values[i] = entry.getValue();
         i++;

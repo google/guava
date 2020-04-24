@@ -18,6 +18,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A callback interface to process bytes from a stream.
@@ -30,7 +31,7 @@ import java.io.IOException;
  */
 @Beta
 @GwtIncompatible
-public interface ByteProcessor<T> {
+public interface ByteProcessor<T extends @Nullable Object> {
   /**
    * This method will be called for each chunk of bytes in an input stream. The implementation
    * should process the bytes from {@code buf[off]} through {@code buf[off + len - 1]} (inclusive).

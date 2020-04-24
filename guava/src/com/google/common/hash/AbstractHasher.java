@@ -18,6 +18,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An abstract implementation of {@link Hasher}, which only requires subtypes to implement {@link
@@ -114,7 +115,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
-  public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
+  public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
     funnel.funnel(instance, this);
     return this;
   }

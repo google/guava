@@ -28,6 +28,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A mutable class-to-instance map backed by an arbitrary user-provided map. See also {@link
@@ -42,15 +44,16 @@ import java.util.Spliterator;
  */
 @GwtIncompatible
 @SuppressWarnings("serial") // using writeReplace instead of standard serialization
-public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
+public final class MutableClassToInstanceMap<B extends @NonNull Object>
+    extends ForwardingMap<Class<? extends B>, @Nullable B>
     implements ClassToInstanceMap<B>, Serializable {
 
   /**
    * Returns a new {@code MutableClassToInstanceMap} instance backed by a {@link HashMap} using the
    * default initial capacity and load factor.
    */
-  public static <B> MutableClassToInstanceMap<B> create() {
-    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends B>, B>());
+  public static <B extends @NonNull Object> MutableClassToInstanceMap<B> create() {
+    return new MutableClassToInstanceMap<B>(new HashMap<Class<? extends B>, @Nullable B>());
   }
 
   /**
@@ -58,87 +61,110 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
    * backingMap}. The caller surrenders control of the backing map, and thus should not allow any
    * direct references to it to remain accessible.
    */
-  public static <B> MutableClassToInstanceMap<B> create(Map<Class<? extends B>, B> backingMap) {
+  public static <B extends @NonNull Object> MutableClassToInstanceMap<B> create(
+      Map<Class<? extends B>, @Nullable B> backingMap) {
     return new MutableClassToInstanceMap<B>(backingMap);
   }
 
-  private final Map<Class<? extends B>, B> delegate;
+  private final Map<Class<? extends B>, @Nullable B> delegate;
 
-  private MutableClassToInstanceMap(Map<Class<? extends B>, B> delegate) {
+  private MutableClassToInstanceMap(Map<Class<? extends B>, @Nullable B> delegate) {
     this.delegate = checkNotNull(delegate);
   }
 
   @Override
-  protected Map<Class<? extends B>, B> delegate() {
+  protected Map<Class<? extends B>, @Nullable B> delegate() {
     return delegate;
   }
 
   /**
    * Wraps the {@code setValue} implementation of an {@code Entry} to enforce the class constraint.
    */
-  private static <B> Entry<Class<? extends B>, B> checkedEntry(
-      final Entry<Class<? extends B>, B> entry) {
-    return new ForwardingMapEntry<Class<? extends B>, B>() {
-      @Override
-      protected Entry<Class<? extends B>, B> delegate() {
-        return entry;
-      }
+  private static <B extends @NonNull Object> Entry<Class<? extends B>, @Nullable B> checkedEntry(
+      Entry<Class<? extends B>, @Nullable B> entry) {
+    return new CheckedEntry<>(entry);
+  }
 
-      @Override
-      public B setValue(B value) {
-        return super.setValue(cast(getKey(), value));
-      }
-    };
+  // Not an anonymous class to avoid https://github.com/typetools/checker-framework/issues/3021
+  private static final class CheckedEntry<B extends @NonNull Object>
+      extends ForwardingMapEntry<Class<? extends B>, @Nullable B> {
+    private final Entry<Class<? extends B>, @Nullable B> entry;
+
+    CheckedEntry(Entry<Class<? extends B>, @Nullable B> entry) {
+      this.entry = entry;
+    }
+
+    @Override
+    protected Entry<Class<? extends B>, @Nullable B> delegate() {
+      return entry;
+    }
+
+    @Override
+    public @Nullable B setValue(@Nullable B value) {
+      return super.setValue(cast(getKey(), value));
+    }
   }
 
   @Override
-  public Set<Entry<Class<? extends B>, B>> entrySet() {
-    return new ForwardingSet<Entry<Class<? extends B>, B>>() {
+  // The warning is probably related to https://github.com/typetools/checker-framework/issues/3027
+  @SuppressWarnings("override.return.invalid")
+  public Set<Entry<Class<? extends B>, @Nullable B>> entrySet() {
+    return new CheckedEntrySet();
+  }
 
-      @Override
-      protected Set<Entry<Class<? extends B>, B>> delegate() {
-        return MutableClassToInstanceMap.this.delegate().entrySet();
-      }
+  // Not an anonymous class to avoid https://github.com/typetools/checker-framework/issues/3021
+  private final class CheckedEntrySet
+      extends ForwardingSet<Entry<Class<? extends B>, @Nullable B>> {
+    @Override
+    protected Set<Entry<Class<? extends B>, @Nullable B>> delegate() {
+      return MutableClassToInstanceMap.this.delegate().entrySet();
+    }
 
-      @Override
-      public Spliterator<Entry<Class<? extends B>, B>> spliterator() {
-        return CollectSpliterators.map(
-            delegate().spliterator(), MutableClassToInstanceMap::checkedEntry);
-      }
+    @Override
+    public Spliterator<Entry<Class<? extends B>, @Nullable B>> spliterator() {
+      return CollectSpliterators
+          .<Entry<Class<? extends B>, @Nullable B>, Entry<Class<? extends B>, @Nullable B>>map(
+              delegate().spliterator(), MutableClassToInstanceMap::checkedEntry);
+    }
 
-      @Override
-      public Iterator<Entry<Class<? extends B>, B>> iterator() {
-        return new TransformedIterator<Entry<Class<? extends B>, B>, Entry<Class<? extends B>, B>>(
-            delegate().iterator()) {
-          @Override
-          Entry<Class<? extends B>, B> transform(Entry<Class<? extends B>, B> from) {
-            return checkedEntry(from);
-          }
-        };
-      }
+    @Override
+    public Iterator<Entry<Class<? extends B>, @Nullable B>> iterator() {
+      return new TransformedIterator<
+          Entry<Class<? extends B>, @Nullable B>, Entry<Class<? extends B>, @Nullable B>>(
+          delegate().iterator()) {
+        @Override
+        Entry<Class<? extends B>, @Nullable B> transform(
+            Entry<Class<? extends B>, @Nullable B> from) {
+          return MutableClassToInstanceMap.<B>checkedEntry(from);
+        }
+      };
+    }
 
-      @Override
-      public Object[] toArray() {
-        return standardToArray();
-      }
+    @Override
+    public Object[] toArray() {
+      return standardToArray();
+    }
 
-      @Override
-      public <T> T[] toArray(T[] array) {
-        return standardToArray(array);
-      }
-    };
+    @Override
+    public <T> T[] toArray(T[] array) {
+      return standardToArray(array);
+    }
   }
 
   @Override
   @CanIgnoreReturnValue
-  public B put(Class<? extends B> key, B value) {
+  // The warning is probably related to https://github.com/typetools/checker-framework/issues/3027
+  @SuppressWarnings("override.param.invalid")
+  public @Nullable B put(Class<? extends B> key, @Nullable B value) {
     return super.put(key, cast(key, value));
   }
 
   @Override
-  public void putAll(Map<? extends Class<? extends B>, ? extends B> map) {
-    Map<Class<? extends B>, B> copy = new LinkedHashMap<>(map);
-    for (Entry<? extends Class<? extends B>, B> entry : copy.entrySet()) {
+  // The warning is probably related to https://github.com/typetools/checker-framework/issues/3027
+  @SuppressWarnings("override.param.invalid")
+  public void putAll(Map<? extends Class<? extends B>, ? extends @Nullable B> map) {
+    Map<Class<? extends B>, @Nullable B> copy = new LinkedHashMap<>(map);
+    for (Entry<? extends Class<? extends B>, @Nullable B> entry : copy.entrySet()) {
       cast(entry.getKey(), entry.getValue());
     }
     super.putAll(copy);
@@ -146,17 +172,18 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
 
   @CanIgnoreReturnValue
   @Override
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value) {
     return cast(type, put(type, value));
   }
 
   @Override
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return cast(type, get(type));
   }
 
   @CanIgnoreReturnValue
-  private static <B, T extends B> T cast(Class<T> type, B value) {
+  private static <T extends @NonNull Object> @Nullable T cast(
+      Class<T> type, @Nullable Object value) {
     return Primitives.wrap(type).cast(value);
   }
 
@@ -165,15 +192,15 @@ public final class MutableClassToInstanceMap<B> extends ForwardingMap<Class<? ex
   }
 
   /** Serialized form of the map, to avoid serializing the constraint. */
-  private static final class SerializedForm<B> implements Serializable {
-    private final Map<Class<? extends B>, B> backingMap;
+  private static final class SerializedForm<B extends @NonNull Object> implements Serializable {
+    private final Map<Class<? extends B>, @Nullable B> backingMap;
 
-    SerializedForm(Map<Class<? extends B>, B> backingMap) {
+    SerializedForm(Map<Class<? extends B>, @Nullable B> backingMap) {
       this.backingMap = backingMap;
     }
 
     Object readResolve() {
-      return create(backingMap);
+      return MutableClassToInstanceMap.<B>create(backingMap);
     }
 
     private static final long serialVersionUID = 0;

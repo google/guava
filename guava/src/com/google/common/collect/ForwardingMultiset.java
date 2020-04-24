@@ -23,6 +23,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A multiset which forwards all its method calls to another multiset. Subclasses should override
@@ -47,7 +48,8 @@ import java.util.Set;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> implements Multiset<E> {
+public abstract class ForwardingMultiset<E extends @Nullable Object> extends ForwardingCollection<E>
+    implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingMultiset() {}
@@ -56,7 +58,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   protected abstract Multiset<E> delegate();
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     return delegate().count(element);
   }
 
@@ -68,7 +70,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
 
   @CanIgnoreReturnValue
   @Override
-  public int remove(Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
@@ -83,7 +85,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     return object == this || delegate().equals(object);
   }
 
@@ -111,7 +113,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardContains(Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     return count(object) > 0;
   }
 
@@ -135,8 +137,8 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Beta
-  protected int standardCount(Object object) {
-    for (Entry<?> entry : this.entrySet()) {
+  protected int standardCount(@Nullable Object object) {
+    for (Entry<E> entry : this.entrySet()) {
       if (Objects.equal(entry.getElement(), object)) {
         return entry.getCount();
       }
@@ -177,7 +179,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardRemove(Object element) {
+  protected boolean standardRemove(@Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
@@ -189,7 +191,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardRemoveAll(Collection<?> elementsToRemove) {
+  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
@@ -201,7 +203,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   @Override
-  protected boolean standardRetainAll(Collection<?> elementsToRetain) {
+  protected boolean standardRetainAll(Collection<? extends @Nullable Object> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
@@ -284,7 +286,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    *
    * @since 7.0
    */
-  protected boolean standardEquals(Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 

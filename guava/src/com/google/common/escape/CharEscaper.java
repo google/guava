@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object that converts literal text into a format safe for inclusion in a particular context
@@ -80,7 +81,7 @@ public abstract class CharEscaper extends Escaper {
    * @param c the character to escape if necessary
    * @return the replacement characters, or {@code null} if no escaping was needed
    */
-  protected abstract char[] escape(char c);
+  protected abstract char @Nullable [] escape(char c);
 
   /**
    * Returns the escaped form of a given literal string, starting at the given index. This method is

@@ -40,6 +40,8 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Set} whose contents will never change, with many other important properties detailed at
@@ -49,7 +51,8 @@ import java.util.stream.Collector;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+public abstract class ImmutableSet<E extends @NonNull Object> extends ImmutableCollection<E>
+    implements Set<E> {
   static final int SPLITERATOR_CHARACTERISTICS =
       ImmutableCollection.SPLITERATOR_CHARACTERISTICS | Spliterator.DISTINCT;
 
@@ -61,7 +64,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 21.0
    */
-  public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
+  public static <E extends @NonNull Object> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     return CollectCollectors.toImmutableSet();
   }
 
@@ -70,7 +73,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * consistency, and because the return type conveys the immutability guarantee.
    */
   @SuppressWarnings({"unchecked"}) // fully variant implementation (never actually produces any Es)
-  public static <E> ImmutableSet<E> of() {
+  public static <E extends @NonNull Object> ImmutableSet<E> of() {
     return (ImmutableSet<E>) RegularImmutableSet.EMPTY;
   }
 
@@ -79,7 +82,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Collections#singleton} for code consistency, {@code null} rejection, and because the return
    * type conveys the immutability guarantee.
    */
-  public static <E> ImmutableSet<E> of(E element) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(E element) {
     return new SingletonImmutableSet<E>(element);
   }
 
@@ -88,7 +91,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
-  public static <E> ImmutableSet<E> of(E e1, E e2) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(E e1, E e2) {
     return construct(2, 2, e1, e2);
   }
 
@@ -97,7 +100,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
-  public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(E e1, E e2, E e3) {
     return construct(3, 3, e1, e2, e3);
   }
 
@@ -106,7 +109,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
-  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
     return construct(4, 4, e1, e2, e3, e4);
   }
 
@@ -115,7 +118,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * first specified. That is, if multiple elements are {@linkplain Object#equals equal}, all except
    * the first are ignored.
    */
-  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
     return construct(5, 5, e1, e2, e3, e4, e5);
   }
 
@@ -129,7 +132,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 3.0 (source-compatible since 2.0)
    */
   @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
-  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
+  public static <E extends @NonNull Object> ImmutableSet<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     checkArgument(
         others.length <= Integer.MAX_VALUE - 6, "the total number of elements must fit in an int");
     final int paramCount = 6;
@@ -159,7 +163,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
-  private static <E> ImmutableSet<E> constructUnknownDuplication(int n, Object... elements) {
+  private static <E extends @NonNull Object> ImmutableSet<E> constructUnknownDuplication(
+      int n, Object... elements) {
     // Guess the size is "halfway between" all duplicates and no duplicates, on a log scale.
     return construct(
         n,
@@ -183,7 +188,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is null
    */
-  private static <E> ImmutableSet<E> construct(int n, int expectedSize, Object... elements) {
+  private static <E extends @NonNull Object> ImmutableSet<E> construct(
+      int n, int expectedSize, Object... elements) {
     switch (n) {
       case 0:
         return of();
@@ -214,7 +220,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
-  public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+  @SuppressWarnings("assignment.type.incompatible") // arrays
+  public static <E extends @NonNull Object> ImmutableSet<E> copyOf(
+      Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here
      * TODO(lowasser): consider checking for Multiset here
@@ -250,7 +258,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
+  public static <E extends @NonNull Object> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
     return (elements instanceof Collection)
         ? copyOf((Collection<? extends E>) elements)
         : copyOf(elements.iterator());
@@ -262,7 +270,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E> ImmutableSet<E> copyOf(Iterator<? extends E> elements) {
+  public static <E extends @NonNull Object> ImmutableSet<E> copyOf(Iterator<? extends E> elements) {
     // We special-case for 0 or 1 elements, but anything further is madness.
     if (!elements.hasNext()) {
       return of();
@@ -282,7 +290,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 3.0
    */
-  public static <E> ImmutableSet<E> copyOf(E[] elements) {
+  public static <E extends @NonNull Object> ImmutableSet<E> copyOf(E[] elements) {
     switch (elements.length) {
       case 0:
         return of();
@@ -306,7 +314,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof ImmutableSet
@@ -328,7 +336,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  @LazyInit @RetainedWith private transient ImmutableList<E> asList;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
   @Override
   public ImmutableList<E> asList() {
@@ -340,7 +348,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     return new RegularImmutableAsList<E>(this, toArray());
   }
 
-  abstract static class Indexed<E> extends ImmutableSet<E> {
+  abstract static class Indexed<E extends @NonNull Object> extends ImmutableSet<E> {
     abstract E get(int index);
 
     @Override
@@ -413,7 +421,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
    * Builder} constructor.
    */
-  public static <E> Builder<E> builder() {
+  public static <E extends @NonNull Object> Builder<E> builder() {
     return new Builder<E>();
   }
 
@@ -430,14 +438,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 23.1
    */
   @Beta
-  public static <E> Builder<E> builderWithExpectedSize(int expectedSize) {
+  public static <E extends @NonNull Object> Builder<E> builderWithExpectedSize(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
     return new Builder<E>(expectedSize);
   }
 
   /** Builds a new open-addressed hash table from the first n objects in elements. */
-  static Object[] rebuildHashTable(int newTableSize, Object[] elements, int n) {
-    Object[] hashTable = new Object[newTableSize];
+  @SuppressWarnings("dereference.of.nullable") // arrays
+  static @Nullable Object[] rebuildHashTable(int newTableSize, @Nullable Object[] elements, int n) {
+    @Nullable Object[] hashTable = new @Nullable Object[newTableSize];
     int mask = hashTable.length - 1;
     for (int i = 0; i < n; i++) {
       Object e = elements[i];
@@ -471,7 +480,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 2.0
    */
-  public static class Builder<E> extends ImmutableCollection.Builder<E> {
+  public static class Builder<E extends @NonNull Object> extends ImmutableCollection.Builder<E> {
     private SetBuilderImpl<E> impl;
     boolean forceCopy;
 
@@ -483,6 +492,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       impl = new RegularSetBuilderImpl<E>(capacity);
     }
 
+    @SuppressWarnings("nullness") // Weird case forced by our inheritance hierarchy.
     Builder(@SuppressWarnings("unused") boolean subclass) {
       this.impl = null; // unused
     }
@@ -556,7 +566,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   /** Swappable internal implementation of an ImmutableSet.Builder. */
-  private abstract static class SetBuilderImpl<E> {
+  private abstract static class SetBuilderImpl<E extends @NonNull Object> {
     E[] dedupedElements;
     int distinct;
 
@@ -567,6 +577,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     /** Initializes this SetBuilderImpl with a copy of the deduped elements array from toCopy. */
+    @SuppressWarnings("assignment.type.incompatible") // arrays
     SetBuilderImpl(SetBuilderImpl<E> toCopy) {
       this.dedupedElements = Arrays.copyOf(toCopy.dedupedElements, toCopy.dedupedElements.length);
       this.distinct = toCopy.distinct;
@@ -576,6 +587,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * Resizes internal data structures if necessary to store the specified number of distinct
      * elements.
      */
+    @SuppressWarnings("assignment.type.incompatible") // arrays
     private void ensureCapacity(int minCapacity) {
       if (minCapacity > dedupedElements.length) {
         int newCapacity =
@@ -692,7 +704,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * definitely returns false. In between those constraints, the result of this method is undefined,
    * subject to the above {@link #HASH_FLOODING_FPP} constraint.
    */
-  static boolean hashFloodingDetected(Object[] hashTable) {
+  static boolean hashFloodingDetected(@Nullable Object[] hashTable) {
     int maxRunBeforeFallback = maxRunBeforeFallback(hashTable.length);
 
     // Test for a run wrapping around the end of the table of length at least maxRunBeforeFallback.
@@ -748,8 +760,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * <p>This implementation attempts to detect hash flooding, and if it's identified, falls back to
    * JdkBackedSetBuilderImpl.
    */
-  private static final class RegularSetBuilderImpl<E> extends SetBuilderImpl<E> {
-    private Object[] hashTable;
+  private static final class RegularSetBuilderImpl<E extends @NonNull Object>
+      extends SetBuilderImpl<E> {
+    private @Nullable Object[] hashTable;
     private int maxRunBeforeFallback;
     private int expandTableThreshold;
     private int hashCode;
@@ -819,6 +832,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
 
     @Override
+    @SuppressWarnings("assignment.type.incompatible") // arrays
     ImmutableSet<E> build() {
       switch (distinct) {
         case 0:
@@ -838,7 +852,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   /**
    * SetBuilderImpl version that uses a JDK HashSet, which has built in hash flooding protection.
    */
-  private static final class JdkBackedSetBuilderImpl<E> extends SetBuilderImpl<E> {
+  private static final class JdkBackedSetBuilderImpl<E extends @NonNull Object>
+      extends SetBuilderImpl<E> {
     private final Set<Object> delegate;
 
     JdkBackedSetBuilderImpl(SetBuilderImpl<E> toCopy) {

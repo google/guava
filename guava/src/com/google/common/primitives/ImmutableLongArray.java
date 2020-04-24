@@ -33,6 +33,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable array of {@code long} values, with an API resembling {@link List}.
@@ -481,17 +482,17 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
-    public boolean contains(Object target) {
+    public boolean contains(@Nullable Object target) {
       return indexOf(target) >= 0;
     }
 
     @Override
-    public int indexOf(Object target) {
+    public int indexOf(@Nullable Object target) {
       return target instanceof Long ? parent.indexOf((Long) target) : -1;
     }
 
     @Override
-    public int lastIndexOf(Object target) {
+    public int lastIndexOf(@Nullable Object target) {
       return target instanceof Long ? parent.lastIndexOf((Long) target) : -1;
     }
 
@@ -507,7 +508,7 @@ public final class ImmutableLongArray implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -516,7 +517,7 @@ public final class ImmutableLongArray implements Serializable {
       if (!(object instanceof List)) {
         return false;
       }
-      List<?> that = (List<?>) object;
+      List<? extends @Nullable Object> that = (List<? extends @Nullable Object>) object;
       if (this.size() != that.size()) {
         return false;
       }
@@ -547,7 +548,7 @@ public final class ImmutableLongArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

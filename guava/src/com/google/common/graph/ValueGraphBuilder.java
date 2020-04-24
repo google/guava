@@ -21,6 +21,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A builder for constructing instances of {@link MutableValueGraph} or {@link ImmutableValueGraph}
@@ -65,7 +66,8 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
-public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
+public final class ValueGraphBuilder<N extends @NonNull Object, V extends @NonNull Object>
+    extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */
   private ValueGraphBuilder(boolean directed) {
@@ -90,7 +92,8 @@ public final class ValueGraphBuilder<N, V> extends AbstractGraphBuilder<N> {
    * interface, such as {@link ValueGraph#isDirected()}. Other properties, such as {@link
    * #expectedNodeCount(int)}, are not set in the new builder.
    */
-  public static <N, V> ValueGraphBuilder<N, V> from(ValueGraph<N, V> graph) {
+  public static <N extends @NonNull Object, V extends @NonNull Object> ValueGraphBuilder<N, V> from(
+      ValueGraph<N, V> graph) {
     return new ValueGraphBuilder<N, V>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());

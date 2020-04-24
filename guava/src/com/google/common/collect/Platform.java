@@ -24,6 +24,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -33,7 +34,8 @@ import java.util.Set;
 @GwtCompatible(emulated = true)
 final class Platform {
   /** Returns the platform preferred implementation of a map based on a hash table. */
-  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return Maps.newHashMapWithExpectedSize(expectedSize);
   }
 
@@ -41,12 +43,13 @@ final class Platform {
    * Returns the platform preferred implementation of an insertion ordered map based on a hash
    * table.
    */
-  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
   }
 
   /** Returns the platform preferred implementation of a set based on a hash table. */
-  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
   }
 
@@ -54,7 +57,7 @@ final class Platform {
    * Returns the platform preferred implementation of an insertion ordered set based on a hash
    * table.
    */
-  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
     return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
   }
 
@@ -62,7 +65,8 @@ final class Platform {
    * Returns the platform preferred map implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> preservesInsertionOrderOnPutsMap() {
     return Maps.newLinkedHashMap();
   }
 
@@ -70,7 +74,7 @@ final class Platform {
    * Returns the platform preferred set implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
+  static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
     return Sets.newLinkedHashSet();
   }
 
@@ -80,6 +84,7 @@ final class Platform {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
+  @SuppressWarnings("argument.type.incompatible") // arrays
   static <T> T[] newArray(T[] reference, int length) {
     Class<?> type = reference.getClass().getComponentType();
 
@@ -91,6 +96,7 @@ final class Platform {
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
+  @SuppressWarnings("return.type.incompatible") // arrays
   static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
     return Arrays.copyOfRange(source, from, to, (Class<? extends T[]>) arrayOfType.getClass());
   }

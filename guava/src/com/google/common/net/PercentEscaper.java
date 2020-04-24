@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code UnicodeEscaper} that escapes some set of Java characters using a UTF-8 based percent
@@ -155,7 +156,7 @@ public final class PercentEscaper extends UnicodeEscaper {
 
   /** Escapes the given Unicode code point in UTF-8. */
   @Override
-  protected char[] escape(int cp) {
+  protected char @Nullable [] escape(int cp) {
     // We should never get negative values here but if we do it will throw an
     // IndexOutOfBoundsException, so at least it will get spotted.
     if (cp < safeOctets.length && safeOctets[cp]) {

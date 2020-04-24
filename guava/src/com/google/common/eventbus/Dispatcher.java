@@ -15,6 +15,7 @@
 package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Queues;
 import java.util.Iterator;
@@ -96,10 +97,12 @@ abstract class Dispatcher {
     void dispatch(Object event, Iterator<Subscriber> subscribers) {
       checkNotNull(event);
       checkNotNull(subscribers);
-      Queue<Event> queueForThread = queue.get();
+      // requireNonNull is safe because of initialValue.
+      Queue<Event> queueForThread = requireNonNull(queue.get());
       queueForThread.offer(new Event(event, subscribers));
 
-      if (!dispatching.get()) {
+      // requireNonNull is safe because of initialValue.
+      if (!requireNonNull(dispatching.get())) {
         dispatching.set(true);
         try {
           Event nextEvent;

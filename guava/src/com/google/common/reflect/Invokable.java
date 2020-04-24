@@ -31,6 +31,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Wrapper around either a {@link Method} or a {@link Constructor}. Convenience API is provided to
@@ -55,7 +57,8 @@ import java.util.Arrays;
  * @since 14.0
  */
 @Beta
-public abstract class Invokable<T, R> extends Element implements GenericDeclaration {
+public abstract class Invokable<T extends @NonNull Object, R extends @NonNull Object>
+    extends Element implements GenericDeclaration {
 
   <M extends AccessibleObject & Member> Invokable(M member) {
     super(member);
@@ -67,7 +70,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   }
 
   /** Returns {@link Invokable} of {@code constructor}. */
-  public static <T> Invokable<T, T> from(Constructor<T> constructor) {
+  public static <T extends @NonNull Object> Invokable<T, T> from(Constructor<T> constructor) {
     return new ConstructorInvokable<T>(constructor);
   }
 
@@ -93,12 +96,12 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
    *     invocation conversion.
    * @throws InvocationTargetException if the underlying method or constructor throws an exception.
    */
-  // All subclasses are owned by us and we'll make sure to get the R type right.
-  @SuppressWarnings("unchecked")
+  // All subclasses are owned by us and we'll make sure to get the R type right, including nullness.
+  @SuppressWarnings({"unchecked", "nullness"})
   @CanIgnoreReturnValue
-  public final R invoke(T receiver, Object... args)
+  public final @Nullable R invoke(@Nullable T receiver, Object... args)
       throws InvocationTargetException, IllegalAccessException {
-    return (R) invokeInternal(receiver, checkNotNull(args));
+    return (@Nullable R) invokeInternal(receiver, checkNotNull(args));
   }
 
   /** Returns the return type of this {@code Invokable}. */
@@ -176,7 +179,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
-  abstract Object invokeInternal(Object receiver, Object[] args)
+  abstract @Nullable Object invokeInternal(@Nullable Object receiver, Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
   abstract Type[] getGenericParameterTypes();
@@ -192,7 +195,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   public abstract AnnotatedType getAnnotatedReturnType();
 
-  static class MethodInvokable<T> extends Invokable<T, Object> {
+  static class MethodInvokable<T extends @NonNull Object> extends Invokable<T, Object> {
 
     final Method method;
 
@@ -202,9 +205,15 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(Object receiver, Object[] args)
+    final @Nullable Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
-      return method.invoke(receiver, args);
+      /*
+       * If the method is an instance method, invoke() will throw NullPointerException. That's the
+       * best we can do without having separate user-visible types for static and instance methods.
+       */
+      @SuppressWarnings("nullness")
+      Object result = method.invoke(receiver, args);
+      return result;
     }
 
     @Override
@@ -256,7 +265,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
   }
 
-  static class ConstructorInvokable<T> extends Invokable<T, T> {
+  static class ConstructorInvokable<T extends @NonNull Object> extends Invokable<T, T> {
 
     final Constructor<?> constructor;
 
@@ -266,7 +275,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
-    final Object invokeInternal(Object receiver, Object[] args)
+    final Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);
@@ -291,6 +300,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override
+    @SuppressWarnings("return.type.incompatible") // arrays
     Type[] getGenericParameterTypes() {
       Type[] types = constructor.getGenericParameterTypes();
       if (types.length > 0 && mayNeedHiddenThis()) {

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Primitives;
@@ -24,6 +25,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ClassToInstanceMap} whose contents will never change, with many other important
@@ -34,7 +37,8 @@ import java.util.Map;
  */
 @Immutable(containerOf = "B")
 @GwtIncompatible
-public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? extends B>, B>
+public final class ImmutableClassToInstanceMap<B extends @NonNull Object>
+    extends ForwardingMap<Class<? extends B>, @Nullable B>
     implements ClassToInstanceMap<B>, Serializable {
 
   private static final ImmutableClassToInstanceMap<Object> EMPTY =
@@ -46,7 +50,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    * @since 19.0
    */
   @SuppressWarnings("unchecked")
-  public static <B> ImmutableClassToInstanceMap<B> of() {
+  public static <B extends @NonNull Object> ImmutableClassToInstanceMap<B> of() {
     return (ImmutableClassToInstanceMap<B>) EMPTY;
   }
 
@@ -55,7 +59,8 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    *
    * @since 19.0
    */
-  public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
+  public static <B extends @NonNull Object, T extends B> ImmutableClassToInstanceMap<B> of(
+      Class<T> type, T value) {
     ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
     return new ImmutableClassToInstanceMap<B>(map);
   }
@@ -64,7 +69,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
    * Builder} constructor.
    */
-  public static <B> Builder<B> builder() {
+  public static <B extends @NonNull Object> Builder<B> builder() {
     return new Builder<B>();
   }
 
@@ -85,7 +90,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    *
    * @since 2.0
    */
-  public static final class Builder<B> {
+  public static final class Builder<B extends @NonNull Object> {
     private final ImmutableMap.Builder<Class<? extends B>, B> mapBuilder = ImmutableMap.builder();
 
     /**
@@ -115,7 +120,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
       return this;
     }
 
-    private static <B, T extends B> T cast(Class<T> type, B value) {
+    private static <T extends @NonNull Object> T cast(Class<T> type, Object value) {
       return Primitives.wrap(type).cast(value);
     }
 
@@ -146,7 +151,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
    * @throws NullPointerException if any key or value in {@code map} is null
    * @throws ClassCastException if any value is not an instance of the type specified by its key
    */
-  public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
+  public static <B extends @NonNull Object, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
       @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
@@ -156,20 +161,21 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
     return new Builder<B>().putAll(map).build();
   }
 
-  private final ImmutableMap<Class<? extends B>, B> delegate;
+  private final Map<Class<? extends B>, @Nullable B> delegate;
 
   private ImmutableClassToInstanceMap(ImmutableMap<Class<? extends B>, B> delegate) {
-    this.delegate = delegate;
+    // Convert from Map<..., B> to Map<..., @Nullable B>.
+    this.delegate = unmodifiableMap(delegate);
   }
 
   @Override
-  protected Map<Class<? extends B>, B> delegate() {
+  protected Map<Class<? extends B>, @Nullable B> delegate() {
     return delegate;
   }
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return (T) delegate.get(checkNotNull(type));
   }
 
@@ -182,7 +188,7 @@ public final class ImmutableClassToInstanceMap<B> extends ForwardingMap<Class<? 
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value) {
     throw new UnsupportedOperationException();
   }
 

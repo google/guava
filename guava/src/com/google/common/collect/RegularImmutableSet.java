@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -28,18 +30,19 @@ import java.util.Spliterators;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class RegularImmutableSet<E> extends ImmutableSet<E> {
+final class RegularImmutableSet<E extends @NonNull Object> extends ImmutableSet<E> {
   static final RegularImmutableSet<Object> EMPTY =
       new RegularImmutableSet<>(new Object[0], 0, null, 0);
 
   private final transient Object[] elements;
   // the same elements in hashed positions (plus nulls)
-  @VisibleForTesting final transient Object[] table;
+  @VisibleForTesting final transient @Nullable Object @Nullable [] table;
   // 'and' with an int to get a valid table index.
   private final transient int mask;
   private final transient int hashCode;
 
-  RegularImmutableSet(Object[] elements, int hashCode, Object[] table, int mask) {
+  RegularImmutableSet(
+      Object[] elements, int hashCode, @Nullable Object @Nullable [] table, int mask) {
     this.elements = elements;
     this.table = table;
     this.mask = mask;
@@ -47,8 +50,8 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(Object target) {
-    Object[] table = this.table;
+  public boolean contains(@Nullable Object target) {
+    @Nullable Object[] table = this.table;
     if (target == null || table == null) {
       return false;
     }

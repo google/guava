@@ -17,6 +17,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to classes in the {@code java.util.concurrent.atomic} package.
@@ -33,7 +35,7 @@ public final class Atomics {
    *
    * @return a new {@code AtomicReference} with no initial value
    */
-  public static <V> AtomicReference<V> newReference() {
+  public static <V extends @NonNull Object> AtomicReference<V> newReference() {
     return new AtomicReference<V>();
   }
 
@@ -43,7 +45,8 @@ public final class Atomics {
    * @param initialValue the initial value
    * @return a new {@code AtomicReference} with the given initial value
    */
-  public static <V> AtomicReference<V> newReference(V initialValue) {
+  public static <V extends @NonNull Object> AtomicReference<V> newReference(
+      @Nullable V initialValue) {
     return new AtomicReference<V>(initialValue);
   }
 
@@ -53,7 +56,7 @@ public final class Atomics {
    * @param length the length of the array
    * @return a new {@code AtomicReferenceArray} with the given length
    */
-  public static <E> AtomicReferenceArray<E> newReferenceArray(int length) {
+  public static <E extends @NonNull Object> AtomicReferenceArray<E> newReferenceArray(int length) {
     return new AtomicReferenceArray<E>(length);
   }
 
@@ -64,7 +67,8 @@ public final class Atomics {
    * @param array the array to copy elements from
    * @return a new {@code AtomicReferenceArray} copied from the given array
    */
-  public static <E> AtomicReferenceArray<E> newReferenceArray(E[] array) {
+  public static <E extends @NonNull Object> AtomicReferenceArray<E> newReferenceArray(
+      @Nullable E[] array) {
     return new AtomicReferenceArray<E>(array);
   }
 }

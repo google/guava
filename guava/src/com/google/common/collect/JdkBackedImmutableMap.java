@@ -22,19 +22,23 @@ import static com.google.common.collect.RegularImmutableMap.makeImmutable;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of ImmutableMap backed by a JDK HashMap, which has smartness protecting against
  * hash flooding.
  */
 @GwtCompatible(emulated = true)
-final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
+final class JdkBackedImmutableMap<K extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableMap<K, V> {
   /**
    * Creates an {@code ImmutableMap} backed by a JDK HashMap. Used when probable hash flooding is
    * detected. This implementation may replace the entries in entryArray with its own entry objects
    * (though they will have the same key/value contents), and will take ownership of entryArray.
    */
-  static <K, V> ImmutableMap<K, V> create(int n, Entry<K, V>[] entryArray) {
+  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableMap<K, V> create(
+      int n, Entry<K, V>[] entryArray) {
     Map<K, V> delegateMap = Maps.newHashMapWithExpectedSize(n);
     for (int i = 0; i < n; i++) {
       entryArray[i] = makeImmutable(entryArray[i]);
@@ -60,7 +64,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegateMap.get(key);
   }
 

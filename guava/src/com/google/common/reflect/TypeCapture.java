@@ -14,22 +14,23 @@
 
 package com.google.common.reflect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Captures the actual type of {@code T}.
  *
  * @author Ben Yu
  */
-abstract class TypeCapture<T> {
+abstract class TypeCapture<T extends @NonNull Object> {
 
   /** Returns the captured type. */
   final Type capture() {
     Type superclass = getClass().getGenericSuperclass();
-    checkArgument(superclass instanceof ParameterizedType, "%s isn't parameterized", superclass);
+    if (!(superclass instanceof ParameterizedType)) {
+      throw new IllegalArgumentException(superclass + " isn't parameterized");
+    }
     return ((ParameterizedType) superclass).getActualTypeArguments()[0];
   }
 }

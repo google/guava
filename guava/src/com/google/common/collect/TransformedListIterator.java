@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import java.util.ListIterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An iterator that transforms a backing list iterator; for internal use. This avoids the object
@@ -27,8 +28,8 @@ import java.util.ListIterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class TransformedListIterator<F, T> extends TransformedIterator<F, T>
-    implements ListIterator<T> {
+abstract class TransformedListIterator<F extends @Nullable Object, T extends @Nullable Object>
+    extends TransformedIterator<F, T> implements ListIterator<T> {
   TransformedListIterator(ListIterator<? extends F> backingIterator) {
     super(backingIterator);
   }

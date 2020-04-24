@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and edge values in
@@ -27,7 +29,7 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-interface GraphConnections<N, V> {
+interface GraphConnections<N extends @NonNull Object, V extends @NonNull Object> {
 
   Set<N> adjacentNodes();
 
@@ -39,6 +41,7 @@ interface GraphConnections<N, V> {
    * Returns the value associated with the edge connecting the origin node to {@code node}, or null
    * if there is no such edge.
    */
+  @Nullable
   V value(N node);
 
   /** Remove {@code node} from the set of predecessors. */
@@ -49,6 +52,7 @@ interface GraphConnections<N, V> {
    * the edge connecting the two nodes.
    */
   @CanIgnoreReturnValue
+  @Nullable
   V removeSuccessor(N node);
 
   /**
@@ -63,5 +67,6 @@ interface GraphConnections<N, V> {
    * the value previously associated with the edge connecting the two nodes.
    */
   @CanIgnoreReturnValue
+  @Nullable
   V addSuccessor(N node, V value);
 }

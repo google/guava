@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Wraps an exception that occurred during a computation.
@@ -27,7 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible
 public class ComputationException extends RuntimeException {
   /** Creates a new instance with the given cause. */
-  public ComputationException(Throwable cause) {
+  public ComputationException(@Nullable Throwable cause) {
     super(cause);
   }
 

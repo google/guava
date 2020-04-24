@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A subinterface of {@link Graph} which adds mutation methods. When mutation is not required, users
@@ -29,7 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 20.0
  */
 @Beta
-public interface MutableGraph<N> extends Graph<N> {
+public interface MutableGraph<N extends @NonNull Object> extends Graph<N> {
 
   /**
    * Adds {@code node} if it is not already present.

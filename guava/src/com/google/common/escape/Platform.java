@@ -14,6 +14,8 @@
 
 package com.google.common.escape;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -27,7 +29,8 @@ final class Platform {
 
   /** Returns a thread-local 1024-char array. */
   static char[] charBufferFromThreadLocal() {
-    return DEST_TL.get();
+    // requireNonNull is safe because of initialValue.
+    return requireNonNull(DEST_TL.get());
   }
 
   /**

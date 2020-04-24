@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Multimap} that uses an {@code ArrayList} to store the values for a given
@@ -59,7 +60,7 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class ArrayListMultimap<K, V>
+public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
@@ -118,7 +119,8 @@ public final class ArrayListMultimap<K, V>
     this(
         multimap.keySet().size(),
         (multimap instanceof ArrayListMultimap)
-            ? ((ArrayListMultimap<?, ?>) multimap).expectedValuesPerKey
+            ? ((ArrayListMultimap<? extends @Nullable Object, ? extends @Nullable Object>) multimap)
+                .expectedValuesPerKey
             : DEFAULT_VALUES_PER_KEY);
     putAll(multimap);
   }

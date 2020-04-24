@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.util.concurrent.ExecutionException;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -31,8 +32,8 @@ import java.util.concurrent.ExecutionException;
  * @since 11.0
  */
 @GwtIncompatible
-public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
-    implements LoadingCache<K, V> {
+public abstract class ForwardingLoadingCache<K extends @NonNull Object, V extends @NonNull Object>
+    extends ForwardingCache<K, V> implements LoadingCache<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingLoadingCache() {}
@@ -71,7 +72,8 @@ public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
    *
    * @since 10.0
    */
-  public abstract static class SimpleForwardingLoadingCache<K, V>
+  public abstract static class SimpleForwardingLoadingCache<
+          K extends @NonNull Object, V extends @NonNull Object>
       extends ForwardingLoadingCache<K, V> {
     private final LoadingCache<K, V> delegate;
 

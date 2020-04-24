@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.AggregateFuture.ReleaseResourcesReason.OUTPUT_FUTURE_DONE;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
@@ -25,14 +26,16 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
-final class CombinedFuture<V> extends AggregateFuture<Object, V> {
-  private CombinedFutureInterruptibleTask<?> task;
+final class CombinedFuture<V extends @Nullable Object>
+    extends AggregateFuture<@Nullable Object, V> {
+  private @Nullable CombinedFutureInterruptibleTask<? extends @Nullable Object> task;
 
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<?>> futures,
+      ImmutableCollection<? extends ListenableFuture<? extends @Nullable Object>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       AsyncCallable<V> callable) {
@@ -42,7 +45,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   }
 
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<?>> futures,
+      ImmutableCollection<? extends ListenableFuture<? extends @Nullable Object>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       Callable<V> callable) {
@@ -52,11 +55,11 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
   }
 
   @Override
-  void collectOneValue(int index, Object returnValue) {}
+  void collectOneValue(int index, @Nullable Object returnValue) {}
 
   @Override
   void handleAllCompleted() {
-    CombinedFutureInterruptibleTask<?> localTask = task;
+    CombinedFutureInterruptibleTask<? extends @Nullable Object> localTask = task;
     if (localTask != null) {
       localTask.execute();
     }
@@ -79,14 +82,15 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
   @Override
   protected void interruptTask() {
-    CombinedFutureInterruptibleTask<?> localTask = task;
+    CombinedFutureInterruptibleTask<? extends @Nullable Object> localTask = task;
     if (localTask != null) {
       localTask.interruptTask();
     }
   }
 
   @WeakOuter
-  private abstract class CombinedFutureInterruptibleTask<T> extends InterruptibleTask<T> {
+  private abstract class CombinedFutureInterruptibleTask<T extends @Nullable Object>
+      extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
     boolean thrownByExecute = true;
 
@@ -110,7 +114,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    final void afterRanInterruptibly(T result, Throwable error) {
+    final void afterRanInterruptiblySuccess(T result) {
       /*
        * The future no longer needs to interrupt this task, so it no longer needs a reference to it.
        *
@@ -124,16 +128,21 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
        */
       CombinedFuture.this.task = null;
 
-      if (error != null) {
-        if (error instanceof ExecutionException) {
-          setException(error.getCause());
-        } else if (error instanceof CancellationException) {
-          cancel(false);
-        } else {
-          setException(error);
-        }
+      setValue(result);
+    }
+
+    @Override
+    final void afterRanInterruptiblyFailure(Throwable error) {
+      // See afterRanInterruptiblySuccess.
+      CombinedFuture.this.task = null;
+
+      if (error instanceof ExecutionException) {
+        // requireNonNull should be safe: See AbstractFuture.getFutureValue.
+        setException(requireNonNull(error.getCause()));
+      } else if (error instanceof CancellationException) {
+        cancel(false);
       } else {
-        setValue(result);
+        setException(error);
       }
     }
 

@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -28,12 +30,13 @@ import java.util.Map;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
+final class JdkBackedImmutableMultiset<E extends @NonNull Object> extends ImmutableMultiset<E> {
   private final Map<E, Integer> delegateMap;
   private final ImmutableList<Entry<E>> entries;
   private final long size;
 
-  static <E> ImmutableMultiset<E> create(Collection<? extends Entry<? extends E>> entries) {
+  static <E extends @NonNull Object> ImmutableMultiset<E> create(
+      Collection<? extends Entry<? extends E>> entries) {
     @SuppressWarnings("unchecked")
     Entry<E>[] entriesArray = entries.toArray(new Entry[0]);
     Map<E, Integer> delegateMap = Maps.newHashMapWithExpectedSize(entriesArray.length);
@@ -60,11 +63,11 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     return delegateMap.getOrDefault(element, 0);
   }
 
-  private transient ImmutableSet<E> elementSet;
+  private transient @Nullable ImmutableSet<E> elementSet;
 
   @Override
   public ImmutableSet<E> elementSet() {

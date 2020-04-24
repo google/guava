@@ -17,6 +17,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -348,7 +349,8 @@ public final class UnsignedBytes {
                   Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
                   for (java.lang.reflect.Field f : k.getDeclaredFields()) {
                     f.setAccessible(true);
-                    Object x = f.get(null);
+                    // unsafeNull is safe because we're reading a static field.
+                    Object x = f.get(unsafeNull());
                     if (k.isInstance(x)) {
                       return k.cast(x);
                     }
@@ -359,6 +361,11 @@ public final class UnsignedBytes {
         } catch (java.security.PrivilegedActionException e) {
           throw new RuntimeException("Could not initialize intrinsics", e.getCause());
         }
+      }
+
+      @SuppressWarnings("nullness")
+      private static Object unsafeNull() {
+        return null;
       }
 
       @Override
@@ -437,9 +444,13 @@ public final class UnsignedBytes {
       try {
         Class<?> theClass = Class.forName(UNSAFE_COMPARATOR_NAME);
 
+        // requireNonNull is safe because the class is an enum.
+        // Inlining this causes a crash: https://github.com/typetools/checker-framework/issues/3020
+        Object[] constants = requireNonNull(theClass.getEnumConstants());
+
         // yes, UnsafeComparator does implement Comparator<byte[]>
         @SuppressWarnings("unchecked")
-        Comparator<byte[]> comparator = (Comparator<byte[]>) theClass.getEnumConstants()[0];
+        Comparator<byte[]> comparator = (Comparator<byte[]>) constants[0];
         return comparator;
       } catch (Throwable t) { // ensure we really catch *everything*
         return lexicographicalComparatorJavaImpl();

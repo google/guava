@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A sorted set which forwards all its method calls to another sorted set. Subclasses should
@@ -51,7 +52,8 @@ import java.util.SortedSet;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements SortedSet<E> {
+public abstract class ForwardingSortedSet<E extends @Nullable Object> extends ForwardingSet<E>
+    implements SortedSet<E> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingSortedSet() {}
@@ -60,7 +62,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
   protected abstract SortedSet<E> delegate();
 
   @Override
-  public Comparator<? super E> comparator() {
+  public @Nullable Comparator<? super E> comparator() {
     return delegate().comparator();
   }
 
@@ -89,13 +91,13 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
     return delegate().tailSet(fromElement);
   }
 
-  // unsafe, but worst case is a CCE is thrown, which callers will be expecting
-  @SuppressWarnings("unchecked")
-  private int unsafeCompare(Object o1, Object o2) {
+  // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting
+  @SuppressWarnings({"unchecked", "nullness"})
+  private int unsafeCompare(@Nullable Object o1, @Nullable Object o2) {
     Comparator<? super E> comparator = comparator();
     return (comparator == null)
-        ? ((Comparable<Object>) o1).compareTo(o2)
-        : ((Comparator<Object>) comparator).compare(o1, o2);
+        ? ((Comparable<@Nullable Object>) o1).compareTo(o2)
+        : ((Comparator<@Nullable Object>) comparator).compare(o1, o2);
   }
 
   /**
@@ -107,11 +109,11 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
    */
   @Override
   @Beta
-  protected boolean standardContains(Object object) {
+  protected boolean standardContains(@Nullable Object object) {
     try {
-      // any ClassCastExceptions are caught
-      @SuppressWarnings("unchecked")
-      SortedSet<Object> self = (SortedSet<Object>) this;
+      // any ClassCastExceptions and NullPointerExceptions are caught
+      @SuppressWarnings({"unchecked", "nullness"})
+      SortedSet<@Nullable Object> self = (SortedSet<@Nullable Object>) this;
       Object ceiling = self.tailSet(object).first();
       return unsafeCompare(ceiling, object) == 0;
     } catch (ClassCastException | NoSuchElementException | NullPointerException e) {
@@ -128,12 +130,12 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E> implements
    */
   @Override
   @Beta
-  protected boolean standardRemove(Object object) {
+  protected boolean standardRemove(@Nullable Object object) {
     try {
-      // any ClassCastExceptions are caught
-      @SuppressWarnings("unchecked")
-      SortedSet<Object> self = (SortedSet<Object>) this;
-      Iterator<Object> iterator = self.tailSet(object).iterator();
+      // any ClassCastExceptions and NullPointerExceptions are caught
+      @SuppressWarnings({"unchecked", "nullness"})
+      SortedSet<@Nullable Object> self = (SortedSet<@Nullable Object>) this;
+      Iterator<@Nullable Object> iterator = self.tailSet(object).iterator();
       if (iterator.hasNext()) {
         Object ceiling = iterator.next();
         if (unsafeCompare(ceiling, object) == 0) {

@@ -18,6 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its
@@ -34,19 +35,21 @@ public interface ListeningScheduledExecutorService
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
+  ListenableScheduledFuture<? extends @Nullable Object> schedule(
+      Runnable command, long delay, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  <V> ListenableScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit);
+  <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+      Callable<V> callable, long delay, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<?> scheduleAtFixedRate(
+  ListenableScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<?> scheduleWithFixedDelay(
+  ListenableScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit);
 }

@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -161,10 +163,10 @@ public final class TypeResolver {
           return; // Okay to say Foo<A> is <?>
         }
         ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
-        if (fromParameterizedType.getOwnerType() != null
-            && toParameterizedType.getOwnerType() != null) {
-          populateTypeMappings(
-              mappings, fromParameterizedType.getOwnerType(), toParameterizedType.getOwnerType());
+        Type fromOwner = fromParameterizedType.getOwnerType();
+        Type toOwner = toParameterizedType.getOwnerType();
+        if (fromOwner != null && toOwner != null) {
+          populateTypeMappings(mappings, fromOwner, toOwner);
         }
         checkArgument(
             fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
@@ -189,7 +191,9 @@ public final class TypeResolver {
           return; // Okay to say A[] is <?>
         }
         Type componentType = Types.getComponentType(to);
-        checkArgument(componentType != null, "%s is not an array type.", to);
+        if (componentType == null) {
+          throw new IllegalArgumentException(to + " is not an array type.");
+        }
         populateTypeMappings(mappings, fromArrayType.getGenericComponentType(), componentType);
       }
 
@@ -264,7 +268,7 @@ public final class TypeResolver {
         resolvedOwner, (Class<?>) resolvedRawType, resolvedArgs);
   }
 
-  private static <T> T expectArgument(Class<T> type, Object arg) {
+  private static <T extends @NonNull Object> T expectArgument(Class<T> type, Object arg) {
     try {
       return type.cast(arg);
     } catch (ClassCastException e) {
@@ -526,7 +530,7 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(Type type) {
+    private @Nullable Type captureNullable(@Nullable Type type) {
       if (type == null) {
         return null;
       }
@@ -560,7 +564,7 @@ public final class TypeResolver {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof TypeVariableKey) {
         TypeVariableKey that = (TypeVariableKey) obj;
         return equalsTypeVariable(that.var);
@@ -575,7 +579,7 @@ public final class TypeResolver {
     }
 
     /** Wraps {@code t} in a {@code TypeVariableKey} if it's a type variable. */
-    static TypeVariableKey forLookup(Type t) {
+    static @Nullable TypeVariableKey forLookup(Type t) {
       if (t instanceof TypeVariable) {
         return new TypeVariableKey((TypeVariable<?>) t);
       } else {

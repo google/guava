@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A set multimap which forwards all its method calls to another set multimap. Subclasses should
@@ -34,8 +35,8 @@ import java.util.Set;
  * @since 3.0
  */
 @GwtCompatible
-public abstract class ForwardingSetMultimap<K, V> extends ForwardingMultimap<K, V>
-    implements SetMultimap<K, V> {
+public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
 
   @Override
   protected abstract SetMultimap<K, V> delegate();
@@ -52,7 +53,7 @@ public abstract class ForwardingSetMultimap<K, V> extends ForwardingMultimap<K, 
 
   @CanIgnoreReturnValue
   @Override
-  public Set<V> removeAll(Object key) {
+  public Set<V> removeAll(@Nullable Object key) {
     return delegate().removeAll(key);
   }
 

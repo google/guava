@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,6 +44,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and {@link
@@ -301,8 +304,8 @@ public class CycleDetectingLockFactory {
   @VisibleForTesting
   static <E extends Enum<E>> Map<E, LockGraphNode> createNodes(Class<E> clazz) {
     EnumMap<E, LockGraphNode> map = Maps.newEnumMap(clazz);
-    E[] keys = clazz.getEnumConstants();
-    final int numKeys = keys.length;
+    EnumSet<E> keys = EnumSet.allOf(clazz);
+    final int numKeys = keys.size();
     ArrayList<LockGraphNode> nodes = Lists.newArrayListWithCapacity(numKeys);
     // Create a LockGraphNode for each enum value.
     for (E key : keys) {
@@ -416,7 +419,9 @@ public class CycleDetectingLockFactory {
     public ReentrantLock newReentrantLock(E rank, boolean fair) {
       return policy == Policies.DISABLED
           ? new ReentrantLock(fair)
-          : new CycleDetectingReentrantLock(lockGraphNodes.get(rank), fair);
+          // requireNonNull is safe because createNodes inserts an entry for every E.
+          // (If the caller passes `null` for the `rank` parameter, this will throw, but that's OK.)
+          : new CycleDetectingReentrantLock(requireNonNull(lockGraphNodes.get(rank)), fair);
     }
 
     /** Equivalent to {@code newReentrantReadWriteLock(rank, false)}. */
@@ -435,7 +440,10 @@ public class CycleDetectingLockFactory {
     public ReentrantReadWriteLock newReentrantReadWriteLock(E rank, boolean fair) {
       return policy == Policies.DISABLED
           ? new ReentrantReadWriteLock(fair)
-          : new CycleDetectingReentrantReadWriteLock(lockGraphNodes.get(rank), fair);
+          // requireNonNull is safe because createNodes inserts an entry for every E.
+          // (If the caller passes `null` for the `rank` parameter, this will throw, but that's OK.)
+          : new CycleDetectingReentrantReadWriteLock(
+              requireNonNull(lockGraphNodes.get(rank)), fair);
     }
   }
 
@@ -486,6 +494,7 @@ public class CycleDetectingLockFactory {
             ExampleStackTrace.class.getName(),
             LockGraphNode.class.getName());
 
+    @SuppressWarnings("argument.type.incompatible") // arrays
     ExampleStackTrace(LockGraphNode node1, LockGraphNode node2) {
       super(node1.getLockName() + " -> " + node2.getLockName());
       StackTraceElement[] origStackTrace = getStackTrace();
@@ -545,7 +554,8 @@ public class CycleDetectingLockFactory {
      */
     @Override
     public String getMessage() {
-      StringBuilder message = new StringBuilder(super.getMessage());
+      // requireNonNull is safe because ExampleStackTrace sets a non-null message.
+      StringBuilder message = new StringBuilder(requireNonNull(super.getMessage()));
       for (Throwable t = conflictingStackTrace; t != null; t = t.getCause()) {
         message.append(", ").append(t.getMessage());
       }
@@ -673,7 +683,7 @@ public class CycleDetectingLockFactory {
      * @return If a path was found, a chained {@link ExampleStackTrace} illustrating the path to the
      *     {@code lock}, or {@code null} if no path was found.
      */
-    private ExampleStackTrace findPathTo(LockGraphNode node, Set<LockGraphNode> seen) {
+    private @Nullable ExampleStackTrace findPathTo(LockGraphNode node, Set<LockGraphNode> seen) {
       if (!seen.add(this)) {
         return null; // Already traversed this node.
       }
@@ -704,7 +714,11 @@ public class CycleDetectingLockFactory {
    */
   private void aboutToAcquire(CycleDetectingLock lock) {
     if (!lock.isAcquiredByCurrentThread()) {
-      ArrayList<LockGraphNode> acquiredLockList = acquiredLocks.get();
+      /*
+       * requireNonNull is safe because acquiredLocks has a non-null initialValue and is never set
+       * to a null value.
+       */
+      ArrayList<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
       LockGraphNode node = lock.getLockGraphNode();
       node.checkAcquiredLocks(policy, acquiredLockList);
       acquiredLockList.add(node);
@@ -718,7 +732,11 @@ public class CycleDetectingLockFactory {
    */
   private static void lockStateChanged(CycleDetectingLock lock) {
     if (!lock.isAcquiredByCurrentThread()) {
-      ArrayList<LockGraphNode> acquiredLockList = acquiredLocks.get();
+      /*
+       * requireNonNull is safe because acquiredLocks has a non-null initialValue and is never set
+       * to a null value.
+       */
+      ArrayList<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
       LockGraphNode node = lock.getLockGraphNode();
       // Iterate in reverse because locks are usually locked/unlocked in a
       // LIFO order.
@@ -816,6 +834,8 @@ public class CycleDetectingLockFactory {
 
     private final LockGraphNode lockGraphNode;
 
+    // Suppressions for initialization checker
+    @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"})
     private CycleDetectingReentrantReadWriteLock(LockGraphNode lockGraphNode, boolean fair) {
       super(fair);
       this.readLock = new CycleDetectingReentrantReadLock(this);

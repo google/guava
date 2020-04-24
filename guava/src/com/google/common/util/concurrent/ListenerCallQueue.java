@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A list of listeners for implementing a concurrency friendly observable object.
@@ -53,7 +54,7 @@ import java.util.logging.Logger;
  * #dispatch} is expected to be called concurrently, it is idempotent.
  */
 @GwtIncompatible
-final class ListenerCallQueue<L> {
+final class ListenerCallQueue<L extends @NonNull Object> {
   // TODO(cpovirk): consider using the logger associated with listener.getClass().
   private static final Logger logger = Logger.getLogger(ListenerCallQueue.class.getName());
 
@@ -128,7 +129,7 @@ final class ListenerCallQueue<L> {
    * <p>This class is very similar to {@link SequentialExecutor} with the exception that events can
    * be added without necessarily executing immediately.
    */
-  private static final class PerListenerQueue<L> implements Runnable {
+  private static final class PerListenerQueue<L extends @NonNull Object> implements Runnable {
     final L listener;
     final Executor executor;
 

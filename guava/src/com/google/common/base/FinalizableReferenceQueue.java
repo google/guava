@@ -14,6 +14,8 @@
 
 package com.google.common.base;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Closeable;
@@ -27,6 +29,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A reference queue with an associated background thread that dequeues references and invokes
@@ -151,13 +154,16 @@ public class FinalizableReferenceQueue implements Closeable {
   final boolean threadStarted;
 
   /** Constructs a new queue. */
+  // Suppressions for initialization checker
+  @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"})
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
     queue = new ReferenceQueue<>();
     frqRef = new PhantomReference<Object>(this, queue);
     boolean threadStarted = false;
     try {
-      startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);
+      // unsafeNull is safe because we're calling a static method.
+      startFinalizer.invoke(unsafeNull(), FinalizableReference.class, queue, frqRef);
       threadStarted = true;
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible); // startFinalizer() is public
@@ -170,6 +176,11 @@ public class FinalizableReferenceQueue implements Closeable {
     }
 
     this.threadStarted = threadStarted;
+  }
+
+  @SuppressWarnings("nullness")
+  private static Object unsafeNull() {
+    return null;
   }
 
   @Override
@@ -227,6 +238,7 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
+    @Nullable
     Class<?> loadFinalizer();
   }
 
@@ -240,7 +252,7 @@ public class FinalizableReferenceQueue implements Closeable {
     @VisibleForTesting static boolean disabled;
 
     @Override
-    public Class<?> loadFinalizer() {
+    public @Nullable Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -277,7 +289,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    public Class<?> loadFinalizer() {
+    public @Nullable Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the
@@ -300,7 +312,11 @@ public class FinalizableReferenceQueue implements Closeable {
     URL getBaseUrl() throws IOException {
       // Find URL pointing to Finalizer.class file.
       String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";
-      URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);
+      /*
+       * requireNonNull should be safe because this class shouldn't be loaded by the bootstrap class
+       * loader.
+       */
+      URL finalizerUrl = requireNonNull(getClass().getClassLoader()).getResource(finalizerPath);
       if (finalizerUrl == null) {
         throw new FileNotFoundException(finalizerPath);
       }

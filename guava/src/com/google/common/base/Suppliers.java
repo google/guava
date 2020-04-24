@@ -16,11 +16,13 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Useful suppliers.
@@ -41,11 +43,13 @@ public final class Suppliers {
    * and then applying {@code function} to that value. Note that the resulting supplier will not
    * call {@code supplier} or invoke {@code function} until it is called.
    */
-  public static <F, T> Supplier<T> compose(Function<? super F, T> function, Supplier<F> supplier) {
-    return new SupplierComposition<>(function, supplier);
+  public static <F extends @Nullable Object, T extends @Nullable Object> Supplier<T> compose(
+      Function<? super F, T> function, Supplier<F> supplier) {
+    return new SupplierComposition<F, T>(function, supplier);
   }
 
-  private static class SupplierComposition<F, T> implements Supplier<T>, Serializable {
+  private static class SupplierComposition<F extends @Nullable Object, T extends @Nullable Object>
+      implements Supplier<T>, Serializable {
     final Function<? super F, T> function;
     final Supplier<F> supplier;
 
@@ -60,9 +64,10 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierComposition) {
-        SupplierComposition<?, ?> that = (SupplierComposition<?, ?>) obj;
+        SupplierComposition<? extends @Nullable Object, ? extends @Nullable Object> that =
+            (SupplierComposition<? extends @Nullable Object, ? extends @Nullable Object>) obj;
         return function.equals(that.function) && supplier.equals(that.supplier);
       }
       return false;
@@ -97,7 +102,7 @@ public final class Suppliers {
    * <p>If {@code delegate} is an instance created by an earlier call to {@code memoize}, it is
    * returned directly.
    */
-  public static <T> Supplier<T> memoize(Supplier<T> delegate) {
+  public static <T extends @Nullable Object> Supplier<T> memoize(Supplier<T> delegate) {
     if (delegate instanceof NonSerializableMemoizingSupplier
         || delegate instanceof MemoizingSupplier) {
       return delegate;
@@ -108,12 +113,12 @@ public final class Suppliers {
   }
 
   @VisibleForTesting
-  static class MemoizingSupplier<T> implements Supplier<T>, Serializable {
+  static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    transient T value;
+    transient @Nullable T value;
 
     MemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
@@ -132,7 +137,8 @@ public final class Suppliers {
           }
         }
       }
-      return value;
+      // This is safe because we check `initialized.`
+      return uncheckedCastNullableTToT(value);
     }
 
     @Override
@@ -146,12 +152,12 @@ public final class Suppliers {
   }
 
   @VisibleForTesting
-  static class NonSerializableMemoizingSupplier<T> implements Supplier<T> {
-    volatile Supplier<T> delegate;
+  static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+    volatile @Nullable Supplier<T> delegate;
     volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    T value;
+    @Nullable T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
@@ -163,7 +169,8 @@ public final class Suppliers {
       if (!initialized) {
         synchronized (this) {
           if (!initialized) {
-            T t = delegate.get();
+            // requireNonNull is safe because we read and write `delegate` under synchronization.
+            T t = requireNonNull(delegate).get();
             value = t;
             initialized = true;
             // Release the delegate to GC.
@@ -172,7 +179,8 @@ public final class Suppliers {
           }
         }
       }
-      return value;
+      // This is safe because we check `initialized.`
+      return uncheckedCastNullableTToT(value);
     }
 
     @Override
@@ -206,17 +214,18 @@ public final class Suppliers {
    * @since 2.0
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  public static <T> Supplier<T> memoizeWithExpiration(
+  public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
     return new ExpiringMemoizingSupplier<T>(delegate, duration, unit);
   }
 
   @VisibleForTesting
   @SuppressWarnings("GoodTime") // lots of violations
-  static class ExpiringMemoizingSupplier<T> implements Supplier<T>, Serializable {
+  static class ExpiringMemoizingSupplier<T extends @Nullable Object>
+      implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;
-    transient volatile T value;
+    transient volatile @Nullable T value;
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
@@ -249,7 +258,8 @@ public final class Suppliers {
           }
         }
       }
-      return value;
+      // This is safe because we check `expirationNanos.`
+      return uncheckedCastNullableTToT(value);
     }
 
     @Override
@@ -262,12 +272,24 @@ public final class Suppliers {
     private static final long serialVersionUID = 0;
   }
 
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T value) {
+    /*
+     * We can't use requireNonNull because `value` might be null. Specifically, it can be null
+     * because the supplier might have generated the value `null` to be returned to the user. This
+     * is in contrast to the other way for `Supplier.value` to be null, which is for the supplier
+     * not to have a value computed yet.
+     */
+    return value;
+  }
+
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T> Supplier<T> ofInstance(T instance) {
+  public static <T extends @Nullable Object> Supplier<T> ofInstance(T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
-  private static class SupplierOfInstance<T> implements Supplier<T>, Serializable {
+  private static class SupplierOfInstance<T extends @Nullable Object>
+      implements Supplier<T>, Serializable {
     final T instance;
 
     SupplierOfInstance(T instance) {
@@ -280,9 +302,10 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierOfInstance) {
-        SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
+        SupplierOfInstance<? extends @Nullable Object> that =
+            (SupplierOfInstance<? extends @Nullable Object>) obj;
         return Objects.equal(instance, that.instance);
       }
       return false;
@@ -305,11 +328,13 @@ public final class Suppliers {
    * Returns a supplier whose {@code get()} method synchronizes on {@code delegate} before calling
    * it, making it thread-safe.
    */
-  public static <T> Supplier<T> synchronizedSupplier(Supplier<T> delegate) {
+  public static <T extends @Nullable Object> Supplier<T> synchronizedSupplier(
+      Supplier<T> delegate) {
     return new ThreadSafeSupplier<T>(delegate);
   }
 
-  private static class ThreadSafeSupplier<T> implements Supplier<T>, Serializable {
+  private static class ThreadSafeSupplier<T extends @Nullable Object>
+      implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
 
     ThreadSafeSupplier(Supplier<T> delegate) {
@@ -339,13 +364,13 @@ public final class Suppliers {
    *
    * @since 8.0
    */
-  public static <T> Function<Supplier<T>, T> supplierFunction() {
+  public static <T extends @Nullable Object> Function<Supplier<T>, T> supplierFunction() {
     @SuppressWarnings("unchecked") // implementation is "fully variant"
     SupplierFunction<T> sf = (SupplierFunction<T>) SupplierFunctionImpl.INSTANCE;
     return sf;
   }
 
-  private interface SupplierFunction<T> extends Function<Supplier<T>, T> {}
+  private interface SupplierFunction<T extends @Nullable Object> extends Function<Supplier<T>, T> {}
 
   private enum SupplierFunctionImpl implements SupplierFunction<Object> {
     INSTANCE;

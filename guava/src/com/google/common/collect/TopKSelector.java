@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.math.IntMath;
@@ -28,6 +29,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -51,7 +53,7 @@ import java.util.stream.Stream;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class TopKSelector<T> {
+final class TopKSelector<T extends @Nullable Object> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
@@ -70,7 +72,8 @@ final class TopKSelector<T> {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
-  public static <T> TopKSelector<T> least(int k, Comparator<? super T> comparator) {
+  public static <T extends @Nullable Object> TopKSelector<T> least(
+      int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(comparator, k);
   }
 
@@ -91,7 +94,8 @@ final class TopKSelector<T> {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
-  public static <T> TopKSelector<T> greatest(int k, Comparator<? super T> comparator) {
+  public static <T extends @Nullable Object> TopKSelector<T> greatest(
+      int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(Ordering.from(comparator).reverse(), k);
   }
 
@@ -110,7 +114,7 @@ final class TopKSelector<T> {
    * The largest of the lowest k elements we've seen so far relative to this comparator. If
    * bufferSize ≥ k, then we can ignore any elements greater than this value.
    */
-  private T threshold;
+  private @Nullable T threshold;
 
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");
@@ -134,10 +138,12 @@ final class TopKSelector<T> {
       bufferSize = 1;
     } else if (bufferSize < k) {
       buffer[bufferSize++] = elem;
-      if (comparator.compare(elem, threshold) > 0) {
+      // requireNonNull is safe because bufferSize > 0.
+      if (comparator.compare(elem, requireNonNull(threshold)) > 0) {
         threshold = elem;
       }
-    } else if (comparator.compare(elem, threshold) < 0) {
+      // requireNonNull is safe because bufferSize > 0.
+    } else if (comparator.compare(elem, requireNonNull(threshold)) < 0) {
       // Otherwise, we can ignore elem; we've seen k better elements.
       buffer[bufferSize++] = elem;
       if (bufferSize == 2 * k) {

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given
@@ -69,7 +70,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      Map<Character, String> replacementMap, int safeMin, int safeMax, String unsafeReplacement) {
+      Map<Character, String> replacementMap,
+      int safeMin,
+      int safeMax,
+      @Nullable String unsafeReplacement) {
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);
   }
 
@@ -89,7 +93,10 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      ArrayBasedEscaperMap escaperMap, int safeMin, int safeMax, String unsafeReplacement) {
+      ArrayBasedEscaperMap escaperMap,
+      int safeMin,
+      int safeMax,
+      @Nullable String unsafeReplacement) {
     checkNotNull(escaperMap); // GWT specific check (do not optimize)
     this.replacements = escaperMap.getReplacementArray();
     this.replacementsLength = replacements.length;
@@ -152,7 +159,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * {@link #escapeUnsafe} is called.
    */
   @Override
-  protected final char[] escape(int cp) {
+  protected final char @Nullable [] escape(int cp) {
     if (cp < replacementsLength) {
       char[] chars = replacements[cp];
       if (chars != null) {
@@ -192,5 +199,5 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    * @param cp the Unicode code point to escape
    * @return the replacement characters, or {@code null} if no escaping was required
    */
-  protected abstract char[] escapeUnsafe(int cp);
+  protected abstract char @Nullable [] escapeUnsafe(int cp);
 }

@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -32,7 +34,8 @@ import java.util.function.Consumer;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
+final class ImmutableMapValues<K extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableCollection<V> {
   private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
@@ -67,7 +70,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 
@@ -106,7 +109,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   }
 
   @GwtIncompatible // serialization
-  private static class SerializedForm<V> implements Serializable {
+  private static class SerializedForm<V extends @NonNull Object> implements Serializable {
     final ImmutableMap<?, V> map;
 
     SerializedForm(ImmutableMap<?, V> map) {

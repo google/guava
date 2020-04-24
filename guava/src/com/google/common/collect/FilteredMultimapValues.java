@@ -25,6 +25,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation for {@link FilteredMultimap#values()}.
@@ -32,7 +33,8 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
+final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractCollection<V> {
   @Weak private final FilteredMultimap<K, V> multimap;
 
   FilteredMultimapValues(FilteredMultimap<K, V> multimap) {
@@ -45,7 +47,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(@Nullable Object o) {
     return multimap.containsValue(o);
   }
 
@@ -55,7 +57,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean remove(Object o) {
+  public boolean remove(@Nullable Object o) {
     Predicate<? super Entry<K, V>> entryPredicate = multimap.entryPredicate();
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
         unfilteredItr.hasNext(); ) {
@@ -69,7 +71,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean removeAll(Collection<?> c) {
+  public boolean removeAll(Collection<? extends @Nullable Object> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
         // explicit <Entry<K, V>> is required to build with JDK6
@@ -78,7 +80,7 @@ final class FilteredMultimapValues<K, V> extends AbstractCollection<V> {
   }
 
   @Override
-  public boolean retainAll(Collection<?> c) {
+  public boolean retainAll(Collection<? extends @Nullable Object> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
         // explicit <Entry<K, V>> is required to build with JDK6

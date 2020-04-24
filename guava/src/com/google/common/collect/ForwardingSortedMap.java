@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A sorted map which forwards all its method calls to another sorted map. Subclasses should
@@ -50,8 +51,8 @@ import java.util.SortedMap;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
-    implements SortedMap<K, V> {
+public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingMap<K, V> implements SortedMap<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
@@ -61,7 +62,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   protected abstract SortedMap<K, V> delegate();
 
   @Override
-  public Comparator<? super K> comparator() {
+  public @Nullable Comparator<? super K> comparator() {
     return delegate().comparator();
   }
 
@@ -105,14 +106,14 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  // unsafe, but worst case is a CCE is thrown, which callers will be expecting
-  @SuppressWarnings("unchecked")
-  private int unsafeCompare(Object k1, Object k2) {
+  // unsafe, but worst case is a CCE or NPE is thrown, which callers will be expecting
+  @SuppressWarnings({"unchecked", "nullness"})
+  private int unsafeCompare(@Nullable Object k1, @Nullable Object k2) {
     Comparator<? super K> comparator = comparator();
     if (comparator == null) {
-      return ((Comparable<Object>) k1).compareTo(k2);
+      return ((Comparable<@Nullable Object>) k1).compareTo(k2);
     } else {
-      return ((Comparator<Object>) comparator).compare(k1, k2);
+      return ((Comparator<@Nullable Object>) comparator).compare(k1, k2);
     }
   }
 
@@ -125,11 +126,11 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    */
   @Override
   @Beta
-  protected boolean standardContainsKey(Object key) {
+  protected boolean standardContainsKey(@Nullable Object key) {
     try {
-      // any CCE will be caught
-      @SuppressWarnings("unchecked")
-      SortedMap<Object, V> self = (SortedMap<Object, V>) this;
+      // any ClassCastExceptions and NullPointerExceptions are caught
+      @SuppressWarnings({"unchecked", "nullness"})
+      SortedMap<@Nullable Object, V> self = (SortedMap<@Nullable Object, V>) this;
       Object ceilingKey = self.tailMap(key).firstKey();
       return unsafeCompare(ceilingKey, key) == 0;
     } catch (ClassCastException | NoSuchElementException | NullPointerException e) {

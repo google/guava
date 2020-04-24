@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Iterator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An iterator that transforms a backing iterator; for internal use. This avoids the object overhead
@@ -28,7 +29,8 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class TransformedIterator<F, T> implements Iterator<T> {
+abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullable Object>
+    implements Iterator<T> {
   final Iterator<? extends F> backingIterator;
 
   TransformedIterator(Iterator<? extends F> backingIterator) {

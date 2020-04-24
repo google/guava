@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import java.util.Optional;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class to allow {@link Network} implementations to be backed by a provided delegate. This is not
@@ -26,7 +28,8 @@ import java.util.Set;
  * @author James Sexton
  * @author Joshua O'Madadhain
  */
-abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
+abstract class ForwardingNetwork<N extends @NonNull Object, E extends @NonNull Object>
+    extends AbstractNetwork<N, E> {
 
   protected abstract Network<N, E> delegate();
 
@@ -141,12 +144,12 @@ abstract class ForwardingNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public E edgeConnectingOrNull(N nodeU, N nodeV) {
+  public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {
     return delegate().edgeConnectingOrNull(nodeU, nodeV);
   }
 
   @Override
-  public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+  public @Nullable E edgeConnectingOrNull(EndpointPair<N> endpoints) {
     return delegate().edgeConnectingOrNull(endpoints);
   }
 

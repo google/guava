@@ -18,6 +18,8 @@ package com.google.common.graph;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An interface for representing and manipulating an origin node's adjacent nodes and incident edges
@@ -27,7 +29,7 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-interface NetworkConnections<N, E> {
+interface NetworkConnections<N extends @NonNull Object, E extends @NonNull Object> {
 
   Set<N> adjacentNodes();
 
@@ -60,6 +62,7 @@ interface NetworkConnections<N, E> {
    * <p>In the undirected case, returns {@code null} if {@code isSelfLoop} is true.
    */
   @CanIgnoreReturnValue
+  @Nullable
   N removeInEdge(E edge, boolean isSelfLoop);
 
   /** Remove {@code edge} from the set of outgoing edges. Returns the former successor node. */

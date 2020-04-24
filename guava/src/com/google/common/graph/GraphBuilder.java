@@ -21,6 +21,7 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A builder for constructing instances of {@link MutableGraph} or {@link ImmutableGraph} with
@@ -61,7 +62,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
-public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
+public final class GraphBuilder<N extends @NonNull Object> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */
   private GraphBuilder(boolean directed) {
@@ -85,7 +86,7 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * such as {@link Graph#isDirected()}. Other properties, such as {@link #expectedNodeCount(int)},
    * are not set in the new builder.
    */
-  public static <N> GraphBuilder<N> from(Graph<N> graph) {
+  public static <N extends @NonNull Object> GraphBuilder<N> from(Graph<N> graph) {
     return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
         .nodeOrder(graph.nodeOrder());

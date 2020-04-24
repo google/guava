@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An ordering that treats all references as equals, even nulls.
@@ -26,27 +27,29 @@ import java.util.List;
  * @author Emily Soldal
  */
 @GwtCompatible(serializable = true)
-final class AllEqualOrdering extends Ordering<Object> implements Serializable {
+final class AllEqualOrdering extends Ordering<@Nullable Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 
   @Override
-  public int compare(Object left, Object right) {
+  public int compare(@Nullable Object left, @Nullable Object right) {
     return 0;
   }
 
   @Override
-  public <E> List<E> sortedCopy(Iterable<E> iterable) {
+  public <E extends @Nullable Object> List<E> sortedCopy(Iterable<E> iterable) {
     return Lists.newArrayList(iterable);
   }
 
   @Override
-  public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
+  // Unsafe, but forced by Ordering and our choice for allEqual to accept nulls.
+  @SuppressWarnings("nullness")
+  public <E extends @Nullable Object> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
     return ImmutableList.copyOf(iterable);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "nullness"})
   @Override
-  public <S> Ordering<S> reverse() {
+  public <S extends @Nullable Object> Ordering<S> reverse() {
     return (Ordering<S>) this;
   }
 

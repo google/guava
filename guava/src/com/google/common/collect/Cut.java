@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation detail for the internal structure of {@link Range} instances. Represents a unique
@@ -52,9 +53,9 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
   abstract void describeAsUpperBound(StringBuilder sb);
 
-  abstract C leastValueAbove(DiscreteDomain<C> domain);
+  abstract @Nullable C leastValueAbove(DiscreteDomain<C> domain);
 
-  abstract C greatestValueBelow(DiscreteDomain<C> domain);
+  abstract @Nullable C greatestValueBelow(DiscreteDomain<C> domain);
 
   /*
    * The canonical form is a BelowValue cut whenever possible, otherwise ABOVE_ALL, or
@@ -87,7 +88,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
   @SuppressWarnings("unchecked") // catching CCE
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     if (obj instanceof Cut) {
       // It might not really be a Cut<C>, but we'll catch a CCE if it's not
       Cut<C> that = (Cut<C>) obj;
@@ -118,6 +119,13 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
   private static final class BelowAll extends Cut<Comparable<?>> {
     private static final BelowAll INSTANCE = new BelowAll();
 
+    /*
+     * No code ever sees this null value for `endpoint`: This class overrides both methods that use
+     * the `endpoint` field, compareTo() and endpoint(). Additionally, the main implementation of
+     * Cut.compareTo checks for belowAll before reading accessing `endpoint` on another Cut
+     * instance.
+     */
+    @SuppressWarnings("nullness")
     private BelowAll() {
       super(null);
     }
@@ -217,6 +225,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
   private static final class AboveAll extends Cut<Comparable<?>> {
     private static final AboveAll INSTANCE = new AboveAll();
 
+    @SuppressWarnings("nullness") // see BelowAll
     private AboveAll() {
       super(null);
     }
@@ -361,6 +370,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
+    @Nullable
     C greatestValueBelow(DiscreteDomain<C> domain) {
       return domain.previous(endpoint);
     }
@@ -439,6 +449,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     }
 
     @Override
+    @Nullable
     C leastValueAbove(DiscreteDomain<C> domain) {
       return domain.next(endpoint);
     }

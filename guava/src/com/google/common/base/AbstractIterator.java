@@ -20,13 +20,14 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Note this class is a copy of {@link com.google.common.collect.AbstractIterator} (for dependency
  * reasons).
  */
 @GwtCompatible
-abstract class AbstractIterator<T> implements Iterator<T> {
+abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
   private State state = State.NOT_READY;
 
   protected AbstractIterator() {}
@@ -38,13 +39,19 @@ abstract class AbstractIterator<T> implements Iterator<T> {
     FAILED,
   }
 
-  private T next;
+  private @Nullable T next;
 
   protected abstract T computeNext();
 
   @CanIgnoreReturnValue
   protected final T endOfData() {
     state = State.DONE;
+    // endOfData's return type is a lie. For discussion, see collect.AbstractIterator.
+    return unsafeNull();
+  }
+
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T unsafeNull() {
     return null;
   }
 
@@ -77,7 +84,8 @@ abstract class AbstractIterator<T> implements Iterator<T> {
       throw new NoSuchElementException();
     }
     state = State.NOT_READY;
-    T result = next;
+    // Guaranteed to be safe by the hasNext() check:
+    T result = uncheckedCastNullableTToT(next);
     next = null;
     return result;
   }
@@ -85,5 +93,16 @@ abstract class AbstractIterator<T> implements Iterator<T> {
   @Override
   public final void remove() {
     throw new UnsupportedOperationException();
+  }
+
+  @SuppressWarnings("nullness")
+  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T next) {
+    /*
+     * We can't use requireNonNull because `next` might be null. Specifically, it can be null
+     * because the iterator might contain a null element to be returned to the user. This is in
+     * contrast to the other way for `next` to be null, which is for the iterator not to have a next
+     * value computed yet.
+     */
+    return next;
   }
 }

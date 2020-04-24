@@ -21,6 +21,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RunnableFuture} that also implements the {@link ListenableFuture} interface.
@@ -29,14 +30,15 @@ import java.util.concurrent.RunnableFuture;
  * performance reasons.
  */
 @GwtCompatible
-class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
+class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
-  static <V> TrustedListenableFutureTask<V> create(AsyncCallable<V> callable) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+      AsyncCallable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
-  static <V> TrustedListenableFutureTask<V> create(Callable<V> callable) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(Callable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
@@ -49,7 +51,8 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
    *     result, consider using constructions of the form: {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
    */
-  static <V> TrustedListenableFutureTask<V> create(Runnable runnable, V result) {
+  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+      Runnable runnable, V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }
 
@@ -60,7 +63,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
    * <p>{@code volatile} is required for j2objc transpiling:
    * https://developers.google.com/j2objc/guides/j2objc-memory-model#atomicity
    */
-  private volatile InterruptibleTask<?> task;
+  private volatile @Nullable InterruptibleTask<?> task;
 
   TrustedListenableFutureTask(Callable<V> callable) {
     this.task = new TrustedFutureInterruptibleTask(callable);
@@ -98,7 +101,7 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
   }
 
   @Override
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     InterruptibleTask localTask = task;
     if (localTask != null) {
       return "task=[" + localTask + "]";
@@ -125,12 +128,13 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     }
 
     @Override
-    void afterRanInterruptibly(V result, Throwable error) {
-      if (error == null) {
-        TrustedListenableFutureTask.this.set(result);
-      } else {
-        setException(error);
-      }
+    void afterRanInterruptiblySuccess(V result) {
+      TrustedListenableFutureTask.this.set(result);
+    }
+
+    @Override
+    void afterRanInterruptiblyFailure(Throwable error) {
+      setException(error);
     }
 
     @Override
@@ -163,12 +167,13 @@ class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     }
 
     @Override
-    void afterRanInterruptibly(ListenableFuture<V> result, Throwable error) {
-      if (error == null) {
-        setFuture(result);
-      } else {
-        setException(error);
-      }
+    void afterRanInterruptiblySuccess(ListenableFuture<V> result) {
+      setFuture(result);
+    }
+
+    @Override
+    void afterRanInterruptiblyFailure(Throwable error) {
+      setException(error);
     }
 
     @Override

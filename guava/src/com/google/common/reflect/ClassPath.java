@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
+import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.WARNING;
 
 import com.google.common.annotations.Beta;
@@ -54,6 +55,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
@@ -244,7 +246,7 @@ public final class ClassPath {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;
@@ -413,7 +415,7 @@ public final class ClassPath {
      * and an empty set will be returned.
      */
     @VisibleForTesting
-    static ImmutableSet<File> getClassPathFromManifest(File jarFile, Manifest manifest) {
+    static ImmutableSet<File> getClassPathFromManifest(File jarFile, @Nullable Manifest manifest) {
       if (manifest == null) {
         return ImmutableSet.of();
       }
@@ -474,7 +476,15 @@ public final class ClassPath {
     @VisibleForTesting // TODO(b/65488446): Make this a public API.
     static ImmutableList<URL> parseJavaClassPath() {
       ImmutableList.Builder<URL> urls = ImmutableList.builder();
-      for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {
+      /*
+       * requireNonNull should be safe: Values are always supposed to exist for the system
+       * properties that we use. If they don't, we could consider returning an empty list instead of
+       * throwing NullPointerException. But it's not clear at the moment which behavior would be
+       * more helpful.
+       */
+      for (String entry :
+          Splitter.on(requireNonNull(PATH_SEPARATOR.value()))
+              .split(requireNonNull(JAVA_CLASS_PATH.value()))) {
         try {
           try {
             urls.add(new File(entry).toURI().toURL());

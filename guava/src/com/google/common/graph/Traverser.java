@@ -30,6 +30,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object that can traverse the nodes that are reachable from a specified (set of) start node(s)
@@ -61,7 +63,7 @@ import java.util.Set;
  * @since 23.1
  */
 @Beta
-public abstract class Traverser<N> {
+public abstract class Traverser<N extends @NonNull Object> {
 
   /**
    * Creates a new traverser for the given general {@code graph}.
@@ -87,7 +89,7 @@ public abstract class Traverser<N> {
    *
    * @param graph {@link SuccessorsFunction} representing a general graph that may have cycles.
    */
-  public static <N> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
+  public static <N extends @NonNull Object> Traverser<N> forGraph(SuccessorsFunction<N> graph) {
     checkNotNull(graph);
     return new GraphTraverser<>(graph);
   }
@@ -165,7 +167,7 @@ public abstract class Traverser<N> {
    * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
    *     one path between any two nodes
    */
-  public static <N> Traverser<N> forTree(SuccessorsFunction<N> tree) {
+  public static <N extends @NonNull Object> Traverser<N> forTree(SuccessorsFunction<N> tree) {
     checkNotNull(tree);
     if (tree instanceof BaseGraph) {
       checkArgument(((BaseGraph<?>) tree).isDirected(), "Undirected graphs can never be trees.");
@@ -314,7 +316,7 @@ public abstract class Traverser<N> {
   // Avoid subclasses outside of this class
   private Traverser() {}
 
-  private static final class GraphTraverser<N> extends Traverser<N> {
+  private static final class GraphTraverser<N extends @NonNull Object> extends Traverser<N> {
     private final SuccessorsFunction<N> graph;
 
     GraphTraverser(SuccessorsFunction<N> graph) {
@@ -429,7 +431,8 @@ public abstract class Traverser<N> {
 
     private final class DepthFirstIterator extends AbstractIterator<N> {
       private final Deque<NodeAndSuccessors> stack = new ArrayDeque<>();
-      private final Set<N> visited = new HashSet<>();
+      // It's a little weird that we add `null` to this, but it makes for slightly simpler code.
+      private final Set<@Nullable N> visited = new HashSet<>();
       private final Order order;
 
       DepthFirstIterator(Iterable<? extends N> roots, Order order) {
@@ -469,10 +472,10 @@ public abstract class Traverser<N> {
 
       /** A simple tuple of a node and a partially iterated {@link Iterator} of its successors. */
       private final class NodeAndSuccessors {
-        final N node;
+        final @Nullable N node;
         final Iterator<? extends N> successorIterator;
 
-        NodeAndSuccessors(N node, Iterable<? extends N> successors) {
+        NodeAndSuccessors(@Nullable N node, Iterable<? extends N> successors) {
           this.node = node;
           this.successorIterator = successors.iterator();
         }
@@ -480,7 +483,7 @@ public abstract class Traverser<N> {
     }
   }
 
-  private static final class TreeTraverser<N> extends Traverser<N> {
+  private static final class TreeTraverser<N extends @NonNull Object> extends Traverser<N> {
     private final SuccessorsFunction<N> tree;
 
     TreeTraverser(SuccessorsFunction<N> tree) {
@@ -642,10 +645,10 @@ public abstract class Traverser<N> {
 
       /** A simple tuple of a node and a partially iterated {@link Iterator} of its children. */
       private final class NodeAndChildren {
-        final N node;
+        final @Nullable N node;
         final Iterator<? extends N> childIterator;
 
-        NodeAndChildren(N node, Iterable<? extends N> children) {
+        NodeAndChildren(@Nullable N node, Iterable<? extends N> children) {
           this.node = node;
           this.childIterator = children.iterator();
         }

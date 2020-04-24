@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -25,6 +26,7 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A ThreadFactory builder, providing any combination of these features:
@@ -46,11 +48,11 @@ import java.util.concurrent.atomic.AtomicLong;
 @CanIgnoreReturnValue
 @GwtIncompatible
 public final class ThreadFactoryBuilder {
-  private String nameFormat = null;
-  private Boolean daemon = null;
-  private Integer priority = null;
-  private UncaughtExceptionHandler uncaughtExceptionHandler = null;
-  private ThreadFactory backingThreadFactory = null;
+  private @Nullable String nameFormat = null;
+  private @Nullable Boolean daemon = null;
+  private @Nullable Integer priority = null;
+  private @Nullable UncaughtExceptionHandler uncaughtExceptionHandler = null;
+  private @Nullable ThreadFactory backingThreadFactory = null;
 
   /** Creates a new {@link ThreadFactory} builder. */
   public ThreadFactoryBuilder() {}
@@ -162,7 +164,8 @@ public final class ThreadFactoryBuilder {
       public Thread newThread(Runnable runnable) {
         Thread thread = backingThreadFactory.newThread(runnable);
         if (nameFormat != null) {
-          thread.setName(format(nameFormat, count.getAndIncrement()));
+          // requireNonNull is safe because we create it if (and only if) we have a nameFormat.
+          thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));
         }
         if (daemon != null) {
           thread.setDaemon(daemon);

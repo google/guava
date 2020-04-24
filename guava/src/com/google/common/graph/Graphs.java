@@ -18,6 +18,7 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
@@ -30,6 +31,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
@@ -52,7 +55,7 @@ public final class Graphs {
    *
    * <p>This method will detect any non-empty cycle, including self-loops (a cycle of length 1).
    */
-  public static <N> boolean hasCycle(Graph<N> graph) {
+  public static <N extends @NonNull Object> boolean hasCycle(Graph<N> graph) {
     int numEdges = graph.edges().size();
     if (numEdges == 0) {
       return false; // An edge-free graph is acyclic by definition.
@@ -94,8 +97,8 @@ public final class Graphs {
    * already visited (following only outgoing edges and without reusing edges), we know there's a
    * cycle in the graph.
    */
-  private static <N> boolean subgraphHasCycle(
-      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, N previousNode) {
+  private static <N extends @NonNull Object> boolean subgraphHasCycle(
+      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, @Nullable N previousNode) {
     NodeVisitState state = visitedNodes.get(node);
     if (state == NodeVisitState.COMPLETE) {
       return false;
@@ -122,7 +125,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, Object previousNode) {
+      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -141,7 +144,7 @@ public final class Graphs {
    * be updated after modifications to {@code graph}.
    */
   // TODO(b/31438252): Consider potential optimizations for this algorithm.
-  public static <N> Graph<N> transitiveClosure(Graph<N> graph) {
+  public static <N extends @NonNull Object> Graph<N> transitiveClosure(Graph<N> graph) {
     MutableGraph<N> transitiveClosure = GraphBuilder.from(graph).allowsSelfLoops(true).build();
     // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
     // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
@@ -185,7 +188,7 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if {@code node} is not present in {@code graph}
    */
-  public static <N> Set<N> reachableNodes(Graph<N> graph, N node) {
+  public static <N extends @NonNull Object> Set<N> reachableNodes(Graph<N> graph, N node) {
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     return ImmutableSet.copyOf(Traverser.forGraph(graph).breadthFirst(node));
   }
@@ -198,7 +201,7 @@ public final class Graphs {
    * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code graph} will be reflected in the view.
    */
-  public static <N> Graph<N> transpose(Graph<N> graph) {
+  public static <N extends @NonNull Object> Graph<N> transpose(Graph<N> graph) {
     if (!graph.isDirected()) {
       return graph; // the transpose of an undirected graph is an identical graph
     }
@@ -214,7 +217,8 @@ public final class Graphs {
    * Returns a view of {@code graph} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code graph} will be reflected in the view.
    */
-  public static <N, V> ValueGraph<N, V> transpose(ValueGraph<N, V> graph) {
+  public static <N extends @NonNull Object, V extends @NonNull Object> ValueGraph<N, V> transpose(
+      ValueGraph<N, V> graph) {
     if (!graph.isDirected()) {
       return graph; // the transpose of an undirected graph is an identical graph
     }
@@ -230,7 +234,8 @@ public final class Graphs {
    * Returns a view of {@code network} with the direction (if any) of every edge reversed. All other
    * properties remain intact, and further updates to {@code network} will be reflected in the view.
    */
-  public static <N, E> Network<N, E> transpose(Network<N, E> network) {
+  public static <N extends @NonNull Object, E extends @NonNull Object> Network<N, E> transpose(
+      Network<N, E> network) {
     if (!network.isDirected()) {
       return network; // the transpose of an undirected network is an identical network
     }
@@ -242,7 +247,7 @@ public final class Graphs {
     return new TransposedNetwork<>(network);
   }
 
-  static <N> EndpointPair<N> transpose(EndpointPair<N> endpoints) {
+  static <N extends @NonNull Object> EndpointPair<N> transpose(EndpointPair<N> endpoints) {
     if (endpoints.isOrdered()) {
       return EndpointPair.ordered(endpoints.target(), endpoints.source());
     }
@@ -251,7 +256,7 @@ public final class Graphs {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractGraph) derives its behavior from calling successors().
-  private static class TransposedGraph<N> extends ForwardingGraph<N> {
+  private static class TransposedGraph<N extends @NonNull Object> extends ForwardingGraph<N> {
     private final Graph<N> graph;
 
     TransposedGraph(Graph<N> graph) {
@@ -296,7 +301,8 @@ public final class Graphs {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractValueGraph) derives its behavior from calling successors().
-  private static class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
+  private static class TransposedValueGraph<N extends @NonNull Object, V extends @NonNull Object>
+      extends ForwardingValueGraph<N, V> {
     private final ValueGraph<N, V> graph;
 
     TransposedValueGraph(ValueGraph<N, V> graph) {
@@ -349,17 +355,18 @@ public final class Graphs {
     }
 
     @Override
-    public V edgeValueOrDefault(N nodeU, N nodeV, V defaultValue) {
+    public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
 
     @Override
-    public V edgeValueOrDefault(EndpointPair<N> endpoints, V defaultValue) {
+    public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
       return delegate().edgeValueOrDefault(transpose(endpoints), defaultValue);
     }
   }
 
-  private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
+  private static class TransposedNetwork<N extends @NonNull Object, E extends @NonNull Object>
+      extends ForwardingNetwork<N, E> {
     private final Network<N, E> network;
 
     TransposedNetwork(Network<N, E> network) {
@@ -428,12 +435,12 @@ public final class Graphs {
     }
 
     @Override
-    public E edgeConnectingOrNull(N nodeU, N nodeV) {
+    public @Nullable E edgeConnectingOrNull(N nodeU, N nodeV) {
       return delegate().edgeConnectingOrNull(nodeV, nodeU); // transpose
     }
 
     @Override
-    public E edgeConnectingOrNull(EndpointPair<N> endpoints) {
+    public @Nullable E edgeConnectingOrNull(EndpointPair<N> endpoints) {
       return delegate().edgeConnectingOrNull(transpose(endpoints));
     }
 
@@ -457,7 +464,8 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
+  public static <N extends @NonNull Object> MutableGraph<N> inducedSubgraph(
+      Graph<N> graph, Iterable<? extends N> nodes) {
     MutableGraph<N> subgraph =
         (nodes instanceof Collection)
             ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
@@ -483,8 +491,8 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
-      ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
+  public static <N extends @NonNull Object, V extends @NonNull Object>
+      MutableValueGraph<N, V> inducedSubgraph(ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
     MutableValueGraph<N, V> subgraph =
         (nodes instanceof Collection)
             ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
@@ -495,8 +503,11 @@ public final class Graphs {
     for (N node : subgraph.nodes()) {
       for (N successorNode : graph.successors(node)) {
         if (subgraph.nodes().contains(successorNode)) {
+          // requireNonNull is safe because the endpoint pair comes from the graph.
           subgraph.putEdgeValue(
-              node, successorNode, graph.edgeValueOrDefault(node, successorNode, null));
+              node,
+              successorNode,
+              requireNonNull(graph.edgeValueOrDefault(node, successorNode, null)));
         }
       }
     }
@@ -511,8 +522,8 @@ public final class Graphs {
    *
    * @throws IllegalArgumentException if any element in {@code nodes} is not a node in the graph
    */
-  public static <N, E> MutableNetwork<N, E> inducedSubgraph(
-      Network<N, E> network, Iterable<? extends N> nodes) {
+  public static <N extends @NonNull Object, E extends @NonNull Object>
+      MutableNetwork<N, E> inducedSubgraph(Network<N, E> network, Iterable<? extends N> nodes) {
     MutableNetwork<N, E> subgraph =
         (nodes instanceof Collection)
             ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
@@ -532,7 +543,7 @@ public final class Graphs {
   }
 
   /** Creates a mutable copy of {@code graph} with the same nodes and edges. */
-  public static <N> MutableGraph<N> copyOf(Graph<N> graph) {
+  public static <N extends @NonNull Object> MutableGraph<N> copyOf(Graph<N> graph) {
     MutableGraph<N> copy = GraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
@@ -544,21 +555,26 @@ public final class Graphs {
   }
 
   /** Creates a mutable copy of {@code graph} with the same nodes, edges, and edge values. */
-  public static <N, V> MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
+  public static <N extends @NonNull Object, V extends @NonNull Object>
+      MutableValueGraph<N, V> copyOf(ValueGraph<N, V> graph) {
     MutableValueGraph<N, V> copy =
         ValueGraphBuilder.from(graph).expectedNodeCount(graph.nodes().size()).build();
     for (N node : graph.nodes()) {
       copy.addNode(node);
     }
     for (EndpointPair<N> edge : graph.edges()) {
+      // requireNonNull is safe because the endpoint pair comes from the graph.
       copy.putEdgeValue(
-          edge.nodeU(), edge.nodeV(), graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null));
+          edge.nodeU(),
+          edge.nodeV(),
+          requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null)));
     }
     return copy;
   }
 
   /** Creates a mutable copy of {@code network} with the same nodes and edges. */
-  public static <N, E> MutableNetwork<N, E> copyOf(Network<N, E> network) {
+  public static <N extends @NonNull Object, E extends @NonNull Object> MutableNetwork<N, E> copyOf(
+      Network<N, E> network) {
     MutableNetwork<N, E> copy =
         NetworkBuilder.from(network)
             .expectedNodeCount(network.nodes().size())

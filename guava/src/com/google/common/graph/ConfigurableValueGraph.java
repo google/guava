@@ -23,6 +23,8 @@ import static com.google.common.graph.Graphs.checkNonNegative;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Configurable implementation of {@link ValueGraph} that supports the options supplied by {@link
@@ -41,7 +43,8 @@ import java.util.TreeMap;
  * @param <N> Node parameter type
  * @param <V> Value parameter type
  */
-class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
+class ConfigurableValueGraph<N extends @NonNull Object, V extends @NonNull Object>
+    extends AbstractValueGraph<N, V> {
   private final boolean isDirected;
   private final boolean allowsSelfLoops;
   private final ElementOrder<N> nodeOrder;
@@ -126,12 +129,12 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public V edgeValueOrDefault(N nodeU, N nodeV, V defaultValue) {
+  public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
     return edgeValueOrDefault_internal(checkNotNull(nodeU), checkNotNull(nodeV), defaultValue);
   }
 
   @Override
-  public V edgeValueOrDefault(EndpointPair<N> endpoints, V defaultValue) {
+  public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
     validateEndpoints(endpoints);
     return edgeValueOrDefault_internal(endpoints.nodeU(), endpoints.nodeV(), defaultValue);
   }
@@ -159,7 +162,8 @@ class ConfigurableValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return (connectionsU != null) && connectionsU.successors().contains(nodeV);
   }
 
-  protected final V edgeValueOrDefault_internal(N nodeU, N nodeV, V defaultValue) {
+  protected final @Nullable V edgeValueOrDefault_internal(
+      N nodeU, N nodeV, @Nullable V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
     V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
     return value == null ? defaultValue : value;

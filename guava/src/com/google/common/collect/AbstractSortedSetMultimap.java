@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a wrapper around {@link
@@ -32,8 +33,8 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
-    implements SortedSetMultimap<K, V> {
+abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -52,7 +53,8 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
   }
 
   @Override
-  <E> SortedSet<E> unmodifiableCollectionSubclass(Collection<E> collection) {
+  <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
+      Collection<E> collection) {
     if (collection instanceof NavigableSet) {
       return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
     } else {
@@ -61,6 +63,8 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
   }
 
   @Override
+  // https://github.com/typetools/checker-framework/issues/3022
+  @SuppressWarnings("argument.type.incompatible")
   Collection<V> wrapCollection(K key, Collection<V> collection) {
     if (collection instanceof NavigableSet) {
       return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
@@ -95,7 +99,7 @@ abstract class AbstractSortedSetMultimap<K, V> extends AbstractSetMultimap<K, V>
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(Object key) {
+  public SortedSet<V> removeAll(@Nullable Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 

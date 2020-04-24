@@ -32,6 +32,8 @@ import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -42,7 +44,8 @@ import java.util.stream.Collector;
  */
 @Beta
 @GwtIncompatible // NavigableMap
-public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
+public class ImmutableRangeMap<K extends Comparable<?>, V extends @NonNull Object>
+    implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
       new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
@@ -53,7 +56,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    *
    * @since 23.1
    */
-  public static <T, K extends Comparable<? super K>, V>
+  public static <
+          T extends @Nullable Object, K extends Comparable<? super K>, V extends @NonNull Object>
       Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
           Function<? super T, Range<K>> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -62,17 +66,18 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   /** Returns an empty immutable range map. */
   @SuppressWarnings("unchecked")
-  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
+  public static <K extends Comparable<?>, V extends @NonNull Object> ImmutableRangeMap<K, V> of() {
     return (ImmutableRangeMap<K, V>) EMPTY;
   }
 
   /** Returns an immutable range map mapping a single range to a single value. */
-  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(Range<K> range, V value) {
+  public static <K extends Comparable<?>, V extends @NonNull Object> ImmutableRangeMap<K, V> of(
+      Range<K> range, V value) {
     return new ImmutableRangeMap<>(ImmutableList.of(range), ImmutableList.of(value));
   }
 
   @SuppressWarnings("unchecked")
-  public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> copyOf(
+  public static <K extends Comparable<?>, V extends @NonNull Object> ImmutableRangeMap<K, V> copyOf(
       RangeMap<K, ? extends V> rangeMap) {
     if (rangeMap instanceof ImmutableRangeMap) {
       return (ImmutableRangeMap<K, V>) rangeMap;
@@ -88,7 +93,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   /** Returns a new builder for an immutable range map. */
-  public static <K extends Comparable<?>, V> Builder<K, V> builder() {
+  public static <K extends Comparable<?>, V extends @NonNull Object> Builder<K, V> builder() {
     return new Builder<>();
   }
 
@@ -97,7 +102,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    *
    * @since 14.0
    */
-  public static final class Builder<K extends Comparable<?>, V> {
+  public static final class Builder<K extends Comparable<?>, V extends @NonNull Object> {
     private final List<Entry<Range<K>, V>> entries;
 
     public Builder() {
@@ -168,7 +173,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public V get(K key) {
+  public @Nullable V get(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -185,7 +190,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public Entry<Range<K>, V> getEntry(K key) {
+  public @Nullable Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -280,7 +285,9 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Deprecated
   @Override
   public void merge(
-      Range<K> range, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      Range<K> range,
+      @Nullable V value,
+      BiFunction<? super V, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -371,7 +378,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());
@@ -388,7 +395,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link
    * #asMapOfRanges()} form.
    */
-  private static class SerializedForm<K extends Comparable<?>, V> implements Serializable {
+  private static class SerializedForm<K extends Comparable<?>, V extends @NonNull Object>
+      implements Serializable {
 
     private final ImmutableMap<Range<K>, V> mapOfRanges;
 

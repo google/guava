@@ -17,13 +17,14 @@
 package com.google.common.graph;
 
 import com.google.common.base.Optional;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A base class for builders that construct graphs with user-defined properties.
  *
  * @author James Sexton
  */
-abstract class AbstractGraphBuilder<N> {
+abstract class AbstractGraphBuilder<N extends @NonNull Object> {
   final boolean directed;
   boolean allowsSelfLoops = false;
   ElementOrder<N> nodeOrder = ElementOrder.insertion();

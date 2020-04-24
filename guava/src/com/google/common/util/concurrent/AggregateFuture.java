@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.AggregateFuture.ReleaseResources
 import static com.google.common.util.concurrent.AggregateFuture.ReleaseResourcesReason.OUTPUT_FUTURE_DONE;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.SEVERE;
 
 import com.google.common.annotations.GwtCompatible;
@@ -30,6 +31,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A future whose value is derived from a collection of input futures.
@@ -38,7 +40,8 @@ import java.util.logging.Logger;
  * @param <OutputT> the type of the output (i.e. this) future
  */
 @GwtCompatible
-abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<OutputT> {
+abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
+    extends AggregateFutureState<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 
   /**
@@ -51,7 +54,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
+  private @Nullable ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
 
   private final boolean allMustSucceed;
   private final boolean collectsValues;
@@ -70,12 +73,12 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   protected final void afterDone() {
     super.afterDone();
 
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+    ImmutableCollection<? extends Future<? extends @Nullable Object>> localFutures = futures;
     releaseResources(OUTPUT_FUTURE_DONE); // nulls out `futures`
 
     if (isCancelled() & localFutures != null) {
       boolean wasInterrupted = wasInterrupted();
-      for (Future<?> future : localFutures) {
+      for (Future<? extends @Nullable Object> future : localFutures) {
         future.cancel(wasInterrupted);
       }
     }
@@ -86,8 +89,8 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   }
 
   @Override
-  protected final String pendingToString() {
-    ImmutableCollection<? extends Future<?>> localFutures = futures;
+  protected final @Nullable String pendingToString() {
+    ImmutableCollection<? extends Future<? extends @Nullable Object>> localFutures = futures;
     if (localFutures != null) {
       return "futures=[" + localFutures + "]";
     }
@@ -102,6 +105,9 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
    * we're guaranteed to have properly initialized the subclass.
    */
   final void init() {
+    // requireNonNull is safe because this is called from the constructor after `futures` is set.
+    requireNonNull(futures);
+
     // Corner case: List is empty.
     if (futures.isEmpty()) {
       handleAllCompleted();
@@ -233,8 +239,14 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   final void addInitialException(Set<Throwable> seen) {
     checkNotNull(seen);
     if (!isCancelled()) {
-      // TODO(cpovirk): Think about whether we could/should use Verify to check this.
-      boolean unused = addCausalChain(seen, tryInternalFastPathGetFailure());
+      /*
+       * requireNonNull is safe because this is a TrustedFuture, and we're calling this method only
+       * if it has failed.
+       *
+       * TODO(cpovirk): Think about whether we could/should use Verify to check the return value of
+       * addCausalChain.
+       */
+      boolean unused = addCausalChain(seen, requireNonNull(tryInternalFastPathGetFailure()));
     }
   }
 
@@ -247,14 +259,21 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
       // We get the result, even if collectOneValue is a no-op, so that we can fail fast.
       collectOneValue(index, getDone(future));
     } catch (ExecutionException e) {
-      handleException(e.getCause());
+      /*
+       * requireNonNull should be safe because an ExecutionException from a Future should have a
+       * cause. TODO(cpovirk): But if it doesn't, consider calling handleException with a
+       * NullPointerException (or IllegalArgumentException) as a cause.
+       */
+      handleException(requireNonNull(e.getCause()));
     } catch (Throwable t) {
       handleException(t);
     }
   }
 
   private void decrementCountAndMaybeComplete(
-      ImmutableCollection<? extends Future<? extends InputT>> futuresIfNeedToCollectAtCompletion) {
+      @Nullable
+          ImmutableCollection<? extends Future<? extends InputT>>
+              futuresIfNeedToCollectAtCompletion) {
     int newRemaining = decrementRemainingAndGet();
     checkState(newRemaining >= 0, "Less than 0 remaining futures");
     if (newRemaining == 0) {
@@ -263,7 +282,9 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   }
 
   private void processCompleted(
-      ImmutableCollection<? extends Future<? extends InputT>> futuresIfNeedToCollectAtCompletion) {
+      @Nullable
+          ImmutableCollection<? extends Future<? extends InputT>>
+              futuresIfNeedToCollectAtCompletion) {
     if (futuresIfNeedToCollectAtCompletion != null) {
       int i = 0;
       for (Future<? extends InputT> future : futuresIfNeedToCollectAtCompletion) {
@@ -322,7 +343,10 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   abstract void handleAllCompleted();
 
   /** Adds the chain to the seen set, and returns whether all the chain was new to us. */
-  private static boolean addCausalChain(Set<Throwable> seen, Throwable t) {
+  private static boolean addCausalChain(Set<Throwable> seen, Throwable param) {
+    // Declare a "true" local variable so that the Checker Framework will infer nullness.
+    Throwable t = param;
+
     for (; t != null; t = t.getCause()) {
       boolean firstTimeSeen = seen.add(t);
       if (!firstTimeSeen) {

@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
@@ -60,6 +58,12 @@ final class CollectPreconditions {
    * error message.
    */
   static void checkRemove(boolean canRemove) {
-    checkState(canRemove, "no calls to next() since the last call to remove()");
+    if (!canRemove) {
+      throw noCallsToNextSinceLastRemove();
+    }
+  }
+
+  static IllegalStateException noCallsToNextSinceLastRemove() {
+    return new IllegalStateException("no calls to next() since the last call to remove()");
   }
 }

@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
@@ -32,8 +34,10 @@ import java.util.function.BiConsumer;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
-  static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
+final class ImmutableEnumMap<K extends Enum<K>, V extends @NonNull Object>
+    extends IteratorBasedImmutableMap<K, V> {
+  static <K extends Enum<K>, V extends @NonNull Object> ImmutableMap<K, V> asImmutable(
+      EnumMap<K, V> map) {
     switch (map.size()) {
       case 0:
         return ImmutableMap.of();
@@ -68,17 +72,19 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate.containsKey(key);
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegate.get(key);
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object param) {
+    // Declare a "true" local variable to avoid flowexpr problems.
+    Object object = param;
     if (object == this) {
       return true;
     }
@@ -117,7 +123,8 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   /*
    * This class is used to serialize ImmutableEnumMap instances.
    */
-  private static class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
+  private static class EnumSerializedForm<K extends Enum<K>, V extends @NonNull Object>
+      implements Serializable {
     final EnumMap<K, V> delegate;
 
     EnumSerializedForm(EnumMap<K, V> delegate) {

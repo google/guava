@@ -22,9 +22,11 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.PARALLEL_EDGES_NOT_ALLOWED;
 import static com.google.common.graph.GraphConstants.REUSING_EDGE;
 import static com.google.common.graph.GraphConstants.SELF_LOOPS_NOT_ALLOWED;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Configurable implementation of {@link MutableNetwork} that supports both directed and undirected
@@ -39,8 +41,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
-    implements MutableNetwork<N, E> {
+final class ConfigurableMutableNetwork<N extends @NonNull Object, E extends @NonNull Object>
+    extends ConfigurableNetwork<N, E> implements MutableNetwork<N, E> {
 
   /** Constructs a mutable graph with the properties specified in {@code builder}. */
   ConfigurableMutableNetwork(NetworkBuilder<? super N, ? super E> builder) {
@@ -152,9 +154,10 @@ final class ConfigurableMutableNetwork<N, E> extends ConfigurableNetwork<N, E>
       return false;
     }
 
-    NetworkConnections<N, E> connectionsU = nodeConnections.get(nodeU);
+    // The requireNonNull calls are safe because we found the edge in the network.
+    NetworkConnections<N, E> connectionsU = requireNonNull(nodeConnections.get(nodeU));
     N nodeV = connectionsU.adjacentNode(edge);
-    NetworkConnections<N, E> connectionsV = nodeConnections.get(nodeV);
+    NetworkConnections<N, E> connectionsV = requireNonNull(nodeConnections.get(nodeV));
     connectionsU.removeOutEdge(edge);
     connectionsV.removeInEdge(edge, allowsSelfLoops() && nodeU.equals(nodeV));
     edgeToReferenceNode.remove(edge);

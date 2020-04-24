@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection that supports order-independent equality, like {@link Set}, but may have duplicate
@@ -81,7 +82,7 @@ import java.util.function.ObjIntConsumer;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multiset<E> extends Collection<E> {
+public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   // Query Operations
 
   /**
@@ -106,7 +107,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return the number of occurrences of the element in this multiset; possibly zero but never
    *     negative
    */
-  int count(@CompatibleWith("E") Object element);
+  int count(@Nullable @CompatibleWith("E") Object element);
 
   // Bulk Operations
 
@@ -167,7 +168,7 @@ public interface Multiset<E> extends Collection<E> {
    * @throws IllegalArgumentException if {@code occurrences} is negative
    */
   @CanIgnoreReturnValue
-  int remove(@CompatibleWith("E") Object element, int occurrences);
+  int remove(@Nullable @CompatibleWith("E") Object element, int occurrences);
 
   /**
    * Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
@@ -183,7 +184,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean remove(Object element);
+  boolean remove(@Nullable Object element);
 
   /**
    * Adds or removes the necessary occurrences of an element such that the element attains the
@@ -264,7 +265,7 @@ public interface Multiset<E> extends Collection<E> {
    *
    * @since 2.0
    */
-  interface Entry<E> {
+  interface Entry<E extends @Nullable Object> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls to this method
@@ -299,7 +300,7 @@ public interface Multiset<E> extends Collection<E> {
      */
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
-    boolean equals(Object o);
+    boolean equals(@Nullable Object o);
 
     /**
      * {@inheritDoc}
@@ -347,7 +348,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @Override
   // TODO(kevinb): caveats about equivalence-relation?
-  boolean equals(Object object);
+  boolean equals(@Nullable Object object);
 
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
@@ -393,7 +394,7 @@ public interface Multiset<E> extends Collection<E> {
    * @return {@code true} if this multiset contains at least one occurrence of the element
    */
   @Override
-  boolean contains(Object element);
+  boolean contains(@Nullable Object element);
 
   /**
    * Returns {@code true} if this multiset contains at least one occurrence of each element in the
@@ -413,7 +414,7 @@ public interface Multiset<E> extends Collection<E> {
    * @throws NullPointerException if {@code elements} is null
    */
   @Override
-  boolean containsAll(Collection<?> elements);
+  boolean containsAll(Collection<? extends @Nullable Object> elements);
 
   /**
    * {@inheritDoc}
@@ -428,7 +429,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean removeAll(Collection<?> c);
+  boolean removeAll(Collection<? extends @Nullable Object> c);
 
   /**
    * {@inheritDoc}
@@ -445,7 +446,7 @@ public interface Multiset<E> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean retainAll(Collection<?> c);
+  boolean retainAll(Collection<? extends @Nullable Object> c);
 
   /**
    * {@inheritDoc}

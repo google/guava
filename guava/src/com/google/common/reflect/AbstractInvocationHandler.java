@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Abstract implementation of {@link InvocationHandler} that handles {@link Object#equals}, {@link
@@ -58,7 +59,8 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * </ul>
    */
   @Override
-  public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  public final Object invoke(Object proxy, Method method, Object @Nullable [] args)
+      throws Throwable {
     if (args == null) {
       args = NO_ARGS;
     }
@@ -107,7 +109,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    * <p>Subclasses can override this method to provide custom equality.
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(@Nullable Object obj) {
     return super.equals(obj);
   }
 

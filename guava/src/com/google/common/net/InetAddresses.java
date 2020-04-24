@@ -33,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@link InetAddress} instances.
@@ -156,7 +157,10 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
-  private static byte[] ipStringToBytes(String ipString) {
+  private static byte @Nullable [] ipStringToBytes(String ipStringParam) {
+    // Declare a "true" local variable so that the Checker Framework will infer nullness.
+    String ipString = ipStringParam;
+
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
     boolean hasDot = false;
@@ -189,7 +193,7 @@ public final class InetAddresses {
     return null;
   }
 
-  private static byte[] textToNumericFormatV4(String ipString) {
+  private static byte @Nullable [] textToNumericFormatV4(String ipString) {
     byte[] bytes = new byte[IPV4_PART_COUNT];
     int i = 0;
     try {
@@ -203,7 +207,7 @@ public final class InetAddresses {
     return i == IPV4_PART_COUNT ? bytes : null;
   }
 
-  private static byte[] textToNumericFormatV6(String ipString) {
+  private static byte @Nullable [] textToNumericFormatV6(String ipString) {
     // An address can have [2..8] colons, and N colons make N+1 parts.
     List<String> parts = IPV6_SPLITTER.splitToList(ipString);
     if (parts.size() < 3 || parts.size() > IPV6_PART_COUNT + 1) {
@@ -266,7 +270,7 @@ public final class InetAddresses {
     return rawBytes.array();
   }
 
-  private static String convertDottedQuadToHex(String ipString) {
+  private static @Nullable String convertDottedQuadToHex(String ipString) {
     int lastColon = ipString.lastIndexOf(':');
     String initialPart = ipString.substring(0, lastColon + 1);
     String dottedQuad = ipString.substring(lastColon + 1);
@@ -460,7 +464,7 @@ public final class InetAddresses {
     return addr;
   }
 
-  private static InetAddress forUriStringNoThrow(String hostAddr) {
+  private static @Nullable InetAddress forUriStringNoThrow(String hostAddr) {
     checkNotNull(hostAddr);
 
     // Decide if this should be an IPv6 or IPv4 address.
@@ -602,7 +606,8 @@ public final class InetAddresses {
      *     are out of range of an unsigned short
      */
     // TODO: why is this public?
-    public TeredoInfo(Inet4Address server, Inet4Address client, int port, int flags) {
+    public TeredoInfo(
+        @Nullable Inet4Address server, @Nullable Inet4Address client, int port, int flags) {
       checkArgument(
           (port >= 0) && (port <= 0xffff), "port '%s' is out of range (0 <= port <= 0xffff)", port);
       checkArgument(

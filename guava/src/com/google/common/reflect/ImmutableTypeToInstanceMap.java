@@ -14,11 +14,15 @@
 
 package com.google.common.reflect;
 
+import static java.util.Collections.unmodifiableMap;
+
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A type-to-instance map backed by an {@link ImmutableMap}. See also {@link
@@ -28,16 +32,16 @@ import java.util.Map;
  * @since 13.0
  */
 @Beta
-public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken<? extends B>, B>
-    implements TypeToInstanceMap<B> {
+public final class ImmutableTypeToInstanceMap<B extends @NonNull Object>
+    extends ForwardingMap<TypeToken<? extends B>, @Nullable B> implements TypeToInstanceMap<B> {
 
   /** Returns an empty type to instance map. */
-  public static <B> ImmutableTypeToInstanceMap<B> of() {
+  public static <B extends @NonNull Object> ImmutableTypeToInstanceMap<B> of() {
     return new ImmutableTypeToInstanceMap<B>(ImmutableMap.<TypeToken<? extends B>, B>of());
   }
 
   /** Returns a new builder. */
-  public static <B> Builder<B> builder() {
+  public static <B extends @NonNull Object> Builder<B> builder() {
     return new Builder<B>();
   }
 
@@ -58,7 +62,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    * @since 13.0
    */
   @Beta
-  public static final class Builder<B> {
+  public static final class Builder<B extends @NonNull Object> {
     private final ImmutableMap.Builder<TypeToken<? extends B>, B> mapBuilder =
         ImmutableMap.builder();
 
@@ -94,19 +98,20 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
     }
   }
 
-  private final ImmutableMap<TypeToken<? extends B>, B> delegate;
+  private final Map<TypeToken<? extends B>, @Nullable B> delegate;
 
   private ImmutableTypeToInstanceMap(ImmutableMap<TypeToken<? extends B>, B> delegate) {
-    this.delegate = delegate;
+    // Convert from Map<..., B> to Map<..., @Nullable B>.
+    this.delegate = unmodifiableMap(delegate);
   }
 
   @Override
-  public <T extends B> T getInstance(TypeToken<T> type) {
+  public <T extends B> @Nullable T getInstance(TypeToken<T> type) {
     return trustedGet(type.rejectTypeVariables());
   }
 
   @Override
-  public <T extends B> T getInstance(Class<T> type) {
+  public <T extends B> @Nullable T getInstance(Class<T> type) {
     return trustedGet(TypeToken.of(type));
   }
 
@@ -119,7 +124,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public <T extends B> T putInstance(TypeToken<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(TypeToken<T> type, @Nullable T value) {
     throw new UnsupportedOperationException();
   }
 
@@ -132,7 +137,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public <T extends B> T putInstance(Class<T> type, T value) {
+  public <T extends B> @Nullable T putInstance(Class<T> type, @Nullable T value) {
     throw new UnsupportedOperationException();
   }
 
@@ -145,7 +150,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public B put(TypeToken<? extends B> key, B value) {
+  public @Nullable B put(TypeToken<? extends B> key, @Nullable B value) {
     throw new UnsupportedOperationException();
   }
 
@@ -157,17 +162,17 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
    */
   @Deprecated
   @Override
-  public void putAll(Map<? extends TypeToken<? extends B>, ? extends B> map) {
+  public void putAll(Map<? extends TypeToken<? extends B>, ? extends @Nullable B> map) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  protected Map<TypeToken<? extends B>, B> delegate() {
+  protected Map<TypeToken<? extends B>, @Nullable B> delegate() {
     return delegate;
   }
 
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  private <T extends B> T trustedGet(TypeToken<T> type) {
+  private <T extends B> @Nullable T trustedGet(TypeToken<T> type) {
     return (T) delegate.get(type);
   }
 }

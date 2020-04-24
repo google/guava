@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that
@@ -46,10 +46,11 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashSet<E> extends CompactHashSet<E> {
+@SuppressWarnings("nullness") // too much effort for the payoff
+class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E> {
 
   /** Creates an empty {@code CompactLinkedHashSet} instance. */
-  public static <E> CompactLinkedHashSet<E> create() {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create() {
     return new CompactLinkedHashSet<>();
   }
 
@@ -60,7 +61,8 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @param collection the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
-  public static <E> CompactLinkedHashSet<E> create(Collection<? extends E> collection) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create(
+      Collection<? extends E> collection) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(collection.size());
     set.addAll(collection);
     return set;
@@ -73,7 +75,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @param elements the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
-  public static <E> CompactLinkedHashSet<E> create(E... elements) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> create(E... elements) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
@@ -88,7 +90,8 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <E> CompactLinkedHashSet<E> createWithExpectedSize(int expectedSize) {
+  public static <E extends @Nullable Object> CompactLinkedHashSet<E> createWithExpectedSize(
+      int expectedSize) {
     return new CompactLinkedHashSet<>(expectedSize);
   }
 
@@ -102,13 +105,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @MonotonicNonNull [] predecessor;
+  private transient int @Nullable [] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @MonotonicNonNull [] successor;
+  private transient int @Nullable [] successor;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;

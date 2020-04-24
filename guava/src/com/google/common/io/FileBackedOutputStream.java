@@ -14,6 +14,8 @@
 
 package com.google.common.io;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -25,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -44,8 +47,8 @@ public final class FileBackedOutputStream extends OutputStream {
   private final ByteSource source;
 
   private OutputStream out;
-  private MemoryOutput memory;
-  private File file;
+  private @Nullable MemoryOutput memory;
+  private @Nullable File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {
@@ -60,7 +63,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
   /** Returns the file holding the data (possibly null). */
   @VisibleForTesting
-  synchronized File getFile() {
+  synchronized @Nullable File getFile() {
     return file;
   }
 
@@ -129,6 +132,8 @@ public final class FileBackedOutputStream extends OutputStream {
     if (file != null) {
       return new FileInputStream(file);
     } else {
+      // requireNonNull is safe because we always have either `file` or `memory`.
+      requireNonNull(memory);
       return new ByteArrayInputStream(memory.getBuffer(), 0, memory.getCount());
     }
   }
@@ -191,7 +196,7 @@ public final class FileBackedOutputStream extends OutputStream {
    * so.
    */
   private void update(int len) throws IOException {
-    if (file == null && (memory.getCount() + len > fileThreshold)) {
+    if (memory != null && (memory.getCount() + len > fileThreshold)) {
       File temp = File.createTempFile("FileBackedOutputStream", null);
       if (resetOnFinalize) {
         // Finalizers are not guaranteed to be called on system shutdown;

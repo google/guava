@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
@@ -56,7 +57,7 @@ import java.util.concurrent.Executor;
  * @since 10.0
  */
 @GwtCompatible(emulated = true)
-public abstract class CacheLoader<K, V> {
+public abstract class CacheLoader<K extends @NonNull Object, V extends @NonNull Object> {
   /** Constructor for use by subclasses. */
   protected CacheLoader() {}
 
@@ -135,7 +136,8 @@ public abstract class CacheLoader<K, V> {
    * @param function the function to be used for loading values; must never return {@code null}
    * @return a cache loader that loads values by passing each key to {@code function}
    */
-  public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
+  public static <K extends @NonNull Object, V extends @NonNull Object> CacheLoader<K, V> from(
+      Function<K, V> function) {
     return new FunctionToCacheLoader<>(function);
   }
 
@@ -148,12 +150,13 @@ public abstract class CacheLoader<K, V> {
    * @return a cache loader that loads values by calling {@link Supplier#get}, irrespective of the
    *     key
    */
-  public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
+  public static <V extends @NonNull Object> CacheLoader<Object, V> from(Supplier<V> supplier) {
     return new SupplierToCacheLoader<V>(supplier);
   }
 
-  private static final class FunctionToCacheLoader<K, V> extends CacheLoader<K, V>
-      implements Serializable {
+  private static final class FunctionToCacheLoader<
+          K extends @NonNull Object, V extends @NonNull Object>
+      extends CacheLoader<K, V> implements Serializable {
     private final Function<K, V> computingFunction;
 
     public FunctionToCacheLoader(Function<K, V> computingFunction) {
@@ -178,8 +181,8 @@ public abstract class CacheLoader<K, V> {
    * @since 17.0
    */
   @GwtIncompatible // Executor + Futures
-  public static <K, V> CacheLoader<K, V> asyncReloading(
-      final CacheLoader<K, V> loader, final Executor executor) {
+  public static <K extends @NonNull Object, V extends @NonNull Object>
+      CacheLoader<K, V> asyncReloading(final CacheLoader<K, V> loader, final Executor executor) {
     checkNotNull(loader);
     checkNotNull(executor);
     return new CacheLoader<K, V>() {
@@ -209,8 +212,8 @@ public abstract class CacheLoader<K, V> {
     };
   }
 
-  private static final class SupplierToCacheLoader<V> extends CacheLoader<Object, V>
-      implements Serializable {
+  private static final class SupplierToCacheLoader<V extends @NonNull Object>
+      extends CacheLoader<Object, V> implements Serializable {
     private final Supplier<V> computingSupplier;
 
     public SupplierToCacheLoader(Supplier<V> computingSupplier) {

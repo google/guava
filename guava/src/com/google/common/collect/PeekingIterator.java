@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An iterator that supports a one-element lookahead while iterating.
@@ -32,7 +33,7 @@ import java.util.NoSuchElementException;
  * @since 2.0
  */
 @GwtCompatible
-public interface PeekingIterator<E> extends Iterator<E> {
+public interface PeekingIterator<E extends @Nullable Object> extends Iterator<E> {
   /**
    * Returns the next element in the iteration, without advancing the iteration.
    *

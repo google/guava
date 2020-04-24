@@ -22,6 +22,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A TimeLimiter implementation which actually does not attempt to limit time at all. This may be
@@ -38,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 @GwtIncompatible
 public final class FakeTimeLimiter implements TimeLimiter {
   @Override
-  public <T> T newProxy(
+  public <T extends @NonNull Object> T newProxy(
       T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit) {
     checkNotNull(target);
     checkNotNull(interfaceType);
@@ -47,8 +49,8 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
-      throws ExecutionException {
+  public <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
     try {
@@ -67,7 +69,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T> T callUninterruptiblyWithTimeout(
+  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     return callWithTimeout(callable, timeoutDuration, timeoutUnit);
   }

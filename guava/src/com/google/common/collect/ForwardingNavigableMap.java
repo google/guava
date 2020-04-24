@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.CollectPreconditions.checkRemove;
+import static com.google.common.collect.CollectPreconditions.noCallsToNextSinceLastRemove;
 import static com.google.common.collect.Maps.keyOrNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -27,6 +28,7 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.function.BiFunction;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
@@ -55,8 +57,8 @@ import java.util.function.BiFunction;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K, V>
-    implements NavigableMap<K, V> {
+public abstract class ForwardingNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+    extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableMap() {}
@@ -65,7 +67,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
   protected abstract NavigableMap<K, V> delegate();
 
   @Override
-  public Entry<K, V> lowerEntry(K key) {
+  public @Nullable Entry<K, V> lowerEntry(K key) {
     return delegate().lowerEntry(key);
   }
 
@@ -74,12 +76,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * lowerEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardLowerEntry(K key) {
+  protected @Nullable Entry<K, V> standardLowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  public K lowerKey(K key) {
+  public @Nullable K lowerKey(K key) {
     return delegate().lowerKey(key);
   }
 
@@ -88,12 +90,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * {@link #lowerEntry}, you may wish to override {@code lowerKey} to forward to this
    * implementation.
    */
-  protected K standardLowerKey(K key) {
+  protected @Nullable K standardLowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
-  public Entry<K, V> floorEntry(K key) {
+  public @Nullable Entry<K, V> floorEntry(K key) {
     return delegate().floorEntry(key);
   }
 
@@ -102,12 +104,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override {@code
    * floorEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardFloorEntry(K key) {
+  protected @Nullable Entry<K, V> standardFloorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  public K floorKey(K key) {
+  public @Nullable K floorKey(K key) {
     return delegate().floorKey(key);
   }
 
@@ -116,12 +118,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * {@code floorEntry}, you may wish to override {@code floorKey} to forward to this
    * implementation.
    */
-  protected K standardFloorKey(K key) {
+  protected @Nullable K standardFloorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
-  public Entry<K, V> ceilingEntry(K key) {
+  public @Nullable Entry<K, V> ceilingEntry(K key) {
     return delegate().ceilingEntry(key);
   }
 
@@ -130,12 +132,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * ceilingEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardCeilingEntry(K key) {
+  protected @Nullable Entry<K, V> standardCeilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  public K ceilingKey(K key) {
+  public @Nullable K ceilingKey(K key) {
     return delegate().ceilingKey(key);
   }
 
@@ -144,12 +146,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * {@code ceilingEntry}, you may wish to override {@code ceilingKey} to forward to this
    * implementation.
    */
-  protected K standardCeilingKey(K key) {
+  protected @Nullable K standardCeilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  public Entry<K, V> higherEntry(K key) {
+  public @Nullable Entry<K, V> higherEntry(K key) {
     return delegate().higherEntry(key);
   }
 
@@ -158,12 +160,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override {@code
    * higherEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardHigherEntry(K key) {
+  protected @Nullable Entry<K, V> standardHigherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  public K higherKey(K key) {
+  public @Nullable K higherKey(K key) {
     return delegate().higherKey(key);
   }
 
@@ -172,12 +174,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * {@code higherEntry}, you may wish to override {@code higherKey} to forward to this
    * implementation.
    */
-  protected K standardHigherKey(K key) {
+  protected @Nullable K standardHigherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
 
   @Override
-  public Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return delegate().firstEntry();
   }
 
@@ -186,7 +188,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #entrySet}. If you override {@code entrySet}, you may wish to override {@code firstEntry} to
    * forward to this implementation.
    */
-  protected Entry<K, V> standardFirstEntry() {
+  protected @Nullable Entry<K, V> standardFirstEntry() {
     return Iterables.getFirst(entrySet(), null);
   }
 
@@ -205,7 +207,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
   }
 
   @Override
-  public Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return delegate().lastEntry();
   }
 
@@ -214,7 +216,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * #entrySet} of {@link #descendingMap}. If you override {@code descendingMap}, you may wish to
    * override {@code lastEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardLastEntry() {
+  protected @Nullable Entry<K, V> standardLastEntry() {
     return Iterables.getFirst(descendingMap().entrySet(), null);
   }
 
@@ -232,7 +234,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
   }
 
   @Override
-  public Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     return delegate().pollFirstEntry();
   }
 
@@ -241,12 +243,12 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * entrySet}. If you override {@code entrySet}, you may wish to override {@code pollFirstEntry} to
    * forward to this implementation.
    */
-  protected Entry<K, V> standardPollFirstEntry() {
+  protected @Nullable Entry<K, V> standardPollFirstEntry() {
     return Iterators.pollNext(entrySet().iterator());
   }
 
   @Override
-  public Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     return delegate().pollLastEntry();
   }
 
@@ -255,7 +257,7 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
    * entrySet} of {@code descendingMap}. If you override {@code descendingMap}, you may wish to
    * override {@code pollFirstEntry} to forward to this implementation.
    */
-  protected Entry<K, V> standardPollLastEntry() {
+  protected @Nullable Entry<K, V> standardPollLastEntry() {
     return Iterators.pollNext(descendingMap().entrySet().iterator());
   }
 
@@ -293,8 +295,8 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
     @Override
     protected Iterator<Entry<K, V>> entryIterator() {
       return new Iterator<Entry<K, V>>() {
-        private Entry<K, V> toRemove = null;
-        private Entry<K, V> nextOrNull = forward().lastEntry();
+        private @Nullable Entry<K, V> toRemove = null;
+        private @Nullable Entry<K, V> nextOrNull = forward().lastEntry();
 
         @Override
         public boolean hasNext() {
@@ -306,6 +308,8 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
           if (!hasNext()) {
             throw new NoSuchElementException();
           }
+          // requireNonNull is safe because of the hasNext() check.
+          requireNonNull(nextOrNull);
           try {
             return nextOrNull;
           } finally {
@@ -316,7 +320,9 @@ public abstract class ForwardingNavigableMap<K, V> extends ForwardingSortedMap<K
 
         @Override
         public void remove() {
-          checkRemove(toRemove != null);
+          if (toRemove == null) {
+            throw noCallsToNextSinceLastRemove();
+          }
           forward().remove(toRemove.getKey());
           toRemove = null;
         }

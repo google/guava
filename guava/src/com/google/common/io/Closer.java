@@ -15,6 +15,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -27,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
@@ -105,7 +106,7 @@ public final class Closer implements Closeable {
 
   // only need space for 2 elements in most cases, so try to use the smallest array possible
   private final Deque<Closeable> stack = new ArrayDeque<>(4);
-  @MonotonicNonNull private Throwable thrown;
+  @Nullable private Throwable thrown;
 
   @VisibleForTesting
   Closer(Suppressor suppressor) {
@@ -120,7 +121,7 @@ public final class Closer implements Closeable {
    */
   // close. this word no longer has any meaning to me.
   @CanIgnoreReturnValue
-  public <C extends Closeable> C register(C closeable) {
+  public <C extends @Nullable Closeable> C register(C closeable) {
     if (closeable != null) {
       stack.addFirst(closeable);
     }
@@ -264,9 +265,9 @@ public final class Closer implements Closeable {
       return addSuppressed != null;
     }
 
-    static final Method addSuppressed = addSuppressedMethodOrNull();
+    static final @Nullable Method addSuppressed = addSuppressedMethodOrNull();
 
-    private static Method addSuppressedMethodOrNull() {
+    private static @Nullable Method addSuppressedMethodOrNull() {
       try {
         return Throwable.class.getMethod("addSuppressed", Throwable.class);
       } catch (Throwable e) {
@@ -281,7 +282,8 @@ public final class Closer implements Closeable {
         return;
       }
       try {
-        addSuppressed.invoke(thrown, suppressed);
+        // requireNonNull is safe because this method is used only if isAvailable().
+        requireNonNull(addSuppressed).invoke(thrown, suppressed);
       } catch (Throwable e) {
         // if, somehow, IllegalAccessException or another exception is thrown, fall back to logging
         LoggingSuppressor.INSTANCE.suppress(closeable, thrown, suppressed);

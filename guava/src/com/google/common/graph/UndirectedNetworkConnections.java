@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableBiMap;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * An implementation of {@link NetworkConnections} for undirected networks.
@@ -32,17 +33,20 @@ import java.util.Set;
  * @param <N> Node parameter type
  * @param <E> Edge parameter type
  */
-final class UndirectedNetworkConnections<N, E> extends AbstractUndirectedNetworkConnections<N, E> {
+final class UndirectedNetworkConnections<N extends @NonNull Object, E extends @NonNull Object>
+    extends AbstractUndirectedNetworkConnections<N, E> {
 
   protected UndirectedNetworkConnections(Map<E, N> incidentEdgeMap) {
     super(incidentEdgeMap);
   }
 
-  static <N, E> UndirectedNetworkConnections<N, E> of() {
+  static <N extends @NonNull Object, E extends @NonNull Object>
+      UndirectedNetworkConnections<N, E> of() {
     return new UndirectedNetworkConnections<>(HashBiMap.<E, N>create(EXPECTED_DEGREE));
   }
 
-  static <N, E> UndirectedNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
+  static <N extends @NonNull Object, E extends @NonNull Object>
+      UndirectedNetworkConnections<N, E> ofImmutable(Map<E, N> incidentEdges) {
     return new UndirectedNetworkConnections<>(ImmutableBiMap.copyOf(incidentEdges));
   }
 

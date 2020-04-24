@@ -21,6 +21,8 @@ import com.google.common.collect.ForwardingDeque;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link BlockingDeque} which forwards all its method calls to another {@code BlockingDeque}.
@@ -44,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  * @since 21.0 (since 14.0 as {@link com.google.common.collect.ForwardingBlockingDeque})
  */
 @GwtIncompatible
-public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
+public abstract class ForwardingBlockingDeque<E extends @NonNull Object> extends ForwardingDeque<E>
     implements BlockingDeque<E> {
 
   /** Constructor for use by subclasses. */
@@ -89,12 +91,12 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
-  public E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E pollFirst(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollFirst(timeout, unit);
   }
 
   @Override
-  public E pollLast(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E pollLast(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().pollLast(timeout, unit);
   }
 
@@ -114,7 +116,7 @@ public abstract class ForwardingBlockingDeque<E> extends ForwardingDeque<E>
   }
 
   @Override
-  public E poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public @Nullable E poll(long timeout, TimeUnit unit) throws InterruptedException {
     return delegate().poll(timeout, unit);
   }
 

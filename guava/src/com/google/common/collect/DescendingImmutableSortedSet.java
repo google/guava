@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Skeletal implementation of {@link ImmutableSortedSet#descendingSet()}.
@@ -24,7 +26,7 @@ import com.google.common.annotations.GwtIncompatible;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
+final class DescendingImmutableSortedSet<E extends @NonNull Object> extends ImmutableSortedSet<E> {
   private final ImmutableSortedSet<E> forward;
 
   DescendingImmutableSortedSet(ImmutableSortedSet<E> forward) {
@@ -33,7 +35,7 @@ final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public boolean contains(Object object) {
+  public boolean contains(@Nullable Object object) {
     return forward.contains(object);
   }
 
@@ -82,27 +84,27 @@ final class DescendingImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  public E lower(E element) {
+  public @Nullable E lower(E element) {
     return forward.higher(element);
   }
 
   @Override
-  public E floor(E element) {
+  public @Nullable E floor(E element) {
     return forward.ceiling(element);
   }
 
   @Override
-  public E ceiling(E element) {
+  public @Nullable E ceiling(E element) {
     return forward.floor(element);
   }
 
   @Override
-  public E higher(E element) {
+  public @Nullable E higher(E element) {
     return forward.lower(element);
   }
 
   @Override
-  int indexOf(Object target) {
+  int indexOf(@Nullable Object target) {
     int index = forward.indexOf(target);
     if (index == -1) {
       return index;

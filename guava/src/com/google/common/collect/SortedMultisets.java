@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link SortedMultiset} instances.
@@ -39,7 +40,8 @@ final class SortedMultisets {
   private SortedMultisets() {}
 
   /** A skeleton implementation for {@link SortedMultiset#elementSet}. */
-  static class ElementSet<E> extends Multisets.ElementSet<E> implements SortedSet<E> {
+  static class ElementSet<E extends @Nullable Object> extends Multisets.ElementSet<E>
+      implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
     ElementSet(SortedMultiset<E> multiset) {
@@ -89,28 +91,29 @@ final class SortedMultisets {
 
   /** A skeleton navigable implementation for {@link SortedMultiset#elementSet}. */
   @GwtIncompatible // Navigable
-  static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
+  static class NavigableElementSet<E extends @Nullable Object> extends ElementSet<E>
+      implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);
     }
 
     @Override
-    public E lower(E e) {
+    public @Nullable E lower(E e) {
       return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
     }
 
     @Override
-    public E floor(E e) {
+    public @Nullable E floor(E e) {
       return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
     }
 
     @Override
-    public E ceiling(E e) {
+    public @Nullable E ceiling(E e) {
       return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
     }
 
     @Override
-    public E higher(E e) {
+    public @Nullable E higher(E e) {
       return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
     }
 
@@ -125,12 +128,12 @@ final class SortedMultisets {
     }
 
     @Override
-    public E pollFirst() {
+    public @Nullable E pollFirst() {
       return getElementOrNull(multiset().pollFirstEntry());
     }
 
     @Override
-    public E pollLast() {
+    public @Nullable E pollLast() {
       return getElementOrNull(multiset().pollLastEntry());
     }
 
@@ -157,14 +160,15 @@ final class SortedMultisets {
     }
   }
 
-  private static <E> E getElementOrThrow(Entry<E> entry) {
+  private static <E extends @Nullable Object> E getElementOrThrow(@Nullable Entry<E> entry) {
     if (entry == null) {
       throw new NoSuchElementException();
     }
     return entry.getElement();
   }
 
-  private static <E> E getElementOrNull(Entry<E> entry) {
+  private static <E extends @Nullable Object> @Nullable E getElementOrNull(
+      @Nullable Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }
 }

@@ -21,6 +21,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code Multimap} that can hold duplicate key-value pairs and that maintains the insertion
@@ -39,7 +40,8 @@ import java.util.Map;
  * @since 2.0
  */
 @GwtCompatible
-public interface ListMultimap<K, V> extends Multimap<K, V> {
+public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+    extends Multimap<K, V> {
   /**
    * {@inheritDoc}
    *
@@ -59,7 +61,7 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  List<V> removeAll(Object key);
+  List<V> removeAll(@Nullable Object key);
 
   /**
    * {@inheritDoc}
@@ -92,5 +94,5 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * empty {@code SetMultimap}.
    */
   @Override
-  boolean equals(Object obj);
+  boolean equals(@Nullable Object obj);
 }

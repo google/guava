@@ -21,6 +21,7 @@ import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import java.util.Comparator;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A utility for performing a chained comparison statement. For example:
@@ -73,7 +74,8 @@ public abstract class ComparisonChain {
         }
 
         @Override
-        public <T> ComparisonChain compare(T left, T right, Comparator<T> comparator) {
+        public <T extends @Nullable Object> ComparisonChain compare(
+            T left, T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
         }
 
@@ -134,7 +136,8 @@ public abstract class ComparisonChain {
     }
 
     @Override
-    public <T> ComparisonChain compare(T left, T right, Comparator<T> comparator) {
+    public <T extends @Nullable Object> ComparisonChain compare(
+        T left, T right, Comparator<T> comparator) {
       return this;
     }
 
@@ -184,7 +187,8 @@ public abstract class ComparisonChain {
    * Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
    * already been determined.
    */
-  public abstract <T> ComparisonChain compare(T left, T right, Comparator<T> comparator);
+  public abstract <T extends @Nullable Object> ComparisonChain compare(
+      T left, T right, Comparator<T> comparator);
 
   /**
    * Compares two {@code int} values as specified by {@link Ints#compare}, <i>if</i> the result of

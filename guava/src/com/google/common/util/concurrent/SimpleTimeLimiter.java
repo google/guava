@@ -34,6 +34,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A TimeLimiter that runs method calls in the background using an {@link ExecutorService}. If the
@@ -69,7 +71,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T> T newProxy(
+  public <T extends @NonNull Object> T newProxy(
       final T target,
       Class<T> interfaceType,
       final long timeoutDuration,
@@ -87,10 +89,10 @@ public final class SimpleTimeLimiter implements TimeLimiter {
           @Override
           public Object invoke(Object obj, final Method method, final Object[] args)
               throws Throwable {
-            Callable<Object> callable =
-                new Callable<Object>() {
+            Callable<@Nullable Object> callable =
+                new Callable<@Nullable Object>() {
                   @Override
-                  public Object call() throws Exception {
+                  public @Nullable Object call() throws Exception {
                     try {
                       return method.invoke(target, args);
                     } catch (InvocationTargetException e) {
@@ -98,22 +100,34 @@ public final class SimpleTimeLimiter implements TimeLimiter {
                     }
                   }
                 };
-            return callWithTimeout(
-                callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method));
+            /*
+             * Checkers can't know whether it's safe for a reflective method to return null, and the
+             * current Checker Framework stubs forbid it. However, it's safe here because we're
+             * providing an implementation of a method by delegating to an existing implementation.
+             */
+            return uncheckedCastToNonNull(
+                callWithTimeout(
+                    callable, timeoutDuration, timeoutUnit, interruptibleMethods.contains(method)));
           }
         };
     return newProxy(interfaceType, handler);
   }
 
+  @SuppressWarnings("nullness")
+  private static Object uncheckedCastToNonNull(@Nullable Object o) {
+    return o;
+  }
+
   // TODO: replace with version in common.reflect if and when it's open-sourced
-  private static <T> T newProxy(Class<T> interfaceType, InvocationHandler handler) {
+  private static <T extends @NonNull Object> T newProxy(
+      Class<T> interfaceType, InvocationHandler handler) {
     Object object =
         Proxy.newProxyInstance(
             interfaceType.getClassLoader(), new Class<?>[] {interfaceType}, handler);
     return interfaceType.cast(object);
   }
 
-  private <T> T callWithTimeout(
+  private <T extends @Nullable Object> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
     checkNotNull(callable);
@@ -143,7 +157,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
+  public <T extends @Nullable Object> T callWithTimeout(
+      Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
@@ -164,7 +179,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T> T callUninterruptiblyWithTimeout(
+  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {
     checkNotNull(callable);
@@ -191,7 +206,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
 
-    Future<?> future = executor.submit(runnable);
+    Future<? extends @Nullable Object> future = executor.submit(runnable);
 
     try {
       future.get(timeoutDuration, timeoutUnit);
@@ -211,7 +226,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
 
-    Future<?> future = executor.submit(runnable);
+    Future<? extends @Nullable Object> future = executor.submit(runnable);
 
     try {
       Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);
@@ -264,7 +279,9 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return false;
   }
 
-  private void wrapAndThrowExecutionExceptionOrError(Throwable cause) throws ExecutionException {
+  // In a sane world, the parameter will never be null. But the code works OK even if it is.
+  private void wrapAndThrowExecutionExceptionOrError(@Nullable Throwable cause)
+      throws ExecutionException {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
     } else if (cause instanceof RuntimeException) {
@@ -274,7 +291,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
-  private void wrapAndThrowRuntimeExecutionExceptionOrError(Throwable cause) {
+  // In a sane world, the parameter will never be null. But the code works OK even if it is.
+  private void wrapAndThrowRuntimeExecutionExceptionOrError(@Nullable Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
     } else {

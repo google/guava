@@ -21,15 +21,19 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
  * protecting against hash flooding.
  */
 @GwtCompatible(emulated = true)
-final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+final class JdkBackedImmutableBiMap<K extends @NonNull Object, V extends @NonNull Object>
+    extends ImmutableBiMap<K, V> {
   @VisibleForTesting
-  static <K, V> ImmutableBiMap<K, V> create(int n, Entry<K, V>[] entryArray) {
+  static <K extends @NonNull Object, V extends @NonNull Object> ImmutableBiMap<K, V> create(
+      int n, Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);
     Map<V, K> backwardDelegate = Maps.newHashMapWithExpectedSize(n);
     for (int i = 0; i < n; i++) {
@@ -64,7 +68,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return entries.size();
   }
 
-  @LazyInit @RetainedWith private transient JdkBackedImmutableBiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable JdkBackedImmutableBiMap<V, K> inverse;
 
   @Override
   public ImmutableBiMap<V, K> inverse() {
@@ -99,7 +103,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return forwardDelegate.get(key);
   }
 

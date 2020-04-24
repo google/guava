@@ -16,10 +16,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A dummy superclass of {@link ImmutableMultimap} that can be instanceof'd without ProGuard
  * retaining additional implementation details of {@link ImmutableMultimap}.
  */
 @GwtCompatible
-abstract class BaseImmutableMultimap<K, V> extends AbstractMultimap<K, V> {}
+abstract class BaseImmutableMultimap<K extends @NonNull Object, V extends @NonNull Object>
+    extends AbstractMultimap<K, V> {}

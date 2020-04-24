@@ -18,16 +18,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
-abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
+abstract class AbstractCatchingFuture<
+        V extends @Nullable Object,
+        X extends Throwable,
+        F extends @NonNull Object,
+        T extends @Nullable Object>
     extends FluentFuture.TrustedFuture<V> implements Runnable {
   static <V, X extends Throwable> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
@@ -53,9 +60,9 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  ListenableFuture<? extends V> inputFuture;
-  Class<X> exceptionType;
-  F fallback;
+  @Nullable ListenableFuture<? extends V> inputFuture;
+  @Nullable Class<X> exceptionType;
+  @Nullable F fallback;
 
   AbstractCatchingFuture(
       ListenableFuture<? extends V> inputFuture, Class<X> exceptionType, F fallback) {
@@ -83,13 +90,18 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     try {
       sourceResult = getDone(localInputFuture);
     } catch (ExecutionException e) {
-      throwable = checkNotNull(e.getCause());
+      // TODO(cpovirk): Sync to pull in changes from CL 282674203.
+      throwable = requireNonNull(e.getCause());
     } catch (Throwable e) { // this includes cancellation exception
       throwable = e;
     }
 
     if (throwable == null) {
-      set(sourceResult);
+      /*
+       * The cast is safe: There was no exception, so the assignment from getDone must have
+       * succeeded.
+       */
+      set(uncheckedCastNullableVToV(sourceResult));
       return;
     }
 
@@ -116,7 +128,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
   }
 
   @Override
-  protected String pendingToString() {
+  protected @Nullable String pendingToString() {
     ListenableFuture<? extends V> localInputFuture = inputFuture;
     Class<X> localExceptionType = exceptionType;
     F localFallback = fallback;
@@ -158,7 +170,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
    * An {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction} and {@link
    * #setFuture(ListenableFuture)}.
    */
-  private static final class AsyncCatchingFuture<V, X extends Throwable>
+  private static final class AsyncCatchingFuture<V extends @Nullable Object, X extends Throwable>
       extends AbstractCatchingFuture<
           V, X, AsyncFunction<? super X, ? extends V>, ListenableFuture<? extends V>> {
     AsyncCatchingFuture(
@@ -190,7 +202,7 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
    * An {@link AbstractCatchingFuture} that delegates to a {@link Function} and {@link
    * #set(Object)}.
    */
-  private static final class CatchingFuture<V, X extends Throwable>
+  private static final class CatchingFuture<V extends @Nullable Object, X extends Throwable>
       extends AbstractCatchingFuture<V, X, Function<? super X, ? extends V>, V> {
     CatchingFuture(
         ListenableFuture<? extends V> input,
@@ -208,5 +220,16 @@ abstract class AbstractCatchingFuture<V, X extends Throwable, F, T>
     void setResult(V result) {
       set(result);
     }
+  }
+
+  @SuppressWarnings("nullness")
+  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V result) {
+    /*
+     * We can't use requireNonNull because `result` might be null. Specifically, it can be null
+     * because the future might produce a null value to be returned to the user. This is in contrast
+     * to the other way for `result` to be null, which is for the future to have failed, leaving the
+     * variable with its initial null value.
+     */
+    return result;
   }
 }

@@ -16,7 +16,11 @@
 
 package com.google.common.graph;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Map;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link MapIteratorCache} that adds additional caching. In addition to the caching provided by
@@ -24,9 +28,10 @@ import java.util.Map;
  *
  * @author James Sexton
  */
-class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
-  private transient CacheEntry<K, V> cacheEntry1;
-  private transient CacheEntry<K, V> cacheEntry2;
+class MapRetrievalCache<K extends @NonNull Object, V extends @NonNull Object>
+    extends MapIteratorCache<K, V> {
+  private transient @Nullable CacheEntry<K, V> cacheEntry1;
+  private transient @Nullable CacheEntry<K, V> cacheEntry2;
 
   MapRetrievalCache(Map<K, V> backingMap) {
     super(backingMap);
@@ -34,7 +39,7 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   @SuppressWarnings("unchecked") // Safe because we only cast if key is found in map.
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     V value = getIfCached(key);
     if (value != null) {
       return value;
@@ -42,7 +47,8 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
     value = getWithoutCaching(key);
     if (value != null) {
-      addToCache((K) key, value);
+      // requireNonNull is safe because the key is in the map.
+      addToCache((K) requireNonNull(key), value);
     }
     return value;
   }
@@ -50,7 +56,7 @@ class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // Internal methods ('protected' is still package-visible, but treat as only subclass-visible)
 
   @Override
-  protected V getIfCached(Object key) {
+  protected @Nullable V getIfCached(@Nullable Object key) {
     V value = super.getIfCached(key);
     if (value != null) {
       return value;
