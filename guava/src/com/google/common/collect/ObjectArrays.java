@@ -56,7 +56,7 @@ public final class ObjectArrays {
    * @param reference any array of the desired type
    * @param length the length of the new array
    */
-  public static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
+  public static <T> T[] newArray(T[] reference, int length) {
     return Platform.newArray(reference, length);
   }
 
@@ -83,7 +83,7 @@ public final class ObjectArrays {
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
-  public static <T extends @Nullable Object> T[] concat(T element, T[] array) {
+  public static <T> T[] concat(T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
     System.arraycopy(array, 0, result, 1, array.length);
@@ -99,7 +99,7 @@ public final class ObjectArrays {
    *     array}, plus {@code element} occupying the last position.
    */
   @SuppressWarnings("assignment.type.incompatible") // arrays
-  public static <T extends @Nullable Object> T[] concat(T[] array, T element) {
+  public static <T> T[] concat(T[] array, T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
     result[array.length] = element;
     return result;
@@ -127,8 +127,8 @@ public final class ObjectArrays {
    *     the runtime type of every element in the specified collection
    */
   @SuppressWarnings({"argument.type.incompatible", "assignment.type.incompatible"}) // arrays
-  static <T extends @Nullable Object> T[] toArrayImpl(
-      Collection<? extends @Nullable Object> c, T[] array) {
+  static <T> T[] toArrayImpl(
+      Collection<?> c, T[] array) {
     int size = c.size();
     if (array.length < size) {
       array = newArray(array, size);
@@ -152,7 +152,7 @@ public final class ObjectArrays {
    * <i>only</i> if the caller knows that the collection does not contain any null elements.
    */
   @SuppressWarnings("assignment.type.incompatible") // arrays
-  static <T extends @Nullable Object> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
+  static <T> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
     checkPositionIndexes(offset, offset + len, src.length);
     if (dst.length < len) {
       dst = newArray(dst, len);
@@ -175,7 +175,7 @@ public final class ObjectArrays {
    *
    * @param c the collection for which to return an array of elements
    */
-  static Object[] toArrayImpl(Collection<? extends @Nullable Object> c) {
+  static Object[] toArrayImpl(Collection<?> c) {
     return fillArray(c, new Object[c.size()]);
   }
 
@@ -195,7 +195,7 @@ public final class ObjectArrays {
 
   @CanIgnoreReturnValue
   @SuppressWarnings("assignment.type.incompatible") // arrays
-  private static Object[] fillArray(Iterable<? extends @Nullable Object> elements, Object[] array) {
+  private static Object[] fillArray(Iterable<?> elements, Object[] array) {
     int i = 0;
     for (Object element : elements) {
       array[i++] = element;

@@ -81,7 +81,7 @@ public class ImmutableListMultimap<K extends @NonNull Object, V extends @NonNull
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableListMultimap<K, V>> toImmutableListMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -125,7 +125,7 @@ public class ImmutableListMultimap<K extends @NonNull Object, V extends @NonNull
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableListMultimap<K, V>> flatteningToImmutableListMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {

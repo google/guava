@@ -43,7 +43,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @GwtCompatible(emulated = true)
-public interface SortedMultiset<E extends @Nullable Object>
+public interface SortedMultiset<E>
     extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**
    * Returns the comparator that orders this multiset, or {@link Ordering#natural()} if the natural

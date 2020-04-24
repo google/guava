@@ -145,7 +145,7 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(delay > 0, "delay must be > 0, found %s", delay);
       return new Scheduler() {
         @Override
-        public Future<? extends @Nullable Object> schedule(
+        public Future<?> schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
           return executor.scheduleWithFixedDelay(task, initialDelay, delay, unit);
         }
@@ -180,7 +180,7 @@ public abstract class AbstractScheduledService implements Service {
       checkArgument(period > 0, "period must be > 0, found %s", period);
       return new Scheduler() {
         @Override
-        public Future<? extends @Nullable Object> schedule(
+        public Future<?> schedule(
             AbstractService service, ScheduledExecutorService executor, Runnable task) {
           return executor.scheduleAtFixedRate(task, initialDelay, period, unit);
         }
@@ -188,7 +188,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     /** Schedules the task to run on the provided executor on behalf of the service. */
-    abstract Future<? extends @Nullable Object> schedule(
+    abstract Future<?> schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable);
 
     private Scheduler() {}
@@ -202,7 +202,7 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    @Nullable private volatile Future<? extends @Nullable Object> runningTask;
+    @Nullable private volatile Future<?> runningTask;
     @Nullable private volatile ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
@@ -628,7 +628,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     @Override
-    final Future<? extends @Nullable Object> schedule(
+    final Future<?> schedule(
         AbstractService service, ScheduledExecutorService executor, Runnable runnable) {
       ReschedulableCallable task = new ReschedulableCallable(service, executor, runnable);
       task.reschedule();

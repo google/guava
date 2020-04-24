@@ -707,7 +707,7 @@ public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
           }
 
           @Override
-          public boolean retainAll(Collection<? extends @Nullable Object> c) {
+          public boolean retainAll(Collection<?> c) {
             return removeEntryIf(compose(not(in(c)), Maps.<Range<K>>keyFunction()));
           }
         };
@@ -727,7 +727,7 @@ public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
           }
 
           @Override
-          public boolean retainAll(Collection<? extends @Nullable Object> c) {
+          public boolean retainAll(Collection<?> c) {
             return removeEntryIf(not(in(c)));
           }
 
@@ -774,12 +774,12 @@ public final class TreeRangeMap<K extends Comparable, V extends @NonNull Object>
       public Collection<V> values() {
         return new Maps.Values<Range<K>, V>(this) {
           @Override
-          public boolean removeAll(Collection<? extends @Nullable Object> c) {
+          public boolean removeAll(Collection<?> c) {
             return removeEntryIf(compose(in(c), Maps.<V>valueFunction()));
           }
 
           @Override
-          public boolean retainAll(Collection<? extends @Nullable Object> c) {
+          public boolean retainAll(Collection<?> c) {
             return removeEntryIf(compose(not(in(c)), Maps.<V>valueFunction()));
           }
         };

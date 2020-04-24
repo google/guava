@@ -43,7 +43,7 @@ abstract class ImmutableSortedMapFauxverideShim<
    * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
    */
   @Deprecated
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -59,7 +59,7 @@ abstract class ImmutableSortedMapFauxverideShim<
    * @deprecated Use {@link ImmutableSortedMap#toImmutableSortedMap}.
    */
   @Deprecated
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction,

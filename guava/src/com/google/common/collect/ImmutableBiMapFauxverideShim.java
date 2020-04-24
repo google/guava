@@ -42,7 +42,7 @@ abstract class ImmutableBiMapFauxverideShim<K extends @NonNull Object, V extends
    * @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.
    */
   @Deprecated
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -58,7 +58,7 @@ abstract class ImmutableBiMapFauxverideShim<K extends @NonNull Object, V extends
    * @deprecated
    */
   @Deprecated
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction,

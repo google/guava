@@ -105,7 +105,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * change internally only? Alternatively, maybe we should just create a stub file? That might be
  * harder for external users, though.
  */
-public interface ListenableFuture<V extends @Nullable Object> extends Future<V> {
+public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.
    * The listener will run when the {@code Future}'s computation is {@linkplain Future#isDone()

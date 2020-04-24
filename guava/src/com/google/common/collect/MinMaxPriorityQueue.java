@@ -901,6 +901,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
   }
 
   @Override
+@SuppressWarnings("nullness")
   public Object[] toArray() {
     Object[] copyTo = new Object[size];
     System.arraycopy(queue, 0, copyTo, 0, size);
@@ -927,7 +928,9 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
 
   @VisibleForTesting
   static int initialQueueSize(
-      int configuredExpectedSize, int maximumSize, Iterable<?> initialContents) {
+      int configuredExpectedSize,
+      int maximumSize,
+      Iterable<?> initialContents) {
     // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY
     int result =
         (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)

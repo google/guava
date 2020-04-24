@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+final class FilteredKeySetMultimap<K, V>
     extends FilteredKeyMultimap<K, V> implements FilteredSetMultimap<K, V> {
 
   FilteredKeySetMultimap(SetMultimap<K, V> unfiltered, Predicate<? super K> keyPredicate) {

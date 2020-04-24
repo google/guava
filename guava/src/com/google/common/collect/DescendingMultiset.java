@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
+abstract class DescendingMultiset<E> extends ForwardingMultiset<E>
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
@@ -142,11 +142,13 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   }
 
   @Override
+@SuppressWarnings("nullness")
   public Object[] toArray() {
     return standardToArray();
   }
 
   @Override
+@SuppressWarnings("nullness")
   public <T> T[] toArray(T[] array) {
     return standardToArray(array);
   }

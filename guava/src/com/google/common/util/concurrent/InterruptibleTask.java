@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 // Since this class only needs CAS on one field, we can avoid this bug by extending AtomicReference
 // instead of using an AtomicReferenceFieldUpdater. This reference stores Thread instances
 // and DONE/INTERRUPTED - they have a common ancestor of Runnable.
-abstract class InterruptibleTask<T extends @Nullable Object> extends AtomicReference<Runnable>
+abstract class InterruptibleTask<T> extends AtomicReference<Runnable>
     implements Runnable {
   static {
     // Prevent rare disastrous classloading in first call to LockSupport.park.
@@ -210,7 +210,7 @@ abstract class InterruptibleTask<T extends @Nullable Object> extends AtomicRefer
   abstract String toPendingString();
 
   @SuppressWarnings("nullness")
-  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T result) {
+  private static <T> T uncheckedCastNullableTToT(@Nullable T result) {
     /*
      * We can't use requireNonNull because `result` might be null. Specifically, it can be null
      * because the future might have generated the value `null` to be returned to the user. This

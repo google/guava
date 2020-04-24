@@ -80,7 +80,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
    *
    * @since 22.0
    */
-  public static <T extends @Nullable Object, E extends @NonNull Object>
+  public static <T, E extends @NonNull Object>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,
           ToIntFunction<? super T> countFunction) {
@@ -396,7 +396,7 @@ public abstract class ImmutableMultiset<E extends @NonNull Object>
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<? extends @Nullable Object> entry = (Entry<? extends @Nullable Object>) o;
+        Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
           return false;
         }

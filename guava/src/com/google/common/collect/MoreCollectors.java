@@ -80,7 +80,7 @@ public final class MoreCollectors {
    * more elements, and a {@code NoSuchElementException} if the stream is empty.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends @Nullable Object> Collector<T, ?, T> onlyElement() {
+  public static <T> Collector<T, ?, T> onlyElement() {
     return (Collector) ONLY_ELEMENT;
   }
 

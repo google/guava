@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 @FunctionalInterface
 @GwtCompatible
-public interface AsyncCallable<V extends @Nullable Object> {
+public interface AsyncCallable<V> {
   /**
    * Computes a result {@code Future}. The output {@code Future} need not be {@linkplain
    * Future#isDone done}, making {@code AsyncCallable} suitable for asynchronous derivations.

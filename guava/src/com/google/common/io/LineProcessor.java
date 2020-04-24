@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
-public interface LineProcessor<T extends @Nullable Object> {
+public interface LineProcessor<T> {
 
   /**
    * This method will be called once for each line.

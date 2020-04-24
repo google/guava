@@ -76,7 +76,7 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>> extends Abstr
     this.valueType = valueType;
   }
 
-  static <K extends Enum<K>> Class<K> inferKeyType(Map<K, ? extends @Nullable Object> map) {
+  static <K extends Enum<K>> Class<K> inferKeyType(Map<K, ?> map) {
     if (map instanceof EnumBiMap) {
       return ((EnumBiMap<K, ?>) map).keyType();
     }

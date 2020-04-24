@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Object>
+class FilteredEntryMultimap<K, V>
     extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
   final Predicate<? super Entry<K, V>> predicate;
@@ -84,7 +84,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     }
   }
 
-  static <E extends @Nullable Object> Collection<E> filterCollection(
+  static <E> Collection<E> filterCollection(
       Collection<E> collection, Predicate<? super E> predicate) {
     if (collection instanceof Set) {
       return Sets.filter((Set<E>) collection, predicate);
@@ -223,12 +223,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
-        public boolean removeAll(Collection<? extends @Nullable Object> c) {
+        public boolean removeAll(Collection<?> c) {
           return removeEntriesIf(Maps.<K>keyPredicateOnEntries(in(c)));
         }
 
         @Override
-        public boolean retainAll(Collection<? extends @Nullable Object> c) {
+        public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(Maps.<K>keyPredicateOnEntries(not(in(c))));
         }
 
@@ -272,12 +272,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
-        public boolean removeAll(Collection<? extends @Nullable Object> c) {
+        public boolean removeAll(Collection<?> c) {
           return removeEntriesIf(in(c));
         }
 
         @Override
-        public boolean retainAll(Collection<? extends @Nullable Object> c) {
+        public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(not(in(c)));
         }
 
@@ -300,7 +300,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         @Override
         public boolean remove(@Nullable Object o) {
           if (o instanceof Collection) {
-            Collection<? extends @Nullable Object> c = (Collection<? extends @Nullable Object>) o;
+            Collection<?> c = (Collection<?>) o;
             Iterator<Entry<K, Collection<V>>> entryIterator =
                 unfiltered.asMap().entrySet().iterator();
             while (entryIterator.hasNext()) {
@@ -322,12 +322,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
-        public boolean removeAll(Collection<? extends @Nullable Object> c) {
+        public boolean removeAll(Collection<?> c) {
           return removeEntriesIf(Maps.<Collection<V>>valuePredicateOnEntries(in(c)));
         }
 
         @Override
-        public boolean retainAll(Collection<? extends @Nullable Object> c) {
+        public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(Maps.<Collection<V>>valuePredicateOnEntries(not(in(c))));
         }
       }
@@ -403,12 +403,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
         }
 
         @Override
-        public boolean removeAll(Collection<? extends @Nullable Object> c) {
+        public boolean removeAll(Collection<?> c) {
           return removeEntriesIf(in(c));
         }
 
         @Override
-        public boolean retainAll(Collection<? extends @Nullable Object> c) {
+        public boolean retainAll(Collection<?> c) {
           return removeEntriesIf(not(in(c)));
         }
       };

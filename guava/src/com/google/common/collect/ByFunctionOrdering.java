@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * elements.
  */
 @GwtCompatible(serializable = true)
-final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable Object>
+final class ByFunctionOrdering<F, T>
     extends Ordering<F> implements Serializable {
   final Function<F, ? extends T> function;
   final Ordering<T> ordering;
@@ -50,8 +50,8 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
       return true;
     }
     if (object instanceof ByFunctionOrdering) {
-      ByFunctionOrdering<? extends @Nullable Object, ? extends @Nullable Object> that =
-          (ByFunctionOrdering<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      ByFunctionOrdering<?, ?> that =
+          (ByFunctionOrdering<?, ?>) object;
       return this.function.equals(that.function) && this.ordering.equals(that.ordering);
     }
     return false;

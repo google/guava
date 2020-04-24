@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Mike Bostock
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
+abstract class AbstractBiMap<K, V>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
   private transient Map<K, V> delegate;
@@ -152,7 +152,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @SuppressWarnings("nullness")
-  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V oldValue) {
+  private static <V> V uncheckedCastNullableVToV(@Nullable V oldValue) {
     /*
      * We can't use requireNonNull because `oldValue` might be null. Specifically, it can be null
      * because the map might contain a null value to be returned to the user. This is in contrast to
@@ -257,12 +257,12 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> keysToRemove) {
+    public boolean removeAll(Collection<?> keysToRemove) {
       return standardRemoveAll(keysToRemove);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends @Nullable Object> keysToRetain) {
+    public boolean retainAll(Collection<?> keysToRetain) {
       return standardRetainAll(keysToRetain);
     }
 
@@ -299,11 +299,13 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return standardToArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
@@ -402,8 +404,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
       // safe because esDelegate.contains(object).
       requireNonNull(object);
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      Entry<?, ?> entry =
+          (Entry<?, ?>) object;
       inverse.delegate.remove(entry.getValue());
       /*
        * Remove the mapping in inverse before removing from esDelegate because
@@ -422,11 +424,13 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return standardToArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }
@@ -437,23 +441,23 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     @Override
-    public boolean containsAll(Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<?> c) {
       return standardContainsAll(c);
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<?> c) {
       return standardRemoveAll(c);
     }
 
     @Override
-    public boolean retainAll(Collection<? extends @Nullable Object> c) {
+    public boolean retainAll(Collection<?> c) {
       return standardRetainAll(c);
     }
   }
 
   /** The inverse of any other {@code AbstractBiMap} subclass. */
-  static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+  static class Inverse<K, V>
       extends AbstractBiMap<K, V> {
     Inverse(Map<K, V> backward, AbstractBiMap<V, K> forward) {
       super(backward, forward);

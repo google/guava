@@ -61,7 +61,7 @@ public abstract class ImmutableTable<
    * @since 21.0
    */
   public static <
-          T extends @Nullable Object,
+          T,
           R extends @NonNull Object,
           C extends @NonNull Object,
           V extends @NonNull Object>
@@ -92,7 +92,7 @@ public abstract class ImmutableTable<
    * @since 21.0
    */
   public static <
-          T extends @Nullable Object,
+          T,
           R extends @NonNull Object,
           C extends @NonNull Object,
           V extends @NonNull Object>

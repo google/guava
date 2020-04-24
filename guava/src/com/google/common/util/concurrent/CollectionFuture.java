@@ -26,7 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)
-abstract class CollectionFuture<V extends @Nullable Object, C> extends AggregateFuture<V, C> {
+abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
   private @Nullable List<@Nullable Present<V>> values;
 
   CollectionFuture(
@@ -70,7 +70,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C> extends Aggregate
   abstract C combine(List<@Nullable Present<V>> values);
 
   /** Used for {@link Futures#allAsList} and {@link Futures#successfulAsList}. */
-  static final class ListFuture<V extends @Nullable Object>
+  static final class ListFuture<V>
       extends CollectionFuture<V, List<@Nullable V>> {
     ListFuture(
         ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
@@ -90,7 +90,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C> extends Aggregate
   }
 
   /** The result of a successful {@code Future}. */
-  private static final class Present<V extends @Nullable Object> {
+  private static final class Present<V> {
     V value;
 
     Present(V value) {

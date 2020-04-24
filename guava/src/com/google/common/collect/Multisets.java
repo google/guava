@@ -74,7 +74,7 @@ public final class Multisets {
    *
    * @since 22.0
    */
-  public static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
+  public static <T, E, M extends Multiset<E>>
       Collector<T, ?, M> toMultiset(
           java.util.function.Function<? super T, E> elementFunction,
           java.util.function.ToIntFunction<? super T> countFunction,
@@ -101,7 +101,7 @@ public final class Multisets {
    * @param multiset the multiset for which an unmodifiable view is to be generated
    * @return an unmodifiable view of the multiset
    */
-  public static <E extends @Nullable Object> Multiset<E> unmodifiableMultiset(
+  public static <E> Multiset<E> unmodifiableMultiset(
       Multiset<? extends E> multiset) {
     if (multiset instanceof UnmodifiableMultiset || multiset instanceof ImmutableMultiset) {
       @SuppressWarnings("unchecked") // Since it's unmodifiable, the covariant cast is safe
@@ -123,7 +123,7 @@ public final class Multisets {
     return checkNotNull(multiset);
   }
 
-  static class UnmodifiableMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
+  static class UnmodifiableMultiset<E> extends ForwardingMultiset<E>
       implements Serializable {
     final Multiset<? extends E> delegate;
 
@@ -194,12 +194,12 @@ public final class Multisets {
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> elementsToRemove) {
+    public boolean removeAll(Collection<?> elementsToRemove) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(Collection<? extends @Nullable Object> elementsToRetain) {
+    public boolean retainAll(Collection<?> elementsToRetain) {
       throw new UnsupportedOperationException();
     }
 
@@ -233,7 +233,7 @@ public final class Multisets {
    * @since 11.0
    */
   @Beta
-  public static <E extends @Nullable Object> SortedMultiset<E> unmodifiableSortedMultiset(
+  public static <E> SortedMultiset<E> unmodifiableSortedMultiset(
       SortedMultiset<E> sortedMultiset) {
     // it's in its own file so it can be emulated for GWT
     return new UnmodifiableSortedMultiset<E>(checkNotNull(sortedMultiset));
@@ -247,11 +247,11 @@ public final class Multisets {
    * @param n the count to be associated with the returned entry
    * @throws IllegalArgumentException if {@code n} is negative
    */
-  public static <E extends @Nullable Object> Multiset.Entry<E> immutableEntry(E e, int n) {
+  public static <E> Multiset.Entry<E> immutableEntry(E e, int n) {
     return new ImmutableEntry<E>(e, n);
   }
 
-  static class ImmutableEntry<E extends @Nullable Object> extends AbstractEntry<E>
+  static class ImmutableEntry<E> extends AbstractEntry<E>
       implements Serializable {
     private final E element;
     private final int count;
@@ -305,7 +305,7 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
-  public static <E extends @Nullable Object> Multiset<E> filter(
+  public static <E> Multiset<E> filter(
       Multiset<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredMultiset) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
@@ -317,7 +317,7 @@ public final class Multisets {
     return new FilteredMultiset<E>(unfiltered, predicate);
   }
 
-  private static final class FilteredMultiset<E extends @Nullable Object> extends ViewMultiset<E> {
+  private static final class FilteredMultiset<E> extends ViewMultiset<E> {
     final Multiset<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -392,9 +392,9 @@ public final class Multisets {
    * distinct elements is only computed if {@code elements} is an instance of {@code Multiset};
    * otherwise the default value of 11 is returned.
    */
-  static int inferDistinctElements(Iterable<? extends @Nullable Object> elements) {
+  static int inferDistinctElements(Iterable<?> elements) {
     if (elements instanceof Multiset) {
-      return ((Multiset<? extends @Nullable Object>) elements).elementSet().size();
+      return ((Multiset<?>) elements).elementSet().size();
     }
     return 11; // initial capacity will be rounded up to 16
   }
@@ -412,7 +412,7 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
-  public static <E extends @Nullable Object> Multiset<E> union(
+  public static <E> Multiset<E> union(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
@@ -483,8 +483,8 @@ public final class Multisets {
    *
    * @since 2.0
    */
-  public static <E extends @Nullable Object> Multiset<E> intersection(
-      final Multiset<E> multiset1, final Multiset<? extends @Nullable Object> multiset2) {
+  public static <E> Multiset<E> intersection(
+      final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -540,7 +540,7 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
-  public static <E extends @Nullable Object> Multiset<E> sum(
+  public static <E> Multiset<E> sum(
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
@@ -617,8 +617,8 @@ public final class Multisets {
    * @since 14.0
    */
   @Beta
-  public static <E extends @Nullable Object> Multiset<E> difference(
-      final Multiset<E> multiset1, final Multiset<? extends @Nullable Object> multiset2) {
+  public static <E> Multiset<E> difference(
+      final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
 
@@ -687,11 +687,11 @@ public final class Multisets {
    */
   @CanIgnoreReturnValue
   public static boolean containsOccurrences(
-      Multiset<? extends @Nullable Object> superMultiset,
-      Multiset<? extends @Nullable Object> subMultiset) {
+      Multiset<?> superMultiset,
+      Multiset<?> subMultiset) {
     checkNotNull(superMultiset);
     checkNotNull(subMultiset);
-    for (Entry<? extends @Nullable Object> entry : subMultiset.entrySet()) {
+    for (Entry<?> entry : subMultiset.entrySet()) {
       int superCount = superMultiset.count(entry.getElement());
       if (superCount < entry.getCount()) {
         return false;
@@ -718,14 +718,14 @@ public final class Multisets {
    */
   @CanIgnoreReturnValue
   public static boolean retainOccurrences(
-      Multiset<? extends @Nullable Object> multisetToModify,
-      Multiset<? extends @Nullable Object> multisetToRetain) {
+      Multiset<?> multisetToModify,
+      Multiset<?> multisetToRetain) {
     return retainOccurrencesImpl(multisetToModify, multisetToRetain);
   }
 
   /** Delegate implementation which cares about the element type. */
-  private static <E extends @Nullable Object> boolean retainOccurrencesImpl(
-      Multiset<E> multisetToModify, Multiset<? extends @Nullable Object> occurrencesToRetain) {
+  private static <E> boolean retainOccurrencesImpl(
+      Multiset<E> multisetToModify, Multiset<?> occurrencesToRetain) {
     checkNotNull(multisetToModify);
     checkNotNull(occurrencesToRetain);
     // Avoiding ConcurrentModificationExceptions is tricky.
@@ -770,11 +770,11 @@ public final class Multisets {
    */
   @CanIgnoreReturnValue
   public static boolean removeOccurrences(
-      Multiset<? extends @Nullable Object> multisetToModify,
-      Iterable<? extends @Nullable Object> occurrencesToRemove) {
+      Multiset<?> multisetToModify,
+      Iterable<?> occurrencesToRemove) {
     if (occurrencesToRemove instanceof Multiset) {
       return removeOccurrences(
-          multisetToModify, (Multiset<? extends @Nullable Object>) occurrencesToRemove);
+          multisetToModify, (Multiset<?>) occurrencesToRemove);
     } else {
       checkNotNull(multisetToModify);
       checkNotNull(occurrencesToRemove);
@@ -810,16 +810,16 @@ public final class Multisets {
    */
   @CanIgnoreReturnValue
   public static boolean removeOccurrences(
-      Multiset<? extends @Nullable Object> multisetToModify,
-      Multiset<? extends @Nullable Object> occurrencesToRemove) {
+      Multiset<?> multisetToModify,
+      Multiset<?> occurrencesToRemove) {
     checkNotNull(multisetToModify);
     checkNotNull(occurrencesToRemove);
 
     boolean changed = false;
-    Iterator<? extends Entry<? extends @Nullable Object>> entryIterator =
+    Iterator<? extends Entry<?>> entryIterator =
         multisetToModify.entrySet().iterator();
     while (entryIterator.hasNext()) {
-      Entry<? extends @Nullable Object> entry = entryIterator.next();
+      Entry<?> entry = entryIterator.next();
       int removeCount = occurrencesToRemove.count(entry.getElement());
       if (removeCount >= entry.getCount()) {
         entryIterator.remove();
@@ -836,7 +836,7 @@ public final class Multisets {
    * Implementation of the {@code equals}, {@code hashCode}, and {@code toString} methods of {@link
    * Multiset.Entry}.
    */
-  abstract static class AbstractEntry<E extends @Nullable Object> implements Multiset.Entry<E> {
+  abstract static class AbstractEntry<E> implements Multiset.Entry<E> {
     /**
      * Indicates whether an object equals this entry, following the behavior specified in {@link
      * Multiset.Entry#equals}.
@@ -844,8 +844,8 @@ public final class Multisets {
     @Override
     public boolean equals(@Nullable Object object) {
       if (object instanceof Multiset.Entry) {
-        Multiset.Entry<? extends @Nullable Object> that =
-            (Multiset.Entry<? extends @Nullable Object>) object;
+        Multiset.Entry<?> that =
+            (Multiset.Entry<?>) object;
         return this.getCount() == that.getCount()
             && Objects.equal(this.getElement(), that.getElement());
       }
@@ -878,12 +878,12 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#equals}. */
   static boolean equalsImpl(
-      Multiset<? extends @Nullable Object> multiset, @Nullable Object object) {
+      Multiset<?> multiset, @Nullable Object object) {
     if (object == multiset) {
       return true;
     }
     if (object instanceof Multiset) {
-      Multiset<? extends @Nullable Object> that = (Multiset<? extends @Nullable Object>) object;
+      Multiset<?> that = (Multiset<?>) object;
       /*
        * We can't simply check whether the entry sets are equal, since that
        * approach fails when a TreeMultiset has a comparator that returns 0
@@ -893,7 +893,7 @@ public final class Multisets {
       if (multiset.size() != that.size() || multiset.entrySet().size() != that.entrySet().size()) {
         return false;
       }
-      for (Entry<? extends @Nullable Object> entry : that.entrySet()) {
+      for (Entry<?> entry : that.entrySet()) {
         if (multiset.count(entry.getElement()) != entry.getCount()) {
           return false;
         }
@@ -904,7 +904,7 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#addAll}. */
-  static <E extends @Nullable Object> boolean addAllImpl(
+  static <E> boolean addAllImpl(
       Multiset<E> self, Collection<? extends E> elements) {
     checkNotNull(self);
     checkNotNull(elements);
@@ -918,7 +918,7 @@ public final class Multisets {
   }
 
   /** A specialization of {@code addAllImpl} for when {@code elements} is itself a Multiset. */
-  private static <E extends @Nullable Object> boolean addAllImpl(
+  private static <E> boolean addAllImpl(
       Multiset<E> self, Multiset<? extends E> elements) {
     if (elements.isEmpty()) {
       return false;
@@ -929,11 +929,11 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#removeAll}. */
   static boolean removeAllImpl(
-      Multiset<? extends @Nullable Object> self,
-      Collection<? extends @Nullable Object> elementsToRemove) {
-    Collection<? extends @Nullable Object> collection =
+      Multiset<?> self,
+      Collection<?> elementsToRemove) {
+    Collection<?> collection =
         (elementsToRemove instanceof Multiset)
-            ? ((Multiset<? extends @Nullable Object>) elementsToRemove).elementSet()
+            ? ((Multiset<?>) elementsToRemove).elementSet()
             : elementsToRemove;
 
     return self.elementSet().removeAll(collection);
@@ -941,19 +941,19 @@ public final class Multisets {
 
   /** An implementation of {@link Multiset#retainAll}. */
   static boolean retainAllImpl(
-      Multiset<? extends @Nullable Object> self,
-      Collection<? extends @Nullable Object> elementsToRetain) {
+      Multiset<?> self,
+      Collection<?> elementsToRetain) {
     checkNotNull(elementsToRetain);
-    Collection<? extends @Nullable Object> collection =
+    Collection<?> collection =
         (elementsToRetain instanceof Multiset)
-            ? ((Multiset<? extends @Nullable Object>) elementsToRetain).elementSet()
+            ? ((Multiset<?>) elementsToRetain).elementSet()
             : elementsToRetain;
 
     return self.elementSet().retainAll(collection);
   }
 
   /** An implementation of {@link Multiset#setCount(Object, int)}. */
-  static <E extends @Nullable Object> int setCountImpl(Multiset<E> self, E element, int count) {
+  static <E> int setCountImpl(Multiset<E> self, E element, int count) {
     checkNonnegative(count, "count");
 
     int oldCount = self.count(element);
@@ -969,7 +969,7 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#setCount(Object, int, int)}. */
-  static <E extends @Nullable Object> boolean setCountImpl(
+  static <E> boolean setCountImpl(
       Multiset<E> self, E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
@@ -982,7 +982,7 @@ public final class Multisets {
     }
   }
 
-  static <E extends @Nullable Object> Iterator<E> elementIterator(
+  static <E> Iterator<E> elementIterator(
       Iterator<Entry<E>> entryIterator) {
     return new TransformedIterator<Entry<E>, E>(entryIterator) {
       @Override
@@ -992,7 +992,7 @@ public final class Multisets {
     };
   }
 
-  abstract static class ElementSet<E extends @Nullable Object> extends Sets.ImprovedAbstractSet<E> {
+  abstract static class ElementSet<E> extends Sets.ImprovedAbstractSet<E> {
     abstract Multiset<E> multiset();
 
     @Override
@@ -1006,7 +1006,7 @@ public final class Multisets {
     }
 
     @Override
-    public boolean containsAll(Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<?> c) {
       return multiset().containsAll(c);
     }
 
@@ -1029,7 +1029,7 @@ public final class Multisets {
     }
   }
 
-  abstract static class EntrySet<E extends @Nullable Object>
+  abstract static class EntrySet<E>
       extends Sets.ImprovedAbstractSet<Entry<E>> {
     abstract Multiset<E> multiset();
 
@@ -1040,7 +1040,7 @@ public final class Multisets {
          * The GWT compiler wrongly issues a warning here.
          */
         @SuppressWarnings("cast")
-        Entry<? extends @Nullable Object> entry = (Entry<? extends @Nullable Object>) o;
+        Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
           return false;
         }
@@ -1055,7 +1055,7 @@ public final class Multisets {
     @Override
     public boolean remove(@Nullable Object object) {
       if (object instanceof Multiset.Entry) {
-        Entry<? extends @Nullable Object> entry = (Entry<? extends @Nullable Object>) object;
+        Entry<?> entry = (Entry<?>) object;
         Object element = entry.getElement();
         int entryCount = entry.getCount();
         if (entryCount != 0) {
@@ -1075,11 +1075,11 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#iterator}. */
-  static <E extends @Nullable Object> Iterator<E> iteratorImpl(Multiset<E> multiset) {
+  static <E> Iterator<E> iteratorImpl(Multiset<E> multiset) {
     return new MultisetIteratorImpl<E>(multiset, multiset.entrySet().iterator());
   }
 
-  static final class MultisetIteratorImpl<E extends @Nullable Object> implements Iterator<E> {
+  static final class MultisetIteratorImpl<E> implements Iterator<E> {
     private final Multiset<E> multiset;
     private final Iterator<Entry<E>> entryIterator;
     @Nullable private Entry<E> currentEntry;
@@ -1131,7 +1131,7 @@ public final class Multisets {
     }
   }
 
-  static <E extends @Nullable Object> Spliterator<E> spliteratorImpl(Multiset<E> multiset) {
+  static <E> Spliterator<E> spliteratorImpl(Multiset<E> multiset) {
     Spliterator<Entry<E>> entrySpliterator = multiset.entrySet().spliterator();
     return CollectSpliterators.flatMap(
         entrySpliterator,
@@ -1143,16 +1143,16 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#size}. */
-  static int linearTimeSizeImpl(Multiset<? extends @Nullable Object> multiset) {
+  static int linearTimeSizeImpl(Multiset<?> multiset) {
     long size = 0;
-    for (Entry<? extends @Nullable Object> entry : multiset.entrySet()) {
+    for (Entry<?> entry : multiset.entrySet()) {
       size += entry.getCount();
     }
     return Ints.saturatedCast(size);
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T extends @Nullable Object> Multiset<T> cast(Iterable<T> iterable) {
+  static <T> Multiset<T> cast(Iterable<T> iterable) {
     return (Multiset<T>) iterable;
   }
 
@@ -1163,7 +1163,7 @@ public final class Multisets {
    * @since 11.0
    */
   @Beta
-  public static <E extends @Nullable Object> ImmutableMultiset<E> copyHighestCountFirst(
+  public static <E> ImmutableMultiset<E> copyHighestCountFirst(
       Multiset<E> multiset) {
     Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray(new Entry[0]);
     Arrays.sort(entries, DecreasingCount.INSTANCE);
@@ -1171,12 +1171,12 @@ public final class Multisets {
   }
 
   private static final class DecreasingCount
-      implements Comparator<Entry<? extends @Nullable Object>> {
+      implements Comparator<Entry<?>> {
     static final DecreasingCount INSTANCE = new DecreasingCount();
 
     @Override
     public int compare(
-        Entry<? extends @Nullable Object> entry1, Entry<? extends @Nullable Object> entry2) {
+        Entry<?> entry1, Entry<?> entry2) {
       return entry2.getCount() - entry1.getCount(); // subtracting two nonnegative integers
     }
   }
@@ -1185,7 +1185,7 @@ public final class Multisets {
    * An {@link AbstractMultiset} with additional default implementations, some of them linear-time
    * implementations in terms of {@code elementSet} and {@code entrySet}.
    */
-  private abstract static class ViewMultiset<E extends @Nullable Object>
+  private abstract static class ViewMultiset<E>
       extends AbstractMultiset<E> {
     @Override
     public int size() {

@@ -59,7 +59,7 @@ public final class Streams {
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
    * Collection#stream} if possible.
    */
-  public static <T extends @Nullable Object> Stream<T> stream(Iterable<T> iterable) {
+  public static <T> Stream<T> stream(Iterable<T> iterable) {
     return (iterable instanceof Collection)
         ? ((Collection<T>) iterable).stream()
         : StreamSupport.stream(iterable.spliterator(), false);
@@ -72,7 +72,7 @@ public final class Streams {
    */
   @Beta
   @Deprecated
-  public static <T extends @Nullable Object> Stream<T> stream(Collection<T> collection) {
+  public static <T> Stream<T> stream(Collection<T> collection) {
     return collection.stream();
   }
 
@@ -81,7 +81,7 @@ public final class Streams {
    * {@code iterator} directly after passing it to this method.
    */
   @Beta
-  public static <T extends @Nullable Object> Stream<T> stream(Iterator<T> iterator) {
+  public static <T> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
   }
 
@@ -139,8 +139,8 @@ public final class Streams {
     return optional.isPresent() ? DoubleStream.of(optional.getAsDouble()) : DoubleStream.empty();
   }
 
-  private static void closeAll(BaseStream<? extends @Nullable Object, ?>[] toClose) {
-    for (BaseStream<? extends @Nullable Object, ?> stream : toClose) {
+  private static void closeAll(BaseStream<?, ?>[] toClose) {
+    for (BaseStream<?, ?> stream : toClose) {
       // TODO(b/80534298): Catch exceptions, rethrowing later with extras as suppressed exceptions.
       stream.close();
     }
@@ -156,7 +156,7 @@ public final class Streams {
    * @see Stream#concat(Stream, Stream)
    */
   @SafeVarargs
-  public static <T extends @Nullable Object> Stream<T> concat(Stream<? extends T>... streams) {
+  public static <T> Stream<T> concat(Stream<? extends T>... streams) {
     // TODO(lowasser): consider an implementation that can support SUBSIZED
     boolean isParallel = false;
     int characteristics = Spliterator.ORDERED | Spliterator.SIZED | Spliterator.NONNULL;
@@ -302,7 +302,7 @@ public final class Streams {
    * This may harm parallel performance.
    */
   @Beta
-  public static <A extends @Nullable Object, B extends @Nullable Object, R extends @Nullable Object>
+  public static <A, B, R>
       Stream<R> zip(
           Stream<A> streamA, Stream<B> streamB, BiFunction<? super A, ? super B, R> function) {
     checkNotNull(streamA);
@@ -365,7 +365,7 @@ public final class Streams {
    * @since 22.0
    */
   @Beta
-  public static <A extends @Nullable Object, B extends @Nullable Object> void forEachPair(
+  public static <A, B> void forEachPair(
       Stream<A> streamA, Stream<B> streamB, BiConsumer<? super A, ? super B> consumer) {
     checkNotNull(consumer);
 
@@ -381,7 +381,7 @@ public final class Streams {
   }
 
   // Use this carefully - it doesn't implement value semantics
-  private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
+  private static class TemporaryPair<A, B> {
     final A a;
     final B b;
 
@@ -414,7 +414,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <T extends @Nullable Object, R extends @Nullable Object> Stream<R> mapWithIndex(
+  public static <T, R> Stream<R> mapWithIndex(
       Stream<T> stream, FunctionWithIndex<? super T, ? extends R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -476,7 +476,7 @@ public final class Streams {
   }
 
   @SuppressWarnings("nullness")
-  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T element) {
+  private static <T> T uncheckedCastNullableTToT(@Nullable T element) {
     /*
      * We can't use requireNonNull because `element` might be null. Specifically, it can be null
      * because the spliterator might contain a null element to be returned to the user. This is in
@@ -509,7 +509,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
+  public static <R> Stream<R> mapWithIndex(
       IntStream stream, IntFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -589,7 +589,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
+  public static <R> Stream<R> mapWithIndex(
       LongStream stream, LongFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -669,7 +669,7 @@ public final class Streams {
    * was defined.
    */
   @Beta
-  public static <R extends @Nullable Object> Stream<R> mapWithIndex(
+  public static <R> Stream<R> mapWithIndex(
       DoubleStream stream, DoubleFunctionWithIndex<R> function) {
     checkNotNull(stream);
     checkNotNull(function);
@@ -735,14 +735,14 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface FunctionWithIndex<T extends @Nullable Object, R extends @Nullable Object> {
+  public interface FunctionWithIndex<T, R> {
     /** Applies this function to the given argument and its index within a stream. */
     R apply(T from, long index);
   }
 
   private abstract static class MapWithIndexSpliterator<
           F extends Spliterator<?>,
-          R extends @Nullable Object,
+          R,
           S extends MapWithIndexSpliterator<F, R, S>>
       implements Spliterator<R> {
     final F fromSpliterator;
@@ -789,7 +789,7 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface IntFunctionWithIndex<R extends @Nullable Object> {
+  public interface IntFunctionWithIndex<R> {
     /** Applies this function to the given argument and its index within a stream. */
     R apply(int from, long index);
   }
@@ -803,7 +803,7 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface LongFunctionWithIndex<R extends @Nullable Object> {
+  public interface LongFunctionWithIndex<R> {
     /** Applies this function to the given argument and its index within a stream. */
     R apply(long from, long index);
   }
@@ -817,7 +817,7 @@ public final class Streams {
    * @since 21.0
    */
   @Beta
-  public interface DoubleFunctionWithIndex<R extends @Nullable Object> {
+  public interface DoubleFunctionWithIndex<R> {
     /** Applies this function to the given argument and its index within a stream. */
     R apply(double from, long index);
   }

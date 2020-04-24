@@ -159,7 +159,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multimap<K extends @Nullable Object, V extends @Nullable Object> {
+public interface Multimap<K, V> {
   // Query Operations
 
   /**

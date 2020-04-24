@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+abstract class AbstractSortedSetMultimap<K, V>
     extends AbstractSetMultimap<K, V> implements SortedSetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
@@ -53,7 +53,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
+  <E> SortedSet<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     if (collection instanceof NavigableSet) {
       return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);

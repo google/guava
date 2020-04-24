@@ -522,8 +522,8 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object o) {
         if (o instanceof Entry) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) o;
           return containsMapping(entry.getKey(), columnKey, entry.getValue());
         }
         return false;
@@ -532,15 +532,15 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) obj;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) obj;
           return removeMapping(entry.getKey(), columnKey, entry.getValue());
         }
         return false;
       }
 
       @Override
-      public boolean retainAll(Collection<? extends @Nullable Object> c) {
+      public boolean retainAll(Collection<?> c) {
         return removeFromColumnIf(not(in(c)));
       }
     }
@@ -601,7 +601,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean retainAll(final Collection<? extends @Nullable Object> c) {
+      public boolean retainAll(final Collection<?> c) {
         return removeFromColumnIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
       }
     }
@@ -623,12 +623,12 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean removeAll(final Collection<? extends @Nullable Object> c) {
+      public boolean removeAll(final Collection<?> c) {
         return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(in(c)));
       }
 
       @Override
-      public boolean retainAll(final Collection<? extends @Nullable Object> c) {
+      public boolean retainAll(final Collection<?> c) {
         return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
       }
     }
@@ -687,7 +687,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<?> c) {
       checkNotNull(c);
       boolean changed = false;
       Iterator<Map<C, V>> iterator = backingMap.values().iterator();
@@ -706,7 +706,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
     }
 
     @Override
-    public boolean retainAll(Collection<? extends @Nullable Object> c) {
+    public boolean retainAll(Collection<?> c) {
       checkNotNull(c);
       boolean changed = false;
       Iterator<Map<C, V>> iterator = backingMap.values().iterator();
@@ -828,8 +828,8 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) obj;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) obj;
           return entry.getKey() != null
               && entry.getValue() instanceof Map
               && Collections2.safeContains(backingMap.entrySet(), entry);
@@ -840,8 +840,8 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) obj;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) obj;
           return entry.getKey() != null
               && entry.getValue() instanceof Map
               && backingMap.entrySet().remove(entry);
@@ -917,8 +917,8 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean contains(@Nullable Object obj) {
         if (obj instanceof Entry) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) obj;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) obj;
           if (containsColumn(entry.getKey())) {
             // requireNonNull is safe because of the containsColumn check.
             return requireNonNull(get(entry.getKey())).equals(entry.getValue());
@@ -930,8 +930,8 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       @Override
       public boolean remove(@Nullable Object obj) {
         if (contains(obj)) {
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-              (Entry<? extends @Nullable Object, ? extends @Nullable Object>) obj;
+          Entry<?, ?> entry =
+              (Entry<?, ?>) obj;
           // requireNonNull is safe because of the contains check.
           removeColumn(requireNonNull(entry).getKey());
           return true;
@@ -940,7 +940,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean removeAll(Collection<? extends @Nullable Object> c) {
+      public boolean removeAll(Collection<?> c) {
         /*
          * We can't inherit the normal implementation (which calls
          * Sets.removeAllImpl(Set, *Collection*) because, under some
@@ -952,7 +952,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean retainAll(Collection<? extends @Nullable Object> c) {
+      public boolean retainAll(Collection<?> c) {
         checkNotNull(c);
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
@@ -983,7 +983,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean removeAll(Collection<? extends @Nullable Object> c) {
+      public boolean removeAll(Collection<?> c) {
         checkNotNull(c);
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
@@ -996,7 +996,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
       }
 
       @Override
-      public boolean retainAll(Collection<? extends @Nullable Object> c) {
+      public boolean retainAll(Collection<?> c) {
         checkNotNull(c);
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
@@ -1015,7 +1015,7 @@ class StandardTable<R extends @NonNull Object, C extends @NonNull Object, V exte
   }
 
   @SuppressWarnings("nullness")
-  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V value) {
+  private static <V> V uncheckedCastNullableVToV(@Nullable V value) {
     /*
      * We can't use requireNonNull because `value` might be null. Specifically, it can be null
      * because the table might contain a null value to be returned to the user. This is in contrast

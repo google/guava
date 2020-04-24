@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public abstract class ForwardingMultimap<K, V>
     extends ForwardingObject implements Multimap<K, V> {
 
   /** Constructor for use by subclasses. */

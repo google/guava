@@ -41,7 +41,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractCollection<E>
+abstract class AbstractMultiset<E> extends AbstractCollection<E>
     implements Multiset<E> {
   // Query Operations
 
@@ -109,13 +109,13 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   @CanIgnoreReturnValue
   @Override
-  public final boolean removeAll(Collection<? extends @Nullable Object> elementsToRemove) {
+  public final boolean removeAll(Collection<?> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public final boolean retainAll(Collection<? extends @Nullable Object> elementsToRetain) {
+  public final boolean retainAll(Collection<?> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 

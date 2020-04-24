@@ -35,15 +35,15 @@ final class SortedIterables {
    * {@code comparator}.
    */
   public static boolean hasSameComparator(
-      Comparator<? extends @Nullable Object> comparator,
-      Iterable<? extends @Nullable Object> elements) {
+      Comparator<?> comparator,
+      Iterable<?> elements) {
     checkNotNull(comparator);
     checkNotNull(elements);
-    Comparator<? extends @Nullable Object> comparator2;
+    Comparator<?> comparator2;
     if (elements instanceof SortedSet) {
-      comparator2 = comparator((SortedSet<? extends @Nullable Object>) elements);
+      comparator2 = comparator((SortedSet<?>) elements);
     } else if (elements instanceof SortedIterable) {
-      comparator2 = ((SortedIterable<? extends @Nullable Object>) elements).comparator();
+      comparator2 = ((SortedIterable<?>) elements).comparator();
     } else {
       return false;
     }
@@ -52,7 +52,7 @@ final class SortedIterables {
 
   @SuppressWarnings("unchecked")
   // if sortedSet.comparator() is null, the set must be naturally ordered
-  public static <E extends @Nullable Object> Comparator<? super E> comparator(
+  public static <E> Comparator<? super E> comparator(
       SortedSet<E> sortedSet) {
     Comparator<? super E> result = sortedSet.comparator();
     if (result == null) {

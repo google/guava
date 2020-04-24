@@ -42,25 +42,25 @@ abstract class WrappingScheduledExecutorService extends WrappingExecutorService
   }
 
   @Override
-  public final ScheduledFuture<? extends @Nullable Object> schedule(
+  public final ScheduledFuture<?> schedule(
       Runnable command, long delay, TimeUnit unit) {
     return delegate.schedule(wrapTask(command), delay, unit);
   }
 
   @Override
-  public final <V extends @Nullable Object> ScheduledFuture<V> schedule(
+  public final <V> ScheduledFuture<V> schedule(
       Callable<V> task, long delay, TimeUnit unit) {
     return delegate.schedule(wrapTask(task), delay, unit);
   }
 
   @Override
-  public final ScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
+  public final ScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit) {
     return delegate.scheduleAtFixedRate(wrapTask(command), initialDelay, period, unit);
   }
 
   @Override
-  public final ScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
+  public final ScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit) {
     return delegate.scheduleWithFixedDelay(wrapTask(command), initialDelay, delay, unit);
   }

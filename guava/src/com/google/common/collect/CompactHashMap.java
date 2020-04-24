@@ -73,7 +73,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @SuppressWarnings("nullness") // too much effort for the payoff
-class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
+class CompactHashMap<K, V>
     extends AbstractMap<K, V> implements Serializable {
   /*
    * TODO: Make this a drop-in replacement for j.u. versions, actually drop them in, and test the
@@ -85,7 +85,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    */
 
   /** Creates an empty {@code CompactHashMap} instance. */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       CompactHashMap<K, V> create() {
     return new CompactHashMap<>();
   }
@@ -99,7 +99,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    *     elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       CompactHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactHashMap<>(expectedSize);
   }
@@ -474,7 +474,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return indexBeforeRemove - 1;
   }
 
-  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
+  private abstract class Itr<T> implements Iterator<T> {
     int expectedModCount = modCount;
     int currentIndex = firstEntryIndex();
     int indexToRemove = -1;
@@ -541,6 +541,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       if (needsAllocArrays()) {
         return new Object[0];
@@ -549,6 +550,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] a) {
       if (needsAllocArrays()) {
         if (a.length > 0) {
@@ -642,8 +644,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+        Entry<?, ?> entry =
+            (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
         return index != -1 && Objects.equal(values[index], entry.getValue());
       }
@@ -653,8 +655,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     @Override
     public boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+        Entry<?, ?> entry =
+            (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
         if (index != -1 && Objects.equal(values[index], entry.getValue())) {
           removeEntry(index);
@@ -786,6 +788,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       if (needsAllocArrays()) {
         return new Object[0];
@@ -794,6 +797,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] a) {
       if (needsAllocArrays()) {
         if (a.length > 0) {

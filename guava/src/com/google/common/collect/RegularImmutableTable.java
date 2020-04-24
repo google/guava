@@ -60,12 +60,12 @@ abstract class RegularImmutableTable<
     @Override
     public boolean contains(@Nullable Object object) {
       if (object instanceof Cell) {
-        Cell<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+        Cell<?, ?, ?>
             cell =
                 (Cell<
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object>)
+                        ?,
+                        ?,
+                        ?>)
                     object;
         Object value = RegularImmutableTable.this.get(cell.getRowKey(), cell.getColumnKey());
         return value != null && value.equals(cell.getValue());

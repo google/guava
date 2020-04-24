@@ -36,7 +36,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
-public abstract class ForwardingFuture<V extends @Nullable Object> extends ForwardingObject
+public abstract class ForwardingFuture<V> extends ForwardingObject
     implements Future<V> {
   /** Constructor for use by subclasses. */
   protected ForwardingFuture() {}
@@ -77,7 +77,7 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
    *
    * @since 9.0
    */
-  public abstract static class SimpleForwardingFuture<V extends @Nullable Object>
+  public abstract static class SimpleForwardingFuture<V>
       extends ForwardingFuture<V> {
     private final Future<V> delegate;
 

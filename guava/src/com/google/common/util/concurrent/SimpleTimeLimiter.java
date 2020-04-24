@@ -127,7 +127,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return interfaceType.cast(object);
   }
 
-  private <T extends @Nullable Object> T callWithTimeout(
+  private <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit, boolean amInterruptible)
       throws Exception {
     checkNotNull(callable);
@@ -157,7 +157,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T extends @Nullable Object> T callWithTimeout(
+  public <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException {
     checkNotNull(callable);
@@ -179,7 +179,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
 
   @CanIgnoreReturnValue
   @Override
-  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+  public <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException {
     checkNotNull(callable);
@@ -206,7 +206,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
 
-    Future<? extends @Nullable Object> future = executor.submit(runnable);
+    Future<?> future = executor.submit(runnable);
 
     try {
       future.get(timeoutDuration, timeoutUnit);
@@ -226,7 +226,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     checkNotNull(timeoutUnit);
     checkPositiveTimeout(timeoutDuration);
 
-    Future<? extends @Nullable Object> future = executor.submit(runnable);
+    Future<?> future = executor.submit(runnable);
 
     try {
       Uninterruptibles.getUninterruptibly(future, timeoutDuration, timeoutUnit);

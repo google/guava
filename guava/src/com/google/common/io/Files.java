@@ -574,7 +574,7 @@ public final class Files {
   @Beta
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T extends @Nullable Object> T readLines(
+  public static <T> T readLines(
       File file, Charset charset, LineProcessor<T> callback) throws IOException {
     return asCharSource(file, charset).readLines(callback);
   }
@@ -594,7 +594,7 @@ public final class Files {
   @Beta
   @Deprecated
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public static <T extends @Nullable Object> T readBytes(File file, ByteProcessor<T> processor)
+  public static <T> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
     return asByteSource(file).read(processor);
   }

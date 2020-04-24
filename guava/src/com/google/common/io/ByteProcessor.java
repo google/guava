@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtIncompatible
-public interface ByteProcessor<T extends @Nullable Object> {
+public interface ByteProcessor<T> {
   /**
    * This method will be called for each chunk of bytes in an input stream. The implementation
    * should process the bytes from {@code buf[off]} through {@code buf[off + len - 1]} (inclusive).

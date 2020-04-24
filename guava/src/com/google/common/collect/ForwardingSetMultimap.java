@@ -35,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 3.0
  */
 @GwtCompatible
-public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public abstract class ForwardingSetMultimap<K, V>
     extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
 
   @Override

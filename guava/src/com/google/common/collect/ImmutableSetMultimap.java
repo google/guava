@@ -83,7 +83,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableSetMultimap<K, V>> toImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -136,7 +136,7 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableSetMultimap<K, V>> flatteningToImmutableSetMultimap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends Stream<? extends V>> valuesFunction) {
@@ -546,8 +546,8 @@ public class ImmutableSetMultimap<K extends @NonNull Object, V extends @NonNull 
     @Override
     public boolean contains(@Nullable Object object) {
       if (object instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+        Entry<?, ?> entry =
+            (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
       }
       return false;

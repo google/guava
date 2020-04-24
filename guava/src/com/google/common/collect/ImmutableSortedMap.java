@@ -73,7 +73,7 @@ public final class ImmutableSortedMap<K extends @NonNull Object, V extends @NonN
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
           Comparator<? super K> comparator,
           Function<? super T, ? extends K> keyFunction,
@@ -92,7 +92,7 @@ public final class ImmutableSortedMap<K extends @NonNull Object, V extends @NonN
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
           Comparator<? super K> comparator,
           Function<? super T, ? extends K> keyFunction,
@@ -319,9 +319,9 @@ public final class ImmutableSortedMap<K extends @NonNull Object, V extends @NonN
           Map<? extends K, ? extends V> map, Comparator<? super K> comparator) {
     boolean sameComparator = false;
     if (map instanceof SortedMap) {
-      SortedMap<? extends @Nullable Object, ? extends @Nullable Object> sortedMap =
-          (SortedMap<? extends @Nullable Object, ? extends @Nullable Object>) map;
-      Comparator<? extends @Nullable Object> comparator2 = sortedMap.comparator();
+      SortedMap<?, ?> sortedMap =
+          (SortedMap<?, ?>) map;
+      Comparator<?> comparator2 = sortedMap.comparator();
       sameComparator =
           (comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);
     }

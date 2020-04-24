@@ -422,6 +422,7 @@ public final class ImmutableIntArray implements Serializable {
   }
 
   /** Returns a new, mutable copy of this array's values, as a primitive {@code int[]}. */
+@SuppressWarnings("nullness")
   public int[] toArray() {
     return Arrays.copyOfRange(array, start, end);
   }
@@ -515,7 +516,7 @@ public final class ImmutableIntArray implements Serializable {
       if (!(object instanceof List)) {
         return false;
       }
-      List<? extends @Nullable Object> that = (List<? extends @Nullable Object>) object;
+      List<?> that = (List<?>) object;
       if (this.size() != that.size()) {
         return false;
       }

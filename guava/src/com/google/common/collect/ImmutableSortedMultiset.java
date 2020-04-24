@@ -80,7 +80,7 @@ public abstract class ImmutableSortedMultiset<E extends @NonNull Object>
    *
    * @since 22.0
    */
-  public static <T extends @Nullable Object, E extends @NonNull Object>
+  public static <T, E extends @NonNull Object>
       Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
           Comparator<? super E> comparator,
           Function<? super T, ? extends E> elementFunction,

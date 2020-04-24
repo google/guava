@@ -30,12 +30,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Aggregate future that computes its value by calling a callable. */
 @GwtCompatible
-final class CombinedFuture<V extends @Nullable Object>
+final class CombinedFuture<V>
     extends AggregateFuture<@Nullable Object, V> {
-  private @Nullable CombinedFutureInterruptibleTask<? extends @Nullable Object> task;
+  private @Nullable CombinedFutureInterruptibleTask<?> task;
 
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<? extends @Nullable Object>> futures,
+      ImmutableCollection<? extends ListenableFuture<?>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       AsyncCallable<V> callable) {
@@ -45,7 +45,7 @@ final class CombinedFuture<V extends @Nullable Object>
   }
 
   CombinedFuture(
-      ImmutableCollection<? extends ListenableFuture<? extends @Nullable Object>> futures,
+      ImmutableCollection<? extends ListenableFuture<?>> futures,
       boolean allMustSucceed,
       Executor listenerExecutor,
       Callable<V> callable) {
@@ -59,7 +59,7 @@ final class CombinedFuture<V extends @Nullable Object>
 
   @Override
   void handleAllCompleted() {
-    CombinedFutureInterruptibleTask<? extends @Nullable Object> localTask = task;
+    CombinedFutureInterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.execute();
     }
@@ -82,14 +82,14 @@ final class CombinedFuture<V extends @Nullable Object>
 
   @Override
   protected void interruptTask() {
-    CombinedFutureInterruptibleTask<? extends @Nullable Object> localTask = task;
+    CombinedFutureInterruptibleTask<?> localTask = task;
     if (localTask != null) {
       localTask.interruptTask();
     }
   }
 
   @WeakOuter
-  private abstract class CombinedFutureInterruptibleTask<T extends @Nullable Object>
+  private abstract class CombinedFutureInterruptibleTask<T>
       extends InterruptibleTask<T> {
     private final Executor listenerExecutor;
     boolean thrownByExecute = true;

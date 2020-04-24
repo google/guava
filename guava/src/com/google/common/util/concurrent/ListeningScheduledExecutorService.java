@@ -35,21 +35,21 @@ public interface ListeningScheduledExecutorService
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<? extends @Nullable Object> schedule(
+  ListenableScheduledFuture<?> schedule(
       Runnable command, long delay, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+  <V> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, long delay, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
+  ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit);
 
   /** @since 15.0 (previously returned ScheduledFuture) */
   @Override
-  ListenableScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
+  ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit);
 }

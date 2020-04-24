@@ -96,7 +96,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public class LinkedListMultimap<K, V>
     extends AbstractMultimap<K, V> implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In
@@ -105,7 +105,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * ValueForKeyIterator} in constant time.
    */
 
-  private static final class Node<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class Node<K, V>
       extends AbstractMapEntry<K, V> {
     final K key;
     V value;
@@ -137,7 +137,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
   }
 
-  private static class KeyList<K extends @Nullable Object, V extends @Nullable Object> {
+  private static class KeyList<K, V> {
     Node<K, V> head;
     Node<K, V> tail;
     int count;
@@ -164,7 +164,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   private transient int modCount;
 
   /** Creates a new, empty {@code LinkedListMultimap} with the default initial capacity. */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       LinkedListMultimap<K, V> create() {
     return new LinkedListMultimap<>();
   }
@@ -176,7 +176,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    * @param expectedKeys the expected number of distinct keys
    * @throws IllegalArgumentException if {@code expectedKeys} is negative
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       LinkedListMultimap<K, V> create(int expectedKeys) {
     return new LinkedListMultimap<>(expectedKeys);
   }
@@ -188,7 +188,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       LinkedListMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     return new LinkedListMultimap<>(multimap);
   }

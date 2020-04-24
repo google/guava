@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullable Object>
+final class FilteredMultimapValues<K, V>
     extends AbstractCollection<V> {
   @Weak private final FilteredMultimap<K, V> multimap;
 
@@ -71,7 +71,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public boolean removeAll(Collection<? extends @Nullable Object> c) {
+  public boolean removeAll(Collection<?> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
         // explicit <Entry<K, V>> is required to build with JDK6
@@ -80,7 +80,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
-  public boolean retainAll(Collection<? extends @Nullable Object> c) {
+  public boolean retainAll(Collection<?> c) {
     return Iterables.removeIf(
         multimap.unfiltered().entries(),
         // explicit <Entry<K, V>> is required to build with JDK6

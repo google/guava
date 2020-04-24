@@ -45,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingQueue<E extends @Nullable Object> extends ForwardingCollection<E>
+public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
     implements Queue<E> {
 
   /** Constructor for use by subclasses. */

@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @param <OutputT> the type of the output (i.e. this) future
  */
 @GwtCompatible
-abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends @Nullable Object>
+abstract class AggregateFuture<InputT, OutputT>
     extends AggregateFutureState<OutputT> {
   private static final Logger logger = Logger.getLogger(AggregateFuture.class.getName());
 
@@ -73,12 +73,12 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   protected final void afterDone() {
     super.afterDone();
 
-    ImmutableCollection<? extends Future<? extends @Nullable Object>> localFutures = futures;
+    ImmutableCollection<? extends Future<?>> localFutures = futures;
     releaseResources(OUTPUT_FUTURE_DONE); // nulls out `futures`
 
     if (isCancelled() & localFutures != null) {
       boolean wasInterrupted = wasInterrupted();
-      for (Future<? extends @Nullable Object> future : localFutures) {
+      for (Future<?> future : localFutures) {
         future.cancel(wasInterrupted);
       }
     }
@@ -90,7 +90,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
 
   @Override
   protected final @Nullable String pendingToString() {
-    ImmutableCollection<? extends Future<? extends @Nullable Object>> localFutures = futures;
+    ImmutableCollection<? extends Future<?>> localFutures = futures;
     if (localFutures != null) {
       return "futures=[" + localFutures + "]";
     }

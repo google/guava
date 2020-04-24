@@ -55,7 +55,7 @@ public abstract class ImmutableBiMap<K extends @NonNull Object, V extends @NonNu
    *
    * @since 21.0
    */
-  public static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  public static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

@@ -38,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object>
+class FilteredKeyMultimap<K, V>
     extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
   final Multimap<K, V> unfiltered;
   final Predicate<? super K> keyPredicate;
@@ -78,7 +78,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @SuppressWarnings({"unchecked", "nullness"})
-  private static <K extends @Nullable Object> K uncheckedCastNullableObjectToK(
+  private static <K> K uncheckedCastNullableObjectToK(
       @Nullable Object key) {
     /*
      * We can't use requireNonNull because `key` might be null. Specifically, it can be null because
@@ -123,7 +123,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     }
   }
 
-  static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
+  static class AddRejectingSet<K, V>
       extends ForwardingSet<V> {
     final K key;
 
@@ -148,7 +148,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     }
   }
 
-  static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
+  static class AddRejectingList<K, V>
       extends ForwardingList<V> {
     final K key;
 
@@ -209,8 +209,8 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     @SuppressWarnings("unchecked")
     public boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+        Entry<?, ?> entry =
+            (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())
             // if this holds, then we know entry.getKey() is a K
             && keyPredicate.apply((K) entry.getKey())) {

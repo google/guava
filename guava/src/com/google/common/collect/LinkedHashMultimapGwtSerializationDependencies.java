@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible(emulated = true)
 abstract class LinkedHashMultimapGwtSerializationDependencies<
-        K extends @Nullable Object, V extends @Nullable Object>
+        K, V>
     extends AbstractSetMultimap<K, V> {
   LinkedHashMultimapGwtSerializationDependencies(Map<K, Collection<V>> map) {
     super(map);

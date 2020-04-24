@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Jared Levy
  */
 @GwtCompatible
-abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable Object>
+abstract class AbstractMapEntry<K, V>
     implements Entry<K, V> {
 
   @Override
@@ -45,8 +45,8 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
   @Override
   public boolean equals(@Nullable Object object) {
     if (object instanceof Entry) {
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> that =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      Entry<?, ?> that =
+          (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
           && Objects.equal(this.getValue(), that.getValue());
     }

@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class UnmodifiableListIterator<E extends @Nullable Object>
+public abstract class UnmodifiableListIterator<E>
     extends UnmodifiableIterator<E> implements ListIterator<E> {
   /** Constructor for use by subclasses. */
   protected UnmodifiableListIterator() {}

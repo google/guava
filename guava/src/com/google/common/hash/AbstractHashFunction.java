@@ -30,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Immutable
 abstract class AbstractHashFunction implements HashFunction {
   @Override
-  public <T extends @Nullable Object> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+  public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
     return newHasher().putObject(instance, funnel).hash();
   }
 

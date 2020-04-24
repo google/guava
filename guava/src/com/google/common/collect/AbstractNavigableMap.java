@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible
-abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+abstract class AbstractNavigableMap<K, V>
     extends IteratorBasedAbstractMap<K, V> implements NavigableMap<K, V> {
 
   @Override

@@ -36,20 +36,20 @@ final class AllEqualOrdering extends Ordering<@Nullable Object> implements Seria
   }
 
   @Override
-  public <E extends @Nullable Object> List<E> sortedCopy(Iterable<E> iterable) {
+  public <E> List<E> sortedCopy(Iterable<E> iterable) {
     return Lists.newArrayList(iterable);
   }
 
   @Override
   // Unsafe, but forced by Ordering and our choice for allEqual to accept nulls.
   @SuppressWarnings("nullness")
-  public <E extends @Nullable Object> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
+  public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
     return ImmutableList.copyOf(iterable);
   }
 
   @SuppressWarnings({"unchecked", "nullness"})
   @Override
-  public <S extends @Nullable Object> Ordering<S> reverse() {
+  public <S> Ordering<S> reverse() {
     return (Ordering<S>) this;
   }
 

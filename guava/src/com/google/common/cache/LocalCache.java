@@ -4499,8 +4499,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     public boolean equals(@Nullable Object object) {
       // Cannot use key and value equivalence
       if (object instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> that =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+        Entry<?, ?> that =
+            (Entry<?, ?>) object;
         return key.equals(that.getKey()) && value.equals(that.getValue());
       }
       return false;
@@ -4559,11 +4559,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <E> E[] toArray(E[] a) {
       return toArrayList(this).toArray(a);
     }
@@ -4659,11 +4661,13 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
     // https://code.google.com/p/android/issues/detail?id=36519 / http://r.android.com/47508
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return toArrayList(this).toArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <E> E[] toArray(E[] a) {
       return toArrayList(this).toArray(a);
     }
@@ -4692,8 +4696,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> e =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+      Entry<?, ?> e =
+          (Entry<?, ?>) o;
       Object key = e.getKey();
       if (key == null) {
         return false;
@@ -4708,8 +4712,8 @@ class LocalCache<K extends @NonNull Object, V extends @NonNull Object> extends A
       if (!(o instanceof Entry)) {
         return false;
       }
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> e =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+      Entry<?, ?> e =
+          (Entry<?, ?>) o;
       Object key = e.getKey();
       return key != null && LocalCache.this.remove(key, e.getValue());
     }

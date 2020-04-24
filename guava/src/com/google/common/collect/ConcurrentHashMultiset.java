@@ -168,11 +168,13 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
    */
 
   @Override
+@SuppressWarnings("nullness")
   public Object[] toArray() {
     return snapshot().toArray();
   }
 
   @Override
+@SuppressWarnings("nullness")
   public <T> T[] toArray(T[] array) {
     return snapshot().toArray(array);
   }
@@ -466,7 +468,7 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
       }
 
       @Override
-      public boolean containsAll(Collection<? extends @Nullable Object> collection) {
+      public boolean containsAll(Collection<?> collection) {
         return standardContainsAll(collection);
       }
 
@@ -476,7 +478,7 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
       }
 
       @Override
-      public boolean removeAll(Collection<? extends @Nullable Object> c) {
+      public boolean removeAll(Collection<?> c) {
         return standardRemoveAll(c);
       }
     };
@@ -576,11 +578,13 @@ public final class ConcurrentHashMultiset<E extends @NonNull Object> extends Abs
      */
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return snapshot().toArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] array) {
       return snapshot().toArray(array);
     }

@@ -109,6 +109,7 @@ public final class CharEscaperBuilder {
    *
    * @return a "sparse" array that holds the replacement mappings.
    */
+@SuppressWarnings("nullness")
   public char[][] toArray() {
     char[][] result = new char[max + 1][];
     for (Entry<Character, String> entry : map.entrySet()) {

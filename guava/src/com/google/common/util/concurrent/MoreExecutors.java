@@ -600,48 +600,48 @@ public final class MoreExecutors {
     }
 
     @Override
-    public ListenableScheduledFuture<? extends @Nullable Object> schedule(
+    public ListenableScheduledFuture<?> schedule(
         Runnable command, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<@Nullable Void> task =
           TrustedListenableFutureTask.create(command, null);
-      ScheduledFuture<? extends @Nullable Object> scheduled = delegate.schedule(task, delay, unit);
+      ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
-    public <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
+    public <V> ListenableScheduledFuture<V> schedule(
         Callable<V> callable, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
-      ScheduledFuture<? extends @Nullable Object> scheduled = delegate.schedule(task, delay, unit);
+      ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
       return new ListenableScheduledTask<V>(task, scheduled);
     }
 
     @Override
-    public ListenableScheduledFuture<? extends @Nullable Object> scheduleAtFixedRate(
+    public ListenableScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
-      ScheduledFuture<? extends @Nullable Object> scheduled =
+      ScheduledFuture<?> scheduled =
           delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
     @Override
-    public ListenableScheduledFuture<? extends @Nullable Object> scheduleWithFixedDelay(
+    public ListenableScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
-      ScheduledFuture<? extends @Nullable Object> scheduled =
+      ScheduledFuture<?> scheduled =
           delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
       return new ListenableScheduledTask<>(task, scheduled);
     }
 
-    private static final class ListenableScheduledTask<V extends @Nullable Object>
+    private static final class ListenableScheduledTask<V>
         extends SimpleForwardingListenableFuture<V> implements ListenableScheduledFuture<V> {
 
-      private final ScheduledFuture<? extends @Nullable Object> scheduledDelegate;
+      private final ScheduledFuture<?> scheduledDelegate;
 
       public ListenableScheduledTask(
           ListenableFuture<V> listenableDelegate,
-          ScheduledFuture<? extends @Nullable Object> scheduledDelegate) {
+          ScheduledFuture<?> scheduledDelegate) {
         super(listenableDelegate);
         this.scheduledDelegate = scheduledDelegate;
       }
@@ -706,7 +706,7 @@ public final class MoreExecutors {
    * implementations.
    */
   @GwtIncompatible
-  static <T extends @Nullable Object> T invokeAnyImpl(
+  static <T> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
@@ -722,7 +722,7 @@ public final class MoreExecutors {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @GwtIncompatible
-  static <T extends @Nullable Object> T invokeAnyImpl(
+  static <T> T invokeAnyImpl(
       ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks,
       boolean timed,
@@ -802,7 +802,7 @@ public final class MoreExecutors {
    * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
    */
   @GwtIncompatible // TODO
-  private static <T extends @Nullable Object> ListenableFuture<T> submitAndAddQueueListener(
+  private static <T> ListenableFuture<T> submitAndAddQueueListener(
       ListeningExecutorService executorService,
       Callable<T> task,
       final BlockingQueue<Future<T>> queue) {
@@ -967,7 +967,7 @@ public final class MoreExecutors {
     }
     return new WrappingExecutorService(service) {
       @Override
-      protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
+      protected <T> Callable<T> wrapTask(Callable<T> callable) {
         return Callables.threadRenaming(callable, nameSupplier);
       }
 
@@ -1000,7 +1000,7 @@ public final class MoreExecutors {
     }
     return new WrappingScheduledExecutorService(service) {
       @Override
-      protected <T extends @Nullable Object> Callable<T> wrapTask(Callable<T> callable) {
+      protected <T> Callable<T> wrapTask(Callable<T> callable) {
         return Callables.threadRenaming(callable, nameSupplier);
       }
 
@@ -1098,7 +1098,7 @@ public final class MoreExecutors {
    * <p>Note, the returned executor can only be used once.
    */
   static Executor rejectionPropagatingExecutor(
-      final Executor delegate, final AbstractFuture<? extends @Nullable Object> future) {
+      final Executor delegate, final AbstractFuture<?> future) {
     checkNotNull(delegate);
     checkNotNull(future);
     if (delegate == directExecutor()) {

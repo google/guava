@@ -102,13 +102,13 @@ final class RegularImmutableSortedSet<E extends @NonNull Object> extends Immutab
   }
 
   @Override
-  public boolean containsAll(Collection<? extends @Nullable Object> targets) {
+  public boolean containsAll(Collection<?> targets) {
     // TODO(jlevy): For optimal performance, use a binary search when
     // targets.size() < size() / log(size())
     // TODO(kevinb): see if we can share code with OrderedIterator after it
     // graduates from labs.
     if (targets instanceof Multiset) {
-      targets = ((Multiset<? extends @Nullable Object>) targets).elementSet();
+      targets = ((Multiset<?>) targets).elementSet();
     }
     if (!SortedIterables.hasSameComparator(comparator(), targets) || (targets.size() <= 1)) {
       return super.containsAll(targets);
@@ -120,7 +120,7 @@ final class RegularImmutableSortedSet<E extends @NonNull Object> extends Immutab
      */
     Iterator<E> thisIterator = iterator();
 
-    Iterator<? extends @Nullable Object> thatIterator = targets.iterator();
+    Iterator<?> thatIterator = targets.iterator();
     // known nonempty since we checked targets.size() > 1
 
     if (!thisIterator.hasNext()) {
@@ -176,7 +176,7 @@ final class RegularImmutableSortedSet<E extends @NonNull Object> extends Immutab
       return false;
     }
 
-    Set<? extends @Nullable Object> that = (Set<? extends @Nullable Object>) object;
+    Set<?> that = (Set<?>) object;
     if (size() != that.size()) {
       return false;
     } else if (isEmpty()) {
@@ -184,7 +184,7 @@ final class RegularImmutableSortedSet<E extends @NonNull Object> extends Immutab
     }
 
     if (SortedIterables.hasSameComparator(comparator, that)) {
-      Iterator<? extends @Nullable Object> otherIterator = that.iterator();
+      Iterator<?> otherIterator = that.iterator();
       try {
         Iterator<E> iterator = iterator();
         while (iterator.hasNext()) {

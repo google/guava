@@ -418,6 +418,7 @@ public final class Chars {
    *     to primitives
    * @throws NullPointerException if {@code collection} or any of its elements is null
    */
+@SuppressWarnings("nullness")
   public static char[] toArray(Collection<Character> collection) {
     if (collection instanceof CharArrayAsList) {
       return ((CharArrayAsList) collection).toCharArray();

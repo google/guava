@@ -109,7 +109,7 @@ public final class MutableTypeToInstanceMap<B extends @NonNull Object>
     return (T) backingMap.get(type);
   }
 
-  private static final class UnmodifiableEntry<K, V extends @Nullable Object>
+  private static final class UnmodifiableEntry<K, V>
       extends ForwardingMapEntry<K, V> {
 
     private final Entry<K, V> delegate;
@@ -127,18 +127,20 @@ public final class MutableTypeToInstanceMap<B extends @NonNull Object>
         }
 
         @Override
+@SuppressWarnings("nullness")
         public Object[] toArray() {
           return standardToArray();
         }
 
         @Override
+@SuppressWarnings("nullness")
         public <T> T[] toArray(T[] array) {
           return standardToArray(array);
         }
       };
     }
 
-    private static <K, V extends @Nullable Object> Iterator<Entry<K, V>> transformEntries(
+    private static <K, V> Iterator<Entry<K, V>> transformEntries(
         Iterator<Entry<K, V>> entries) {
       return Iterators.transform(
           entries,

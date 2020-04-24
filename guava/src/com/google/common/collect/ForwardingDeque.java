@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingDeque<E extends @Nullable Object> extends ForwardingQueue<E>
+public abstract class ForwardingDeque<E> extends ForwardingQueue<E>
     implements Deque<E> {
 
   /** Constructor for use by subclasses. */

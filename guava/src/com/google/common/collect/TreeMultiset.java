@@ -58,7 +58,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class TreeMultiset<E extends @Nullable Object> extends AbstractSortedMultiset<E>
+public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     implements Serializable {
 
   /**
@@ -89,7 +89,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
    *     indicates that the elements' <i>natural ordering</i> should be used.
    */
   @SuppressWarnings("unchecked")
-  public static <E extends @Nullable Object> TreeMultiset<E> create(
+  public static <E> TreeMultiset<E> create(
       @Nullable Comparator<? super E> comparator) {
     return (comparator == null)
         ? new TreeMultiset<E>((Comparator) Ordering.natural())
@@ -135,30 +135,30 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   private enum Aggregate {
     SIZE {
       @Override
-      int nodeAggregate(AvlNode<? extends @Nullable Object> node) {
+      int nodeAggregate(AvlNode<?> node) {
         return node.elemCount;
       }
 
       @Override
-      long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root) {
+      long treeAggregate(@Nullable AvlNode<?> root) {
         return (root == null) ? 0 : root.totalCount;
       }
     },
     DISTINCT {
       @Override
-      int nodeAggregate(AvlNode<? extends @Nullable Object> node) {
+      int nodeAggregate(AvlNode<?> node) {
         return 1;
       }
 
       @Override
-      long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root) {
+      long treeAggregate(@Nullable AvlNode<?> root) {
         return (root == null) ? 0 : root.distinctElements;
       }
     };
 
-    abstract int nodeAggregate(AvlNode<? extends @Nullable Object> node);
+    abstract int nodeAggregate(AvlNode<?> node);
 
-    abstract long treeAggregate(@Nullable AvlNode<? extends @Nullable Object> root);
+    abstract long treeAggregate(@Nullable AvlNode<?> root);
   }
 
   private long aggregateForEntries(Aggregate aggr) {
@@ -231,7 +231,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     return Ints.saturatedCast(aggregateForEntries(Aggregate.DISTINCT));
   }
 
-  static int distinctElements(@Nullable AvlNode<? extends @Nullable Object> node) {
+  static int distinctElements(@Nullable AvlNode<?> node) {
     return (node == null) ? 0 : node.distinctElements;
   }
 
@@ -251,7 +251,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   @SuppressWarnings({"unchecked", "nullness"})
-  private static <E extends @Nullable Object> E uncheckedCastNullableObjectToE(
+  private static <E> E uncheckedCastNullableObjectToE(
       @Nullable Object value) {
     /*
      * We can't use requireNonNull because `value` might be null. Specifically, it can be null
@@ -592,7 +592,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     }
   }
 
-  private static final class AvlNode<E extends @Nullable Object> {
+  private static final class AvlNode<E> {
     private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
@@ -1025,12 +1025,12 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     }
   }
 
-  private static <T extends @Nullable Object> void successor(AvlNode<T> a, AvlNode<T> b) {
+  private static <T> void successor(AvlNode<T> a, AvlNode<T> b) {
     a.succ = b;
     b.pred = a;
   }
 
-  private static <T extends @Nullable Object> void successor(
+  private static <T> void successor(
       AvlNode<T> a, AvlNode<T> b, AvlNode<T> c) {
     successor(a, b);
     successor(b, c);

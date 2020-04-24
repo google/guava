@@ -25,7 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * iterates.
  */
 @GwtCompatible
-class ConsumingQueueIterator<T extends @Nullable Object> extends AbstractIterator<T> {
+class ConsumingQueueIterator<T> extends AbstractIterator<T> {
   private final Queue<T> queue;
 
   ConsumingQueueIterator(Queue<T> queue) {

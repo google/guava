@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @CanIgnoreReturnValue // TODO(cpovirk): Consider being more strict.
 @GwtCompatible
-public abstract class ForwardingListenableFuture<V extends @Nullable Object>
+public abstract class ForwardingListenableFuture<V>
     extends ForwardingFuture<V> implements ListenableFuture<V> {
 
   /** Constructor for use by subclasses. */
@@ -53,7 +53,7 @@ public abstract class ForwardingListenableFuture<V extends @Nullable Object>
    *
    * @since 9.0
    */
-  public abstract static class SimpleForwardingListenableFuture<V extends @Nullable Object>
+  public abstract static class SimpleForwardingListenableFuture<V>
       extends ForwardingListenableFuture<V> {
     private final ListenableFuture<V> delegate;
 

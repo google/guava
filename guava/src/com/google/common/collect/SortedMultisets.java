@@ -40,7 +40,7 @@ final class SortedMultisets {
   private SortedMultisets() {}
 
   /** A skeleton implementation for {@link SortedMultiset#elementSet}. */
-  static class ElementSet<E extends @Nullable Object> extends Multisets.ElementSet<E>
+  static class ElementSet<E> extends Multisets.ElementSet<E>
       implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
@@ -91,7 +91,7 @@ final class SortedMultisets {
 
   /** A skeleton navigable implementation for {@link SortedMultiset#elementSet}. */
   @GwtIncompatible // Navigable
-  static class NavigableElementSet<E extends @Nullable Object> extends ElementSet<E>
+  static class NavigableElementSet<E> extends ElementSet<E>
       implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);
@@ -160,14 +160,14 @@ final class SortedMultisets {
     }
   }
 
-  private static <E extends @Nullable Object> E getElementOrThrow(@Nullable Entry<E> entry) {
+  private static <E> E getElementOrThrow(@Nullable Entry<E> entry) {
     if (entry == null) {
       throw new NoSuchElementException();
     }
     return entry.getElement();
   }
 
-  private static <E extends @Nullable Object> @Nullable E getElementOrNull(
+  private static <E> @Nullable E getElementOrNull(
       @Nullable Entry<E> entry) {
     return (entry == null) ? null : entry.getElement();
   }

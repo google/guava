@@ -90,7 +90,7 @@ public class Joiner {
    * separator between each, to {@code appendable}.
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterable<? extends @Nullable Object> parts)
+  public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts)
       throws IOException {
     return appendTo(appendable, parts.iterator());
   }
@@ -102,7 +102,7 @@ public class Joiner {
    * @since 11.0
    */
   @CanIgnoreReturnValue
-  public <A extends Appendable> A appendTo(A appendable, Iterator<? extends @Nullable Object> parts)
+  public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts)
       throws IOException {
     checkNotNull(appendable);
     if (parts.hasNext()) {
@@ -140,7 +140,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
-      StringBuilder builder, Iterable<? extends @Nullable Object> parts) {
+      StringBuilder builder, Iterable<?> parts) {
     return appendTo(builder, parts.iterator());
   }
 
@@ -153,7 +153,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(
-      StringBuilder builder, Iterator<? extends @Nullable Object> parts) {
+      StringBuilder builder, Iterator<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -190,7 +190,7 @@ public class Joiner {
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
-  public final String join(Iterable<? extends @Nullable Object> parts) {
+  public final String join(Iterable<?> parts) {
     return join(parts.iterator());
   }
 
@@ -200,7 +200,7 @@ public class Joiner {
    *
    * @since 11.0
    */
-  public final String join(Iterator<? extends @Nullable Object> parts) {
+  public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
@@ -253,7 +253,7 @@ public class Joiner {
     return new Joiner(this) {
       @Override
       public <A extends Appendable> A appendTo(
-          A appendable, Iterator<? extends @Nullable Object> parts) throws IOException {
+          A appendable, Iterator<?> parts) throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         while (parts.hasNext()) {
@@ -336,7 +336,7 @@ public class Joiner {
      */
     @CanIgnoreReturnValue
     public <A extends Appendable> A appendTo(
-        A appendable, Map<? extends @Nullable Object, ? extends @Nullable Object> map)
+        A appendable, Map<?, ?> map)
         throws IOException {
       return appendTo(appendable, map.entrySet());
     }
@@ -348,7 +348,7 @@ public class Joiner {
      */
     @CanIgnoreReturnValue
     public StringBuilder appendTo(
-        StringBuilder builder, Map<? extends @Nullable Object, ? extends @Nullable Object> map) {
+        StringBuilder builder, Map<?, ?> map) {
       return appendTo(builder, map.entrySet());
     }
 
@@ -362,7 +362,7 @@ public class Joiner {
     @CanIgnoreReturnValue
     public <A extends Appendable> A appendTo(
         A appendable,
-        Iterable<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> entries)
+        Iterable<? extends Entry<?, ?>> entries)
         throws IOException {
       return appendTo(appendable, entries.iterator());
     }
@@ -377,17 +377,17 @@ public class Joiner {
     @CanIgnoreReturnValue
     public <A extends Appendable> A appendTo(
         A appendable,
-        Iterator<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> parts)
+        Iterator<? extends Entry<?, ?>> parts)
         throws IOException {
       checkNotNull(appendable);
       if (parts.hasNext()) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry = parts.next();
+        Entry<?, ?> entry = parts.next();
         appendable.append(joiner.toString(entry.getKey()));
         appendable.append(keyValueSeparator);
         appendable.append(joiner.toString(entry.getValue()));
         while (parts.hasNext()) {
           appendable.append(joiner.separator);
-          Entry<? extends @Nullable Object, ? extends @Nullable Object> e = parts.next();
+          Entry<?, ?> e = parts.next();
           appendable.append(joiner.toString(e.getKey()));
           appendable.append(keyValueSeparator);
           appendable.append(joiner.toString(e.getValue()));
@@ -407,7 +407,7 @@ public class Joiner {
     @CanIgnoreReturnValue
     public StringBuilder appendTo(
         StringBuilder builder,
-        Iterable<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> entries) {
+        Iterable<? extends Entry<?, ?>> entries) {
       return appendTo(builder, entries.iterator());
     }
 
@@ -422,7 +422,7 @@ public class Joiner {
     @CanIgnoreReturnValue
     public StringBuilder appendTo(
         StringBuilder builder,
-        Iterator<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> entries) {
+        Iterator<? extends Entry<?, ?>> entries) {
       try {
         appendTo((Appendable) builder, entries);
       } catch (IOException impossible) {
@@ -435,7 +435,7 @@ public class Joiner {
      * Returns a string containing the string representation of each entry of {@code map}, using the
      * previously configured separator and key-value separator.
      */
-    public String join(Map<? extends @Nullable Object, ? extends @Nullable Object> map) {
+    public String join(Map<?, ?> map) {
       return join(map.entrySet());
     }
 
@@ -447,7 +447,7 @@ public class Joiner {
      */
     @Beta
     public String join(
-        Iterable<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> entries) {
+        Iterable<? extends Entry<?, ?>> entries) {
       return join(entries.iterator());
     }
 
@@ -459,7 +459,7 @@ public class Joiner {
      */
     @Beta
     public String join(
-        Iterator<? extends Entry<? extends @Nullable Object, ? extends @Nullable Object>> entries) {
+        Iterator<? extends Entry<?, ?>> entries) {
       return appendTo(new StringBuilder(), entries).toString();
     }
 
@@ -481,7 +481,7 @@ public class Joiner {
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
-  private static <E extends @Nullable Object> Iterable<E> iterable(
+  private static <E> Iterable<E> iterable(
       final E first, final E second, final E[] rest) {
     checkNotNull(rest);
     return new AbstractList<E>() {

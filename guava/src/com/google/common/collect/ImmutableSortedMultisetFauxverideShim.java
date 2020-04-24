@@ -66,7 +66,7 @@ abstract class ImmutableSortedMultisetFauxverideShim<E extends @NonNull Object>
    * @since 22.0
    */
   @Deprecated
-  public static <T extends @Nullable Object, E extends @NonNull Object>
+  public static <T, E extends @NonNull Object>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(
           Function<? super T, ? extends E> elementFunction,
           ToIntFunction<? super T> countFunction) {

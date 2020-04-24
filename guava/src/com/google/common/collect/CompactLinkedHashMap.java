@@ -48,12 +48,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @SuppressWarnings("nullness") // too much effort for the payoff
-class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+class CompactLinkedHashMap<K, V>
     extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
   /** Creates an empty {@code CompactLinkedHashMap} instance. */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       CompactLinkedHashMap<K, V> create() {
     return new CompactLinkedHashMap<>();
   }
@@ -67,7 +67,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
    *     expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       CompactLinkedHashMap<K, V> createWithExpectedSize(int expectedSize) {
     return new CompactLinkedHashMap<>(expectedSize);
   }
@@ -223,11 +223,13 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
     @WeakOuter
     class KeySetImpl extends KeySetView {
       @Override
+@SuppressWarnings("nullness")
       public Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
+@SuppressWarnings("nullness")
       public <T> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }
@@ -245,11 +247,13 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
     @WeakOuter
     class ValuesImpl extends ValuesView {
       @Override
+@SuppressWarnings("nullness")
       public Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
       }
 
       @Override
+@SuppressWarnings("nullness")
       public <T> T[] toArray(T[] a) {
         return ObjectArrays.toArrayImpl(this, a);
       }

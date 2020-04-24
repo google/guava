@@ -351,7 +351,7 @@ public abstract class CharSource {
    */
   @Beta
   @CanIgnoreReturnValue // some processors won't return a useful result
-  public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
+  public <T> T readLines(LineProcessor<T> processor) throws IOException {
     checkNotNull(processor);
 
     Closer closer = Closer.create();
@@ -593,7 +593,7 @@ public abstract class CharSource {
     }
 
     @Override
-    public <T extends @Nullable Object> T readLines(LineProcessor<T> processor) throws IOException {
+    public <T> T readLines(LineProcessor<T> processor) throws IOException {
       Iterator<String> lines = linesIterator();
       while (lines.hasNext()) {
         if (!processor.processLine(lines.next())) {

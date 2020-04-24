@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that treats {@code null} as greater than all other values. */
 @GwtCompatible(serializable = true)
-final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
+final class NullsLastOrdering<T> extends Ordering<@Nullable T>
     implements Serializable {
   final Ordering<? super T> ordering;
 
@@ -68,8 +68,8 @@ final class NullsLastOrdering<T extends @Nullable Object> extends Ordering<@Null
       return true;
     }
     if (object instanceof NullsLastOrdering) {
-      NullsLastOrdering<? extends @Nullable Object> that =
-          (NullsLastOrdering<? extends @Nullable Object>) object;
+      NullsLastOrdering<?> that =
+          (NullsLastOrdering<?>) object;
       return this.ordering.equals(that.ordering);
     }
     return false;

@@ -90,7 +90,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   }
 
   @Override
-  public boolean containsAll(Collection<? extends @Nullable Object> collection) {
+  public boolean containsAll(Collection<?> collection) {
     if (collection instanceof ImmutableEnumSet) {
       collection = ((ImmutableEnumSet<?>) collection).delegate;
     }

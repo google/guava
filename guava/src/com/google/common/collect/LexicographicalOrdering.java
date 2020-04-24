@@ -24,7 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering which sorts iterables by comparing corresponding elements pairwise. */
 @GwtCompatible(serializable = true)
-final class LexicographicalOrdering<T extends @Nullable Object> extends Ordering<Iterable<T>>
+final class LexicographicalOrdering<T> extends Ordering<Iterable<T>>
     implements Serializable {
   final Comparator<? super T> elementOrder;
 
@@ -57,8 +57,8 @@ final class LexicographicalOrdering<T extends @Nullable Object> extends Ordering
       return true;
     }
     if (object instanceof LexicographicalOrdering) {
-      LexicographicalOrdering<? extends @Nullable Object> that =
-          (LexicographicalOrdering<? extends @Nullable Object>) object;
+      LexicographicalOrdering<?> that =
+          (LexicographicalOrdering<?>) object;
       return this.elementOrder.equals(that.elementOrder);
     }
     return false;

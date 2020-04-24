@@ -33,14 +33,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @Beta
 public final class Parameter implements AnnotatedElement {
 
-  private final Invokable<?, ? extends @Nullable Object> declaration;
+  private final Invokable<?, ?> declaration;
   private final int position;
   private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
   private final AnnotatedType annotatedType;
 
   Parameter(
-      Invokable<?, ? extends @Nullable Object> declaration,
+      Invokable<?, ?> declaration,
       int position,
       TypeToken<?> type,
       Annotation[] annotations,
@@ -58,7 +58,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /** Returns the {@link Invokable} that declares this parameter. */
-  public Invokable<?, ? extends @Nullable Object> getDeclaringInvokable() {
+  public Invokable<?, ?> getDeclaringInvokable() {
     return declaration;
   }
 

@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class TransformedIterator<F extends @Nullable Object, T extends @Nullable Object>
+abstract class TransformedIterator<F, T>
     implements Iterator<T> {
   final Iterator<? extends F> backingIterator;
 

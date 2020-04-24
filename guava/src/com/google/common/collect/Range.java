@@ -456,7 +456,7 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
     // this optimizes testing equality of two range-backed sets
     if (values instanceof SortedSet) {
       SortedSet<? extends C> set = cast(values);
-      Comparator<? extends @Nullable Object> comparator = set.comparator();
+      Comparator<?> comparator = set.comparator();
       if (Ordering.natural().equals(comparator) || comparator == null) {
         return contains(set.first()) && contains(set.last());
       }

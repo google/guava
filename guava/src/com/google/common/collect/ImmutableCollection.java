@@ -185,12 +185,14 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
   private static final Object[] EMPTY_ARRAY = {};
 
   @Override
+@SuppressWarnings("nullness")
   public final Object[] toArray() {
     return toArray(EMPTY_ARRAY);
   }
 
   @CanIgnoreReturnValue
   @Override
+@SuppressWarnings("nullness")
   public final <T> T[] toArray(T[] other) {
     checkNotNull(other);
     int size = size();
@@ -280,7 +282,7 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
   @CanIgnoreReturnValue
   @Deprecated
   @Override
-  public final boolean removeAll(Collection<? extends @Nullable Object> oldElements) {
+  public final boolean removeAll(Collection<?> oldElements) {
     throw new UnsupportedOperationException();
   }
 
@@ -305,7 +307,7 @@ public abstract class ImmutableCollection<E extends @NonNull Object> extends Abs
    */
   @Deprecated
   @Override
-  public final boolean retainAll(Collection<? extends @Nullable Object> elementsToKeep) {
+  public final boolean retainAll(Collection<?> elementsToKeep) {
     throw new UnsupportedOperationException();
   }
 

@@ -34,8 +34,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * interrupted and cancelled if it times out.
  */
 @GwtIncompatible
-final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V> {
-  static <V extends @Nullable Object> ListenableFuture<V> create(
+final class TimeoutFuture<V> extends FluentFuture.TrustedFuture<V> {
+  static <V> ListenableFuture<V> create(
       ListenableFuture<V> delegate,
       long time,
       TimeUnit unit,
@@ -72,14 +72,14 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
    */
 
   private @Nullable ListenableFuture<V> delegateRef;
-  private @Nullable ScheduledFuture<? extends @Nullable Object> timer;
+  private @Nullable ScheduledFuture<?> timer;
 
   private TimeoutFuture(ListenableFuture<V> delegate) {
     this.delegateRef = Preconditions.checkNotNull(delegate);
   }
 
   /** A runnable that is called when the delegate or the timer completes. */
-  private static final class Fire<V extends @Nullable Object> implements Runnable {
+  private static final class Fire<V> implements Runnable {
     @Nullable TimeoutFuture<V> timeoutFutureRef;
 
     Fire(TimeoutFuture<V> timeoutFuture) {
@@ -116,7 +116,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
         timeoutFuture.setFuture(delegate);
       } else {
         try {
-          ScheduledFuture<? extends @Nullable Object> timer = timeoutFuture.timer;
+          ScheduledFuture<?> timer = timeoutFuture.timer;
           timeoutFuture.timer = null; // Don't include already elapsed delay in delegate.toString()
           String message = "Timed out";
           // This try-finally block ensures that we complete the timeout future, even if attempting
@@ -154,7 +154,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   @Override
   protected @Nullable String pendingToString() {
     ListenableFuture<? extends V> localInputFuture = delegateRef;
-    ScheduledFuture<? extends @Nullable Object> localTimer = timer;
+    ScheduledFuture<?> localTimer = timer;
     if (localInputFuture != null) {
       String message = "inputFuture=[" + localInputFuture + "]";
       if (localTimer != null) {
@@ -173,7 +173,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
   protected void afterDone() {
     maybePropagateCancellationTo(delegateRef);
 
-    Future<? extends @Nullable Object> localTimer = timer;
+    Future<?> localTimer = timer;
     // Try to cancel the timer as an optimization.
     // timer may be null if this call to run was by the timer task since there is no happens-before
     // edge between the assignment to timer and an execution of the timer task.

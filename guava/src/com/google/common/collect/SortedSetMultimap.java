@@ -45,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface SortedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public interface SortedSetMultimap<K, V>
     extends SetMultimap<K, V> {
   // Following Javadoc copied from Multimap.
 

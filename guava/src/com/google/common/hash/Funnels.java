@@ -164,12 +164,12 @@ public final class Funnels {
    *
    * @since 15.0
    */
-  public static <E extends @Nullable Object> Funnel<Iterable<? extends E>> sequentialFunnel(
+  public static <E> Funnel<Iterable<? extends E>> sequentialFunnel(
       Funnel<E> elementFunnel) {
     return new SequentialFunnel<E>(elementFunnel);
   }
 
-  private static class SequentialFunnel<E extends @Nullable Object>
+  private static class SequentialFunnel<E>
       implements Funnel<Iterable<? extends E>>, Serializable {
     private final Funnel<E> elementFunnel;
 
@@ -192,8 +192,8 @@ public final class Funnels {
     @Override
     public boolean equals(@Nullable Object o) {
       if (o instanceof SequentialFunnel) {
-        SequentialFunnel<? extends @Nullable Object> funnel =
-            (SequentialFunnel<? extends @Nullable Object>) o;
+        SequentialFunnel<?> funnel =
+            (SequentialFunnel<?>) o;
         return elementFunnel.equals(funnel.elementFunnel);
       }
       return false;

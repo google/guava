@@ -42,7 +42,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 11.0
  */
 @Beta
-public interface Funnel<T extends @Nullable Object> extends Serializable {
+public interface Funnel<T> extends Serializable {
 
   /**
    * Sends a stream of data from the {@code from} object into the sink {@code into}. There is no

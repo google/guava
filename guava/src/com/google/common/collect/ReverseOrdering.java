@@ -25,7 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that uses the reverse of a given order. */
 @GwtCompatible(serializable = true)
-final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
+final class ReverseOrdering<T> extends Ordering<T>
     implements Serializable {
   final Ordering<? super T> forwardOrder;
 
@@ -97,8 +97,8 @@ final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
       return true;
     }
     if (object instanceof ReverseOrdering) {
-      ReverseOrdering<? extends @Nullable Object> that =
-          (ReverseOrdering<? extends @Nullable Object>) object;
+      ReverseOrdering<?> that =
+          (ReverseOrdering<?>) object;
       return this.forwardOrder.equals(that.forwardOrder);
     }
     return false;

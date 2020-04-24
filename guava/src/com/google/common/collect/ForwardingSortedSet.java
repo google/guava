@@ -52,7 +52,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSortedSet<E extends @Nullable Object> extends ForwardingSet<E>
+public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
     implements SortedSet<E> {
 
   /** Constructor for use by subclasses. */

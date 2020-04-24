@@ -123,7 +123,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @Override
   public boolean equals(@Nullable Object object) {
     if (object instanceof Set) {
-      Set<? extends @Nullable Object> that = (Set<? extends @Nullable Object>) object;
+      Set<?> that = (Set<?>) object;
       return that.isEmpty();
     }
     return false;

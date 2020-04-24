@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 abstract class AbstractTable<
-        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+        R, C, V>
     implements Table<R, C, V> {
 
   @Override
@@ -129,12 +129,12 @@ abstract class AbstractTable<
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Cell) {
-        Cell<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+        Cell<?, ?, ?>
             cell =
                 (Cell<
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object>)
+                        ?,
+                        ?,
+                        ?>)
                     o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null
@@ -147,12 +147,12 @@ abstract class AbstractTable<
     @Override
     public boolean remove(@Nullable Object o) {
       if (o instanceof Cell) {
-        Cell<? extends @Nullable Object, ? extends @Nullable Object, ? extends @Nullable Object>
+        Cell<?, ?, ?>
             cell =
                 (Cell<
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object,
-                        ? extends @Nullable Object>)
+                        ?,
+                        ?,
+                        ?>)
                     o;
         Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
         return row != null

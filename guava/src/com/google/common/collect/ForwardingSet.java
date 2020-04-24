@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingSet<E extends @Nullable Object> extends ForwardingCollection<E>
+public abstract class ForwardingSet<E> extends ForwardingCollection<E>
     implements Set<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -74,7 +74,7 @@ public abstract class ForwardingSet<E extends @Nullable Object> extends Forwardi
    * @since 7.0 (this version overrides the {@code ForwardingCollection} version as of 12.0)
    */
   @Override
-  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> collection) {
+  protected boolean standardRemoveAll(Collection<?> collection) {
     return Sets.removeAllImpl(this, checkNotNull(collection)); // for GWT
   }
 

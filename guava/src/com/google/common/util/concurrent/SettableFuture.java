@@ -33,12 +33,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
 @GwtCompatible
-public final class SettableFuture<V extends @Nullable Object>
+public final class SettableFuture<V>
     extends AbstractFuture.TrustedFuture<V> {
   /**
    * Creates a new {@code SettableFuture} that can be completed or cancelled by a later method call.
    */
-  public static <V extends @Nullable Object> SettableFuture<V> create() {
+  public static <V> SettableFuture<V> create() {
     return new SettableFuture<V>();
   }
 

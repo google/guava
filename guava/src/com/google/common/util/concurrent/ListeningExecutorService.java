@@ -39,21 +39,21 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T extends @Nullable Object> ListenableFuture<T> submit(Callable<T> task);
+  <T> ListenableFuture<T> submit(Callable<T> task);
 
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  ListenableFuture<? extends @Nullable Object> submit(Runnable task);
+  ListenableFuture<?> submit(Runnable task);
 
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
    * @throws RejectedExecutionException {@inheritDoc}
    */
   @Override
-  <T extends @Nullable Object> ListenableFuture<T> submit(Runnable task, T result);
+  <T> ListenableFuture<T> submit(Runnable task, T result);
 
   /**
    * {@inheritDoc}
@@ -74,7 +74,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws NullPointerException if any task is null
    */
   @Override
-  <T extends @Nullable Object> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+  <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
       throws InterruptedException;
 
   /**
@@ -97,7 +97,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @throws NullPointerException if any task is null
    */
   @Override
-  <T extends @Nullable Object> List<Future<T>> invokeAll(
+  <T> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException;
 }

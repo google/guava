@@ -556,8 +556,8 @@ public abstract class ImmutableMultimap<K extends @NonNull Object, V extends @No
     @Override
     public boolean contains(@Nullable Object object) {
       if (object instanceof Entry) {
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+        Entry<?, ?> entry =
+            (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
       }
       return false;

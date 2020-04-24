@@ -107,9 +107,9 @@ public final class Multimaps {
    */
   @Beta
   public static <
-          T extends @Nullable Object,
-          K extends @Nullable Object,
-          V extends @Nullable Object,
+          T,
+          K,
+          V,
           M extends Multimap<K, V>>
       Collector<T, ?, M> toMultimap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
@@ -162,9 +162,9 @@ public final class Multimaps {
    */
   @Beta
   public static <
-          T extends @Nullable Object,
-          K extends @Nullable Object,
-          V extends @Nullable Object,
+          T,
+          K,
+          V,
           M extends Multimap<K, V>>
       Collector<T, ?, M> flatteningToMultimap(
           java.util.function.Function<? super T, ? extends K> keyFunction,
@@ -222,12 +222,12 @@ public final class Multimaps {
    *     key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object> Multimap<K, V> newMultimap(
+  public static <K, V> Multimap<K, V> newMultimap(
       Map<K, Collection<V>> map, final Supplier<? extends Collection<V>> factory) {
     return new CustomMultimap<>(map, factory);
   }
 
-  private static class CustomMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class CustomMultimap<K, V>
       extends AbstractMapBasedMultimap<K, V> {
     transient Supplier<? extends Collection<V>> factory;
 
@@ -252,7 +252,7 @@ public final class Multimaps {
     }
 
     @Override
-    <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+    <E> Collection<E> unmodifiableCollectionSubclass(
         Collection<E> collection) {
       if (collection instanceof NavigableSet) {
         return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
@@ -338,13 +338,13 @@ public final class Multimaps {
    * @param factory supplier of new, empty lists that will each hold all values for a given key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       ListMultimap<K, V> newListMultimap(
           Map<K, Collection<V>> map, final Supplier<? extends List<V>> factory) {
     return new CustomListMultimap<>(map, factory);
   }
 
-  private static class CustomListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class CustomListMultimap<K, V>
       extends AbstractListMultimap<K, V> {
     transient Supplier<? extends List<V>> factory;
 
@@ -418,13 +418,13 @@ public final class Multimaps {
    * @param factory supplier of new, empty sets that will each hold all values for a given key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> newSetMultimap(
           Map<K, Collection<V>> map, final Supplier<? extends Set<V>> factory) {
     return new CustomSetMultimap<>(map, factory);
   }
 
-  private static class CustomSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class CustomSetMultimap<K, V>
       extends AbstractSetMultimap<K, V> {
     transient Supplier<? extends Set<V>> factory;
 
@@ -449,7 +449,7 @@ public final class Multimaps {
     }
 
     @Override
-    <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+    <E> Collection<E> unmodifiableCollectionSubclass(
         Collection<E> collection) {
       if (collection instanceof NavigableSet) {
         return Sets.unmodifiableNavigableSet((NavigableSet<E>) collection);
@@ -523,14 +523,14 @@ public final class Multimaps {
    *     key
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SortedSetMultimap<K, V> newSortedSetMultimap(
           Map<K, Collection<V>> map, final Supplier<? extends SortedSet<V>> factory) {
     return new CustomSortedSetMultimap<>(map, factory);
   }
 
   private static class CustomSortedSetMultimap<
-          K extends @Nullable Object, V extends @Nullable Object>
+          K, V>
       extends AbstractSortedSetMultimap<K, V> {
     transient Supplier<? extends SortedSet<V>> factory;
     transient @Nullable Comparator<? super V> valueComparator;
@@ -595,7 +595,7 @@ public final class Multimaps {
    * @return {@code dest}
    */
   @CanIgnoreReturnValue
-  public static <K extends @Nullable Object, V extends @Nullable Object, M extends Multimap<K, V>>
+  public static <K, V, M extends Multimap<K, V>>
       M invertFrom(Multimap<? extends V, ? extends K> source, M dest) {
     checkNotNull(dest);
     for (Map.Entry<? extends V, ? extends K> entry : source.entries()) {
@@ -636,7 +636,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped in a synchronized view
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       Multimap<K, V> synchronizedMultimap(Multimap<K, V> multimap) {
     return Synchronized.multimap(multimap, null);
   }
@@ -652,7 +652,7 @@ public final class Multimaps {
    * @param delegate the multimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       Multimap<K, V> unmodifiableMultimap(Multimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableMultimap || delegate instanceof ImmutableMultimap) {
       return delegate;
@@ -672,7 +672,7 @@ public final class Multimaps {
     return checkNotNull(delegate);
   }
 
-  private static class UnmodifiableMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class UnmodifiableMultimap<K, V>
       extends ForwardingMultimap<K, V> implements Serializable {
     final Multimap<K, V> delegate;
     @Nullable transient Collection<Entry<K, V>> entries;
@@ -789,7 +789,7 @@ public final class Multimaps {
   }
 
   private static class UnmodifiableListMultimap<
-          K extends @Nullable Object, V extends @Nullable Object>
+          K, V>
       extends UnmodifiableMultimap<K, V> implements ListMultimap<K, V> {
     UnmodifiableListMultimap(ListMultimap<K, V> delegate) {
       super(delegate);
@@ -819,7 +819,7 @@ public final class Multimaps {
   }
 
   private static class UnmodifiableSetMultimap<
-          K extends @Nullable Object, V extends @Nullable Object>
+          K, V>
       extends UnmodifiableMultimap<K, V> implements SetMultimap<K, V> {
     UnmodifiableSetMultimap(SetMultimap<K, V> delegate) {
       super(delegate);
@@ -858,7 +858,7 @@ public final class Multimaps {
   }
 
   private static class UnmodifiableSortedSetMultimap<
-          K extends @Nullable Object, V extends @Nullable Object>
+          K, V>
       extends UnmodifiableSetMultimap<K, V> implements SortedSetMultimap<K, V> {
     UnmodifiableSortedSetMultimap(SortedSetMultimap<K, V> delegate) {
       super(delegate);
@@ -902,7 +902,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> synchronizedSetMultimap(SetMultimap<K, V> multimap) {
     return Synchronized.setMultimap(multimap, null);
   }
@@ -918,7 +918,7 @@ public final class Multimaps {
    * @param delegate the multimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> unmodifiableSetMultimap(SetMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableSetMultimap || delegate instanceof ImmutableSetMultimap) {
       return delegate;
@@ -949,7 +949,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SortedSetMultimap<K, V> synchronizedSortedSetMultimap(SortedSetMultimap<K, V> multimap) {
     return Synchronized.sortedSetMultimap(multimap, null);
   }
@@ -965,7 +965,7 @@ public final class Multimaps {
    * @param delegate the multimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SortedSetMultimap<K, V> unmodifiableSortedSetMultimap(SortedSetMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableSortedSetMultimap) {
       return delegate;
@@ -981,7 +981,7 @@ public final class Multimaps {
    * @param multimap the multimap to be wrapped
    * @return a synchronized view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       ListMultimap<K, V> synchronizedListMultimap(ListMultimap<K, V> multimap) {
     return Synchronized.listMultimap(multimap, null);
   }
@@ -997,7 +997,7 @@ public final class Multimaps {
    * @param delegate the multimap for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified multimap
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       ListMultimap<K, V> unmodifiableListMultimap(ListMultimap<K, V> delegate) {
     if (delegate instanceof UnmodifiableListMultimap || delegate instanceof ImmutableListMultimap) {
       return delegate;
@@ -1025,7 +1025,7 @@ public final class Multimaps {
    * @param collection the collection for which to return an unmodifiable view
    * @return an unmodifiable view of the collection
    */
-  private static <V extends @Nullable Object> Collection<V> unmodifiableValueCollection(
+  private static <V> Collection<V> unmodifiableValueCollection(
       Collection<V> collection) {
     if (collection instanceof SortedSet) {
       return Collections.unmodifiableSortedSet((SortedSet<V>) collection);
@@ -1045,7 +1045,7 @@ public final class Multimaps {
    * @param entries the entries for which to return an unmodifiable view
    * @return an unmodifiable view of the entries
    */
-  private static <K extends @Nullable Object, V extends @Nullable Object>
+  private static <K, V>
       Collection<Entry<K, V>> unmodifiableEntries(Collection<Entry<K, V>> entries) {
     if (entries instanceof Set) {
       return Maps.unmodifiableEntrySet((Set<Entry<K, V>>) entries);
@@ -1062,7 +1062,7 @@ public final class Multimaps {
   @Beta
   @SuppressWarnings("unchecked")
   // safe by specification of ListMultimap.asMap()
-  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, List<V>> asMap(
+  public static <K, V> Map<K, List<V>> asMap(
       ListMultimap<K, V> multimap) {
     return (Map<K, List<V>>) (Map<K, ?>) multimap.asMap();
   }
@@ -1076,7 +1076,7 @@ public final class Multimaps {
   @Beta
   @SuppressWarnings("unchecked")
   // safe by specification of SetMultimap.asMap()
-  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, Set<V>> asMap(
+  public static <K, V> Map<K, Set<V>> asMap(
       SetMultimap<K, V> multimap) {
     return (Map<K, Set<V>>) (Map<K, ?>) multimap.asMap();
   }
@@ -1090,7 +1090,7 @@ public final class Multimaps {
   @Beta
   @SuppressWarnings("unchecked")
   // safe by specification of SortedSetMultimap.asMap()
-  public static <K extends @Nullable Object, V extends @Nullable Object> Map<K, SortedSet<V>> asMap(
+  public static <K, V> Map<K, SortedSet<V>> asMap(
       SortedSetMultimap<K, V> multimap) {
     return (Map<K, SortedSet<V>>) (Map<K, ?>) multimap.asMap();
   }
@@ -1102,7 +1102,7 @@ public final class Multimaps {
    * @since 15.0
    */
   @Beta
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       Map<K, Collection<V>> asMap(Multimap<K, V> multimap) {
     return multimap.asMap();
   }
@@ -1122,13 +1122,13 @@ public final class Multimaps {
    *
    * @param map the backing map for the returned multimap view
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object> SetMultimap<K, V> forMap(
+  public static <K, V> SetMultimap<K, V> forMap(
       Map<K, V> map) {
     return new MapMultimap<>(map);
   }
 
   /** @see Multimaps#forMap */
-  private static class MapMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class MapMultimap<K, V>
       extends AbstractMultimap<K, V> implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
 
@@ -1280,7 +1280,7 @@ public final class Multimaps {
   }
 
   @SuppressWarnings("nullness")
-  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V oldValue) {
+  private static <V> V uncheckedCastNullableVToV(@Nullable V oldValue) {
     /*
      * We can't use requireNonNull because `oldValue` might be null. Specifically, it can be null
      * because the map might contain a null value to be returned to the user. This is in contrast to
@@ -1332,7 +1332,7 @@ public final class Multimaps {
    * @since 7.0
    */
   public static <
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       Multimap<K, V2> transformValues(
           Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -1381,7 +1381,7 @@ public final class Multimaps {
    * @since 7.0
    */
   public static <
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       ListMultimap<K, V2> transformValues(
           ListMultimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -1441,7 +1441,7 @@ public final class Multimaps {
    * @since 7.0
    */
   public static <
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       Multimap<K, V2> transformEntries(
           Multimap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<>(fromMap, transformer);
@@ -1496,14 +1496,14 @@ public final class Multimaps {
    * @since 7.0
    */
   public static <
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       ListMultimap<K, V2> transformEntries(
           ListMultimap<K, V1> fromMap, EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesListMultimap<>(fromMap, transformer);
   }
 
   private static class TransformedEntriesMultimap<
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       extends AbstractMultimap<K, V2> {
     final Multimap<K, V1> fromMultimap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
@@ -1622,7 +1622,7 @@ public final class Multimaps {
   }
 
   private static final class TransformedEntriesListMultimap<
-          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
+          K, V1, V2>
       extends TransformedEntriesMultimap<K, V1, V2> implements ListMultimap<K, V2> {
 
     TransformedEntriesListMultimap(
@@ -1740,7 +1740,7 @@ public final class Multimaps {
     return builder.build();
   }
 
-  static class Keys<K extends @Nullable Object, V extends @Nullable Object>
+  static class Keys<K, V>
       extends AbstractMultiset<K> {
     @Weak final Multimap<K, V> multimap;
 
@@ -1849,7 +1849,7 @@ public final class Multimaps {
   }
 
   /** A skeleton implementation of {@link Multimap#entries()}. */
-  abstract static class Entries<K extends @Nullable Object, V extends @Nullable Object>
+  abstract static class Entries<K, V>
       extends AbstractCollection<Map.Entry<K, V>> {
     abstract Multimap<K, V> multimap();
 
@@ -1861,8 +1861,8 @@ public final class Multimaps {
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
-        Map.Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Map.Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+        Map.Entry<?, ?> entry =
+            (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
       }
       return false;
@@ -1871,8 +1871,8 @@ public final class Multimaps {
     @Override
     public boolean remove(@Nullable Object o) {
       if (o instanceof Map.Entry) {
-        Map.Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            (Map.Entry<? extends @Nullable Object, ? extends @Nullable Object>) o;
+        Map.Entry<?, ?> entry =
+            (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
       }
       return false;
@@ -1885,7 +1885,7 @@ public final class Multimaps {
   }
 
   /** A skeleton implementation of {@link Multimap#asMap()}. */
-  static final class AsMap<K extends @Nullable Object, V extends @Nullable Object>
+  static final class AsMap<K, V>
       extends Maps.ViewCachingAbstractMap<K, Collection<V>> {
     @Weak private final Multimap<K, V> multimap;
 
@@ -1932,8 +1932,8 @@ public final class Multimaps {
           return false;
         }
         // requireNonNull is safe because of the contains check.
-        Map.Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            requireNonNull((Map.Entry<? extends @Nullable Object, ? extends @Nullable Object>) o);
+        Map.Entry<?, ?> entry =
+            requireNonNull((Map.Entry<?, ?>) o);
         // Again, requireNonNull is safe because of the contains check :)
         removeValuesForKey(requireNonNull(entry.getKey()));
         return true;
@@ -1999,7 +1999,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object> Multimap<K, V> filterKeys(
+  public static <K, V> Multimap<K, V> filterKeys(
       Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SetMultimap) {
       return filterKeys((SetMultimap<K, V>) unfiltered, keyPredicate);
@@ -2044,7 +2044,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> filterKeys(
           SetMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeySetMultimap) {
@@ -2086,7 +2086,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       ListMultimap<K, V> filterKeys(
           ListMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof FilteredKeyListMultimap) {
@@ -2125,7 +2125,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       Multimap<K, V> filterValues(
           Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2158,7 +2158,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> filterValues(
           SetMultimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Maps.<V>valuePredicateOnEntries(valuePredicate));
@@ -2189,7 +2189,7 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       Multimap<K, V> filterEntries(
           Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -2226,7 +2226,7 @@ public final class Multimaps {
    *
    * @since 14.0
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object>
+  public static <K, V>
       SetMultimap<K, V> filterEntries(
           SetMultimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
@@ -2241,7 +2241,7 @@ public final class Multimaps {
    * lead to a multimap whose removal operations would fail. This method combines the predicates to
    * avoid that problem.
    */
-  private static <K extends @Nullable Object, V extends @Nullable Object>
+  private static <K, V>
       Multimap<K, V> filterFiltered(
           FilteredMultimap<K, V> multimap, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate =
@@ -2255,7 +2255,7 @@ public final class Multimaps {
    * lead to a multimap whose removal operations would fail. This method combines the predicates to
    * avoid that problem.
    */
-  private static <K extends @Nullable Object, V extends @Nullable Object>
+  private static <K, V>
       SetMultimap<K, V> filterFiltered(
           FilteredSetMultimap<K, V> multimap, Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate =
@@ -2264,14 +2264,14 @@ public final class Multimaps {
   }
 
   static boolean equalsImpl(
-      Multimap<? extends @Nullable Object, ? extends @Nullable Object> multimap,
+      Multimap<?, ?> multimap,
       @Nullable Object object) {
     if (object == multimap) {
       return true;
     }
     if (object instanceof Multimap) {
-      Multimap<? extends @Nullable Object, ? extends @Nullable Object> that =
-          (Multimap<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      Multimap<?, ?> that =
+          (Multimap<?, ?>) object;
       return multimap.asMap().equals(that.asMap());
     }
     return false;

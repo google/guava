@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface MapDifference<K extends @Nullable Object, V extends @Nullable Object> {
+public interface MapDifference<K, V> {
   /**
    * Returns {@code true} if there are no differences between the two maps; that is, if the maps are
    * equal.
@@ -84,7 +84,7 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
    *
    * @since 2.0
    */
-  interface ValueDifference<V extends @Nullable Object> {
+  interface ValueDifference<V> {
     /** Returns the value from the left map (possibly null). */
     V leftValue();
 

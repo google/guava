@@ -57,7 +57,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V extends @NonNull Objec
    * @since 23.1
    */
   public static <
-          T extends @Nullable Object, K extends Comparable<? super K>, V extends @NonNull Object>
+          T, K extends Comparable<? super K>, V extends @NonNull Object>
       Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
           Function<? super T, Range<K>> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

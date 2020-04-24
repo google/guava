@@ -48,7 +48,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMultiset<E extends @Nullable Object> extends ForwardingCollection<E>
+public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
     implements Multiset<E> {
 
   /** Constructor for use by subclasses. */
@@ -191,7 +191,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    * @since 7.0
    */
   @Override
-  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> elementsToRemove) {
+  protected boolean standardRemoveAll(Collection<?> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
@@ -203,7 +203,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
    * @since 7.0
    */
   @Override
-  protected boolean standardRetainAll(Collection<? extends @Nullable Object> elementsToRetain) {
+  protected boolean standardRetainAll(Collection<?> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
 

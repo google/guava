@@ -141,11 +141,13 @@ public final class MutableClassToInstanceMap<B extends @NonNull Object>
     }
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       return standardToArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] array) {
       return standardToArray(array);
     }

@@ -340,6 +340,7 @@ public final class Booleans {
    *     to primitives
    * @throws NullPointerException if {@code collection} or any of its elements is null
    */
+@SuppressWarnings("nullness")
   public static boolean[] toArray(Collection<Boolean> collection) {
     if (collection instanceof BooleanArrayAsList) {
       return ((BooleanArrayAsList) collection).toBooleanArray();

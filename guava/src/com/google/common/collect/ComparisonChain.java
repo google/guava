@@ -74,7 +74,7 @@ public abstract class ComparisonChain {
         }
 
         @Override
-        public <T extends @Nullable Object> ComparisonChain compare(
+        public <T> ComparisonChain compare(
             T left, T right, Comparator<T> comparator) {
           return classify(comparator.compare(left, right));
         }
@@ -136,7 +136,7 @@ public abstract class ComparisonChain {
     }
 
     @Override
-    public <T extends @Nullable Object> ComparisonChain compare(
+    public <T> ComparisonChain compare(
         T left, T right, Comparator<T> comparator) {
       return this;
     }
@@ -187,7 +187,7 @@ public abstract class ComparisonChain {
    * Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
    * already been determined.
    */
-  public abstract <T extends @Nullable Object> ComparisonChain compare(
+  public abstract <T> ComparisonChain compare(
       T left, T right, Comparator<T> comparator);
 
   /**

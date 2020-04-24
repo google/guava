@@ -47,7 +47,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @Nullable Object>
+public abstract class ForwardingMapEntry<K, V>
     extends ForwardingObject implements Map.Entry<K, V> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -91,8 +91,8 @@ public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @
    */
   protected boolean standardEquals(@Nullable Object object) {
     if (object instanceof Entry) {
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> that =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      Entry<?, ?> that =
+          (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
           && Objects.equal(this.getValue(), that.getValue());
     }

@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-interface FilteredMultimap<K extends @Nullable Object, V extends @Nullable Object>
+interface FilteredMultimap<K, V>
     extends Multimap<K, V> {
   Multimap<K, V> unfiltered();
 

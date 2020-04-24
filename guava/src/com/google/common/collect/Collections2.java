@@ -85,7 +85,7 @@ public final class Collections2 {
    */
   // TODO(kevinb): how can we omit that Iterables link when building gwt
   // javadoc?
-  public static <E extends @Nullable Object> Collection<E> filter(
+  public static <E> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
@@ -101,7 +101,7 @@ public final class Collections2 {
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
   static boolean safeContains(
-      Collection<? extends @Nullable Object> collection, @Nullable Object object) {
+      Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.contains(object);
@@ -115,7 +115,7 @@ public final class Collections2 {
    * throws a {@code ClassCastException} or {@code NullPointerException}.
    */
   static boolean safeRemove(
-      Collection<? extends @Nullable Object> collection, @Nullable Object object) {
+      Collection<?> collection, @Nullable Object object) {
     checkNotNull(collection);
     try {
       return collection.remove(object);
@@ -124,7 +124,7 @@ public final class Collections2 {
     }
   }
 
-  static class FilteredCollection<E extends @Nullable Object> extends AbstractCollection<E> {
+  static class FilteredCollection<E> extends AbstractCollection<E> {
     final Collection<E> unfiltered;
     final Predicate<? super E> predicate;
 
@@ -168,7 +168,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean containsAll(Collection<? extends @Nullable Object> collection) {
+    public boolean containsAll(Collection<?> collection) {
       return containsAllImpl(this, collection);
     }
 
@@ -204,12 +204,12 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean removeAll(final Collection<? extends @Nullable Object> collection) {
+    public boolean removeAll(final Collection<?> collection) {
       return removeIf(collection::contains);
     }
 
     @Override
-    public boolean retainAll(final Collection<? extends @Nullable Object> collection) {
+    public boolean retainAll(final Collection<?> collection) {
       return removeIf(element -> !collection.contains(element));
     }
 
@@ -231,12 +231,14 @@ public final class Collections2 {
     }
 
     @Override
+@SuppressWarnings("nullness")
     public Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return Lists.newArrayList(iterator()).toArray();
     }
 
     @Override
+@SuppressWarnings("nullness")
     public <T> T[] toArray(T[] array) {
       return Lists.newArrayList(iterator()).toArray(array);
     }
@@ -261,12 +263,12 @@ public final class Collections2 {
    *
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#map Stream.map}.
    */
-  public static <F extends @Nullable Object, T extends @Nullable Object> Collection<T> transform(
+  public static <F, T> Collection<T> transform(
       Collection<F> fromCollection, Function<? super F, T> function) {
     return new TransformedCollection<>(fromCollection, function);
   }
 
-  static class TransformedCollection<F extends @Nullable Object, T extends @Nullable Object>
+  static class TransformedCollection<F, T>
       extends AbstractCollection<T> {
     final Collection<F> fromCollection;
     final Function<? super F, ? extends T> function;
@@ -326,7 +328,7 @@ public final class Collections2 {
    * @param c a collection whose elements might be contained by {@code self}
    */
   static boolean containsAllImpl(
-      Collection<? extends @Nullable Object> self, Collection<? extends @Nullable Object> c) {
+      Collection<?> self, Collection<?> c) {
     for (Object o : c) {
       if (!self.contains(o)) {
         return false;
@@ -336,7 +338,7 @@ public final class Collections2 {
   }
 
   /** An implementation of {@link Collection#toString()}. */
-  static String toStringImpl(final Collection<? extends @Nullable Object> collection) {
+  static String toStringImpl(final Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
     boolean first = true;
     for (Object o : collection) {
@@ -360,7 +362,7 @@ public final class Collections2 {
   }
 
   /** Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557 */
-  static <T extends @Nullable Object> Collection<T> cast(Iterable<T> iterable) {
+  static <T> Collection<T> cast(Iterable<T> iterable) {
     return (Collection<T>) iterable;
   }
 
@@ -504,7 +506,7 @@ public final class Collections2 {
     @Override
     public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
-        List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) obj;
+        List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
       }
       return false;
@@ -633,7 +635,7 @@ public final class Collections2 {
     @Override
     public boolean contains(@Nullable Object obj) {
       if (obj instanceof List) {
-        List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) obj;
+        List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
       }
       return false;
@@ -711,12 +713,12 @@ public final class Collections2 {
 
   /** Returns {@code true} if the second list is a permutation of the first. */
   private static boolean isPermutation(
-      List<? extends @Nullable Object> first, List<? extends @Nullable Object> second) {
+      List<?> first, List<?> second) {
     if (first.size() != second.size()) {
       return false;
     }
-    Multiset<? extends @Nullable Object> firstMultiset = HashMultiset.create(first);
-    Multiset<? extends @Nullable Object> secondMultiset = HashMultiset.create(second);
+    Multiset<?> firstMultiset = HashMultiset.create(first);
+    Multiset<?> secondMultiset = HashMultiset.create(second);
     return firstMultiset.equals(secondMultiset);
   }
 }

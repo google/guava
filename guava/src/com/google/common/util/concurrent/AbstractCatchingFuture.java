@@ -31,10 +31,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Implementations of {@code Futures.catching*}. */
 @GwtCompatible
 abstract class AbstractCatchingFuture<
-        V extends @Nullable Object,
+        V,
         X extends Throwable,
         F extends @NonNull Object,
-        T extends @Nullable Object>
+        T>
     extends FluentFuture.TrustedFuture<V> implements Runnable {
   static <V, X extends Throwable> ListenableFuture<V> create(
       ListenableFuture<? extends V> input,
@@ -77,9 +77,9 @@ abstract class AbstractCatchingFuture<
     Class<X> localExceptionType = exceptionType;
     F localFallback = fallback;
     if (localInputFuture == null
-        | localExceptionType == null
-        | localFallback == null
-        | isCancelled()) {
+        || localExceptionType == null
+        || localFallback == null
+        || isCancelled()) {
       return;
     }
     inputFuture = null;
@@ -170,7 +170,7 @@ abstract class AbstractCatchingFuture<
    * An {@link AbstractCatchingFuture} that delegates to an {@link AsyncFunction} and {@link
    * #setFuture(ListenableFuture)}.
    */
-  private static final class AsyncCatchingFuture<V extends @Nullable Object, X extends Throwable>
+  private static final class AsyncCatchingFuture<V, X extends Throwable>
       extends AbstractCatchingFuture<
           V, X, AsyncFunction<? super X, ? extends V>, ListenableFuture<? extends V>> {
     AsyncCatchingFuture(
@@ -202,7 +202,7 @@ abstract class AbstractCatchingFuture<
    * An {@link AbstractCatchingFuture} that delegates to a {@link Function} and {@link
    * #set(Object)}.
    */
-  private static final class CatchingFuture<V extends @Nullable Object, X extends Throwable>
+  private static final class CatchingFuture<V, X extends Throwable>
       extends AbstractCatchingFuture<V, X, Function<? super X, ? extends V>, V> {
     CatchingFuture(
         ListenableFuture<? extends V> input,
@@ -223,7 +223,7 @@ abstract class AbstractCatchingFuture<
   }
 
   @SuppressWarnings("nullness")
-  private static <V extends @Nullable Object> V uncheckedCastNullableVToV(@Nullable V result) {
+  private static <V> V uncheckedCastNullableVToV(@Nullable V result) {
     /*
      * We can't use requireNonNull because `result` might be null. Specifically, it can be null
      * because the future might produce a null value to be returned to the user. This is in contrast

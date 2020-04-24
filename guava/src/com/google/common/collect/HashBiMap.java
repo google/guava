@@ -56,11 +56,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(emulated = true)
-public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Object>
+public final class HashBiMap<K, V>
     extends IteratorBasedAbstractMap<K, V> implements BiMap<K, V>, Serializable {
 
   /** Returns a new, empty {@code HashBiMap} with the default initial capacity (16). */
-  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create() {
+  public static <K, V> HashBiMap<K, V> create() {
     return create(16);
   }
 
@@ -70,7 +70,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * @param expectedSize the expected number of entries
    * @throws IllegalArgumentException if the specified expected size is negative
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create(
+  public static <K, V> HashBiMap<K, V> create(
       int expectedSize) {
     return new HashBiMap<>(expectedSize);
   }
@@ -79,14 +79,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * Constructs a new bimap containing initial values from {@code map}. The bimap is created with an
    * initial capacity sufficient to hold the mappings in the specified map.
    */
-  public static <K extends @Nullable Object, V extends @Nullable Object> HashBiMap<K, V> create(
+  public static <K, V> HashBiMap<K, V> create(
       Map<? extends K, ? extends V> map) {
     HashBiMap<K, V> bimap = create(map.size());
     bimap.putAll(map);
     return bimap;
   }
 
-  private static final class BiEntry<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class BiEntry<K, V>
       extends ImmutableEntry<K, V> {
     final int keyHash;
     final int valueHash;
@@ -420,7 +420,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return size;
   }
 
-  abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
+  abstract class Itr<T> implements Iterator<T> {
     @Nullable BiEntry<K, V> next = firstInKeyInsertionOrder;
     @Nullable BiEntry<K, V> toRemove = null;
     int expectedModCount = modCount;
@@ -744,7 +744,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private static final class InverseSerializedForm<
-          K extends @Nullable Object, V extends @Nullable Object>
+          K, V>
       implements Serializable {
     private final HashBiMap<K, V> bimap;
 

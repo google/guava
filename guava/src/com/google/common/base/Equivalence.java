@@ -189,7 +189,7 @@ public abstract class Equivalence<T extends @NonNull Object>
    *
    * @since 10.0
    */
-  public static final class Wrapper<T extends @Nullable Object> implements Serializable {
+  public static final class Wrapper<T> implements Serializable {
     /*
      * The right type for this is something like Equivalence<? super
      * T-but-projected-to-not-be-nullable>. But it's not clear that we'll support that. The simplest
@@ -225,8 +225,8 @@ public abstract class Equivalence<T extends @NonNull Object>
         return true;
       }
       if (obj instanceof Wrapper) {
-        Wrapper<? extends @Nullable Object> that =
-            (Wrapper<? extends @Nullable Object>) obj; // note: not necessarily a Wrapper<T>
+        Wrapper<?> that =
+            (Wrapper<?>) obj; // note: not necessarily a Wrapper<T>
 
         if (this.equivalence.equals(that.equivalence)) {
           /*

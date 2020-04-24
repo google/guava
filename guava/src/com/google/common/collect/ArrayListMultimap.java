@@ -60,7 +60,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public final class ArrayListMultimap<K, V>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
@@ -119,7 +119,7 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
     this(
         multimap.keySet().size(),
         (multimap instanceof ArrayListMultimap)
-            ? ((ArrayListMultimap<? extends @Nullable Object, ? extends @Nullable Object>) multimap)
+            ? ((ArrayListMultimap<?, ?>) multimap)
                 .expectedValuesPerKey
             : DEFAULT_VALUES_PER_KEY);
     putAll(multimap);

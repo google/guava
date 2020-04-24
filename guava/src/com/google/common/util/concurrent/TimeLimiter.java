@@ -146,7 +146,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T extends @Nullable Object> T callWithTimeout(
+  <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
 
@@ -167,7 +167,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T extends @Nullable Object> T callWithTimeout(Callable<T> callable, Duration timeout)
+  default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
       throws TimeoutException, InterruptedException, ExecutionException {
     return callWithTimeout(callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }
@@ -193,7 +193,7 @@ public interface TimeLimiter {
    */
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
-  <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+  <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
 
@@ -216,7 +216,7 @@ public interface TimeLimiter {
    * @since 28.0
    */
   @CanIgnoreReturnValue
-  default <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+  default <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, Duration timeout) throws TimeoutException, ExecutionException {
     return callUninterruptiblyWithTimeout(
         callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);

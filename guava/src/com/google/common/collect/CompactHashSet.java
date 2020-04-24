@@ -70,11 +70,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 @SuppressWarnings("nullness") // too much effort for the payoff
-class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implements Serializable {
+class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   // TODO(user): cache all field accesses in local vars
 
   /** Creates an empty {@code CompactHashSet} instance. */
-  public static <E extends @Nullable Object> CompactHashSet<E> create() {
+  public static <E> CompactHashSet<E> create() {
     return new CompactHashSet<>();
   }
 
@@ -85,7 +85,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    * @param collection the elements that the set should contain
    * @return a new {@code CompactHashSet} containing those elements (minus duplicates)
    */
-  public static <E extends @Nullable Object> CompactHashSet<E> create(
+  public static <E> CompactHashSet<E> create(
       Collection<? extends E> collection) {
     CompactHashSet<E> set = createWithExpectedSize(collection.size());
     set.addAll(collection);
@@ -99,7 +99,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    * @param elements the elements that the set should contain
    * @return a new {@code CompactHashSet} containing those elements (minus duplicates)
    */
-  public static <E extends @Nullable Object> CompactHashSet<E> create(E... elements) {
+  public static <E> CompactHashSet<E> create(E... elements) {
     CompactHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
@@ -114,7 +114,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
    *     elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
-  public static <E extends @Nullable Object> CompactHashSet<E> createWithExpectedSize(
+  public static <E> CompactHashSet<E> createWithExpectedSize(
       int expectedSize) {
     return new CompactHashSet<>(expectedSize);
   }
@@ -512,6 +512,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @Override
+@SuppressWarnings("nullness")
   public Object[] toArray() {
     if (needsAllocArrays()) {
       return new Object[0];
@@ -521,6 +522,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @CanIgnoreReturnValue
   @Override
+@SuppressWarnings("nullness")
   public <T> T[] toArray(T[] a) {
     if (needsAllocArrays()) {
       if (a.length > 0) {

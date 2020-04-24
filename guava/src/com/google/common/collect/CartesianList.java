@@ -73,11 +73,11 @@ final class CartesianList<E extends @NonNull Object> extends AbstractList<List<E
     if (!(o instanceof List)) {
       return -1;
     }
-    List<? extends @Nullable Object> list = (List<? extends @Nullable Object>) o;
+    List<?> list = (List<?>) o;
     if (list.size() != axes.size()) {
       return -1;
     }
-    ListIterator<? extends @Nullable Object> itr = list.listIterator();
+    ListIterator<?> itr = list.listIterator();
     int computedIndex = 0;
     while (itr.hasNext()) {
       int axisIndex = itr.nextIndex();

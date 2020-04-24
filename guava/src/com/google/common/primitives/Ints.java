@@ -519,6 +519,7 @@ public final class Ints {
    * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Integer>} before 12.0)
    */
+@SuppressWarnings("nullness")
   public static int[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof IntArrayAsList) {
       return ((IntArrayAsList) collection).toIntArray();

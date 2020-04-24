@@ -92,8 +92,8 @@ abstract class ImmutableMapEntrySet<K extends @NonNull Object, V extends @NonNul
   @Override
   public boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
-      Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-          (Entry<? extends @Nullable Object, ? extends @Nullable Object>) object;
+      Entry<?, ?> entry =
+          (Entry<?, ?>) object;
       V value = map().get(entry.getKey());
       return value != null && value.equals(entry.getValue());
     }

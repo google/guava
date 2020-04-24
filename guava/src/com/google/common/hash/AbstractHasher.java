@@ -115,7 +115,7 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override
-  public <T extends @Nullable Object> Hasher putObject(T instance, Funnel<? super T> funnel) {
+  public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
     funnel.funnel(instance, this);
     return this;
   }

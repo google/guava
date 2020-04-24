@@ -40,7 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface ListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public interface ListMultimap<K, V>
     extends Multimap<K, V> {
   /**
    * {@inheritDoc}

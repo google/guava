@@ -231,7 +231,7 @@ public final class Uninterruptibles {
    * @throws CancellationException if the computation was cancelled
    */
   @CanIgnoreReturnValue
-  public static <V extends @Nullable Object> V getUninterruptibly(Future<V> future)
+  public static <V> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
     boolean interrupted = false;
     try {
@@ -271,7 +271,7 @@ public final class Uninterruptibles {
   @CanIgnoreReturnValue
   @GwtIncompatible // java.time.Duration
   @Beta
-  public static <V extends @Nullable Object> V getUninterruptibly(
+  public static <V> V getUninterruptibly(
       Future<V> future, Duration timeout) throws ExecutionException, TimeoutException {
     return getUninterruptibly(future, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
   }
@@ -297,7 +297,7 @@ public final class Uninterruptibles {
   @CanIgnoreReturnValue
   @GwtIncompatible // TODO
   @SuppressWarnings("GoodTime") // should accept a java.time.Duration
-  public static <V extends @Nullable Object> V getUninterruptibly(
+  public static <V> V getUninterruptibly(
       Future<V> future, long timeout, TimeUnit unit) throws ExecutionException, TimeoutException {
     boolean interrupted = false;
     try {

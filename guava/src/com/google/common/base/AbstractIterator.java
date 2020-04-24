@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * reasons).
  */
 @GwtCompatible
-abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
+abstract class AbstractIterator<T> implements Iterator<T> {
   private State state = State.NOT_READY;
 
   protected AbstractIterator() {}
@@ -51,7 +51,7 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @SuppressWarnings("nullness")
-  private static <T extends @Nullable Object> T unsafeNull() {
+  private static <T> T unsafeNull() {
     return null;
   }
 
@@ -96,7 +96,7 @@ abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<
   }
 
   @SuppressWarnings("nullness")
-  private static <T extends @Nullable Object> T uncheckedCastNullableTToT(@Nullable T next) {
+  private static <T> T uncheckedCastNullableTToT(@Nullable T next) {
     /*
      * We can't use requireNonNull because `next` might be null. Specifically, it can be null
      * because the iterator might contain a null element to be returned to the user. This is in

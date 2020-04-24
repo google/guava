@@ -30,15 +30,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * performance reasons.
  */
 @GwtCompatible
-class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFuture.TrustedFuture<V>
+class TrustedListenableFutureTask<V> extends FluentFuture.TrustedFuture<V>
     implements RunnableFuture<V> {
 
-  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+  static <V> TrustedListenableFutureTask<V> create(
       AsyncCallable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
-  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(Callable<V> callable) {
+  static <V> TrustedListenableFutureTask<V> create(Callable<V> callable) {
     return new TrustedListenableFutureTask<V>(callable);
   }
 
@@ -51,7 +51,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    *     result, consider using constructions of the form: {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
    */
-  static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
+  static <V> TrustedListenableFutureTask<V> create(
       Runnable runnable, V result) {
     return new TrustedListenableFutureTask<V>(Executors.callable(runnable, result));
   }

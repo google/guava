@@ -57,7 +57,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 12.0
  */
 @GwtIncompatible
-public abstract class ForwardingNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+public abstract class ForwardingNavigableMap<K, V>
     extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
   /** Constructor for use by subclasses. */

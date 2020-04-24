@@ -178,7 +178,7 @@ public final class ArrayTable<
     }
   }
 
-  private abstract static class ArrayMap<K extends @NonNull Object, V extends @Nullable Object>
+  private abstract static class ArrayMap<K extends @NonNull Object, V>
       extends IteratorBasedAbstractMap<K, V> {
     private final ImmutableMap<K, Integer> keyIndex;
 
@@ -352,6 +352,7 @@ public final class ArrayTable<
    * @param valueClass class of values stored in the returned array
    */
   @GwtIncompatible // reflection
+@SuppressWarnings("nullness")
   public @Nullable V[][] toArray(Class<V> valueClass) {
     @SuppressWarnings("unchecked") // TODO: safe?
     @Nullable

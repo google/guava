@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
+abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
   @GwtTransient final Comparator<? super E> comparator;
 

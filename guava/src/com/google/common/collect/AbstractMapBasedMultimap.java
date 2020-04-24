@@ -84,7 +84,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @Nullable Object>
+abstract class AbstractMapBasedMultimap<K, V>
     extends AbstractMultimap<K, V> implements Serializable {
   /*
    * Here's an outline of the overall design.
@@ -261,7 +261,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     return unmodifiableCollectionSubclass(output);
   }
 
-  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+  <E> Collection<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     return Collections.unmodifiableCollection(collection);
   }
@@ -522,7 +522,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean containsAll(Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<?> c) {
       refreshIfEmpty();
       return delegate.containsAll(c);
     }
@@ -550,7 +550,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<?> c) {
       if (c.isEmpty()) {
         return false;
       }
@@ -565,7 +565,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean retainAll(Collection<? extends @Nullable Object> c) {
+    public boolean retainAll(Collection<?> c) {
       checkNotNull(c);
       int oldSize = size(); // calls refreshIfEmpty
       boolean changed = delegate.retainAll(c);
@@ -578,7 +578,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  private static <E extends @Nullable Object> Iterator<E> iteratorOrListIterator(
+  private static <E> Iterator<E> iteratorOrListIterator(
       Collection<E> collection) {
     return (collection instanceof List)
         ? ((List<E>) collection).listIterator()
@@ -593,7 +593,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean removeAll(Collection<? extends @Nullable Object> c) {
+    public boolean removeAll(Collection<?> c) {
       if (c.isEmpty()) {
         return false;
       }
@@ -970,7 +970,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    public boolean containsAll(Collection<? extends @Nullable Object> c) {
+    public boolean containsAll(Collection<?> c) {
       return map().keySet().containsAll(c);
     }
 
@@ -1122,7 +1122,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
+  private abstract class Itr<T> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
     @Nullable K key;
     @Nullable Collection<V> collection;
@@ -1169,7 +1169,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @SuppressWarnings("nullness")
-  private static <K extends @Nullable Object> K uncheckedCastNullableKToK(@Nullable K key) {
+  private static <K> K uncheckedCastNullableKToK(@Nullable K key) {
     /*
      * We can't use requireNonNull because `key` might be null. Specifically, it can be null because
      * the multimap might contain a null key to be returned to the user. This is in contrast to the
@@ -1417,8 +1417,8 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
           return false;
         }
         // requireNonNull is safe because of the contains check.
-        Entry<? extends @Nullable Object, ? extends @Nullable Object> entry =
-            requireNonNull((Entry<? extends @Nullable Object, ? extends @Nullable Object>) o);
+        Entry<?, ?> entry =
+            requireNonNull((Entry<?, ?>) o);
         removeValuesForKey(entry.getKey());
         return true;
       }

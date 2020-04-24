@@ -73,14 +73,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public abstract class FluentFuture<V extends @Nullable Object>
+public abstract class FluentFuture<V>
     extends GwtFluentFutureCatchingSpecialization<V> {
 
   /**
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-  abstract static class TrustedFuture<V extends @Nullable Object> extends FluentFuture<V>
+  abstract static class TrustedFuture<V> extends FluentFuture<V>
       implements AbstractFuture.Trusted<V> {
     @CanIgnoreReturnValue
     @Override
@@ -126,7 +126,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * directly. If not, it is wrapped in a {@code FluentFuture} that delegates all calls to the
    * original {@code ListenableFuture}.
    */
-  public static <V extends @Nullable Object> FluentFuture<V> from(ListenableFuture<V> future) {
+  public static <V> FluentFuture<V> from(ListenableFuture<V> future) {
     return future instanceof FluentFuture
         ? (FluentFuture<V>) future
         : new ForwardingFluentFuture<V>(future);
@@ -139,7 +139,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @since 28.0
    */
   @Deprecated
-  public static <V extends @Nullable Object> FluentFuture<V> from(FluentFuture<V> future) {
+  public static <V> FluentFuture<V> from(FluentFuture<V> future) {
     return checkNotNull(future);
   }
 
@@ -322,7 +322,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @return A future that holds result of the function (if the input succeeded) or the original
    *     input's failure (if not)
    */
-  public final <T extends @Nullable Object> FluentFuture<T> transformAsync(
+  public final <T> FluentFuture<T> transformAsync(
       AsyncFunction<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transformAsync(this, function, executor);
   }
@@ -359,7 +359,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    */
-  public final <T extends @Nullable Object> FluentFuture<T> transform(
+  public final <T> FluentFuture<T> transform(
       Function<? super V, T> function, Executor executor) {
     return (FluentFuture<T>) Futures.transform(this, function, executor);
   }

@@ -35,7 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 public interface RowSortedTable<
-        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+        R, C, V>
     extends Table<R, C, V> {
   /**
    * {@inheritDoc}

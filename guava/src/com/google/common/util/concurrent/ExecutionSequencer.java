@@ -67,7 +67,7 @@ public final class ExecutionSequencer {
    * execute, but if the output future is cancelled before {@link Callable#call()} is invoked,
    * {@link Callable#call()} will not be invoked.
    */
-  public <T extends @Nullable Object> ListenableFuture<T> submit(
+  public <T> ListenableFuture<T> submit(
       final Callable<T> callable, Executor executor) {
     checkNotNull(callable);
     return submitAsync(
@@ -92,7 +92,7 @@ public final class ExecutionSequencer {
    * callable} or a callable that has begun to execute, but if the output future is cancelled before
    * {@link AsyncCallable#call()} is invoked, {@link AsyncCallable#call()} will not be invoked.
    */
-  public <T extends @Nullable Object> ListenableFuture<T> submitAsync(
+  public <T> ListenableFuture<T> submitAsync(
       final AsyncCallable<T> callable, final Executor executor) {
     checkNotNull(callable);
     final AtomicReference<RunningState> runningState = new AtomicReference<>(NOT_RUN);
@@ -128,7 +128,7 @@ public final class ExecutionSequencer {
      * requireNonNull is safe because we initialize ref with a non-null value and always replace it
      * with another non-null value.
      */
-    final ListenableFuture<? extends @Nullable Object> oldFuture =
+    final ListenableFuture<?> oldFuture =
         requireNonNull(ref.getAndSet(newFuture));
 
     // Invoke our task once the previous future completes.

@@ -162,7 +162,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override
-  public boolean containsAll(Collection<? extends @Nullable Object> targets) {
+  public boolean containsAll(Collection<?> targets) {
     return Collections2.containsAllImpl(this, targets);
   }
 

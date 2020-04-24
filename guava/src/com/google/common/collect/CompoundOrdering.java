@@ -24,7 +24,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering that tries several comparators in order. */
 @GwtCompatible(serializable = true)
-final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
+final class CompoundOrdering<T> extends Ordering<T>
     implements Serializable {
   final Comparator<? super T>[] comparators;
 
@@ -53,8 +53,8 @@ final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
       return true;
     }
     if (object instanceof CompoundOrdering) {
-      CompoundOrdering<? extends @Nullable Object> that =
-          (CompoundOrdering<? extends @Nullable Object>) object;
+      CompoundOrdering<?> that =
+          (CompoundOrdering<?>) object;
       return Arrays.equals(this.comparators, that.comparators);
     }
     return false;

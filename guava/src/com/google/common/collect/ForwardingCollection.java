@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class ForwardingCollection<E extends @Nullable Object> extends ForwardingObject
+public abstract class ForwardingCollection<E> extends ForwardingObject
     implements Collection<E> {
   // TODO(lowasser): identify places where thread safety is actually lost
 
@@ -68,7 +68,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean removeAll(Collection<? extends @Nullable Object> collection) {
+  public boolean removeAll(Collection<?> collection) {
     return delegate().removeAll(collection);
   }
 
@@ -95,7 +95,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
   }
 
   @Override
-  public boolean containsAll(Collection<? extends @Nullable Object> collection) {
+  public boolean containsAll(Collection<?> collection) {
     return delegate().containsAll(collection);
   }
 
@@ -107,7 +107,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
 
   @CanIgnoreReturnValue
   @Override
-  public boolean retainAll(Collection<? extends @Nullable Object> collection) {
+  public boolean retainAll(Collection<?> collection) {
     return delegate().retainAll(collection);
   }
 
@@ -117,12 +117,14 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
   }
 
   @Override
+@SuppressWarnings("nullness")
   public Object[] toArray() {
     return delegate().toArray();
   }
 
   @CanIgnoreReturnValue
   @Override
+@SuppressWarnings("nullness")
   public <T> T[] toArray(T[] array) {
     return delegate().toArray(array);
   }
@@ -145,7 +147,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
    *
    * @since 7.0
    */
-  protected boolean standardContainsAll(Collection<? extends @Nullable Object> collection) {
+  protected boolean standardContainsAll(Collection<?> collection) {
     return Collections2.containsAllImpl(this, collection);
   }
 
@@ -184,7 +186,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
    *
    * @since 7.0
    */
-  protected boolean standardRemoveAll(Collection<? extends @Nullable Object> collection) {
+  protected boolean standardRemoveAll(Collection<?> collection) {
     return Iterators.removeAll(iterator(), collection);
   }
 
@@ -195,7 +197,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
    *
    * @since 7.0
    */
-  protected boolean standardRetainAll(Collection<? extends @Nullable Object> collection) {
+  protected boolean standardRetainAll(Collection<?> collection) {
     return Iterators.retainAll(iterator(), collection);
   }
 

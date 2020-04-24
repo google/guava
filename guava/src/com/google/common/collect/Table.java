@@ -54,7 +54,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 public interface Table<
-    R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
+    R, C, V> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
 
   // Accessors
@@ -253,7 +253,7 @@ public interface Table<
    * @since 7.0
    */
   interface Cell<
-      R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object> {
+      R, C, V> {
     /** Returns the row key of this cell. */
     R getRowKey();
 

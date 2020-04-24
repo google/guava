@@ -49,7 +49,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T extends @Nullable Object> T callWithTimeout(
+  public <T> T callWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
@@ -69,7 +69,7 @@ public final class FakeTimeLimiter implements TimeLimiter {
   }
 
   @Override
-  public <T extends @Nullable Object> T callUninterruptiblyWithTimeout(
+  public <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit) throws ExecutionException {
     return callWithTimeout(callable, timeoutDuration, timeoutUnit);
   }

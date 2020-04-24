@@ -53,7 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class TopKSelector<T extends @Nullable Object> {
+final class TopKSelector<T> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,
@@ -72,7 +72,7 @@ final class TopKSelector<T extends @Nullable Object> {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
-  public static <T extends @Nullable Object> TopKSelector<T> least(
+  public static <T> TopKSelector<T> least(
       int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(comparator, k);
   }
@@ -94,7 +94,7 @@ final class TopKSelector<T extends @Nullable Object> {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
-  public static <T extends @Nullable Object> TopKSelector<T> greatest(
+  public static <T> TopKSelector<T> greatest(
       int k, Comparator<? super T> comparator) {
     return new TopKSelector<T>(Ordering.from(comparator).reverse(), k);
   }

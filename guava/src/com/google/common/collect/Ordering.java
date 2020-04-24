@@ -142,7 +142,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public abstract class Ordering<T extends @Nullable Object> implements Comparator<T> {
+public abstract class Ordering<T> implements Comparator<T> {
   // Natural order
 
   /**
@@ -176,7 +176,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *     wraps that comparator
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @Nullable Object> Ordering<T> from(Comparator<T> comparator) {
+  public static <T> Ordering<T> from(Comparator<T> comparator) {
     return (comparator instanceof Ordering)
         ? (Ordering<T>) comparator
         : new ComparatorOrdering<T>(comparator);
@@ -189,7 +189,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    */
   @GwtCompatible(serializable = true)
   @Deprecated
-  public static <T extends @Nullable Object> Ordering<T> from(Ordering<T> ordering) {
+  public static <T> Ordering<T> from(Ordering<T> ordering) {
     return checkNotNull(ordering);
   }
 
@@ -444,11 +444,11 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * can omit the comparator if it is the natural order).
    */
   @GwtCompatible(serializable = true)
-  public <F extends @Nullable Object> Ordering<F> onResultOf(Function<F, ? extends T> function) {
+  public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
     return new ByFunctionOrdering<>(function, this);
   }
 
-  <T2 extends T> Ordering<Entry<T2, ? extends @Nullable Object>> onKeys() {
+  <T2 extends T> Ordering<Entry<T2, ?>> onKeys() {
     return onResultOf(Maps.<T2>keyFunction());
   }
 
@@ -490,7 +490,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @param comparators the comparators to try in order
    */
   @GwtCompatible(serializable = true)
-  public static <T extends @Nullable Object> Ordering<T> compound(
+  public static <T> Ordering<T> compound(
       Iterable<? extends Comparator<? super T>> comparators) {
     return new CompoundOrdering<T>(comparators);
   }

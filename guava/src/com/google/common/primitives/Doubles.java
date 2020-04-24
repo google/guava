@@ -471,6 +471,7 @@ public final class Doubles {
    * @throws NullPointerException if {@code collection} or any of its elements is null
    * @since 1.0 (parameter was {@code Collection<Double>} before 12.0)
    */
+@SuppressWarnings("nullness")
   public static double[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof DoubleArrayAsList) {
       return ((DoubleArrayAsList) collection).toDoubleArray();

@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Collectors utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectCollectors {
-  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -55,7 +55,7 @@ final class CollectCollectors {
     return (Collector<E, ?, ImmutableList<E>>) TO_IMMUTABLE_LIST;
   }
 
-  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableMap<K, V>> toImmutableMap(
           Function<? super T, ? extends K> keyFunction,
           Function<? super T, ? extends V> valueFunction) {
@@ -80,7 +80,7 @@ final class CollectCollectors {
     return (Collector<E, ?, ImmutableSet<E>>) TO_IMMUTABLE_SET;
   }
 
-  static <T extends @Nullable Object, K extends @NonNull Object, V extends @NonNull Object>
+  static <T, K extends @NonNull Object, V extends @NonNull Object>
       Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
           Comparator<? super K> comparator,
           Function<? super T, ? extends K> keyFunction,
@@ -126,7 +126,7 @@ final class CollectCollectors {
   }
 
   @GwtIncompatible
-  static <T extends @Nullable Object, K extends Comparable<? super K>, V extends @NonNull Object>
+  static <T, K extends Comparable<? super K>, V extends @NonNull Object>
       Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
           Function<? super T, Range<K>> keyFunction,
           Function<? super T, ? extends V> valueFunction) {

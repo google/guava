@@ -82,7 +82,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public interface Multiset<E extends @Nullable Object> extends Collection<E> {
+public interface Multiset<E> extends Collection<E> {
   // Query Operations
 
   /**
@@ -265,7 +265,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    *
    * @since 2.0
    */
-  interface Entry<E extends @Nullable Object> {
+  interface Entry<E> {
 
     /**
      * Returns the multiset element corresponding to this entry. Multiple calls to this method
@@ -414,7 +414,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    * @throws NullPointerException if {@code elements} is null
    */
   @Override
-  boolean containsAll(Collection<? extends @Nullable Object> elements);
+  boolean containsAll(Collection<?> elements);
 
   /**
    * {@inheritDoc}
@@ -429,7 +429,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean removeAll(Collection<? extends @Nullable Object> c);
+  boolean removeAll(Collection<?> c);
 
   /**
    * {@inheritDoc}
@@ -446,7 +446,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
    */
   @CanIgnoreReturnValue
   @Override
-  boolean retainAll(Collection<? extends @Nullable Object> c);
+  boolean retainAll(Collection<?> c);
 
   /**
    * {@inheritDoc}

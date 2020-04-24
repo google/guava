@@ -33,7 +33,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 @GwtCompatible
 abstract class AbstractSortedKeySortedSetMultimap<
-        K extends @Nullable Object, V extends @Nullable Object>
+        K, V>
     extends AbstractSortedSetMultimap<K, V> {
 
   AbstractSortedKeySortedSetMultimap(SortedMap<K, Collection<V>> map) {
