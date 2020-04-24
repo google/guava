@@ -24,7 +24,6 @@ import java.util.ServiceConfigurationError;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -57,15 +56,15 @@ final class Platform {
     return String.format(Locale.ROOT, "%.4g", value);
   }
 
-  static boolean stringIsNullOrEmpty(@Nullable String string) {
+  static boolean stringIsNullOrEmpty(String string) {
     return string == null || string.isEmpty();
   }
 
-  static String nullToEmpty(@Nullable String string) {
+  static String nullToEmpty(String string) {
     return (string == null) ? "" : string;
   }
 
-  static String emptyToNull(@Nullable String string) {
+  static String emptyToNull(String string) {
     return stringIsNullOrEmpty(string) ? null : string;
   }
 

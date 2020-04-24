@@ -43,7 +43,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to the {@link Future} interface.
@@ -124,7 +123,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * getters just return the value. This {@code Future} can't be canceled or timed out and its
    * {@code isDone()} method always returns {@code true}.
    */
-  public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
+  public static <V> ListenableFuture<V> immediateFuture(V value) {
     if (value == null) {
       // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
       @SuppressWarnings("unchecked")

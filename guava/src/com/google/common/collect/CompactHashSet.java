@@ -41,7 +41,6 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactHashSet is an implementation of a Set. All optional operations (adding and removing) are
@@ -234,7 +233,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add(@Nullable E object) {
+  public boolean add(E object) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -330,7 +329,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -348,7 +347,7 @@ class CompactHashSet<E> extends AbstractSet<E> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@Nullable Object object) {
+  public boolean remove(Object object) {
     if (needsAllocArrays()) {
       return false;
     }

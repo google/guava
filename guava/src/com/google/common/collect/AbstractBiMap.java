@@ -36,7 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -72,13 +71,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   /** Returns its input, or throws an exception if this is not a valid key. */
   @CanIgnoreReturnValue
-  K checkKey(@Nullable K key) {
+  K checkKey(K key) {
     return key;
   }
 
   /** Returns its input, or throws an exception if this is not a valid value. */
   @CanIgnoreReturnValue
-  V checkValue(@Nullable V value) {
+  V checkValue(V value) {
     return value;
   }
 
@@ -107,7 +106,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   // Query Operations (optimizations)
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     return inverse.containsKey(value);
   }
 
@@ -115,17 +114,17 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V put(@Nullable K key, @Nullable V value) {
+  public V put(K key, V value) {
     return putInBothMaps(key, value, false);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V forcePut(@Nullable K key, @Nullable V value) {
+  public V forcePut(K key, V value) {
     return putInBothMaps(key, value, true);
   }
 
-  private V putInBothMaps(@Nullable K key, @Nullable V value, boolean force) {
+  private V putInBothMaps(K key, V value, boolean force) {
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
@@ -151,7 +150,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(@Nullable Object key) {
+  public V remove(Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 
@@ -338,7 +337,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   Iterator<Entry<K, V>> entrySetIterator() {
     final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
-      @Nullable Entry<K, V> entry;
+      Entry<K, V> entry;
 
       @Override
       public boolean hasNext() {

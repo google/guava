@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link Multimaps#filterKeys(Multimap, Predicate)}.
@@ -65,7 +64,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(Object key) {
     if (unfiltered.containsKey(key)) {
       @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
       K k = (K) key;
@@ -190,7 +189,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())

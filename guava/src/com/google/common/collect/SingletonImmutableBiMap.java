@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
@@ -51,7 +50,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(Object key) {
     return singleKey.equals(key) ? singleValue : null;
   }
 
@@ -66,12 +65,12 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(Object key) {
     return singleKey.equals(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     return singleValue.equals(value);
   }
 

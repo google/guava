@@ -38,7 +38,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for services that can implement {@link #startUp} and {@link #shutDown} but while in
@@ -497,7 +496,7 @@ public abstract class AbstractScheduledService implements Service {
 
       /** The future that represents the next execution of this task. */
       @GuardedBy("lock")
-      private @Nullable Future<Void> currentFuture;
+      private Future<Void> currentFuture;
 
       ReschedulableCallable(
           AbstractService service, ScheduledExecutorService executor, Runnable runnable) {

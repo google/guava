@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.Serializable;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * {@code keySet()} implementation for {@link ImmutableMap}.
@@ -55,7 +54,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(Object object) {
     return map.containsKey(object);
   }
 

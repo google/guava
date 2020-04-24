@@ -33,7 +33,6 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable array of {@code int} values, with an API resembling {@link List}.
@@ -506,7 +505,7 @@ public final class ImmutableIntArray implements Serializable {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(Object object) {
       if (object instanceof AsList) {
         AsList that = (AsList) object;
         return this.parent.equals(that.parent);
@@ -546,7 +545,7 @@ public final class ImmutableIntArray implements Serializable {
    * values as this one, in the same order.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(Object object) {
     if (object == this) {
       return true;
     }

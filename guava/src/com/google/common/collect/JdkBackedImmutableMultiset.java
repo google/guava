@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of ImmutableMultiset backed by a JDK Map and a list of entries. Used to protect
@@ -61,7 +60,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(Object element) {
     return delegateMap.getOrDefault(element, 0);
   }
 

@@ -30,7 +30,6 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.util.AbstractSet;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link BaseGraph}.
@@ -85,7 +84,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       // Graph<LinkedList>.
       @SuppressWarnings("unchecked")
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -211,7 +210,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }
@@ -252,7 +251,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
       }
 
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(Object obj) {
         if (!(obj instanceof EndpointPair)) {
           return false;
         }

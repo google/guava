@@ -37,7 +37,6 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link ListMultimap} whose contents will never change, with many other important properties
@@ -363,7 +362,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   /** Creates an ImmutableListMultimap from an asMap.entrySet. */
   static <K, V> ImmutableListMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
-      @Nullable Comparator<? super V> valueComparator) {
+      Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }
@@ -399,7 +398,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * parameters used to build this multimap.
    */
   @Override
-  public ImmutableList<V> get(@Nullable K key) {
+  public ImmutableList<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableList<V> list = (ImmutableList<V>) map.get(key);
     return (list == null) ? ImmutableList.<V>of() : list;

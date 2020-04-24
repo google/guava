@@ -27,7 +27,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A reference queue with an associated background thread that dequeues references and invokes
@@ -228,7 +227,6 @@ public class FinalizableReferenceQueue implements Closeable {
      *
      * @throws SecurityException if we don't have the appropriate privileges
      */
-    @Nullable
     Class<?> loadFinalizer();
   }
 
@@ -242,7 +240,7 @@ public class FinalizableReferenceQueue implements Closeable {
     @VisibleForTesting static boolean disabled;
 
     @Override
-    public @Nullable Class<?> loadFinalizer() {
+    public Class<?> loadFinalizer() {
       if (disabled) {
         return null;
       }
@@ -279,7 +277,7 @@ public class FinalizableReferenceQueue implements Closeable {
             + "issue, or move Guava to your system class path.";
 
     @Override
-    public @Nullable Class<?> loadFinalizer() {
+    public Class<?> loadFinalizer() {
       try {
         /*
          * We use URLClassLoader because it's the only concrete class loader implementation in the

@@ -16,7 +16,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * ImmutableSet implementation backed by a JDK HashSet, used to defend against apparent hash
@@ -41,7 +40,7 @@ final class JdkBackedImmutableSet<E> extends IndexedImmutableSet<E> {
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(Object object) {
     return delegate.contains(object);
   }
 

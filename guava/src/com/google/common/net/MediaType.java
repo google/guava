@@ -45,7 +45,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
@@ -1036,7 +1035,7 @@ public final class MediaType {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(Object obj) {
     if (obj == this) {
       return true;
     } else if (obj instanceof MediaType) {

@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import java.io.Serializable;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An ordering that orders elements by applying an order to the result of a function on those
@@ -44,7 +43,7 @@ final class ByFunctionOrdering<F, T> extends Ordering<F> implements Serializable
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(Object object) {
     if (object == this) {
       return true;
     }

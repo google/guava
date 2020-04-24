@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An implementation of {@link ImmutableTable} holding an arbitrary number of cells.
@@ -55,7 +54,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(Object object) {
       if (object instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) object;
         Object value = RegularImmutableTable.this.get(cell.getRowKey(), cell.getColumnKey());
@@ -97,8 +96,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   static <R, C, V> RegularImmutableTable<R, C, V> forCells(
       List<Cell<R, C, V>> cells,
-      final @Nullable Comparator<? super R> rowComparator,
-      final @Nullable Comparator<? super C> columnComparator) {
+      final Comparator<? super R> rowComparator,
+      final Comparator<? super C> columnComparator) {
     checkNotNull(cells);
     if (rowComparator != null || columnComparator != null) {
       /*
@@ -135,8 +134,8 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   private static <R, C, V> RegularImmutableTable<R, C, V> forCellsInternal(
       Iterable<Cell<R, C, V>> cells,
-      @Nullable Comparator<? super R> rowComparator,
-      @Nullable Comparator<? super C> columnComparator) {
+      Comparator<? super R> rowComparator,
+      Comparator<? super C> columnComparator) {
     Set<R> rowSpaceBuilder = new LinkedHashSet<>();
     Set<C> columnSpaceBuilder = new LinkedHashSet<>();
     ImmutableList<Cell<R, C, V>> cellList = ImmutableList.copyOf(cells);

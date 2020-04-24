@@ -33,7 +33,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code float} primitives, that are not already found in
@@ -586,7 +585,7 @@ public final class Floats {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(Object object) {
       if (object == this) {
         return true;
       }
@@ -650,7 +649,7 @@ public final class Floats {
    */
   @Beta
   @GwtIncompatible // regular expressions
-  public static @Nullable Float tryParse(String string) {
+  public static Float tryParse(String string) {
     if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
       // TODO(lowasser): could be potentially optimized, but only with
       // extensive testing

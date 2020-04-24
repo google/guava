@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A future whose value is derived from a collection of input futures.
@@ -52,7 +51,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
    * In certain circumstances, this field might theoretically not be visible to an afterDone() call
    * triggered by cancel(). For details, see the comments on the fields of TimeoutFuture.
    */
-  private @Nullable ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
+  private ImmutableCollection<? extends ListenableFuture<? extends InputT>> futures;
 
   private final boolean allMustSucceed;
   private final boolean collectsValues;
@@ -255,9 +254,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   }
 
   private void decrementCountAndMaybeComplete(
-      @Nullable
-          ImmutableCollection<? extends Future<? extends InputT>>
-              futuresIfNeedToCollectAtCompletion) {
+      ImmutableCollection<? extends Future<? extends InputT>> futuresIfNeedToCollectAtCompletion) {
     int newRemaining = decrementRemainingAndGet();
     checkState(newRemaining >= 0, "Less than 0 remaining futures");
     if (newRemaining == 0) {
@@ -266,9 +263,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
   }
 
   private void processCompleted(
-      @Nullable
-          ImmutableCollection<? extends Future<? extends InputT>>
-              futuresIfNeedToCollectAtCompletion) {
+      ImmutableCollection<? extends Future<? extends InputT>> futuresIfNeedToCollectAtCompletion) {
     if (futuresIfNeedToCollectAtCompletion != null) {
       int i = 0;
       for (Future<? extends InputT> future : futuresIfNeedToCollectAtCompletion) {
@@ -322,7 +317,7 @@ abstract class AggregateFuture<InputT, OutputT> extends AggregateFutureState<Out
    * If {@code allMustSucceed} is true, called as each future completes; otherwise, if {@code
    * collectsValues} is true, called for each future when all futures complete.
    */
-  abstract void collectOneValue(int index, @Nullable InputT returnValue);
+  abstract void collectOneValue(int index, InputT returnValue);
 
   abstract void handleAllCompleted();
 

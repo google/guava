@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Entry} for {@link ImmutableMap} that adds extra methods to traverse hash
@@ -53,12 +52,10 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     // null check would be redundant
   }
 
-  @Nullable
   ImmutableMapEntry<K, V> getNextInKeyBucket() {
     return null;
   }
 
-  @Nullable
   ImmutableMapEntry<K, V> getNextInValueBucket() {
     return null;
   }
@@ -80,7 +77,7 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     }
 
     @Override
-    final @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {
+    final ImmutableMapEntry<K, V> getNextInKeyBucket() {
       return nextInKeyBucket;
     }
 
@@ -104,7 +101,6 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     }
 
     @Override
-    @Nullable
     ImmutableMapEntry<K, V> getNextInValueBucket() {
       return nextInValueBucket;
     }

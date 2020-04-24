@@ -28,7 +28,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An accumulator that selects the "top" {@code k} elements added to it, relative to a provided
@@ -111,7 +110,7 @@ final class TopKSelector<T> {
    * The largest of the lowest k elements we've seen so far relative to this comparator. If
    * bufferSize ≥ k, then we can ignore any elements greater than this value.
    */
-  private @Nullable T threshold;
+  private T threshold;
 
   private TopKSelector(Comparator<? super T> comparator, int k) {
     this.comparator = checkNotNull(comparator, "comparator");
@@ -126,7 +125,7 @@ final class TopKSelector<T> {
    * Adds {@code elem} as a candidate for the top {@code k} elements. This operation takes amortized
    * O(1) time.
    */
-  public void offer(@Nullable T elem) {
+  public void offer(T elem) {
     if (k == 0) {
       return;
     } else if (bufferSize == 0) {

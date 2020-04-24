@@ -39,7 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A readable source of characters, such as a text file. Unlike a {@link Reader}, a {@code
@@ -295,7 +294,7 @@ public abstract class CharSource {
    *
    * @throws IOException if an I/O error occurs while reading from this source
    */
-  public @Nullable String readFirstLine() throws IOException {
+  public String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());

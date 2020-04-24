@@ -31,7 +31,6 @@ import java.util.function.IntFunction;
 import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
@@ -68,7 +67,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public @Nullable Spliterator<T> trySplit() {
+      public Spliterator<T> trySplit() {
         Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
       }
@@ -302,7 +301,7 @@ final class CollectSpliterators {
           long estSplitSize);
     }
 
-    @Nullable @Weak OutSpliteratorT prefix;
+    @Weak OutSpliteratorT prefix;
     final Spliterator<InElementT> from;
     final Function<? super InElementT, OutSpliteratorT> function;
     final Factory<InElementT, OutSpliteratorT> factory;

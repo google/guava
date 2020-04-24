@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A list multimap which forwards all its method calls to another list multimap. Subclasses should
@@ -44,13 +43,13 @@ public abstract class ForwardingListMultimap<K, V> extends ForwardingMultimap<K,
   protected abstract ListMultimap<K, V> delegate();
 
   @Override
-  public List<V> get(@Nullable K key) {
+  public List<V> get(K key) {
     return delegate().get(key);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public List<V> removeAll(Object key) {
     return delegate().removeAll(key);
   }
 

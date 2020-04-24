@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.util.Comparator;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable sorted multiset with one or more distinct elements.
@@ -86,7 +85,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   }
 
   @Override
-  public int count(@Nullable Object element) {
+  public int count(Object element) {
     int index = elementSet.indexOf(element);
     return (index >= 0) ? getCount(index) : 0;
   }

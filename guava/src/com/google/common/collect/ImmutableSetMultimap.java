@@ -41,7 +41,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link SetMultimap} whose contents will never change, with many other important properties
@@ -412,7 +411,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   /** Creates an ImmutableSetMultimap from an asMap.entrySet. */
   static <K, V> ImmutableSetMultimap<K, V> fromMapEntries(
       Collection<? extends Map.Entry<? extends K, ? extends Collection<? extends V>>> mapEntries,
-      @Nullable Comparator<? super V> valueComparator) {
+      Comparator<? super V> valueComparator) {
     if (mapEntries.isEmpty()) {
       return of();
     }
@@ -440,9 +439,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   private final transient ImmutableSet<V> emptySet;
 
   ImmutableSetMultimap(
-      ImmutableMap<K, ImmutableSet<V>> map,
-      int size,
-      @Nullable Comparator<? super V> valueComparator) {
+      ImmutableMap<K, ImmutableSet<V>> map, int size, Comparator<? super V> valueComparator) {
     super(map, size);
     this.emptySet = emptySet(valueComparator);
   }
@@ -455,7 +452,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * parameters used to build this multimap.
    */
   @Override
-  public ImmutableSet<V> get(@Nullable K key) {
+  public ImmutableSet<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
@@ -532,7 +529,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(Object object) {
       if (object instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
@@ -557,20 +554,19 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static <V> ImmutableSet<V> valueSet(
-      @Nullable Comparator<? super V> valueComparator, Collection<? extends V> values) {
+      Comparator<? super V> valueComparator, Collection<? extends V> values) {
     return (valueComparator == null)
         ? ImmutableSet.copyOf(values)
         : ImmutableSortedSet.copyOf(valueComparator, values);
   }
 
-  private static <V> ImmutableSet<V> emptySet(@Nullable Comparator<? super V> valueComparator) {
+  private static <V> ImmutableSet<V> emptySet(Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? ImmutableSet.<V>of()
         : ImmutableSortedSet.<V>emptySet(valueComparator);
   }
 
-  private static <V> ImmutableSet.Builder<V> valuesBuilder(
-      @Nullable Comparator<? super V> valueComparator) {
+  private static <V> ImmutableSet.Builder<V> valuesBuilder(Comparator<? super V> valueComparator) {
     return (valueComparator == null)
         ? new ImmutableSet.Builder<V>()
         : new ImmutableSortedSet.Builder<V>(valueComparator);
@@ -587,7 +583,6 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     Serialization.writeMultimap(this, stream);
   }
 
-  @Nullable
   Comparator<? super V> valueComparator() {
     return emptySet instanceof ImmutableSortedSet
         ? ((ImmutableSortedSet<V>) emptySet).comparator()

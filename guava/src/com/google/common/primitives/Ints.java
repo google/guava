@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code int} primitives, that are not already found in either
@@ -644,7 +643,7 @@ public final class Ints {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public boolean equals(Object object) {
       if (object == this) {
         return true;
       }
@@ -707,7 +706,7 @@ public final class Ints {
    * @since 11.0
    */
   @Beta
-  public static @Nullable Integer tryParse(String string) {
+  public static Integer tryParse(String string) {
     return tryParse(string, 10);
   }
 
@@ -731,7 +730,7 @@ public final class Ints {
    * @since 19.0
    */
   @Beta
-  public static @Nullable Integer tryParse(String string, int radix) {
+  public static Integer tryParse(String string, int radix) {
     Long result = Longs.tryParse(string, radix);
     if (result == null || result.longValue() != result.intValue()) {
       return null;

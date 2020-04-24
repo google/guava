@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Useful suppliers.
@@ -61,7 +60,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
       if (obj instanceof SupplierComposition) {
         SupplierComposition<?, ?> that = (SupplierComposition<?, ?>) obj;
         return function.equals(that.function) && supplier.equals(that.supplier);
@@ -114,7 +113,7 @@ public final class Suppliers {
     transient volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    transient @Nullable T value;
+    transient T value;
 
     MemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
@@ -152,7 +151,7 @@ public final class Suppliers {
     volatile boolean initialized;
     // "value" does not need to be volatile; visibility piggy-backs
     // on volatile read of "initialized".
-    @Nullable T value;
+    T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
       this.delegate = checkNotNull(delegate);
@@ -217,7 +216,7 @@ public final class Suppliers {
   static class ExpiringMemoizingSupplier<T> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;
-    transient volatile @Nullable T value;
+    transient volatile T value;
     // The special value 0 means "not yet initialized".
     transient volatile long expirationNanos;
 
@@ -264,14 +263,14 @@ public final class Suppliers {
   }
 
   /** Returns a supplier that always supplies {@code instance}. */
-  public static <T> Supplier<T> ofInstance(@Nullable T instance) {
+  public static <T> Supplier<T> ofInstance(T instance) {
     return new SupplierOfInstance<T>(instance);
   }
 
   private static class SupplierOfInstance<T> implements Supplier<T>, Serializable {
-    final @Nullable T instance;
+    final T instance;
 
-    SupplierOfInstance(@Nullable T instance) {
+    SupplierOfInstance(T instance) {
       this.instance = instance;
     }
 
@@ -281,7 +280,7 @@ public final class Suppliers {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
         return Objects.equal(instance, that.instance);

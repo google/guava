@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.List;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An ordering that treats all references as equals, even nulls.
@@ -31,7 +30,7 @@ final class AllEqualOrdering extends Ordering<Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 
   @Override
-  public int compare(@Nullable Object left, @Nullable Object right) {
+  public int compare(Object left, Object right) {
     return 0;
   }
 

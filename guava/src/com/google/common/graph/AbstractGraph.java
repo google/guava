@@ -17,7 +17,6 @@
 package com.google.common.graph;
 
 import com.google.common.annotations.Beta;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link Graph}. It is recommended to extend this
@@ -31,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
 
   @Override
-  public final boolean equals(@Nullable Object obj) {
+  public final boolean equals(Object obj) {
     if (obj == this) {
       return true;
     }

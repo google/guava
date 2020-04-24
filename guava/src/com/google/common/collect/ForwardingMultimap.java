@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A multimap which forwards all its method calls to another multimap. Subclasses should override
@@ -56,17 +55,17 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
+  public boolean containsEntry(Object key, Object value) {
     return delegate().containsEntry(key, value);
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(Object key) {
     return delegate().containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     return delegate().containsValue(value);
   }
 
@@ -76,7 +75,7 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public Collection<V> get(@Nullable K key) {
+  public Collection<V> get(K key) {
     return delegate().get(key);
   }
 
@@ -115,13 +114,13 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@Nullable Object key, @Nullable Object value) {
+  public boolean remove(Object key, Object value) {
     return delegate().remove(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public Collection<V> removeAll(@Nullable Object key) {
+  public Collection<V> removeAll(Object key) {
     return delegate().removeAll(key);
   }
 
@@ -142,7 +141,7 @@ public abstract class ForwardingMultimap<K, V> extends ForwardingObject implemen
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(Object object) {
     return object == this || delegate().equals(object);
   }
 

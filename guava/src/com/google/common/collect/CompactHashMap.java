@@ -45,7 +45,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * CompactHashMap is an implementation of a Map. All optional operations (put and remove) are
@@ -233,7 +232,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put(@Nullable K key, @Nullable V value) {
+  public V put(K key, V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -255,7 +254,6 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
         entry = entries[next];
         if (getHash(entry) == hash && Objects.equal(key, keys[next])) {
           @SuppressWarnings("unchecked") // known to be a V
-          @Nullable
           V oldValue = (V) values[next];
 
           values[next] = value;
@@ -284,7 +282,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   /**
    * Creates a fresh entry with the specified object at the specified position in the entry arrays.
    */
-  void insertEntry(int entryIndex, @Nullable K key, @Nullable V value, int hash) {
+  void insertEntry(int entryIndex, K key, V value, int hash) {
     this.entries[entryIndex] = ((long) hash << 32) | (NEXT_MASK & UNSET);
     this.keys[entryIndex] = key;
     this.values[entryIndex] = value;
@@ -337,7 +335,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     this.table = newTable;
   }
 
-  private int indexOf(@Nullable Object key) {
+  private int indexOf(Object key) {
     if (needsAllocArrays()) {
       return -1;
     }
@@ -354,13 +352,13 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(Object key) {
     return indexOf(key) != -1;
   }
 
   @SuppressWarnings("unchecked") // values only contains Vs
   @Override
-  public V get(@Nullable Object key) {
+  public V get(Object key) {
     int index = indexOf(key);
     accessEntry(index);
     return (index == -1) ? null : (V) values[index];
@@ -368,14 +366,14 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V remove(@Nullable Object key) {
+  public V remove(Object key) {
     if (needsAllocArrays()) {
       return null;
     }
     return remove(key, smearedHash(key));
   }
 
-  private @Nullable V remove(@Nullable Object key, int hash) {
+  private V remove(Object key, int hash) {
     int tableIndex = hash & hashTableMask();
     int next = table[tableIndex];
     if (next == UNSET) { // empty bucket
@@ -385,7 +383,6 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     do {
       if (getHash(entries[next]) == hash && Objects.equal(key, keys[next])) {
         @SuppressWarnings("unchecked") // values only contains Vs
-        @Nullable
         V oldValue = (V) values[next];
 
         if (last == UNSET) {
@@ -557,7 +554,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(Object o) {
       int index = indexOf(o);
       if (index == -1) {
         return false;
@@ -637,7 +634,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public boolean contains(Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
@@ -647,7 +644,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public boolean remove(Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         int index = indexOf(entry.getKey());
@@ -670,7 +667,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   final class MapEntry extends AbstractMapEntry<K, V> {
-    private final @Nullable K key;
+    private final K key;
 
     private int lastKnownIndex;
 
@@ -726,7 +723,7 @@ class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     for (int i = 0; i < size; i++) {
       if (Objects.equal(value, values[i])) {
         return true;

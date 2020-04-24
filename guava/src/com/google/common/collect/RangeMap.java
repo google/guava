@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
@@ -44,14 +43,12 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>Specifically, if any range in this range map contains the specified key, the value
    * associated with that range is returned.
    */
-  @Nullable
   V get(K key);
 
   /**
    * Returns the range containing this key and its associated value, if such a range is present in
    * the range map, or {@code null} otherwise.
    */
-  @Nullable
   Entry<Range<K>, V> getEntry(K key);
 
   /**
@@ -125,9 +122,7 @@ public interface RangeMap<K extends Comparable, V> {
    * @since 28.1
    */
   void merge(
-      Range<K> range,
-      @Nullable V value,
-      BiFunction<? super V, ? super V, ? extends V> remappingFunction);
+      Range<K> range, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction);
 
   /**
    * Returns a view of this range map as an unmodifiable {@code Map<Range<K>, V>}. Modifications to
@@ -173,7 +168,7 @@ public interface RangeMap<K extends Comparable, V> {
    * #asMapOfRanges()}.
    */
   @Override
-  boolean equals(@Nullable Object o);
+  boolean equals(Object o);
 
   /** Returns {@code asMapOfRanges().hashCode()}. */
   @Override

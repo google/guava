@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Exception thrown upon the failure of a <a
@@ -30,7 +29,7 @@ public class VerifyException extends RuntimeException {
   public VerifyException() {}
 
   /** Constructs a {@code VerifyException} with the message {@code message}. */
-  public VerifyException(@Nullable String message) {
+  public VerifyException(String message) {
     super(message);
   }
 
@@ -40,7 +39,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(@Nullable Throwable cause) {
+  public VerifyException(Throwable cause) {
     super(cause);
   }
 
@@ -50,7 +49,7 @@ public class VerifyException extends RuntimeException {
    *
    * @since 19.0
    */
-  public VerifyException(@Nullable String message, @Nullable Throwable cause) {
+  public VerifyException(String message, Throwable cause) {
     super(message, cause);
   }
 }

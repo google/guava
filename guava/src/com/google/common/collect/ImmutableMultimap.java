@@ -37,7 +37,6 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Multimap} whose contents will never change, with many other important properties
@@ -467,12 +466,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // accessors
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public boolean containsKey(Object key) {
     return map.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     return value != null && super.containsValue(value);
   }
 
@@ -623,12 +622,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @WeakOuter
   class Keys extends ImmutableMultiset<K> {
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(Object object) {
       return containsKey(object);
     }
 
     @Override
-    public int count(@Nullable Object element) {
+    public int count(Object element) {
       Collection<V> values = map.get(element);
       return (values == null) ? 0 : values.size();
     }
@@ -717,7 +716,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(Object object) {
       return multimap.containsValue(object);
     }
 

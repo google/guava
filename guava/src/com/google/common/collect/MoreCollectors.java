@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Collectors not present in {@code java.util.stream.Collectors} that are not otherwise associated
@@ -89,8 +88,8 @@ public final class MoreCollectors {
   private static final class ToOptionalState {
     static final int MAX_EXTRAS = 4;
 
-    @Nullable Object element;
-    @Nullable List<Object> extras;
+    Object element;
+    List<Object> extras;
 
     ToOptionalState() {
       element = null;

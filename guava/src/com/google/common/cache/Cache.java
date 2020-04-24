@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -45,7 +44,6 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  @Nullable
   V getIfPresent(@CompatibleWith("K") Object key);
 
   /**

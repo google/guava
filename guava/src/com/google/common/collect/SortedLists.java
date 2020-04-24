@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static methods pertaining to sorted {@link List} instances.
@@ -199,7 +198,7 @@ final class SortedLists {
   public static <E, K extends Comparable> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      @Nullable K key,
+      K key,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
     return binarySearch(
@@ -216,7 +215,7 @@ final class SortedLists {
   public static <E, K> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      @Nullable K key,
+      K key,
       Comparator<? super K> keyComparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
@@ -249,7 +248,7 @@ final class SortedLists {
    */
   public static <E> int binarySearch(
       List<? extends E> list,
-      @Nullable E key,
+      E key,
       Comparator<? super E> comparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {

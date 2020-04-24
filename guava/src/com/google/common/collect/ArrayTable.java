@@ -36,7 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
@@ -190,9 +189,9 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
 
     abstract String getKeyRole();
 
-    abstract @Nullable V getValue(int index);
+    abstract V getValue(int index);
 
-    abstract @Nullable V setValue(int index, V newValue);
+    abstract V setValue(int index, V newValue);
 
     @Override
     public int size() {
@@ -242,12 +241,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     // TODO(lowasser): consider an optimized values() implementation
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public boolean containsKey(Object key) {
       return keyIndex.containsKey(key);
     }
 
     @Override
-    public V get(@Nullable Object key) {
+    public V get(Object key) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         return null;
@@ -326,7 +325,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     to the number of allowed column keys
    */
   @CanIgnoreReturnValue
-  public V set(int rowIndex, int columnIndex, @Nullable V value) {
+  public V set(int rowIndex, int columnIndex, V value) {
     // In GWT array access never throws IndexOutOfBoundsException.
     checkElementIndex(rowIndex, rowList.size());
     checkElementIndex(columnIndex, columnList.size());
@@ -378,7 +377,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * constructed.
    */
   @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public boolean contains(Object rowKey, Object columnKey) {
     return containsRow(rowKey) && containsColumn(columnKey);
   }
 
@@ -387,7 +386,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * table was constructed.
    */
   @Override
-  public boolean containsColumn(@Nullable Object columnKey) {
+  public boolean containsColumn(Object columnKey) {
     return columnKeyToIndex.containsKey(columnKey);
   }
 
@@ -396,12 +395,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    * constructed.
    */
   @Override
-  public boolean containsRow(@Nullable Object rowKey) {
+  public boolean containsRow(Object rowKey) {
     return rowKeyToIndex.containsKey(rowKey);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public boolean containsValue(Object value) {
     for (V[] row : array) {
       for (V element : row) {
         if (Objects.equal(value, element)) {
@@ -413,7 +412,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
   }
 
   @Override
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V get(Object rowKey, Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     return (rowIndex == null || columnIndex == null) ? null : at(rowIndex, columnIndex);
@@ -435,7 +434,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    */
   @CanIgnoreReturnValue
   @Override
-  public V put(R rowKey, C columnKey, @Nullable V value) {
+  public V put(R rowKey, C columnKey, V value) {
     checkNotNull(rowKey);
     checkNotNull(columnKey);
     Integer rowIndex = rowKeyToIndex.get(rowKey);
@@ -492,7 +491,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
    *     for the keys
    */
   @CanIgnoreReturnValue
-  public V erase(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public V erase(Object rowKey, Object columnKey) {
     Integer rowIndex = rowKeyToIndex.get(rowKey);
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     if (rowIndex == null || columnIndex == null) {

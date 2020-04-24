@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link UnicodeEscaper} that uses an array to quickly look up replacement characters for a given
@@ -70,10 +69,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      Map<Character, String> replacementMap,
-      int safeMin,
-      int safeMax,
-      @Nullable String unsafeReplacement) {
+      Map<Character, String> replacementMap, int safeMin, int safeMax, String unsafeReplacement) {
     this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);
   }
 
@@ -93,10 +89,7 @@ public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {
    *     replacement is required
    */
   protected ArrayBasedUnicodeEscaper(
-      ArrayBasedEscaperMap escaperMap,
-      int safeMin,
-      int safeMax,
-      @Nullable String unsafeReplacement) {
+      ArrayBasedEscaperMap escaperMap, int safeMin, int safeMax, String unsafeReplacement) {
     checkNotNull(escaperMap); // GWT specific check (do not optimize)
     this.replacements = escaperMap.getReplacementArray();
     this.replacementsLength = replacements.length;

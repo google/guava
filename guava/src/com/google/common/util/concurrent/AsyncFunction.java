@@ -16,7 +16,6 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.concurrent.Future;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Transforms a value, possibly asynchronously. For an example usage and more information, see
@@ -35,5 +34,5 @@ public interface AsyncFunction<I, O> {
    *
    * <p>Throwing an exception from this method is equivalent to returning a failing {@code Future}.
    */
-  ListenableFuture<O> apply(@Nullable I input) throws Exception;
+  ListenableFuture<O> apply(I input) throws Exception;
 }

@@ -24,7 +24,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.Immutable;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable pair representing the two endpoints of an edge in a graph. The {@link EndpointPair}
@@ -132,7 +131,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
    * ordered {@link EndpointPair} is never equal to an unordered {@link EndpointPair}.
    */
   @Override
-  public abstract boolean equals(@Nullable Object obj);
+  public abstract boolean equals(Object obj);
 
   /**
    * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
@@ -163,7 +162,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
       if (obj == this) {
         return true;
       }
@@ -211,7 +210,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public boolean equals(Object obj) {
       if (obj == this) {
         return true;
       }

@@ -42,7 +42,6 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link List} whose contents will never change, with many other important properties detailed at
@@ -407,17 +406,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public int indexOf(@Nullable Object object) {
+  public int indexOf(Object object) {
     return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
 
   @Override
-  public int lastIndexOf(@Nullable Object object) {
+  public int lastIndexOf(Object object) {
     return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public boolean contains(Object object) {
     return indexOf(object) >= 0;
   }
 
@@ -615,18 +614,18 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override
-    public boolean contains(@Nullable Object object) {
+    public boolean contains(Object object) {
       return forwardList.contains(object);
     }
 
     @Override
-    public int indexOf(@Nullable Object object) {
+    public int indexOf(Object object) {
       int index = forwardList.lastIndexOf(object);
       return (index >= 0) ? reverseIndex(index) : -1;
     }
 
     @Override
-    public int lastIndexOf(@Nullable Object object) {
+    public int lastIndexOf(Object object) {
       int index = forwardList.indexOf(object);
       return (index >= 0) ? reverseIndex(index) : -1;
     }
@@ -655,7 +654,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public boolean equals(Object obj) {
     return Lists.equalsImpl(this, obj);
   }
 

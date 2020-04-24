@@ -21,7 +21,6 @@ import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A collection which forwards all its method calls to another collection. Subclasses should
@@ -133,7 +132,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardContains(@Nullable Object object) {
+  protected boolean standardContains(Object object) {
     return Iterators.contains(iterator(), object);
   }
 
@@ -165,7 +164,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject implement
    *
    * @since 7.0
    */
-  protected boolean standardRemove(@Nullable Object object) {
+  protected boolean standardRemove(Object object) {
     Iterator<E> iterator = iterator();
     while (iterator.hasNext()) {
       if (Objects.equal(iterator.next(), object)) {

@@ -21,7 +21,6 @@ import static java.util.logging.Level.WARNING;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence} instances.
@@ -39,7 +38,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is non-null; {@code ""} if it is null
    */
-  public static String nullToEmpty(@Nullable String string) {
+  public static String nullToEmpty(String string) {
     return Platform.nullToEmpty(string);
   }
 
@@ -49,7 +48,7 @@ public final class Strings {
    * @param string the string to test and possibly return
    * @return {@code string} itself if it is nonempty; {@code null} if it is empty or null
    */
-  public static @Nullable String emptyToNull(@Nullable String string) {
+  public static String emptyToNull(String string) {
     return Platform.emptyToNull(string);
   }
 
@@ -64,7 +63,7 @@ public final class Strings {
    * @param string a string reference to check
    * @return {@code true} if the string is null or is the empty string
    */
-  public static boolean isNullOrEmpty(@Nullable String string) {
+  public static boolean isNullOrEmpty(String string) {
     return Platform.stringIsNullOrEmpty(string);
   }
 
@@ -256,8 +255,7 @@ public final class Strings {
    * @since 25.1
    */
   // TODO(diamondm) consider using Arrays.toString() for array parameters
-  public static String lenientFormat(
-      @Nullable String template, @Nullable Object @Nullable ... args) {
+  public static String lenientFormat(String template, Object... args) {
     template = String.valueOf(template); // null -> "null"
 
     if (args == null) {
@@ -297,7 +295,7 @@ public final class Strings {
     return builder.toString();
   }
 
-  private static String lenientToString(@Nullable Object o) {
+  private static String lenientToString(Object o) {
     try {
       return String.valueOf(o);
     } catch (Exception e) {

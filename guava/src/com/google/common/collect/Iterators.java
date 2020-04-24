@@ -45,7 +45,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class contains static utility methods that operate on or return objects of type {@link
@@ -168,7 +167,7 @@ public final class Iterators {
   }
 
   /** Returns {@code true} if {@code iterator} contains {@code element}. */
-  public static boolean contains(Iterator<?> iterator, @Nullable Object element) {
+  public static boolean contains(Iterator<?> iterator, Object element) {
     if (element == null) {
       while (iterator.hasNext()) {
         if (iterator.next() == null) {
@@ -322,8 +321,7 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple elements. The state of the
    *     iterator is unspecified.
    */
-  public static <T> @Nullable T getOnlyElement(
-      Iterator<? extends T> iterator, @Nullable T defaultValue) {
+  public static <T> T getOnlyElement(Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
 
@@ -364,7 +362,7 @@ public final class Iterators {
    *
    * @see Collections#frequency
    */
-  public static int frequency(Iterator<?> iterator, @Nullable Object element) {
+  public static int frequency(Iterator<?> iterator, Object element) {
     int count = 0;
     while (contains(iterator, element)) {
       // Since it lives in the same class, we know contains gets to the element and then stops,
@@ -705,8 +703,8 @@ public final class Iterators {
    *
    * @since 7.0
    */
-  public static <T> @Nullable T find(
-      Iterator<? extends T> iterator, Predicate<? super T> predicate, @Nullable T defaultValue) {
+  public static <T> T find(
+      Iterator<? extends T> iterator, Predicate<? super T> predicate, T defaultValue) {
     checkNotNull(iterator);
     checkNotNull(predicate);
     while (iterator.hasNext()) {
@@ -820,8 +818,7 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  public static <T> @Nullable T get(
-      Iterator<? extends T> iterator, int position, @Nullable T defaultValue) {
+  public static <T> T get(Iterator<? extends T> iterator, int position, T defaultValue) {
     checkNonnegative(position);
     advance(iterator, position);
     return getNext(iterator, defaultValue);
@@ -841,7 +838,7 @@ public final class Iterators {
    * @return the next element of {@code iterator} or the default value
    * @since 7.0
    */
-  public static <T> @Nullable T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+  public static <T> T getNext(Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }
 
@@ -868,7 +865,7 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @since 3.0
    */
-  public static <T> @Nullable T getLast(Iterator<? extends T> iterator, @Nullable T defaultValue) {
+  public static <T> T getLast(Iterator<? extends T> iterator, T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
   }
 
@@ -965,7 +962,7 @@ public final class Iterators {
    * Deletes and returns the next value from the iterator, or returns {@code null} if there is no
    * such value.
    */
-  static <T> @Nullable T pollNext(Iterator<T> iterator) {
+  static <T> T pollNext(Iterator<T> iterator) {
     if (iterator.hasNext()) {
       T result = iterator.next();
       iterator.remove();
@@ -1045,7 +1042,7 @@ public final class Iterators {
    *
    * <p>The {@link Iterable} equivalent of this method is {@link Collections#singleton}.
    */
-  public static <T> UnmodifiableIterator<T> singletonIterator(final @Nullable T value) {
+  public static <T> UnmodifiableIterator<T> singletonIterator(final T value) {
     return new UnmodifiableIterator<T>() {
       boolean done;
 
@@ -1113,7 +1110,7 @@ public final class Iterators {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
-    private @Nullable E peekedElement;
+    private E peekedElement;
 
     public PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);
@@ -1282,7 +1279,7 @@ public final class Iterators {
 
   private static class ConcatenatedIterator<T> implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
-    private @Nullable Iterator<? extends T> toRemove;
+    private Iterator<? extends T> toRemove;
 
     /* The iterator currently returning elements. */
     private Iterator<? extends T> iterator;
@@ -1297,7 +1294,7 @@ public final class Iterators {
     private Iterator<? extends Iterator<? extends T>> topMetaIterator;
 
     // Only becomes nonnull if we encounter nested concatenations.
-    private @Nullable Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
+    private Deque<Iterator<? extends Iterator<? extends T>>> metaIterators;
 
     ConcatenatedIterator(Iterator<? extends Iterator<? extends T>> metaIterator) {
       iterator = emptyIterator();
@@ -1305,7 +1302,7 @@ public final class Iterators {
     }
 
     // Returns a nonempty meta-iterator or, if all meta-iterators are empty, null.
-    private @Nullable Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
+    private Iterator<? extends Iterator<? extends T>> getTopMetaIterator() {
       while (topMetaIterator == null || !topMetaIterator.hasNext()) {
         if (metaIterators != null && !metaIterators.isEmpty()) {
           topMetaIterator = metaIterators.removeFirst();

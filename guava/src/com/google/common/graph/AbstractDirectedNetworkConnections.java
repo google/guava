@@ -30,7 +30,6 @@ import java.util.AbstractSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A base implementation of {@link NetworkConnections} for directed networks.
@@ -79,7 +78,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
       }
 
       @Override
-      public boolean contains(@Nullable Object obj) {
+      public boolean contains(Object obj) {
         return inEdgeMap.containsKey(obj) || outEdgeMap.containsKey(obj);
       }
     };

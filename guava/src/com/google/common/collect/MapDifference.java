@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object representing the differences between two maps.
@@ -65,7 +64,7 @@ public interface MapDifference<K, V> {
    * #entriesDiffering()} of the two instances are equal.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(Object object);
 
   /**
    * Returns the hash code for this instance. This is defined as the hash code of
@@ -96,7 +95,7 @@ public interface MapDifference<K, V> {
      * {@link #rightValue()} values are also equal.
      */
     @Override
-    boolean equals(@Nullable Object other);
+    boolean equals(Object other);
 
     /**
      * The hash code equals the value {@code Arrays.asList(leftValue(), rightValue()).hashCode()}.

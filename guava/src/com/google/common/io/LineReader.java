@@ -25,7 +25,6 @@ import java.io.Reader;
 import java.nio.CharBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A class for reading lines of text. Provides the same functionality as {@link
@@ -39,7 +38,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @GwtIncompatible
 public final class LineReader {
   private final Readable readable;
-  private final @Nullable Reader reader;
+  private final Reader reader;
   private final CharBuffer cbuf = createBuffer();
   private final char[] buf = cbuf.array();
 

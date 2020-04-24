@@ -22,7 +22,6 @@ import static com.google.common.collect.RegularImmutableMap.makeImmutable;
 import com.google.common.annotations.GwtCompatible;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of ImmutableMap backed by a JDK HashMap, which has smartness protecting against
@@ -61,7 +60,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  public V get(@Nullable Object key) {
+  public V get(Object key) {
     return delegateMap.get(key);
   }
 

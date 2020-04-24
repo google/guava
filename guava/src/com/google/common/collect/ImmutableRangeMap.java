@@ -32,7 +32,6 @@ import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -169,7 +168,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public @Nullable V get(K key) {
+  public V get(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -186,7 +185,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public @Nullable Entry<Range<K>, V> getEntry(K key) {
+  public Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
@@ -281,9 +280,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Deprecated
   @Override
   public void merge(
-      Range<K> range,
-      @Nullable V value,
-      BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+      Range<K> range, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -374,7 +371,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  public boolean equals(@Nullable Object o) {
+  public boolean equals(Object o) {
     if (o instanceof RangeMap) {
       RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
       return asMapOfRanges().equals(rangeMap.asMapOfRanges());

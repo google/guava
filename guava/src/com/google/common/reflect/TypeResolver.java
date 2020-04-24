@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An object of this class encapsulates type mappings from type variables. Mappings are established
@@ -527,7 +526,7 @@ public final class TypeResolver {
       return new WildcardCapturer(id);
     }
 
-    private Type captureNullable(@Nullable Type type) {
+    private Type captureNullable(Type type) {
       if (type == null) {
         return null;
       }

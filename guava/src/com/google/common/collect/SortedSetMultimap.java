@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@code SetMultimap} whose set of values for a given key are kept sorted; that is, they comprise
@@ -59,7 +58,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    * {@link Multimap} interface.
    */
   @Override
-  SortedSet<V> get(@Nullable K key);
+  SortedSet<V> get(K key);
 
   /**
    * Removes all values associated with a given key.
@@ -70,7 +69,7 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
    */
   @CanIgnoreReturnValue
   @Override
-  SortedSet<V> removeAll(@Nullable Object key);
+  SortedSet<V> removeAll(Object key);
 
   /**
    * Stores a collection of values with the same key, replacing any existing values for that key.

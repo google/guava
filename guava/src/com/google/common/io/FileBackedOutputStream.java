@@ -25,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@link OutputStream} that starts buffering to a byte array, but switches to file buffering
@@ -46,7 +45,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
   private OutputStream out;
   private MemoryOutput memory;
-  private @Nullable File file;
+  private File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
   private static class MemoryOutput extends ByteArrayOutputStream {

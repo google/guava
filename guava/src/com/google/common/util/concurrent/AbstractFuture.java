@@ -40,7 +40,6 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An abstract implementation of {@link ListenableFuture}, intended for advanced users only. More
@@ -177,8 +176,8 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   private static final class Waiter {
     static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
-    volatile @Nullable Thread thread;
-    volatile @Nullable Waiter next;
+    volatile Thread thread;
+    volatile Waiter next;
 
     /**
      * Constructor for the TOMBSTONE, avoids use of ATOMIC_HELPER in case this class is loaded
@@ -255,7 +254,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     final Executor executor;
 
     // writes to next are made visible by subsequent CAS's on the listeners field
-    @Nullable Listener next;
+    Listener next;
 
     Listener(Runnable task, Executor executor) {
       this.task = task;
@@ -300,9 +299,9 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
     }
 
     final boolean wasInterrupted;
-    final @Nullable Throwable cause;
+    final Throwable cause;
 
-    Cancellation(boolean wasInterrupted, @Nullable Throwable cause) {
+    Cancellation(boolean wasInterrupted, Throwable cause) {
       this.wasInterrupted = wasInterrupted;
       this.cause = cause;
     }
@@ -348,13 +347,13 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    *       argument.
    * </ul>
    */
-  private volatile @Nullable Object value;
+  private volatile Object value;
 
   /** All listeners. */
-  private volatile @Nullable Listener listeners;
+  private volatile Listener listeners;
 
   /** All waiting threads. */
-  private volatile @Nullable Waiter waiters;
+  private volatile Waiter waiters;
 
   /** Constructor for use by subclasses. */
   protected AbstractFuture() {}
@@ -720,7 +719,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * @return true if the attempt was accepted, completing the {@code Future}
    */
   @CanIgnoreReturnValue
-  protected boolean set(@Nullable V value) {
+  protected boolean set(V value) {
     Object valueToSet = value == null ? NULL : value;
     if (ATOMIC_HELPER.casValue(this, null, valueToSet)) {
       complete(this);
@@ -998,7 +997,6 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * @since 27.0
    */
   @Override
-  @Nullable
   protected final Throwable tryInternalFastPathGetFailure() {
     if (this instanceof Trusted) {
       Object obj = value;
@@ -1013,7 +1011,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * If this future has been cancelled (and possibly interrupted), cancels (and possibly interrupts)
    * the given future (if available).
    */
-  final void maybePropagateCancellationTo(@Nullable Future<?> related) {
+  final void maybePropagateCancellationTo(Future<?> related) {
     if (related != null & isCancelled()) {
       related.cancel(wasInterrupted());
     }
@@ -1091,7 +1089,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
    * @return null if an explanation cannot be provided because the future is done.
    * @since 23.0
    */
-  protected @Nullable String pendingToString() {
+  protected String pendingToString() {
     Object localValue = value;
     if (localValue instanceof SetFuture) {
       return "setFuture=[" + userObjectToString(((SetFuture) localValue).future) + "]";
@@ -1345,7 +1343,7 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
   }
 
   private static CancellationException cancellationExceptionWithCause(
-      @Nullable String message, @Nullable Throwable cause) {
+      String message, Throwable cause) {
     CancellationException exception = new CancellationException(message);
     exception.initCause(cause);
     return exception;

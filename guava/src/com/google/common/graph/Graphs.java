@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Static utility methods for {@link Graph}, {@link ValueGraph}, and {@link Network} instances.
@@ -96,7 +95,7 @@ public final class Graphs {
    * cycle in the graph.
    */
   private static <N> boolean subgraphHasCycle(
-      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, @Nullable N previousNode) {
+      Graph<N> graph, Map<Object, NodeVisitState> visitedNodes, N node, N previousNode) {
     NodeVisitState state = visitedNodes.get(node);
     if (state == NodeVisitState.COMPLETE) {
       return false;
@@ -123,7 +122,7 @@ public final class Graphs {
    * from B to A).
    */
   private static boolean canTraverseWithoutReusingEdge(
-      Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
+      Graph<?> graph, Object nextNode, Object previousNode) {
     if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
       return true;
     }
@@ -350,12 +349,12 @@ public final class Graphs {
     }
 
     @Override
-    public @Nullable V edgeValueOrDefault(N nodeU, N nodeV, @Nullable V defaultValue) {
+    public V edgeValueOrDefault(N nodeU, N nodeV, V defaultValue) {
       return delegate().edgeValueOrDefault(nodeV, nodeU, defaultValue); // transpose
     }
 
     @Override
-    public @Nullable V edgeValueOrDefault(EndpointPair<N> endpoints, @Nullable V defaultValue) {
+    public V edgeValueOrDefault(EndpointPair<N> endpoints, V defaultValue) {
       return delegate().edgeValueOrDefault(transpose(endpoints), defaultValue);
     }
   }

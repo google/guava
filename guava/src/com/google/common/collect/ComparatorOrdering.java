@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Comparator;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** An ordering for a pre-existing comparator. */
 @GwtCompatible(serializable = true)
@@ -38,7 +37,7 @@ final class ComparatorOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public boolean equals(Object object) {
     if (object == this) {
       return true;
     }

@@ -35,7 +35,6 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}
@@ -575,14 +574,13 @@ public abstract class AbstractService implements Service {
      * The exception that caused this service to fail. This will be {@code null} unless the service
      * has failed.
      */
-    final @Nullable Throwable failure;
+    final Throwable failure;
 
     StateSnapshot(State internalState) {
       this(internalState, false, null);
     }
 
-    StateSnapshot(
-        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {
+    StateSnapshot(State internalState, boolean shutdownWhenStartupFinishes, Throwable failure) {
       checkArgument(
           !shutdownWhenStartupFinishes || internalState == STARTING,
           "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",

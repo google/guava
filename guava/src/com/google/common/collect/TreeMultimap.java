@@ -31,7 +31,6 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by their natural ordering or
@@ -138,7 +137,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   }
 
   @Override
-  Collection<V> createCollection(@Nullable K key) {
+  Collection<V> createCollection(K key) {
     if (key == null) {
       keyComparator().compare(key, key);
     }
@@ -163,7 +162,7 @@ public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V>
   /** @since 14.0 (present with return type {@code SortedSet} since 2.0) */
   @Override
   @GwtIncompatible // NavigableSet
-  public NavigableSet<V> get(@Nullable K key) {
+  public NavigableSet<V> get(K key) {
     return (NavigableSet<V>) super.get(key);
   }
 

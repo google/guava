@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.stream.Stream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A discouraged (but not deprecated) precursor to Java's superior {@link Stream} library.
@@ -321,7 +320,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 20.0
    */
   @Beta
-  public static <E> FluentIterable<E> of(@Nullable E element, E... elements) {
+  public static <E> FluentIterable<E> of(E element, E... elements) {
     return from(Lists.asList(element, elements));
   }
 
@@ -352,7 +351,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.anyMatch(Predicate.isEqual(target))}.
    */
-  public final boolean contains(@Nullable Object target) {
+  public final boolean contains(Object target) {
     return Iterables.contains(getDelegate(), target);
   }
 
