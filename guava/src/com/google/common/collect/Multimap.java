@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -157,6 +158,7 @@ import java.util.function.BiConsumer;
  * @author Jared Levy
  * @since 2.0
  */
+@DoNotMock("Use ImmutableMultimap, HashMultimap, or another implementation")
 @GwtCompatible
 public interface Multimap<K, V> {
   // Query Operations

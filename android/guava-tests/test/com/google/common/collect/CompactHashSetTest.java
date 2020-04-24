@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.*;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
@@ -92,11 +93,11 @@ public class CompactHashSetTest extends TestCase {
 
     set.add(1);
     assertThat(set.needsAllocArrays()).isFalse();
-    assertThat(set.elements).hasLength(CompactHashSet.DEFAULT_SIZE);
+    assertThat(set.elements).hasLength(CompactHashing.DEFAULT_SIZE);
   }
 
   public void testAllocArraysExpectedSize() {
-    for (int i = 0; i <= CompactHashSet.DEFAULT_SIZE; i++) {
+    for (int i = 0; i <= CompactHashing.DEFAULT_SIZE; i++) {
       CompactHashSet<Integer> set = CompactHashSet.createWithExpectedSize(i);
       assertThat(set.needsAllocArrays()).isTrue();
       assertThat(set.elements).isNull();

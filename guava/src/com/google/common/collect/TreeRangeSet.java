@@ -30,7 +30,6 @@ import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * An implementation of {@link RangeSet} backed by a {@link TreeMap}.
@@ -76,8 +75,8 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     this.rangesByLowerBound = rangesByLowerCut;
   }
 
-  private transient @MonotonicNonNull Set<Range<C>> asRanges;
-  private transient @MonotonicNonNull Set<Range<C>> asDescendingSetOfRanges;
+  private transient Set<Range<C>> asRanges;
+  private transient Set<Range<C>> asDescendingSetOfRanges;
 
   @Override
   public Set<Range<C>> asRanges() {
@@ -267,7 +266,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     }
   }
 
-  private transient @MonotonicNonNull RangeSet<C> complement;
+  private transient RangeSet<C> complement;
 
   @Override
   public RangeSet<C> complement() {

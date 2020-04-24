@@ -219,7 +219,10 @@ public abstract class AbstractFuture<V> extends InternalFutureFailureAccess
 
   @Override
   protected final Throwable tryInternalFastPathGetFailure() {
-    return state == State.FAILURE ? throwable : null;
+    if (this instanceof Trusted) {
+      return state == State.FAILURE ? throwable : null;
+    }
+    return null;
   }
 
   final Throwable trustedGetException() {

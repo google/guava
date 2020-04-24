@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Converter;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -43,8 +44,8 @@ import java.util.Spliterators;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible
-public final class Ints {
+@GwtCompatible(emulated = true)
+public final class Ints extends IntsMethodsForWeb {
   private Ints() {}
 
   /**
@@ -219,6 +220,8 @@ public final class Ints {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int min(int... array) {
     checkArgument(array.length > 0);
     int min = array[0];
@@ -238,6 +241,8 @@ public final class Ints {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static int max(int... array) {
     checkArgument(array.length > 0);
     int max = array[0];
@@ -703,6 +708,7 @@ public final class Ints {
    * @param string the string representation of an integer value
    * @return the integer value represented by {@code string}, or {@code null} if {@code string} has
    *     a length of zero or cannot be parsed as an integer value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 11.0
    */
   @Beta
@@ -727,6 +733,7 @@ public final class Ints {
    *     {@code string} has a length of zero or cannot be parsed as an integer value
    * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or {@code radix >
    *     Character.MAX_RADIX}
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 19.0
    */
   @Beta

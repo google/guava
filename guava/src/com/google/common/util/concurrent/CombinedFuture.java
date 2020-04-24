@@ -104,7 +104,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
         listenerExecutor.execute(this);
       } catch (RejectedExecutionException e) {
         if (thrownByExecute) {
-          setException(e);
+          CombinedFuture.this.setException(e);
         }
       }
     }
@@ -126,11 +126,11 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
       if (error != null) {
         if (error instanceof ExecutionException) {
-          setException(error.getCause());
+          CombinedFuture.this.setException(error.getCause());
         } else if (error instanceof CancellationException) {
           cancel(false);
         } else {
-          setException(error);
+          CombinedFuture.this.setException(error);
         }
       } else {
         setValue(result);
@@ -163,7 +163,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
 
     @Override
     void setValue(ListenableFuture<V> value) {
-      setFuture(value);
+      CombinedFuture.this.setFuture(value);
     }
 
     @Override

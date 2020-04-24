@@ -20,12 +20,12 @@ import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * This class provides a skeletal implementation of the {@link Multiset} interface. A new multiset
@@ -123,7 +123,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   // Views
 
-  private transient @MonotonicNonNull Set<E> elementSet;
+  @LazyInit private transient Set<E> elementSet;
 
   @Override
   public Set<E> elementSet() {
@@ -157,7 +157,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E> implements Mult
 
   abstract Iterator<E> elementIterator();
 
-  private transient @MonotonicNonNull Set<Entry<E>> entrySet;
+  @LazyInit private transient Set<Entry<E>> entrySet;
 
   @Override
   public Set<Entry<E>> entrySet() {

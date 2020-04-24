@@ -42,7 +42,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents a multimap as a map
@@ -1119,7 +1118,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   private abstract class Itr<T> implements Iterator<T> {
     final Iterator<Entry<K, Collection<V>>> keyIterator;
     K key;
-    @MonotonicNonNull Collection<V> collection;
+    Collection<V> collection;
     Iterator<V> valueIterator;
 
     Itr() {
@@ -1468,7 +1467,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
       return new SortedAsMap(sortedMap().tailMap(fromKey));
     }
 
-    @MonotonicNonNull SortedSet<K> sortedKeySet;
+    SortedSet<K> sortedKeySet;
 
     // returns a SortedSet, even though returning a Set would be sufficient to
     // satisfy the SortedMap.keySet() interface

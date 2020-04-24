@@ -33,7 +33,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.ObjIntConsumer;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code Map<E, Count>}.
@@ -192,7 +191,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E> implement
    */
   private class MapBasedMultisetIterator implements Iterator<E> {
     final Iterator<Map.Entry<E, Count>> entryIterator;
-    Map.@MonotonicNonNull Entry<E, Count> currentEntry;
+    Map.Entry<E, Count> currentEntry;
     int occurrencesLeft;
     boolean canRemove;
 

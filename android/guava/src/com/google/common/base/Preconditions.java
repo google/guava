@@ -1465,7 +1465,7 @@ public final class Preconditions {
    * size}, inclusive.
    *
    * @param start a user-supplied index identifying a starting position in an array, list or string
-   * @param end a user-supplied index identifying a ending position in an array, list or string
+   * @param end a user-supplied index identifying an ending position in an array, list or string
    * @param size the size of that array, list or string
    * @throws IndexOutOfBoundsException if either index is negative or is greater than {@code size},
    *     or if {@code end} is less than {@code start}

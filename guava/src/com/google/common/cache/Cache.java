@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CompatibleWith;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
@@ -35,6 +36,7 @@ import java.util.concurrent.ExecutionException;
  * @author Charles Fry
  * @since 10.0
  */
+@DoNotMock("Use CacheBuilder.newBuilder().build()")
 @GwtCompatible
 public interface Cache<K, V> {
 

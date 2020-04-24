@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.DoNotMock;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
@@ -78,6 +79,7 @@ import java.util.Set;
  * @author Kevin Bourrillion
  * @since 10.0
  */
+@DoNotMock("Use Optional.of(value) or Optional.absent()")
 @GwtCompatible(serializable = true)
 public abstract class Optional<T> implements Serializable {
   /**

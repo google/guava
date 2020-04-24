@@ -35,7 +35,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * Fixed-size {@link Table} implementation backed by a two-dimensional array.
@@ -620,7 +619,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return columnKeyToIndex.keySet();
   }
 
-  private transient @MonotonicNonNull ColumnMap columnMap;
+  private transient ColumnMap columnMap;
 
   @Override
   public Map<C, Map<R, V>> columnMap() {
@@ -708,7 +707,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, V> implements
     return rowKeyToIndex.keySet();
   }
 
-  private transient @MonotonicNonNull RowMap rowMap;
+  private transient RowMap rowMap;
 
   @Override
   public Map<R, Map<C, V>> rowMap() {

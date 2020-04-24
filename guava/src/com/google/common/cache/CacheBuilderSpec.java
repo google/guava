@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * A specification of a {@link CacheBuilder} configuration.
@@ -107,19 +106,19 @@ public final class CacheBuilderSpec {
           .put("refreshInterval", new RefreshDurationParser())
           .build();
 
-  @MonotonicNonNull @VisibleForTesting Integer initialCapacity;
-  @MonotonicNonNull @VisibleForTesting Long maximumSize;
-  @MonotonicNonNull @VisibleForTesting Long maximumWeight;
-  @MonotonicNonNull @VisibleForTesting Integer concurrencyLevel;
-  @MonotonicNonNull @VisibleForTesting Strength keyStrength;
-  @MonotonicNonNull @VisibleForTesting Strength valueStrength;
-  @MonotonicNonNull @VisibleForTesting Boolean recordStats;
+  @VisibleForTesting Integer initialCapacity;
+  @VisibleForTesting Long maximumSize;
+  @VisibleForTesting Long maximumWeight;
+  @VisibleForTesting Integer concurrencyLevel;
+  @VisibleForTesting Strength keyStrength;
+  @VisibleForTesting Strength valueStrength;
+  @VisibleForTesting Boolean recordStats;
   @VisibleForTesting long writeExpirationDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit writeExpirationTimeUnit;
+  @VisibleForTesting TimeUnit writeExpirationTimeUnit;
   @VisibleForTesting long accessExpirationDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit accessExpirationTimeUnit;
+  @VisibleForTesting TimeUnit accessExpirationTimeUnit;
   @VisibleForTesting long refreshDuration;
-  @MonotonicNonNull @VisibleForTesting TimeUnit refreshTimeUnit;
+  @VisibleForTesting TimeUnit refreshTimeUnit;
   /** Specification; used for toParseableString(). */
   private final String specification;
 

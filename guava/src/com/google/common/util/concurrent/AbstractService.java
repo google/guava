@@ -32,6 +32,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,7 +47,6 @@ import java.util.concurrent.TimeoutException;
  * @author Luke Sandberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
@@ -215,7 +215,7 @@ public abstract class AbstractService implements Service {
    *
    * <p>If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not
    * invoked immediately. Instead, it will be deferred until after the service is {@link
-   * State#RUNNING}. Services that need to cancel startup work can override {#link #doCancelStart}.
+   * State#RUNNING}. Services that need to cancel startup work can override {@link #doCancelStart}.
    */
   @ForOverride
   protected abstract void doStop();
@@ -234,6 +234,7 @@ public abstract class AbstractService implements Service {
    *
    * @since 27.0
    */
+  @Beta
   @ForOverride
   protected void doCancelStart() {}
 
@@ -304,6 +305,12 @@ public abstract class AbstractService implements Service {
     }
   }
 
+  /** @since 28.0 */
+  @Override
+  public final void awaitRunning(Duration timeout) throws TimeoutException {
+    Service.super.awaitRunning(timeout);
+  }
+
   @Override
   public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
     if (monitor.enterWhenUninterruptibly(hasReachedRunning, timeout, unit)) {
@@ -329,6 +336,12 @@ public abstract class AbstractService implements Service {
     } finally {
       monitor.leave();
     }
+  }
+
+  /** @since 28.0 */
+  @Override
+  public final void awaitTerminated(Duration timeout) throws TimeoutException {
+    Service.super.awaitTerminated(timeout);
   }
 
   @Override

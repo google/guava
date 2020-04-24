@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collector;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * A {@link Multiset} whose contents will never change, with many other important properties
@@ -236,7 +235,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     final Iterator<Entry<E>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<E>() {
       int remaining;
-      @MonotonicNonNull E element;
+      E element;
 
       @Override
       public boolean hasNext() {

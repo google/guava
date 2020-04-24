@@ -35,7 +35,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /**
  * A general-purpose bimap implementation using any two backing {@code Map} instances.
@@ -50,8 +49,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     implements BiMap<K, V>, Serializable {
 
-  private transient @MonotonicNonNull Map<K, V> delegate;
-  @MonotonicNonNull @RetainedWith transient AbstractBiMap<V, K> inverse;
+  private transient Map<K, V> delegate;
+  @RetainedWith transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {
@@ -210,7 +209,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return inverse;
   }
 
-  private transient @MonotonicNonNull Set<K> keySet;
+  private transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -255,7 +254,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  private transient @MonotonicNonNull Set<V> valueSet;
+  private transient Set<V> valueSet;
 
   @Override
   public Set<V> values() {
@@ -297,7 +296,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
   }
 
-  private transient @MonotonicNonNull Set<Entry<K, V>> entrySet;
+  private transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {

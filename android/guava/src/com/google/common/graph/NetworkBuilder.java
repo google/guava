@@ -61,7 +61,7 @@ import com.google.common.base.Optional;
  * @param <N> The most general node type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #nodeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
- * @param <N> The most general edge type this builder will support. This is normally {@code Object}
+ * @param <E> The most general edge type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #edgeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
  * @since 20.0
@@ -182,7 +182,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}. */
   public <N1 extends N, E1 extends E> MutableNetwork<N1, E1> build() {
-    return new ConfigurableMutableNetwork<>(this);
+    return new StandardMutableNetwork<>(this);
   }
 
   @SuppressWarnings("unchecked")

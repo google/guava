@@ -307,13 +307,12 @@ public final class CharStreams {
 
     @Override
     public Writer append(CharSequence csq) {
-      checkNotNull(csq);
       return this;
     }
 
     @Override
     public Writer append(CharSequence csq, int start, int end) {
-      checkPositionIndexes(start, end, csq.length());
+      checkPositionIndexes(start, end, csq == null ? "null".length() : csq.length());
       return this;
     }
 

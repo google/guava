@@ -108,19 +108,9 @@ public void testMax() throws Exception {
   testCase.testMax();
 }
 
-public void testMax_noArgs() throws Exception {
-  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
-  testCase.testMax_noArgs();
-}
-
 public void testMin() throws Exception {
   com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
   testCase.testMin();
-}
-
-public void testMin_noArgs() throws Exception {
-  com.google.common.primitives.DoublesTest testCase = new com.google.common.primitives.DoublesTest();
-  testCase.testMin_noArgs();
 }
 
 public void testReverse() throws Exception {

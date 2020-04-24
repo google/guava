@@ -28,7 +28,7 @@ final class Internal {
    * {@link Long#MAX_VALUE} or {@link Long#MIN_VALUE}. This behavior can be useful when decomposing
    * a duration in order to call a legacy API which requires a {@code long, TimeUnit} pair.
    */
-  static long saturatedToNanos(Duration duration) {
+  static long toNanosSaturated(Duration duration) {
     // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for
     // durations longer than approximately +/- 292 years).
     try {
