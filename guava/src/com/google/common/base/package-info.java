@@ -53,7 +53,6 @@
  *   <li>{@link com.google.common.base.Stopwatch}
  *   <li>{@link com.google.common.base.Throwables}
  * </ul>
- *
  */
 @CheckReturnValue
 @ParametersAreNonnullByDefault

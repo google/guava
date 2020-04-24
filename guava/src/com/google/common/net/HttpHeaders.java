@@ -28,7 +28,6 @@ import com.google.common.annotations.GwtCompatible;
  *   <li><a href="http://www.ietf.org/rfc/rfc5988.txt">RFC 5988</a>
  * </ul>
  *
- *
  * @author Kurt Alfred Kluever
  * @since 11.0
  */

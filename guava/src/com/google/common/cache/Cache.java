@@ -150,7 +150,6 @@ public interface Cache<K, V> {
    * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method
    * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for
    * all values is returned.
-   *
    */
   CacheStats stats();
 

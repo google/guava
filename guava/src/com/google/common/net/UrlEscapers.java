@@ -24,7 +24,6 @@ import com.google.common.escape.Escaper;
  * escaping with {@link com.google.common.html.HtmlEscapers} or {@link
  * com.google.common.xml.XmlEscapers}.
  *
- *
  * @author David Beaumont
  * @author Chris Povirk
  * @since 15.0
@@ -69,7 +68,6 @@ public final class UrlEscapers {
    *
    * <p><b>Note:</b> Unlike other escapers, URL escapers produce <a
    * href="https://url.spec.whatwg.org/#percent-encode">uppercase</a> hexadecimal sequences.
-   *
    */
   public static Escaper urlFormParameterEscaper() {
     return URL_FORM_PARAMETER_ESCAPER;

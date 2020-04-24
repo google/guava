@@ -88,7 +88,8 @@ abstract class AbstractTransformFuture<I, O, F, T> extends FluentFuture.TrustedF
     try {
       sourceResult = getDone(localInputFuture);
     } catch (CancellationException e) {
-      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture. This
+      // TODO(user): verify future behavior - unify logic with getFutureValue in AbstractFuture.
+      // This
       // code should be unreachable with correctly implemented Futures.
       // Cancel this future and return.
       // At this point, inputFuture is cancelled and outputFuture doesn't exist, so the value of

@@ -51,7 +51,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible final class TopKSelector<T> {
+@GwtCompatible
+final class TopKSelector<T> {
 
   /**
    * Returns a {@code TopKSelector} that collects the lowest {@code k} elements added to it,

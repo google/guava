@@ -57,7 +57,6 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
  *   <li>accumulation of cache access statistics
  * </ul>
  *
- *
  * <p>These features are all optional; caches can be created using all or none of them. By default
  * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
  *
