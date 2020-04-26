@@ -220,7 +220,7 @@ abstract class Striped64 extends Number {
           try {
             if (cells == as) { // Expand table unless stale
               Cell[] rs = new Cell[n << 1];
-              for (int i = 0; i < n; ++i) rs[i] = as[i];
+              System.arraycopy(as, 0, rs, 0, n);
               cells = rs;
             }
           } finally {
