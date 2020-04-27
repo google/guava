@@ -251,12 +251,16 @@ public final class Escapers {
         char[] output = new char[hiCount + loCount];
         if (hiChars != null) {
           // TODO: Is this faster than System.arraycopy() for small arrays?
-          System.arraycopy(hiChars, 0, output, 0, hiChars.length);
+            for (int n = 0; n < hiChars.length; ++n) {
+                output[n] = hiChars[n];
+            }
         } else {
           output[0] = surrogateChars[0];
         }
         if (loChars != null) {
-          System.arraycopy(loChars, 0, output, hiCount + 0, loChars.length);
+            for (int n = 0; n < loChars.length; ++n) {
+                output[hiCount + n] = loChars[n];
+            }
         } else {
           output[hiCount] = surrogateChars[1];
         }

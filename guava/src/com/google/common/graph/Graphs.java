@@ -127,9 +127,12 @@ public final class Graphs {
    */
   private static boolean canTraverseWithoutReusingEdge(
       Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
-    return graph.isDirected() || !Objects.equal(previousNode, nextNode);
+    if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
+      return true;
+    }
     // This falls into the undirected A->B->A case. The Graph interface does not support parallel
     // edges, so this traversal would require reusing the undirected AB edge.
+    return false;
   }
 
   /**

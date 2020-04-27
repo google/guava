@@ -292,8 +292,11 @@ public final class InternetDomainName {
      * address like 127.0.0.1 from looking like a valid domain name.
      */
 
-    return !isFinalPart || !DIGIT_MATCHER.matches(part.charAt(0));
+    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
+      return false;
+    }
 
+    return true;
   }
 
   /**

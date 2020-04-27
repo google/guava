@@ -715,7 +715,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       if ((i > 0) && (compareElements(i, getParentIndex(i)) > 0)) {
         return false;
       }
-      return (i <= 2) || (compareElements(getGrandparentIndex(i), i) <= 0);
+      if ((i > 2) && (compareElements(getGrandparentIndex(i), i) > 0)) {
+        return false;
+      }
+      return true;
     }
 
     // These would be static if inner classes could have static members.
