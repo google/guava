@@ -516,7 +516,7 @@
 <span class="sourceLineNo">508</span><a name="line.508"></a>
 <span class="sourceLineNo">509</span>    @Override<a name="line.509"></a>
 <span class="sourceLineNo">510</span>    public void putCoalescing(Range&lt;K&gt; range, V value) {<a name="line.510"></a>
-<span class="sourceLineNo">511</span>      if (entriesByLowerBound.isEmpty() || range.isEmpty() || !subRange.encloses(range)) {<a name="line.511"></a>
+<span class="sourceLineNo">511</span>      if (entriesByLowerBound.isEmpty() || !subRange.encloses(range)) {<a name="line.511"></a>
 <span class="sourceLineNo">512</span>        put(range, value);<a name="line.512"></a>
 <span class="sourceLineNo">513</span>        return;<a name="line.513"></a>
 <span class="sourceLineNo">514</span>      }<a name="line.514"></a>
