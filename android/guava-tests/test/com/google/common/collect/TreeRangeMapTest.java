@@ -489,6 +489,20 @@ public class TreeRangeMapTest extends TestCase {
     assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), rangeMap.asMapOfRanges());
   }
 
+  public void testPutCoalescingSubmapEmpty() {
+    RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closedOpen(0, 1), 1);
+    rangeMap.put(Range.closedOpen(1, 2), 1);
+    assertEquals(
+        ImmutableMap.of(Range.closedOpen(0, 1), 1, Range.closedOpen(1, 2), 1),
+        rangeMap.asMapOfRanges());
+
+    RangeMap<Integer, Integer> subRangeMap = rangeMap.subRangeMap(Range.closedOpen(0, 2));
+    subRangeMap.putCoalescing(Range.closedOpen(1, 1), 1); // empty range coalesces connected ranges
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), subRangeMap.asMapOfRanges());
+    assertEquals(ImmutableMap.of(Range.closedOpen(0, 2), 1), rangeMap.asMapOfRanges());
+  }
+
   public void testPutCoalescingComplex() {
     // {[0..1): 1, [1..3): 1, [3..5): 1, [7..10): 2, [12..15): 2, [18..19): 3}
     RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
