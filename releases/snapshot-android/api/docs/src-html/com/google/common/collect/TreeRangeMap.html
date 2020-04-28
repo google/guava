@@ -128,16 +128,16 @@
 <span class="sourceLineNo">120</span><a name="line.120"></a>
 <span class="sourceLineNo">121</span>  @Override<a name="line.121"></a>
 <span class="sourceLineNo">122</span>  public void put(Range&lt;K&gt; range, V value) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    // don't short-circuit if the range is empty - it may be between two ranges we can coalesce.<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    if (!range.isEmpty()) {<a name="line.124"></a>
-<span class="sourceLineNo">125</span>      checkNotNull(value);<a name="line.125"></a>
-<span class="sourceLineNo">126</span>      remove(range);<a name="line.126"></a>
-<span class="sourceLineNo">127</span>      entriesByLowerBound.put(range.lowerBound, new RangeMapEntry&lt;K, V&gt;(range, value));<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
-<span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  @Override<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  public void putCoalescing(Range&lt;K&gt; range, V value) {<a name="line.132"></a>
+<span class="sourceLineNo">123</span>    if (!range.isEmpty()) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>      checkNotNull(value);<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      remove(range);<a name="line.125"></a>
+<span class="sourceLineNo">126</span>      entriesByLowerBound.put(range.lowerBound, new RangeMapEntry&lt;K, V&gt;(range, value));<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    }<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @Override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public void putCoalescing(Range&lt;K&gt; range, V value) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    // don't short-circuit if the range is empty - it may be between two ranges we can coalesce.<a name="line.132"></a>
 <span class="sourceLineNo">133</span>    if (entriesByLowerBound.isEmpty()) {<a name="line.133"></a>
 <span class="sourceLineNo">134</span>      put(range, value);<a name="line.134"></a>
 <span class="sourceLineNo">135</span>      return;<a name="line.135"></a>
