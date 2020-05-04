@@ -1596,7 +1596,7 @@ public final class Sets {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof PowerSet) {
         PowerSet<?> that = (PowerSet<?>) obj;
-        return inputSet.equals(that.inputSet);
+        return inputSet.keySet().equals(that.inputSet.keySet());
       }
       return super.equals(obj);
     }
