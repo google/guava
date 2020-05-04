@@ -1604,7 +1604,7 @@
 <span class="sourceLineNo">1596</span>    public boolean equals(@Nullable Object obj) {<a name="line.1596"></a>
 <span class="sourceLineNo">1597</span>      if (obj instanceof PowerSet) {<a name="line.1597"></a>
 <span class="sourceLineNo">1598</span>        PowerSet&lt;?&gt; that = (PowerSet&lt;?&gt;) obj;<a name="line.1598"></a>
-<span class="sourceLineNo">1599</span>        return inputSet.equals(that.inputSet);<a name="line.1599"></a>
+<span class="sourceLineNo">1599</span>        return inputSet.keySet().equals(that.inputSet.keySet());<a name="line.1599"></a>
 <span class="sourceLineNo">1600</span>      }<a name="line.1600"></a>
 <span class="sourceLineNo">1601</span>      return super.equals(obj);<a name="line.1601"></a>
 <span class="sourceLineNo">1602</span>    }<a name="line.1602"></a>

@@ -1513,7 +1513,7 @@
 <span class="sourceLineNo">1505</span>    public boolean equals(@NullableDecl Object obj) {<a name="line.1505"></a>
 <span class="sourceLineNo">1506</span>      if (obj instanceof PowerSet) {<a name="line.1506"></a>
 <span class="sourceLineNo">1507</span>        PowerSet&lt;?&gt; that = (PowerSet&lt;?&gt;) obj;<a name="line.1507"></a>
-<span class="sourceLineNo">1508</span>        return inputSet.equals(that.inputSet);<a name="line.1508"></a>
+<span class="sourceLineNo">1508</span>        return inputSet.keySet().equals(that.inputSet.keySet());<a name="line.1508"></a>
 <span class="sourceLineNo">1509</span>      }<a name="line.1509"></a>
 <span class="sourceLineNo">1510</span>      return super.equals(obj);<a name="line.1510"></a>
 <span class="sourceLineNo">1511</span>    }<a name="line.1511"></a>
