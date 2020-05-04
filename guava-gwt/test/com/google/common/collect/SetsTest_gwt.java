@@ -303,6 +303,11 @@ public void testPowerSetEqualsAndHashCode_verifyAgainstHashSet() throws Exceptio
   testCase.testPowerSetEqualsAndHashCode_verifyAgainstHashSet();
 }
 
+public void testPowerSetEquals_independentOfOrder() throws Exception {
+  com.google.common.collect.SetsTest testCase = new com.google.common.collect.SetsTest();
+  testCase.testPowerSetEquals_independentOfOrder();
+}
+
 public void testPowerSetHashCode_inputHashCodeTimesTooFarValueIsZero() throws Exception {
   com.google.common.collect.SetsTest testCase = new com.google.common.collect.SetsTest();
   testCase.testPowerSetHashCode_inputHashCodeTimesTooFarValueIsZero();
