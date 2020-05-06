@@ -28,6 +28,8 @@ abstract class AbstractGraphBuilder<N extends @NonNull Object> {
   final boolean directed;
   boolean allowsSelfLoops = false;
   ElementOrder<N> nodeOrder = ElementOrder.insertion();
+  ElementOrder<N> incidentEdgeOrder = ElementOrder.unordered();
+
   Optional<Integer> expectedNodeCount = Optional.absent();
 
   /**

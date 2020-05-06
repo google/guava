@@ -123,6 +123,9 @@ abstract class AbstractDirectedNetworkConnections<
 
   @Override
   public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    checkNotNull(edge);
+    checkNotNull(node);
+
     if (isSelfLoop) {
       checkPositive(++selfLoopCount);
     }
@@ -132,6 +135,9 @@ abstract class AbstractDirectedNetworkConnections<
 
   @Override
   public void addOutEdge(E edge, N node) {
+    checkNotNull(edge);
+    checkNotNull(node);
+
     N previousNode = outEdgeMap.put(edge, node);
     checkState(previousNode == null);
   }

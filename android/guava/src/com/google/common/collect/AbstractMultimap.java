@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -106,7 +105,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return result;
   }
 
-  @MonotonicNonNullDecl private transient Collection<Entry<K, V>> entries;
+  @NullableDecl private transient Collection<Entry<K, V>> entries;
 
   @Override
   public Collection<Entry<K, V>> entries() {
@@ -144,7 +143,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   abstract Iterator<Entry<K, V>> entryIterator();
 
-  @MonotonicNonNullDecl private transient Set<K> keySet;
+  @NullableDecl private transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -154,7 +153,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   abstract Set<K> createKeySet();
 
-  @MonotonicNonNullDecl private transient Multiset<K> keys;
+  @NullableDecl private transient Multiset<K> keys;
 
   @Override
   public Multiset<K> keys() {
@@ -164,7 +163,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
 
   abstract Multiset<K> createKeys();
 
-  @MonotonicNonNullDecl private transient Collection<V> values;
+  @NullableDecl private transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -201,7 +200,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
     return Maps.valueIterator(entries().iterator());
   }
 
-  @MonotonicNonNullDecl private transient Map<K, Collection<V>> asMap;
+  @NullableDecl private transient Map<K, Collection<V>> asMap;
 
   @Override
   public Map<K, Collection<V>> asMap() {

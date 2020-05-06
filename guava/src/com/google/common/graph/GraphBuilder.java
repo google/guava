@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
@@ -89,13 +90,17 @@ public final class GraphBuilder<N extends @NonNull Object> extends AbstractGraph
   public static <N extends @NonNull Object> GraphBuilder<N> from(Graph<N> graph) {
     return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder());
+        .nodeOrder(graph.nodeOrder())
+        .incidentEdgeOrder(graph.incidentEdgeOrder());
   }
 
   /**
    * Returns an {@link ImmutableGraph.Builder} with the properties of this {@link GraphBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
+   *
+   * <p>Note that the returned builder will always have {@link #incidentEdgeOrder} set to {@link
+   * ElementOrder#stable()}, regardless of the value that was set in this builder.
    *
    * @since 28.0
    */
@@ -137,9 +142,43 @@ public final class GraphBuilder<N extends @NonNull Object> extends AbstractGraph
     return newBuilder;
   }
 
+  /**
+   * Specifies the order of iteration for the elements of {@link Graph#edges()}, {@link
+   * Graph#adjacentNodes(Object)}, {@link Graph#predecessors(Object)}, {@link
+   * Graph#successors(Object)} and {@link Graph#incidentEdges(Object)}.
+   *
+   * <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+   * immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+   * stable} order.
+   *
+   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   * @since 29.0
+   */
+  public <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
+    checkArgument(
+        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED
+            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,
+        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"
+            + " ElementOrder.unordered() and ElementOrder.stable().",
+        incidentEdgeOrder);
+    GraphBuilder<N1> newBuilder = cast();
+    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);
+    return newBuilder;
+  }
+
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new ConfigurableMutableGraph<N1>(this);
+    return new StandardMutableGraph<N1>(this);
+  }
+
+  GraphBuilder<N> copy() {
+    GraphBuilder<N> newBuilder = new GraphBuilder<>(directed);
+    newBuilder.allowsSelfLoops = allowsSelfLoops;
+    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.expectedNodeCount = expectedNodeCount;
+    newBuilder.incidentEdgeOrder = incidentEdgeOrder;
+    return newBuilder;
   }
 
   @SuppressWarnings("unchecked")

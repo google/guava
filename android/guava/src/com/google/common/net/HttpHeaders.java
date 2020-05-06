@@ -165,6 +165,8 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
    * Service-Worker}</a> header field name.
+   *
+   * @since 20.0
    */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
@@ -264,6 +266,12 @@ public final class HttpHeaders {
    * @since 20.0
    */
   public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";
+  /**
+   * The HTTP Cross-Origin-Opener-Policy header field name.
+   *
+   * @since 28.2
+   */
+  public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */

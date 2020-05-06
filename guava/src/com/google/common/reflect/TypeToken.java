@@ -1226,9 +1226,9 @@ public abstract class TypeToken<T extends @NonNull Object> extends TypeCapture<T
   }
 
   private TypeToken<? extends T> getSubtypeFromLowerBounds(Class<?> subclass, Type[] lowerBounds) {
-    for (Type lowerBound : lowerBounds) {
+    if (lowerBounds.length > 0) {
       @SuppressWarnings("unchecked") // T's lower bound is <? extends T>
-      TypeToken<? extends T> bound = (TypeToken<? extends T>) of(lowerBound);
+      TypeToken<? extends T> bound = (TypeToken<? extends T>) of(lowerBounds[0]);
       // Java supports only one lowerbound anyway.
       return bound.getSubtype(subclass);
     }

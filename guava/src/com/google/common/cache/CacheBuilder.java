@@ -31,8 +31,6 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -51,9 +49,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *   <li>automatic loading of entries into the cache
  *   <li>least-recently-used eviction when a maximum size is exceeded
  *   <li>time-based expiration of entries, measured since last access or last write
- *   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
- *   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
- *       SoftReference soft} references
+ *   <li>keys automatically wrapped in {@code WeakReference}
+ *   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
  *   <li>notification of evicted (or otherwise removed) entries
  *   <li>accumulation of cache access statistics
  * </ul>
@@ -657,7 +654,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterWrite(java.time.Duration duration) {
-    return expireAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return expireAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -693,6 +690,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getExpireAfterWriteNanos() {
     return (expireAfterWriteNanos == UNSET_INT) ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
   }
@@ -726,7 +724,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> expireAfterAccess(java.time.Duration duration) {
-    return expireAfterAccess(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return expireAfterAccess(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -767,6 +765,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getExpireAfterAccessNanos() {
     return (expireAfterAccessNanos == UNSET_INT)
         ? DEFAULT_EXPIRATION_NANOS
@@ -803,7 +802,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // java.time.Duration decomposition
   public CacheBuilder<K, V> refreshAfterWrite(java.time.Duration duration) {
-    return refreshAfterWrite(saturatedToNanos(duration), TimeUnit.NANOSECONDS);
+    return refreshAfterWrite(toNanosSaturated(duration), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -845,6 +844,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
     return this;
   }
 
+  @SuppressWarnings("GoodTime") // nanos internally, should be Duration
   long getRefreshNanos() {
     return (refreshNanos == UNSET_INT) ? DEFAULT_REFRESH_NANOS : refreshNanos;
   }
@@ -1040,7 +1040,7 @@ public final class CacheBuilder<K extends @NonNull Object, V extends @NonNull Ob
    */
   @GwtIncompatible // java.time.Duration
   @SuppressWarnings("GoodTime") // duration decomposition
-  private static long saturatedToNanos(java.time.Duration duration) {
+  private static long toNanosSaturated(java.time.Duration duration) {
     // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for
     // durations longer than approximately +/- 292 years).
     try {

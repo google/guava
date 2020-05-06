@@ -719,7 +719,7 @@ public abstract class ImmutableMap<K extends @NonNull Object, V extends @NonNull
     return (result != null) ? result : defaultValue;
   }
 
-  @LazyInit @Nullable @RetainedWith private transient ImmutableSet<Entry<K, V>> entrySet;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entrySet;
 
   /**
    * Returns an immutable set of the mappings in this map. The iteration order is specified by the
@@ -733,7 +733,7 @@ public abstract class ImmutableMap<K extends @NonNull Object, V extends @NonNull
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  @LazyInit @Nullable @RetainedWith private transient ImmutableSet<K> keySet;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<K> keySet;
 
   /**
    * Returns an immutable set of the keys in this map, in the same order that they appear in {@link
@@ -771,7 +771,7 @@ public abstract class ImmutableMap<K extends @NonNull Object, V extends @NonNull
     return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
-  @LazyInit @Nullable @RetainedWith private transient ImmutableCollection<V> values;
+  @LazyInit @RetainedWith private transient @Nullable ImmutableCollection<V> values;
 
   /**
    * Returns an immutable collection of the values in this map, in the same order that they appear
@@ -791,7 +791,7 @@ public abstract class ImmutableMap<K extends @NonNull Object, V extends @NonNull
   abstract ImmutableCollection<V> createValues();
 
   // cached so that this.multimapView().inverse() only computes inverse once
-  @LazyInit @Nullable private transient ImmutableSetMultimap<K, V> multimapView;
+  @LazyInit private transient @Nullable ImmutableSetMultimap<K, V> multimapView;
 
   /**
    * Returns a multimap view of the map.

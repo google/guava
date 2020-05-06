@@ -44,9 +44,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @Beta
 @Immutable(containerOf = {"N", "V"})
-@SuppressWarnings("Immutable") // Extends ConfigurableValueGraph but uses ImmutableMaps.
+@SuppressWarnings("Immutable") // Extends StandardValueGraph but uses ImmutableMaps.
 public final class ImmutableValueGraph<N extends @NonNull Object, V extends @NonNull Object>
-    extends ConfigurableValueGraph<N, V> {
+    extends StandardValueGraph<N, V> {
 
   private ImmutableValueGraph(ValueGraph<N, V> graph) {
     super(ValueGraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size());
@@ -69,6 +69,11 @@ public final class ImmutableValueGraph<N extends @NonNull Object, V extends @Non
   public static <N extends @NonNull Object, V extends @NonNull Object>
       ImmutableValueGraph<N, V> copyOf(ImmutableValueGraph<N, V> graph) {
     return checkNotNull(graph);
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
   }
 
   @Override
@@ -100,7 +105,7 @@ public final class ImmutableValueGraph<N extends @NonNull Object, V extends @Non
         };
     return graph.isDirected()
         ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), successorNodeToValueFn))
+            node, graph.incidentEdges(node), successorNodeToValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), successorNodeToValueFn));
   }
@@ -131,7 +136,10 @@ public final class ImmutableValueGraph<N extends @NonNull Object, V extends @Non
     private final MutableValueGraph<N, V> mutableValueGraph;
 
     Builder(ValueGraphBuilder<N, V> graphBuilder) {
-      this.mutableValueGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableValueGraph =
+          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

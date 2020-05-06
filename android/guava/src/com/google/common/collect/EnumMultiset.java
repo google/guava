@@ -125,7 +125,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
 
   @Override
   public int count(@NullableDecl Object element) {
-    if (element == null || !isActuallyE(element)) {
+    if (!isActuallyE(element)) {
       return 0;
     }
     Enum<?> e = (Enum<?>) element;
@@ -157,7 +157,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   @CanIgnoreReturnValue
   @Override
   public int remove(@NullableDecl Object element, int occurrences) {
-    if (element == null || !isActuallyE(element)) {
+    if (!isActuallyE(element)) {
       return 0;
     }
     Enum<?> e = (Enum<?>) element;

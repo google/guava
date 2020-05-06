@@ -92,9 +92,9 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
   protected final @Nullable String pendingToString() {
     ImmutableCollection<? extends Future<? extends @Nullable Object>> localFutures = futures;
     if (localFutures != null) {
-      return "futures=[" + localFutures + "]";
+      return "futures=" + localFutures;
     }
-    return null;
+    return super.pendingToString();
   }
 
   /**

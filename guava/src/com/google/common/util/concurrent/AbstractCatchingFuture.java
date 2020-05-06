@@ -18,10 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor;
 import static com.google.common.util.concurrent.Platform.isInstanceOfThrowableClass;
-import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
+import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.ForOverride;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -76,10 +77,9 @@ abstract class AbstractCatchingFuture<
     ListenableFuture<? extends V> localInputFuture = inputFuture;
     Class<X> localExceptionType = exceptionType;
     F localFallback = fallback;
-    if (localInputFuture == null
-        | localExceptionType == null
-        | localFallback == null
-        | isCancelled()) {
+    if (localInputFuture == null | localExceptionType == null | localFallback == null
+        // This check, unlike all the others, is a volatile read
+        || isCancelled()) {
       return;
     }
     inputFuture = null;
@@ -88,10 +88,25 @@ abstract class AbstractCatchingFuture<
     V sourceResult = null;
     Throwable throwable = null;
     try {
-      sourceResult = getDone(localInputFuture);
+      if (localInputFuture instanceof InternalFutureFailureAccess) {
+        throwable =
+            InternalFutures.tryInternalFastPathGetFailure(
+                (InternalFutureFailureAccess) localInputFuture);
+      }
+      if (throwable == null) {
+        sourceResult = getDone(localInputFuture);
+      }
     } catch (ExecutionException e) {
-      // TODO(cpovirk): Sync to pull in changes from CL 282674203.
-      throwable = requireNonNull(e.getCause());
+      throwable = e.getCause();
+      if (throwable == null) {
+        throwable =
+            new NullPointerException(
+                "Future type "
+                    + localInputFuture.getClass()
+                    + " threw "
+                    + e.getClass()
+                    + " without a cause");
+      }
     } catch (Throwable e) { // this includes cancellation exception
       throwable = e;
     }
