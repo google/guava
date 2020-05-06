@@ -27,6 +27,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Aggregate future that collects (stores) results of each future. */
 @GwtCompatible(emulated = true)
 abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
+  /*
+   * We access this field racily but safely. For discussion of a similar situation, see the comments
+   * on the fields of TimeoutFuture. This field is slightly different than the fields discussed
+   * there: cancel() never reads this field, only writes to it. That makes the race here completely
+   * harmless, rather than just 99.99% harmless.
+   */
   private @Nullable List<@Nullable Present<V>> values;
 
   CollectionFuture(
@@ -34,7 +40,7 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
       boolean allMustSucceed) {
     super(futures, allMustSucceed, true);
 
-    this.values =
+    List<@Nullable Present<V>> values =
         futures.isEmpty()
             ? Collections.<@Nullable Present<V>>emptyList()
             : Lists.<@Nullable Present<V>>newArrayListWithCapacity(futures.size());
@@ -43,6 +49,8 @@ abstract class CollectionFuture<V, C> extends AggregateFuture<V, C> {
     for (int i = 0; i < futures.size(); ++i) {
       values.add(null);
     }
+
+    this.values = values;
   }
 
   @Override

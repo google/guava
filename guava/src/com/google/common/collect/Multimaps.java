@@ -675,11 +675,11 @@ public final class Multimaps {
   private static class UnmodifiableMultimap<K, V>
       extends ForwardingMultimap<K, V> implements Serializable {
     final Multimap<K, V> delegate;
-    @Nullable transient Collection<Entry<K, V>> entries;
-    @Nullable transient Multiset<K> keys;
-    @Nullable transient Set<K> keySet;
-    @Nullable transient Collection<V> values;
-    @Nullable transient Map<K, Collection<V>> map;
+    transient @Nullable Collection<Entry<K, V>> entries;
+    transient @Nullable Multiset<K> keys;
+    transient @Nullable Set<K> keySet;
+    transient @Nullable Collection<V> values;
+    transient @Nullable Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(final Multimap<K, V> delegate) {
       this.delegate = checkNotNull(delegate);

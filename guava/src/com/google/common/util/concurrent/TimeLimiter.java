@@ -14,7 +14,7 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -124,7 +124,7 @@ public interface TimeLimiter {
    */
   default <T extends @NonNull Object> T newProxy(
       T target, Class<T> interfaceType, Duration timeout) {
-    return newProxy(target, interfaceType, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return newProxy(target, interfaceType, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -169,7 +169,7 @@ public interface TimeLimiter {
   @CanIgnoreReturnValue
   default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
       throws TimeoutException, InterruptedException, ExecutionException {
-    return callWithTimeout(callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return callWithTimeout(callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -219,7 +219,7 @@ public interface TimeLimiter {
   default <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, Duration timeout) throws TimeoutException, ExecutionException {
     return callUninterruptiblyWithTimeout(
-        callable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+        callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -257,7 +257,7 @@ public interface TimeLimiter {
    */
   default void runWithTimeout(Runnable runnable, Duration timeout)
       throws TimeoutException, InterruptedException {
-    runWithTimeout(runnable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    runWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -299,6 +299,6 @@ public interface TimeLimiter {
    */
   default void runUninterruptiblyWithTimeout(Runnable runnable, Duration timeout)
       throws TimeoutException {
-    runUninterruptiblyWithTimeout(runnable, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    runUninterruptiblyWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 }

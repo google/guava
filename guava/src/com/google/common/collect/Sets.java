@@ -148,7 +148,7 @@ public final class Sets {
                 Accumulator::toImmutableSet,
                 Collector.Characteristics.UNORDERED);
 
-    @Nullable private EnumSet<E> set;
+    private @Nullable EnumSet<E> set;
 
     void add(E e) {
       if (set == null) {
@@ -1334,6 +1334,7 @@ public final class Sets {
    * @return the Cartesian product, as an immutable set containing immutable lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets}, or any element of a
    *     provided set is null
+   * @throws IllegalArgumentException if the cartesian product size exceeds the {@code int} range
    * @since 2.0
    */
   public static <B extends @NonNull Object> Set<List<B>> cartesianProduct(
@@ -1391,6 +1392,7 @@ public final class Sets {
    * @return the Cartesian product, as an immutable set containing immutable lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets}, or any element of a
    *     provided set is null
+   * @throws IllegalArgumentException if the cartesian product size exceeds the {@code int} range
    * @since 2.0
    */
   @SafeVarargs
@@ -1442,6 +1444,25 @@ public final class Sets {
     @Override
     protected Collection<List<E>> delegate() {
       return delegate;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object object) {
+      if (!(object instanceof List)) {
+        return false;
+      }
+      List<?> list = (List<?>) object;
+      if (list.size() != axes.size()) {
+        return false;
+      }
+      int i = 0;
+      for (Object o : list) {
+        if (!axes.get(i).contains(o)) {
+          return false;
+        }
+        i++;
+      }
+      return true;
     }
 
     @Override

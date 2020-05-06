@@ -1206,7 +1206,7 @@ class MapMakerInternalMap<
     int threshold;
 
     /** The per-segment table. */
-    @Nullable volatile AtomicReferenceArray<E> table;
+    volatile @Nullable AtomicReferenceArray<E> table;
 
     /** The maximum size of this map. MapMaker.UNSET_INT if there is no maximum. */
     final int maxSegmentSize;
@@ -2334,9 +2334,7 @@ class MapMakerInternalMap<
         }
         sum -= segments[i].modCount;
       }
-      if (sum != 0L) {
-        return false;
-      }
+      return sum == 0L;
     }
     return true;
   }
@@ -2492,7 +2490,7 @@ class MapMakerInternalMap<
     }
   }
 
-  @Nullable transient Set<K> keySet;
+  transient @Nullable Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2500,7 +2498,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @Nullable transient Collection<V> values;
+  transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2508,7 +2506,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @Nullable transient Set<Entry<K, V>> entrySet;
+  transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {

@@ -627,7 +627,6 @@ public abstract class ImmutableSortedSet<E extends @NonNull Object>
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
@@ -677,7 +676,6 @@ public abstract class ImmutableSortedSet<E extends @NonNull Object>
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
@@ -702,14 +700,12 @@ public abstract class ImmutableSortedSet<E extends @NonNull Object>
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E floor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /** @since 12.0 */
-  @GwtIncompatible // NavigableSet
   @Override
   public @Nullable E ceiling(E e) {
     return Iterables.getFirst(tailSet(e, true), null);

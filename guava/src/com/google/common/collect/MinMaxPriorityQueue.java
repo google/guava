@@ -762,8 +762,8 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
     private int expectedModCount = modCount;
     // The same element is not allowed in both forgetMeNot and skipMe, but duplicates are allowed in
     // either of them, up to the same multiplicity as the queue.
-    @Nullable private Queue<E> forgetMeNot;
-    @Nullable private List<E> skipMe;
+    private @Nullable Queue<E> forgetMeNot;
+    private @Nullable List<E> skipMe;
     private @Nullable E lastFromForgetMeNot;
     private boolean canRemove;
 
@@ -928,9 +928,7 @@ public final class MinMaxPriorityQueue<E extends @NonNull Object> extends Abstra
 
   @VisibleForTesting
   static int initialQueueSize(
-      int configuredExpectedSize,
-      int maximumSize,
-      Iterable<?> initialContents) {
+      int configuredExpectedSize, int maximumSize, Iterable<?> initialContents) {
     // Start with what they said, if they said it, otherwise DEFAULT_CAPACITY
     int result =
         (configuredExpectedSize == Builder.UNSET_EXPECTED_SIZE)

@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Doubles {
+public final class Doubles extends DoublesMethodsForWeb {
   private Doubles() {}
 
   /**
@@ -207,6 +207,8 @@ public final class Doubles {
    *     the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static double min(double... array) {
     checkArgument(array.length > 0);
     double min = array[0];
@@ -225,6 +227,8 @@ public final class Doubles {
    *     in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
+  @GwtIncompatible(
+      "Available in GWT! Annotation is to avoid conflict with GWT specialization of base class.")
   public static double max(double... array) {
     checkArgument(array.length > 0);
     double max = array[0];
@@ -687,6 +691,7 @@ public final class Doubles {
    * @param string the string representation of a {@code double} value
    * @return the floating point value represented by {@code string}, or {@code null} if {@code
    *     string} has a length of zero or cannot be parsed as a {@code double} value
+   * @throws NullPointerException if {@code string} is {@code null}
    * @since 14.0
    */
   @Beta

@@ -14,7 +14,7 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
@@ -79,7 +79,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @Beta
   public static boolean awaitUninterruptibly(CountDownLatch latch, Duration timeout) {
-    return awaitUninterruptibly(latch, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return awaitUninterruptibly(latch, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -120,7 +120,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @Beta
   public static boolean awaitUninterruptibly(Condition condition, Duration timeout) {
-    return awaitUninterruptibly(condition, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return awaitUninterruptibly(condition, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -181,7 +181,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @Beta
   public static void joinUninterruptibly(Thread toJoin, Duration timeout) {
-    joinUninterruptibly(toJoin, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    joinUninterruptibly(toJoin, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -273,7 +273,7 @@ public final class Uninterruptibles {
   @Beta
   public static <V> V getUninterruptibly(
       Future<V> future, Duration timeout) throws ExecutionException, TimeoutException {
-    return getUninterruptibly(future, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return getUninterruptibly(future, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -376,7 +376,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @Beta
   public static void sleepUninterruptibly(Duration sleepFor) {
-    sleepUninterruptibly(saturatedToNanos(sleepFor), TimeUnit.NANOSECONDS);
+    sleepUninterruptibly(toNanosSaturated(sleepFor), TimeUnit.NANOSECONDS);
   }
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
@@ -414,7 +414,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @Beta
   public static boolean tryAcquireUninterruptibly(Semaphore semaphore, Duration timeout) {
-    return tryAcquireUninterruptibly(semaphore, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquireUninterruptibly(semaphore, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**
@@ -441,7 +441,7 @@ public final class Uninterruptibles {
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, Duration timeout) {
     return tryAcquireUninterruptibly(
-        semaphore, permits, saturatedToNanos(timeout), TimeUnit.NANOSECONDS);
+        semaphore, permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
   }
 
   /**

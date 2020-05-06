@@ -63,6 +63,11 @@ abstract class ForwardingValueGraph<N extends @NonNull Object, V extends @NonNul
   }
 
   @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return delegate().incidentEdgeOrder();
+  }
+
+  @Override
   public Set<N> adjacentNodes(N node) {
     return delegate().adjacentNodes(node);
   }

@@ -72,6 +72,11 @@ public abstract class AbstractValueGraph<N extends @NonNull Object, V extends @N
       }
 
       @Override
+      public ElementOrder<N> incidentEdgeOrder() {
+        return AbstractValueGraph.this.incidentEdgeOrder();
+      }
+
+      @Override
       public Set<N> adjacentNodes(N node) {
         return AbstractValueGraph.this.adjacentNodes(node);
       }

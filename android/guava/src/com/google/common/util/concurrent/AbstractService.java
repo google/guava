@@ -47,7 +47,6 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Luke Sandberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractService implements Service {
   private static final ListenerCallQueue.Event<Listener> STARTING_EVENT =
@@ -216,7 +215,7 @@ public abstract class AbstractService implements Service {
    *
    * <p>If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not
    * invoked immediately. Instead, it will be deferred until after the service is {@link
-   * State#RUNNING}. Services that need to cancel startup work can override {#link #doCancelStart}.
+   * State#RUNNING}. Services that need to cancel startup work can override {@link #doCancelStart}.
    */
   @ForOverride
   protected abstract void doStop();
@@ -235,6 +234,7 @@ public abstract class AbstractService implements Service {
    *
    * @since 27.0
    */
+  @Beta
   @ForOverride
   protected void doCancelStart() {}
 

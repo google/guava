@@ -290,6 +290,18 @@ public class QuantilesTest extends TestCase {
             8, SIXTEEN_SQUARES_DECILE_8);
   }
 
+  public void testScale_indexes_varargs_compute_indexOrderIsMaintained() {
+    assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(SIXTEEN_SQUARES_INTEGERS))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactly(
+            0, SIXTEEN_SQUARES_MIN,
+            10, SIXTEEN_SQUARES_MAX,
+            5, SIXTEEN_SQUARES_MEDIAN,
+            1, SIXTEEN_SQUARES_DECILE_1,
+            8, SIXTEEN_SQUARES_DECILE_8)
+        .inOrder();
+  }
+
   public void testScale_indexes_varargs_compute_doubleVarargs() {
     double[] dataset = Doubles.toArray(SIXTEEN_SQUARES_DOUBLES);
     assertThat(Quantiles.scale(10).indexes(0, 10, 5, 1, 8, 1).compute(dataset))
@@ -740,6 +752,15 @@ public class QuantilesTest extends TestCase {
     Quantiles.ScaleAndIndexes intermediate = Quantiles.scale(10).indexes(1, 3, 5);
     try {
       intermediate.computeInPlace(new double[] {});
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testScale_indexes_indexes_computeInPlace_empty() {
+    int[] emptyIndexes = {};
+    try {
+      Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
       fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
     }

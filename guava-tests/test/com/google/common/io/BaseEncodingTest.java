@@ -19,6 +19,7 @@ import static com.google.common.io.BaseEncoding.base16;
 import static com.google.common.io.BaseEncoding.base32;
 import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
+import static com.google.common.io.BaseEncoding.base64Url;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
@@ -189,6 +190,16 @@ public class BaseEncodingTest extends TestCase {
     testEncodesWithOffset(base64(), "foobar", 2, 3, "b2Jh");
     testEncodesWithOffset(base64(), "foobar", 3, 1, "Yg==");
     testEncodesWithOffset(base64(), "foobar", 4, 0, "");
+  }
+
+  public void testBase64Url() {
+    testDecodesByBytes(base64Url(), "_zzz", new byte[] {-1, 60, -13});
+    testDecodesByBytes(base64Url(), "-zzz", new byte[] {-5, 60, -13});
+  }
+
+  public void testBase64UrlInvalidDecodings() {
+    assertFailsToDecode(base64Url(), "+zzz", "Unrecognized character: +");
+    assertFailsToDecode(base64Url(), "/zzz", "Unrecognized character: /");
   }
 
   public void testBase32() {
@@ -382,6 +393,11 @@ public class BaseEncodingTest extends TestCase {
   private static void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
     assertTrue(encoding.canDecode(encoded));
     assertThat(encoding.decode(encoded)).isEqualTo(decoded.getBytes(UTF_8));
+  }
+
+  private static void testDecodesByBytes(BaseEncoding encoding, String encoded, byte[] decoded) {
+    assertTrue(encoding.canDecode(encoded));
+    assertThat(encoding.decode(encoded)).isEqualTo(decoded);
   }
 
   private static void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {

@@ -27,7 +27,6 @@ import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -60,7 +59,7 @@ public class ImmutableGraph<N extends @NonNull Object> extends ForwardingGraph<N
     return (graph instanceof ImmutableGraph)
         ? (ImmutableGraph<N>) graph
         : new ImmutableGraph<N>(
-            new ConfigurableValueGraph<N, Presence>(
+            new StandardValueGraph<N, Presence>(
                 GraphBuilder.from(graph), getNodeConnections(graph), graph.edges().size()));
   }
 
@@ -72,6 +71,11 @@ public class ImmutableGraph<N extends @NonNull Object> extends ForwardingGraph<N
   @Deprecated
   public static <N extends @NonNull Object> ImmutableGraph<N> copyOf(ImmutableGraph<N> graph) {
     return checkNotNull(graph);
+  }
+
+  @Override
+  public ElementOrder<N> incidentEdgeOrder() {
+    return ElementOrder.stable();
   }
 
   private static <N extends @NonNull Object>
@@ -86,12 +90,13 @@ public class ImmutableGraph<N extends @NonNull Object> extends ForwardingGraph<N
     return nodeConnections.build();
   }
 
+  @SuppressWarnings("unchecked")
   private static <N extends @NonNull Object> GraphConnections<N, Presence> connectionsOf(
       Graph<N> graph, N node) {
-    Function<@Nullable Object, Presence> edgeValueFn = Functions.constant(Presence.EDGE_EXISTS);
+    Function<N, Presence> edgeValueFn =
+        (Function<N, Presence>) Functions.constant(Presence.EDGE_EXISTS);
     return graph.isDirected()
-        ? DirectedGraphConnections.ofImmutable(
-            graph.predecessors(node), Maps.asMap(graph.successors(node), edgeValueFn))
+        ? DirectedGraphConnections.ofImmutable(node, graph.incidentEdges(node), edgeValueFn)
         : UndirectedGraphConnections.ofImmutable(
             Maps.asMap(graph.adjacentNodes(node), edgeValueFn));
   }
@@ -127,7 +132,9 @@ public class ImmutableGraph<N extends @NonNull Object> extends ForwardingGraph<N
     private final MutableGraph<N> mutableGraph;
 
     Builder(GraphBuilder<N> graphBuilder) {
-      this.mutableGraph = graphBuilder.build();
+      // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
+      // modify this builder, so we make a copy instead.
+      this.mutableGraph = graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
     }
 
     /**

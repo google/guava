@@ -43,6 +43,16 @@ public void testCreateVideoType() throws Exception {
   testCase.testCreateVideoType();
 }
 
+public void testCreate_emptySubtype() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_emptySubtype();
+}
+
+public void testCreate_emptyType() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_emptyType();
+}
+
 public void testCreate_invalidSubtype() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testCreate_invalidSubtype();
@@ -51,6 +61,16 @@ public void testCreate_invalidSubtype() throws Exception {
 public void testCreate_invalidType() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testCreate_invalidType();
+}
+
+public void testCreate_nonAsciiSubtype() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_nonAsciiSubtype();
+}
+
+public void testCreate_nonAsciiType() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testCreate_nonAsciiType();
 }
 
 public void testCreate_wildcardTypeDeclaredSubtype() throws Exception {
@@ -133,9 +153,24 @@ public void testWithParameter() throws Exception {
   testCase.testWithParameter();
 }
 
+public void testWithParameter_emptyParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_emptyParameter();
+}
+
 public void testWithParameter_invalidAttribute() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParameter_invalidAttribute();
+}
+
+public void testWithParameter_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_nonAsciiParameter();
+}
+
+public void testWithParameter_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameter_nonAsciiParameterValue();
 }
 
 public void testWithParameters() throws Exception {
@@ -153,6 +188,16 @@ public void testWithParametersIterable_invalidAttribute() throws Exception {
   testCase.testWithParametersIterable_invalidAttribute();
 }
 
+public void testWithParametersIterable_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParametersIterable_nonAsciiParameter();
+}
+
+public void testWithParametersIterable_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParametersIterable_nonAsciiParameterValue();
+}
+
 public void testWithParametersIterable_nullValue() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParametersIterable_nullValue();
@@ -161,6 +206,16 @@ public void testWithParametersIterable_nullValue() throws Exception {
 public void testWithParameters_invalidAttribute() throws Exception {
   com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
   testCase.testWithParameters_invalidAttribute();
+}
+
+public void testWithParameters_nonAsciiParameter() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameters_nonAsciiParameter();
+}
+
+public void testWithParameters_nonAsciiParameterValue() throws Exception {
+  com.google.common.net.MediaTypeTest testCase = new com.google.common.net.MediaTypeTest();
+  testCase.testWithParameters_nonAsciiParameterValue();
 }
 
 public void testWithoutParameters() throws Exception {

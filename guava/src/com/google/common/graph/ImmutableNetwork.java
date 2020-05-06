@@ -46,9 +46,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 @Beta
 @Immutable(containerOf = {"N", "E"})
-@SuppressWarnings("Immutable") // Extends ConfigurableNetwork but uses ImmutableMaps.
+@SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
 public final class ImmutableNetwork<N extends @NonNull Object, E extends @NonNull Object>
-    extends ConfigurableNetwork<N, E> {
+    extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
     super(

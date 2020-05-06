@@ -15,7 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.util.concurrent.Internal.saturatedToNanos;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -263,7 +263,7 @@ public abstract class FluentFuture<V>
   @GwtIncompatible // ScheduledExecutorService
   public final FluentFuture<V> withTimeout(
       Duration timeout, ScheduledExecutorService scheduledExecutor) {
-    return withTimeout(saturatedToNanos(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
+    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
   }
 
   /**

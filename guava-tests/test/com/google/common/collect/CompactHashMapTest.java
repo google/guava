@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
@@ -58,7 +59,30 @@ public class CompactHashMapTest extends TestCase {
                 CollectionFeature.SERIALIZABLE,
                 CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    CompactHashMap<String, String> map = CompactHashMap.create();
+                    map.convertToHashFloodingResistantImplementation();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactHashMap with flooding resistance")
+            .withFeatures(
+                CollectionSize.ANY,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
+            .createTestSuite());
     suite.addTestSuite(CompactHashMapTest.class);
+    suite.addTestSuite(FloodingTest.class);
     return suite;
   }
 
@@ -95,13 +119,13 @@ public class CompactHashMapTest extends TestCase {
 
     map.put(1, "1");
     assertThat(map.needsAllocArrays()).isFalse();
-    assertThat(map.entries).hasLength(CompactHashMap.DEFAULT_SIZE);
-    assertThat(map.keys).hasLength(CompactHashMap.DEFAULT_SIZE);
-    assertThat(map.values).hasLength(CompactHashMap.DEFAULT_SIZE);
+    assertThat(map.entries).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.keys).hasLength(CompactHashing.DEFAULT_SIZE);
+    assertThat(map.values).hasLength(CompactHashing.DEFAULT_SIZE);
   }
 
   public void testAllocArraysExpectedSize() {
-    for (int i = 0; i <= CompactHashMap.DEFAULT_SIZE; i++) {
+    for (int i = 0; i <= CompactHashing.DEFAULT_SIZE; i++) {
       CompactHashMap<Integer, String> map = CompactHashMap.createWithExpectedSize(i);
       assertThat(map.needsAllocArrays()).isTrue();
       assertThat(map.entries).isNull();
@@ -114,6 +138,15 @@ public class CompactHashMapTest extends TestCase {
       assertThat(map.entries).hasLength(expectedSize);
       assertThat(map.keys).hasLength(expectedSize);
       assertThat(map.values).hasLength(expectedSize);
+    }
+  }
+
+  public static class FloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
+    public FloodingTest() {
+      super(
+          ImmutableList.of(Construction.mapFromKeys(CompactHashMap::create)),
+          n -> n * Math.log(n),
+          ImmutableList.of(QueryOp.MAP_GET));
     }
   }
 }

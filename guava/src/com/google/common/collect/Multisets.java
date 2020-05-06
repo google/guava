@@ -138,7 +138,7 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @Nullable transient Set<E> elementSet;
+    transient @Nullable Set<E> elementSet;
 
     Set<E> createElementSet() {
       return Collections.<E>unmodifiableSet(delegate.elementSet());
@@ -150,7 +150,7 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @Nullable transient Set<Multiset.Entry<E>> entrySet;
+    transient @Nullable Set<Multiset.Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -1082,7 +1082,7 @@ public final class Multisets {
   static final class MultisetIteratorImpl<E> implements Iterator<E> {
     private final Multiset<E> multiset;
     private final Iterator<Entry<E>> entryIterator;
-    @Nullable private Entry<E> currentEntry;
+    private @Nullable Entry<E> currentEntry;
 
     /** Count of subsequent elements equal to current element */
     private int laterCount;

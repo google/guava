@@ -321,7 +321,17 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     return null;
   }
 
-  ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
+  public E ceiling(E e) {
+    ImmutableSortedSet<E> set = tailSet(e, true);
+    return !set.isEmpty() ? set.first() : null;
+  }
+
+  public E floor(E e) {
+    ImmutableSortedSet<E> set = headSet(e, true);
+    return !set.isEmpty() ? set.last() : null;
+  }
+
+  public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
     checkNotNull(toElement);
     if (inclusive) {
       E tmp = higher(toElement);
@@ -362,7 +372,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     }
   }
 
-  ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
+  public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
     checkNotNull(fromElement);
     if (!inclusive) {
       E tmp = higher(fromElement);

@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -73,11 +74,11 @@ public abstract class ImmutableTable<
     checkNotNull(columnFunction, "columnFunction");
     checkNotNull(valueFunction, "valueFunction");
     return Collector.of(
-        () -> new ImmutableTable.Builder<R, C, V>(),
+        (Supplier<Builder<R, C, V>>) Builder::new,
         (builder, t) ->
             builder.put(rowFunction.apply(t), columnFunction.apply(t), valueFunction.apply(t)),
-        (b1, b2) -> b1.combine(b2),
-        b -> b.build());
+        Builder::combine,
+        Builder::build);
   }
 
   /**

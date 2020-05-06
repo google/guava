@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
@@ -108,7 +109,7 @@ abstract class AbstractTable<
     }
   }
 
-  private transient @Nullable Set<Cell<R, C, V>> cellSet;
+  @LazyInit private transient @Nullable Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -183,7 +184,7 @@ abstract class AbstractTable<
     }
   }
 
-  private transient @Nullable Collection<V> values;
+  @LazyInit private transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {

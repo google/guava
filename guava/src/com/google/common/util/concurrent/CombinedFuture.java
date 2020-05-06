@@ -108,7 +108,7 @@ final class CombinedFuture<V>
         listenerExecutor.execute(this);
       } catch (RejectedExecutionException e) {
         if (thrownByExecute) {
-          setException(e);
+          CombinedFuture.this.setException(e);
         }
       }
     }
@@ -138,11 +138,11 @@ final class CombinedFuture<V>
 
       if (error instanceof ExecutionException) {
         // requireNonNull should be safe: See AbstractFuture.getFutureValue.
-        setException(requireNonNull(error.getCause()));
+        CombinedFuture.this.setException(requireNonNull(error.getCause()));
       } else if (error instanceof CancellationException) {
         cancel(false);
       } else {
-        setException(error);
+        CombinedFuture.this.setException(error);
       }
     }
 
@@ -172,7 +172,7 @@ final class CombinedFuture<V>
 
     @Override
     void setValue(ListenableFuture<V> value) {
-      setFuture(value);
+      CombinedFuture.this.setFuture(value);
     }
 
     @Override

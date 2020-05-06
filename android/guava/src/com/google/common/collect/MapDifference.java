@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.Map;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -26,6 +27,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
  * @author Kevin Bourrillion
  * @since 2.0
  */
+@DoNotMock("Use Maps.difference")
 @GwtCompatible
 public interface MapDifference<K, V> {
   /**
@@ -84,6 +86,7 @@ public interface MapDifference<K, V> {
    *
    * @since 2.0
    */
+  @DoNotMock("Use Maps.difference")
   interface ValueDifference<V> {
     /** Returns the value from the left map (possibly null). */
     V leftValue();

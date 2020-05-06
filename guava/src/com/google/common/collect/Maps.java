@@ -1684,8 +1684,8 @@ public final class Maps {
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    @Nullable @RetainedWith BiMap<V, K> inverse;
-    @Nullable transient Set<V> values;
+    @RetainedWith @Nullable BiMap<V, K> inverse;
+    transient @Nullable Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
