@@ -48634,6 +48634,28 @@
  @since 20.0]]>
       </doc>
     </field>
+    <field name="CROSS_ORIGIN_EMBEDDER_POLICY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP">{@code
+ Cross-Origin-Embedder-Policy}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP-RO">{@code
+ Cross-Origin-Embedder-Policy-Report-Only}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="CROSS_ORIGIN_OPENER_POLICY" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -66419,6 +66441,20 @@
  timeout, unit)} uninterruptibly.
 
  @since 18.0]]>
+      </doc>
+    </method>
+    <method name="tryLockUninterruptibly" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="lock" type="java.util.concurrent.locks.Lock"/>
+      <param name="timeout" type="long"/>
+      <param name="unit" type="java.util.concurrent.TimeUnit"/>
+      <doc>
+      <![CDATA[Invokes {@code lock.}{@link Lock#tryLock(long, TimeUnit) tryLock(timeout, unit)}
+ uninterruptibly.
+
+ @since NEXT]]>
       </doc>
     </method>
     <doc>

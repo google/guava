@@ -1,0 +1,4 @@
+OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterruptibly(java.util.concurrent.locks.Lock, java.time.Duration)
+OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterruptibly(java.util.concurrent.locks.Lock, long, java.util.concurrent.TimeUnit)
+OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY
+OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY
