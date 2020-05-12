@@ -24,7 +24,7 @@ import static java.lang.System.identityHashCode;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
-import com.google.j2objc.annotations.WeakOuter;
+import com.google.j2objc.annotations.RetainedWith;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.Executor;
@@ -80,7 +80,7 @@ final class SequentialExecutor implements Executor {
   @GuardedBy("queue")
   private long workerRunCount = 0;
 
-  private final QueueWorker worker = new QueueWorker();
+  @RetainedWith private final QueueWorker worker = new QueueWorker();
 
   /** Use {@link MoreExecutors#newSequentialExecutor} */
   SequentialExecutor(Executor executor) {
@@ -164,7 +164,6 @@ final class SequentialExecutor implements Executor {
   }
 
   /** Worker that runs tasks from {@link #queue} until it is empty. */
-  @WeakOuter
   private final class QueueWorker implements Runnable {
     @Override
     public void run() {
