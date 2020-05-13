@@ -475,6 +475,14 @@ public final class HttpHeaders {
   public static final String X_MOZ = "X-Moz";
 
   /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA = "Sec-CH-UA";
+
+  /**
    * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
    * header field name.
    *
