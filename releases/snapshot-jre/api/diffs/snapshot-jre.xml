@@ -51482,6 +51482,17 @@
  @since 28.0]]>
       </doc>
     </field>
+    <field name="SEC_CH_UA" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="SEC_FETCH_DEST" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
