@@ -481,6 +481,41 @@ public final class HttpHeaders {
    * @since NEXT
    */
   public static final String SEC_CH_UA = "Sec-CH-UA";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
+   * Sec-CH-UA-Model}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform">{@code
+   * Sec-CH-UA-Platform}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform-version">{@code
+   * Sec-CH-UA-Platform-Version}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-full-version">{@code
+   * Sec-CH-UA-Full-Version}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-mobile">{@code
+   * Sec-CH-UA-Mobile}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";
 
   /**
    * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
