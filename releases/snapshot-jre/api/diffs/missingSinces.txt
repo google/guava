@@ -3,3 +3,8 @@ OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterrupt
 OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY
 OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FULL_VERSION
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_MOBILE
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_MODEL
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_PLATFORM
+OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_PLATFORM_VERSION
