@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.putUninterrupti
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitTerminationUninterruptibly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -463,6 +464,41 @@ public class UninterruptiblesTest extends TestCase {
     repeatedlyInterruptTestThread(20, tearDownStack);
     semaphore.tryAcquireUnsuccessfully(10, 70);
     assertInterrupted();
+  }
+
+  // executor.awaitTermination Testcases
+  public void testTryAwaitTerminationUninterruptibly() {
+      ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
+      requestInterruptIn(500);
+      scheduledPool.execute(new Runnable() {
+        public void run() {
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      });
+	  scheduledPool.shutdown();
+      awaitTerminationUninterruptibly(scheduledPool, LONG_DELAY_MS, MILLISECONDS);
+      assertInterrupted();
+  }
+
+  public void testTryAwaitTerminationInfiniteTimeout() {
+      ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
+      requestInterruptIn(500);
+      scheduledPool.execute(new Runnable() {
+        public void run() {
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      });
+	  scheduledPool.shutdown();
+      awaitTerminationUninterruptibly(scheduledPool);
+      assertInterrupted();
   }
 
   /**

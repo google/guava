@@ -27,6 +27,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -509,6 +510,45 @@ public final class Uninterruptibles {
     } finally {
       if (interrupted) {
         Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /** Invokes {@code queue.}{@link ExecutorService#awaitTermination(long, TimeUnit)} uninterruptibly. */
+  @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime")
+  public static boolean awaitTerminationUninterruptibly(ExecutorService executor, long timeout, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+      while (true) {
+        try {
+          return executor.awaitTermination(remainingNanos, unit);
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code queue.}{@link ExecutorService#awaitTermination(long, TimeUnit)} uninterruptibly.
+   * Infinite timeout version.
+   */
+  @GwtIncompatible // concurrency
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
+  public static boolean awaitTerminationUninterruptibly(ExecutorService executor) {
+    boolean interrupted = false;
+    while (true) {
+      interrupted = awaitTerminationUninterruptibly(executor, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+      if(interrupted) {
+        return interrupted;
       }
     }
   }
