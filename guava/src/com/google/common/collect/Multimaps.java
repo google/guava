@@ -49,6 +49,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Spliterator;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
@@ -692,6 +693,11 @@ public final class Multimaps {
         entries = result = unmodifiableEntries(delegate.entries());
       }
       return result;
+    }
+
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> consumer) {
+      delegate.forEach(checkNotNull(consumer));
     }
 
     @Override
