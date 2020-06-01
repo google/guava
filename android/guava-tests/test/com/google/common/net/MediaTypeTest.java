@@ -192,6 +192,12 @@ public class MediaTypeTest extends TestCase {
     assertEquals("yams", newType.subtype());
   }
 
+  public void testCreateFontType() {
+    MediaType newType = MediaType.createFontType("yams");
+    assertEquals("font", newType.type());
+    assertEquals("yams", newType.subtype());
+  }
+
   public void testCreateImageType() {
     MediaType newType = MediaType.createImageType("yams");
     assertEquals("image", newType.type());
