@@ -1,6 +1,13 @@
 OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterruptibly(java.util.concurrent.locks.Lock, long, java.util.concurrent.TimeUnit)
+OK: com.google.common.net.MediaType Field ANY_FONT_TYPE
 OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY
 OK: com.google.common.net.HttpHeaders Field CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY
+OK: com.google.common.net.MediaType Field FONT_COLLECTION
+OK: com.google.common.net.MediaType Field FONT_OTF
+OK: com.google.common.net.MediaType Field FONT_SFNT
+OK: com.google.common.net.MediaType Field FONT_TTF
+OK: com.google.common.net.MediaType Field FONT_WOFF
+OK: com.google.common.net.MediaType Field FONT_WOFF2
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_FULL_VERSION
 OK: com.google.common.net.HttpHeaders Field SEC_CH_UA_MOBILE

@@ -101,6 +101,13 @@
     <![CDATA[Annotates a program element that exists, or is more widely visible than otherwise necessary, only
  for use in test code.
 
+ <p><b>Do not use this interface</b> for public or protected declarations: it is a fig leaf for
+ bad design, and it does not prevent anyone from using the declaration---and experience has shown
+ that they will. If the method breaks the encapsulation of its class, then its internal
+ representation will be hard to change. Instead, use <a
+ href="http://errorprone.info/bugpattern/RestrictedApiChecker">RestrictedApiChecker</a>, which
+ enforces fine-grained visibility policies.
+
  @author Johannes Henkel]]>
     </doc>
   </class>
@@ -50555,6 +50562,16 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
+    <field name="ANY_FONT_TYPE" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "font" top-level media type.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="CACHE_MANIFEST_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -51328,10 +51345,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[SFNT fonts (which includes <a href="http://en.wikipedia.org/wiki/TrueType/">TrueType</a> and <a
- href="http://en.wikipedia.org/wiki/OpenType/">OpenType</a> fonts). This is <a
- href="http://www.iana.org/assignments/media-types/application/font-sfnt">registered</a> with
- the IANA.
+      <![CDATA[<a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares {@link #FONT_SFNT
+ font/sfnt} to be the correct media type for SFNT, but this may be necessary in certain
+ situations for compatibility.
 
  @since 17.0]]>
       </doc>
@@ -51378,10 +51394,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF) <a
- href="http://www.w3.org/TR/WOFF/">defined</a> by the W3C. This is <a
- href="http://www.iana.org/assignments/media-types/application/font-woff">registered</a> with
- the IANA.
+      <![CDATA[<a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares {@link #FONT_WOFF
+ font/woff} to be the correct media type for WOFF, but this may be necessary in certain
+ situations for compatibility.
 
  @since 17.0]]>
       </doc>
@@ -51391,8 +51406,9 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF)
- version 2 <a href="https://www.w3.org/TR/WOFF2/">defined</a> by the W3C.
+      <![CDATA[<a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares {@link #FONT_WOFF2
+ font/woff2} to be the correct media type for WOFF2, but this may be necessary in certain
+ situations for compatibility.
 
  @since 20.0]]>
       </doc>
@@ -51419,6 +51435,78 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+    </field>
+    <field name="FONT_COLLECTION" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[A collection of font outlines as defined by <a href="https://tools.ietf.org/html/rfc8081">RFC
+ 8081</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="FONT_OTF" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/OpenType">Open Type Font Format</a> (OTF) as defined by
+ <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="FONT_SFNT" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/SFNT">Spline or Scalable Font Format</a> (SFNT). <a
+ href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares this to be the correct media
+ type for SFNT, but {@link #SFNT application/font-sfnt} may be necessary in certain situations
+ for compatibility.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="FONT_TTF" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://en.wikipedia.org/wiki/TrueType">True Type Font Format</a> (TTF) as defined by
+ <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="FONT_WOFF" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF). <a
+ href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares this to be the correct media
+ type for SFNT, but {@link #WOFF application/font-woff} may be necessary in certain situations
+ for compatibility.
+
+ @since NEXT]]>
+      </doc>
+    </field>
+    <field name="FONT_WOFF2" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="http://en.wikipedia.org/wiki/Web_Open_Font_Format">Web Open Font Format</a> (WOFF2).
+ <a href="https://tools.ietf.org/html/rfc8081">RFC 8081</a> declares this to be the correct
+ media type for SFNT, but {@link #WOFF2 application/font-woff2} may be necessary in certain
+ situations for compatibility.
+
+ @since NEXT]]>
+      </doc>
     </field>
     <doc>
     <![CDATA[Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>

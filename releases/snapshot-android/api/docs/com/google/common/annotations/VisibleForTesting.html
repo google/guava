@@ -94,9 +94,16 @@
 <hr>
 <br>
 <pre><a href="../../../../com/google/common/annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-public @interface <a href="../../../../src-html/com/google/common/annotations/VisibleForTesting.html#line.24">VisibleForTesting</a></pre>
+public @interface <a href="../../../../src-html/com/google/common/annotations/VisibleForTesting.html#line.31">VisibleForTesting</a></pre>
 <div class="block">Annotates a program element that exists, or is more widely visible than otherwise necessary, only
- for use in test code.</div>
+ for use in test code.
+
+ <p><b>Do not use this interface</b> for public or protected declarations: it is a fig leaf for
+ bad design, and it does not prevent anyone from using the declaration---and experience has shown
+ that they will. If the method breaks the encapsulation of its class, then its internal
+ representation will be hard to change. Instead, use <a
+ href="http://errorprone.info/bugpattern/RestrictedApiChecker">RestrictedApiChecker</a>, which
+ enforces fine-grained visibility policies.</div>
 <dl>
 <dt><span class="simpleTagLabel">Author:</span></dt>
 <dd>Johannes Henkel</dd>

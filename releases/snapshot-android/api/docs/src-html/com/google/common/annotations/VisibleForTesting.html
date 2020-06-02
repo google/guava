@@ -26,11 +26,18 @@
 <span class="sourceLineNo">018</span> * Annotates a program element that exists, or is more widely visible than otherwise necessary, only<a name="line.18"></a>
 <span class="sourceLineNo">019</span> * for use in test code.<a name="line.19"></a>
 <span class="sourceLineNo">020</span> *<a name="line.20"></a>
-<span class="sourceLineNo">021</span> * @author Johannes Henkel<a name="line.21"></a>
-<span class="sourceLineNo">022</span> */<a name="line.22"></a>
-<span class="sourceLineNo">023</span>@GwtCompatible<a name="line.23"></a>
-<span class="sourceLineNo">024</span>public @interface VisibleForTesting {<a name="line.24"></a>
-<span class="sourceLineNo">025</span>}<a name="line.25"></a>
+<span class="sourceLineNo">021</span> * &lt;p&gt;&lt;b&gt;Do not use this interface&lt;/b&gt; for public or protected declarations: it is a fig leaf for<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * bad design, and it does not prevent anyone from using the declaration---and experience has shown<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * that they will. If the method breaks the encapsulation of its class, then its internal<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * representation will be hard to change. Instead, use &lt;a<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * href="http://errorprone.info/bugpattern/RestrictedApiChecker"&gt;RestrictedApiChecker&lt;/a&gt;, which<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * enforces fine-grained visibility policies.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * @author Johannes Henkel<a name="line.28"></a>
+<span class="sourceLineNo">029</span> */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>@GwtCompatible<a name="line.30"></a>
+<span class="sourceLineNo">031</span>public @interface VisibleForTesting {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>}<a name="line.32"></a>
 
 
 
