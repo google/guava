@@ -430,7 +430,7 @@ public final class Splitter {
    *
    * @param sequence the sequence of characters to split
    * @return a stream over the segments split from the parameter
-   * @since NEXT
+   * @since 28.2
    */
   @Beta
   public Stream<String> splitToStream(CharSequence sequence) {

@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -57,7 +58,31 @@ public class CompactLinkedHashMapTest extends TestCase {
                 CollectionFeature.SERIALIZABLE,
                 CollectionFeature.KNOWN_ORDER)
             .createTestSuite());
+    suite.addTest(
+        MapTestSuiteBuilder.using(
+                new TestStringMapGenerator() {
+                  @Override
+                  protected Map<String, String> create(Entry<String, String>[] entries) {
+                    CompactLinkedHashMap<String, String> map = CompactLinkedHashMap.create();
+                    map.convertToHashFloodingResistantImplementation();
+                    for (Entry<String, String> entry : entries) {
+                      map.put(entry.getKey(), entry.getValue());
+                    }
+                    return map;
+                  }
+                })
+            .named("CompactLinkedHashMap with flooding resistance")
+            .withFeatures(
+                CollectionSize.ANY,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                CollectionFeature.SERIALIZABLE,
+                CollectionFeature.KNOWN_ORDER)
+            .createTestSuite());
     suite.addTestSuite(CompactLinkedHashMapTest.class);
+    suite.addTestSuite(FloodingTest.class);
     return suite;
   }
 
@@ -174,6 +199,15 @@ public class CompactLinkedHashMapTest extends TestCase {
       assertThat(map.keys).hasLength(expectedSize);
       assertThat(map.values).hasLength(expectedSize);
       assertThat(map.links).hasLength(expectedSize);
+    }
+  }
+
+  public static class FloodingTest extends AbstractHashFloodingTest<Map<Object, Object>> {
+    public FloodingTest() {
+      super(
+          ImmutableList.of(Construction.mapFromKeys(CompactLinkedHashMap::create)),
+          n -> n * Math.log(n),
+          ImmutableList.of(QueryOp.MAP_GET));
     }
   }
 }

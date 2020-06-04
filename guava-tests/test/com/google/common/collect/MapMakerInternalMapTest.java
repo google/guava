@@ -604,6 +604,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertNull(segment.get(key, hash));
   }
 
+  @SuppressWarnings("GuardedBy")
   public void testExpand() {
     MapMakerInternalMap<Object, Object, ?, ?> map =
         makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
@@ -629,6 +630,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
     for (int i = 1; i <= originalCount * 2; i *= 2) {
       if (i > 1) {
+        // TODO(b/145386688): This access should be guarded by 'segment', which is not currently
+        // held
         segment.expand();
       }
       assertEquals(i, segment.table.length());
@@ -687,6 +690,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertNull(newFirst.getNext());
   }
 
+  @SuppressWarnings("GuardedBy")
   public void testExpand_cleanup() {
     MapMakerInternalMap<Object, Object, ?, ?> map =
         makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
@@ -719,6 +723,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
     for (int i = 1; i <= originalCount * 2; i *= 2) {
       if (i > 1) {
+        // TODO(b/145386688): This access should be guarded by 'segment', which is not currently
+        // held
         segment.expand();
       }
       assertEquals(i, segment.table.length());

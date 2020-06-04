@@ -32,7 +32,7 @@ import java.util.Set;
  *
  * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as explained by the
  * {@link Comparable} class specification. Otherwise, the resulting multiset will violate the {@link
- * Collection} contract, which it is specified in terms of {@link Object#equals}.
+ * Collection} contract, which is specified in terms of {@link Object#equals}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multiset"> {@code

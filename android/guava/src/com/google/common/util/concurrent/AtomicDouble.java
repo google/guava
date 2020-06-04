@@ -42,10 +42,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
  * See for example <a
- * href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
- * DoubleAdder</a> and <a
- * href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
- * DoubleMaxUpdater</a>.
+ * href="http://gee.cs.oswego.edu/dl/jsr166/dist/docs/java.base/java/util/concurrent/atomic/DoubleAdder.html">
+ * DoubleAdder</a>.
  *
  * @author Doug Lea
  * @author Martin Buchholz

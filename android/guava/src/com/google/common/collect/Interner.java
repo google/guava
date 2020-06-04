@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * Provides equivalent behavior to {@link String#intern} for other immutable types. Common
@@ -28,6 +29,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * @since 3.0
  */
 @Beta
+@DoNotMock("Use Interners.new*Interner")
 @GwtIncompatible
 public interface Interner<E> {
   /**

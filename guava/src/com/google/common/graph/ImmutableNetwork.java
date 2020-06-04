@@ -45,8 +45,8 @@ import java.util.Map;
  */
 @Beta
 @Immutable(containerOf = {"N", "E"})
-@SuppressWarnings("Immutable") // Extends ConfigurableNetwork but uses ImmutableMaps.
-public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
+@SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
+public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
     super(

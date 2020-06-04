@@ -17,12 +17,13 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -104,13 +105,13 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @MonotonicNonNull [] predecessor;
+  private transient int @Nullable [] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  private transient int @MonotonicNonNull [] successor;
+  private transient int @Nullable [] successor;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -139,6 +140,15 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     this.predecessor = new int[expectedSize];
     this.successor = new int[expectedSize];
     return expectedSize;
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Set<E> convertToHashFloodingResistantImplementation() {
+    Set<E> result = super.convertToHashFloodingResistantImplementation();
+    this.predecessor = null;
+    this.successor = null;
+    return result;
   }
 
   private int getPredecessor(int entry) {
@@ -232,8 +242,10 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(predecessor, 0, size(), 0);
-    Arrays.fill(successor, 0, size(), 0);
+    if (predecessor != null) {
+      Arrays.fill(predecessor, 0, size(), 0);
+      Arrays.fill(successor, 0, size(), 0);
+    }
     super.clear();
   }
 }

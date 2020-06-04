@@ -143,7 +143,7 @@ public final class StatsAccumulator {
    * Adds the given statistics to the dataset, as if the individual values used to compute the
    * statistics had been added directly.
    *
-   * @since NEXT
+   * @since 28.2
    */
   public void addAll(StatsAccumulator values) {
     if (values.count() == 0) {

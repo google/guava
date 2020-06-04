@@ -18,6 +18,11 @@ public class ImmutableBiMapTest_gwt extends com.google.gwt.junit.client.GWTTestC
 @Override public String getModuleName() {
   return "com.google.common.collect.testModule";
 }
+public void testNoop() throws Exception {
+  com.google.common.collect.ImmutableBiMapTest testCase = new com.google.common.collect.ImmutableBiMapTest();
+  testCase.testNoop();
+}
+
 public void testDoubleInverse__BiMapSpecificTests() throws Exception {
   com.google.common.collect.ImmutableBiMapTest.BiMapSpecificTests testCase = new com.google.common.collect.ImmutableBiMapTest.BiMapSpecificTests();
   testCase.testDoubleInverse();

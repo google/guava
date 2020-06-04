@@ -18,8 +18,10 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -75,7 +77,7 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
    * <p>A node with "prev" pointer equal to {@code ENDPOINT} is the first node in the linked list,
    * and a node with "next" pointer equal to {@code ENDPOINT} is the last node.
    */
-  @VisibleForTesting @MonotonicNonNullDecl transient long[] links;
+  @VisibleForTesting @NullableDecl transient long[] links;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -110,6 +112,19 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     int expectedSize = super.allocArrays();
     this.links = new long[expectedSize];
     return expectedSize;
+  }
+
+  @Override
+  Map<K, V> createHashFloodingResistantDelegate(int tableSize) {
+    return new LinkedHashMap<K, V>(tableSize, 1.0f, accessOrder);
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Map<K, V> convertToHashFloodingResistantImplementation() {
+    Map<K, V> result = super.convertToHashFloodingResistantImplementation();
+    links = null;
+    return result;
   }
 
   private int getPredecessor(int entry) {
@@ -200,7 +215,9 @@ class CompactLinkedHashMap<K, V> extends CompactHashMap<K, V> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(links, 0, size(), 0);
+    if (links != null) {
+      Arrays.fill(links, 0, size(), 0);
+    }
     super.clear();
   }
 }

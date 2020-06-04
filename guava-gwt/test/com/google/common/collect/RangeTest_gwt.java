@@ -158,11 +158,6 @@ public void testIsConnected() throws Exception {
   testCase.testIsConnected();
 }
 
-public void testLegacyComparable() throws Exception {
-  com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
-  testCase.testLegacyComparable();
-}
-
 public void testLessThan() throws Exception {
   com.google.common.collect.RangeTest testCase = new com.google.common.collect.RangeTest();
   testCase.testLessThan();

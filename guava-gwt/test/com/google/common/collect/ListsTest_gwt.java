@@ -68,6 +68,11 @@ public void testCartesianProduct_indexOf() throws Exception {
   testCase.testCartesianProduct_indexOf();
 }
 
+public void testCartesianProduct_lastIndexOf() throws Exception {
+  com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
+  testCase.testCartesianProduct_lastIndexOf();
+}
+
 public void testCartesianProduct_unrelatedTypes() throws Exception {
   com.google.common.collect.ListsTest testCase = new com.google.common.collect.ListsTest();
   testCase.testCartesianProduct_unrelatedTypes();

@@ -488,7 +488,7 @@ public class GraphsTest {
       directedGraph.addEdge(N1, N1, E11);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
+      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
     }
   }
 
@@ -520,7 +520,7 @@ public class GraphsTest {
       undirectedGraph.addEdge(N1, N1, E11);
       fail(ERROR_ADDED_SELF_LOOP);
     } catch (IllegalArgumentException e) {
-      assertThat(e.getMessage()).contains(ERROR_SELF_LOOP);
+      assertThat(e).hasMessageThat().contains(ERROR_SELF_LOOP);
     }
   }
 

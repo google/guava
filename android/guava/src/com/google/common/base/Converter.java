@@ -22,7 +22,6 @@ import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Iterator;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -118,7 +117,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
   private final boolean handleNullAutomatically;
 
   // We lazily cache the reverse view to avoid allocating on every call to reverse().
-  @LazyInit @MonotonicNonNullDecl private transient Converter<B, A> reverse;
+  @LazyInit @NullableDecl private transient Converter<B, A> reverse;
 
   /** Constructor for use by subclasses. */
   protected Converter() {
