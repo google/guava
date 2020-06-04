@@ -63,6 +63,9 @@ import java.util.concurrent.TimeoutException;
  */
 @GwtCompatible(emulated = true)
 public final class MoreExecutors {
+
+  private static final ThreadFactory DEFAULT_THREAD_FACTORY = Executors.defaultThreadFactory();
+
   private MoreExecutors() {}
 
   /**
@@ -825,7 +828,7 @@ public final class MoreExecutors {
   @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
     if (!isAppEngineWithApiClasses()) {
-      return Executors.defaultThreadFactory();
+      return DEFAULT_THREAD_FACTORY;
     }
     try {
       return (ThreadFactory)
