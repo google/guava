@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -70,5 +71,60 @@ public class ComparatorsTest extends TestCase {
     assertTrue(Comparators.isInStrictOrder(asList(0, 3), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.singleton(1), Ordering.natural()));
     assertTrue(Comparators.isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+  }
+
+  public void testMinMaxNatural() {
+    assertThat(Comparators.min(1, 2)).isEqualTo(1);
+    assertThat(Comparators.min(2, 1)).isEqualTo(1);
+    assertThat(Comparators.max(1, 2)).isEqualTo(2);
+    assertThat(Comparators.max(2, 1)).isEqualTo(2);
+  }
+
+  public void testMinMaxNatural_equalInstances() {
+    Foo a = new Foo(1);
+    Foo b = new Foo(1);
+    assertThat(Comparators.min(a, b)).isSameInstanceAs(a);
+    assertThat(Comparators.max(a, b)).isSameInstanceAs(a);
+  }
+
+  public void testMinMaxComparator() {
+    Comparator<Integer> natural = Ordering.natural();
+    Comparator<Integer> reverse = Collections.reverseOrder(natural);
+    assertThat(Comparators.min(1, 2, reverse)).isEqualTo(2);
+    assertThat(Comparators.min(2, 1, reverse)).isEqualTo(2);
+    assertThat(Comparators.max(1, 2, reverse)).isEqualTo(1);
+    assertThat(Comparators.max(2, 1, reverse)).isEqualTo(1);
+  }
+
+  public void testMinMaxComparator_equalInstances() {
+    Comparator<Foo> natural = Ordering.natural();
+    Comparator<Foo> reverse = Collections.reverseOrder(natural);
+    Foo a = new Foo(1);
+    Foo b = new Foo(1);
+    assertThat(Comparators.min(a, b, reverse)).isSameInstanceAs(a);
+    assertThat(Comparators.max(a, b, reverse)).isSameInstanceAs(a);
+  }
+
+  private static class Foo implements Comparable<Foo> {
+    final Integer value;
+
+    Foo(int value) {
+      this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+      return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return (o instanceof Foo) && ((Foo) o).value.equals(value);
+    }
+
+    @Override
+    public int compareTo(Foo other) {
+      return value.compareTo(other.value);
+    }
   }
 }
