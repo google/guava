@@ -52,4 +52,24 @@ public void testLexicographical() throws Exception {
   com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
   testCase.testLexicographical();
 }
+
+public void testMinMaxComparator() throws Exception {
+  com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
+  testCase.testMinMaxComparator();
+}
+
+public void testMinMaxComparator_equalInstances() throws Exception {
+  com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
+  testCase.testMinMaxComparator_equalInstances();
+}
+
+public void testMinMaxNatural() throws Exception {
+  com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
+  testCase.testMinMaxNatural();
+}
+
+public void testMinMaxNatural_equalInstances() throws Exception {
+  com.google.common.collect.ComparatorsTest testCase = new com.google.common.collect.ComparatorsTest();
+  testCase.testMinMaxNatural_equalInstances();
+}
 }
