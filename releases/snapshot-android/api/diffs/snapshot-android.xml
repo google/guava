@@ -10553,6 +10553,84 @@
  this is always true when the iterable has fewer than two elements.]]>
       </doc>
     </method>
+    <method name="min" return="T extends java.lang.Comparable&lt;? super T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="a" type="T extends java.lang.Comparable&lt;? super T&gt;"/>
+      <param name="b" type="T extends java.lang.Comparable&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns the minimum of the two values. If the values compare as 0, the first is returned.
+
+ <p>To find the minimum of more than two values, use {@code Collections.min(Arrays.asList(a, b,
+ c))} (static imports recommended).
+
+ @param a first value to compare, returned if less than or equal to b.
+ @param b second value to compare.
+ @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="min" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="a" type="T"/>
+      <param name="b" type="T"/>
+      <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
+      <doc>
+      <![CDATA[Returns the minimum of the two values, according to the given comparator. If the values compare
+ as equal, the first is returned.
+
+ <p>To find the minimum of more than two values, use {@code Collections.min(Arrays.asList(a, b,
+ c), comparator)} (static imports recommended).
+
+ @param a first value to compare, returned if less than or equal to b
+ @param b second value to compare.
+ @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
+     comparator.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="max" return="T extends java.lang.Comparable&lt;? super T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="a" type="T extends java.lang.Comparable&lt;? super T&gt;"/>
+      <param name="b" type="T extends java.lang.Comparable&lt;? super T&gt;"/>
+      <doc>
+      <![CDATA[Returns the maximum of the two values. If the values compare as 0, the first is returned.
+
+ <p>To find the maximum of more than two values, use {@code Collections.max(Arrays.asList(a, b,
+ c))} (static imports recommended).
+
+ @param a first value to compare, returned if greater than or equal to b.
+ @param b second value to compare.
+ @throws ClassCastException if the parameters are not <i>mutually comparable</i>.
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="max" return="T"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="a" type="T"/>
+      <param name="b" type="T"/>
+      <param name="comparator" type="java.util.Comparator&lt;T&gt;"/>
+      <doc>
+      <![CDATA[Returns the maximum of the two values, according to the given comparator. If the values compare
+ as equal, the first is returned.
+
+ <p>To find the maximum of more than two values, use {@code Collections.max(Arrays.asList(a, b,
+ c), comparator)} (static imports recommended).
+
+ @param a first value to compare, returned if greater than or equal to b.
+ @param b second value to compare.
+ @throws ClassCastException if the parameters are not <i>mutually comparable</i> using the given
+     comparator.
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[Provides static methods for working with {@link Comparator} instances. For many other helpful
  comparator utilities, see either {@code Comparator} itself (for Java 8 or later), or {@code
@@ -30055,8 +30133,8 @@
  <p><b>Implementation note:</b> this method is invoked by the default implementations of the
  other {@code min} overloads, so overriding it will affect their behavior.
 
- <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}
- instead (but note that it does not guarantee which tied minimum element is returned).
+ <p><b>Note:</b> Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code
+ thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.
 
  @param a value to compare, returned if less than or equal to b.
  @param b value to compare.
@@ -30140,8 +30218,8 @@
  <p><b>Implementation note:</b> this method is invoked by the default implementations of the
  other {@code max} overloads, so overriding it will affect their behavior.
 
- <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b), thisComparator)}
- instead (but note that it does not guarantee which tied maximum element is returned).
+ <p><b>Note:</b> Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code
+ thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.
 
  @param a value to compare, returned if greater than or equal to b.
  @param b value to compare.

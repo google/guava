@@ -590,8 +590,8 @@
 <span class="sourceLineNo">582</span>   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the<a name="line.582"></a>
 <span class="sourceLineNo">583</span>   * other {@code min} overloads, so overriding it will affect their behavior.<a name="line.583"></a>
 <span class="sourceLineNo">584</span>   *<a name="line.584"></a>
-<span class="sourceLineNo">585</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}<a name="line.585"></a>
-<span class="sourceLineNo">586</span>   * instead (but note that it does not guarantee which tied minimum element is returned).<a name="line.586"></a>
+<span class="sourceLineNo">585</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code<a name="line.585"></a>
+<span class="sourceLineNo">586</span>   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.<a name="line.586"></a>
 <span class="sourceLineNo">587</span>   *<a name="line.587"></a>
 <span class="sourceLineNo">588</span>   * @param a value to compare, returned if less than or equal to b.<a name="line.588"></a>
 <span class="sourceLineNo">589</span>   * @param b value to compare.<a name="line.589"></a>
@@ -676,8 +676,8 @@
 <span class="sourceLineNo">668</span>   * &lt;p&gt;&lt;b&gt;Implementation note:&lt;/b&gt; this method is invoked by the default implementations of the<a name="line.668"></a>
 <span class="sourceLineNo">669</span>   * other {@code max} overloads, so overriding it will affect their behavior.<a name="line.669"></a>
 <span class="sourceLineNo">670</span>   *<a name="line.670"></a>
-<span class="sourceLineNo">671</span>   * &lt;p&gt;&lt;b&gt;Java 8 users:&lt;/b&gt; Use {@code Collections.max(Arrays.asList(a, b), thisComparator)}<a name="line.671"></a>
-<span class="sourceLineNo">672</span>   * instead (but note that it does not guarantee which tied maximum element is returned).<a name="line.672"></a>
+<span class="sourceLineNo">671</span>   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code<a name="line.671"></a>
+<span class="sourceLineNo">672</span>   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.<a name="line.672"></a>
 <span class="sourceLineNo">673</span>   *<a name="line.673"></a>
 <span class="sourceLineNo">674</span>   * @param a value to compare, returned if greater than or equal to b.<a name="line.674"></a>
 <span class="sourceLineNo">675</span>   * @param b value to compare.<a name="line.675"></a>
