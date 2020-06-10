@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.ForOverride;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -240,7 +241,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
       implements Serializable {
-    final Converter<A, B> original;
+    @RetainedWith final Converter<A, B> original;
 
     ReverseConverter(Converter<A, B> original) {
       this.original = original;
