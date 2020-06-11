@@ -57,20 +57,14 @@ public class ByteStreamsTest extends IoTestCase {
     WritableByteChannel outChannel = Channels.newChannel(out);
 
     File testFile = createTempFile();
-    FileOutputStream fos = new FileOutputStream(testFile);
     byte[] dummyData = newPreFilledByteArray(chunkSize);
-    try {
+    try (FileOutputStream fos = new FileOutputStream(testFile)) {
       for (int i = 0; i < 500; i++) {
         fos.write(dummyData);
       }
-    } finally {
-      fos.close();
     }
-    ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel();
-    try {
+    try (ReadableByteChannel inChannel = new RandomAccessFile(testFile, "r").getChannel()) {
       ByteStreams.copy(inChannel, outChannel);
-    } finally {
-      inChannel.close();
     }
     byte[] actual = out.toByteArray();
     for (int i = 0; i < 500 * chunkSize; i += chunkSize) {
@@ -84,43 +78,43 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.readFully(newTestStream(10), null, 0, 10);
       fail("expected exception");
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
     }
 
     try {
       ByteStreams.readFully(null, b, 0, 10);
       fail("expected exception");
-    } catch (NullPointerException e) {
+    } catch (NullPointerException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, -1, 10);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 0, -1);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 0, -1);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(10), b, 2, 10);
       fail("expected exception");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException expected) {
     }
 
     try {
       ByteStreams.readFully(newTestStream(5), b, 0, 10);
       fail("expected exception");
-    } catch (EOFException e) {
+    } catch (EOFException expected) {
     }
 
     Arrays.fill(b, (byte) 0);
@@ -146,7 +140,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       skipHelper(101, 0, new ByteArrayInputStream(bytes));
       fail("expected exception");
-    } catch (EOFException e) {
+    } catch (EOFException expected) {
     }
   }
 
@@ -268,27 +262,27 @@ public class ByteStreamsTest extends IoTestCase {
 
   public void testNewDataInput_readByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
-    for (int i = 0; i < bytes.length; i++) {
-      assertEquals(bytes[i], in.readByte());
+    for (byte aByte : bytes) {
+      assertEquals(aByte, in.readByte());
     }
     try {
       in.readByte();
       fail("expected exception");
-    } catch (IllegalStateException ex) {
-      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
+    } catch (IllegalStateException expected) {
+      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
   public void testNewDataInput_readUnsignedByte() {
     ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
-    for (int i = 0; i < bytes.length; i++) {
-      assertEquals(bytes[i], in.readUnsignedByte());
+    for (byte aByte : bytes) {
+      assertEquals(aByte, in.readUnsignedByte());
     }
     try {
       in.readUnsignedByte();
       fail("expected exception");
-    } catch (IllegalStateException ex) {
-      assertThat(ex).hasCauseThat().isInstanceOf(EOFException.class);
+    } catch (IllegalStateException expected) {
+      assertThat(expected).hasCauseThat().isInstanceOf(EOFException.class);
     }
   }
 
@@ -508,7 +502,7 @@ public class ByteStreamsTest extends IoTestCase {
   private static class SlowSkipper extends FilterInputStream {
     private final long max;
 
-    public SlowSkipper(InputStream in, long max) {
+    SlowSkipper(InputStream in, long max) {
       super(in);
       this.max = max;
     }
@@ -525,11 +519,11 @@ public class ByteStreamsTest extends IoTestCase {
         array, ByteStreams.readBytes(new ByteArrayInputStream(array), new TestByteProcessor()));
   }
 
-  private class TestByteProcessor implements ByteProcessor<byte[]> {
+  private static class TestByteProcessor implements ByteProcessor<byte[]> {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     @Override
-    public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+    public boolean processBytes(byte[] buf, int off, int len) {
       out.write(buf, off, len);
       return true;
     }
@@ -549,7 +543,7 @@ public class ByteStreamsTest extends IoTestCase {
             new ByteProcessor<Integer>() {
               @Override
               public boolean processBytes(byte[] buf, int off, int len) {
-                assertEquals(copyOfRange(buf, off, off + len), newPreFilledByteArray(8192));
+                assertEquals(Arrays.copyOfRange(buf, off, off + len), newPreFilledByteArray(8192));
                 return false;
               }
 
@@ -675,14 +669,6 @@ public class ByteStreamsTest extends IoTestCase {
     public boolean markSupported() {
       return false;
     }
-  }
-
-  private static byte[] copyOfRange(byte[] in, int from, int to) {
-    byte[] out = new byte[to - from];
-    for (int i = 0; i < to - from; i++) {
-      out[i] = in[from + i];
-    }
-    return out;
   }
 
   // TODO(cpovirk): Inline this.
