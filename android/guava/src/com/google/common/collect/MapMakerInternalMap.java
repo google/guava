@@ -47,7 +47,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -1124,11 +1123,7 @@ class MapMakerInternalMap<
     if (entry.getKey() == null) {
       return null;
     }
-    V value = entry.getValue();
-    if (value == null) {
-      return null;
-    }
-    return value;
+    return entry.getValue();
   }
 
   @SuppressWarnings("unchecked")
@@ -1198,7 +1193,7 @@ class MapMakerInternalMap<
     int threshold;
 
     /** The per-segment table. */
-    @MonotonicNonNullDecl volatile AtomicReferenceArray<E> table;
+    @NullableDecl volatile AtomicReferenceArray<E> table;
 
     /** The maximum size of this map. MapMaker.UNSET_INT if there is no maximum. */
     final int maxSegmentSize;
@@ -2324,9 +2319,7 @@ class MapMakerInternalMap<
         }
         sum -= segments[i].modCount;
       }
-      if (sum != 0L) {
-        return false;
-      }
+      return sum == 0L;
     }
     return true;
   }
@@ -2482,7 +2475,7 @@ class MapMakerInternalMap<
     }
   }
 
-  @MonotonicNonNullDecl transient Set<K> keySet;
+  @NullableDecl transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -2490,7 +2483,7 @@ class MapMakerInternalMap<
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  @MonotonicNonNullDecl transient Collection<V> values;
+  @NullableDecl transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -2498,7 +2491,7 @@ class MapMakerInternalMap<
     return (vs != null) ? vs : (values = new Values());
   }
 
-  @MonotonicNonNullDecl transient Set<Entry<K, V>> entrySet;
+  @NullableDecl transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
@@ -2512,8 +2505,8 @@ class MapMakerInternalMap<
 
     int nextSegmentIndex;
     int nextTableIndex;
-    @MonotonicNonNullDecl Segment<K, V, E, S> currentSegment;
-    @MonotonicNonNullDecl AtomicReferenceArray<E> currentTable;
+    @NullableDecl Segment<K, V, E, S> currentSegment;
+    @NullableDecl AtomicReferenceArray<E> currentTable;
     @NullableDecl E nextEntry;
     @NullableDecl WriteThroughEntry nextExternal;
     @NullableDecl WriteThroughEntry lastReturned;

@@ -19,14 +19,21 @@ package com.google.common.graph;
 import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for {@link ConfigurableMutableValueGraph} and related functionality. */
+/** Tests for {@link StandardMutableValueGraph} and related functionality. */
 // TODO(user): Expand coverage and move to proper test suite.
 @RunWith(JUnit4.class)
 public final class ValueGraphTest {
@@ -44,6 +51,7 @@ public final class ValueGraphTest {
     assertThat(graph.nodes()).isEqualTo(asGraph.nodes());
     assertThat(graph.edges()).isEqualTo(asGraph.edges());
     assertThat(graph.nodeOrder()).isEqualTo(asGraph.nodeOrder());
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(asGraph.incidentEdgeOrder());
     assertThat(graph.isDirected()).isEqualTo(asGraph.isDirected());
     assertThat(graph.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
 
@@ -111,6 +119,18 @@ public final class ValueGraphTest {
     assertThat(toString).contains("valueB");
     assertThat(toString).contains("valueC");
     assertThat(toString).contains("valueD");
+  }
+
+  @Test
+  public void incidentEdgeOrder_unordered() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.unordered()).build();
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.unordered());
+  }
+
+  @Test
+  public void incidentEdgeOrder_stable() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
   }
 
   @Test
@@ -329,5 +349,73 @@ public final class ValueGraphTest {
 
     otherGraph.putEdgeValue(1, 2, "valueB");
     assertThat(graph).isNotEqualTo(otherGraph); // values differ
+  }
+
+  @Test
+  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder_directed() {
+    graph = ValueGraphBuilder.directed().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(2, 1, "2-1");
+    graph.putEdgeValue(2, 3, "2-3");
+    graph.putEdgeValue(1, 2, "1-2");
+
+    assertThat(graph.incidentEdges(2))
+        .containsExactly(
+            EndpointPair.ordered(2, 1), EndpointPair.ordered(2, 3), EndpointPair.ordered(1, 2))
+        .inOrder();
+  }
+
+  @Test
+  public void incidentEdges_stableIncidentEdgeOrder_preservesIncidentEdgesOrder_undirected() {
+    graph = ValueGraphBuilder.undirected().incidentEdgeOrder(ElementOrder.stable()).build();
+    graph.putEdgeValue(2, 3, "2-3");
+    graph.putEdgeValue(2, 1, "2-1");
+    graph.putEdgeValue(2, 4, "2-4");
+    graph.putEdgeValue(1, 2, "1-2"); // Duplicate nodes, different value
+
+    assertThat(graph.incidentEdges(2))
+        .containsExactly(
+            EndpointPair.unordered(2, 3),
+            EndpointPair.unordered(1, 2),
+            EndpointPair.unordered(2, 4))
+        .inOrder();
+  }
+
+  @Test
+  public void concurrentIteration() throws Exception {
+    graph = ValueGraphBuilder.directed().build();
+    graph.putEdgeValue(1, 2, "A");
+    graph.putEdgeValue(3, 4, "B");
+    graph.putEdgeValue(5, 6, "C");
+
+    int threadCount = 20;
+    ExecutorService executor = newFixedThreadPool(threadCount);
+    final CyclicBarrier barrier = new CyclicBarrier(threadCount);
+    ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
+    for (int i = 0; i < threadCount; i++) {
+      futures.add(
+          executor.submit(
+              new Callable<Object>() {
+                @Override
+                public Object call() throws Exception {
+                  barrier.await();
+                  Integer first = graph.nodes().iterator().next();
+                  for (Integer node : graph.nodes()) {
+                    Set<Integer> unused = graph.successors(node);
+                  }
+                  /*
+                   * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
+                   * we read one of the fields declared in that class.
+                   */
+                  Set<Integer> unused = graph.successors(first);
+                  return null;
+                }
+              }));
+    }
+
+    // For more about this test, see the equivalent in AbstractNetworkTest.
+    for (Future<?> future : futures.build()) {
+      future.get();
+    }
+    executor.shutdown();
   }
 }

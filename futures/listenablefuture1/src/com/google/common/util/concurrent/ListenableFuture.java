@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -40,7 +41,7 @@ import java.util.concurrent.RejectedExecutionException;
  * frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
@@ -98,6 +99,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Nishant Thakkar
  * @since 1.0
  */
+@DoNotMock("Use the methods in Futures (like immediateFuture) or SettableFuture")
 public interface ListenableFuture<V> extends Future<V> {
   /**
    * Registers a listener to be {@linkplain Executor#execute(Runnable) run} on the given executor.

@@ -348,6 +348,12 @@ final class Types {
    * TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it, but that
    * should hopefully be rare.
    *
+   * <p>TODO(b/147144588): We are currently also missing the methods inherited from {@link
+   * AnnotatedElement}, which {@code TypeVariable} began to extend only in Java 8. Those methods
+   * refer only to types present in Java 7, so we could implement them in {@code TypeVariableImpl}
+   * today. (We could probably then make {@code TypeVariableImpl} implement {@code AnnotatedElement}
+   * so that we get partial compile-time checking.)
+   *
    * <p>This workaround should be removed at a distant future time when we no longer support Java
    * versions earlier than 8.
    */
@@ -511,7 +517,7 @@ final class Types {
   }
 
   private static Type[] toArray(Collection<Type> types) {
-    return types.toArray(new Type[types.size()]);
+    return types.toArray(new Type[0]);
   }
 
   private static Iterable<Type> filterUpperBounds(Iterable<Type> bounds) {
@@ -588,7 +594,14 @@ final class Types {
           return (String) getTypeName.invoke(type);
         } catch (NoSuchMethodException e) {
           throw new AssertionError("Type.getTypeName should be available in Java 8");
-        } catch (InvocationTargetException | IllegalAccessException e) {
+          /*
+           * Do not merge the 2 catch blocks below. javac would infer a type of
+           * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
+           * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
+           */
+        } catch (InvocationTargetException e) {
+          throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
           throw new RuntimeException(e);
         }
       }

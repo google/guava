@@ -35,6 +35,7 @@ public class ChainBenchmark {
   private ReferenceEntry<Object, Object> head;
   private ReferenceEntry<Object, Object> chain;
 
+  @SuppressWarnings("GuardedBy")
   @BeforeExperiment
   void setUp() {
     LocalCache<Object, Object> cache =
@@ -43,6 +44,8 @@ public class ChainBenchmark {
     chain = null;
     for (int i = 0; i < length; i++) {
       Object key = new Object();
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       chain = segment.newEntry(key, cache.hash(key), chain);
       if (i == 0) {
         head = chain;
@@ -50,10 +53,13 @@ public class ChainBenchmark {
     }
   }
 
+  @SuppressWarnings("GuardedBy")
   @Benchmark
   int time(int reps) {
     int dummy = 0;
     for (int i = 0; i < reps; i++) {
+      // TODO(b/145386688): This access should be guarded by 'this.segment', which is not currently
+      // held
       segment.removeEntryFromChain(chain, head);
       dummy += segment.count;
     }

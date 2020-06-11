@@ -61,7 +61,7 @@ import com.google.common.base.Optional;
  * @param <N> The most general node type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #nodeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
- * @param <N> The most general edge type this builder will support. This is normally {@code Object}
+ * @param <E> The most general edge type this builder will support. This is normally {@code Object}
  *     unless it is constrained by using a method like {@link #edgeOrder}, or the builder is
  *     constructed based on an existing {@code Network} using {@link #from(Network)}.
  * @since 20.0
@@ -104,11 +104,11 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   }
 
   /**
-   * Returns an {@link ImmutableNetwork#Builder} with the properties of this {@link NetworkBuilder}.
+   * Returns an {@link ImmutableNetwork.Builder} with the properties of this {@link NetworkBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableNetwork}.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public <N1 extends N, E1 extends E> ImmutableNetwork.Builder<N1, E1> immutable() {
     NetworkBuilder<N1, E1> castBuilder = cast();
@@ -118,6 +118,8 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   /**
    * Specifies whether the network will allow parallel edges. Attempting to add a parallel edge to a
    * network that does not allow them will throw an {@link UnsupportedOperationException}.
+   *
+   * <p>The default value is {@code false}.
    */
   public NetworkBuilder<N, E> allowsParallelEdges(boolean allowsParallelEdges) {
     this.allowsParallelEdges = allowsParallelEdges;
@@ -128,6 +130,8 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    * Specifies whether the network will allow self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a network that does not allow them will throw an {@link
    * UnsupportedOperationException}.
+   *
+   * <p>The default value is {@code false}.
    */
   public NetworkBuilder<N, E> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
@@ -154,14 +158,22 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
     return this;
   }
 
-  /** Specifies the order of iteration for the elements of {@link Network#nodes()}. */
+  /**
+   * Specifies the order of iteration for the elements of {@link Network#nodes()}.
+   *
+   * <p>The default value is {@link ElementOrder#insertion() insertion order}.
+   */
   public <N1 extends N> NetworkBuilder<N1, E> nodeOrder(ElementOrder<N1> nodeOrder) {
     NetworkBuilder<N1, E> newBuilder = cast();
     newBuilder.nodeOrder = checkNotNull(nodeOrder);
     return newBuilder;
   }
 
-  /** Specifies the order of iteration for the elements of {@link Network#edges()}. */
+  /**
+   * Specifies the order of iteration for the elements of {@link Network#edges()}.
+   *
+   * <p>The default value is {@link ElementOrder#insertion() insertion order}.
+   */
   public <E1 extends E> NetworkBuilder<N, E1> edgeOrder(ElementOrder<E1> edgeOrder) {
     NetworkBuilder<N, E1> newBuilder = cast();
     newBuilder.edgeOrder = checkNotNull(edgeOrder);
@@ -170,7 +182,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
 
   /** Returns an empty {@link MutableNetwork} with the properties of this {@link NetworkBuilder}. */
   public <N1 extends N, E1 extends E> MutableNetwork<N1, E1> build() {
-    return new ConfigurableMutableNetwork<>(this);
+    return new StandardMutableNetwork<>(this);
   }
 
   @SuppressWarnings("unchecked")

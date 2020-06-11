@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -130,6 +131,8 @@ public final class InetAddresses {
    *
    * <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
    *
+   * <p>Anything after a {@code %} in an IPv6 address is ignored (assumed to be a Scope ID).
+   *
    * @param ipString {@code String} containing an IPv4 or IPv6 string literal, e.g. {@code
    *     "192.168.0.1"} or {@code "2001:db8::1"}
    * @return {@link InetAddress} representing the argument
@@ -157,10 +160,12 @@ public final class InetAddresses {
     return ipStringToBytes(ipString) != null;
   }
 
+  /** Returns {@code null} if unable to parse into a {@code byte[]}. */
   private static byte @Nullable [] ipStringToBytes(String ipString) {
     // Make a first pass to categorize the characters in this string.
     boolean hasColon = false;
     boolean hasDot = false;
+    int percentIndex = -1;
     for (int i = 0; i < ipString.length(); i++) {
       char c = ipString.charAt(i);
       if (c == '.') {
@@ -170,6 +175,9 @@ public final class InetAddresses {
           return null; // Colons must not appear after dots.
         }
         hasColon = true;
+      } else if (c == '%') {
+        percentIndex = i;
+        break; // everything after a '%' is ignored (it's a Scope ID): http://superuser.com/a/99753
       } else if (Character.digit(c, 16) == -1) {
         return null; // Everything else must be a decimal or hex digit.
       }
@@ -182,6 +190,9 @@ public final class InetAddresses {
         if (ipString == null) {
           return null;
         }
+      }
+      if (percentIndex != -1) {
+        ipString = ipString.substring(0, percentIndex);
       }
       return textToNumericFormatV6(ipString);
     } else if (hasDot) {
@@ -810,8 +821,13 @@ public final class InetAddresses {
    *
    * <p>HACK: As long as applications continue to use IPv4 addresses for indexing into tables,
    * accounting, et cetera, it may be necessary to <b>coerce</b> IPv6 addresses into IPv4 addresses.
-   * This function does so by hashing the upper 64 bits into {@code 224.0.0.0/3} (64 bits into 29
-   * bits).
+   * This function does so by hashing 64 bits of the IPv6 address into {@code 224.0.0.0/3} (64 bits
+   * into 29 bits):
+   *
+   * <ul>
+   *   <li>If the IPv6 address contains an embedded IPv4 address, the function hashes that.
+   *   <li>Otherwise, it hashes the upper 64 bits of the IPv6 address.
+   * </ul>
    *
    * <p>A "coerced" IPv4 address is equivalent to itself.
    *
@@ -848,7 +864,6 @@ public final class InetAddresses {
     if (hasEmbeddedIPv4ClientAddress(ip6)) {
       addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();
     } else {
-
       // Just extract the high 64 bits (assuming the rest is user-modifiable).
       addressAsLong = ByteBuffer.wrap(ip6.getAddress(), 0, 8).getLong();
     }
@@ -891,6 +906,19 @@ public final class InetAddresses {
   }
 
   /**
+   * Returns a BigInteger representing the address.
+   *
+   * <p>Unlike {@code coerceToInteger}, IPv6 addresses are not coerced to IPv4 addresses.
+   *
+   * @param address {@link InetAddress} to convert
+   * @return {@code BigInteger} representation of the address
+   * @since 28.2
+   */
+  public static BigInteger toBigInteger(InetAddress address) {
+    return new BigInteger(1, address.getAddress());
+  }
+
+  /**
    * Returns an Inet4Address having the integer value specified by the argument.
    *
    * @param address {@code int}, the 32bit integer address to be converted
@@ -898,6 +926,71 @@ public final class InetAddresses {
    */
   public static Inet4Address fromInteger(int address) {
     return getInet4Address(Ints.toByteArray(address));
+  }
+
+  /**
+   * Returns the {@code Inet4Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv4 address
+   * @return Inet4Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^32-1
+   * @since 28.2
+   */
+  public static Inet4Address fromIPv4BigInteger(BigInteger address) {
+    return (Inet4Address) fromBigInteger(address, false);
+  }
+  /**
+   * Returns the {@code Inet6Address} corresponding to a given {@code BigInteger}.
+   *
+   * @param address BigInteger representing the IPv6 address
+   * @return Inet6Address representation of the given BigInteger
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and 2^128-1
+   * @since 28.2
+   */
+  public static Inet6Address fromIPv6BigInteger(BigInteger address) {
+    return (Inet6Address) fromBigInteger(address, true);
+  }
+
+  /**
+   * Converts a BigInteger to either an IPv4 or IPv6 address. If the IP is IPv4, it must be
+   * constrainted to 32 bits, otherwise it is constrained to 128 bits.
+   *
+   * @param address the address represented as a big integer
+   * @param isIpv6 whether the created address should be IPv4 or IPv6
+   * @return the BigInteger converted to an address
+   * @throws IllegalArgumentException if the BigInteger is not between 0 and maximum value for IPv4
+   *     or IPv6 respectively
+   */
+  private static InetAddress fromBigInteger(BigInteger address, boolean isIpv6) {
+    checkArgument(address.signum() >= 0, "BigInteger must be greater than or equal to 0");
+
+    int numBytes = isIpv6 ? 16 : 4;
+
+    byte[] addressBytes = address.toByteArray();
+    byte[] targetCopyArray = new byte[numBytes];
+
+    int srcPos = Math.max(0, addressBytes.length - numBytes);
+    int copyLength = addressBytes.length - srcPos;
+    int destPos = numBytes - copyLength;
+
+    // Check the extra bytes in the BigInteger are all zero.
+    for (int i = 0; i < srcPos; i++) {
+      if (addressBytes[i] != 0x00) {
+        throw formatIllegalArgumentException(
+            "BigInteger cannot be converted to InetAddress because it has more than %d"
+                + " bytes: %s",
+            numBytes, address);
+      }
+    }
+
+    // Copy the bytes into the least significant positions.
+    System.arraycopy(addressBytes, srcPos, targetCopyArray, destPos, copyLength);
+
+    try {
+      return InetAddress.getByAddress(targetCopyArray);
+    } catch (UnknownHostException impossible) {
+      throw new AssertionError(impossible);
+    }
   }
 
   /**

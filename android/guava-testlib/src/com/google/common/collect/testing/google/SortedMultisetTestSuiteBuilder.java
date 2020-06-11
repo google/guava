@@ -168,10 +168,10 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
               public SortedMultiset<E> create(Object... entries) {
                 @SuppressWarnings("unchecked")
                 // we dangerously assume E is a string
-                List<E> extremeValues = (List) getExtremeValues();
+                List<E> extremeValues = (List<E>) getExtremeValues();
                 @SuppressWarnings("unchecked")
                 // map generators must past entry objects
-                List<E> normalValues = (List) Arrays.asList(entries);
+                List<E> normalValues = (List<E>) Arrays.asList(entries);
 
                 // prepare extreme values to be filtered out of view
                 Collections.sort(extremeValues, comparator);
@@ -266,8 +266,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    Set<Feature<?>> features = new HashSet<>();
-    features.addAll(parentBuilder.getFeatures());
+    Set<Feature<?>> features = new HashSet<>(parentBuilder.getFeatures());
     features.remove(SERIALIZABLE);
     features.remove(SERIALIZABLE_INCLUDING_VIEWS);
 

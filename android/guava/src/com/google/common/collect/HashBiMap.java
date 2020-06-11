@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,7 +34,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -232,6 +232,16 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     return findEntryByKey(key) != ABSENT;
   }
 
+  /**
+   * Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
+   * equivalently, if this inverse view contains a key that is equal to {@code value}).
+   *
+   * <p>Due to the property that values in a BiMap are unique, this will tend to execute in
+   * faster-than-linear time.
+   *
+   * @param value the object to search for in the values of this BiMap
+   * @return true if a mapping exists from a key to the specified value
+   */
   @Override
   public boolean containsValue(@NullableDecl Object value) {
     return findEntryByValue(value) != ABSENT;
@@ -889,7 +899,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
   }
 
-  @MonotonicNonNullDecl @RetainedWith private transient BiMap<V, K> inverse;
+  @LazyInit @RetainedWith @NullableDecl private transient BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {

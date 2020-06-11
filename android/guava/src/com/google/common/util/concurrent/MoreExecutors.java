@@ -47,13 +47,12 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
  * Factory and utility methods for {@link java.util.concurrent.Executor}, {@link ExecutorService},
- * and {@link ThreadFactory}.
+ * and {@link java.util.concurrent.ThreadFactory}.
  *
  * @author Eric Fellheimer
  * @author Kyle Littlefield
@@ -340,10 +339,11 @@ public final class MoreExecutors {
 
   /**
    * Creates an executor service that runs each task in the thread that invokes {@code
-   * execute/submit}, as in {@link CallerRunsPolicy} This applies both to individually submitted
-   * tasks and to collections of tasks submitted via {@code invokeAll} or {@code invokeAny}. In the
-   * latter case, tasks will run serially on the calling thread. Tasks are run to completion before
-   * a {@code Future} is returned to the caller (unless the executor has been shutdown).
+   * execute/submit}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}. This applies both to
+   * individually submitted tasks and to collections of tasks submitted via {@code invokeAll} or
+   * {@code invokeAny}. In the latter case, tasks will run serially on the calling thread. Tasks are
+   * run to completion before a {@code Future} is returned to the caller (unless the executor has
+   * been shutdown).
    *
    * <p>Although all tasks are immediately executed in the thread that submitted the task, this
    * {@code ExecutorService} imposes a small locking overhead on each task submission in order to
@@ -370,7 +370,7 @@ public final class MoreExecutors {
 
   /**
    * Returns an {@link Executor} that runs each task in the thread that invokes {@link
-   * Executor#execute execute}, as in {@link CallerRunsPolicy}.
+   * Executor#execute execute}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}.
    *
    * <p>This instance is equivalent to:
    *
@@ -739,15 +739,17 @@ public final class MoreExecutors {
   /**
    * Returns a default thread factory used to create new threads.
    *
-   * <p>On AppEngine, returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
-   * returns {@link Executors#defaultThreadFactory()}.
+   * <p>When running on AppEngine with access to <a
+   * href="https://cloud.google.com/appengine/docs/standard/java/javadoc/">AppEngine legacy
+   * APIs</a>, this method returns {@code ThreadManager.currentRequestThreadFactory()}. Otherwise,
+   * it returns {@link Executors#defaultThreadFactory()}.
    *
    * @since 14.0
    */
   @Beta
   @GwtIncompatible // concurrency
   public static ThreadFactory platformThreadFactory() {
-    if (!isAppEngine()) {
+    if (!isAppEngineWithApiClasses()) {
       return Executors.defaultThreadFactory();
     }
     try {
@@ -755,7 +757,16 @@ public final class MoreExecutors {
           Class.forName("com.google.appengine.api.ThreadManager")
               .getMethod("currentRequestThreadFactory")
               .invoke(null);
-    } catch (IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
+      /*
+       * Do not merge the 3 catch blocks below. javac would infer a type of
+       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of Android
+       * don't *seem* to mind, but there might be edge cases of which we're unaware.)
+       */
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
+    } catch (NoSuchMethodException e) {
       throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
     } catch (InvocationTargetException e) {
       throw Throwables.propagate(e.getCause());
@@ -763,8 +774,13 @@ public final class MoreExecutors {
   }
 
   @GwtIncompatible // TODO
-  private static boolean isAppEngine() {
+  private static boolean isAppEngineWithApiClasses() {
     if (System.getProperty("com.google.appengine.runtime.environment") == null) {
+      return false;
+    }
+    try {
+      Class.forName("com.google.appengine.api.utils.SystemProperty");
+    } catch (ClassNotFoundException e) {
       return false;
     }
     try {
@@ -824,10 +840,6 @@ public final class MoreExecutors {
   static Executor renamingDecorator(final Executor executor, final Supplier<String> nameSupplier) {
     checkNotNull(executor);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try
-      return executor;
-    }
     return new Executor() {
       @Override
       public void execute(Runnable command) {
@@ -853,10 +865,6 @@ public final class MoreExecutors {
       final ExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try.
-      return service;
-    }
     return new WrappingExecutorService(service) {
       @Override
       protected <T> Callable<T> wrapTask(Callable<T> callable) {
@@ -887,10 +895,6 @@ public final class MoreExecutors {
       final ScheduledExecutorService service, final Supplier<String> nameSupplier) {
     checkNotNull(service);
     checkNotNull(nameSupplier);
-    if (isAppEngine()) {
-      // AppEngine doesn't support thread renaming, so don't even try.
-      return service;
-    }
     return new WrappingScheduledExecutorService(service) {
       @Override
       protected <T> Callable<T> wrapTask(Callable<T> callable) {
@@ -980,6 +984,11 @@ public final class MoreExecutors {
                 public void run() {
                   thrownFromDelegate = false;
                   command.run();
+                }
+
+                @Override
+                public String toString() {
+                  return command.toString();
                 }
               });
         } catch (RejectedExecutionException e) {

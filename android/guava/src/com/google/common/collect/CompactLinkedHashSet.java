@@ -17,10 +17,12 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import java.util.Set;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * CompactLinkedHashSet is an implementation of a Set, which a predictable iteration order that
@@ -71,6 +73,7 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
    * @param elements the elements that the set should contain
    * @return a new {@code CompactLinkedHashSet} containing those elements (minus duplicates)
    */
+  @SafeVarargs
   public static <E> CompactLinkedHashSet<E> create(E... elements) {
     CompactLinkedHashSet<E> set = createWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
@@ -93,20 +96,20 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   private static final int ENDPOINT = -2;
 
   // TODO(user): predecessors and successors should be collocated (reducing cache misses).
-  // Might also explore collocating all of [hash, next, predecessor, succesor] fields of an
+  // Might also explore collocating all of [hash, next, predecessor, successor] fields of an
   // entry in a *single* long[], though that reduces the maximum size of the set by a factor of 2
 
   /**
    * Pointer to the predecessor of an entry in insertion order. ENDPOINT indicates a node is the
    * first node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  @MonotonicNonNullDecl private transient int[] predecessor;
+  @NullableDecl private transient int[] predecessor;
 
   /**
    * Pointer to the successor of an entry in insertion order. ENDPOINT indicates a node is the last
    * node in insertion order; all values at indices ≥ {@link #size()} are UNSET.
    */
-  @MonotonicNonNullDecl private transient int[] successor;
+  @NullableDecl private transient int[] successor;
 
   /** Pointer to the first node in the linked list, or {@code ENDPOINT} if there are no entries. */
   private transient int firstEntry;
@@ -130,30 +133,37 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  void allocArrays() {
-    super.allocArrays();
-    int expectedSize = elements.length; // allocated size may be different than initial capacity
+  int allocArrays() {
+    int expectedSize = super.allocArrays();
     this.predecessor = new int[expectedSize];
     this.successor = new int[expectedSize];
-    Arrays.fill(predecessor, UNSET);
-    Arrays.fill(successor, UNSET);
+    return expectedSize;
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  Set<E> convertToHashFloodingResistantImplementation() {
+    Set<E> result = super.convertToHashFloodingResistantImplementation();
+    this.predecessor = null;
+    this.successor = null;
+    return result;
   }
 
   private int getPredecessor(int entry) {
-    return predecessor[entry];
+    return predecessor[entry] - 1;
   }
 
   @Override
   int getSuccessor(int entry) {
-    return successor[entry];
+    return successor[entry] - 1;
   }
 
   private void setSuccessor(int entry, int succ) {
-    successor[entry] = succ;
+    successor[entry] = succ + 1;
   }
 
   private void setPredecessor(int entry, int pred) {
-    predecessor[entry] = pred;
+    predecessor[entry] = pred + 1;
   }
 
   private void setSucceeds(int pred, int succ) {
@@ -171,36 +181,31 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
   }
 
   @Override
-  void insertEntry(int entryIndex, E object, int hash) {
-    super.insertEntry(entryIndex, object, hash);
+  void insertEntry(int entryIndex, @NullableDecl E object, int hash, int mask) {
+    super.insertEntry(entryIndex, object, hash, mask);
     setSucceeds(lastEntry, entryIndex);
     setSucceeds(entryIndex, ENDPOINT);
   }
 
   @Override
-  void moveLastEntry(int dstIndex) {
+  void moveLastEntry(int dstIndex, int mask) {
     int srcIndex = size() - 1;
-    super.moveLastEntry(dstIndex);
+    super.moveLastEntry(dstIndex, mask);
 
     setSucceeds(getPredecessor(dstIndex), getSuccessor(dstIndex));
     if (dstIndex < srcIndex) {
       setSucceeds(getPredecessor(srcIndex), dstIndex);
       setSucceeds(dstIndex, getSuccessor(srcIndex));
     }
-    predecessor[srcIndex] = UNSET;
-    successor[srcIndex] = UNSET;
+    predecessor[srcIndex] = 0;
+    successor[srcIndex] = 0;
   }
 
   @Override
   void resizeEntries(int newCapacity) {
     super.resizeEntries(newCapacity);
-    int oldCapacity = predecessor.length;
     predecessor = Arrays.copyOf(predecessor, newCapacity);
     successor = Arrays.copyOf(successor, newCapacity);
-    if (oldCapacity < newCapacity) {
-      Arrays.fill(predecessor, oldCapacity, newCapacity, UNSET);
-      Arrays.fill(successor, oldCapacity, newCapacity, UNSET);
-    }
   }
 
   @Override
@@ -230,8 +235,10 @@ class CompactLinkedHashSet<E> extends CompactHashSet<E> {
     }
     this.firstEntry = ENDPOINT;
     this.lastEntry = ENDPOINT;
-    Arrays.fill(predecessor, 0, size(), UNSET);
-    Arrays.fill(successor, 0, size(), UNSET);
+    if (predecessor != null) {
+      Arrays.fill(predecessor, 0, size(), 0);
+      Arrays.fill(successor, 0, size(), 0);
+    }
     super.clear();
   }
 }

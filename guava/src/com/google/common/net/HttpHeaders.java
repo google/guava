@@ -74,6 +74,13 @@ public final class HttpHeaders {
   /** The HTTP {@code Cookie} header field name. */
   public static final String COOKIE = "Cookie";
   /**
+   * The HTTP <a href="https://fetch.spec.whatwg.org/#cross-origin-resource-policy-header">{@code
+   * Cross-Origin-Resource-Policy}</a> header field name.
+   *
+   * @since 28.0
+   */
+  public static final String CROSS_ORIGIN_RESOURCE_POLICY = "Cross-Origin-Resource-Policy";
+  /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8470">{@code Early-Data}</a> header field
    * name.
    *
@@ -158,12 +165,22 @@ public final class HttpHeaders {
   /**
    * The HTTP <a href="https://www.w3.org/TR/service-workers/#update-algorithm">{@code
    * Service-Worker}</a> header field name.
+   *
+   * @since 20.0
    */
   public static final String SERVICE_WORKER = "Service-Worker";
   /** The HTTP {@code TE} header field name. */
   public static final String TE = "TE";
   /** The HTTP {@code Upgrade} header field name. */
   public static final String UPGRADE = "Upgrade";
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-upgrade-insecure-requests/#preference">{@code
+   * Upgrade-Insecure-Requests}</a> header field name.
+   *
+   * @since 28.1
+   */
+  public static final String UPGRADE_INSECURE_REQUESTS = "Upgrade-Insecure-Requests";
+
   /** The HTTP {@code User-Agent} header field name. */
   public static final String USER_AGENT = "User-Agent";
 
@@ -249,6 +266,27 @@ public final class HttpHeaders {
    * @since 20.0
    */
   public static final String X_WEBKIT_CSP_REPORT_ONLY = "X-WebKit-CSP-Report-Only";
+  /**
+   * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP">{@code
+   * Cross-Origin-Embedder-Policy}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CROSS_ORIGIN_EMBEDDER_POLICY = "Cross-Origin-Embedder-Policy";
+  /**
+   * The HTTP <a href="https://wicg.github.io/cross-origin-embedder-policy/#COEP-RO">{@code
+   * Cross-Origin-Embedder-Policy-Report-Only}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String CROSS_ORIGIN_EMBEDDER_POLICY_REPORT_ONLY =
+      "Cross-Origin-Embedder-Policy-Report-Only";
+  /**
+   * The HTTP Cross-Origin-Opener-Policy header field name.
+   *
+   * @since 28.2
+   */
+  public static final String CROSS_ORIGIN_OPENER_POLICY = "Cross-Origin-Opener-Policy";
   /** The HTTP {@code ETag} header field name. */
   public static final String ETAG = "ETag";
   /** The HTTP {@code Expires} header field name. */
@@ -416,7 +454,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String PURPOSE = "Purpose";
   /**
@@ -424,7 +462,7 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Purpose}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_PURPOSE = "X-Purpose";
   /**
@@ -432,41 +470,84 @@ public final class HttpHeaders {
    * href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ#As_a_server_admin.2C_can_I_distinguish_prefetch_requests_from_normal_requests.3F">{@code
    * X-Moz}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String X_MOZ = "X-Moz";
 
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Dest}</a> header
-   * field name.
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-ua">{@code Sec-CH-UA}</a>
+   * header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA = "Sec-CH-UA";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-model">{@code
+   * Sec-CH-UA-Model}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_MODEL = "Sec-CH-UA-Model";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform">{@code
+   * Sec-CH-UA-Platform}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_PLATFORM = "Sec-CH-UA-Platform";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-platform-version">{@code
+   * Sec-CH-UA-Platform-Version}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_PLATFORM_VERSION = "Sec-CH-UA-Platform-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-full-version">{@code
+   * Sec-CH-UA-Full-Version}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_FULL_VERSION = "Sec-CH-UA-Full-Version";
+  /**
+   * The HTTP <a href="https://wicg.github.io/ua-client-hints/#sec-ch-mobile">{@code
+   * Sec-CH-UA-Mobile}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String SEC_CH_UA_MOBILE = "Sec-CH-UA-Mobile";
+
+  /**
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Dest}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_DEST = "Sec-Fetch-Dest";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Mode}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Mode}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_MODE = "Sec-Fetch-Mode";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-Site}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-Site}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_SITE = "Sec-Fetch-Site";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Fetch-User}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Fetch-User}</a>
+   * header field name.
    *
    * @since 27.1
    */
   public static final String SEC_FETCH_USER = "Sec-Fetch-User";
   /**
-   * The HTTP <a href="https://mikewest.github.io/sec-metadata/">{@code Sec-Metadata}</a> header
-   * field name.
+   * The HTTP <a href="https://w3c.github.io/webappsec-fetch-metadata/">{@code Sec-Metadata}</a>
+   * header field name.
    *
    * @since 26.0
    */
@@ -496,41 +577,41 @@ public final class HttpHeaders {
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Accept}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Extensions}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_EXTENSIONS = "Sec-WebSocket-Extensions";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Key}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Protocol}</a>
    * header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc6455">{@code Sec-WebSocket-Version}</a> header
    * field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
   /**
    * The HTTP <a href="https://tools.ietf.org/html/rfc8586">{@code CDN-Loop}</a> header field name.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static final String CDN_LOOP = "CDN-Loop";
 }

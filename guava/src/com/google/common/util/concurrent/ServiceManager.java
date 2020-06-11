@@ -21,6 +21,7 @@ import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Service.State.FAILED;
 import static com.google.common.util.concurrent.Service.State.NEW;
@@ -39,7 +40,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
@@ -54,6 +54,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -119,9 +120,8 @@ import java.util.logging.Logger;
  * @author Luke Sandberg
  * @since 14.0
  */
-@Beta
 @GwtIncompatible
-public final class ServiceManager {
+public final class ServiceManager implements ServiceManagerBridge {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
   private static final ListenerCallQueue.Event<Listener> HEALTHY_EVENT =
       new ListenerCallQueue.Event<Listener>() {
@@ -157,7 +157,6 @@ public final class ServiceManager {
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 14.0)
    */
-  @Beta // Should come out of Beta when ServiceManager does
   public abstract static class Listener {
     /**
      * Called when the service initially becomes healthy.
@@ -243,8 +242,9 @@ public final class ServiceManager {
    * during {@code Executor.execute} (e.g., a {@code RejectedExecutionException}) will be caught and
    * logged.
    *
-   * <p>For fast, lightweight listeners that would be safe to execute in any thread, consider
-   * calling {@link #addListener(Listener)}.
+   * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
+   * the discussion in the {@link ListenableFuture#addListener ListenableFuture.addListener}
+   * documentation.
    *
    * @param listener the listener to run when the manager changes state
    * @param executor the executor in which the listeners callback methods will be run.
@@ -268,7 +268,15 @@ public final class ServiceManager {
    * <p>RuntimeExceptions thrown by a listener will be caught and logged.
    *
    * @param listener the listener to run when the manager changes state
+   * @since 15.0
+   * @deprecated Use {@linkplain #addListener(Listener, Executor) the overload that accepts an
+   *     executor}. For equivalent behavior, pass {@link MoreExecutors#directExecutor}. However,
+   *     consider whether another executor would be more appropriate, as discussed in the docs for
+   *     {@link ListenableFuture#addListener ListenableFuture.addListener}. This method is scheduled
+   *     for deletion in October 2020.
    */
+  @Beta
+  @Deprecated
   public void addListener(Listener listener) {
     state.addListener(listener, directExecutor());
   }
@@ -320,6 +328,21 @@ public final class ServiceManager {
    * reached the {@linkplain State#RUNNING running} state.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have finished starting within the deadline
+   * @throws IllegalStateException if the service manager reaches a state from which it cannot
+   *     become {@linkplain #isHealthy() healthy}.
+   * @since 28.0
+   */
+  public void awaitHealthy(Duration timeout) throws TimeoutException {
+    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the {@link ServiceManager} to become {@linkplain #isHealthy() healthy} for no more
+   * than the given time. The manager will become healthy after all the component services have
+   * reached the {@linkplain State#RUNNING running} state.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have finished starting within the deadline
    * @throws IllegalStateException if the service manager reaches a state from which it cannot
@@ -359,6 +382,19 @@ public final class ServiceManager {
    * terminated} or {@linkplain Service.State#FAILED failed}.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if not all of the services have stopped within the deadline
+   * @since 28.0
+   */
+  public void awaitStopped(Duration timeout) throws TimeoutException {
+    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the all the services to reach a terminal state for no more than the given time. After
+   * this method returns all services will either be {@linkplain Service.State#TERMINATED
+   * terminated} or {@linkplain Service.State#FAILED failed}.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if not all of the services have stopped within the deadline
    */
@@ -387,8 +423,11 @@ public final class ServiceManager {
    *
    * <p>N.B. This snapshot is guaranteed to be consistent, i.e. the set of states returned will
    * correspond to a point in time view of the services.
+   *
+   * @since 29.0 (present with return type {@code ImmutableMultimap} since 14.0)
    */
-  public ImmutableMultimap<State, Service> servicesByState() {
+  @Override
+  public ImmutableSetMultimap<State, Service> servicesByState() {
     return state.servicesByState();
   }
 
@@ -592,7 +631,7 @@ public final class ServiceManager {
       }
     }
 
-    ImmutableMultimap<State, Service> servicesByState() {
+    ImmutableSetMultimap<State, Service> servicesByState() {
       ImmutableSetMultimap.Builder<State, Service> builder = ImmutableSetMultimap.builder();
       monitor.enter();
       try {

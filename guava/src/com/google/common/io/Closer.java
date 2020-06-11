@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -106,7 +105,7 @@ public final class Closer implements Closeable {
 
   // only need space for 2 elements in most cases, so try to use the smallest array possible
   private final Deque<Closeable> stack = new ArrayDeque<>(4);
-  @MonotonicNonNull private Throwable thrown;
+  private @Nullable Throwable thrown;
 
   @VisibleForTesting
   Closer(Suppressor suppressor) {
@@ -265,9 +264,9 @@ public final class Closer implements Closeable {
       return addSuppressed != null;
     }
 
-    static final Method addSuppressed = getAddSuppressed();
+    static final Method addSuppressed = addSuppressedMethodOrNull();
 
-    private static Method getAddSuppressed() {
+    private static Method addSuppressedMethodOrNull() {
       try {
         return Throwable.class.getMethod("addSuppressed", Throwable.class);
       } catch (Throwable e) {

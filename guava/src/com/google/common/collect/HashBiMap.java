@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -39,7 +40,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -244,6 +244,16 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     return seekByKey(key, smearedHash(key)) != null;
   }
 
+  /**
+   * Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,
+   * equivalently, if this inverse view contains a key that is equal to {@code value}).
+   *
+   * <p>Due to the property that values in a BiMap are unique, this will tend to execute in
+   * faster-than-linear time.
+   *
+   * @param value the object to search for in the values of this BiMap
+   * @return true if a mapping exists from a key to the specified value
+   */
   @Override
   public boolean containsValue(@Nullable Object value) {
     return seekByValue(value, smearedHash(value)) != null;
@@ -296,8 +306,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  public V forcePut(@Nullable K key, @Nullable V value) {
+  public @Nullable V forcePut(@Nullable K key, @Nullable V value) {
     return put(key, value, true);
   }
 
@@ -371,8 +380,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
   @CanIgnoreReturnValue
   @Override
-  @Nullable
-  public V remove(@Nullable Object key) {
+  public @Nullable V remove(@Nullable Object key) {
     BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
     if (entry == null) {
       return null;
@@ -549,7 +557,7 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
     }
   }
 
-  @MonotonicNonNull @RetainedWith private transient BiMap<V, K> inverse;
+  @LazyInit @RetainedWith private transient @Nullable BiMap<V, K> inverse;
 
   @Override
   public BiMap<V, K> inverse() {
@@ -585,20 +593,17 @@ public final class HashBiMap<K, V> extends IteratorBasedAbstractMap<K, V>
 
     @CanIgnoreReturnValue
     @Override
-    @Nullable
-    public K put(@Nullable V value, @Nullable K key) {
+    public @Nullable K put(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, false);
     }
 
     @Override
-    @Nullable
-    public K forcePut(@Nullable V value, @Nullable K key) {
+    public @Nullable K forcePut(@Nullable V value, @Nullable K key) {
       return putInverse(value, key, true);
     }
 
     @Override
-    @Nullable
-    public K remove(@Nullable Object value) {
+    public @Nullable K remove(@Nullable Object value) {
       BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
       if (entry == null) {
         return null;

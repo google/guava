@@ -64,7 +64,7 @@ public final class PercentEscaper extends UnicodeEscaper {
 
   /**
    * An array of flags where for any {@code char c} if {@code safeOctets[c]} is true then {@code c}
-   * should remain unmodified in the output. If {@code c > safeOctets.length} then it should be
+   * should remain unmodified in the output. If {@code c >= safeOctets.length} then it should be
    * escaped.
    */
   private final boolean[] safeOctets;

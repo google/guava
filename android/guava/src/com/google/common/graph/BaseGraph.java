@@ -56,12 +56,23 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
   /** Returns the order of iteration for the elements of {@link #nodes()}. */
   ElementOrder<N> nodeOrder();
 
+  /**
+   * Returns an {@link ElementOrder} that specifies the order of iteration for the elements of
+   * {@link #edges()}, {@link #adjacentNodes(Object)}, {@link #predecessors(Object)}, {@link
+   * #successors(Object)} and {@link #incidentEdges(Object)}.
+   *
+   * @since 29.0
+   */
+  ElementOrder<N> incidentEdgeOrder();
+
   //
   // Element-level accessors
   //
 
   /**
    * Returns the nodes which have an incident edge in common with {@code node} in this graph.
+   *
+   * <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    */
@@ -94,6 +105,8 @@ interface BaseGraph<N> extends SuccessorsFunction<N>, PredecessorsFunction<N> {
 
   /**
    * Returns the edges in this graph whose endpoints include {@code node}.
+   *
+   * <p>This is equal to the union of incoming and outgoing edges.
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this graph
    * @since 24.0

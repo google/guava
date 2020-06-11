@@ -14,9 +14,12 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -51,7 +54,7 @@ import java.util.concurrent.TimeoutException;
  * @author Luke Sandberg
  * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
  */
-@Beta
+@DoNotMock("Create an AbstractIdleService")
 @GwtIncompatible
 public interface Service {
   /**
@@ -99,6 +102,21 @@ public interface Service {
    * than the given time.
    *
    * @param timeout the maximum time to wait
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service reaches a state from which it is not possible to
+   *     enter the {@link State#RUNNING RUNNING} state. e.g. if the {@code state} is {@code
+   *     State#TERMINATED} when this method is called then this will throw an IllegalStateException.
+   * @since 28.0
+   */
+  default void awaitRunning(Duration timeout) throws TimeoutException {
+    awaitRunning(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
+
+  /**
+   * Waits for the {@link Service} to reach the {@linkplain State#RUNNING running state} for no more
+   * than the given time.
+   *
+   * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
    * @throws TimeoutException if the service has not reached the given state within the deadline
    * @throws IllegalStateException if the service reaches a state from which it is not possible to
@@ -116,6 +134,19 @@ public interface Service {
    * @since 15.0
    */
   void awaitTerminated();
+
+  /**
+   * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED
+   * terminated} or {@link Service.State#FAILED failed}) for no more than the given time.
+   *
+   * @param timeout the maximum time to wait
+   * @throws TimeoutException if the service has not reached the given state within the deadline
+   * @throws IllegalStateException if the service {@linkplain State#FAILED fails}.
+   * @since 28.0
+   */
+  default void awaitTerminated(Duration timeout) throws TimeoutException {
+    awaitTerminated(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Waits for the {@link Service} to reach a terminal state (either {@link Service.State#TERMINATED
@@ -173,7 +204,6 @@ public interface Service {
    *
    * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})
    */
-  @Beta // should come out of Beta when Service does
   enum State {
     /** A service in this state is inactive. It does minimal work and consumes minimal resources. */
     NEW {
@@ -241,7 +271,6 @@ public interface Service {
    * @author Luke Sandberg
    * @since 15.0 (present as an interface in 13.0)
    */
-  @Beta // should come out of Beta when Service does
   abstract class Listener {
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain

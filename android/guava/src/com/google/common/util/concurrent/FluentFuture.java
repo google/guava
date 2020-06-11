@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,7 +48,7 @@ import java.util.concurrent.TimeoutException;
  * debugging, and cancellation. Examples of frameworks include:
  *
  * <ul>
- *   <li><a href="http://google.github.io/dagger/producers.html">Dagger Producers</a>
+ *   <li><a href="http://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
  * <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
@@ -69,6 +70,7 @@ import java.util.concurrent.TimeoutException;
  * @since 23.0
  */
 @Beta
+@DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
 @GwtCompatible(emulated = true)
 public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecialization<V> {
 
@@ -132,7 +134,7 @@ public abstract class FluentFuture<V> extends GwtFluentFutureCatchingSpecializat
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since NEXT
+   * @since 28.0
    */
   @Deprecated
   public static <V> FluentFuture<V> from(FluentFuture<V> future) {

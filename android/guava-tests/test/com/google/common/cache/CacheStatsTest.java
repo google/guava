@@ -98,4 +98,32 @@ public class CacheStatsTest extends TestCase {
 
     assertEquals(sum, one.plus(two));
   }
+
+  public void testPlusLarge() {
+    CacheStats maxCacheStats =
+        new CacheStats(
+            Long.MAX_VALUE,
+            Long.MAX_VALUE,
+            Long.MAX_VALUE,
+            Long.MAX_VALUE,
+            Long.MAX_VALUE,
+            Long.MAX_VALUE);
+    CacheStats smallCacheStats = new CacheStats(1, 1, 1, 1, 1, 1);
+
+    CacheStats sum = smallCacheStats.plus(maxCacheStats);
+    assertEquals(Long.MAX_VALUE, sum.requestCount());
+    assertEquals(Long.MAX_VALUE, sum.hitCount());
+    assertEquals(1.0, sum.hitRate());
+    assertEquals(Long.MAX_VALUE, sum.missCount());
+    assertEquals(1.0, sum.missRate());
+    assertEquals(Long.MAX_VALUE, sum.loadSuccessCount());
+    assertEquals(Long.MAX_VALUE, sum.loadExceptionCount());
+    assertEquals(1.0, sum.loadExceptionRate());
+    assertEquals(Long.MAX_VALUE, sum.loadCount());
+    assertEquals(Long.MAX_VALUE, sum.totalLoadTime());
+    assertEquals(1.0, sum.averageLoadPenalty());
+    assertEquals(Long.MAX_VALUE, sum.evictionCount());
+
+    assertEquals(sum, maxCacheStats.plus(smallCacheStats));
+  }
 }

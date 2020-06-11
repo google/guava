@@ -42,11 +42,6 @@
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>animal-sniffer-annotations</artifactId>
-      <version>${animal.sniffer.version}</version>
-    </dependency>
     <!-- TODO(cpovirk): does this comment belong on the <dependency> in <profiles>? -->
     <!-- TODO(cpovirk): want this only for dependency plugin but seems not to work there? Maven runs without failure, but the resulting Javadoc is missing the hoped-for inherited text -->
   </dependencies>
@@ -111,6 +106,8 @@
               <includeArtifactIds>srczip</includeArtifactIds>
               <outputDirectory>${project.build.directory}/jdk-sources</outputDirectory>
               <silent>false</silent>
+              <!-- Exclude module-info files (since we're using -source 8 to avoid other modules problems) and FileDescriptor (which uses a language feature not available in Java 8). -->
+              <excludes>**/module-info.java,**/java/io/FileDescriptor.java</excludes>
             </configuration>
           </execution>
         </executions>
@@ -128,7 +125,38 @@
           <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources</sourcepath>
 
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
-          <excludePackageNames>com.google.common.base.internal,com.google.thirdparty.publicsuffix,com.oracle,com.sun,java,javax,jdk,org,sun</excludePackageNames>
+          <!-- excludePackageNames requires specification of packages separately from "all subpackages".
+               https://issues.apache.org/jira/browse/MJAVADOC-584 -->
+          <excludePackageNames>
+            com.google.common.base.internal,com.google.common.base.internal.*,com.google.thirdparty.publicsuffix,com.google.thirdparty.publicsuffix.*,com.oracle.*,com.sun.*,java.*,javax.*,jdk,jdk.*,org.*,sun.*
+          </excludePackageNames>
+          <!-- Ignore some tags that are found in Java 11 sources but not recognized... under -source 8, I think it was? I can no longer reproduce the failure. -->
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>jls</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>revised</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>spec</name>
+              <placement>X</placement>
+            </tag>
+          </tags>
 
           <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
           <!-- We add the link ourselves, both so that we can choose Java 9 over the version that -source suggests and so that we can solve the JSR305 problem described below. -->
@@ -174,7 +202,7 @@
   </build>
   <profiles>
     <profile>
-      <id>srczip</id>
+      <id>srczip-parent</id>
       <activation>
         <file>
           <exists>${java.home}/../src.zip</exists>
@@ -190,6 +218,35 @@
           <optional>true</optional>
         </dependency>
       </dependencies>
+    </profile>
+    <profile>
+      <id>srczip-lib</id>
+      <activation>
+        <file>
+          <exists>${java.home}/lib/src.zip</exists>
+        </file>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>jdk</groupId>
+          <artifactId>srczip</artifactId>
+          <version>999</version>
+          <scope>system</scope>
+          <systemPath>${java.home}/lib/src.zip</systemPath>
+          <optional>true</optional>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <!-- We need to point at the java.base subdirectory because Maven appears to assume that package foo.bar is located in foo/bar and not java.base/foo/bar when translating excludePackageNames into filenames to pass to javadoc. (Note that manually passing -exclude to javadoc appears to possibly not work at all for java.* types??) Also, referring only to java.base avoids a lot of other sources. -->
+              <sourcepath>${project.build.sourceDirectory}:${project.build.directory}/jdk-sources/java.base</sourcepath>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

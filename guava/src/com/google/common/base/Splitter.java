@@ -27,6 +27,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Extracts non-overlapping substrings from an input string, typically by recognizing appearances of
@@ -331,13 +333,13 @@ public final class Splitter {
    * trimmed, including the last. Hence {@code Splitter.on(',').limit(3).trimResults().split(" a , b
    * , c , d ")} results in {@code ["a", "b", "c , d"]}.
    *
-   * @param limit the maximum number of items returned
+   * @param maxItems the maximum number of items returned
    * @return a splitter with the desired configuration
    * @since 9.0
    */
-  public Splitter limit(int limit) {
-    checkArgument(limit > 0, "must be greater than zero: %s", limit);
-    return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
+  public Splitter limit(int maxItems) {
+    checkArgument(maxItems > 0, "must be greater than zero: %s", maxItems);
+    return new Splitter(strategy, omitEmptyStrings, trimmer, maxItems);
   }
 
   /**
@@ -372,7 +374,7 @@ public final class Splitter {
   /**
    * Splits {@code sequence} into string components and makes them available through an {@link
    * Iterator}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
-   * {@link #splitToList(CharSequence)}.
+   * {@link #splitToList(CharSequence)}. Java 8 users may prefer {@link #splitToStream} instead.
    *
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter
@@ -419,6 +421,21 @@ public final class Splitter {
     }
 
     return Collections.unmodifiableList(result);
+  }
+
+  /**
+   * Splits {@code sequence} into string components and makes them available through an {@link
+   * Stream}, which may be lazily evaluated. If you want an eagerly computed {@link List}, use
+   * {@link #splitToList(CharSequence)}.
+   *
+   * @param sequence the sequence of characters to split
+   * @return a stream over the segments split from the parameter
+   * @since 28.2
+   */
+  @Beta
+  public Stream<String> splitToStream(CharSequence sequence) {
+    // Can't use Streams.stream() from base
+    return StreamSupport.stream(split(sequence).spliterator(), false);
   }
 
   /**

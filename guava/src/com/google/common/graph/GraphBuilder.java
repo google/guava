@@ -16,11 +16,13 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
+import com.google.errorprone.annotations.DoNotMock;
 
 /**
  * A builder for constructing instances of {@link MutableGraph} or {@link ImmutableGraph} with
@@ -61,6 +63,7 @@ import com.google.common.base.Optional;
  * @since 20.0
  */
 @Beta
+@DoNotMock
 public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
 
   /** Creates a new instance with the specified edge directionality. */
@@ -88,15 +91,19 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
   public static <N> GraphBuilder<N> from(Graph<N> graph) {
     return new GraphBuilder<N>(graph.isDirected())
         .allowsSelfLoops(graph.allowsSelfLoops())
-        .nodeOrder(graph.nodeOrder());
+        .nodeOrder(graph.nodeOrder())
+        .incidentEdgeOrder(graph.incidentEdgeOrder());
   }
 
   /**
-   * Returns an {@link ImmutableGraph#Builder} with the properties of this {@link GraphBuilder}.
+   * Returns an {@link ImmutableGraph.Builder} with the properties of this {@link GraphBuilder}.
    *
    * <p>The returned builder can be used for populating an {@link ImmutableGraph}.
    *
-   * @since NEXT
+   * <p>Note that the returned builder will always have {@link #incidentEdgeOrder} set to {@link
+   * ElementOrder#stable()}, regardless of the value that was set in this builder.
+   *
+   * @since 28.0
    */
   public <N1 extends N> ImmutableGraph.Builder<N1> immutable() {
     GraphBuilder<N1> castBuilder = cast();
@@ -107,6 +114,8 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
    * Specifies whether the graph will allow self-loops (edges that connect a node to itself).
    * Attempting to add a self-loop to a graph that does not allow them will throw an {@link
    * UnsupportedOperationException}.
+   *
+   * <p>The default value is {@code false}.
    */
   public GraphBuilder<N> allowsSelfLoops(boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
@@ -123,16 +132,54 @@ public final class GraphBuilder<N> extends AbstractGraphBuilder<N> {
     return this;
   }
 
-  /** Specifies the order of iteration for the elements of {@link Graph#nodes()}. */
+  /**
+   * Specifies the order of iteration for the elements of {@link Graph#nodes()}.
+   *
+   * <p>The default value is {@link ElementOrder#insertion() insertion order}.
+   */
   public <N1 extends N> GraphBuilder<N1> nodeOrder(ElementOrder<N1> nodeOrder) {
     GraphBuilder<N1> newBuilder = cast();
     newBuilder.nodeOrder = checkNotNull(nodeOrder);
     return newBuilder;
   }
 
+  /**
+   * Specifies the order of iteration for the elements of {@link Graph#edges()}, {@link
+   * Graph#adjacentNodes(Object)}, {@link Graph#predecessors(Object)}, {@link
+   * Graph#successors(Object)} and {@link Graph#incidentEdges(Object)}.
+   *
+   * <p>The default value is {@link ElementOrder#unordered() unordered} for mutable graphs. For
+   * immutable graphs, this value is ignored; they always have a {@link ElementOrder#stable()
+   * stable} order.
+   *
+   * @throws IllegalArgumentException if {@code incidentEdgeOrder} is not either {@code
+   *     ElementOrder.unordered()} or {@code ElementOrder.stable()}.
+   * @since 29.0
+   */
+  public <N1 extends N> GraphBuilder<N1> incidentEdgeOrder(ElementOrder<N1> incidentEdgeOrder) {
+    checkArgument(
+        incidentEdgeOrder.type() == ElementOrder.Type.UNORDERED
+            || incidentEdgeOrder.type() == ElementOrder.Type.STABLE,
+        "The given elementOrder (%s) is unsupported. incidentEdgeOrder() only supports"
+            + " ElementOrder.unordered() and ElementOrder.stable().",
+        incidentEdgeOrder);
+    GraphBuilder<N1> newBuilder = cast();
+    newBuilder.incidentEdgeOrder = checkNotNull(incidentEdgeOrder);
+    return newBuilder;
+  }
+
   /** Returns an empty {@link MutableGraph} with the properties of this {@link GraphBuilder}. */
   public <N1 extends N> MutableGraph<N1> build() {
-    return new ConfigurableMutableGraph<N1>(this);
+    return new StandardMutableGraph<N1>(this);
+  }
+
+  GraphBuilder<N> copy() {
+    GraphBuilder<N> newBuilder = new GraphBuilder<>(directed);
+    newBuilder.allowsSelfLoops = allowsSelfLoops;
+    newBuilder.nodeOrder = nodeOrder;
+    newBuilder.expectedNodeCount = expectedNodeCount;
+    newBuilder.incidentEdgeOrder = incidentEdgeOrder;
+    return newBuilder;
   }
 
   @SuppressWarnings("unchecked")

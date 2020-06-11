@@ -28,13 +28,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -772,6 +772,27 @@ public abstract class BaseEncoding {
         }
 
         @Override
+        public int read(byte[] buf, int off, int len) throws IOException {
+          // Overriding this to work around the fact that InputStream's default implementation of
+          // this method will silently swallow exceptions thrown by the single-byte read() method
+          // (other than on the first call to it), which in this case can cause invalid encoded
+          // strings to not throw an exception.
+          // See https://github.com/google/guava/issues/3542
+          checkPositionIndexes(off, off + len, buf.length);
+
+          int i = off;
+          for (; i < off + len; i++) {
+            int b = read();
+            if (b == -1) {
+              int read = i - off;
+              return read == 0 ? -1 : read;
+            }
+            buf[i] = (byte) b;
+          }
+          return i - off;
+        }
+
+        @Override
         public void close() throws IOException {
           reader.close();
         }
@@ -810,8 +831,8 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    private transient @MonotonicNonNull BaseEncoding upperCase;
-    private transient @MonotonicNonNull BaseEncoding lowerCase;
+    @LazyInit private transient @Nullable BaseEncoding upperCase;
+    @LazyInit private transient @Nullable BaseEncoding lowerCase;
 
     @Override
     public BaseEncoding upperCase() {

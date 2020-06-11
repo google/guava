@@ -57,12 +57,15 @@ public final class ElementOrder<T> {
    *
    * <ul>
    *   <li>UNORDERED: no order is guaranteed.
+   *   <li>STABLE: ordering is guaranteed to follow a pattern that won't change between releases.
+   *       Some methods may have stronger guarantees.
    *   <li>INSERTION: insertion ordering is guaranteed.
    *   <li>SORTED: ordering according to a supplied comparator is guaranteed.
    * </ul>
    */
   public enum Type {
     UNORDERED,
+    STABLE,
     INSERTION,
     SORTED
   }
@@ -76,6 +79,46 @@ public final class ElementOrder<T> {
   /** Returns an instance which specifies that no ordering is guaranteed. */
   public static <S> ElementOrder<S> unordered() {
     return new ElementOrder<S>(Type.UNORDERED, null);
+  }
+
+  /**
+   * Returns an instance which specifies that ordering is guaranteed to be always be the same across
+   * iterations, and across releases. Some methods may have stronger guarantees.
+   *
+   * <p>This instance is only useful in combination with {@code incidentEdgeOrder}, e.g. {@code
+   * graphBuilder.incidentEdgeOrder(ElementOrder.stable())}.
+   *
+   * <h3>In combination with {@code incidentEdgeOrder}</h3>
+   *
+   * <p>{@code incidentEdgeOrder(ElementOrder.stable())} guarantees the ordering of the returned
+   * collections of the following methods:
+   *
+   * <ul>
+   *   <li>For {@link Graph} and {@link ValueGraph}:
+   *       <ul>
+   *         <li>{@code edges()}: Stable order
+   *         <li>{@code adjacentNodes(node)}: Connecting edge insertion order
+   *         <li>{@code predecessors(node)}: Connecting edge insertion order
+   *         <li>{@code successors(node)}: Connecting edge insertion order
+   *         <li>{@code incidentEdges(node)}: Edge insertion order
+   *       </ul>
+   *   <li>For {@link Network}:
+   *       <ul>
+   *         <li>{@code adjacentNodes(node)}: Stable order
+   *         <li>{@code predecessors(node)}: Connecting edge insertion order
+   *         <li>{@code successors(node)}: Connecting edge insertion order
+   *         <li>{@code incidentEdges(node)}: Stable order
+   *         <li>{@code inEdges(node)}: Edge insertion order
+   *         <li>{@code outEdges(node)}: Edge insertion order
+   *         <li>{@code adjacentEdges(edge)}: Stable order
+   *         <li>{@code edgesConnecting(nodeU, nodeV)}: Edge insertion order
+   *       </ul>
+   * </ul>
+   *
+   * @since 29.0
+   */
+  public static <S> ElementOrder<S> stable() {
+    return new ElementOrder<S>(Type.STABLE, null);
   }
 
   /** Returns an instance which specifies that insertion ordering is guaranteed. */
@@ -95,7 +138,7 @@ public final class ElementOrder<T> {
    * determined by {@code comparator}.
    */
   public static <S> ElementOrder<S> sorted(Comparator<S> comparator) {
-    return new ElementOrder<S>(Type.SORTED, comparator);
+    return new ElementOrder<S>(Type.SORTED, checkNotNull(comparator));
   }
 
   /** Returns the type of ordering used. */
@@ -148,6 +191,7 @@ public final class ElementOrder<T> {
       case UNORDERED:
         return Maps.newHashMapWithExpectedSize(expectedSize);
       case INSERTION:
+      case STABLE:
         return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
       case SORTED:
         return Maps.newTreeMap(comparator());

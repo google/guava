@@ -14,9 +14,13 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotMock;
+import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +34,8 @@ import java.util.concurrent.TimeoutException;
  * @since 1.0
  */
 @Beta
+@DoNotMock("Use FakeTimeLimiter")
 @GwtIncompatible
-@SuppressWarnings("GoodTime") // should have java.time.Duration overloads
 public interface TimeLimiter {
 
   /**
@@ -75,7 +79,51 @@ public interface TimeLimiter {
    * @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
    *     annotation type, rather than an interface
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration, TimeUnit timeoutUnit);
+
+  /**
+   * Returns an instance of {@code interfaceType} that delegates all method calls to the {@code
+   * target} object, enforcing the specified time limit on each call. This time-limited delegation
+   * is also performed for calls to {@link Object#equals}, {@link Object#hashCode}, and {@link
+   * Object#toString}.
+   *
+   * <p>If the target method call finishes before the limit is reached, the return value or
+   * exception is propagated to the caller exactly as-is. If, on the other hand, the time limit is
+   * reached, the proxy will attempt to abort the call to the target, and will throw an {@link
+   * UncheckedTimeoutException} to the caller.
+   *
+   * <p>It is important to note that the primary purpose of the proxy object is to return control to
+   * the caller when the timeout elapses; aborting the target method call is of secondary concern.
+   * The particular nature and strength of the guarantees made by the proxy is
+   * implementation-dependent. However, it is important that each of the methods on the target
+   * object behaves appropriately when its thread is interrupted.
+   *
+   * <p>For example, to return the value of {@code target.someMethod()}, but substitute {@code
+   * DEFAULT_VALUE} if this method call takes over 50 ms, you can use this code:
+   *
+   * <pre>
+   *   TimeLimiter limiter = . . .;
+   *   TargetType proxy = limiter.newProxy(target, TargetType.class, Duration.ofMillis(50));
+   *   try {
+   *     return proxy.someMethod();
+   *   } catch (UncheckedTimeoutException e) {
+   *     return DEFAULT_VALUE;
+   *   }
+   * </pre>
+   *
+   * @param target the object to proxy
+   * @param interfaceType the interface you wish the returned proxy to implement
+   * @param timeout the maximum length of time that callers are willing to wait on each method call
+   *     to the proxy
+   * @return a time-limiting proxy
+   * @throws IllegalArgumentException if {@code interfaceType} is a regular class, enum, or
+   *     annotation type, rather than an interface
+   * @since 28.0
+   */
+  default <T> T newProxy(T target, Class<T> interfaceType, Duration timeout) {
+    return newProxy(target, interfaceType, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Invokes a specified Callable, timing out after the specified time limit. If the target method
@@ -94,9 +142,32 @@ public interface TimeLimiter {
    * @throws ExecutionError if {@code callable} throws an {@code Error}
    * @since 22.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
   <T> T callWithTimeout(Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException, ExecutionException;
+
+  /**
+   * Invokes a specified Callable, timing out after the specified time limit. If the target method
+   * call finishes before the limit is reached, the return value or a wrapped exception is
+   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+   * the target, and throw a {@link TimeoutException} to the caller.
+   *
+   * @param callable the Callable to execute
+   * @param timeout the maximum length of time to wait
+   * @return the result returned by the Callable
+   * @throws TimeoutException if the time limit is reached
+   * @throws InterruptedException if the current thread was interrupted during execution
+   * @throws ExecutionException if {@code callable} throws a checked exception
+   * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+   * @throws ExecutionError if {@code callable} throws an {@code Error}
+   * @since 28.0
+   */
+  @CanIgnoreReturnValue
+  default <T> T callWithTimeout(Callable<T> callable, Duration timeout)
+      throws TimeoutException, InterruptedException, ExecutionException {
+    return callWithTimeout(callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Invokes a specified Callable, timing out after the specified time limit. If the target method
@@ -117,10 +188,36 @@ public interface TimeLimiter {
    * @throws ExecutionError if {@code callable} throws an {@code Error}
    * @since 22.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   @CanIgnoreReturnValue
   <T> T callUninterruptiblyWithTimeout(
       Callable<T> callable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, ExecutionException;
+
+  /**
+   * Invokes a specified Callable, timing out after the specified time limit. If the target method
+   * call finishes before the limit is reached, the return value or a wrapped exception is
+   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the call to
+   * the target, and throw a {@link TimeoutException} to the caller.
+   *
+   * <p>The difference with {@link #callWithTimeout(Callable, Duration)} is that this method will
+   * ignore interrupts on the current thread.
+   *
+   * @param callable the Callable to execute
+   * @param timeout the maximum length of time to wait
+   * @return the result returned by the Callable
+   * @throws TimeoutException if the time limit is reached
+   * @throws ExecutionException if {@code callable} throws a checked exception
+   * @throws UncheckedExecutionException if {@code callable} throws a {@code RuntimeException}
+   * @throws ExecutionError if {@code callable} throws an {@code Error}
+   * @since 28.0
+   */
+  @CanIgnoreReturnValue
+  default <T> T callUninterruptiblyWithTimeout(Callable<T> callable, Duration timeout)
+      throws TimeoutException, ExecutionException {
+    return callUninterruptiblyWithTimeout(
+        callable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Invokes a specified Runnable, timing out after the specified time limit. If the target method
@@ -137,8 +234,28 @@ public interface TimeLimiter {
    * @throws ExecutionError if {@code runnable} throws an {@code Error}
    * @since 22.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void runWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException, InterruptedException;
+
+  /**
+   * Invokes a specified Runnable, timing out after the specified time limit. If the target method
+   * run finishes before the limit is reached, this method returns or a wrapped exception is
+   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+   * throw a {@link TimeoutException} to the caller.
+   *
+   * @param runnable the Runnable to execute
+   * @param timeout the maximum length of time to wait
+   * @throws TimeoutException if the time limit is reached
+   * @throws InterruptedException if the current thread was interrupted during execution
+   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+   * @throws ExecutionError if {@code runnable} throws an {@code Error}
+   * @since 28.0
+   */
+  default void runWithTimeout(Runnable runnable, Duration timeout)
+      throws TimeoutException, InterruptedException {
+    runWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 
   /**
    * Invokes a specified Runnable, timing out after the specified time limit. If the target method
@@ -157,6 +274,28 @@ public interface TimeLimiter {
    * @throws ExecutionError if {@code runnable} throws an {@code Error}
    * @since 22.0
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   void runUninterruptiblyWithTimeout(Runnable runnable, long timeoutDuration, TimeUnit timeoutUnit)
       throws TimeoutException;
+
+  /**
+   * Invokes a specified Runnable, timing out after the specified time limit. If the target method
+   * run finishes before the limit is reached, this method returns or a wrapped exception is
+   * propagated. If, on the other hand, the time limit is reached, we attempt to abort the run, and
+   * throw a {@link TimeoutException} to the caller.
+   *
+   * <p>The difference with {@link #runWithTimeout(Runnable, Duration)} is that this method will
+   * ignore interrupts on the current thread.
+   *
+   * @param runnable the Runnable to execute
+   * @param timeout the maximum length of time to wait
+   * @throws TimeoutException if the time limit is reached
+   * @throws UncheckedExecutionException if {@code runnable} throws a {@code RuntimeException}
+   * @throws ExecutionError if {@code runnable} throws an {@code Error}
+   * @since 28.0
+   */
+  default void runUninterruptiblyWithTimeout(Runnable runnable, Duration timeout)
+      throws TimeoutException {
+    runUninterruptiblyWithTimeout(runnable, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+  }
 }

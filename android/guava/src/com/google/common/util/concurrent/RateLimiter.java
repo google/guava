@@ -29,7 +29,7 @@ import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
  * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
@@ -92,7 +92,6 @@ import org.checkerframework.checker.nullness.compatqual.MonotonicNonNullDecl;
 // would mean a maximum rate of "1MB/s", which might be small in some cases.
 @Beta
 @GwtIncompatible
-@SuppressWarnings("GoodTime") // lots of violations - also how should we model a rate?
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
@@ -159,6 +158,7 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code
    *     warmupPeriod} is negative
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {
     checkArgument(warmupPeriod >= 0, "warmupPeriod must not be negative: %s", warmupPeriod);
     return create(
@@ -184,7 +184,7 @@ public abstract class RateLimiter {
   private final SleepingStopwatch stopwatch;
 
   // Can't be initialized in the constructor because mocks don't call the constructor.
-  @MonotonicNonNullDecl private volatile Object mutexDoNotUseDirectly;
+  @NullableDecl private volatile Object mutexDoNotUseDirectly;
 
   private Object mutex() {
     Object mutex = mutexDoNotUseDirectly;
@@ -300,6 +300,7 @@ public abstract class RateLimiter {
    * @return {@code true} if the permit was acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(long timeout, TimeUnit unit) {
     return tryAcquire(1, timeout, unit);
   }
@@ -342,6 +343,7 @@ public abstract class RateLimiter {
    * @return {@code true} if the permits were acquired, {@code false} otherwise
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    */
+  @SuppressWarnings("GoodTime") // should accept a java.time.Duration
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
     long timeoutMicros = max(unit.toMicros(timeout), 0);
     checkPermits(permits);

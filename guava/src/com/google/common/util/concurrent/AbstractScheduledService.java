@@ -16,14 +16,15 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.WeakOuter;
+import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -35,7 +36,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -95,7 +95,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * @author Luke Sandberg
  * @since 11.0
  */
-@Beta
 @GwtIncompatible
 public abstract class AbstractScheduledService implements Service {
   private static final Logger logger = Logger.getLogger(AbstractScheduledService.class.getName());
@@ -120,6 +119,20 @@ public abstract class AbstractScheduledService implements Service {
      * @param initialDelay the time to delay first execution
      * @param delay the delay between the termination of one execution and the commencement of the
      *     next
+     * @since 28.0
+     */
+    public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
+      return newFixedDelaySchedule(
+          toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);
+    }
+
+    /**
+     * Returns a {@link Scheduler} that schedules the task using the {@link
+     * ScheduledExecutorService#scheduleWithFixedDelay} method.
+     *
+     * @param initialDelay the time to delay first execution
+     * @param delay the delay between the termination of one execution and the commencement of the
+     *     next
      * @param unit the time unit of the initialDelay and delay parameters
      */
     @SuppressWarnings("GoodTime") // should accept a java.time.Duration
@@ -134,6 +147,19 @@ public abstract class AbstractScheduledService implements Service {
           return executor.scheduleWithFixedDelay(task, initialDelay, delay, unit);
         }
       };
+    }
+
+    /**
+     * Returns a {@link Scheduler} that schedules the task using the {@link
+     * ScheduledExecutorService#scheduleAtFixedRate} method.
+     *
+     * @param initialDelay the time to delay first execution
+     * @param period the period between successive executions of the task
+     * @since 28.0
+     */
+    public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
+      return newFixedRateSchedule(
+          toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -173,8 +199,8 @@ public abstract class AbstractScheduledService implements Service {
 
     // A handle to the running task so that we can stop it when a shutdown has been requested.
     // These two fields are volatile because their values will be accessed from multiple threads.
-    @MonotonicNonNull private volatile Future<?> runningTask;
-    @MonotonicNonNull private volatile ScheduledExecutorService executorService;
+    private volatile @Nullable Future<?> runningTask;
+    private volatile @Nullable ScheduledExecutorService executorService;
 
     // This lock protects the task so we can ensure that none of the template methods (startUp,
     // shutDown or runOneIteration) run concurrently with one another.
@@ -415,6 +441,12 @@ public abstract class AbstractScheduledService implements Service {
     delegate.awaitRunning();
   }
 
+  /** @since 28.0 */
+  @Override
+  public final void awaitRunning(Duration timeout) throws TimeoutException {
+    Service.super.awaitRunning(timeout);
+  }
+
   /** @since 15.0 */
   @Override
   public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
@@ -425,6 +457,12 @@ public abstract class AbstractScheduledService implements Service {
   @Override
   public final void awaitTerminated() {
     delegate.awaitTerminated();
+  }
+
+  /** @since 28.0 */
+  @Override
+  public final void awaitTerminated(Duration timeout) throws TimeoutException {
+    Service.super.awaitTerminated(timeout);
   }
 
   /** @since 15.0 */
@@ -441,7 +479,6 @@ public abstract class AbstractScheduledService implements Service {
    * @author Luke Sandberg
    * @since 11.0
    */
-  @Beta
   public abstract static class CustomScheduler extends Scheduler {
 
     /** A callable class that can reschedule itself using a {@link CustomScheduler}. */
@@ -567,7 +604,6 @@ public abstract class AbstractScheduledService implements Service {
      * @author Luke Sandberg
      * @since 11.0
      */
-    @Beta
     protected static final class Schedule {
 
       private final long delay;

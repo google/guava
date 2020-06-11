@@ -336,8 +336,7 @@ public final class ArbitraryInstances {
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
-  @Nullable
-  private static <T> Class<? extends T> getImplementation(Class<T> type) {
+  private static <T> @Nullable Class<? extends T> getImplementation(Class<T> type) {
     return (Class<? extends T>) implementations.get(type);
   }
 
@@ -347,8 +346,7 @@ public final class ArbitraryInstances {
    * Returns an arbitrary instance for {@code type}, or {@code null} if no arbitrary instance can be
    * determined.
    */
-  @Nullable
-  public static <T> T get(Class<T> type) {
+  public static <T> @Nullable T get(Class<T> type) {
     T defaultValue = DEFAULTS.getInstance(type);
     if (defaultValue != null) {
       return defaultValue;
@@ -383,7 +381,14 @@ public final class ArbitraryInstances {
     constructor.setAccessible(true); // accessibility check is too slow
     try {
       return constructor.newInstance();
-    } catch (InstantiationException | IllegalAccessException impossible) {
+      /*
+       * Do not merge the 2 catch blocks below. javac would infer a type of
+       * ReflectiveOperationException, which Animal Sniffer would reject. (Old versions of
+       * Android don't *seem* to mind, but there might be edge cases of which we're unaware.)
+       */
+    } catch (InstantiationException impossible) {
+      throw new AssertionError(impossible);
+    } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible);
     } catch (InvocationTargetException e) {
       logger.log(Level.WARNING, "Exception while invoking default constructor.", e.getCause());
@@ -391,8 +396,7 @@ public final class ArbitraryInstances {
     }
   }
 
-  @Nullable
-  private static <T> T arbitraryConstantInstanceOrNull(Class<T> type) {
+  private static <T> @Nullable T arbitraryConstantInstanceOrNull(Class<T> type) {
     Field[] fields = type.getDeclaredFields();
     Arrays.sort(fields, BY_FIELD_NAME);
     for (Field field : fields) {

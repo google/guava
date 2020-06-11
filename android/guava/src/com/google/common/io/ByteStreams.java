@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
@@ -490,18 +491,18 @@ public final class ByteStreams {
    * @since 17.0
    */
   @Beta
-  public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputSteam) {
-    return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputSteam));
+  public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputStream) {
+    return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputStream));
   }
 
   private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
-    final ByteArrayOutputStream byteArrayOutputSteam;
+    final ByteArrayOutputStream byteArrayOutputStream;
 
-    ByteArrayDataOutputStream(ByteArrayOutputStream byteArrayOutputSteam) {
-      this.byteArrayOutputSteam = byteArrayOutputSteam;
-      output = new DataOutputStream(byteArrayOutputSteam);
+    ByteArrayDataOutputStream(ByteArrayOutputStream byteArrayOutputStream) {
+      this.byteArrayOutputStream = byteArrayOutputStream;
+      output = new DataOutputStream(byteArrayOutputStream);
     }
 
     @Override
@@ -632,7 +633,7 @@ public final class ByteStreams {
 
     @Override
     public byte[] toByteArray() {
-      return byteArrayOutputSteam.toByteArray();
+      return byteArrayOutputStream.toByteArray();
     }
   }
 
@@ -816,7 +817,8 @@ public final class ByteStreams {
    */
   static long skipUpTo(InputStream in, final long n) throws IOException {
     long totalSkipped = 0;
-    byte[] buf = createBuffer();
+    // A buffer is allocated if skipSafely does not skip any bytes.
+    byte[] buf = null;
 
     while (totalSkipped < n) {
       long remaining = n - totalSkipped;
@@ -825,7 +827,13 @@ public final class ByteStreams {
       if (skipped == 0) {
         // Do a buffered read since skipSafely could return 0 repeatedly, for example if
         // in.available() always returns 0 (the default).
-        int skip = (int) Math.min(remaining, buf.length);
+        int skip = (int) Math.min(remaining, BUFFER_SIZE);
+        if (buf == null) {
+          // Allocate a buffer bounded by the maximum size that can be requested, for
+          // example an array of BUFFER_SIZE is unnecessary when the value of remaining
+          // is smaller.
+          buf = new byte[skip];
+        }
         if ((skipped = in.read(buf, 0, skip)) == -1) {
           // Reached EOF
           break;
@@ -894,6 +902,8 @@ public final class ByteStreams {
    * @param len an int specifying the number of bytes to read
    * @return the number of bytes read
    * @throws IOException if an I/O error occurs
+   * @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if
+   *     {@code off + len} is greater than {@code b.length}
    */
   @Beta
   @CanIgnoreReturnValue
@@ -903,8 +913,9 @@ public final class ByteStreams {
     checkNotNull(in);
     checkNotNull(b);
     if (len < 0) {
-      throw new IndexOutOfBoundsException("len is negative");
+      throw new IndexOutOfBoundsException(String.format("len (%s) cannot be negative", len));
     }
+    checkPositionIndexes(off, off + len, b.length);
     int total = 0;
     while (total < len) {
       int result = in.read(b, off + total, len - total);

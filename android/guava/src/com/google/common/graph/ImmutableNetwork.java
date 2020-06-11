@@ -45,8 +45,8 @@ import java.util.Map;
  */
 @Beta
 @Immutable(containerOf = {"N", "E"})
-@SuppressWarnings("Immutable") // Extends ConfigurableNetwork but uses ImmutableMaps.
-public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
+@SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.
+public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
 
   private ImmutableNetwork(Network<N, E> network) {
     super(
@@ -162,7 +162,7 @@ public final class ImmutableNetwork<N, E> extends ConfigurableNetwork<N, E> {
    * multiple networks in series. Each new network contains all the elements of the ones created
    * before it.
    *
-   * @since NEXT
+   * @since 28.0
    */
   public static class Builder<N, E> {
 

@@ -28,11 +28,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -579,8 +582,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
    * other {@code min} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Collections.min(Arrays.asList(a, b), thisComparator)}
-   * instead (but note that it does not guarantee which tied minimum element is returned).
+   * <p><b>Note:</b> Consider using {@code Comparators.min(a, b, thisComparator)} instead. If {@code
+   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.min(a, b)}.
    *
    * @param a value to compare, returned if less than or equal to b.
    * @param b value to compare.
@@ -665,8 +668,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p><b>Implementation note:</b> this method is invoked by the default implementations of the
    * other {@code max} overloads, so overriding it will affect their behavior.
    *
-   * <p><b>Java 8 users:</b> Use {@code Collections.max(Arrays.asList(a, b), thisComparator)}
-   * instead (but note that it does not guarantee which tied maximum element is returned).
+   * <p><b>Note:</b> Consider using {@code Comparators.max(a, b, thisComparator)} instead. If {@code
+   * thisComparator} is {@link Ordering#natural}, then use {@code Comparators.max(a, b)}.
    *
    * @param a value to compare, returned if greater than or equal to b.
    * @param b value to compare.

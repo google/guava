@@ -108,6 +108,13 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
       }
 
       @Override
+      public ElementOrder<N> incidentEdgeOrder() {
+        // TODO(b/142723300): Return AbstractNetwork.this.incidentEdgeOrder() once Network has that
+        //   method.
+        return ElementOrder.unordered();
+      }
+
+      @Override
       public boolean isDirected() {
         return AbstractNetwork.this.isDirected();
       }
@@ -219,7 +226,9 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public boolean hasEdgeConnecting(N nodeU, N nodeV) {
-    return !edgesConnecting(nodeU, nodeV).isEmpty();
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
+    return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
   }
 
   @Override
@@ -228,7 +237,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
     if (!isOrderingCompatible(endpoints)) {
       return false;
     }
-    return !edgesConnecting(endpoints.nodeU(), endpoints.nodeV()).isEmpty();
+    return hasEdgeConnecting(endpoints.nodeU(), endpoints.nodeV());
   }
 
   /**
