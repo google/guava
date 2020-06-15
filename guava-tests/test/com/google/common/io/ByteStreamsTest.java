@@ -23,7 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -42,7 +41,7 @@ import java.util.Arrays;
  */
 public class ByteStreamsTest extends IoTestCase {
 
-  public void testCopy_channel() throws IOException {
+  public void testCopyChannel() throws IOException {
     byte[] expected = newPreFilledByteArray(100);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     WritableByteChannel outChannel = Channels.newChannel(out);
@@ -52,7 +51,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(out.toByteArray()).isEqualTo(expected);
   }
 
-  public void testCopy_channel_fromFile() throws IOException {
+  public void testCopyFileChannel() throws IOException {
     final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     WritableByteChannel outChannel = Channels.newChannel(out);
@@ -71,68 +70,6 @@ public class ByteStreamsTest extends IoTestCase {
     for (int i = 0; i < 500 * chunkSize; i += chunkSize) {
       assertThat(Arrays.copyOfRange(actual, i, i + chunkSize)).isEqualTo(dummyData);
     }
-  }
-
-  public void testCopy_stream() throws IOException {
-    byte[] expected = newPreFilledByteArray(100);
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-    ByteStreams.copy(new ByteArrayInputStream(expected), out);
-
-    assertThat(out.toByteArray()).isEqualTo(expected);
-  }
-
-  public void testCopy_stream_files_emptyDestination() throws IOException {
-    byte[] expected = new byte[] {0, 1, 2};
-    File inputFile = createTempFile(expected);
-    File outputFile = createTempFile();
-
-    try (FileInputStream inputStream = new FileInputStream(inputFile);
-        FileOutputStream outputStream = new FileOutputStream(outputFile)) {
-      ByteStreams.copy(inputStream, outputStream);
-    }
-
-    assertThat(Files.asByteSource(outputFile).read()).isEqualTo(expected);
-  }
-
-  public void testCopy_stream_files_appendDestination() throws IOException {
-    File inputFile = createTempFile(new byte[] {3, 4, 5});
-    File outputFile = createTempFile(new byte[] {0, 1, 2});
-
-    try (FileInputStream inputStream = new FileInputStream(inputFile);
-        FileOutputStream outputStream = new FileOutputStream(outputFile, /* append= */ true)) {
-      ByteStreams.copy(inputStream, outputStream);
-    }
-
-    assertThat(Files.asByteSource(outputFile).read()).isEqualTo(new byte[] {0, 1, 2, 3, 4, 5});
-  }
-
-  public void testCopy_stream_files_additionalWrites_emptyDestination() throws IOException {
-    File inputFile = createTempFile(new byte[] {0, 1, 2});
-    File outputFile = createTempFile();
-
-    try (FileInputStream inputStream = new FileInputStream(inputFile);
-        FileOutputStream outputStream = new FileOutputStream(outputFile)) {
-      outputStream.write(new byte[] {0, 0});
-      ByteStreams.copy(inputStream, outputStream);
-      outputStream.write(new byte[] {2, 2});
-    }
-
-    assertThat(Files.asByteSource(outputFile).read()).isEqualTo(new byte[] {0, 0, 0, 1, 2, 2, 2});
-  }
-
-  public void testCopy_stream_files_additionalWrites_appendDestination() throws IOException {
-    File inputFile = createTempFile(new byte[] {0, 1, 2});
-    File outputFile = createTempFile(new byte[] {0});
-
-    try (FileInputStream inputStream = new FileInputStream(inputFile);
-        FileOutputStream outputStream = new FileOutputStream(outputFile, /* append= */ true)) {
-      outputStream.write(new byte[] {0});
-      ByteStreams.copy(inputStream, outputStream);
-      outputStream.write(new byte[] {2, 2});
-    }
-
-    assertThat(Files.asByteSource(outputFile).read()).isEqualTo(new byte[] {0, 0, 0, 1, 2, 2, 2});
   }
 
   public void testReadFully() throws IOException {

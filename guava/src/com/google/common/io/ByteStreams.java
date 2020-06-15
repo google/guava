@@ -30,8 +30,6 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -105,15 +103,6 @@ public final class ByteStreams {
   public static long copy(InputStream from, OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-
-    // Use java.nio.channels in case we're copying from file to file.
-    // Copying through channels happens ideally in the kernel space and therefore faster.
-    if (from instanceof FileInputStream && to instanceof FileOutputStream) {
-      FileChannel fromChannel = ((FileInputStream) from).getChannel();
-      FileChannel toChannel = ((FileOutputStream) to).getChannel();
-      return copyFileChannel(fromChannel, toChannel);
-    }
-
     byte[] buf = createBuffer();
     long total = 0;
     while (true) {
@@ -141,7 +130,16 @@ public final class ByteStreams {
     checkNotNull(from);
     checkNotNull(to);
     if (from instanceof FileChannel) {
-      return copyFileChannel((FileChannel) from, to);
+      FileChannel sourceChannel = (FileChannel) from;
+      long oldPosition = sourceChannel.position();
+      long position = oldPosition;
+      long copied;
+      do {
+        copied = sourceChannel.transferTo(position, ZERO_COPY_CHUNK_SIZE, to);
+        position += copied;
+        sourceChannel.position(position);
+      } while (copied > 0 || position < sourceChannel.size());
+      return position - oldPosition;
     }
 
     ByteBuffer buf = ByteBuffer.wrap(createBuffer());
@@ -154,18 +152,6 @@ public final class ByteStreams {
       buf.clear();
     }
     return total;
-  }
-
-  private static long copyFileChannel(FileChannel from, WritableByteChannel to) throws IOException {
-    long oldPosition = from.position();
-    long position = oldPosition;
-    long copied;
-    do {
-      copied = from.transferTo(position, ZERO_COPY_CHUNK_SIZE, to);
-      position += copied;
-      from.position(position);
-    } while (copied > 0 || position < from.size());
-    return position - oldPosition;
   }
 
   /** Max array length on JVM. */
