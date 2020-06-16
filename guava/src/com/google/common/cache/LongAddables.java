@@ -31,11 +31,9 @@ final class LongAddables {
     Supplier<LongAddable> supplier;
     try {
       new LongAdder(); // trigger static initialization of the LongAdder class, which may fail
-      supplier =
-              LongAdder::new;
+      supplier = LongAdder::new;
     } catch (Throwable t) { // we really want to catch *everything*
-      supplier =
-              PureJavaLongAddable::new;
+      supplier = PureJavaLongAddable::new;
     }
     SUPPLIER = supplier;
   }
