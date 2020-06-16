@@ -15,9 +15,13 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.annotations.GwtIncompatible;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -138,6 +142,114 @@ public class ExecutionSequencerTest extends TestCase {
     executor.shutdown();
     assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
     assertThat(getDone(future2)).isFalse();
+  }
+
+  public void testAvoidsStackOverflow_manyQueued() throws Exception {
+    final SettableFuture<Void> settableFuture = SettableFuture.create();
+    ArrayList<ListenableFuture<Void>> results = new ArrayList<>(50_001);
+    results.add(
+        serializer.submitAsync(
+            new AsyncCallable<Void>() {
+              @Override
+              public ListenableFuture<Void> call() {
+                return settableFuture;
+              }
+            },
+            directExecutor()));
+    for (int i = 0; i < 50_000; i++) {
+      results.add(serializer.submit(Callables.<Void>returning(null), directExecutor()));
+    }
+    settableFuture.set(null);
+    getDone(allAsList(results));
+  }
+
+  private static final class LongHolder {
+    long count;
+  }
+
+  private static final int ITERATION_COUNT = 50_000;
+  private static final int DIRECT_EXECUTIONS_PER_THREAD = 100;
+
+  @GwtIncompatible // threads
+
+  public void testAvoidsStackOverflow_multipleThreads() throws Exception {
+    final LongHolder holder = new LongHolder();
+    final ArrayList<ListenableFuture<Integer>> lengthChecks = new ArrayList<>();
+    final List<Integer> completeLengthChecks;
+    final int baseStackDepth;
+    ExecutorService service = Executors.newFixedThreadPool(5);
+    try {
+      // Avoid counting frames from the executor itself, or the ExecutionSequencer
+      baseStackDepth =
+          serializer
+              .submit(
+                  new Callable<Integer>() {
+                    @Override
+                    public Integer call() {
+                      return Thread.currentThread().getStackTrace().length;
+                    }
+                  },
+                  service)
+              .get();
+      final SettableFuture<Void> settableFuture = SettableFuture.create();
+      ListenableFuture<?> unused =
+          serializer.submitAsync(
+              new AsyncCallable<Void>() {
+                @Override
+                public ListenableFuture<Void> call() {
+                  return settableFuture;
+                }
+              },
+              directExecutor());
+      for (int i = 0; i < 50_000; i++) {
+        if (i % DIRECT_EXECUTIONS_PER_THREAD == 0) {
+          // after some number of iterations, switch threads
+          unused =
+              serializer.submit(
+                  new Callable<Void>() {
+                    @Override
+                    public Void call() {
+                      holder.count++;
+                      return null;
+                    }
+                  },
+                  service);
+        } else if (i % DIRECT_EXECUTIONS_PER_THREAD == DIRECT_EXECUTIONS_PER_THREAD - 1) {
+          // When at max depth, record stack trace depth
+          lengthChecks.add(
+              serializer.submit(
+                  new Callable<Integer>() {
+                    @Override
+                    public Integer call() {
+                      holder.count++;
+                      return Thread.currentThread().getStackTrace().length;
+                    }
+                  },
+                  directExecutor()));
+        } else {
+          // Otherwise, schedule a task on directExecutor
+          unused =
+              serializer.submit(
+                  new Callable<Void>() {
+                    @Override
+                    public Void call() {
+                      holder.count++;
+                      return null;
+                    }
+                  },
+                  directExecutor());
+        }
+      }
+      settableFuture.set(null);
+      completeLengthChecks = allAsList(lengthChecks).get();
+    } finally {
+      service.shutdown();
+    }
+    assertThat(holder.count).isEqualTo(ITERATION_COUNT);
+    for (int length : completeLengthChecks) {
+      // Verify that at max depth, less than one stack frame per submitted task was consumed
+      assertThat(length - baseStackDepth).isLessThan(DIRECT_EXECUTIONS_PER_THREAD / 2);
+    }
   }
 
   public void testToString() {
