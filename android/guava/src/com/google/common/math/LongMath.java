@@ -29,6 +29,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Longs;
 import com.google.common.primitives.UnsignedLongs;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -1201,6 +1202,102 @@ public final class LongMath {
       }
       return true;
     }
+  }
+
+  /**
+   * Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}
+   * is precisely representable as a {@code double}, its {@code double} value will be returned;
+   * otherwise, the rounding will choose between the two nearest representable values with {@code
+   * mode}.
+   *
+   * <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+   * default rounding mode: if the two nearest representable values are equally near, the one with
+   * the least significant bit zero is chosen. (In such cases, both of the nearest representable
+   * values are even integers; this method returns the one that is a multiple of a greater power of
+   * two.)
+   *
+   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+   *     is not precisely representable as a {@code double}
+   * @since NEXT
+   */
+  @SuppressWarnings("deprecation")
+  @GwtIncompatible
+  public static double roundToDouble(long x, RoundingMode mode) {
+    // Logic copied from ToDoubleRounder.  The repeated logic isn't ideal, but this doesn't box.
+    double roundArbitrarily = (double) x;
+    long roundArbitrarilyAsLong = (long) roundArbitrarily;
+    int cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+    switch (mode) {
+      case UNNECESSARY:
+        checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
+        return roundArbitrarily;
+      case FLOOR:
+        return (cmpXToRoundArbitrarily >= 0)
+            ? roundArbitrarily
+            : DoubleUtils.nextDown(roundArbitrarily);
+      case CEILING:
+        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+      case DOWN:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        }
+      case UP:
+        if (x >= 0) {
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        } else {
+          return (cmpXToRoundArbitrarily >= 0)
+              ? roundArbitrarily
+              : DoubleUtils.nextDown(roundArbitrarily);
+        }
+      case HALF_DOWN:
+      case HALF_UP:
+      case HALF_EVEN:
+        {
+          long roundFloor;
+          double roundFloorAsDouble;
+          long roundCeiling;
+          double roundCeilingAsDouble;
+
+          if (cmpXToRoundArbitrarily >= 0) {
+            roundFloorAsDouble = roundArbitrarily;
+            roundFloor = roundArbitrarilyAsLong;
+            roundCeilingAsDouble = Math.nextUp(roundArbitrarily);
+            roundCeiling = (long) Math.ceil(roundCeilingAsDouble);
+          } else {
+            roundCeilingAsDouble = roundArbitrarily;
+            roundCeiling = roundArbitrarilyAsLong;
+            roundFloorAsDouble = DoubleUtils.nextDown(roundArbitrarily);
+            roundFloor = (long) Math.floor(roundFloorAsDouble);
+          }
+
+          long deltaToFloor = x - roundFloor;
+          long deltaToCeiling = roundCeiling - x;
+          int diff = Longs.compare(deltaToFloor, deltaToCeiling);
+          if (diff < 0) { // closer to floor
+            return roundFloorAsDouble;
+          } else if (diff > 0) { // closer to ceiling
+            return roundCeilingAsDouble;
+          }
+          // halfway between the representable values; do the half-whatever logic
+          switch (mode) {
+            case HALF_EVEN:
+              return ((DoubleUtils.getSignificand(roundFloorAsDouble) & 1L) == 0)
+                  ? roundFloorAsDouble
+                  : roundCeilingAsDouble;
+            case HALF_DOWN:
+              return (x >= 0) ? roundFloorAsDouble : roundCeilingAsDouble;
+            case HALF_UP:
+              return (x >= 0) ? roundCeilingAsDouble : roundFloorAsDouble;
+            default:
+              throw new AssertionError("impossible");
+          }
+        }
+    }
+    throw new AssertionError("impossible");
   }
 
   private LongMath() {}
