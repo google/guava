@@ -17,13 +17,19 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.testing.TestLogHandler;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 /** Tests for {@link ExecutionSequencer} */
@@ -138,6 +144,51 @@ public class ExecutionSequencerTest extends TestCase {
     executor.shutdown();
     assertThat(executor.awaitTermination(10, TimeUnit.SECONDS)).isTrue();
     assertThat(getDone(future2)).isFalse();
+  }
+
+  public void testCancellationDuringReentrancy() throws Exception {
+    TestLogHandler logHandler = new TestLogHandler();
+    Logger.getLogger(AbstractFuture.class.getName()).addHandler(logHandler);
+
+    List<Future<?>> results = new ArrayList<>();
+    final Runnable[] manualExecutorTask = new Runnable[1];
+    Executor manualExecutor =
+        new Executor() {
+          @Override
+          public void execute(Runnable task) {
+            manualExecutorTask[0] = task;
+          }
+        };
+
+    results.add(serializer.submit(Callables.returning(null), manualExecutor));
+    final Future<?>[] thingToCancel = new Future<?>[1];
+    results.add(
+        serializer.submit(
+            new Callable<Void>() {
+              @Override
+              public Void call() {
+                thingToCancel[0].cancel(false);
+                return null;
+              }
+            },
+            directExecutor()));
+    thingToCancel[0] = serializer.submit(Callables.returning(null), directExecutor());
+    results.add(thingToCancel[0]);
+    // Enqueue more than enough tasks to force reentrancy.
+    for (int i = 0; i < 5; i++) {
+      results.add(serializer.submit(Callables.returning(null), directExecutor()));
+    }
+
+    manualExecutorTask[0].run();
+
+    for (Future<?> result : results) {
+      if (!result.isCancelled()) {
+        result.get(10, SECONDS);
+      }
+      // TODO(cpovirk): Verify that the cancelled futures are exactly ones that we expect.
+    }
+
+    assertThat(logHandler.getStoredLogRecords()).isEmpty();
   }
 
   public void testToString() {
