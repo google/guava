@@ -15,9 +15,6 @@ NAMESPACE org.junit
 # ***** REAL CYCLES *****
 # Inverses (currently not solvable by weakening a reference)
 FIELD com.google.common.base.Converter.reverse
-# Cycle exists until future completes
-TYPE com.google.common.util.concurrent.ExecutionSequencer.NonReentrantExecutor
-FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.ExecutionSequencer.submitAsync.$
 
 # ***** FALSE POSITIVES *****
 
