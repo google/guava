@@ -15,6 +15,8 @@ NAMESPACE org.junit
 # ***** REAL CYCLES *****
 # Inverses (currently not solvable by weakening a reference)
 FIELD com.google.common.base.Converter.reverse
+# Cycle exists until future completes
+FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.ExecutionSequencer.TaskNonReentrantExecutor
 
 # ***** FALSE POSITIVES *****
 
@@ -38,6 +40,8 @@ FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
 FIELD com.google.common.collect.TreeTraverser.PreOrderIterator.stack
 FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor.$
 FIELD com.google.common.util.concurrent.AbstractService.listeners
+# NonReentrantExecutor is not exposed to this field
+FIELD com.google.common.util.concurrent.ExecutionSequencer.ThreadConfinedTaskQueue.nextExecutor com.google.common.util.concurrent.ExecutionSequencer.TaskNonReentrantExecutor
 # Real cycle, but the runningState field is null'ed on completion of the future.
 FIELD com.google.common.util.concurrent.AggregateFuture.runningState
 FIELD java.util.AbstractMap.keySet com.google.common.collect.AbstractMapBasedMultimap.NavigableKeySet
