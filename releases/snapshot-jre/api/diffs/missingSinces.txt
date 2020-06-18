@@ -3,6 +3,7 @@ OK: com.google.common.collect.Comparators Method max(T extends java.lang.Compara
 OK: com.google.common.collect.Comparators Method min(T, T, java.util.Comparator<T>)
 OK: com.google.common.collect.Comparators Method min(T extends java.lang.Comparable<? super T>, T extends java.lang.Comparable<? super T>)
 OK: com.google.common.math.BigIntegerMath Method roundToDouble(java.math.BigInteger, java.math.RoundingMode)
+OK: com.google.common.math.LongMath Method roundToDouble(long, java.math.RoundingMode)
 OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterruptibly(java.util.concurrent.locks.Lock, java.time.Duration)
 OK: com.google.common.util.concurrent.Uninterruptibles Method tryLockUninterruptibly(java.util.concurrent.locks.Lock, long, java.util.concurrent.TimeUnit)
 OK: com.google.common.net.MediaType Field ANY_FONT_TYPE

@@ -48796,6 +48796,29 @@
  @since 20.0]]>
       </doc>
     </method>
+    <method name="roundToDouble" return="double"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="x" type="long"/>
+      <param name="mode" type="java.math.RoundingMode"/>
+      <doc>
+      <![CDATA[Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}
+ is precisely representable as a {@code double}, its {@code double} value will be returned;
+ otherwise, the rounding will choose between the two nearest representable values with {@code
+ mode}.
+
+ <p>For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754
+ default rounding mode: if the two nearest representable values are equally near, the one with
+ the least significant bit zero is chosen. (In such cases, both of the nearest representable
+ values are even integers; this method returns the one that is a multiple of a greater power of
+ two.)
+
+ @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
+     is not precisely representable as a {@code double}
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A class for arithmetic on values of type {@code long}. Where possible, methods are defined and
  named analogously to their {@code BigInteger} counterparts.
