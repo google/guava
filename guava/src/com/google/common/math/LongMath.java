@@ -1223,10 +1223,27 @@ public final class LongMath {
   @SuppressWarnings("deprecation")
   @GwtIncompatible
   public static double roundToDouble(long x, RoundingMode mode) {
-    // Logic copied from ToDoubleRounder.  The repeated logic isn't ideal, but this doesn't box.
+    // Logic adapted from ToDoubleRounder.
     double roundArbitrarily = (double) x;
     long roundArbitrarilyAsLong = (long) roundArbitrarily;
-    int cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+    int cmpXToRoundArbitrarily;
+
+    if (roundArbitrarilyAsLong == Long.MAX_VALUE) {
+      /*
+       * For most values, the conversion from roundArbitrarily to roundArbitrarilyAsLong is
+       * lossless. In that case we can compare x to roundArbitrarily using Longs.compare(x,
+       * roundArbitrarilyAsLong). The exception is for values where the conversion to double rounds
+       * up to give roundArbitrarily equal to 2^63, so the conversion back to long overflows and
+       * roundArbitrarilyAsLong is Long.MAX_VALUE. (This is the only way this condition can occur as
+       * otherwise the conversion back to long pads with zero bits.) In this case we know that
+       * roundArbitrarily > x. (This is important when x == Long.MAX_VALUE ==
+       * roundArbitrarilyAsLong.)
+       */
+      cmpXToRoundArbitrarily = -1;
+    } else {
+      cmpXToRoundArbitrarily = Longs.compare(x, roundArbitrarilyAsLong);
+    }
+
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
@@ -1276,6 +1293,13 @@ public final class LongMath {
 
           long deltaToFloor = x - roundFloor;
           long deltaToCeiling = roundCeiling - x;
+
+          if (roundCeiling == Long.MAX_VALUE) {
+            // correct for Long.MAX_VALUE as discussed above: roundCeilingAsDouble must be 2^63, but
+            // roundCeiling is 2^63-1.
+            deltaToCeiling++;
+          }
+
           int diff = Longs.compare(deltaToFloor, deltaToCeiling);
           if (diff < 0) { // closer to floor
             return roundFloorAsDouble;
