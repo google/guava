@@ -28,15 +28,8 @@ import static com.google.common.math.MathTesting.POSITIVE_LONG_CANDIDATES;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.math.BigInteger.valueOf;
-import static java.math.RoundingMode.CEILING;
-import static java.math.RoundingMode.DOWN;
 import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_DOWN;
-import static java.math.RoundingMode.HALF_EVEN;
-import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UNNECESSARY;
-import static java.math.RoundingMode.UP;
-import static java.math.RoundingMode.values;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -44,9 +37,7 @@ import com.google.common.testing.NullPointerTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Map;
 import java.util.Random;
 import junit.framework.TestCase;
 
@@ -960,157 +951,73 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  private static final long[] roundToDoubleTestCandidates = {
+    0,
+    16,
+    1L << 53,
+    (1L << 53) + 1,
+    (1L << 53) + 2,
+    (1L << 53) + 3,
+    (1L << 53) + 4,
+    1L << 54,
+    (1L << 54) + 1,
+    (1L << 54) + 2,
+    (1L << 54) + 3,
+    (1L << 54) + 4,
+    0x7ffffffffffffe00L, // halfway between 2^63 and next-lower double
+    0x7ffffffffffffe01L, // above + 1
+    0x7ffffffffffffdffL, // above - 1
+    Long.MAX_VALUE - (1L << 11) + 1,
+    Long.MAX_VALUE - 2,
+    Long.MAX_VALUE - 1,
+    Long.MAX_VALUE,
+    -16,
+    -1L << 53,
+    -(1L << 53) - 1,
+    -(1L << 53) - 2,
+    -(1L << 53) - 3,
+    -(1L << 53) - 4,
+    -1L << 54,
+    -(1L << 54) - 1,
+    -(1L << 54) - 2,
+    -(1L << 54) - 3,
+    -(1L << 54) - 4,
+    Long.MIN_VALUE + 2,
+    Long.MIN_VALUE + 1,
+    Long.MIN_VALUE
+  };
+
   @GwtIncompatible
-  private static final class RoundToDoubleTester {
-    private final long input;
-    private final Map<RoundingMode, Double> expectedValues = new EnumMap<>(RoundingMode.class);
-    private boolean unnecessaryShouldThrow = false;
-
-    RoundToDoubleTester(long input) {
-      this.input = input;
-    }
-
-    RoundToDoubleTester setExpectation(double expectedValue, RoundingMode... modes) {
-      for (RoundingMode mode : modes) {
-        Double previous = expectedValues.put(mode, expectedValue);
-        if (previous != null) {
-          throw new AssertionError();
-        }
+  public void testRoundToDoubleAgainstBigInteger() {
+    for (RoundingMode roundingMode : EnumSet.complementOf(EnumSet.of(UNNECESSARY))) {
+      for (long candidate : roundToDoubleTestCandidates) {
+        assertThat(LongMath.roundToDouble(candidate, roundingMode))
+            .isEqualTo(BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), roundingMode));
       }
-      return this;
     }
+  }
 
-    public RoundToDoubleTester roundUnnecessaryShouldThrow() {
-      unnecessaryShouldThrow = true;
-      return this;
-    }
-
-    public void test() {
-      assertThat(expectedValues.keySet())
-          .containsAtLeastElementsIn(EnumSet.complementOf(EnumSet.of(UNNECESSARY)));
-      for (Map.Entry<RoundingMode, Double> entry : expectedValues.entrySet()) {
-        RoundingMode mode = entry.getKey();
-        Double expectation = entry.getValue();
-        assertWithMessage("roundToDouble(" + input + ", " + mode + ")")
-            .that(LongMath.roundToDouble(input, mode))
-            .isEqualTo(expectation);
+  @GwtIncompatible
+  public void testRoundToDoubleAgainstBigIntegerUnnecessary() {
+    for (long candidate : roundToDoubleTestCandidates) {
+      Double expectedDouble = null;
+      try {
+        expectedDouble = BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), UNNECESSARY);
+      } catch (ArithmeticException expected) {
+        // do nothing
       }
 
-      if (!expectedValues.containsKey(UNNECESSARY)) {
-        assertWithMessage("Expected roundUnnecessaryShouldThrow call")
-            .that(unnecessaryShouldThrow)
-            .isTrue();
+      if (expectedDouble != null) {
+        assertThat(LongMath.roundToDouble(candidate, UNNECESSARY)).isEqualTo(expectedDouble);
+      } else {
         try {
-          LongMath.roundToDouble(input, UNNECESSARY);
-          fail("Expected ArithmeticException for roundToDouble(" + input + ", UNNECESSARY)");
+          LongMath.roundToDouble(candidate, UNNECESSARY);
+          fail("Expected ArithmeticException on roundToDouble(" + candidate + ", UNNECESSARY)");
         } catch (ArithmeticException expected) {
-          // expected
+          // success
         }
       }
     }
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_zero() {
-    new RoundToDoubleTester(0).setExpectation(0.0, values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_smallPositive() {
-    new RoundToDoubleTester(16).setExpectation(16.0, values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_maxPreciselyRepresentable() {
-    new RoundToDoubleTester(1L << 53).setExpectation(Math.pow(2, 53), values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_maxPreciselyRepresentablePlusOne() {
-    double twoToThe53 = Math.pow(2, 53);
-    // the representable doubles are 2^53 and 2^53 + 2.
-    // 2^53+1 is halfway between, so HALF_UP will go up and HALF_DOWN will go down.
-    // 2^53 is "more even" -- it's a multiple of a larger power of two -- so HALF_EVEN goes to it.
-    new RoundToDoubleTester((1L << 53) + 1)
-        .setExpectation(twoToThe53, DOWN, FLOOR, HALF_DOWN, HALF_EVEN)
-        .setExpectation(Math.nextUp(twoToThe53), CEILING, UP, HALF_UP)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_twoToThe54PlusOne() {
-    double twoToThe54 = Math.pow(2, 54);
-    // the representable doubles are 2^54 and 2^54 + 4
-    // 2^54+1 is less than halfway between, so HALF_* will all go down.
-    new RoundToDoubleTester((1L << 54) + 1)
-        .setExpectation(twoToThe54, DOWN, FLOOR, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .setExpectation(Math.nextUp(twoToThe54), CEILING, UP)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_twoToThe54PlusThree() {
-    double twoToThe54 = Math.pow(2, 54);
-    // the representable doubles are 2^54 and 2^54 + 4
-    // 2^54+3 is more than halfway between, so HALF_* will all go up.
-    new RoundToDoubleTester((1L << 54) + 3)
-        .setExpectation(twoToThe54, DOWN, FLOOR)
-        .setExpectation(Math.nextUp(twoToThe54), CEILING, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_twoToThe54PlusFour() {
-    new RoundToDoubleTester((1L << 54) + 4).setExpectation(Math.pow(2, 54) + 4, values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_smallNegative() {
-    new RoundToDoubleTester(-16).setExpectation(-16.0, values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_minPreciselyRepresentable() {
-    new RoundToDoubleTester(-1L << 53).setExpectation(-Math.pow(2, 53), values()).test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_minPreciselyRepresentableMinusOne() {
-    // the representable doubles are -2^53 and -2^53 - 2.
-    // -2^53-1 is halfway between, so HALF_UP will go up and HALF_DOWN will go down.
-    // -2^53 is "more even" -- a multiple of a greater power of two -- so HALF_EVEN will go to it.
-    new RoundToDoubleTester((-1L << 53) - 1)
-        .setExpectation(-Math.pow(2, 53), DOWN, CEILING, HALF_DOWN, HALF_EVEN)
-        .setExpectation(DoubleUtils.nextDown(-Math.pow(2, 53)), FLOOR, UP, HALF_UP)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_negativeTwoToThe54MinusOne() {
-    new RoundToDoubleTester((-1L << 54) - 1)
-        .setExpectation(-Math.pow(2, 54), DOWN, CEILING, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .setExpectation(DoubleUtils.nextDown(-Math.pow(2, 54)), FLOOR, UP)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_negativeTwoToThe54MinusThree() {
-    new RoundToDoubleTester((-1L << 54) - 3)
-        .setExpectation(-Math.pow(2, 54), DOWN, CEILING)
-        .setExpectation(
-            DoubleUtils.nextDown(-Math.pow(2, 54)), FLOOR, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .roundUnnecessaryShouldThrow()
-        .test();
-  }
-
-  @GwtIncompatible
-  public void testRoundToDouble_negativeTwoToThe54MinusFour() {
-    new RoundToDoubleTester((-1L << 54) - 4).setExpectation(-Math.pow(2, 54) - 4, values()).test();
   }
 
   private static void failFormat(String template, Object... args) {
