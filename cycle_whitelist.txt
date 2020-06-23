@@ -13,8 +13,6 @@ NAMESPACE junit.framework
 NAMESPACE org.junit
 
 # ***** REAL CYCLES *****
-# Inverses (currently not solvable by weakening a reference)
-FIELD com.google.common.base.Converter.reverse
 # Cycle exists until future completes
 FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.ExecutionSequencer.TaskNonReentrantExecutor
 
@@ -23,6 +21,7 @@ FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.goo
 # The Runnable type is so generic that it produces too many false positives.
 TYPE java.lang.Runnable
 
+FIELD com.google.common.base.Converter.reverse
 FIELD com.google.common.collect.AbstractBiMap.EntrySet.iterator.$.entry com.google.common.collect.AbstractBiMap.EntrySet.iterator.$.next.$
 FIELD com.google.common.collect.AbstractMapBasedMultimap.map
 FIELD com.google.common.collect.AbstractMultimap.asMap com.google.common.collect.AbstractMapBasedMultimap.NavigableAsMap
@@ -36,6 +35,7 @@ FIELD com.google.common.collect.ImmutableRangeSet.ranges
 FIELD com.google.common.collect.ImmutableSet.asList
 FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
+FIELD com.google.common.collect.SingletonImmutableBiMap.inverse
 FIELD com.google.common.collect.TreeTraverser.PostOrderNode.childIterator
 FIELD com.google.common.collect.TreeTraverser.PreOrderIterator.stack
 FIELD com.google.common.util.concurrent.AbstractFuture.Listener.executor com.google.common.util.concurrent.MoreExecutors.rejectionPropagatingExecutor.$
