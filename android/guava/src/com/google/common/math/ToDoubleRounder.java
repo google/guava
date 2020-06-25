@@ -133,7 +133,9 @@ abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
           // halfway between the representable values; do the half-whatever logic
           switch (mode) {
             case HALF_EVEN:
-              return ((DoubleUtils.getSignificand(roundFloorAsDouble) & 1L) == 0)
+              // roundFloorAsDouble and roundCeilingAsDouble are neighbors, so precisely
+              // one of them should have an even long representation
+              return ((Double.doubleToRawLongBits(roundFloorAsDouble) & 1L) == 0)
                   ? roundFloorAsDouble
                   : roundCeilingAsDouble;
             case HALF_DOWN:
