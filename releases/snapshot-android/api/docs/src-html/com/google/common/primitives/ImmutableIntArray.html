@@ -270,7 +270,7 @@
 <span class="sourceLineNo">262</span>    private void ensureRoomFor(int numberToAdd) {<a name="line.262"></a>
 <span class="sourceLineNo">263</span>      int newCount = count + numberToAdd; // TODO(kevinb): check overflow now?<a name="line.263"></a>
 <span class="sourceLineNo">264</span>      if (newCount &gt; array.length) {<a name="line.264"></a>
-<span class="sourceLineNo">265</span>        this.array = Arrays.copyOf(array, expandedCapacity(array.length, newCount));<a name="line.265"></a>
+<span class="sourceLineNo">265</span>        array = Arrays.copyOf(array, expandedCapacity(array.length, newCount));<a name="line.265"></a>
 <span class="sourceLineNo">266</span>      }<a name="line.266"></a>
 <span class="sourceLineNo">267</span>    }<a name="line.267"></a>
 <span class="sourceLineNo">268</span><a name="line.268"></a>

@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (C) 2020 The Guava Authors<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * in compliance with the License. You may obtain a copy of the License at<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * Unless required by applicable law or agreed to in writing, software distributed under the License<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * or implied. See the License for the specific language governing permissions and limitations under<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>package com.google.common.math;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.google.common.annotations.GwtIncompatible;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import java.math.BigDecimal;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.math.RoundingMode;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * A class for arithmetic on {@link BigDecimal} that is not covered by its built-in methods.<a name="line.22"></a>
+<span class="sourceLineNo">023</span> *<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * @author Louis Wasserman<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * @since NEXT<a name="line.25"></a>
+<span class="sourceLineNo">026</span> */<a name="line.26"></a>
+<span class="sourceLineNo">027</span>@GwtIncompatible<a name="line.27"></a>
+<span class="sourceLineNo">028</span>public class BigDecimalMath {<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  private BigDecimalMath() {}<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * Returns {@code x}, rounded to a {@code double} with the specified rounding mode. If {@code x}<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * is precisely representable as a {@code double}, its {@code double} value will be returned;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   * otherwise, the rounding will choose between the two nearest representable values with {@code<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * mode}.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   *<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * &lt;p&gt;For the case of {@link RoundingMode#HALF_DOWN}, {@code HALF_UP}, and {@code HALF_EVEN},<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * infinite {@code double} values are considered infinitely far away. For example, 2^2000 is not<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * representable as a double, but {@code roundToDouble(BigDecimal.valueOf(2).pow(2000), HALF_UP)}<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * will return {@code Double.MAX_VALUE}, not {@code Double.POSITIVE_INFINITY}.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   *<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * &lt;p&gt;For the case of {@link RoundingMode#HALF_EVEN}, this implementation uses the IEEE 754<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * default rounding mode: if the two nearest representable values are equally near, the one with<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * the least significant bit zero is chosen. (In such cases, both of the nearest representable<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * values are even integers; this method returns the one that is a multiple of a greater power of<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * two.)<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   *<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   *     is not precisely representable as a {@code double}<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * @since NEXT<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  public static double roundToDouble(BigDecimal x, RoundingMode mode) {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    return BigDecimalToDoubleRounder.INSTANCE.roundToDouble(x, mode);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private static class BigDecimalToDoubleRounder extends ToDoubleRounder&lt;BigDecimal&gt; {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    static final BigDecimalToDoubleRounder INSTANCE = new BigDecimalToDoubleRounder();<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>    private BigDecimalToDoubleRounder() {}<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>    @Override<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    double roundToDoubleArbitrarily(BigDecimal bigDecimal) {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      return bigDecimal.doubleValue();<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    }<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>    @Override<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    int sign(BigDecimal bigDecimal) {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      return bigDecimal.signum();<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>    @Override<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    BigDecimal toX(double d, RoundingMode mode) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      return new BigDecimal(d);<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>    @Override<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    BigDecimal minus(BigDecimal a, BigDecimal b) {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      return a.subtract(b);<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    }<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>}<a name="line.81"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
