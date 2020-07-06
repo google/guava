@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.ExecutionSequencer.RunningState.
 import static com.google.common.util.concurrent.ExecutionSequencer.RunningState.STARTED;
 import static com.google.common.util.concurrent.Futures.immediateCancelledFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
+import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
 import com.google.common.annotations.Beta;
@@ -50,8 +51,8 @@ public final class ExecutionSequencer {
   }
 
   /** This reference acts as a pointer tracking the head of a linked list of ListenableFutures. */
-  private final AtomicReference<ListenableFuture<Object>> ref =
-      new AtomicReference<>(immediateFuture(null));
+  private final AtomicReference<ListenableFuture<Void>> ref =
+      new AtomicReference<>(immediateVoidFuture());
 
   private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();
 
@@ -154,9 +155,9 @@ public final class ExecutionSequencer {
      * have completed - namely after oldFuture is done, and taskFuture has either completed or been
      * cancelled before the callable started execution.
      */
-    final SettableFuture<Object> newFuture = SettableFuture.create();
+    final SettableFuture<Void> newFuture = SettableFuture.create();
 
-    final ListenableFuture<?> oldFuture = ref.getAndSet(newFuture);
+    final ListenableFuture<Void> oldFuture = ref.getAndSet(newFuture);
 
     // Invoke our task once the previous future completes.
     final TrustedListenableFutureTask<T> taskFuture = TrustedListenableFutureTask.create(task);
