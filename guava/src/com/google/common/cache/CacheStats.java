@@ -258,7 +258,7 @@ public final class CacheStats {
         Math.max(0, saturatedSubtract(loadExceptionCount, other.loadExceptionCount)),
         Math.max(0, saturatedSubtract(totalLoadTime, other.totalLoadTime)),
         Math.max(0, saturatedSubtract(evictionCount, other.evictionCount)),
-        Math.max(0, saturatedSubtract(putCount, other.putCount)),);
+        Math.max(0, saturatedSubtract(putCount, other.putCount)));
   }
 
   /**
